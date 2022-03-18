@@ -5,19 +5,20 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 
+const BreadCrumbSlash: FC = () => (
+  <svg width={12} height={32}>
+    <line x1="12" y1="0" x2="0" y2="32" className="stroke-gray-300" />
+  </svg>
+);
+
 const Navbar: FC = () => (
   <header className="bg-white border-b border-gray-300">
     <nav className="container flex flex-row gap-6 py-3 items-center">
-      <div
-        className={clsx(
-          "w-8 h-8 shrink-0 relative",
-          "after:absolute after:-right-3 after:w-0 after:h-8",
-          "after:border-l after:border-gray-300"
-        )}
-      >
-        <Image src="/logo.svg" alt="ezkomment" layout="fill" />
+      <div className="flex flex-row gap-3 items-center">
+        <Image src="/logo.svg" alt="ezkomment" width={32} height={32} />
+        <BreadCrumbSlash />
+        <div className="text-xl">Overview</div>
       </div>
-      <div className="text-xl">Overview</div>
       <div className="flex-grow" />
       <div>
         <HomeOutlinedIcon />
