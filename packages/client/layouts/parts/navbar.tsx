@@ -7,11 +7,11 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 
 const Navbar: FC = () => (
   <header className="bg-white border-b border-gray-300">
-    <nav className="container flex flex-row gap-6 py-2 items-center">
+    <nav className="container flex flex-row gap-6 py-3 items-center">
       <div
         className={clsx(
-          "w-10 h-10 shrink-0 relative",
-          "after:absolute after:-right-3 after:w-0 after:h-10",
+          "w-8 h-8 shrink-0 relative",
+          "after:absolute after:-right-3 after:w-0 after:h-8",
           "after:border-l after:border-gray-300"
         )}
       >
