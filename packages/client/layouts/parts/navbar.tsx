@@ -27,8 +27,8 @@ const TopNavbarButton: FC<TopNavbarButtonProps> = ({ href, onClick, children }) 
   );
 };
 
-type MainNavbarButtonProps = { href: string; active?: boolean };
-const MainNavbarButton: FC<MainNavbarButtonProps> = ({ href, active, children }) => {
+type MainNavbarButtonProps = { href: string; active?: boolean; className?: string };
+const MainNavbarButton: FC<MainNavbarButtonProps> = ({ href, active, className, children }) => {
   return (
     <A
       href={href}
@@ -37,7 +37,8 @@ const MainNavbarButton: FC<MainNavbarButtonProps> = ({ href, active, children })
         "py-1 px-2 rounded transition hover:bg-gray-200 hover:text-gray-900 whitespace-nowrap",
         active ? "text-gray-900" : "text-gray-500",
         active &&
-          "relative after:absolute after:-bottom-2 after:inset-x-2 after:h-0 after:border-b after:border-gray-900"
+          "relative after:absolute after:-bottom-2 after:inset-x-2 after:h-0 after:border-b after:border-gray-900",
+        className
       )}
     >
       {children}
@@ -75,8 +76,18 @@ const Navbar: FC = () => (
           <MainNavbarButton href="/" active>
             All pages
           </MainNavbarButton>
-          <MainNavbarButton href="/">Pending</MainNavbarButton>
-          <MainNavbarButton href="/">Customise</MainNavbarButton>
+          <MainNavbarButton href="/" className="sm:hidden">
+            Pending
+          </MainNavbarButton>
+          <MainNavbarButton href="/" className="hidden sm:block">
+            Pending comments
+          </MainNavbarButton>
+          <MainNavbarButton href="/" className="sm:hidden">
+            Customise
+          </MainNavbarButton>
+          <MainNavbarButton href="/" className="hidden sm:block">
+            Customise display
+          </MainNavbarButton>
           <MainNavbarButton href="/">Settings</MainNavbarButton>
         </div>
       </nav>
