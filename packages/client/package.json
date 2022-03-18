@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/node": "17.0.21",
     "@types/react": "17.0.40",
+    "@types/tailwindcss": "^3.0.9",
     "autoprefixer": "^10.4.4",
     "eslint": "8.11.0",
     "eslint-config-next": "12.1.0",
