@@ -1,6 +1,9 @@
 import Image from "next/image";
 import type { FC } from "react";
 import clsx from "clsx";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const Navbar: FC = () => (
   <header className="bg-white border-b border-gray-300">
@@ -16,9 +19,18 @@ const Navbar: FC = () => (
       </div>
       <div className="text-xl">Overview</div>
       <div className="flex-grow" />
-      <div>All sites</div>
-      <div>Notifications</div>
-      <div>Me</div>
+      <div>
+        <HomeOutlinedIcon />
+      </div>
+      <div>
+        <NotificationsOutlinedIcon />
+      </div>
+      <div className="h-8 w-8 relative">
+        <Image src="/default-photo.svg" alt="" layout="fill" />
+      </div>
+      <div>
+        <LogoutOutlinedIcon />
+      </div>
     </nav>
   </header>
 );
