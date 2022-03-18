@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "@ezkomment/client",
   "private": true,
   "description": "Web client for ezkomment",
   "scripts": {

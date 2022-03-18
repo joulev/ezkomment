@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "@ezkomment/server",
   "private": true,
   "description": "Backend server for ezkomment",
   "main": "index.js",

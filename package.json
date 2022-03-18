@@ -4,5 +4,8 @@
   "devDependencies": {
     "lerna": "^4.0.0",
     "prettier": "^2.6.0"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
