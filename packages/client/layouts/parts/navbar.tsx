@@ -70,8 +70,8 @@ const Navbar: FC = () => (
           <LogoutOutlinedIcon />
         </TopNavbarButton>
       </nav>
-      <nav className="max-w-full overflow-scroll no-scrollbar">
-        <div className="flex flex-row gap-2 -ml-2 pb-2">
+      <nav className="max-w-full overflow-scroll no-scrollbar sm:overflow-visible">
+        <div className="flex flex-row gap-2 sm:-ml-2 pb-2">
           <MainNavbarButton href="/" active>
             All pages
           </MainNavbarButton>
