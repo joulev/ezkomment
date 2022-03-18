@@ -1,0 +1,12 @@
+{
+  "name": "server",
+  "private": true,
+  "description": "Backend server for ezkomment",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "is-number": "^7.0.0"
+  }
+}
