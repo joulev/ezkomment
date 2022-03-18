@@ -1,5 +1,5 @@
-import AppLayout from "@client/layouts/app";
 import type { NextPage } from "next";
+import AppLayout from "@client/layouts/app";
 
 const Dashboard: NextPage = () => (
   <AppLayout title="Dashboard">

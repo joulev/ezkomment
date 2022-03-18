@@ -1,9 +1,9 @@
+import clsx from "clsx";
 import Image from "next/image";
 import type { FC } from "react";
-import clsx from "clsx";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 
 const Navbar: FC = () => (
   <header className="bg-white border-b border-gray-300">

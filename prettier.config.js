@@ -1,4 +1,4 @@
-/** @type {import("prettier").Config} */
+/** @type {import("@types/prettier").Config} */
 module.exports = {
   semi: true,
   printWidth: 100,
@@ -26,4 +26,5 @@ module.exports = {
       },
     },
   ],
+  importOrder: ["^@mui/(.*)$", "^@server/(.*)$", "^@client/(.*)$", "^[./]"],
 };
