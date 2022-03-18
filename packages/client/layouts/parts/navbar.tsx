@@ -34,7 +34,7 @@ const MainNavbarButton: FC<MainNavbarButtonProps> = ({ href, active, children })
       href={href}
       notStyled
       className={clsx(
-        "py-1 px-2 rounded transition hover:bg-gray-200 hover:text-gray-900",
+        "py-1 px-2 rounded transition hover:bg-gray-200 hover:text-gray-900 whitespace-nowrap",
         active ? "text-gray-900" : "text-gray-500",
         active &&
           "relative after:absolute after:-bottom-2 after:inset-x-2 after:h-0 after:border-b after:border-gray-900"
@@ -70,13 +70,15 @@ const Navbar: FC = () => (
           <LogoutOutlinedIcon />
         </TopNavbarButton>
       </nav>
-      <nav className="flex flex-row gap-2 -ml-2 pb-2">
-        <MainNavbarButton href="/" active>
-          All pages
-        </MainNavbarButton>
-        <MainNavbarButton href="/">Pending comments</MainNavbarButton>
-        <MainNavbarButton href="/">Customise</MainNavbarButton>
-        <MainNavbarButton href="/">Settings</MainNavbarButton>
+      <nav className="max-w-full overflow-scroll no-scrollbar">
+        <div className="flex flex-row gap-2 -ml-2 pb-2">
+          <MainNavbarButton href="/" active>
+            All pages
+          </MainNavbarButton>
+          <MainNavbarButton href="/">Pending</MainNavbarButton>
+          <MainNavbarButton href="/">Customise</MainNavbarButton>
+          <MainNavbarButton href="/">Settings</MainNavbarButton>
+        </div>
       </nav>
     </div>
   </header>
