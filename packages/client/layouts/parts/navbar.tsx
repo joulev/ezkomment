@@ -37,7 +37,7 @@ const MainNavbarButton: FC<MainNavbarButtonProps> = ({ href, active, className, 
         "py-1 px-2 rounded transition hover:bg-gray-200 hover:text-gray-900 whitespace-nowrap",
         active ? "text-gray-900" : "text-gray-500",
         active &&
-          "relative after:absolute after:bottom-[-9px] after:inset-x-2 after:h-0 after:border-b-2 after:border-gray-900",
+          "relative after:absolute after:-bottom-2 after:inset-x-2 after:h-0 after:border-b after:border-gray-900",
         className
       )}
     >
