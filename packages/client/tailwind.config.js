@@ -10,6 +10,10 @@ module.exports = {
       xl: "1200px",
       "2xl": "1400px",
     },
+    container: {
+      center: true,
+      padding: "1.5rem",
+    },
     extend: {},
   },
   plugins: [],
