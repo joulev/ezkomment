@@ -3,7 +3,7 @@ import MainNav from "./main";
 import TopNav from "./top";
 
 const Navbar: FC = () => (
-  <header className="bg-white border-b border-gray-300 sticky top-0 sm:-top-16">
+  <header className="bg-white border-b border-gray-300 sticky -top-14 sm:-top-16">
     <TopNav />
     <MainNav />
   </header>
