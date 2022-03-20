@@ -1,8 +1,14 @@
 import clsx from "clsx";
 import Link from "next/link";
-import type { FC } from "react";
+import { forwardRef } from "react";
+import type { ReactNode } from "react";
 
-type HyperlinkProps = { href?: string; notStyled?: boolean; className?: string };
+type HyperlinkProps = {
+  href?: string;
+  notStyled?: boolean;
+  className?: string;
+  children: ReactNode;
+};
 
 /**
  * A wrapper for `next/link` to handle all anchors inside the app, including in-page links (#),
@@ -14,40 +20,52 @@ type HyperlinkProps = { href?: string; notStyled?: boolean; className?: string }
  * @note This component is intentionally named `A` to closely resemble `<a>` in HTML. In case of
  *       conflicts (who the hell names another thing `A`?), just import it with a different name.
  *
+ * @note I honestly don't know why it's & in the TS signmature instead of |. Whatever works I guess.
+ *
  * @param props.href        The href of the anchor. If not provided, the "anchor" will work as
  *                          link-like normal text (if `notStyled` is `false`)
  * @param props.notStyled   If true, the anchor will not be styled. Otherwise, the anchor will be
  *                          given the class `a` defined in `globals.css`.
  * @param props.className   Other classes that the anchor may have.
  */
-const A: FC<HyperlinkProps> = ({ href, notStyled, className, children }) => {
-  if (!href) {
-    return <span className={clsx(notStyled || "a", className)}>{children}</span>;
-  }
-  if (href[0] === "/") {
+const A = forwardRef<HTMLAnchorElement & HTMLSpanElement, HyperlinkProps>(
+  ({ href, notStyled, className, children }, ref) => {
+    if (!href) {
+      return (
+        <span className={clsx(notStyled || "a", className)} ref={ref}>
+          {children}
+        </span>
+      );
+    }
+    if (href[0] === "/") {
+      return (
+        <Link href={href}>
+          <a className={clsx(notStyled || "a", className)} ref={ref}>
+            {children}
+          </a>
+        </Link>
+      );
+    }
+    if (href[0] === "#") {
+      return (
+        <a href={href} className={clsx(notStyled || "a", className)} ref={ref}>
+          {children}
+        </a>
+      );
+    }
     return (
-      <Link href={href}>
-        <a className={clsx(notStyled || "a", className)}>{children}</a>
-      </Link>
-    );
-  }
-  if (href[0] === "#") {
-    return (
-      <a href={href} className={clsx(notStyled || "a", className)}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={clsx(notStyled || "a", className)}
+        ref={ref}
+      >
         {children}
       </a>
     );
   }
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={clsx(notStyled || "a", className)}
-    >
-      {children}
-    </a>
-  );
-};
+);
+A.displayName = "Anchor";
 
 export default A;
