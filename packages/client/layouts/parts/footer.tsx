@@ -44,6 +44,7 @@ const ModeSwitcher: FC = () => {
               index === 2 && "border-r rounded-r"
             )}
             onClick={() => (setMode ? setMode(value as Mode) : null)}
+            title={value + " mode"}
           >
             <Icon />
           </button>
