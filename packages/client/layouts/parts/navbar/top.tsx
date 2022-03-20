@@ -16,8 +16,11 @@ type LinkOrButtonProps =
 type TopNavItemProps = { icon: typeof HomeOutlinedIcon } & LinkOrButtonProps;
 
 const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
-  const classes =
-    "text-gray-500 rounded p-1 transition hover:bg-indigo-100 hover:text-indigo-500 leading-none";
+  const classes = clsx(
+    "text-gray-500 rounded p-1 transition leading-none",
+    "hover:text-gray-900", // styling for mobile
+    "sm:hover:bg-indigo-100 sm:hover:text-indigo-500" // styling for desktop
+  );
   return href ? (
     <A href="/app" notStyled className={classes}>
       <Icon />
@@ -32,7 +35,7 @@ const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
 const TopNavExpandedItem: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, children }) => {
   const classes = clsx(
     "py-3 mx-1 border-t border-gray-300 text-left flex flex-row items-center gap-3",
-    "transition text-gray-500 hover:text-gray-900 hover:font-medium"
+    "transition text-gray-500 hover:text-gray-900"
   );
   return href ? (
     <A href={href} notStyled className={classes}>
