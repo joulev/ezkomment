@@ -12,17 +12,21 @@ const BreadCrumbSlash: FC = () => (
   </svg>
 );
 
-type TopNavButtonProps = { href?: string; onClick?: MouseEventHandler<HTMLButtonElement> };
-const TopNavButton: FC<TopNavButtonProps> = ({ href, onClick, children }) => {
+type TopNavButtonProps = {
+  href?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  icon: FC;
+};
+const TopNavButton: FC<TopNavButtonProps> = ({ href, onClick, icon: Icon }) => {
   const navbarBtnStyle =
     "text-gray-500 rounded p-1 transition hover:bg-indigo-100 hover:text-indigo-500";
   return href ? (
     <A href="/app" notStyled className={navbarBtnStyle}>
-      {children}
+      <Icon />
     </A>
   ) : (
     <button className={navbarBtnStyle} onClick={onClick}>
-      {children}
+      <Icon />
     </button>
   );
 };
@@ -38,27 +42,17 @@ const TopNav: FC = () => (
         <div className="font-semibold">Overview</div>
       </div>
       <div className="flex-grow" />
-      <TopNavButton href="/app">
-        <HomeOutlinedIcon />
-      </TopNavButton>
-      <TopNavButton>
-        <NotificationsOutlinedIcon />
-      </TopNavButton>
+      <TopNavButton href="/app" icon={HomeOutlinedIcon} />
+      <TopNavButton icon={NotificationsOutlinedIcon} />
       <A href="/app/account" className="h-8 w-8 shrink-0 relative">
         <Image src="/default-photo.svg" alt="" layout="fill" />
       </A>
-      <TopNavButton>
-        <LogoutOutlinedIcon />
-      </TopNavButton>
+      <TopNavButton icon={LogoutOutlinedIcon} />
     </nav>
     <nav className="sm:hidden flex flex-row py-3 items-center justify-between">
-      <TopNavButton>
-        <DensityMediumOutlinedIcon />
-      </TopNavButton>
+      <TopNavButton icon={DensityMediumOutlinedIcon} />
       <div className="font-semibold">Overview</div>
-      <TopNavButton>
-        <NotificationsOutlinedIcon />
-      </TopNavButton>
+      <TopNavButton icon={NotificationsOutlinedIcon} />
     </nav>
   </>
 );
