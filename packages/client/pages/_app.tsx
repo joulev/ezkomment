@@ -7,6 +7,11 @@ import type { Mode } from "@client/types/utils.type";
 function MyApp({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<Mode>("system");
   useEffect(() => {
+    const storedMode = localStorage.getItem("mode");
+    if (storedMode) setMode(storedMode as Mode);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("mode", mode);
     const dark =
       mode !== "light" &&
       (mode === "dark" || window.matchMedia("(prefers-color-scheme: dark)").matches);
