@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
 import type { FC, MouseEventHandler } from "react";
+import { useState } from "react";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
