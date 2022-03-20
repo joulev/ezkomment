@@ -63,7 +63,7 @@ const TopNav: FC = () => {
 
   return (
     <div className="container px-5 sm:px-6">
-      <nav className="hidden sm:flex flex-row gap-6 py-3 items-center justify-between">
+      <nav className="hidden sm:flex flex-row gap-6 py-3 sm:py-6 items-center justify-between">
         <div className="flex flex-row gap-3 items-center">
           <A href="/app" notStyled className="w-8 h-8 relative">
             <Image src="/logo.svg" alt="ezkomment" layout="fill" />
