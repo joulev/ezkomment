@@ -1,18 +1,12 @@
 import clsx from "clsx";
-import type { FC, ReactNode } from "react";
-import { useRef, forwardRef } from "react";
+import type { FC, ComponentProps } from "react";
+import { useRef, forwardRef, useState } from "react";
 import A from "@client/components/anchor";
 
-type MainNavButtonProps = {
-  href: string;
-  active?: boolean;
-  className?: string;
-  children: ReactNode;
-};
-const MainNavButton = forwardRef<HTMLAnchorElement & HTMLSpanElement, MainNavButtonProps>(
-  ({ href, active, className, children }, ref) => (
+type MainNavButtonProps = { active?: boolean } & ComponentProps<typeof A>;
+const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
+  ({ active, className, children, ...rest }, ref) => (
     <A
-      href={href}
       notStyled
       className={clsx(
         "p-3 transition hover:text-gray-900 whitespace-nowrap",
@@ -22,6 +16,7 @@ const MainNavButton = forwardRef<HTMLAnchorElement & HTMLSpanElement, MainNavBut
         className
       )}
       ref={ref}
+      {...rest}
     >
       {children}
     </A>
@@ -49,7 +44,9 @@ const MainNav: FC = () => {
       label: "Settings",
     },
   ];
-  const active = 2; // to be filled with prop instead
+  const active = 0; // to be filled with prop instead
+
+  const [hoverActive, setHoverActive] = useState(0);
   const itemsRef = useRef<Array<(HTMLAnchorElement & HTMLSpanElement) | null>>([]);
   return (
     <div className="sm:container overflow-auto no-scrollbar">
@@ -57,12 +54,19 @@ const MainNav: FC = () => {
       {/* F*ck CSS */}
       <div className="pt-0 sm:pt-3 px-6 sm:px-0 inline-block">
         <nav className="flex flex-row -mx-3 group relative">
-          <div className="absolute group-hover:bg-slate-300 w-4 h-4" />
+          <div
+            className="absolute group-hover:bg-gray-200 transition-all top-2 h-8 -z-10 rounded"
+            style={{
+              width: itemsRef.current[hoverActive]?.clientWidth ?? 0,
+              left: itemsRef.current[hoverActive]?.offsetLeft ?? 0,
+            }}
+          />
           {items.map((item, index) => (
             <MainNavButton
               key={index}
               href={item.href}
               active={index === active}
+              onMouseEnter={() => setHoverActive(index)}
               ref={el => (itemsRef.current[index] = el)}
             >
               {typeof item.label === "string" ? (

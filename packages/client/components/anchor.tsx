@@ -1,14 +1,9 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { forwardRef } from "react";
-import type { ReactNode } from "react";
+import type { ComponentProps } from "react";
 
-type HyperlinkProps = {
-  href?: string;
-  notStyled?: boolean;
-  className?: string;
-  children: ReactNode;
-};
+type HyperlinkProps = { notStyled?: boolean } & ComponentProps<"a">;
 
 /**
  * A wrapper for `next/link` to handle all anchors inside the app, including in-page links (#),
@@ -28,19 +23,19 @@ type HyperlinkProps = {
  *                          given the class `a` defined in `globals.css`.
  * @param props.className   Other classes that the anchor may have.
  */
-const A = forwardRef<HTMLAnchorElement & HTMLSpanElement, HyperlinkProps>(
-  ({ href, notStyled, className, children }, ref) => {
+const A = forwardRef<HTMLAnchorElement, HyperlinkProps>(
+  ({ href, notStyled, className, children, ...rest }, ref) => {
     if (!href) {
       return (
-        <span className={clsx(notStyled || "a", className)} ref={ref}>
+        <a className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
           {children}
-        </span>
+        </a>
       );
     }
     if (href[0] === "/") {
       return (
         <Link href={href}>
-          <a className={clsx(notStyled || "a", className)} ref={ref}>
+          <a className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
             {children}
           </a>
         </Link>
@@ -48,7 +43,7 @@ const A = forwardRef<HTMLAnchorElement & HTMLSpanElement, HyperlinkProps>(
     }
     if (href[0] === "#") {
       return (
-        <a href={href} className={clsx(notStyled || "a", className)} ref={ref}>
+        <a href={href} className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
           {children}
         </a>
       );
@@ -60,6 +55,7 @@ const A = forwardRef<HTMLAnchorElement & HTMLSpanElement, HyperlinkProps>(
         rel="noopener noreferrer"
         className={clsx(notStyled || "a", className)}
         ref={ref}
+        {...rest}
       >
         {children}
       </a>
