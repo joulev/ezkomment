@@ -7,7 +7,10 @@ import type { Mode } from "@client/types/utils.type";
 function MyApp({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<Mode>("light");
   useEffect(() => {
-    if (mode === "dark") document.querySelector("html")?.classList.add("dark");
+    const dark =
+      mode !== "light" &&
+      (mode === "dark" || window.matchMedia("(prefers-color-scheme: dark)").matches);
+    if (dark) document.querySelector("html")?.classList.add("dark");
     else document.querySelector("html")?.classList.remove("dark");
   }, [mode]);
   return (
