@@ -9,10 +9,11 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
     <A
       notStyled
       className={clsx(
-        "p-3 transition hover:text-gray-900 whitespace-nowrap",
-        active ? "text-gray-900" : "text-gray-500",
+        "p-3 transition hover:text-neutral-900 dark:hover:text-neutral-100 whitespace-nowrap",
+        active ? "text-neutral-900 dark:text-neutral-100" : "text-neutral-500",
         active &&
-          "relative after:absolute after:bottom-0 after:inset-x-3 after:h-0 after:border-b-2 after:border-gray-900",
+          "relative after:absolute after:bottom-0 after:inset-x-3 after:h-0 " +
+            "after:border-b-2 after:border-neutral-900 dark:after:border-neutral-100",
         className
       )}
       ref={ref}
@@ -55,7 +56,10 @@ const MainNav: FC = () => {
       <div className="pt-0 sm:pt-3 px-6 sm:px-0 inline-block">
         <nav className="flex flex-row -mx-3 group relative">
           <div
-            className="hidden sm:block absolute group-hover:bg-gray-200 transition-all top-2 h-8 -z-10 rounded"
+            className={clsx(
+              "hidden sm:block absolute transition-all top-2 h-8 -z-10 rounded",
+              "group-hover:bg-neutral-200 dark:group-hover:bg-neutral-800"
+            )}
             style={{
               width: itemsRef.current[hoverActive]?.clientWidth ?? 0,
               left: itemsRef.current[hoverActive]?.offsetLeft ?? 0,

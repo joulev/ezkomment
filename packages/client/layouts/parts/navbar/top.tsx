@@ -17,9 +17,9 @@ type TopNavItemProps = { icon: typeof HomeOutlinedIcon } & LinkOrButtonProps;
 
 const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
   const classes = clsx(
-    "text-gray-500 rounded p-1 transition leading-none",
-    "hover:text-gray-900", // styling for mobile
-    "sm:hover:bg-indigo-100 sm:hover:text-indigo-500" // styling for desktop
+    "text-neutral-500 rounded p-1 transition leading-none",
+    "hover:text-neutral-900 dark:hover:text-neutral-100", // styling for mobile
+    "sm:hover:bg-indigo-100 sm:dark:hover:bg-indigo-900 sm:dark:hover:bg-opacity-50 sm:hover:text-indigo-500 sm:dark:hover:text-indigo-400" // styling for desktop
   );
   return href ? (
     <A href="/app" notStyled className={classes}>
@@ -34,8 +34,8 @@ const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
 
 const TopNavExpandedItem: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, children }) => {
   const classes = clsx(
-    "py-3 mx-1 border-t border-gray-300 text-left flex flex-row items-center gap-3",
-    "transition text-gray-500 hover:text-gray-900"
+    "py-3 mx-1 border-t border-neutral-300 dark:border-neutral-700 text-left flex flex-row items-center gap-3",
+    "transition text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
   );
   return href ? (
     <A href={href} notStyled className={classes}>
@@ -52,7 +52,7 @@ const TopNavExpandedItem: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, ch
 
 const BreadCrumbSlash: FC = () => (
   <svg width={12} height={32}>
-    <line x1="12" y1="0" x2="0" y2="32" className="stroke-gray-300" />
+    <line x1="12" y1="0" x2="0" y2="32" className="stroke-neutral-300 dark:stroke-neutral-700" />
   </svg>
 );
 
@@ -83,7 +83,7 @@ const TopNav: FC = () => {
         className={clsx(
           "sm:hidden overflow-hidden",
           // 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4
-          expanded ? "fixed inset-0 bg-white z-10 px-5" : "max-h-14"
+          expanded ? "fixed inset-0 bg-white dark:bg-black z-10 px-5" : "max-h-14"
         )}
       >
         <nav className="flex flex-row py-3 items-center justify-between">

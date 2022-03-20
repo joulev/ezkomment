@@ -1,6 +1,7 @@
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   content: ["**/*.tsx"],
+  darkMode: "class",
   theme: {
     // Screen breakpoints from Bootstrap, https://getbootstrap.com/docs/5.1/layout/breakpoints
     screens: {
