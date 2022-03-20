@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { FC, MouseEventHandler } from "react";
+import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -27,28 +28,39 @@ const TopNavButton: FC<TopNavButtonProps> = ({ href, onClick, children }) => {
 };
 
 const TopNav: FC = () => (
-  <nav className="flex flex-row gap-6 py-3 items-center justify-between">
-    <div className="hidden sm:flex flex-row gap-3 items-center">
-      <A href="/app" notStyled className="w-8 h-8 relative">
-        <Image src="/logo.svg" alt="ezkomment" layout="fill" />
+  <>
+    <nav className="hidden sm:flex flex-row gap-6 py-3 items-center justify-between">
+      <div className="flex flex-row gap-3 items-center">
+        <A href="/app" notStyled className="w-8 h-8 relative">
+          <Image src="/logo.svg" alt="ezkomment" layout="fill" />
+        </A>
+        <BreadCrumbSlash />
+        <div className="font-semibold">Overview</div>
+      </div>
+      <div className="flex-grow" />
+      <TopNavButton href="/app">
+        <HomeOutlinedIcon />
+      </TopNavButton>
+      <TopNavButton>
+        <NotificationsOutlinedIcon />
+      </TopNavButton>
+      <A href="/app/account" className="h-8 w-8 shrink-0 relative">
+        <Image src="/default-photo.svg" alt="" layout="fill" />
       </A>
-      <BreadCrumbSlash />
-      <div className="text-xl">Overview</div>
-    </div>
-    <div className="hidden sm:block flex-grow" />
-    <TopNavButton href="/app">
-      <HomeOutlinedIcon />
-    </TopNavButton>
-    <TopNavButton>
-      <NotificationsOutlinedIcon />
-    </TopNavButton>
-    <A href="/app/account" className="h-8 w-8 shrink-0 relative">
-      <Image src="/default-photo.svg" alt="" layout="fill" />
-    </A>
-    <TopNavButton>
-      <LogoutOutlinedIcon />
-    </TopNavButton>
-  </nav>
+      <TopNavButton>
+        <LogoutOutlinedIcon />
+      </TopNavButton>
+    </nav>
+    <nav className="sm:hidden flex flex-row py-3 items-center justify-between">
+      <TopNavButton>
+        <DensityMediumOutlinedIcon />
+      </TopNavButton>
+      <div className="font-semibold">Overview</div>
+      <TopNavButton>
+        <NotificationsOutlinedIcon />
+      </TopNavButton>
+    </nav>
+  </>
 );
 
 export default TopNav;
