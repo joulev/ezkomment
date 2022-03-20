@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import type { FC, MouseEventHandler } from "react";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
@@ -54,9 +54,9 @@ const BreadCrumbSlash: FC = () => (
 
 const TopNav: FC = () => {
   const [expanded, setExpanded] = useState(false);
-  const topNavMobileRef = useRef<HTMLDivElement>(null);
   const handleLogout: MouseEventHandler<HTMLButtonElement> = () => console.log("log out");
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
+
   return (
     <>
       <nav className="hidden sm:flex flex-row gap-6 py-3 items-center justify-between">
@@ -75,16 +75,19 @@ const TopNav: FC = () => {
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
+      {/**
+       * 58px is the height of the top <nav>. I used useRef to determine this automatically, but
+       * it didn't work on first render (ref.current is null)
+       *
+       * TODO: find a better way to do this
+       */}
       <div
         className={clsx(
           "sm:hidden overflow-hidden",
-          expanded && "fixed inset-0 bg-white z-10 px-6"
+          expanded ? "fixed inset-0 bg-white z-10 px-6" : "max-h-[58px]"
         )}
-        style={{
-          maxHeight: expanded ? "none" : topNavMobileRef.current?.scrollHeight,
-        }}
       >
-        <nav className="flex flex-row py-3 items-center justify-between" ref={topNavMobileRef}>
+        <nav className="flex flex-row py-3 items-center justify-between">
           <TopNavButton
             icon={expanded ? CloseOutlinedIcon : DensityMediumOutlinedIcon}
             onClick={() => setExpanded(!expanded)}
