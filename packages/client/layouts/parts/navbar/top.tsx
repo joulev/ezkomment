@@ -16,7 +16,8 @@ type LinkOrButtonProps =
 type TopNavItemProps = { icon: typeof HomeOutlinedIcon } & LinkOrButtonProps;
 
 const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
-  const classes = "text-gray-500 rounded p-1 transition hover:bg-indigo-100 hover:text-indigo-500";
+  const classes =
+    "text-gray-500 rounded p-1 transition hover:bg-indigo-100 hover:text-indigo-500 leading-none";
   return href ? (
     <A href="/app" notStyled className={classes}>
       <Icon />
@@ -75,16 +76,11 @@ const TopNav: FC = () => {
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
-      {/**
-       * 58px is the height of the top <nav>. I used useRef to determine this automatically, but
-       * it didn't work on first render (ref.current is null)
-       *
-       * TODO: find a better way to do this
-       */}
+      {/* 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4 */}
       <div
         className={clsx(
           "sm:hidden overflow-hidden",
-          expanded ? "fixed inset-0 bg-white z-10 px-6" : "max-h-[58px]"
+          expanded ? "fixed inset-0 bg-white z-10 px-6" : "max-h-14"
         )}
       >
         <nav className="flex flex-row py-3 items-center justify-between">
