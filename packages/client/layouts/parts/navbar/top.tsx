@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { FC, MouseEventHandler } from "react";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
@@ -54,6 +54,7 @@ const BreadCrumbSlash: FC = () => (
 
 const TopNav: FC = () => {
   const [expanded, setExpanded] = useState(false);
+  const topNavMobileRef = useRef<HTMLDivElement>(null);
   const handleLogout: MouseEventHandler<HTMLButtonElement> = () => console.log("log out");
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
   return (
@@ -74,8 +75,16 @@ const TopNav: FC = () => {
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
-      <div className={clsx("sm:hidden", expanded && "fixed inset-0 bg-white z-10 px-6")}>
-        <nav className="flex flex-row py-3 items-center justify-between">
+      <div
+        className={clsx(
+          "sm:hidden overflow-hidden",
+          expanded && "fixed inset-0 bg-white z-10 px-6"
+        )}
+        style={{
+          maxHeight: expanded ? "none" : topNavMobileRef.current?.scrollHeight,
+        }}
+      >
+        <nav className="flex flex-row py-3 items-center justify-between" ref={topNavMobileRef}>
           <TopNavButton
             icon={expanded ? CloseOutlinedIcon : DensityMediumOutlinedIcon}
             onClick={() => setExpanded(!expanded)}
@@ -83,7 +92,12 @@ const TopNav: FC = () => {
           <div className="font-semibold">Overview</div>
           <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
         </nav>
-        <nav className={clsx(expanded || "hidden", "flex flex-col")}>
+        <nav
+          className={clsx(
+            "flex flex-col transition-all",
+            expanded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+          )}
+        >
           <TopNavExpandedItem icon={HomeOutlinedIcon} href="/app">
             Dashboard
           </TopNavExpandedItem>
