@@ -69,7 +69,7 @@ const TopNav: FC = () => {
             <Image src="/logo.svg" alt="ezkomment" layout="fill" />
           </A>
           <BreadCrumbSlash />
-          <div className="font-semibold">Overview</div>
+          <div className="font-semibold text-lg">Overview</div>
         </div>
         <div className="flex-grow" />
         <TopNavButton href="/app" icon={HomeOutlinedIcon} />
