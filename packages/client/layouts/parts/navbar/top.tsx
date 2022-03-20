@@ -76,10 +76,10 @@ const TopNav: FC = () => {
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
-      {/* 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4 */}
       <div
         className={clsx(
           "sm:hidden overflow-hidden",
+          // 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4
           expanded ? "fixed inset-0 bg-white z-10 px-6" : "max-h-14"
         )}
       >
