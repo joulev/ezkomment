@@ -4,10 +4,8 @@ import TopNav from "./top";
 
 const Navbar: FC = () => (
   <header className="bg-white border-b border-gray-300">
-    <div className="container">
-      <TopNav />
-      <MainNav />
-    </div>
+    <TopNav />
+    <MainNav />
   </header>
 );
 

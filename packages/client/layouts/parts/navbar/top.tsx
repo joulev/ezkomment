@@ -31,17 +31,17 @@ const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
 
 const TopNavExpandedItem: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, children }) => {
   const classes = clsx(
-    "py-3 border-t border-gray-300 text-left flex flex-row items-center gap-3",
+    "py-3 mx-1 border-t border-gray-300 text-left flex flex-row items-center gap-3",
     "transition text-gray-500 hover:text-gray-900 hover:font-medium"
   );
   return href ? (
     <A href={href} notStyled className={classes}>
-      <Icon className="mx-1" />
+      <Icon />
       <div>{children}</div>
     </A>
   ) : (
     <button onClick={onClick} className={classes}>
-      <Icon className="mx-1" />
+      <Icon />
       <div>{children}</div>
     </button>
   );
@@ -59,7 +59,7 @@ const TopNav: FC = () => {
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
 
   return (
-    <>
+    <div className="container px-5 sm:px-6">
       <nav className="hidden sm:flex flex-row gap-6 py-3 items-center justify-between">
         <div className="flex flex-row gap-3 items-center">
           <A href="/app" notStyled className="w-8 h-8 relative">
@@ -80,7 +80,7 @@ const TopNav: FC = () => {
         className={clsx(
           "sm:hidden overflow-hidden",
           // 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4
-          expanded ? "fixed inset-0 bg-white z-10 px-6" : "max-h-14"
+          expanded ? "fixed inset-0 bg-white z-10 px-5" : "max-h-14"
         )}
       >
         <nav className="flex flex-row py-3 items-center justify-between">
@@ -108,7 +108,7 @@ const TopNav: FC = () => {
           </TopNavExpandedItem>
         </nav>
       </div>
-    </>
+    </div>
   );
 };
 
