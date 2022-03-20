@@ -55,7 +55,7 @@ const MainNav: FC = () => {
       <div className="pt-0 sm:pt-3 px-6 sm:px-0 inline-block">
         <nav className="flex flex-row -mx-3 group relative">
           <div
-            className="absolute group-hover:bg-gray-200 transition-all top-2 h-8 -z-10 rounded"
+            className="hidden sm:block absolute group-hover:bg-gray-200 transition-all top-2 h-8 -z-10 rounded"
             style={{
               width: itemsRef.current[hoverActive]?.clientWidth ?? 0,
               left: itemsRef.current[hoverActive]?.offsetLeft ?? 0,
