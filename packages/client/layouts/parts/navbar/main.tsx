@@ -30,17 +30,13 @@ const MainNav: FC = () => (
         <MainNavButton href="/" active>
           All pages
         </MainNavButton>
-        <MainNavButton href="/" className="sm:hidden">
-          Pending
+        <MainNavButton href="/">
+          <span className="sm:hidden">Pending</span>
+          <span className="hidden sm:block">Pending comments</span>
         </MainNavButton>
-        <MainNavButton href="/" className="hidden sm:block">
-          Pending comments
-        </MainNavButton>
-        <MainNavButton href="/" className="sm:hidden">
-          Customise
-        </MainNavButton>
-        <MainNavButton href="/" className="hidden sm:block">
-          Customise display
+        <MainNavButton href="/">
+          <span className="sm:hidden">Customise</span>
+          <span className="hidden sm:block">Customise display</span>
         </MainNavButton>
         <MainNavButton href="/">Settings</MainNavButton>
       </nav>
