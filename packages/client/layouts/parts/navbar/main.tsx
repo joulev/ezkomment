@@ -25,7 +25,7 @@ const MainNav: FC = () => (
   <div className="sm:container overflow-auto no-scrollbar">
     {/* inline-block to make sure right padding is counted, https://stackoverflow.com/a/10055203 */}
     {/* F*ck CSS */}
-    <div className="pb-3 px-6 sm:px-0 inline-block">
+    <div className="pb-3 pt-0 sm:pt-3 px-6 sm:px-0 inline-block">
       <nav className="flex flex-row gap-6">
         <MainNavButton href="/" active>
           All pages
