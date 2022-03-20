@@ -5,7 +5,7 @@ import "@client/styles/globals.css";
 import type { Mode } from "@client/types/utils.type";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [mode, setMode] = useState<Mode>("light");
+  const [mode, setMode] = useState<Mode>("system");
   useEffect(() => {
     const dark =
       mode !== "light" &&
