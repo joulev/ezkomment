@@ -23,7 +23,7 @@ const MainNavButton: FC<MainNavButtonProps> = ({ href, active, className, childr
 
 const MainNav: FC = () => (
   <nav className="max-w-full overflow-scroll no-scrollbar sm:overflow-visible">
-    <div className="flex flex-row gap-2 sm:-ml-2 pb-2">
+    <div className="flex flex-row gap-2 -ml-2 pb-2">
       <MainNavButton href="/" active>
         All pages
       </MainNavButton>
