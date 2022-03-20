@@ -8,7 +8,7 @@ const AppLayout: FC<{ title: string }> = ({ title, children }) => (
       <title>{title} | ezkomment</title>
     </Head>
     <Navbar />
-    {children}
+    <div className="container py-6">{children}</div>
   </>
 );
 
