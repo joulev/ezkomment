@@ -12,7 +12,7 @@ const MainNavButton: FC<MainNavButtonProps> = ({ href, active, className, childr
         "transition hover:text-gray-900 whitespace-nowrap",
         active ? "text-gray-900" : "text-gray-500",
         active &&
-          "relative after:absolute after:-bottom-[13px] after:inset-x-0 after:h-0 after:border-b-2 after:border-gray-900",
+          "relative after:absolute after:-bottom-3 after:inset-x-0 after:h-0 after:border-b-2 after:border-gray-900",
         className
       )}
     >
@@ -22,9 +22,11 @@ const MainNavButton: FC<MainNavButtonProps> = ({ href, active, className, childr
 };
 
 const MainNav: FC = () => (
-  <div className="container">
-    <nav className="max-w-full">
-      <div className="flex flex-row gap-6 pb-3">
+  <div className="sm:container overflow-auto no-scrollbar">
+    {/* inline-block to make sure right padding is counted, https://stackoverflow.com/a/10055203 */}
+    {/* F*ck CSS */}
+    <div className="pb-3 px-6 sm:px-0 inline-block">
+      <nav className="flex flex-row gap-6">
         <MainNavButton href="/" active>
           All pages
         </MainNavButton>
@@ -41,8 +43,8 @@ const MainNav: FC = () => (
           Customise display
         </MainNavButton>
         <MainNavButton href="/">Settings</MainNavButton>
-      </div>
-    </nav>
+      </nav>
+    </div>
   </div>
 );
 
