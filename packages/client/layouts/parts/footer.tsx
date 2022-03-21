@@ -93,12 +93,14 @@ const Footer: FC = () => {
             )}
             {process.env.NODE_ENV === "production" && buildId && (
               <>
-                Version {buildId.shortHash} at{" "}
-                {
-                  <time title={buildId.timestamp}>
-                    {format(new Date(buildId.timestamp), "HH:mm dd/MM/yyyy")}
-                  </time>
-                }
+                Commit{" "}
+                <A href={`https://github.com/joulev/ezkomment/commit/${buildId.hash}`}>
+                  {buildId.shortHash}
+                </A>{" "}
+                at{" "}
+                <time title={buildId.timestamp}>
+                  {format(new Date(buildId.timestamp), "HH:mm dd/MM/yyyy")}
+                </time>
               </>
             )}
           </div>
