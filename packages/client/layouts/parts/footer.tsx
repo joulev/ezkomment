@@ -59,28 +59,34 @@ const ModeSwitcher: FC = () => {
   );
 };
 
-const Footer: FC = () => (
-  <footer className="bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6">
-    <div className="container flex flex-col-reverse sm:flex-row sm:justify-between">
-      <div className="sm:max-w-[66%]">
-        <Image src="/logo-text.svg" alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
-        <div className="text-sm">
-          This project is made possible by [Insert Technology Name Here]
+const Footer: FC = () => {
+  // Don't even know if this is guaranteed to always work as Next.js don't document this.
+  const buildId: string = JSON.parse(
+    document.querySelector("#__NEXT_DATA__")?.textContent as string
+  ).buildId;
+  return (
+    <footer className="bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6">
+      <div className="container flex flex-col-reverse sm:flex-row sm:justify-between">
+        <div className="sm:max-w-[66%]">
+          <Image src="/logo-text.svg" alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
+          <div className="text-sm">
+            This project is made possible by [Insert Technology Name Here]
+          </div>
+          <hr className="my-6 border-neutral-300 dark:border-neutral-700" />
+          <div className="text-sm text-neutral-500">Version {buildId}</div>
         </div>
-        <hr className="my-6 border-neutral-300 dark:border-neutral-700" />
-        <div className="text-sm text-neutral-500">Version a1b2c3d, last updated on 2022/03/21.</div>
-      </div>
-      <hr className="my-6 border-neutral-300 dark:border-neutral-700 sm:hidden" />
-      <div className="flex flex-row gap-6 justify-between sm:justify-start sm:flex-col sm:items-end">
-        <div className="flex flex-row gap-3">
-          <SocialIconLink href="#" icon={GitHubIcon} />
-          <SocialIconLink href="#" icon={TelegramIcon} />
-          <SocialIconLink href="#" icon={EmailOutlinedIcon} />
+        <hr className="my-6 border-neutral-300 dark:border-neutral-700 sm:hidden" />
+        <div className="flex flex-row gap-6 justify-between sm:justify-start sm:flex-col sm:items-end">
+          <div className="flex flex-row gap-3">
+            <SocialIconLink href="#" icon={GitHubIcon} />
+            <SocialIconLink href="#" icon={TelegramIcon} />
+            <SocialIconLink href="#" icon={EmailOutlinedIcon} />
+          </div>
+          <ModeSwitcher />
         </div>
-        <ModeSwitcher />
       </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export default Footer;

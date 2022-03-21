@@ -6,7 +6,7 @@ const nextConfig = {
   generateBuildId: () => {
     const time = execSync("git log -1 --pretty=format:%cI").toString();
     const hash = execSync("git rev-parse HEAD").toString().trim();
-    return `${hash}-${time}`;
+    return `${hash}@${time}`;
   },
 };
 
