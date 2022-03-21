@@ -90,7 +90,10 @@ const Footer: FC = () => {
             {process.env.NODE_ENV === "production" && buildId && (
               <>
                 Commit{" "}
-                <A href={`https://github.com/joulev/ezkomment/commit/${buildId.hash}`}>
+                <A
+                  href={`https://github.com/joulev/ezkomment/commit/${buildId.hash}`}
+                  className="font-mono"
+                >
                   {buildId.shortHash}
                 </A>{" "}
                 at{" "}
