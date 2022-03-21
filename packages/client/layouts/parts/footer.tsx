@@ -12,6 +12,17 @@ import A from "@client/components/anchor";
 import ModeContext from "@client/context/mode";
 import type { Mode } from "@client/types/utils.type";
 
+type BuildInfo = { hash: string; shortHash: string; timestamp: string };
+function processBuildId(buildId: string): BuildInfo {
+  if (process.env.NODE_ENV === "development") return { hash: "", shortHash: "", timestamp: "" };
+  const [hash, timestamp] = buildId.split("@");
+  return {
+    hash,
+    shortHash: hash.substring(0, 7),
+    timestamp,
+  };
+}
+
 type SocialIconLinkProps = { href: string; icon: typeof EmailOutlinedIcon };
 const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   <A
@@ -61,23 +72,30 @@ const ModeSwitcher: FC = () => {
 
 const Footer: FC = () => {
   // Don't even know if this is guaranteed to always work as Next.js don't document this.
-  const [buildId, setBuildId] = useState("unknown");
+  const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   useEffect(() => {
     const getBuildId: string = JSON.parse(
       document.querySelector("#__NEXT_DATA__")?.textContent as string
     ).buildId;
-    setBuildId(getBuildId);
+    setBuildId(processBuildId(getBuildId));
   }, []);
   return (
     <footer className="bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6">
       <div className="container flex flex-col-reverse sm:flex-row sm:justify-between">
-        <div className="sm:max-w-[66%]">
+        <div className="min-w-[50%] sm:max-w-[66%]">
           <Image src="/logo-text.svg" alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
-          <div className="text-sm">
-            This project is made possible by [Insert Technology Name Here]
-          </div>
           <hr className="my-6 border-neutral-300 dark:border-neutral-700" />
-          <div className="text-sm text-neutral-500">Version {buildId}</div>
+          <div className="text-sm text-neutral-500">
+            {process.env.NODE_ENV === "development" && <>Development build</>}
+            {process.env.NODE_ENV === "production" && !buildId && (
+              <>Retrieving build information&hellip;</>
+            )}
+            {process.env.NODE_ENV === "production" && buildId && (
+              <>
+                Version {buildId.shortHash} at {buildId.timestamp}
+              </>
+            )}
+          </div>
         </div>
         <hr className="my-6 border-neutral-300 dark:border-neutral-700 sm:hidden" />
         <div className="flex flex-row gap-6 justify-between sm:justify-start sm:flex-col sm:items-end">
