@@ -29,12 +29,9 @@ const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   <A
     href={href}
     notStyled
-    className={clsx(
-      "transition text-neutral-500 hover:text-neutral-900",
-      "dark:hover:text-neutral-100"
-    )}
+    className="transition text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
   >
-    <Icon fontSize="inherit" className="text-2xl" />
+    <Icon />
   </A>
 );
 
@@ -106,7 +103,7 @@ const Footer: FC = () => {
           </div>
         </div>
         <hr className="my-6 border-neutral-300 dark:border-neutral-700 sm:hidden" />
-        <div className="flex flex-row gap-6 justify-between sm:justify-start sm:flex-col sm:items-end">
+        <div className="flex flex-row gap-6 justify-between items-center sm:justify-start sm:flex-col sm:items-end">
           <div className="flex flex-row gap-3">
             <SocialIconLink href="#" icon={GitHubIcon} />
             <SocialIconLink href="#" icon={TelegramIcon} />
