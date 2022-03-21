@@ -15,6 +15,7 @@ module.exports = {
         "*.svg",
         // JS object-like syntax
         "*.config.js",
+        "*.config.mjs",
         "*.json",
         // Others where 4-space tabs are also too much
         "*.md",
