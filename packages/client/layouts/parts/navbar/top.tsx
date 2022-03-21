@@ -17,7 +17,7 @@ type TopNavItemProps = { icon: typeof HomeOutlinedIcon } & LinkOrButtonProps;
 
 const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
   const classes = clsx(
-    "text-neutral-500 rounded p-1 transition leading-none",
+    "text-neutral-600 dark:text-neutral-400 rounded p-1 transition leading-none",
     "hover:text-neutral-900 dark:hover:text-neutral-100", // styling for mobile
     "sm:hover:bg-indigo-100 sm:dark:hover:bg-indigo-900 sm:dark:hover:bg-opacity-50 sm:hover:text-indigo-500 sm:dark:hover:text-indigo-400" // styling for desktop
   );
@@ -52,7 +52,7 @@ const TopNavExpandedItem: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, ch
 
 const BreadCrumbSlash: FC = () => (
   <svg width={12} height={32}>
-    <line x1="12" y1="0" x2="0" y2="32" className="stroke-neutral-300 dark:stroke-neutral-700" />
+    <line x1="12" y1="0" x2="0" y2="32" className="stroke-neutral-500" />
   </svg>
 );
 
