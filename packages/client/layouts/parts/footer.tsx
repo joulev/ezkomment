@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import format from "date-fns/format";
 import Image from "next/image";
 import { FC, useEffect } from "react";
 import { useContext, useState } from "react";
@@ -92,7 +93,12 @@ const Footer: FC = () => {
             )}
             {process.env.NODE_ENV === "production" && buildId && (
               <>
-                Version {buildId.shortHash} at {buildId.timestamp}
+                Version {buildId.shortHash} at{" "}
+                {
+                  <time title={buildId.timestamp}>
+                    {format(new Date(buildId.timestamp), "HH:mm dd/MM/yyyy")}
+                  </time>
+                }
               </>
             )}
           </div>
