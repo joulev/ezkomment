@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
-import type { FC } from "react";
-import { useContext } from "react";
+import { FC, useEffect } from "react";
+import { useContext, useState } from "react";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -61,9 +61,13 @@ const ModeSwitcher: FC = () => {
 
 const Footer: FC = () => {
   // Don't even know if this is guaranteed to always work as Next.js don't document this.
-  const buildId: string = JSON.parse(
-    document.querySelector("#__NEXT_DATA__")?.textContent as string
-  ).buildId;
+  const [buildId, setBuildId] = useState("unknown");
+  useEffect(() => {
+    const getBuildId: string = JSON.parse(
+      document.querySelector("#__NEXT_DATA__")?.textContent as string
+    ).buildId;
+    setBuildId(getBuildId);
+  }, []);
   return (
     <footer className="bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6">
       <div className="container flex flex-col-reverse sm:flex-row sm:justify-between">
