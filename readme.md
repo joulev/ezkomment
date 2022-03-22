@@ -1,1 +1,16 @@
-# ezkomment
+# `ezkomment`
+
+Monorepo for everything related to `ezkomment`. See readme in each individual package folder for
+more details.
+
+- [`client`](/packages/client): The client of the app hosted at https://ezkomment.vercel.app.
+- [`server`](/packages/server): The server of the app. Currently just a dummy test file though.
+
+This project uses [Lerna](https://lerna.js.org) and NPM workspaces. To install all dependencies, run
+
+```
+$ lerna bootstrap
+```
+
+This command should also install the packages at `/packages` as if they were NPM packages. Currently
+it is not yet necessary but it will in the future when we need to import code cross-packages.
