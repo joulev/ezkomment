@@ -9,6 +9,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import A from "@client/components/anchor";
+import ModeSwitcher from "@client/layouts/parts/shared/modeSwitcher";
 
 type LinkOrButtonProps =
   | { href: string; onClick?: never }
@@ -111,7 +112,7 @@ const TopNav: FC = () => {
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between mx-1 mt-6">
             <Image src="/logo-grey.svg" alt="ezkomment" width={40} height={40} />
-            <div>Mode switcher</div>
+            <ModeSwitcher />
           </div>
         </nav>
       </div>
