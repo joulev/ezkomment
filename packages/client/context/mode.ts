@@ -1,5 +1,4 @@
-import { createContext } from "react";
-import type { Dispatch, SetStateAction } from "react";
+import { createContext, type Dispatch, type SetStateAction } from "react";
 import type { Mode } from "@client/types/utils.type";
 
 type ModeContextType = {
