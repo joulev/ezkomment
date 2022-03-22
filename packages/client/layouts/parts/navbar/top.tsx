@@ -111,7 +111,7 @@ const TopNav: FC = () => {
             Log out
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between mx-1 mt-6">
-            <Image src="/images/logo-grey.svg" alt="ezkomment" width={40} height={40} />
+            <Image src="/images/logo.svg" alt="ezkomment" width={40} height={40} />
             <ModeSwitcher />
           </div>
         </nav>
