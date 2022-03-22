@@ -109,6 +109,10 @@ const TopNav: FC = () => {
           <TopNavExpandedItem icon={LogoutOutlinedIcon} onClick={handleLogout}>
             Log out
           </TopNavExpandedItem>
+          <div className="flex flex-row justify-between mx-1 mt-6">
+            <Image src="/logo-grey.svg" alt="ezkomment" width={40} height={40} />
+            <div>Mode switcher</div>
+          </div>
         </nav>
       </div>
     </div>
