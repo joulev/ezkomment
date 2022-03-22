@@ -50,17 +50,27 @@ const MainNav: FC = () => {
   const active = 0; // to be filled with prop instead
 
   const [hoverActive, setHoverActive] = useState(0);
+  const [mouseInside, setMouseInside] = useState(false);
+  const [allowTransition, setAllowTransition] = useState(false);
   const itemsRef = useRef<Array<(HTMLAnchorElement & HTMLSpanElement) | null>>([]);
   return (
     <div className="sm:container overflow-auto no-scrollbar">
       {/* inline-block to make sure right padding is counted, https://stackoverflow.com/a/10055203 */}
       {/* F*ck CSS */}
       <div className="pt-0 sm:pt-3 px-6 sm:px-0 inline-block">
-        <nav className="flex flex-row -mx-3 group relative">
+        <nav
+          className="flex flex-row -mx-3 group relative"
+          onMouseEnter={() => setMouseInside(true)}
+          onMouseLeave={() => {
+            setMouseInside(false);
+            setAllowTransition(false);
+          }}
+        >
           <div
             className={clsx(
-              "hidden sm:block absolute transition-all top-2 h-8 -z-10 rounded",
-              "group-hover:bg-neutral-200 dark:group-hover:bg-neutral-800"
+              "hidden sm:block absolute top-2 h-8 -z-10 rounded",
+              "group-hover:bg-neutral-200 dark:group-hover:bg-neutral-800",
+              allowTransition ? "transition-all" : "transition-none"
             )}
             style={{
               width: itemsRef.current[hoverActive]?.clientWidth ?? 0,
@@ -72,7 +82,10 @@ const MainNav: FC = () => {
               key={index}
               href={item.href}
               active={index === active}
-              onMouseEnter={() => setHoverActive(index)}
+              onMouseEnter={() => {
+                setHoverActive(index);
+                setAllowTransition(mouseInside);
+              }}
               ref={el => (itemsRef.current[index] = el)}
             >
               {typeof item.label === "string" ? (
