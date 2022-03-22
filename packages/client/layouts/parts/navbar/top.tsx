@@ -67,7 +67,7 @@ const TopNav: FC = () => {
       <nav className="hidden sm:flex flex-row gap-6 pt-3 sm:pt-6 items-center justify-between">
         <div className="flex flex-row gap-3 items-center">
           <A href="/app" notStyled className="w-8 h-8 relative">
-            <Image src="/logo.svg" alt="ezkomment" layout="fill" />
+            <Image src="/images/logo.svg" alt="ezkomment" layout="fill" />
           </A>
           <BreadCrumbSlash />
           <div className="font-semibold text-lg">Overview</div>
@@ -76,7 +76,7 @@ const TopNav: FC = () => {
         <TopNavButton href="/app" icon={HomeOutlinedIcon} />
         <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
         <A href="/app/account" className="h-8 w-8 shrink-0 relative">
-          <Image src="/default-photo.svg" alt="" layout="fill" />
+          <Image src="/images/default-photo.svg" alt="" layout="fill" />
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
@@ -111,7 +111,7 @@ const TopNav: FC = () => {
             Log out
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between mx-1 mt-6">
-            <Image src="/logo-grey.svg" alt="ezkomment" width={40} height={40} />
+            <Image src="/images/logo-grey.svg" alt="ezkomment" width={40} height={40} />
             <ModeSwitcher />
           </div>
         </nav>

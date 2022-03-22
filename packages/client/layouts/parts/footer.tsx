@@ -43,7 +43,7 @@ const Footer: FC = () => {
     <footer className="bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6">
       <div className="container flex flex-col-reverse sm:flex-row sm:justify-between">
         <div className="min-w-[50%] sm:max-w-[66%]">
-          <Image src="/logo-text.svg" alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
+          <Image src="/images/logo-text.svg" alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
           <div className="mt-3 text-sm text-neutral-500">
             {process.env.NODE_ENV === "development" && <>Development build</>}
             {process.env.NODE_ENV === "production" && !buildId && (
