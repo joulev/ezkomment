@@ -26,33 +26,31 @@ type SelectProps = SelectWithUpdate &
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
-const Select: FC<SelectProps> = ({ label, icon: Icon, onUpdate, children, ...props }) => {
-  return (
-    <label
+const Select: FC<SelectProps> = ({ label, icon: Icon, onUpdate, className, children, ...rest }) => (
+  <label
+    className={clsx(
+      "flex flex-row-reverse rounded border",
+      "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-black"
+    )}
+  >
+    <select
+      onChange={onUpdate && (e => onUpdate(e.target.value))}
+      className={clsx("peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0", className)}
+      {...rest}
+    >
+      {children}
+    </select>
+    <div
       className={clsx(
-        "flex flex-row-reverse rounded border",
-        "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-black"
+        "px-3 py-1.5 border-r flex flex-row gap-2 justify-center transition",
+        "border-neutral-300 dark:border-neutral-700 shrink-0 text-neutral-500",
+        "peer-focus:text-neutral-900 dark:peer-focus:text-neutral-100"
       )}
     >
-      <select
-        onChange={onUpdate && (e => onUpdate(e.target.value))}
-        className="peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0"
-        {...props}
-      >
-        {children}
-      </select>
-      <div
-        className={clsx(
-          "px-3 py-1.5 border-r flex flex-row gap-2 justify-center transition",
-          "border-neutral-300 dark:border-neutral-700 shrink-0 text-neutral-500",
-          "peer-focus:text-neutral-900 dark:peer-focus:text-neutral-100"
-        )}
-      >
-        {Icon && <Icon />}
-        {label && <span>{label}</span>}
-      </div>
-    </label>
-  );
-};
+      {Icon && <Icon />}
+      {label && <span>{label}</span>}
+    </div>
+  </label>
+);
 
 export default Select;

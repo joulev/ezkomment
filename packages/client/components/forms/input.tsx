@@ -31,31 +31,29 @@ type InputProps = InputWithUpdate &
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
-const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, ...props }) => {
-  return (
-    <label
+const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest }) => (
+  <label
+    className={clsx(
+      "flex flex-row-reverse rounded border",
+      "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-black"
+    )}
+  >
+    <input
+      onChange={onUpdate && (e => onUpdate(e.target.value))}
+      className={clsx("peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0", className)}
+      {...rest}
+    />
+    <div
       className={clsx(
-        "flex flex-row-reverse rounded border",
-        "border-neutral-300 dark:border-neutral-700 bg-white dark:bg-black"
+        "px-3 py-1.5 border-r flex flex-row gap-2 justify-center transition",
+        "border-neutral-300 dark:border-neutral-700 shrink-0 text-neutral-500",
+        "peer-focus:text-neutral-900 dark:peer-focus:text-neutral-100"
       )}
     >
-      <input
-        onChange={onUpdate && (e => onUpdate(e.target.value))}
-        className="peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0"
-        {...props}
-      />
-      <div
-        className={clsx(
-          "px-3 py-1.5 border-r flex flex-row gap-2 justify-center transition",
-          "border-neutral-300 dark:border-neutral-700 shrink-0 text-neutral-500",
-          "peer-focus:text-neutral-900 dark:peer-focus:text-neutral-100"
-        )}
-      >
-        {Icon && <Icon />}
-        {label && <span>{label}</span>}
-      </div>
-    </label>
-  );
-};
+      {Icon && <Icon />}
+      {label && <span>{label}</span>}
+    </div>
+  </label>
+);
 
 export default Input;
