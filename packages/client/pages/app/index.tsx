@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Input } from "@client/components/forms";
+import Input from "@client/components/forms/input";
+import Select from "@client/components/forms/select";
 import AppLayout from "@client/layouts/app";
 
 const Dashboard: NextPage = () => (
@@ -9,6 +10,10 @@ const Dashboard: NextPage = () => (
       <Input label="Search" icon={SearchOutlinedIcon} type="text" />
       <Input icon={SearchOutlinedIcon} type="text" />
       <Input label="Search" type="text" />
+      <Select icon={SearchOutlinedIcon} label="Select">
+        <option value="">Option 1</option>
+        <option value="">Option 2</option>
+      </Select>
     </div>
     <p className="mb-4">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt magni voluptates facilis et
