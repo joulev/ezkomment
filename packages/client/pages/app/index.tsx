@@ -1,8 +1,15 @@
 import type { NextPage } from "next";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { Input } from "@client/components/forms";
 import AppLayout from "@client/layouts/app";
 
 const Dashboard: NextPage = () => (
   <AppLayout title="Dashboard">
+    <div className="flex flex-col gap-4">
+      <Input label="Search" icon={SearchOutlinedIcon} type="text" />
+      <Input icon={SearchOutlinedIcon} type="text" />
+      <Input label="Search" type="text" />
+    </div>
     <p className="mb-4">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt magni voluptates facilis et
       soluta porro minus modi quibusdam aliquam? Ipsam dicta doloremque ut minus debitis, quidem
