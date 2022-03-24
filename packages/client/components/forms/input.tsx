@@ -22,12 +22,12 @@ type InputProps = InputWithUpdate &
  * @param props.onUpdate A wrapper for onChange in the input element that helps access value directly
  * @param props.type The type of the `input` element. This is **mandatory** (compared to normal
  * `<input>` where it defaults to `"text"`)
+ * @param props.className HTML classes to be applied to **the whole component**.
  *
  * @note At least one of `label` or `icon` must be provided.
  *
  * @note Default `<input>` props are also supported. All of them will be passed directly to the
- * `<input>` component, therefore please be careful when using props such as `className`. It's
- * recommended that you don't add any additional styling with `className` at all.
+ * `<input>` component.
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
@@ -36,12 +36,13 @@ const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest
     className={clsx(
       "flex flex-row-reverse rounded border transition bg-white dark:bg-black",
       "border-neutral-300 dark:border-neutral-700",
-      "focus-within:border-neutral-500 dark:focus-within:border-neutral-500"
+      "focus-within:border-neutral-500 dark:focus-within:border-neutral-500",
+      className
     )}
   >
     <input
       onChange={onUpdate && (e => onUpdate(e.target.value))}
-      className={clsx("peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0", className)}
+      className="peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0"
       {...rest}
     />
     <div

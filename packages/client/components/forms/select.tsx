@@ -17,12 +17,12 @@ type SelectProps = SelectWithUpdate &
  * @param props.label The label in text
  * @param props.icon The icon to display on the left of the label
  * @param props.onUpdate A wrapper for onChange in the input element that helps access value directly
+ * @param props.className HTML classes to be applied to **the whole component**.
  *
  * @note At least one of `label` or `icon` must be provided.
  *
  * @note Default `<select>` props are also supported. All of them will be passed directly to the
- * `<select>` component, therefore please be careful when using props such as `className`. It's
- * recommended that you don't add any additional styling with `className` at all.
+ * `<select>` component.
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
@@ -31,12 +31,13 @@ const Select: FC<SelectProps> = ({ label, icon: Icon, onUpdate, className, child
     className={clsx(
       "flex flex-row-reverse rounded border transition bg-white dark:bg-black",
       "border-neutral-300 dark:border-neutral-700",
-      "focus-within:border-neutral-500 dark:focus-within:border-neutral-500"
+      "focus-within:border-neutral-500 dark:focus-within:border-neutral-500",
+      className
     )}
   >
     <select
       onChange={onUpdate && (e => onUpdate(e.target.value))}
-      className={clsx("peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0", className)}
+      className="peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0"
       {...rest}
     >
       {children}
