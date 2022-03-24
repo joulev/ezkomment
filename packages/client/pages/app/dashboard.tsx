@@ -1,19 +1,34 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import Input from "@client/components/forms/input";
 import Select from "@client/components/forms/select";
 import AppLayout from "@client/layouts/app";
+import sites from "@client/sample/sites.json";
+import { Button } from "@client/components/buttons";
 
-const Dashboard: NextPage = () => (
+type Props = { sites: typeof sites };
+
+export const getStaticProps: GetStaticProps<Props> = () => ({ props: { sites } });
+
+const Dashboard: NextPage<Props> = ({ sites }) => (
   <AppLayout title="Dashboard">
-    <div className="flex flex-col gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
       <Input label="Search" icon={SearchOutlinedIcon} type="text" />
-      <Input icon={SearchOutlinedIcon} type="text" />
-      <Input label="Search" type="text" />
-      <Select icon={SearchOutlinedIcon} label="Select">
-        <option value="">Option 1</option>
-        <option value="">Option 2</option>
-      </Select>
+      <div className="flex flex-row gap-x-6">
+        <Select
+          icon={SortOutlinedIcon}
+          label="Sort by"
+          value="active"
+          className="flex-grow"
+          onUpdate={() => {}} /* to silence the readOnly warning for now */
+        >
+          <option value="active">Active</option>
+          <option value="all">All comments</option>
+          <option value="pending">Pending</option>
+        </Select>
+        <Button className="w-1/3 min-w-fit">Add new site</Button>
+      </div>
     </div>
     <p className="mb-4">
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt magni voluptates facilis et
