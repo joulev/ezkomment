@@ -8,7 +8,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import A from "@client/components/anchor";
-import ModeSwitcher from "@client/layouts/parts/shared/modeSwitcher";
+import ModeSwitcher from "@client/components/modeSwitcher";
 
 type LinkOrButtonProps =
   | { href: string; onClick?: never }

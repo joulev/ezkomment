@@ -5,7 +5,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import A from "@client/components/anchor";
-import ModeSwitcher from "@client/layouts/parts/shared/modeSwitcher";
+import ModeSwitcher from "@client/components/modeSwitcher";
 
 type BuildInfo = { hash: string; shortHash: string; timestamp: string };
 function processBuildId(buildId: string): BuildInfo {
