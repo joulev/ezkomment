@@ -3,7 +3,7 @@
     "id": "b09080dca06bea09c74d",
     "name": "blog-app",
     "domain": "blog.mydomain.com",
-    "iconURL": "https://ezkomment.vercel.app/favicon.ico",
+    "iconURL": "/favicon.ico",
     "pageCount": 10,
     "totalCommentCount": 132,
     "needsApproval": 13
@@ -12,7 +12,7 @@
     "id": "b09080dca06bea09c74d",
     "name": "docs-app",
     "domain": "docs.mydomain.com",
-    "iconURL": "https://ezkomment.vercel.app/favicon.ico",
+    "iconURL": "/favicon.ico",
     "pageCount": 24,
     "totalCommentCount": 84,
     "needsApproval": 2
@@ -21,7 +21,7 @@
     "id": "b09080dca06bea09c74d",
     "name": "forum-app",
     "domain": "forum.mydomain.com",
-    "iconURL": "https://ezkomment.vercel.app/favicon.ico",
+    "iconURL": "/favicon.ico",
     "pageCount": 32,
     "totalCommentCount": 4,
     "needsApproval": 0
@@ -30,7 +30,7 @@
     "id": "b09080dca06bea09c74d",
     "name": "wiki-app",
     "domain": "wiki.mydomain.com",
-    "iconURL": "https://ezkomment.vercel.app/favicon.ico",
+    "iconURL": "/favicon.ico",
     "pageCount": 8,
     "totalCommentCount": 0,
     "needsApproval": 0
