@@ -1,0 +1,35 @@
+{
+  "id": "873e276648d48e4fd1e1",
+  "name": "How should I style my websites?",
+  "url": "https://blog.mydomain.com/posts/how-should-i-style-my-websites",
+  "autoApprove": false,
+  "approvedComments": [
+    {
+      "author": "John Doe",
+      "text": "This is a great post. I like it.",
+      "date": "2018-01-01T00:00:00.000Z"
+    },
+    {
+      "author": "Jane Doe",
+      "text": "I think there is a mistake when you talk about CSS, but otherwise it is a great post.",
+      "date": "2018-01-01T00:00:00.000Z"
+    },
+    {
+      "author": "Jack Doe",
+      "text": "Indeed, I agree. This post explains it very well.",
+      "date": "2018-01-01T00:00:00.000Z"
+    }
+  ],
+  "pendingApprovalComments": [
+    {
+      "author": "A different commenter",
+      "text": "This is a scam, please don't read.",
+      "date": "2018-01-01T00:00:00.000Z"
+    },
+    {
+      "author": "A different commenter",
+      "text": "This is a scam, please don't read.",
+      "date": "2018-01-01T00:00:00.000Z"
+    }
+  ]
+}
