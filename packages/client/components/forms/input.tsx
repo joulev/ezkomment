@@ -34,28 +34,27 @@ type InputProps = InputWithUpdate &
 const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest }) => (
   <label
     className={clsx(
-      "flex flex-row-reverse rounded border transition bg-white dark:bg-black",
-      "border-neutral-300 dark:border-neutral-700",
+      "group flex flex-row rounded border divide-x transition bg-white dark:bg-black",
+      "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700",
       "focus-within:border-neutral-700 dark:focus-within:border-neutral-300",
+      "focus-within:divide-neutral-700 dark:focus-within:divide-neutral-300",
       className
     )}
   >
-    <input
-      onChange={onUpdate && (e => onUpdate(e.target.value))}
-      className="peer px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0"
-      {...rest}
-    />
     <div
       className={clsx(
-        "px-3 py-1.5 border-r flex flex-row gap-2 justify-center transition",
-        "border-neutral-300 dark:border-neutral-700 shrink-0 text-neutral-500",
-        "peer-focus:text-neutral-900 dark:peer-focus:text-neutral-100",
-        "peer-focus:border-neutral-700 dark:peer-focus:border-neutral-300"
+        "px-3 py-1.5 flex flex-row gap-2 justify-center transition shrink-0 text-neutral-500",
+        "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100"
       )}
     >
       {Icon && <Icon />}
       {label && <span>{label}</span>}
     </div>
+    <input
+      onChange={onUpdate && (e => onUpdate(e.target.value))}
+      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0"
+      {...rest}
+    />
   </label>
 );
 
