@@ -16,18 +16,22 @@ const ModeSwitcher: FC = () => {
     { value: "system", icon: ComputerOutlinedIcon },
   ];
   return (
-    <div className="flex flex-row items-center">
+    <div
+      className={clsx(
+        "flex flex-row items-center overflow-hidden rounded",
+        "divide-x divide-neutral-300 dark:divide-neutral-700",
+        "border border-neutral-300 dark:border-neutral-700"
+      )}
+    >
       {modes.map(({ value, icon: Icon }, index) => (
         <button
           key={index}
           className={clsx(
-            "px-2 py-1 border-l border-y",
+            "px-2 py-1",
             value === mode
               ? "bg-indigo-500 border-indigo-500 text-white"
-              : "transition border-neutral-300 dark:border-neutral-700 text-neutral-500 " +
-                  "hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800",
-            index === 0 && "rounded-l",
-            index === 2 && "border-r rounded-r"
+              : "transition text-neutral-500 hover:text-neutral-900 dark:hover:text-white " +
+                  "hover:bg-neutral-200 dark:hover:bg-neutral-800"
           )}
           onClick={() => (setMode ? setMode(value as Mode) : null)}
           title={value + " mode"}
