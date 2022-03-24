@@ -26,6 +26,12 @@ module.exports = {
         tabWidth: 2,
       },
     },
+    {
+      files: ["*.ts", "*.tsx"],
+      options: {
+        parser: "babel-ts",
+      },
+    },
   ],
   importOrder: ["^@mui/(.*)$", "^@server/(.*)$", "^@client/(.*)$", "^[./]"],
 };
