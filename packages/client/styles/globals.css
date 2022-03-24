@@ -19,6 +19,6 @@
     }
     .a {
         @apply text-indigo-500 hover:underline hover:text-indigo-700 dark:hover:text-indigo-300
-            transition underline-offset-4;
+            transition underline-offset-4 cursor-pointer;
     }
 }

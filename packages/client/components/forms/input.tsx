@@ -36,7 +36,7 @@ const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest
     className={clsx(
       "flex flex-row-reverse rounded border transition bg-white dark:bg-black",
       "border-neutral-300 dark:border-neutral-700",
-      "focus-within:border-neutral-500 dark:focus-within:border-neutral-500",
+      "focus-within:border-neutral-700 dark:focus-within:border-neutral-300",
       className
     )}
   >
@@ -50,7 +50,7 @@ const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest
         "px-3 py-1.5 border-r flex flex-row gap-2 justify-center transition",
         "border-neutral-300 dark:border-neutral-700 shrink-0 text-neutral-500",
         "peer-focus:text-neutral-900 dark:peer-focus:text-neutral-100",
-        "peer-focus:border-neutral-500"
+        "peer-focus:border-neutral-700 dark:peer-focus:border-neutral-300"
       )}
     >
       {Icon && <Icon />}

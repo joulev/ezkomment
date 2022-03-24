@@ -1,18 +1,81 @@
+import clsx from "clsx";
 import type { GetStaticProps, NextPage } from "next";
+import { type FC, useEffect, useState, useRef, forwardRef, type RefObject } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import Input from "@client/components/forms/input";
 import Select from "@client/components/forms/select";
+import A from "@client/components/anchor";
 import AppLayout from "@client/layouts/app";
 import sites from "@client/sample/sites.json";
 import { Button } from "@client/components/buttons";
 import currentBreakpoint from "@client/lib/currentBreakpoint";
-import { useEffect, useState } from "react";
 import type { Breakpoint } from "@client/types/utils.type";
 
-type Props = { sites: typeof sites };
+type Site = typeof sites[number];
+type Props = { sites: Site[] };
 
-export const getStaticProps: GetStaticProps<Props> = () => ({ props: { sites } });
+const Stats: FC<{ value: number; label: string }> = ({ value, label }) => (
+  <div>
+    <div className="text-3xl font-light">{value}</div>
+    <div className="text-neutral-500 text-xs uppercase tracking-widest">{label}</div>
+  </div>
+);
+
+const SiteCard = forwardRef<HTMLAnchorElement, { site: Site }>(({ site }, ref) => (
+  <A
+    notStyled
+    className={clsx(
+      "cursor-pointer p-6 transition",
+      "bg-white dark:bg-black rounded border border-neutral-300 dark:border-neutral-700",
+      "hover:border-neutral-700 dark:hover:border-neutral-300"
+    )}
+    ref={ref}
+  >
+    <div className="flex flex-row gap-6 mb-3">
+      <div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={site.iconURL} alt="" width={48} height={48} loading="lazy" />
+      </div>
+      <div>
+        <div className="text-xl font-semibold">{site.name}</div>
+        <div className="text-sm">{site.domain}</div>
+      </div>
+    </div>
+    <div className="grid grid-cols-3 gap-3">
+      <Stats label="pages" value={site.pageCount} />
+      <Stats label="comments" value={site.totalCommentCount} />
+      <Stats label="pending" value={site.needsApproval} />
+    </div>
+  </A>
+));
+SiteCard.displayName = "SiteCard";
+
+const EmptyCard: FC = () => {
+  const strokeClasses = clsx(
+    "stroke-neutral-300 dark:stroke-neutral-700 group-hover:stroke-neutral-500",
+    "stroke-[4px] transition"
+  );
+  return (
+    <A
+      notStyled
+      className={clsx(
+        "rounded border border-dashed border-neutral-300 dark:border-neutral-700",
+        "grid place-items-center transition cursor-pointer group",
+        "text-neutral-300 dark:text-neutral-700 hover:text-neutral-700 dark:hover:text-neutral-300"
+      )}
+    >
+      <div className="flex flex-col items-center gap-3">
+        <svg width={36} height={36}>
+          <line x1="18" y1="0" x2="18" y2="36" className={strokeClasses} />
+          <line x1="0" y1="18" x2="36" y2="18" className={strokeClasses} />
+        </svg>
+        <span>Add new site</span>
+      </div>
+    </A>
+  );
+};
 
 const Dashboard: NextPage<Props> = ({ sites }) => {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>("unknown");
@@ -21,9 +84,21 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastCardRef = useRef<HTMLAnchorElement>(null);
+  const lastRowIsNotFilled = (
+    containerRef: RefObject<HTMLDivElement>,
+    lastCardRef: RefObject<HTMLAnchorElement>
+  ) => {
+    if (!containerRef.current || !lastCardRef.current) return false;
+    const container = containerRef.current;
+    const card = lastCardRef.current;
+    return card.offsetLeft + card.offsetWidth < container.offsetLeft + container.offsetWidth - 20;
+  };
   return (
     <AppLayout title="Dashboard">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input label="Search" icon={SearchOutlinedIcon} type="text" />
         <div className="flex flex-row gap-x-6">
           <Select
@@ -37,80 +112,25 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
             <option value="all">Comments</option>
             <option value="pending">Pending</option>
           </Select>
-          <Button className="w-1/3 min-w-fit">Add new site</Button>
+          <Button className="w-1/3 min-w-fit flex flex-row items-center justify-center gap-1">
+            <AddOutlinedIcon />
+            <span>Add new site</span>
+          </Button>
         </div>
       </div>
-      <p className="mb-4">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt magni voluptates facilis
-        et soluta porro minus modi quibusdam aliquam? Ipsam dicta doloremque ut minus debitis,
-        quidem dolorum explicabo est consequuntur cum eveniet? Sed minima suscipit deleniti error,
-        quo dolorem saepe provident in est nobis! Consequuntur labore natus excepturi nostrum. Nobis
-        tempore id odio sunt magni sequi culpa corporis dolorum minima doloribus. Iusto sint illum
-        quas, mollitia vel, amet eligendi dolores magni cupiditate enim, commodi tempore. Fuga
-        excepturi optio, eum sequi explicabo quo quaerat quae reprehenderit, aliquid repellendus
-        vero? Magni deleniti architecto facere laborum vero blanditiis sint eaque placeat quae
-        harum.
-      </p>
-      <p className="mb-4">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eveniet rem error atque doloribus,
-        neque aliquid esse, ducimus nostrum possimus inventore et sunt laborum porro officia, saepe
-        voluptas asperiores eius culpa dolorum dignissimos! Cum explicabo magnam ut, distinctio
-        dignissimos natus illum vel quia, aspernatur unde quae itaque provident ad omnis ab numquam.
-        Laboriosam illum totam animi at dignissimos? Fugiat perferendis atque maxime repellat
-        voluptates explicabo doloremque inventore harum esse tempora? Iste aspernatur, id voluptatem
-        ab, nobis odit sunt vel omnis fuga animi assumenda numquam similique! Pariatur quos delectus
-        ea, cum deleniti cupiditate eveniet aut mollitia quis odit, culpa perferendis inventore
-        atque! Earum fugiat, porro atque consequatur at tenetur, exercitationem expedita totam
-        dignissimos nesciunt, beatae reiciendis quae voluptatum ullam! Doloremque totam sed ullam,
-        exercitationem quia harum tenetur! Corrupti consequatur laboriosam, harum, minus hic dolorem
-        adipisci nesciunt ducimus deleniti non veniam eius totam natus asperiores! Ipsa magni alias
-        voluptatibus quod consequatur hic culpa earum aperiam sed sunt minus laboriosam perferendis
-        perspiciatis architecto, provident porro placeat neque aliquid qui molestiae illo! Deserunt
-        sunt nemo neque, natus esse odit in magnam doloribus voluptatum explicabo rem dolores iure
-        perferendis rerum repudiandae, incidunt totam ullam nobis dolore doloremque! Non autem rerum
-        sed aliquid at, omnis dolore commodi.
-      </p>
-      <p className="mb-4">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit culpa in dolorum, fugiat
-        soluta, ullam odit nihil eaque adipisci dicta inventore quasi qui vero iure nemo consequatur
-        nulla, pariatur non autem architecto deleniti rem assumenda doloribus hic? Maxime
-        consectetur, magni quisquam praesentium quidem voluptatibus, adipisci delectus eveniet velit
-        impedit suscipit! Necessitatibus explicabo sunt illum voluptatem voluptatibus. Nulla facilis
-        rerum fuga repellat inventore, eligendi voluptates est assumenda doloribus quis autem minima
-        ipsa dignissimos repellendus vel? Ratione consequuntur perspiciatis amet. Sequi, esse vel
-        voluptatem laborum quia, minus adipisci labore saepe et eveniet consectetur nobis. Cum
-        facere porro dolores qui autem illo assumenda.
-      </p>
-      <p className="mb-4">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora iusto nesciunt obcaecati
-        expedita incidunt fugiat animi sit non laudantium culpa nam labore, qui, atque porro. Totam
-        quibusdam soluta quam tempora facere, aperiam libero dicta perspiciatis officiis ab, eos ad
-        vitae distinctio labore veritatis ut accusamus, obcaecati perferendis itaque? Amet expedita
-        eaque maxime, maiores alias laudantium error iure, magnam aperiam dolor quia non
-        consequuntur dignissimos nihil aspernatur perferendis placeat quis porro cum ducimus
-        reprehenderit veniam fuga explicabo! Optio, suscipit ea. Eaque debitis veniam quas
-        perferendis quos, rerum obcaecati. Accusamus dolor molestiae temporibus? Maiores pariatur ea
-        delectus, minus et exercitationem veritatis beatae corporis natus illum facere ullam
-        recusandae dolore ad neque reiciendis architecto unde iusto expedita eum fuga vitae,
-        reprehenderit qui vero. At voluptatum vel iure provident fugiat atque dolores minima, ipsa
-        mollitia officia omnis perspiciatis alias illum aspernatur iusto ducimus explicabo placeat?
-        Ea sint ratione quis nihil accusantium, sequi mollitia et. Dolorem vero libero enim, cumque
-        nam vitae hic quis odit eligendi eum id aspernatur cupiditate ducimus, labore quibusdam
-        numquam debitis nobis maiores adipisci quas possimus autem accusantium? Earum harum cum
-        quaerat placeat hic? Consequuntur nesciunt unde sit rem vero nemo quidem, quaerat mollitia,
-        inventore assumenda natus quae. Est quasi adipisci id veniam ipsum eveniet hic? Voluptates,
-        optio sapiente aspernatur quam nihil blanditiis libero eaque cumque, officiis illo
-        laudantium, saepe nulla sit ad velit vero? Ea ratione illo esse ex, est quae at eligendi
-        obcaecati, itaque veritatis, asperiores optio perferendis soluta? Rerum, quod. Esse nostrum
-        eaque ex, voluptatem nihil blanditiis nobis. Eveniet veniam accusamus consequatur similique,
-        accusantium quo, ullam dolor qui perferendis quas enim voluptatibus tempora nulla amet
-        ipsum? Cumque magni iste quas facilis aut quidem, est dignissimos nesciunt iure voluptas
-        sunt corporis laborum labore accusantium molestias distinctio facere perspiciatis recusandae
-        ipsum voluptatibus autem perferendis repellendus molestiae nostrum. Ipsa, recusandae
-        aspernatur.
-      </p>
+      <main
+        className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
+        ref={containerRef}
+      >
+        {sites.map((site, i) => (
+          <SiteCard site={site} key={i} ref={i === sites.length - 1 ? lastCardRef : null} />
+        ))}
+        {lastRowIsNotFilled(containerRef, lastCardRef) && <EmptyCard />}
+      </main>
     </AppLayout>
   );
 };
+
+export const getStaticProps: GetStaticProps<Props> = () => ({ props: { sites } });
 
 export default Dashboard;
