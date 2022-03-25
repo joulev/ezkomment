@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import type { GetStaticProps, NextPage } from "next";
-import { type FC, useEffect, useState, useRef, forwardRef, type RefObject } from "react";
+import { type FC, useRef, forwardRef, type RefObject } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
