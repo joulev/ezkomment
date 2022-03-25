@@ -1,13 +1,13 @@
 import clsx from "clsx";
-import { useContext, type FC } from "react";
+import type { FC } from "react";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import ModeContext from "@client/context/mode";
+import { useMode } from "@client/context/mode";
 import type { Mode } from "@client/types/utils.type";
 
 const ModeSwitcher: FC = () => {
-  const modeContext = useContext(ModeContext);
+  const modeContext = useMode();
   const mode = modeContext?.mode;
   const setMode = modeContext?.setMode;
   const modes = [
