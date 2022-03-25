@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import ModeContext from "@client/context/mode";
 import "@client/styles/globals.css";
 import type { Mode, Breakpoint } from "@client/types/utils.type";
-import currentBreakpoint from "@client/lib/currentBreakpoint";
+import getScreenWidth from "@client/lib/getScreenWidth";
 import ScreenWidthContext from "@client/context/screenWidth";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<Mode>("system");
   const [screenWidth, setScreenWidth] = useState<Breakpoint>("unknown");
 
-  const handleResize = () => setScreenWidth(currentBreakpoint());
+  const handleResize = () => setScreenWidth(getScreenWidth());
 
   useEffect(() => {
     const storedMode = localStorage.getItem("mode");
