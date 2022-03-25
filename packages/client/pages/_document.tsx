@@ -17,7 +17,7 @@ const Document: NextPage = () => (
         }}
       />
     </Head>
-    <body className="bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200">
+    <body className="bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-200 overflow-y-scroll">
       <Main />
       <NextScript />
     </body>
