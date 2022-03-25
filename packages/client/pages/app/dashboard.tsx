@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { GetStaticProps, NextPage } from "next";
-import { FC, RefObject, forwardRef, useRef } from "react";
+import { FC, RefObject, forwardRef, useEffect, useRef, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -83,18 +83,26 @@ const EmptyCard: FC = () => {
 
 const Dashboard: NextPage<Props> = ({ sites }) => {
   const screenWidth = useScreenWidth();
+
+  const [showEmptyCard, setShowEmptyCard] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastCardRef = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    const lastRowIsNotFilled = (
+      containerRef: RefObject<HTMLDivElement>,
+      lastCardRef: RefObject<HTMLAnchorElement>
+    ) => {
+      if (!containerRef.current || !lastCardRef.current) return false;
+      const container = containerRef.current;
+      const card = lastCardRef.current;
+      return card.offsetLeft + card.offsetWidth < container.offsetLeft + container.offsetWidth - 20;
+    };
 
-  const lastRowIsNotFilled = (
-    containerRef: RefObject<HTMLDivElement>,
-    lastCardRef: RefObject<HTMLAnchorElement>
-  ) => {
-    if (!containerRef.current || !lastCardRef.current) return false;
-    const container = containerRef.current;
-    const card = lastCardRef.current;
-    return card.offsetLeft + card.offsetWidth < container.offsetLeft + container.offsetWidth - 20;
-  };
+    const update = () => setShowEmptyCard(lastRowIsNotFilled(containerRef, lastCardRef));
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   return (
     <AppLayout title="Dashboard" type="overview" activeTab="dashboard">
@@ -128,7 +136,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
         {sites.map((site, i) => (
           <SiteCard site={site} key={i} ref={i === sites.length - 1 ? lastCardRef : null} />
         ))}
-        {lastRowIsNotFilled(containerRef, lastCardRef) && <EmptyCard />}
+        {showEmptyCard && <EmptyCard />}
       </main>
     </AppLayout>
   );
