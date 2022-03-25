@@ -48,7 +48,7 @@ const Select: FC<SelectProps> = ({ label, icon: Icon, onUpdate, className, child
     </div>
     <select
       onChange={onUpdate && (e => onUpdate(e.target.value))}
-      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition"
+      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500"
       {...rest}
     >
       {children}
