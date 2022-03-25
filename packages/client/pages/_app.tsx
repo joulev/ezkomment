@@ -30,8 +30,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     else document.querySelector("html")?.classList.remove("dark");
   }, [mode]);
 
-  useEffect(() => console.log(screenWidth), [screenWidth]);
-
   return (
     <ModeContext.Provider value={{ mode, setMode }}>
       <ScreenWidthContext.Provider value={screenWidth}>
