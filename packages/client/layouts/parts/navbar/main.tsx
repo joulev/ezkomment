@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { useRef, forwardRef, useState, type FC, type ComponentProps } from "react";
+import { ComponentProps, FC, forwardRef, useRef, useState } from "react";
+
 import A from "@client/components/anchor";
 
 type MainNavButtonProps = { active?: boolean } & ComponentProps<typeof A>;

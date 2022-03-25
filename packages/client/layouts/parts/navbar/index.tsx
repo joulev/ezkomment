@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import type { FC } from "react";
+import { FC } from "react";
+
 import MainNav from "./main";
 import TopNav from "./top";
 

@@ -1,5 +1,6 @@
 import Head from "next/head";
-import type { FC } from "react";
+import { FC } from "react";
+
 import Footer from "@client/layouts/parts/footer";
 import Navbar from "@client/layouts/parts/navbar";
 

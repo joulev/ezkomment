@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { forwardRef, type ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 
 type HyperlinkProps = { notStyled?: boolean } & ComponentProps<"a">;
 

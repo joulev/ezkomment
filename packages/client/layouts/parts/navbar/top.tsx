@@ -1,12 +1,14 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { useState, type FC, type MouseEventHandler } from "react";
+import { FC, MouseEventHandler, useState } from "react";
+
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 

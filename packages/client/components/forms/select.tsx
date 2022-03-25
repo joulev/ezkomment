@@ -1,7 +1,8 @@
 import clsx from "clsx";
-import type { FC, ComponentProps } from "react";
-import type { OverridableComponent } from "@mui/material/OverridableComponent";
-import type { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
+import { ComponentProps, FC } from "react";
+
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
 
 type IconType = OverridableComponent<SvgIconTypeMap> & { muiName: string };
 

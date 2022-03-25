@@ -1,9 +1,11 @@
 import format from "date-fns/format";
 import Image from "next/image";
-import { useEffect, useState, type FC } from "react";
+import { FC, useEffect, useState } from "react";
+
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TelegramIcon from "@mui/icons-material/Telegram";
+
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 

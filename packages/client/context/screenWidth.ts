@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
-import type { Breakpoint } from "@client/types/utils.type";
+
+import { Breakpoint } from "@client/types/utils.type";
 
 const ScreenWidthContext = createContext<Breakpoint>("unknown");
 

@@ -1,10 +1,13 @@
-import type { AppProps } from "next/app";
+import { AppProps } from "next/app";
 import { useEffect, useState } from "react";
+
 import ModeContext from "@client/context/mode";
-import "@client/styles/globals.css";
-import type { Mode, Breakpoint } from "@client/types/utils.type";
-import getScreenWidth from "@client/lib/getScreenWidth";
 import ScreenWidthContext from "@client/context/screenWidth";
+import getScreenWidth from "@client/lib/getScreenWidth";
+
+import { Breakpoint, Mode } from "@client/types/utils.type";
+
+import "@client/styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<Mode>("system");

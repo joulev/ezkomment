@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { ComponentProps, FC } from "react";
+import { ComponentProps, FC } from "react";
 
 type ButtonVariant = "primary";
 type ButtonProps = ComponentProps<"button"> & { variant?: ButtonVariant };

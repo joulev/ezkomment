@@ -1,4 +1,4 @@
-import { NextResponse, type NextMiddleware } from "next/server";
+import { NextMiddleware, NextResponse } from "next/server";
 
 const middleware: NextMiddleware = req => {
     const { pathname } = req.nextUrl;

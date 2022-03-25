@@ -26,12 +26,18 @@ module.exports = {
         tabWidth: 2,
       },
     },
-    {
-      files: ["*.ts", "*.tsx"],
-      options: {
-        parser: "babel-ts",
-      },
-    },
   ],
-  importOrder: ["^@mui/(.*)$", "^@server/(.*)$", "^@client/(.*)$", "^[./]"],
+  importOrder: [
+    "^@mui/(.*)$",
+    "^@server/(.*)$",
+    "^@client/(config|lib|context)/(.*)$",
+    "^@client/(layouts|components)/(.*)$",
+    "^@client/types/(.*)$",
+    "^@client/styles/(.*)$",
+    "^@client/sample/(.*)$",
+    "^[./]",
+  ],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  importOrderGroupNamespaceSpecifiers: true,
 };
