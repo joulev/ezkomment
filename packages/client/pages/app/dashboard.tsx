@@ -10,8 +10,7 @@ import A from "@client/components/anchor";
 import AppLayout from "@client/layouts/app";
 import sites from "@client/sample/sites.json";
 import { Button } from "@client/components/buttons";
-import currentBreakpoint from "@client/lib/currentBreakpoint";
-import type { Breakpoint } from "@client/types/utils.type";
+import { useScreenWidth } from "@client/context/screenWidth";
 
 type Site = typeof sites[number];
 type Props = { sites: Site[] };
@@ -78,15 +77,10 @@ const EmptyCard: FC = () => {
 };
 
 const Dashboard: NextPage<Props> = ({ sites }) => {
-  const [breakpoint, setBreakpoint] = useState<Breakpoint>("unknown");
-  useEffect(() => {
-    const onResize = () => setBreakpoint(currentBreakpoint());
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
+  const screenWidth = useScreenWidth();
   const containerRef = useRef<HTMLDivElement>(null);
   const lastCardRef = useRef<HTMLAnchorElement>(null);
+
   const lastRowIsNotFilled = (
     containerRef: RefObject<HTMLDivElement>,
     lastCardRef: RefObject<HTMLAnchorElement>
@@ -96,6 +90,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
     const card = lastCardRef.current;
     return card.offsetLeft + card.offsetWidth < container.offsetLeft + container.offsetWidth - 20;
   };
+
   return (
     <AppLayout title="Dashboard">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -103,7 +98,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
         <div className="flex flex-row gap-x-6">
           <Select
             icon={SortOutlinedIcon}
-            label={["xs", "md"].includes(breakpoint) ? undefined : "Sort by"}
+            label={["xs", "md"].includes(screenWidth) ? undefined : "Sort by"}
             value="all"
             className="flex-grow"
             onUpdate={() => {}} // to silence the readOnly warning for now
