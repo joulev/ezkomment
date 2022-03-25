@@ -96,7 +96,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
   };
 
   return (
-    <AppLayout title="Dashboard">
+    <AppLayout title="Dashboard" type="overview" activeTab="dashboard">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input label="Search" icon={SearchOutlinedIcon} type="text" />
         <div className="flex flex-row gap-x-6">

@@ -3,6 +3,47 @@ import { ComponentProps, FC, forwardRef, useRef, useState } from "react";
 
 import A from "@client/components/anchor";
 
+import { CurrentPage, NavbarItems, PageType } from "@client/types/page.type";
+
+type Item = {
+  href: string;
+  label: string | [string, string]; // label || [short label, long label]
+};
+type Items<P extends PageType> = P extends Exclude<PageType, "others">
+  ? { [N in NavbarItems[P]]: Item }
+  : {};
+
+function items(pageType: PageType, siteId?: string, pageId?: string): Items<typeof pageType> {
+  switch (pageType) {
+    case "overview":
+      return {
+        dashboard: { href: `/app/dashboard`, label: "Dashboard" },
+        new: { href: `/app/new`, label: "New site" },
+        account: { href: `/app/account`, label: ["Account", "Account settings"] },
+      };
+    case "site":
+      return {
+        all: { href: `/app/site/${siteId}`, label: "All pages" },
+        customise: {
+          href: `/app/site/${siteId}/customise`,
+          label: ["Customise", "Customise display"],
+        },
+        settings: { href: `/app/site/${siteId}/settings`, label: "Settings" },
+      };
+    case "page":
+      return {
+        all: { href: `/app/site/${siteId}/${pageId}`, label: "All comments" },
+        pending: {
+          href: `/app/site/${siteId}/${pageId}/pending`,
+          label: ["Pending", "Pending comments"],
+        },
+        settings: { href: `/app/site/${siteId}/${pageId}/settings`, label: "Settings" },
+      };
+    default:
+      return {};
+  }
+}
+
 type MainNavButtonProps = { active?: boolean } & ComponentProps<typeof A>;
 const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
   ({ active, className, children, ...rest }, ref) => (
@@ -27,28 +68,7 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
 );
 MainNavButton.displayName = "MainNavButton";
 
-const MainNav: FC = () => {
-  // To be filled with prop instead.
-  const items = [
-    {
-      href: "/",
-      label: "All pages",
-    },
-    {
-      href: "/",
-      label: ["Pending", "Pending comments"],
-    },
-    {
-      href: "/",
-      label: ["Customise", "Customise display"],
-    },
-    {
-      href: "/",
-      label: "Settings",
-    },
-  ];
-  const active = 0; // to be filled with prop instead
-
+const MainNav: FC<CurrentPage> = ({ type, activeTab, siteId, pageId }) => {
   const [hoverActive, setHoverActive] = useState(0);
   const [mouseInside, setMouseInside] = useState(false);
   const [allowTransition, setAllowTransition] = useState(false);
@@ -77,11 +97,11 @@ const MainNav: FC = () => {
               left: itemsRef.current[hoverActive]?.offsetLeft ?? 0,
             }}
           />
-          {items.map((item, index) => (
+          {Object.entries(items(type, siteId, pageId)).map(([name, item], index) => (
             <MainNavButton
               key={index}
               href={item.href}
-              active={index === active}
+              active={activeTab === name}
               onMouseEnter={() => {
                 setHoverActive(index);
                 setAllowTransition(mouseInside);
