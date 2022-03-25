@@ -98,7 +98,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
         <div className="flex flex-row gap-x-6">
           <Select
             icon={SortOutlinedIcon}
-            label={["xs", "md"].includes(screenWidth) ? undefined : "Sort by"}
+            label={["xs", "md", "unknown"].includes(screenWidth) ? undefined : "Sort by"}
             value="all"
             className="flex-grow"
             onUpdate={() => {}} // to silence the readOnly warning for now
