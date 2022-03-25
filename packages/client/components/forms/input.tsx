@@ -52,7 +52,7 @@ const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest
     </div>
     <input
       onChange={onUpdate && (e => onUpdate(e.target.value))}
-      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0"
+      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition"
       {...rest}
     />
   </label>
