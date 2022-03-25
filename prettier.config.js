@@ -33,4 +33,5 @@ module.exports = {
       },
     },
   ],
+  importOrder: ["^@mui/(.*)$", "^@server/(.*)$", "^@client/(.*)$", "^[./]"],
 };

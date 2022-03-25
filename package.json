@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/prettier": "^2.4.4",
     "lerna": "^4.0.0",
     "prettier": "^2.6.0"
