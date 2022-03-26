@@ -4,9 +4,10 @@ import { execSync } from "child_process";
 const nextConfig = {
   reactStrictMode: true,
   generateBuildId: () => {
-    const time = execSync("git log -1 --pretty=format:%cI").toString();
-    const hash = execSync("git rev-parse HEAD").toString().trim();
-    return `${hash}@${time}`;
+    // If change this, also update lib/parseBuildId.ts accordingly
+    const time = execSync("git log -1 --pretty=format:%ct").toString();
+    const hash = execSync("git rev-parse --short HEAD").toString().trim();
+    return `${hash}-${time}`;
   },
 };
 

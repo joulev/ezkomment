@@ -1,4 +1,4 @@
-import format from "date-fns/format";
+import { format, formatISO } from "date-fns";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
@@ -6,19 +6,12 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
+import parseBuildId from "@client/lib/parseBuildId";
+
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
-type BuildInfo = { hash: string; shortHash: string; timestamp: string };
-function processBuildId(buildId: string): BuildInfo {
-  if (process.env.NODE_ENV === "development") return { hash: "", shortHash: "", timestamp: "" };
-  const [hash, timestamp] = buildId.split("@");
-  return {
-    hash,
-    shortHash: hash.substring(0, 7),
-    timestamp,
-  };
-}
+import { BuildInfo } from "@client/types/utils.type";
 
 type SocialIconLinkProps = { href: string; icon: typeof EmailOutlinedIcon };
 const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
@@ -38,7 +31,7 @@ const Footer: FC = () => {
     const getBuildId: string = JSON.parse(
       document.querySelector("#__NEXT_DATA__")?.textContent as string
     ).buildId;
-    setBuildId(processBuildId(getBuildId));
+    setBuildId(parseBuildId(getBuildId));
   }, []);
   return (
     <footer className="bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6">
@@ -57,10 +50,10 @@ const Footer: FC = () => {
                   href={`https://github.com/joulev/ezkomment/commit/${buildId.hash}`}
                   className="font-mono"
                 >
-                  {buildId.shortHash}
+                  {buildId.hash}
                 </A>{" "}
                 at{" "}
-                <time title={buildId.timestamp}>
+                <time title={formatISO(buildId.timestamp)}>
                   {format(new Date(buildId.timestamp), "HH:mm dd/MM/yyyy")}
                 </time>
               </>
