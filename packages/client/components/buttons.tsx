@@ -23,9 +23,9 @@ const variantClasses: Record<ButtonVariant, Record<ButtonShade, string>> = {
       "active:bg-indigo-800 active:border-indigo-800"
     ),
     tertiary: clsx(
-      "text-indigo-500 border-indigo-300 dark:border-indigo-700",
-      "hover:bg-indigo-500 hover:border-indigo-500 dark:hover:border-indigo-500 hover:text-white",
-      "active:bg-indigo-800 active:border-indigo-800 dark:active:border-indigo-800 active:text-white"
+      "text-indigo-500 border-indigo-500",
+      "hover:bg-indigo-500 hover:border-indigo-500 hover:text-white",
+      "active:bg-indigo-800 active:border-indigo-800 active:text-white"
     ),
   },
   danger: {
@@ -35,9 +35,9 @@ const variantClasses: Record<ButtonVariant, Record<ButtonShade, string>> = {
       "active:bg-red-800 active:border-red-800"
     ),
     tertiary: clsx(
-      "text-red-500 border-red-300 dark:border-red-700",
-      "hover:bg-red-500 hover:border-red-500 dark:hover:border-red-500 hover:text-white",
-      "active:bg-red-800 active:border-red-800 dark:active:border-red-800 active:text-white"
+      "text-red-500 border-red-500",
+      "hover:bg-red-500 hover:border-red-500 hover:text-white",
+      "active:bg-red-800 active:border-red-800 active:text-white"
     ),
   },
 };
