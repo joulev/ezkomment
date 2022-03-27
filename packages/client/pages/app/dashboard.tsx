@@ -123,9 +123,9 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
           <Button
             className="w-1/3 min-w-fit flex flex-row items-center justify-center gap-1"
             href="/app/new"
+            icon={AddOutlinedIcon}
           >
-            <AddOutlinedIcon />
-            <span>Add new site</span>
+            Add new site
           </Button>
         </div>
       </div>
