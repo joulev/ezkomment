@@ -53,7 +53,7 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
         "p-3 transition hover:text-neutral-900 dark:hover:text-neutral-100 whitespace-nowrap",
         active
           ? "text-neutral-900 dark:text-neutral-100"
-          : "text-neutral-600 dark:text-neutral-400",
+          : "text-neutral-500 dark:text-neutral-500",
         active &&
           "relative after:absolute after:bottom-0 after:inset-x-3 after:h-0 " +
             "after:border-b-2 after:border-neutral-900 dark:after:border-neutral-100",
