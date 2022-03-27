@@ -12,6 +12,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
+import { CurrentPage } from "@client/types/page.type";
 import { IconType } from "@client/types/utils.type";
 
 type LinkOrButtonProps =
@@ -60,7 +61,35 @@ const BreadCrumbSlash: FC = () => (
   </svg>
 );
 
-const TopNav: FC = () => {
+const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
+  <div className="flex flex-row gap-3 items-center">
+    <A href="/app" notStyled className="w-8 h-8 relative">
+      <Image src="/images/logo.svg" alt="ezkomment" layout="fill" />
+    </A>
+    <BreadCrumbSlash />
+    <A
+      notStyled
+      className="font-semibold text-lg"
+      href={type === "overview" ? "/app" : `/app/site/${siteName}`}
+    >
+      {type === "overview" ? "Overview" : siteName}
+    </A>
+    {pageId && (
+      <>
+        <BreadCrumbSlash />
+        <A
+          notStyled
+          className="font-semibold text-lg"
+          href={`/app/site/${siteName}/page/${pageId}`}
+        >
+          {pageId}
+        </A>
+      </>
+    )}
+  </div>
+);
+
+const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
   const handleLogout: MouseEventHandler<HTMLButtonElement> = () => console.log("log out");
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
@@ -68,13 +97,7 @@ const TopNav: FC = () => {
   return (
     <div className="container px-5 sm:px-6">
       <nav className="hidden sm:flex flex-row gap-6 pt-3 sm:pt-6 items-center justify-between">
-        <div className="flex flex-row gap-3 items-center">
-          <A href="/app" notStyled className="w-8 h-8 relative">
-            <Image src="/images/logo.svg" alt="ezkomment" layout="fill" />
-          </A>
-          <BreadCrumbSlash />
-          <div className="font-semibold text-lg">Overview</div>
-        </div>
+        <TopNavBreadcrumb {...props} />
         <div className="flex-grow" />
         <TopNavButton href="/app" icon={HomeOutlinedIcon} />
         <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
