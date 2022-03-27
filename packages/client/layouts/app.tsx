@@ -14,7 +14,7 @@ const AppLayout: FC<AppProps> = ({ title, children, ...rest }) => (
       <title>{title} | ezkomment</title>
     </Head>
     <Navbar {...rest} />
-    <div className="container py-6">{children}</div>
+    <div className="container py-9">{children}</div>
     <Footer />
   </>
 );

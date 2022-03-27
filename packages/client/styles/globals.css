@@ -22,9 +22,22 @@
             transition underline-offset-4 cursor-pointer;
     }
     h1 {
-        @apply text-4xl font-light mt-3 mb-6;
+        @apply text-4xl font-light mt-9 mb-6;
+    }
+    h2 {
+        @apply text-2xl font-semibold mt-9 mb-6;
+    }
+    hr {
+        @apply my-9 border-neutral-300 dark:border-neutral-700;
     }
     p {
         @apply mb-6;
+    }
+    /* Make div bounding consistent, not even sure if this is a good idea */
+    div :where(h1, h2, h3, h4, h5, h6, p):first-of-type {
+        @apply mt-0;
+    }
+    hr + :where(h1, h2, h3, h4, h5, h6, p) {
+        @apply mt-0;
     }
 }
