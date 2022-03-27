@@ -66,9 +66,7 @@ const New: NextPage = () => (
               @joulev
             </A>
             <div className="flex-grow" />
-            <Button variant="danger" icon={DeleteOutlinedIcon}>
-              Delink
-            </Button>
+            <Button variant="danger" icon={DeleteOutlinedIcon} />
           </div>
         </div>
         <hr className="md:hidden" />
