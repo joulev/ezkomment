@@ -1,25 +1,12 @@
 import { NextPage } from "next";
-import { ComponentProps, FC, ReactNode } from "react";
 
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
-import Input from "@client/components/forms/input";
+import { InputWithLabel } from "@client/components/forms/input";
 import AppLayout from "@client/layouts/app";
-
-import { IconType } from "@client/types/utils.type";
-
-type InputWithLabelProps = ComponentProps<typeof Input> & { icon: IconType; helpText?: ReactNode };
-
-const InputWithLabel: FC<InputWithLabelProps> = ({ label, helpText, ...rest }) => (
-  <div className="flex flex-col gap-3">
-    <div className="font-semibold">{label}</div>
-    <Input {...rest} />
-    {helpText && <div className="text-sm text-neutral-500">{helpText}</div>}
-  </div>
-);
 
 const New: NextPage = () => (
   <AppLayout title="Add a new site" type="overview" activeTab="new">

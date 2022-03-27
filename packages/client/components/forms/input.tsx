@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ComponentProps, FC } from "react";
+import { ComponentProps, FC, ReactNode } from "react";
 
 import { IconType } from "@client/types/utils.type";
 
@@ -10,6 +10,8 @@ type InputWithUpdate = ComponentProps<"input"> & {
 
 type InputProps = InputWithUpdate &
   ({ label: string; icon?: IconType } | { icon: IconType; label?: string });
+
+type InputWithLabelProps = ComponentProps<typeof Input> & { icon: IconType; helpText?: ReactNode };
 
 /**
  * A wrapper for the default `input` component, with styling from the design system and label
@@ -54,6 +56,23 @@ const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest
       {...rest}
     />
   </label>
+);
+
+/**
+ * A wrapper for the `Input` component to support outside-the-input-flex label and help text.
+ *
+ * @param props.label The label used.
+ * @param props.helpText The help text. Default styling is `.text-sm.text-neutral-500`.
+ *
+ * @note All props of `Input` are supported. However, `Input` also uses `label`, so `label` applied
+ * on this component will be used by it and will **not** be passed to `Input`
+ */
+export const InputWithLabel: FC<InputWithLabelProps> = ({ label, helpText, ...rest }) => (
+  <div className="flex flex-col gap-3">
+    <div className="font-semibold">{label}</div>
+    <Input {...rest} />
+    {helpText && <div className="text-sm text-neutral-500">{helpText}</div>}
+  </div>
 );
 
 export default Input;
