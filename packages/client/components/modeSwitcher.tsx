@@ -7,13 +7,13 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 
 import { useMode } from "@client/context/mode";
 
-import { Mode } from "@client/types/utils.type";
+import { IconType, Mode } from "@client/types/utils.type";
 
 const ModeSwitcher: FC = () => {
   const modeContext = useMode();
   const mode = modeContext?.mode;
   const setMode = modeContext?.setMode;
-  const modes = [
+  const modes: { value: Mode; icon: IconType }[] = [
     { value: "light", icon: LightModeOutlinedIcon },
     { value: "dark", icon: DarkModeOutlinedIcon },
     { value: "system", icon: ComputerOutlinedIcon },
@@ -36,7 +36,7 @@ const ModeSwitcher: FC = () => {
               : "transition text-neutral-500 hover:text-neutral-900 dark:hover:text-white " +
                   "hover:bg-neutral-200 dark:hover:bg-neutral-800"
           )}
-          onClick={() => (setMode ? setMode(value as Mode) : null)}
+          onClick={() => (setMode ? setMode(value) : null)}
           title={value + " mode"}
         >
           <Icon />

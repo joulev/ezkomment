@@ -11,10 +11,9 @@ import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import AppLayout from "@client/layouts/app";
 
-type InputWithLabelProps = ComponentProps<typeof Input> & {
-  icon: typeof LabelOutlinedIcon;
-  helpText?: ReactNode;
-};
+import { IconType } from "@client/types/utils.type";
+
+type InputWithLabelProps = ComponentProps<typeof Input> & { icon: IconType; helpText?: ReactNode };
 
 const InputWithLabel: FC<InputWithLabelProps> = ({ label, helpText, ...rest }) => (
   <div className="flex flex-col gap-3">

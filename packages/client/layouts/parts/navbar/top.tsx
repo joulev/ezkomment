@@ -12,10 +12,12 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
+import { IconType } from "@client/types/utils.type";
+
 type LinkOrButtonProps =
   | { href: string; onClick?: never }
   | { href?: never; onClick: MouseEventHandler<HTMLButtonElement> };
-type TopNavItemProps = { icon: typeof HomeOutlinedIcon } & LinkOrButtonProps;
+type TopNavItemProps = { icon: IconType } & LinkOrButtonProps;
 
 const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
   const classes = clsx(

@@ -11,9 +11,9 @@ import parseBuildId from "@client/lib/parseBuildId";
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
-import { BuildInfo } from "@client/types/utils.type";
+import { BuildInfo, IconType } from "@client/types/utils.type";
 
-type SocialIconLinkProps = { href: string; icon: typeof EmailOutlinedIcon };
+type SocialIconLinkProps = { href: string; icon: IconType };
 const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   <A
     href={href}

@@ -1,10 +1,7 @@
 import clsx from "clsx";
 import { ComponentProps, FC } from "react";
 
-import { OverridableComponent } from "@mui/material/OverridableComponent";
-import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
-
-type IconType = OverridableComponent<SvgIconTypeMap> & { muiName: string };
+import { IconType } from "@client/types/utils.type";
 
 type InputWithUpdate = ComponentProps<"input"> & {
   type: ComponentProps<"input">["type"]; // make `type` required.
