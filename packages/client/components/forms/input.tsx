@@ -1,18 +1,17 @@
 import clsx from "clsx";
 import { ComponentProps, FC, ReactNode } from "react";
 
-import { IconType } from "@client/types/utils.type";
+import { IconAndLabel, IconType } from "@client/types/utils.type";
 
-type InputWithUpdate = ComponentProps<"input"> & {
+import IconLabel from "../utils/iconAndLabel";
+
+type InputProps = (ComponentProps<"input"> & IconAndLabel) & {
   type: ComponentProps<"input">["type"]; // make `type` required.
   onUpdate?: (value: string) => void;
 };
 
-type InputProps = InputWithUpdate &
-  ({ label: string; icon?: IconType } | { icon: IconType; label?: string });
-
-type InputDetachedLabelProps = ComponentProps<typeof Input> & {
-  icon: IconType;
+type InputDetachedLabelProps = InputProps & {
+  icon: IconType; // required
   helpText?: ReactNode;
 };
 
@@ -34,7 +33,7 @@ type InputDetachedLabelProps = ComponentProps<typeof Input> & {
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
-const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest }) => (
+const Input: FC<InputProps> = ({ label, icon, onUpdate, className, ...rest }) => (
   <label
     className={clsx(
       "group flex flex-row rounded border divide-x transition bg-white dark:bg-black",
@@ -44,15 +43,14 @@ const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest
       className
     )}
   >
-    <div
+    <IconLabel
+      icon={icon}
+      label={label}
       className={clsx(
-        "px-3 py-1.5 flex flex-row gap-2 justify-center transition shrink-0 text-neutral-500",
+        "px-3 py-1.5 transition shrink-0 text-neutral-500",
         "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100"
       )}
-    >
-      {Icon && <Icon />}
-      {label && <span>{label}</span>}
-    </div>
+    />
     <input
       onChange={onUpdate && (e => onUpdate(e.target.value))}
       className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500"

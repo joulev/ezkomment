@@ -1,15 +1,13 @@
 import clsx from "clsx";
 import { ComponentProps, FC } from "react";
 
-import { OverridableComponent } from "@mui/material/OverridableComponent";
-import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
+import { IconAndLabel } from "@client/types/utils.type";
 
-type IconType = OverridableComponent<SvgIconTypeMap> & { muiName: string };
+import IconLabel from "../utils/iconAndLabel";
 
-type SelectWithUpdate = ComponentProps<"select"> & { onUpdate?: (value: string) => void };
-
-type SelectProps = SelectWithUpdate &
-  ({ label: string; icon?: IconType } | { icon: IconType; label?: string });
+type SelectProps = (ComponentProps<"select"> & IconAndLabel) & {
+  onUpdate?: (value: string) => void;
+};
 
 /**
  * A wrapper for the default `select` component, with styling from the design system and label
@@ -27,7 +25,7 @@ type SelectProps = SelectWithUpdate &
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
-const Select: FC<SelectProps> = ({ label, icon: Icon, onUpdate, className, children, ...rest }) => (
+const Select: FC<SelectProps> = ({ label, icon, onUpdate, className, children, ...rest }) => (
   <label
     className={clsx(
       "group flex flex-row rounded border divide-x transition bg-white dark:bg-black",
@@ -37,15 +35,14 @@ const Select: FC<SelectProps> = ({ label, icon: Icon, onUpdate, className, child
       className
     )}
   >
-    <div
+    <IconLabel
+      icon={icon}
+      label={label}
       className={clsx(
-        "px-3 py-1.5 flex flex-row gap-2 justify-center transition shrink-0 text-neutral-500",
+        "px-3 py-1.5 transition shrink-0 text-neutral-500",
         "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100"
       )}
-    >
-      {Icon && <Icon />}
-      {label && <span>{label}</span>}
-    </div>
+    />
     <select
       onChange={onUpdate && (e => onUpdate(e.target.value))}
       className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500"
