@@ -2,9 +2,12 @@ import clsx from "clsx";
 import { NextPage } from "next";
 import { FC } from "react";
 
+import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
-import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -27,14 +30,14 @@ const New: NextPage = () => (
         <div className="flex flex-col gap-6">
           <InputDetachedLabel
             label="Display name"
-            icon={LabelOutlinedIcon}
+            icon={PersonOutlinedIcon}
             type="text"
             value="John Doe"
             helpText="Your name is displayed in your replies to comments."
           />
           <InputDetachedLabel
             label="Email address"
-            icon={WebOutlinedIcon}
+            icon={EmailOutlinedIcon}
             type="email"
             value="john.doe@example.com"
             helpText="Your email address is used for logging in and recovering your account."
@@ -63,7 +66,7 @@ const New: NextPage = () => (
               @joulev
             </A>
             <div className="flex-grow" />
-            <Button>Delink</Button>
+            <Button icon={DeleteOutlinedIcon}>Delink</Button>
           </div>
         </div>
         <hr className="md:hidden" />
@@ -76,7 +79,7 @@ const New: NextPage = () => (
         </p>
         <p>You can only perform this action once a day.</p>
         <RightAligned>
-          <Button>Request data</Button>
+          <Button icon={DnsOutlinedIcon}>Request data</Button>
         </RightAligned>
         <hr />
         <h2>Delete account</h2>
@@ -85,7 +88,7 @@ const New: NextPage = () => (
           erased and there is no way to recover it. Proceed with caution.
         </p>
         <RightAligned>
-          <Button>Delete my account</Button>
+          <Button icon={DangerousOutlinedIcon}>Delete my account</Button>
         </RightAligned>
       </div>
     </div>

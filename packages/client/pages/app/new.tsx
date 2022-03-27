@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
@@ -42,7 +43,7 @@ const New: NextPage = () => (
             </>
           }
         />
-        <Button>Add a new site</Button>
+        <Button icon={AddOutlinedIcon}>Add a new site</Button>
       </form>
     </div>
   </AppLayout>
