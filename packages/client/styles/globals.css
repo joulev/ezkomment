@@ -34,7 +34,7 @@
         @apply mb-6;
     }
     /* Make div bounding consistent, not even sure if this is a good idea */
-    div :where(h1, h2, h3, h4, h5, h6, p):first-of-type {
+    div :where(h1, h2, h3, h4, h5, h6, p):first-child {
         @apply mt-0;
     }
     hr + :where(h1, h2, h3, h4, h5, h6, p) {

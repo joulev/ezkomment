@@ -1,5 +1,19 @@
+import clsx from "clsx";
+import { formatDistanceToNow, parseISO } from "date-fns";
 import { GetServerSideProps, NextPage } from "next";
+import { FC } from "react";
 
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
+import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+
+import { useScreenWidth } from "@client/context/screenWidth";
+
+import A from "@client/components/anchor";
+import Button from "@client/components/buttons";
+import Input from "@client/components/forms/input";
 import AppLayout from "@client/layouts/app";
 
 import site from "@client/sample/site.json";
@@ -7,11 +21,104 @@ import site from "@client/sample/site.json";
 type Site = typeof site;
 type Props = { site: Site };
 
-const SiteOverview: NextPage<Props> = ({ site }) => (
-  <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
-    <div>Hello, world</div>
-  </AppLayout>
+const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, label, small }) => (
+  <div>
+    <div className={clsx("font-light tracking-tighter", small ? "text-3xl" : "text-4xl")}>
+      {value}
+    </div>
+    <div className={clsx("text-neutral-500", small && "text-sm")}>{label}</div>
+  </div>
 );
+
+const SiteOverview: NextPage<Props> = ({ site }) => {
+  const screenWidth = useScreenWidth();
+  return (
+    <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
+      <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
+        <div className="flex flex-row gap-6 items-center">
+          <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={site.iconURL} alt="" width={64} height={64} loading="lazy" />
+          </div>
+          <div>
+            <div className="mb-1.5 text-3xl">{site.name}</div>
+            <div className="flex flex-row gap-3 text-neutral-500">
+              <WebOutlinedIcon />
+              <A
+                href={`https://${site.domain}`}
+                notStyled
+                className="hover:text-neutral-900 dark:hover:text-neutral-100 transition"
+              >
+                {site.domain}
+              </A>
+            </div>
+          </div>
+        </div>
+        <div className="w-full md:w-auto grid grid-cols-2 gap-6">
+          <Button icon={CodeOutlinedIcon} shade="tertiary">
+            Customise
+          </Button>
+          <Button icon={SettingsOutlinedIcon}>Manage</Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-9">
+        <div className="lg:col-span-5">
+          <div className="grid grid-cols-3">
+            <Stats label="pages" value={site.pageCount} />
+            <Stats label="comments" value={site.totalCommentCount} />
+            <Stats label="pending" value={site.needsApproval} />
+          </div>
+          <h2>Last 30 days</h2>
+          <div className="border-l border-b border-neutral-500 h-60">Graph here</div>
+        </div>
+        <div className="lg:col-span-7">
+          <h2>All pages</h2>
+          <div className="flex flex-row gap-6 mb-6">
+            <Input
+              type="text"
+              label={["xs", "sm"].includes(screenWidth) ? null : "Search"}
+              icon={SearchOutlinedIcon}
+              className="flex-grow"
+            />
+            <Button icon={AddOutlinedIcon}>
+              {screenWidth === "xs" ? "New page" : "Add a new page"}
+            </Button>
+          </div>
+          <div
+            className={clsx(
+              "flex flex-col rounded overflow-hidden bg-white dark:bg-black transition",
+              "border border-neutral-300 dark:border-neutral-700",
+              "hover:border-neutral-700 dark:hover:border-neutral-300",
+              "divide-y divide-neutral-300 dark:divide-neutral-700",
+              "hover:divide-neutral-700 dark:hover:divide-neutral-300"
+            )}
+          >
+            {site.pages.map((page, i) => (
+              <A
+                notStyled
+                key={i}
+                className="p-6 flex flex-col transition hover:bg-neutral-100 dark:hover:bg-neutral-900"
+                href={`/app/site/${site.name}/page/${page.id}`}
+              >
+                <div className="font-semibold text-lg mb-1.5">{page.name}</div>
+                <div className="text-neutral-500 text-sm mb-6">{page.url}</div>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
+                  <div className="grid grid-cols-2 sm:gap-12">
+                    <Stats small label="comments" value={page.commentCount} />
+                    <Stats small label="pending" value={page.needsApproval} />
+                  </div>
+                  <div className="text-sm">
+                    Last comment: {formatDistanceToNow(parseISO(page.lastCommentDate))} ago
+                  </div>
+                </div>
+              </A>
+            ))}
+          </div>
+        </div>
+      </div>
+    </AppLayout>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
 

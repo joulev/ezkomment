@@ -14,7 +14,7 @@ type ButtonProps = (ComponentProps<"a"> & ComponentProps<"button">) & {
   icon?: IconType;
 };
 
-const baseClasses = "cursor-pointer rounded transition border";
+const baseClasses = "cursor-pointer rounded transition border whitespace-nowrap";
 const variantClasses: Record<ButtonVariant, Record<ButtonShade, string>> = {
   primary: {
     filled: clsx(
