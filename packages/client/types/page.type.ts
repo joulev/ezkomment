@@ -8,24 +8,24 @@ export type CurrentPage =
     | {
           type: "overview";
           activeTab: NavbarItems["overview"] | undefined;
-          siteId?: never;
+          siteName?: never;
           pageId?: never;
       }
     | {
           type: "site";
           activeTab: NavbarItems["site"] | undefined;
-          siteId: string;
+          siteName: string;
           pageId?: never;
       }
     | {
           type: "page";
           activeTab: NavbarItems["page"] | undefined;
-          siteId: string;
+          siteName: string;
           pageId: string;
       }
     | {
           type: "others";
           activeTab?: never;
-          siteId?: never;
+          siteName?: never;
           pageId?: never;
       };

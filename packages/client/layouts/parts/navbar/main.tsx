@@ -13,7 +13,7 @@ type Items<P extends PageType> = P extends Exclude<PageType, "others">
   ? { [N in NavbarItems[P]]: Item }
   : {};
 
-function items(pageType: PageType, siteId?: string, pageId?: string): Items<typeof pageType> {
+function items(pageType: PageType, siteName?: string, pageId?: string): Items<typeof pageType> {
   switch (pageType) {
     case "overview":
       return {
@@ -23,21 +23,21 @@ function items(pageType: PageType, siteId?: string, pageId?: string): Items<type
       };
     case "site":
       return {
-        all: { href: `/app/site/${siteId}`, label: "All pages" },
+        all: { href: `/app/site/${siteName}`, label: "All pages" },
         customise: {
-          href: `/app/site/${siteId}/customise`,
+          href: `/app/site/${siteName}/customise`,
           label: ["Customise", "Customise display"],
         },
-        settings: { href: `/app/site/${siteId}/settings`, label: "Settings" },
+        settings: { href: `/app/site/${siteName}/settings`, label: "Settings" },
       };
     case "page":
       return {
-        all: { href: `/app/site/${siteId}/${pageId}`, label: "All comments" },
+        all: { href: `/app/site/${siteName}/${pageId}`, label: "All comments" },
         pending: {
-          href: `/app/site/${siteId}/${pageId}/pending`,
+          href: `/app/site/${siteName}/${pageId}/pending`,
           label: ["Pending", "Pending comments"],
         },
-        settings: { href: `/app/site/${siteId}/${pageId}/settings`, label: "Settings" },
+        settings: { href: `/app/site/${siteName}/${pageId}/settings`, label: "Settings" },
       };
     default:
       return {};
@@ -68,7 +68,7 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
 );
 MainNavButton.displayName = "MainNavButton";
 
-const MainNav: FC<CurrentPage> = ({ type, activeTab, siteId, pageId }) => {
+const MainNav: FC<CurrentPage> = ({ type, activeTab, siteName, pageId }) => {
   const [hoverActive, setHoverActive] = useState(0);
   const [mouseInside, setMouseInside] = useState(false);
   const [allowTransition, setAllowTransition] = useState(false);
@@ -97,7 +97,7 @@ const MainNav: FC<CurrentPage> = ({ type, activeTab, siteId, pageId }) => {
               left: itemsRef.current[hoverActive]?.offsetLeft ?? 0,
             }}
           />
-          {Object.entries(items(type, siteId, pageId)).map(([name, item], index) => (
+          {Object.entries(items(type, siteName, pageId)).map(([name, item], index) => (
             <MainNavButton
               key={index}
               href={item.href}
