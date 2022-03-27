@@ -67,7 +67,7 @@ const EmptyCard: FC = () => {
       className={clsx(
         "rounded border border-dashed border-neutral-300 dark:border-neutral-700",
         "grid place-items-center transition cursor-pointer group",
-        "text-neutral-300 dark:text-neutral-700 hover:text-neutral-700 dark:hover:text-neutral-300"
+        "text-neutral-300 dark:text-neutral-700 hover:text-neutral-500 dark:hover:text-neutral-500"
       )}
     >
       <div className="flex flex-col items-center gap-3">
