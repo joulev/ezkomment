@@ -61,17 +61,17 @@ const Account: NextPage = () => {
           </p>
           <div
             className={clsx(
-              "flex flex-col bg-white dark:bg-black rounded overflow-hidden",
+              "flex flex-col mb-6 bg-white dark:bg-black rounded overflow-hidden",
               "border border-neutral-300 dark:border-neutral-700",
               "divide-y divide-neutral-300 dark:divide-neutral-700"
             )}
           >
-            <div className="flex flex-row p-6 gap-x-6 items-center">
+            <div className="flex flex-row p-3 gap-x-6 items-center">
               <GitHubIcon fontSize="large" />
               <A
                 notStyled
                 href="https://github.com/joulev"
-                className="text-neutral-500 hover:underline underline-offset-4"
+                className="hover:underline underline-offset-4"
               >
                 @joulev
               </A>
@@ -80,6 +80,12 @@ const Account: NextPage = () => {
                 {["xs", "md"].includes(screenWidth) ? null : "Unlink"}
               </Button>
             </div>
+          </div>
+          <div className="grid grid-cols-3 gap-x-6 gap-y-3">
+            <span className="col-span-3 font-semibold">Link new account</span>
+            <Button shade="tertiary">GitHub</Button>
+            <Button shade="tertiary">GitLab</Button>
+            <Button shade="tertiary">Google</Button>
           </div>
           <hr className="md:hidden" />
         </div>
