@@ -76,7 +76,6 @@ const New: NextPage = () => (
               @joulev
             </A>
             <div className="flex-grow" />
-            <LinkButton href="https://github.com/joulev">Manage</LinkButton>
             <Button>Delink</Button>
           </div>
         </div>
