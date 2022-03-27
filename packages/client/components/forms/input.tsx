@@ -11,7 +11,10 @@ type InputWithUpdate = ComponentProps<"input"> & {
 type InputProps = InputWithUpdate &
   ({ label: string; icon?: IconType } | { icon: IconType; label?: string });
 
-type InputWithLabelProps = ComponentProps<typeof Input> & { icon: IconType; helpText?: ReactNode };
+type InputDetachedLabelProps = ComponentProps<typeof Input> & {
+  icon: IconType;
+  helpText?: ReactNode;
+};
 
 /**
  * A wrapper for the default `input` component, with styling from the design system and label
@@ -67,7 +70,7 @@ const Input: FC<InputProps> = ({ label, icon: Icon, onUpdate, className, ...rest
  * @note All props of `Input` are supported. However, `Input` also uses `label`, so `label` applied
  * on this component will be used by it and will **not** be passed to `Input`
  */
-export const InputWithLabel: FC<InputWithLabelProps> = ({ label, helpText, ...rest }) => (
+export const InputDetachedLabel: FC<InputDetachedLabelProps> = ({ label, helpText, ...rest }) => (
   <div className="flex flex-col gap-3">
     <div className="font-semibold">{label}</div>
     <Input {...rest} />

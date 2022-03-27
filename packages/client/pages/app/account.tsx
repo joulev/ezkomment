@@ -8,7 +8,7 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
-import { InputWithLabel } from "@client/components/forms/input";
+import { InputDetachedLabel } from "@client/components/forms/input";
 import AppLayout from "@client/layouts/app";
 
 const RightAligned: FC = ({ children }) => (
@@ -25,14 +25,14 @@ const New: NextPage = () => (
           us help you with technical details and issues.
         </p>
         <div className="flex flex-col gap-6">
-          <InputWithLabel
+          <InputDetachedLabel
             label="Display name"
             icon={LabelOutlinedIcon}
             type="text"
             value="John Doe"
             helpText="Your name is displayed in your replies to comments."
           />
-          <InputWithLabel
+          <InputDetachedLabel
             label="Email address"
             icon={WebOutlinedIcon}
             type="email"

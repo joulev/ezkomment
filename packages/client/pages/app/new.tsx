@@ -5,7 +5,7 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
-import { InputWithLabel } from "@client/components/forms/input";
+import { InputDetachedLabel } from "@client/components/forms/input";
 import AppLayout from "@client/layouts/app";
 
 const New: NextPage = () => (
@@ -17,7 +17,7 @@ const New: NextPage = () => (
         <A href="https://google.com">Should I create a new site or page?</A>
       </p>
       <form className="flex flex-col gap-6">
-        <InputWithLabel
+        <InputDetachedLabel
           label="Site name"
           type="text"
           icon={LabelOutlinedIcon}
@@ -29,7 +29,7 @@ const New: NextPage = () => (
             </>
           }
         />
-        <InputWithLabel
+        <InputDetachedLabel
           label="Site domain"
           type="text"
           icon={WebOutlinedIcon}
