@@ -9,7 +9,7 @@ import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 import { useScreenWidth } from "@client/context/screenWidth";
 
 import A from "@client/components/anchor";
-import { Button, LinkButton } from "@client/components/buttons";
+import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import Select from "@client/components/forms/select";
 import AppLayout from "@client/layouts/app";
@@ -120,13 +120,13 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
             <option value="all">Comments</option>
             <option value="pending">Pending</option>
           </Select>
-          <LinkButton
+          <Button
             className="w-1/3 min-w-fit flex flex-row items-center justify-center gap-1"
             href="/app/new"
           >
             <AddOutlinedIcon />
             <span>Add new site</span>
-          </LinkButton>
+          </Button>
         </div>
       </div>
       <main

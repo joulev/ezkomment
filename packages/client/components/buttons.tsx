@@ -1,36 +1,37 @@
 import clsx from "clsx";
-import { ComponentProps, FC, Ref } from "react";
+import { ComponentProps, ForwardedRef, forwardRef } from "react";
 
 import A from "./anchor";
 
 type ButtonVariant = "primary";
-type ButtonProps = ComponentProps<"button"> & { variant?: ButtonVariant };
-type ButtonLinkProps = ComponentProps<"a"> & {
-  ref?: Ref<HTMLAnchorElement>; // need this since <A> also has a React ref.
-  variant?: ButtonVariant;
-};
+type ButtonProps = ComponentProps<"a"> & ComponentProps<"button"> & { variant?: ButtonVariant };
 
-const baseClasses = "rounded py-1.5 px-6 transition";
+const baseClasses = "cursor-pointer rounded py-1.5 px-6 transition";
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "text-white bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800",
 };
 
-/**
- * A wraper with styling for the `button` component.
- *
- * @param props.variant The variant of the button. Optional, defaults to "primary".
- * @note Normal `button` component props are also supported.
- */
-export const Button: FC<ButtonProps> = ({ variant = "primary", className, ...props }) => (
-  <button className={clsx(baseClasses, variantClasses[variant], className)} {...props} />
+const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
+  ({ variant = "primary", href, className, ...props }, ref) => {
+    return href ? (
+      <A
+        notStyled
+        href={href}
+        className={clsx(baseClasses, variantClasses[variant], className)}
+        {...props}
+        // Since props also has a ref, this one has to be last, otherwise TS is throwing
+        // some really obscure errors. Costed me quite a few hours. F*ck TSX.
+        ref={ref as ForwardedRef<HTMLAnchorElement>}
+      />
+    ) : (
+      <button
+        className={clsx(baseClasses, variantClasses[variant], className)}
+        {...props}
+        ref={ref as ForwardedRef<HTMLButtonElement>}
+      />
+    );
+  }
 );
+Button.displayName = "Button";
 
-/**
- * A wraper with button-like styling for the `A` component, which in turn wraps the `a` tag.
- *
- * @param props.variant The variant of the button. Optional, defaults to "primary".
- * @note Normal `a` component props are also supported.
- */
-export const LinkButton: FC<ButtonLinkProps> = ({ variant = "primary", className, ...props }) => (
-  <A notStyled className={clsx(baseClasses, variantClasses[variant], className)} {...props} />
-);
+export default Button;

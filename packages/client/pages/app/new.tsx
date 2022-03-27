@@ -5,7 +5,7 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 import A from "@client/components/anchor";
-import { Button } from "@client/components/buttons";
+import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import AppLayout from "@client/layouts/app";
 
