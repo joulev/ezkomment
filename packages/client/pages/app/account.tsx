@@ -19,7 +19,7 @@ const RightAligned: FC = ({ children }) => (
   <div className="flex flex-row justify-end">{children}</div>
 );
 
-const New: NextPage = () => (
+const Account: NextPage = () => (
   <AppLayout title="Account settings" type="overview" activeTab="account">
     <div className="grid md:grid-cols-2 gap-x-12">
       <div>
@@ -103,4 +103,4 @@ const New: NextPage = () => (
   </AppLayout>
 );
 
-export default New;
+export default Account;
