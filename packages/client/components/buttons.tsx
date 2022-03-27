@@ -6,7 +6,7 @@ import { IconType } from "@client/types/utils.type";
 import A from "./anchor";
 import IconLabel from "./utils/iconAndLabel";
 
-type ButtonVariant = "primary";
+type ButtonVariant = "primary" | "danger";
 type ButtonProps = (ComponentProps<"a"> & ComponentProps<"button">) & {
   variant?: ButtonVariant;
   icon?: IconType;
@@ -15,6 +15,7 @@ type ButtonProps = (ComponentProps<"a"> & ComponentProps<"button">) & {
 const baseClasses = "cursor-pointer rounded py-1.5 px-6 transition";
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "text-white bg-indigo-500 hover:bg-indigo-700 active:bg-indigo-800",
+  danger: "text-white bg-red-500 hover:bg-red-700 active:bg-red-800",
 };
 
 const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(

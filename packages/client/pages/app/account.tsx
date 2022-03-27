@@ -66,7 +66,9 @@ const New: NextPage = () => (
               @joulev
             </A>
             <div className="flex-grow" />
-            <Button icon={DeleteOutlinedIcon}>Delink</Button>
+            <Button variant="danger" icon={DeleteOutlinedIcon}>
+              Delink
+            </Button>
           </div>
         </div>
         <hr className="md:hidden" />
@@ -88,7 +90,9 @@ const New: NextPage = () => (
           erased and there is no way to recover it. Proceed with caution.
         </p>
         <RightAligned>
-          <Button icon={DangerousOutlinedIcon}>Delete my account</Button>
+          <Button variant="danger" icon={DangerousOutlinedIcon}>
+            Delete my account
+          </Button>
         </RightAligned>
       </div>
     </div>
