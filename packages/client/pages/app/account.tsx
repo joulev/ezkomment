@@ -76,7 +76,7 @@ const Account: NextPage = () => {
                 @joulev
               </A>
               <div className="flex-grow" />
-              <Button variant="danger" icon={DeleteOutlinedIcon}>
+              <Button variant="danger" shade="tertiary" icon={DeleteOutlinedIcon}>
                 {["xs", "md"].includes(screenWidth) ? null : "Unlink"}
               </Button>
             </div>
