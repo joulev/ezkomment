@@ -8,6 +8,7 @@ import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -27,13 +28,14 @@ const New: NextPage = () => (
           An up-to-date information here will help others identify you in comments, as well as help
           us help you with technical details and issues.
         </p>
-        <div className="flex flex-col gap-6">
+        <form className="flex flex-col gap-6">
           <InputDetachedLabel
             label="Display name"
             icon={PersonOutlinedIcon}
             type="text"
             value="John Doe"
             helpText="Your name is displayed in your replies to comments."
+            onUpdate={() => {}}
           />
           <InputDetachedLabel
             label="Email address"
@@ -41,8 +43,12 @@ const New: NextPage = () => (
             type="email"
             value="john.doe@example.com"
             helpText="Your email address is used for logging in and recovering your account."
+            onUpdate={() => {}}
           />
-        </div>
+          <RightAligned>
+            <Button icon={SaveOutlinedIcon}>Save</Button>
+          </RightAligned>
+        </form>
         <hr />
         <h2>Link accounts</h2>
         <p>
