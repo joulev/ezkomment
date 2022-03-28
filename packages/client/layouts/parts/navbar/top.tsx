@@ -63,7 +63,7 @@ const BreadCrumbSlash: FC = () => (
 
 const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
   <div className="flex flex-row gap-3 items-center">
-    <A href="/app" notStyled className="w-8 h-8 relative z-0">
+    <A href="/app" notStyled className="w-8 h-8 relative">
       <Image src="/images/logo.svg" alt="ezkomment" layout="fill" />
     </A>
     <BreadCrumbSlash />
@@ -101,7 +101,7 @@ const TopNav: FC<CurrentPage> = props => {
         <div className="flex-grow" />
         <TopNavButton href="/app" icon={HomeOutlinedIcon} />
         <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
-        <A href="/app/account" className="h-8 w-8 shrink-0 relative z-0">
+        <A href="/app/account" className="h-8 w-8 shrink-0 relative">
           <Image src="/images/default-photo.svg" alt="" layout="fill" />
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
