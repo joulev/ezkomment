@@ -14,6 +14,7 @@ import { useScreenWidth } from "@client/context/screenWidth";
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
+import SiteGraph from "@client/components/siteGraph";
 import AppLayout from "@client/layouts/app";
 
 import site from "@client/sample/site.json";
@@ -69,7 +70,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
             <Stats label="pending" value={site.needsApproval} />
           </div>
           <h2>Last 30 days</h2>
-          <div className="border-l border-b border-neutral-500 h-60">Graph here</div>
+          <SiteGraph {...site.statistics} />
         </div>
         <div className="lg:col-span-7">
           <h2>All pages</h2>
