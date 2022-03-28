@@ -10,7 +10,7 @@ const Navbar: FC<CurrentPage> = props => (
   <header
     className={clsx(
       "bg-white dark:bg-black border-b border-neutral-300 dark:border-neutral-700",
-      "sticky -top-14 sm:top-[-68px]"
+      "sticky -top-14 sm:top-[-68px] z-10"
     )}
   >
     <TopNav {...props} />
