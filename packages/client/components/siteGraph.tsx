@@ -53,10 +53,17 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const getNewCommentHeight = (val: number) =>
-    ((val - minNewComment) / rangeNewComment) * (maxColHeight - minColHeight) + minColHeight;
-  const getTotalCommentHeight = (val: number) =>
-    ((val - minTotalComment) / rangeTotalComment) * (maxLineHeight - minLineHeight) + minLineHeight;
+  const getNewCommentHeight = (val: number) => {
+    if (rangeNewComment === 0) return minColHeight + (maxColHeight - minColHeight) / 2;
+    return ((val - minNewComment) / rangeNewComment) * (maxColHeight - minColHeight) + minColHeight;
+  };
+  const getTotalCommentHeight = (val: number) => {
+    if (rangeTotalComment === 0) return minColHeight + (maxColHeight - minColHeight) / 2;
+    return (
+      ((val - minTotalComment) / rangeTotalComment) * (maxLineHeight - minLineHeight) +
+      minLineHeight
+    );
+  };
 
   return (
     <div
@@ -67,7 +74,7 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
       ref={wrapper}
     >
       <svg className="bg-white dark:bg-black">
-        <g transform={`matrix(1 0 0 -1 0 ${wrapper.current?.clientHeight})`}>
+        <g transform={`matrix(1 0 0 -1 0 ${wrapper.current?.clientHeight ?? 0})`}>
           {[4, 9, 14, 19, 24].map(val => (
             <line
               key={val}
