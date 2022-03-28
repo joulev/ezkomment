@@ -50,7 +50,7 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
     <A
       notStyled
       className={clsx(
-        "p-3 transition hover:text-neutral-900 dark:hover:text-neutral-100 whitespace-nowrap",
+        "p-3 transition sm:hover:text-neutral-900 sm:dark:hover:text-neutral-100 whitespace-nowrap",
         active
           ? "text-neutral-900 dark:text-neutral-100"
           : "text-neutral-500 dark:text-neutral-500",
