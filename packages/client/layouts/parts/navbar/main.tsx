@@ -55,7 +55,7 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
           ? "text-neutral-900 dark:text-neutral-100"
           : "text-neutral-500 dark:text-neutral-500",
         active &&
-          "relative after:absolute after:bottom-0 after:inset-x-3 after:h-0 " +
+          "relative z-0 after:absolute after:z-0 after:bottom-0 after:inset-x-3 after:h-0 " +
             "after:border-b-2 after:border-neutral-900 dark:after:border-neutral-100",
         className
       )}
@@ -79,7 +79,7 @@ const MainNav: FC<CurrentPage> = ({ type, activeTab, siteName, pageId }) => {
       {/* F*ck CSS */}
       <div className="pt-0 sm:pt-3 px-6 sm:px-0 inline-block">
         <nav
-          className="flex flex-row -mx-3 group relative"
+          className="flex flex-row -mx-3 group relative z-0"
           onMouseEnter={() => setMouseInside(true)}
           onMouseLeave={() => {
             setMouseInside(false);

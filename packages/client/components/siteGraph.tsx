@@ -62,7 +62,7 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
     <div
       className={clsx(
         "aspect-h-8 aspect-w-12 md:aspect-h-6 lg:aspect-h-8",
-        "rounded border border-neutral-300 dark:border-neutral-700 overflow-hidden relative"
+        "rounded border border-neutral-300 dark:border-neutral-700 overflow-hidden relative -z-10"
       )}
       ref={wrapper}
     >
@@ -137,7 +137,7 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
       </svg>
       <div
         className={clsx(
-          "absolute -top-px -left-px p-3 text-sm rounded max-w-fit h-[90px]",
+          "absolute -z-10 -top-px -left-px p-3 text-sm rounded max-w-fit h-[90px]",
           "bg-neutral-100 dark:bg-neutral-900",
           "border border-neutral-300 dark:border-neutral-700 transition",
           currentHover === -1 ? "opacity-0 invisible" : "opacity-100 visible"
