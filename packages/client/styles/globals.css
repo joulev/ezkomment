@@ -44,3 +44,7 @@
         @apply font-semibold;
     }
 }
+
+html {
+    -webkit-tap-highlight-color: transparent;
+}
