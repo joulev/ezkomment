@@ -76,16 +76,16 @@ const Account: NextPage = () => {
                 @joulev
               </A>
               <div className="flex-grow" />
-              <Button variant="danger" shade="tertiary" icon={DeleteOutlinedIcon}>
+              <Button variant="danger" icon={DeleteOutlinedIcon}>
                 {["xs", "md"].includes(screenWidth) ? null : "Unlink"}
               </Button>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-x-6 gap-y-3">
             <span className="col-span-3 font-semibold">Link new account</span>
-            <Button shade="tertiary">GitHub</Button>
-            <Button shade="tertiary">GitLab</Button>
-            <Button shade="tertiary">Google</Button>
+            <Button variant="tertiary">GitHub</Button>
+            <Button variant="tertiary">GitLab</Button>
+            <Button variant="tertiary">Google</Button>
           </div>
           <hr className="md:hidden" />
         </div>

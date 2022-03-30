@@ -56,7 +56,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
           </div>
         </div>
         <div className="w-full md:w-auto grid grid-cols-2 gap-6">
-          <Button icon={CodeOutlinedIcon} shade="tertiary">
+          <Button icon={CodeOutlinedIcon} variant="tertiary">
             Customise
           </Button>
           <Button icon={SettingsOutlinedIcon}>Manage</Button>

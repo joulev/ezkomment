@@ -47,12 +47,12 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
             <div className="font-semibold text-xl">{description[activeLang]}</div>
             <div className="flex-grow" />
             {activeLang !== "html" && (
-              <Button shade="tertiary" onClick={() => setActiveLang("html")}>
+              <Button variant="tertiary" onClick={() => setActiveLang("html")}>
                 Switch to HTML
               </Button>
             )}
             {activeLang !== "css" && (
-              <Button shade="tertiary" onClick={() => setActiveLang("css")}>
+              <Button variant="tertiary" onClick={() => setActiveLang("css")}>
                 Switch to CSS
               </Button>
             )}
