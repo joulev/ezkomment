@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 
+import monacoOptions from "@client/config/monaco";
 import useCurrentTheme from "@client/lib/getCurrentTheme";
 
 import Button from "@client/components/buttons";
@@ -64,11 +65,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
             value={code[activeLang]}
             theme={currentTheme === "light" ? "light" : "vs-dark"}
             onChange={newCode => setCode({ ...code, [activeLang]: newCode })}
-            options={{
-              minimap: { enabled: false },
-              lineHeight: 1.4,
-              fontSize: 12,
-            }}
+            options={monacoOptions}
           />
         </div>
         <div className="bg-white">
