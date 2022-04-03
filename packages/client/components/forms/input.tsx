@@ -40,6 +40,8 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest
       "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700",
       "focus-within:border-neutral-700 dark:focus-within:border-neutral-300",
       "focus-within:divide-neutral-700 dark:focus-within:divide-neutral-300",
+      "hover:border-neutral-700 dark:hover:border-neutral-300",
+      "hover:divide-neutral-700 dark:hover:divide-neutral-300",
       className
     )}
   >
@@ -47,15 +49,16 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest
       icon={icon}
       label={label}
       className={clsx(
-        "px-3 py-1.5 transition shrink-0 text-neutral-500",
-        "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100"
+        "px-3 py-1.5 transition shrink-0 text-neutral-500 cursor-pointer",
+        "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100",
+        "group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
       )}
     />
     <input
       type={type}
       onChange={onUpdate && (e => onUpdate(e.target.value))}
       className={clsx(
-        "px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500",
+        "px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500 cursor-text",
         type === "color" && "rounded-none h-9"
       )}
       {...rest}
