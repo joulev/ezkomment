@@ -16,6 +16,7 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import monacoOptions from "@client/config/monaco";
 import { useScreenWidth } from "@client/context/screenWidth";
+import generateCommentHTML from "@client/lib/generateCommentHTML";
 import useCurrentTheme from "@client/lib/getCurrentTheme";
 
 import Button from "@client/components/buttons";
@@ -38,28 +39,17 @@ type EditorTab = "all" | "comment" | "styles";
 const editorTabs: EditorTab[] = ["all", "comment", "styles"];
 const sampleCode: Record<EditorTab, string> = {
   all: `<div class="container">
-  <div class="comment">
-    <div class="metadata">
-      <div class="author">John Doe</div>
-      <div class="time">3 years ago</div>
-    </div>
-    <div class="text">
-      <p>Quisque ac est quis ipsum placerat tempor tincidunt in lectus. Vivamus pretium, erat eu porttitor sollicitudin, lacus odio mattis eros, ut porta tellus elit non felis. Praesent nec leo sem. Fusce tristique sollicitudin diam, vitae auctor nisl elementum ut. Integer et volutpat libero, eget consectetur tellus. Morbi sed ligula eros.</p>
-      <p>Donec vel venenatis eros, non commodo sapien.</p>
-    </div>
+  <COMMENTS>
+</div>\n`,
+  comment: `<div class="comment">
+  <div class="metadata">
+    <div class="author"><AUTHOR></div>
+    <div class="time"><TIME></div>
   </div>
-  <div class="comment">
-    <div class="metadata">
-      <div class="author">John Doe</div>
-      <div class="time">3 years ago</div>
-    </div>
-    <div class="text">
-      <p>Quisque ac est quis ipsum placerat tempor tincidunt in lectus. Vivamus pretium, erat eu porttitor sollicitudin, lacus odio mattis eros, ut porta tellus elit non felis. Praesent nec leo sem. Fusce tristique sollicitudin diam, vitae auctor nisl elementum ut. Integer et volutpat libero, eget consectetur tellus. Morbi sed ligula eros.</p>
-      <p>Donec vel venenatis eros, non commodo sapien.</p>
-    </div>
+  <div class="text">
+    <CONTENT>
   </div>
 </div>\n`,
-  comment: `\n`,
   styles: `:root {
   --body-color: #111;
   --border-color: #ccc;
@@ -88,6 +78,7 @@ body.dark {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: baseline;
   margin-bottom: 1rem;
 }
 
@@ -96,6 +87,7 @@ body.dark {
 }
 .time {
   color: var(--muted-color);
+  font-size: .9rem;
 }
 
 .text {
@@ -214,9 +206,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
         />
         <div style={{ backgroundColor: previewBg }}>
           <iframe
-            srcDoc={`<html><head><style>${code.styles}</style></head><body${
-              previewIsDark ? ' class="dark"' : ""
-            }>${code.all}${code.comment}</body></html>`}
+            srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
             sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
             className="w-full h-full"
           />
