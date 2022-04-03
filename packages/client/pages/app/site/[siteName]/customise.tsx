@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { GetServerSideProps, NextPage } from "next";
 import { FC, useState } from "react";
 
+import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
@@ -15,6 +16,7 @@ import monacoOptions from "@client/config/monaco";
 import useCurrentTheme from "@client/lib/getCurrentTheme";
 
 import Button from "@client/components/buttons";
+import Input from "@client/components/forms/input";
 import AppLayout from "@client/layouts/app";
 
 import site from "@client/sample/site.json";
@@ -62,6 +64,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
 
   const [activeLang, setActiveLang] = useState(0);
   const [code, setCode] = useState(sampleCode);
+  const [previewBg, setPreviewBg] = useState(currentTheme === "dark" ? "#000" : "#fff");
 
   return (
     <AppLayout
@@ -87,6 +90,14 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
           ]}
           active={activeLang}
         />
+        <Input
+          type="color"
+          label="Preview"
+          icon={ColourOutlinedIcon}
+          value={previewBg}
+          onUpdate={setPreviewBg}
+          className="w-48"
+        />
         <div className="flex-grow" />
         <Button icon={SaveOutlinedIcon} variant="tertiary">
           Save
@@ -102,7 +113,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
           onChange={newCode => setCode({ ...code, [languages[activeLang]]: newCode })}
           options={monacoOptions}
         />
-        <div className="bg-white">
+        <div style={{ backgroundColor: previewBg }}>
           <iframe
             srcDoc={`<html><head><style>${code.css}</style></head><body>${code.html}</body></html>`}
             sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
