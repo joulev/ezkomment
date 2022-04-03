@@ -37,13 +37,72 @@ type EditorTab = "all" | "comment" | "styles";
 
 const editorTabs: EditorTab[] = ["all", "comment", "styles"];
 const sampleCode: Record<EditorTab, string> = {
-  all: `<div>Hello World</div>\n`,
-  comment: `<div>A comment</div>\n`,
-  styles: `body {
-  color: red;
+  all: `<div class="container">
+  <div class="comment">
+    <div class="metadata">
+      <div class="author">John Doe</div>
+      <div class="time">3 years ago</div>
+    </div>
+    <div class="text">
+      <p>Quisque ac est quis ipsum placerat tempor tincidunt in lectus. Vivamus pretium, erat eu porttitor sollicitudin, lacus odio mattis eros, ut porta tellus elit non felis. Praesent nec leo sem. Fusce tristique sollicitudin diam, vitae auctor nisl elementum ut. Integer et volutpat libero, eget consectetur tellus. Morbi sed ligula eros.</p>
+      <p>Donec vel venenatis eros, non commodo sapien.</p>
+    </div>
+  </div>
+  <div class="comment">
+    <div class="metadata">
+      <div class="author">John Doe</div>
+      <div class="time">3 years ago</div>
+    </div>
+    <div class="text">
+      <p>Quisque ac est quis ipsum placerat tempor tincidunt in lectus. Vivamus pretium, erat eu porttitor sollicitudin, lacus odio mattis eros, ut porta tellus elit non felis. Praesent nec leo sem. Fusce tristique sollicitudin diam, vitae auctor nisl elementum ut. Integer et volutpat libero, eget consectetur tellus. Morbi sed ligula eros.</p>
+      <p>Donec vel venenatis eros, non commodo sapien.</p>
+    </div>
+  </div>
+</div>\n`,
+  comment: `\n`,
+  styles: `:root {
+  --body-color: #111;
+  --border-color: #ccc;
+  --muted-color: #888;
 }
 body.dark {
-  color: green;
+  --body-color: #eee;
+  --border-color: #444;
+  --muted-color: #777;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  color: var(--body-color);
+}
+.container > .comment {
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-color);
+}
+.container > .comment:last-child {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.metadata {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.author {
+  font-weight: bold;
+}
+.time {
+  color: var(--muted-color);
+}
+
+.text {
+  font-size: .9rem;
+}
+.text > *:last-child {
+  margin-bottom: 0;
 }\n`,
 };
 
@@ -114,12 +173,18 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
             {
               icon: screenWidth === "lg" ? LightModeOutlinedIcon : undefined,
               label: screenWidth === "lg" ? undefined : "Light",
-              onClick: () => setPreviewIsDark(false),
+              onClick: () => {
+                setPreviewIsDark(false);
+                setPreviewBg("#ffffff");
+              },
             },
             {
               icon: screenWidth === "lg" ? DarkModeOutlinedIcon : undefined,
               label: screenWidth === "lg" ? undefined : "Dark",
-              onClick: () => setPreviewIsDark(true),
+              onClick: () => {
+                setPreviewIsDark(true);
+                setPreviewBg("#000000");
+              },
             },
           ]}
           active={previewIsDark ? 1 : 0}
