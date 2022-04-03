@@ -64,7 +64,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
 
   const [activeLang, setActiveLang] = useState(0);
   const [code, setCode] = useState(sampleCode);
-  const [previewBg, setPreviewBg] = useState(currentTheme === "dark" ? "#000" : "#fff");
+  const [previewBg, setPreviewBg] = useState("#ffffff");
 
   return (
     <AppLayout
@@ -96,7 +96,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
           icon={ColourOutlinedIcon}
           value={previewBg}
           onUpdate={setPreviewBg}
-          className="w-48"
+          className="w-44"
         />
         <div className="flex-grow" />
         <Button icon={SaveOutlinedIcon} variant="tertiary">

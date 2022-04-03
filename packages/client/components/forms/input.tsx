@@ -33,7 +33,7 @@ type InputDetachedLabelProps = InputProps & {
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
-const Input: FC<InputProps> = ({ label, icon, onUpdate, className, ...rest }) => (
+const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest }) => (
   <label
     className={clsx(
       "group flex flex-row rounded border divide-x transition bg-white dark:bg-black",
@@ -52,8 +52,12 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, className, ...rest }) =>
       )}
     />
     <input
+      type={type}
       onChange={onUpdate && (e => onUpdate(e.target.value))}
-      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500"
+      className={clsx(
+        "px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500",
+        type === "color" && "rounded-none h-9"
+      )}
       {...rest}
     />
   </label>
