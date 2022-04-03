@@ -1,4 +1,10 @@
+/**
+ * I know the spacing in this page is different from the rest of the site, if not absolutely
+ * terrible. However I have to sacrifice beauty for ease of use here: the config bar needs to
+ * stay visible the whole time, and it shouldn't take lots of space.
+ */
 import Editor from "@monaco-editor/react";
+import clsx from "clsx";
 import { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
 
@@ -37,41 +43,45 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
       type="site"
       activeTab="customise"
       siteName={site.name}
+      removePadding
     >
-      {/*<Editor height="90vh" defaultLanguage="javascript" defaultValue="// some comment" />*/}
-      <div className="lg:hidden">
+      <div className="lg:hidden py-9">
         Please use a laptop or a device with a wider screen to use this feature.
       </div>
-      <div className="hidden lg:grid grid-cols-2 gap-6">
-        <div>
-          <div className="flex flex-row gap-6 items-center mb-6">
-            <div className="font-semibold text-xl">{description[activeLang]}</div>
-            <div className="flex-grow" />
-            {activeLang !== "html" && (
-              <Button variant="tertiary" onClick={() => setActiveLang("html")}>
-                Switch to HTML
-              </Button>
-            )}
-            {activeLang !== "css" && (
-              <Button variant="tertiary" onClick={() => setActiveLang("css")}>
-                Switch to CSS
-              </Button>
-            )}
-            <Button icon={DoneOutlinedIcon}>Deploy</Button>
-          </div>
-          <Editor
-            height="90vh"
-            language={activeLang}
-            value={code[activeLang]}
-            theme={currentTheme === "light" ? "light" : "vs-dark"}
-            onChange={newCode => setCode({ ...code, [activeLang]: newCode })}
-            options={monacoOptions}
-          />
-        </div>
+      <div
+        className={clsx(
+          "hidden lg:flex flex-row gap-6 items-center",
+          "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-12"
+        )}
+      >
+        <div className="font-semibold text-xl">{description[activeLang]}</div>
+        <div className="flex-grow" />
+        {activeLang !== "html" && (
+          <Button variant="tertiary" onClick={() => setActiveLang("html")}>
+            Switch to HTML
+          </Button>
+        )}
+        {activeLang !== "css" && (
+          <Button variant="tertiary" onClick={() => setActiveLang("css")}>
+            Switch to CSS
+          </Button>
+        )}
+        <Button icon={DoneOutlinedIcon}>Deploy</Button>
+      </div>
+      <div className="hidden lg:grid grid-cols-2 gap-6 mt-6 mb-9">
+        <Editor
+          height="90vh"
+          language={activeLang}
+          value={code[activeLang]}
+          theme={currentTheme === "light" ? "light" : "vs-dark"}
+          onChange={newCode => setCode({ ...code, [activeLang]: newCode })}
+          options={monacoOptions}
+          className="-z-10"
+        />
         <div className="bg-white">
           <iframe
             srcDoc={`<html><head><style>${code.css}</style></head><body>${code.html}</body></html>`}
-            sandbox="" // this doesn't make any sense. Why not just sandbox?
+            sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
             className="w-full h-full"
           />
         </div>
