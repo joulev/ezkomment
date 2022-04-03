@@ -68,7 +68,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
         )}
         <Button icon={DoneOutlinedIcon}>Deploy</Button>
       </div>
-      <div className="hidden lg:grid grid-cols-2 gap-6 mt-6 mb-9">
+      <div className="hidden lg:grid grid-cols-2 gap-6 mb-9">
         <Editor
           height="90vh"
           language={activeLang}
