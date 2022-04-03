@@ -58,8 +58,8 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest
       type={type}
       onChange={onUpdate && (e => onUpdate(e.target.value))}
       className={clsx(
-        "px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500 cursor-text",
-        type === "color" && "rounded-none h-9"
+        "px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500",
+        type === "color" ? "cursor-pointer rounded-none h-9" : "cursor-text"
       )}
       {...rest}
     />
