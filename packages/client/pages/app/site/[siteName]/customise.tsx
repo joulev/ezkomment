@@ -6,9 +6,10 @@
 import Editor from "@monaco-editor/react";
 import clsx from "clsx";
 import { GetServerSideProps, NextPage } from "next";
-import { useState } from "react";
+import { FC, useState } from "react";
 
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import monacoOptions from "@client/config/monaco";
 import useCurrentTheme from "@client/lib/getCurrentTheme";
@@ -20,8 +21,10 @@ import site from "@client/sample/site.json";
 
 type Site = typeof site;
 type Props = { site: Site };
-
 type Language = "html" | "css";
+type ButtonGroupProps = { buttons: { label: string; onClick: () => void }[]; active: number };
+
+const languages: Language[] = ["html", "css"];
 
 const sampleCode: Record<Language, string> = {
   html: `<div>Hello World</div>\n`,
@@ -29,12 +32,35 @@ const sampleCode: Record<Language, string> = {
   color: red;
 }\n`,
 };
-const description: Record<Language, string> = { html: "HTML", css: "CSS" };
+
+const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
+  <div
+    className={clsx(
+      "flex flex-row rounded border divide-x overflow-hidden",
+      "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700"
+    )}
+  >
+    {buttons.map(({ label, onClick }, index) => (
+      <button
+        key={index}
+        onClick={active === index ? undefined : onClick}
+        className={clsx(
+          "py-1.5 px-6",
+          active === index
+            ? "bg-indigo-500"
+            : "bg-white dark:bg-black hover:bg-neutral-200 dark:hover:bg-neutral-800"
+        )}
+      >
+        {label}
+      </button>
+    ))}
+  </div>
+);
 
 const SiteCustomise: NextPage<Props> = ({ site }) => {
   const currentTheme = useCurrentTheme();
 
-  const [activeLang, setActiveLang] = useState<Language>("html");
+  const [activeLang, setActiveLang] = useState(0);
   const [code, setCode] = useState(sampleCode);
 
   return (
@@ -51,32 +77,30 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
       <div
         className={clsx(
           "hidden lg:flex flex-row gap-6 items-center",
-          "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-12"
+          "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-12 z-10"
         )}
       >
-        <div className="font-semibold text-xl">{description[activeLang]}</div>
+        <ButtonGroup
+          buttons={[
+            { label: "HTML", onClick: () => setActiveLang(0) },
+            { label: "CSS", onClick: () => setActiveLang(1) },
+          ]}
+          active={activeLang}
+        />
         <div className="flex-grow" />
-        {activeLang !== "html" && (
-          <Button variant="tertiary" onClick={() => setActiveLang("html")}>
-            Switch to HTML
-          </Button>
-        )}
-        {activeLang !== "css" && (
-          <Button variant="tertiary" onClick={() => setActiveLang("css")}>
-            Switch to CSS
-          </Button>
-        )}
+        <Button icon={SaveOutlinedIcon} variant="tertiary">
+          Save
+        </Button>
         <Button icon={DoneOutlinedIcon}>Deploy</Button>
       </div>
       <div className="hidden lg:grid grid-cols-2 gap-6 mb-9">
         <Editor
           height="90vh"
-          language={activeLang}
-          value={code[activeLang]}
+          language={languages[activeLang]}
+          value={code[languages[activeLang]]}
           theme={currentTheme === "light" ? "light" : "vs-dark"}
           onChange={newCode => setCode({ ...code, [activeLang]: newCode })}
           options={monacoOptions}
-          className="-z-10"
         />
         <div className="bg-white">
           <iframe
