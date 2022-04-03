@@ -61,6 +61,10 @@ body.dark {
   --muted-color: #777;
 }
 
+html, body {
+  margin: 0;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -204,7 +208,10 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
           onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
           options={monacoOptions}
         />
-        <div style={{ backgroundColor: previewBg }}>
+        <div
+          className="p-6 rounded border border-neutral-300 dark:border-neutral-700"
+          style={{ backgroundColor: previewBg }}
+        >
           <iframe
             srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
             sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
