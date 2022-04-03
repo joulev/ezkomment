@@ -137,7 +137,7 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
                 height={wrapper.current?.clientHeight ?? 0}
                 onMouseEnter={() => setCurrentHover(i)}
                 onMouseLeave={() => setCurrentHover(-1)}
-                fill="transparent"
+                className="fill-transparent hover:fill-neutral-500 opacity-20 transition"
               />
             ))}
         </g>
