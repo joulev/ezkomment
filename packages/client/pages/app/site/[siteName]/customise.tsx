@@ -50,10 +50,13 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
         key={index}
         onClick={active === index ? undefined : onClick}
         className={clsx(
-          "py-1.5 px-6",
+          "py-1.5 px-6 transition",
           active === index
-            ? "bg-indigo-500 text-white font-semibold"
-            : "bg-white dark:bg-black hover:bg-neutral-200 dark:hover:bg-neutral-800"
+            ? "bg-indigo-500 text-white"
+            : clsx(
+                "bg-white dark:bg-black text-neutral-500",
+                "hover:bg-neutral-200 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100"
+              )
         )}
       >
         {label}
