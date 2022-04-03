@@ -30,8 +30,11 @@ const languages: Language[] = ["html", "css"];
 
 const sampleCode: Record<Language, string> = {
   html: `<div>Hello World</div>\n`,
-  css: `div {
+  css: `body {
   color: red;
+}
+body.dark {
+  color: green;
 }\n`,
 };
 
@@ -65,6 +68,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
   const [activeLang, setActiveLang] = useState(0);
   const [code, setCode] = useState(sampleCode);
   const [previewBg, setPreviewBg] = useState("#ffffff");
+  const [previewIsDark, setPreviewIsDark] = useState(false);
 
   return (
     <AppLayout
@@ -89,6 +93,13 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
             { label: "CSS", onClick: () => setActiveLang(1) },
           ]}
           active={activeLang}
+        />
+        <ButtonGroup
+          buttons={[
+            { label: "Light", onClick: () => setPreviewIsDark(false) },
+            { label: "Dark", onClick: () => setPreviewIsDark(true) },
+          ]}
+          active={previewIsDark ? 1 : 0}
         />
         <Input
           type="color"
@@ -115,7 +126,9 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
         />
         <div style={{ backgroundColor: previewBg }}>
           <iframe
-            srcDoc={`<html><head><style>${code.css}</style></head><body>${code.html}</body></html>`}
+            srcDoc={`<html><head><style>${code.css}</style></head><body${
+              previewIsDark ? ' class="dark"' : ""
+            }>${code.html}</body></html>`}
             sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
             className="w-full h-full"
           />
