@@ -99,7 +99,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
           language={languages[activeLang]}
           value={code[languages[activeLang]]}
           theme={currentTheme === "light" ? "light" : "vs-dark"}
-          onChange={newCode => setCode({ ...code, [activeLang]: newCode })}
+          onChange={newCode => setCode({ ...code, [languages[activeLang]]: newCode })}
           options={monacoOptions}
         />
         <div className="bg-white">
