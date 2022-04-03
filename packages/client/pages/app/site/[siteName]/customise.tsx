@@ -23,14 +23,14 @@ import site from "@client/sample/site.json";
 
 type Site = typeof site;
 type Props = { site: Site };
-type Language = "html" | "css";
 type ButtonGroupProps = { buttons: { label: string; onClick: () => void }[]; active: number };
+type EditorTab = "all" | "comment" | "styles";
 
-const languages: Language[] = ["html", "css"];
-
-const sampleCode: Record<Language, string> = {
-  html: `<div>Hello World</div>\n`,
-  css: `body {
+const editorTabs: EditorTab[] = ["all", "comment", "styles"];
+const sampleCode: Record<EditorTab, string> = {
+  all: `<div>Hello World</div>\n`,
+  comment: `<div>A comment</div>\n`,
+  styles: `body {
   color: red;
 }
 body.dark {
@@ -65,7 +65,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
 const SiteCustomise: NextPage<Props> = ({ site }) => {
   const currentTheme = useCurrentTheme();
 
-  const [activeLang, setActiveLang] = useState(0);
+  const [active, setActive] = useState(0);
   const [code, setCode] = useState(sampleCode);
   const [previewBg, setPreviewBg] = useState("#ffffff");
   const [previewIsDark, setPreviewIsDark] = useState(false);
@@ -89,10 +89,11 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
       >
         <ButtonGroup
           buttons={[
-            { label: "HTML", onClick: () => setActiveLang(0) },
-            { label: "CSS", onClick: () => setActiveLang(1) },
+            { label: "All", onClick: () => setActive(0) },
+            { label: "Comment", onClick: () => setActive(1) },
+            { label: "Styles", onClick: () => setActive(2) },
           ]}
-          active={activeLang}
+          active={active}
         />
         <ButtonGroup
           buttons={[
@@ -118,17 +119,17 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
       <div className="hidden lg:grid grid-cols-2 gap-6 mb-9">
         <Editor
           height="90vh"
-          language={languages[activeLang]}
-          value={code[languages[activeLang]]}
+          language={active === 2 ? "css" : "html"}
+          value={code[editorTabs[active]]}
           theme={currentTheme === "light" ? "light" : "vs-dark"}
-          onChange={newCode => setCode({ ...code, [languages[activeLang]]: newCode })}
+          onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
           options={monacoOptions}
         />
         <div style={{ backgroundColor: previewBg }}>
           <iframe
-            srcDoc={`<html><head><style>${code.css}</style></head><body${
+            srcDoc={`<html><head><style>${code.styles}</style></head><body${
               previewIsDark ? ' class="dark"' : ""
-            }>${code.html}</body></html>`}
+            }>${code.all}${code.comment}</body></html>`}
             sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
             className="w-full h-full"
           />
