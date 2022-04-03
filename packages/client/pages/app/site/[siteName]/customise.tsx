@@ -9,21 +9,30 @@ import { GetServerSideProps, NextPage } from "next";
 import { FC, useState } from "react";
 
 import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import monacoOptions from "@client/config/monaco";
+import { useScreenWidth } from "@client/context/screenWidth";
 import useCurrentTheme from "@client/lib/getCurrentTheme";
 
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
+import IconLabel from "@client/components/utils/iconAndLabel";
 import AppLayout from "@client/layouts/app";
+
+import { IconAndLabel } from "@client/types/utils.type";
 
 import site from "@client/sample/site.json";
 
 type Site = typeof site;
 type Props = { site: Site };
-type ButtonGroupProps = { buttons: { label: string; onClick: () => void }[]; active: number };
+type ButtonGroupProps = {
+  buttons: (IconAndLabel & { onClick: () => void })[];
+  active: number;
+};
 type EditorTab = "all" | "comment" | "styles";
 
 const editorTabs: EditorTab[] = ["all", "comment", "styles"];
@@ -45,12 +54,13 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
       "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700"
     )}
   >
-    {buttons.map(({ label, onClick }, index) => (
+    {buttons.map(({ label, icon, onClick }, index) => (
       <button
         key={index}
         onClick={active === index ? undefined : onClick}
         className={clsx(
-          "py-1.5 px-6 transition",
+          icon && !label ? "px-3" : "px-6",
+          "py-1.5 transition",
           active === index
             ? "bg-indigo-500 text-white"
             : clsx(
@@ -59,7 +69,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
               )
         )}
       >
-        {label}
+        <IconLabel {...{ icon, label }} />
       </button>
     ))}
   </div>
@@ -67,6 +77,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
 
 const SiteCustomise: NextPage<Props> = ({ site }) => {
   const currentTheme = useCurrentTheme();
+  const screenWidth = useScreenWidth();
 
   const [active, setActive] = useState(0);
   const [code, setCode] = useState(sampleCode);
@@ -100,8 +111,16 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
         />
         <ButtonGroup
           buttons={[
-            { label: "Light", onClick: () => setPreviewIsDark(false) },
-            { label: "Dark", onClick: () => setPreviewIsDark(true) },
+            {
+              icon: screenWidth === "lg" ? LightModeOutlinedIcon : undefined,
+              label: screenWidth === "lg" ? undefined : "Light",
+              onClick: () => setPreviewIsDark(false),
+            },
+            {
+              icon: screenWidth === "lg" ? DarkModeOutlinedIcon : undefined,
+              label: screenWidth === "lg" ? undefined : "Dark",
+              onClick: () => setPreviewIsDark(true),
+            },
           ]}
           active={previewIsDark ? 1 : 0}
         />
