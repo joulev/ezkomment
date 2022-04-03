@@ -47,7 +47,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
         className={clsx(
           "py-1.5 px-6",
           active === index
-            ? "bg-indigo-500"
+            ? "bg-indigo-500 text-white font-semibold"
             : "bg-white dark:bg-black hover:bg-neutral-200 dark:hover:bg-neutral-800"
         )}
       >
