@@ -235,7 +235,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
       <div
         className={clsx(
           "hidden lg:flex flex-row gap-6 items-center",
-          "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-12 z-10"
+          "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-[49px] z-10"
         )}
       >
         <ButtonGroup
