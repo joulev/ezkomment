@@ -40,6 +40,7 @@ const Account: NextPage = () => {
               value="John Doe"
               helpText="Your name is displayed in your replies to comments."
               onUpdate={() => {}}
+              required
             />
             <InputDetachedLabel
               label="Email address"
@@ -48,6 +49,7 @@ const Account: NextPage = () => {
               value="john.doe@example.com"
               helpText="Your email address is used for logging in and recovering your account."
               onUpdate={() => {}}
+              required
             />
             <RightAligned>
               <Button icon={SaveOutlinedIcon}>Save</Button>
