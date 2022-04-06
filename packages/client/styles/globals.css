@@ -43,6 +43,10 @@
     strong {
         @apply font-semibold;
     }
+    form:invalid button {
+        @apply cursor-not-allowed text-neutral-500 bg-neutral-300 dark:bg-neutral-700
+            border-neutral-300 dark:border-neutral-700;
+    }
 }
 
 html {
