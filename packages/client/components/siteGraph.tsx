@@ -144,7 +144,7 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
       </svg>
       <div
         className={clsx(
-          "absolute -top-px -left-px p-3 text-sm rounded max-w-fit h-[90px]",
+          "absolute -top-px -left-px p-3 text-sm rounded max-w-fit h-[90px] pointer-events-none",
           "bg-neutral-100 dark:bg-neutral-900",
           "border border-neutral-300 dark:border-neutral-700 transition",
           currentHover === -1 ? "opacity-0 invisible" : "opacity-100 visible"
