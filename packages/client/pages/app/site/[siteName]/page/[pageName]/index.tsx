@@ -4,7 +4,9 @@ import { GetServerSideProps, NextPage } from "next";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
+import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import AppLayout from "@client/layouts/app";
@@ -23,6 +25,18 @@ const SiteOverview: NextPage<Props> = ({ page }) => (
     pageId={page.id}
   >
     <div className="mx-auto max-w-3xl">
+      <h1 className="mb-3">{page.name}</h1>
+      <div className="flex flex-row gap-3 text-neutral-500">
+        <WebOutlinedIcon />
+        <A
+          href={page.url}
+          notStyled
+          className="hover:text-neutral-900 dark:hover:text-neutral-100 transition whitespace-nowrap text-ellipsis overflow-hidden"
+        >
+          {page.url}
+        </A>
+      </div>
+      <hr />
       <Banner variant="warning">
         Beware that if you remove a comment, <strong>that is irreversible</strong> and it will be
         gone forever.
