@@ -2,7 +2,7 @@ export type PageType = "overview" | "site" | "page" | "others";
 export type NavbarItems = {
     overview: "dashboard" | "new" | "account";
     site: "all" | "customise" | "settings";
-    page: "all" | "pending" | "settings";
+    page: "all" | "settings";
 };
 export type CurrentPage =
     | {

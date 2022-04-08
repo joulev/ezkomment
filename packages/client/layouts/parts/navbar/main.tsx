@@ -33,10 +33,6 @@ function items(pageType: PageType, siteName?: string, pageId?: string): Items<ty
     case "page":
       return {
         all: { href: `/app/site/${siteName}/page/${pageId}`, label: "All comments" },
-        pending: {
-          href: `/app/site/${siteName}/page/${pageId}/pending`,
-          label: ["Pending", "Pending comments"],
-        },
         settings: { href: `/app/site/${siteName}/page/${pageId}/settings`, label: "Settings" },
       };
     default:
