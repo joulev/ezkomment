@@ -82,7 +82,9 @@ const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
           className="font-semibold text-lg"
           href={`/app/site/${siteName}/page/${pageId}`}
         >
-          {pageId}
+          {/* Workaround; I think I will change it to the right approach of using text-transform in the future */}
+          <span className="sm:hidden md:inline">{pageId}</span>
+          <span className="hidden sm:inline md:hidden">{pageId.substring(0, 5)}&hellip;</span>
         </A>
       </>
     )}
