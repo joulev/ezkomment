@@ -32,12 +32,12 @@ function items(pageType: PageType, siteName?: string, pageId?: string): Items<ty
       };
     case "page":
       return {
-        all: { href: `/app/site/${siteName}/${pageId}`, label: "All comments" },
+        all: { href: `/app/site/${siteName}/page/${pageId}`, label: "All comments" },
         pending: {
-          href: `/app/site/${siteName}/${pageId}/pending`,
+          href: `/app/site/${siteName}/page/${pageId}/pending`,
           label: ["Pending", "Pending comments"],
         },
-        settings: { href: `/app/site/${siteName}/${pageId}/settings`, label: "Settings" },
+        settings: { href: `/app/site/${siteName}/page/${pageId}/settings`, label: "Settings" },
       };
     default:
       return {};

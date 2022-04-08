@@ -91,6 +91,26 @@ const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
   </div>
 );
 
+const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
+  <div className="flex flex-row gap-3 items-center">
+    <A
+      notStyled
+      className="font-semibold"
+      href={type === "overview" ? "/app" : `/app/site/${siteName}`}
+    >
+      {type === "overview" ? "Overview" : siteName}
+    </A>
+    {pageId && (
+      <>
+        <BreadCrumbSlash />
+        <A notStyled className="font-semibold" href={`/app/site/${siteName}/page/${pageId}`}>
+          {pageId.substring(0, 5)}&hellip;
+        </A>
+      </>
+    )}
+  </div>
+);
+
 const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
   const handleLogout: MouseEventHandler<HTMLButtonElement> = () => console.log("log out");
@@ -120,7 +140,7 @@ const TopNav: FC<CurrentPage> = props => {
             icon={expanded ? CloseOutlinedIcon : DensityMediumOutlinedIcon}
             onClick={() => setExpanded(!expanded)}
           />
-          <div className="font-semibold">Overview</div>
+          <TopNavMobileBreadcrumb {...props} />
           <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
         </nav>
         <nav
