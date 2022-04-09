@@ -46,7 +46,7 @@ const Comments: FC<{ comments: Comment[] }> = ({ comments, children }) => (
   </div>
 );
 
-const SiteOverview: NextPage<Props> = ({ page }) => (
+const PageOverview: NextPage<Props> = ({ page }) => (
   <AppLayout
     title={`Page ${page.id}`}
     type="page"
@@ -110,4 +110,4 @@ const SiteOverview: NextPage<Props> = ({ page }) => (
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { page } });
 
-export default SiteOverview;
+export default PageOverview;
