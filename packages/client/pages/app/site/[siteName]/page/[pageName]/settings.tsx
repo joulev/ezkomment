@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import { FC } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -13,16 +12,13 @@ import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import CopiableCode from "@client/components/copiableCode";
 import { InputDetachedLabel } from "@client/components/forms/input";
+import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
 import page from "@client/sample/page.json";
 
 type Page = typeof page;
 type Props = { page: Page };
-
-const RightAligned: FC = ({ children }) => (
-  <div className="flex flex-row justify-end">{children}</div>
-);
 
 const PageSettings: NextPage<Props> = ({ page }) => (
   <AppLayout

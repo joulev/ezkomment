@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import { FC } from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -11,16 +10,13 @@ import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import CopiableCode from "@client/components/copiableCode";
 import { InputDetachedLabel } from "@client/components/forms/input";
+import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
 import site from "@client/sample/site.json";
 
 type Site = typeof site;
 type Props = { site: Site };
-
-const RightAligned: FC = ({ children }) => (
-  <div className="flex flex-row justify-end">{children}</div>
-);
 
 const SiteSettings: NextPage<Props> = ({ site }) => (
   <AppLayout title={`${site.name} settings`} type="site" activeTab="settings" siteName={site.name}>

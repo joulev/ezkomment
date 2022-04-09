@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { NextPage } from "next";
-import { FC } from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
@@ -15,11 +14,8 @@ import { useScreenWidth } from "@client/context/screenWidth";
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import { InputDetachedLabel } from "@client/components/forms/input";
+import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
-
-const RightAligned: FC = ({ children }) => (
-  <div className="flex flex-row justify-end">{children}</div>
-);
 
 const Account: NextPage = () => {
   const screenWidth = useScreenWidth();
