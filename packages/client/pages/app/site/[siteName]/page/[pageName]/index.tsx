@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { GetServerSideProps, NextPage } from "next";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
