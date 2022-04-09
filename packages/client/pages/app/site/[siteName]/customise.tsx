@@ -79,7 +79,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
 
   return (
     <AppLayout
-      title={`Customise ${site.name}`}
+      title={`Customise | ${site.name}`}
       type="site"
       activeTab="customise"
       siteName={site.name}

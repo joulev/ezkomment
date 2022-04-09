@@ -18,6 +18,8 @@ type Page = typeof page;
 type Props = { page: Page };
 type Comment = { author: string; date: string; text: string };
 
+const site = { name: "blog-app" };
+
 const Comments: FC<{ comments: Comment[] }> = ({ comments, children }) => (
   <div
     className={clsx(
@@ -48,10 +50,10 @@ const Comments: FC<{ comments: Comment[] }> = ({ comments, children }) => (
 
 const PageOverview: NextPage<Props> = ({ page }) => (
   <AppLayout
-    title={`Page ${page.id}`}
+    title={`Page comments | ${site.name}`}
     type="page"
     activeTab="all"
-    siteName="blog-app"
+    siteName={site.name}
     pageId={page.id}
   >
     <div className="mx-auto max-w-3xl">

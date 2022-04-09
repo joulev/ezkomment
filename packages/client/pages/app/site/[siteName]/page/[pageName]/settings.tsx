@@ -20,12 +20,14 @@ import page from "@client/sample/page.json";
 type Page = typeof page;
 type Props = { page: Page };
 
+const site = { name: "blog-app" };
+
 const PageSettings: NextPage<Props> = ({ page }) => (
   <AppLayout
-    title="Page settings"
+    title={`Page settings | ${site.name}`}
     type="page"
     activeTab="settings"
-    siteName="blog-app"
+    siteName={site.name}
     pageId={page.id}
   >
     <div className="mx-auto max-w-3xl">

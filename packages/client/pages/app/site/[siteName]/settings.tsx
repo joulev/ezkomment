@@ -19,7 +19,12 @@ type Site = typeof site;
 type Props = { site: Site };
 
 const SiteSettings: NextPage<Props> = ({ site }) => (
-  <AppLayout title={`${site.name} settings`} type="site" activeTab="settings" siteName={site.name}>
+  <AppLayout
+    title={`Settings | ${site.name}`}
+    type="site"
+    activeTab="settings"
+    siteName={site.name}
+  >
     <div className="grid md:grid-cols-2 gap-x-12">
       <div>
         <h2>Basic information</h2>
