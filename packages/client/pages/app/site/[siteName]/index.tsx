@@ -56,10 +56,16 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
           </div>
         </div>
         <div className="w-full md:w-auto grid grid-cols-2 gap-6">
-          <Button icon={CodeOutlinedIcon} variant="tertiary">
+          <Button
+            icon={CodeOutlinedIcon}
+            variant="tertiary"
+            href={`/app/site/${site.id}/customise`}
+          >
             Customise
           </Button>
-          <Button icon={SettingsOutlinedIcon}>Manage</Button>
+          <Button icon={SettingsOutlinedIcon} href={`/app/site/${site.id}/settings`}>
+            Manage
+          </Button>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-9">
