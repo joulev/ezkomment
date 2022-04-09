@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { GetServerSideProps, NextPage } from "next";
+import { FC, ReactNode } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -15,6 +16,35 @@ import page from "@client/sample/page.json";
 
 type Page = typeof page;
 type Props = { page: Page };
+type Comment = { author: string; date: string; text: string };
+
+const Comments: FC<{ comments: Comment[] }> = ({ comments, children }) => (
+  <div
+    className={clsx(
+      "flex flex-col divide-y border rounded bg-white dark:bg-black",
+      "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700"
+    )}
+  >
+    {comments.map((comment, index) => (
+      <div key={index} className="p-6 flex flex-col gap-3 relative">
+        <div className="flex flex-col sm:flex-row gap-x-6">
+          <strong>{comment.author}</strong>
+          <time
+            className={clsx(
+              "text-neutral-500 sm:relative before:hidden sm:before:block",
+              "before:absolute before:content-['•'] before:-left-3 before:-translate-x-1/2"
+            )}
+            title={comment.date}
+          >
+            {formatDistanceToNowStrict(parseISO(comment.date))} ago
+          </time>
+        </div>
+        <div>{comment.text}</div>
+        {children && <div className="absolute right-3 top-3 md:right-6 md:top-6">{children}</div>}
+      </div>
+    ))}
+  </div>
+);
 
 const SiteOverview: NextPage<Props> = ({ page }) => (
   <AppLayout
@@ -52,34 +82,12 @@ const SiteOverview: NextPage<Props> = ({ page }) => (
       ) : (
         <>
           <p>These comments require your approval before appearing in public.</p>
-          <div
-            className={clsx(
-              "flex flex-col divide-y border rounded bg-white dark:bg-black",
-              "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700"
-            )}
-          >
-            {page.pendingApprovalComments.map((comment, index) => (
-              <div key={index} className="p-6 flex flex-col gap-3">
-                <div className="flex flex-row gap-3 items-center">
-                  <div className="flex-grow">
-                    <strong>{comment.author}</strong>
-                    <time
-                      className={clsx(
-                        "ml-6 text-neutral-500 relative before:absolute before:content-['•']",
-                        "before:-left-3 before:-translate-x-1/2"
-                      )}
-                      title={comment.date}
-                    >
-                      {formatDistanceToNowStrict(parseISO(comment.date))} ago
-                    </time>
-                  </div>
-                  <Button icon={ClearOutlinedIcon} variant="tertiary" />
-                  <Button icon={CheckOutlinedIcon} />
-                </div>
-                <div>{comment.text}</div>
-              </div>
-            ))}
-          </div>
+          <Comments comments={page.pendingApprovalComments}>
+            <div className="flex flex-row gap-3">
+              <Button icon={ClearOutlinedIcon} variant="tertiary" />
+              <Button icon={CheckOutlinedIcon} />
+            </div>
+          </Comments>
         </>
       )}
       <h2>Approved comments</h2>
@@ -91,33 +99,9 @@ const SiteOverview: NextPage<Props> = ({ page }) => (
             These comments are now live and visible to all visitors of the page. However you can
             still delete any comments you want.
           </p>
-          <div
-            className={clsx(
-              "flex flex-col divide-y border rounded bg-white dark:bg-black",
-              "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700"
-            )}
-          >
-            {page.approvedComments.map((comment, index) => (
-              <div key={index} className="p-6 flex flex-col gap-3">
-                <div className="flex flex-row gap-3">
-                  <div className="flex-grow">
-                    <strong>{comment.author}</strong>
-                    <time
-                      className={clsx(
-                        "ml-6 text-neutral-500 relative before:absolute before:content-['•']",
-                        "before:-left-3 before:-translate-x-1/2"
-                      )}
-                      title={comment.date}
-                    >
-                      {formatDistanceToNowStrict(parseISO(comment.date))} ago
-                    </time>
-                  </div>
-                  <Button icon={ClearOutlinedIcon} variant="tertiary" />
-                </div>
-                <div>{comment.text}</div>
-              </div>
-            ))}
-          </div>
+          <Comments comments={page.approvedComments}>
+            <Button icon={ClearOutlinedIcon} variant="tertiary" />
+          </Comments>
         </>
       )}
     </div>
