@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { NextPage } from "next";
 import { useState } from "react";
 
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -126,16 +125,10 @@ const Account: NextPage = () => {
                 proceeding.
               </p>
               <RightAligned className="gap-3">
-                <Button
-                  variant="tertiary"
-                  icon={ArrowBackOutlinedIcon}
-                  onClick={() => setShowDeleteModal(false)}
-                >
+                <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
                   Cancel
                 </Button>
-                <Button variant="danger" icon={DangerousOutlinedIcon}>
-                  Delete my account
-                </Button>
+                <Button variant="danger">Delete</Button>
               </RightAligned>
             </div>
           </Modal>

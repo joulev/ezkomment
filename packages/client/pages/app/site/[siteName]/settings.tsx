@@ -1,7 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
 
-import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
@@ -109,16 +108,10 @@ const SiteSettings: NextPage<Props> = ({ site }) => {
               </p>
               <p>In short, it will be lost permanently. Please think twice before proceeding.</p>
               <RightAligned className="gap-3">
-                <Button
-                  variant="tertiary"
-                  icon={ArrowBackOutlinedIcon}
-                  onClick={() => setShowDeleteModal(false)}
-                >
+                <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
                   Cancel
                 </Button>
-                <Button variant="danger" icon={DangerousOutlinedIcon}>
-                  Delete this site
-                </Button>
+                <Button variant="danger">Delete</Button>
               </RightAligned>
             </div>
           </Modal>

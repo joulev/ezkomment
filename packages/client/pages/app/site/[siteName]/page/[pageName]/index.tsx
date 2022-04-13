@@ -128,9 +128,7 @@ const PageOverview: NextPage<Props> = ({ page }) => {
             </p>
             <p>This warning will be silenced for the rest of this session.</p>
             <RightAligned>
-              <Button icon={CheckOutlinedIcon} onClick={() => setShowDeleteModal(false)}>
-                I understand
-              </Button>
+              <Button onClick={() => setShowDeleteModal(false)}>I understand</Button>
             </RightAligned>
           </div>
         </Modal>
