@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { NextPage } from "next";
+import { useState } from "react";
 
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -14,11 +16,14 @@ import { useScreenWidth } from "@client/context/screenWidth";
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import { InputDetachedLabel } from "@client/components/forms/input";
+import Modal from "@client/components/modal";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
 const Account: NextPage = () => {
   const screenWidth = useScreenWidth();
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
     <AppLayout title="Account settings" type="overview" activeTab="account">
       <div className="grid md:grid-cols-2 gap-x-12">
@@ -104,10 +109,36 @@ const Account: NextPage = () => {
             erased and there is no way to recover it. Proceed with caution.
           </p>
           <RightAligned>
-            <Button variant="danger" icon={DangerousOutlinedIcon}>
+            <Button
+              variant="danger"
+              icon={DangerousOutlinedIcon}
+              onClick={() => setShowDeleteModal(true)}
+            >
               Delete my account
             </Button>
           </RightAligned>
+          <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+            <div className="p-6 max-w-lg">
+              <h2>You are attempting a dangerous action.</h2>
+              <p>
+                Deleting an account is <strong>irreversible</strong>, and we cannot do anything to
+                recover your data. It will be lost permanently. Please think twice before
+                proceeding.
+              </p>
+              <RightAligned className="gap-3">
+                <Button
+                  variant="tertiary"
+                  icon={ArrowBackOutlinedIcon}
+                  onClick={() => setShowDeleteModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button variant="danger" icon={DangerousOutlinedIcon}>
+                  Delete my account
+                </Button>
+              </RightAligned>
+            </div>
+          </Modal>
         </div>
       </div>
     </AppLayout>

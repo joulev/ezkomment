@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import { FC, ReactNode } from "react";
 
-const RightAligned: FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="flex flex-row justify-end">{children}</div>
+const RightAligned: FC<{ className?: string; children: ReactNode }> = ({ className, children }) => (
+  <div className={clsx("flex flex-row justify-end", className)}>{children}</div>
 );
 
 export default RightAligned;
