@@ -102,11 +102,8 @@ const SiteSettings: NextPage<Props> = ({ site }) => {
               <h2>You are attempting a dangerous action.</h2>
               <p>
                 Deleting a site is <strong>irreversible</strong>, and we cannot do anything to
-                recover any data related to the site, including but not limited to all comments,
-                commenter information, statistics, customised code and access to the REST API for
-                that site.
+                recover any data related to the site. Please think twice before proceeding.
               </p>
-              <p>In short, it will be lost permanently. Please think twice before proceeding.</p>
               <RightAligned className="gap-3">
                 <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
                   Cancel
