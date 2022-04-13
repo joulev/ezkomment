@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { FC, MouseEventHandler, useState } from "react";
+import { FC, MouseEventHandler, ReactNode, useState } from "react";
 
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
@@ -37,7 +37,12 @@ const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
   );
 };
 
-const TopNavExpandedItem: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, children }) => {
+const TopNavExpandedItem: FC<TopNavItemProps & { children: ReactNode }> = ({
+  href,
+  onClick,
+  icon: Icon,
+  children,
+}) => {
   const classes = clsx(
     "py-3 mx-1 border-t border-neutral-300 dark:border-neutral-700 text-left flex flex-row items-center gap-3",
     "transition text-neutral-700 dark:text-neutral-300"

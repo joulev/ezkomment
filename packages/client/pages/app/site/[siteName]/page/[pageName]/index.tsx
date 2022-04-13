@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { GetServerSideProps, NextPage } from "next";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -20,7 +20,7 @@ type Comment = { author: string; date: string; text: string };
 
 const site = { name: "blog-app" };
 
-const Comments: FC<{ comments: Comment[] }> = ({ comments, children }) => (
+const Comments: FC<{ comments: Comment[]; children?: ReactNode }> = ({ comments, children }) => (
   <div
     className={clsx(
       "flex flex-col divide-y border rounded bg-white dark:bg-black",

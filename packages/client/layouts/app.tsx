@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import Head from "next/head";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 import Footer from "@client/layouts/parts/footer";
 import Navbar from "@client/layouts/parts/navbar";
 
 import { CurrentPage } from "@client/types/page.type";
 
-type AppProps = CurrentPage & { title: string; removePadding?: boolean };
+type AppProps = CurrentPage & { title: string; removePadding?: boolean; children: ReactNode };
 
 const AppLayout: FC<AppProps> = ({ title, removePadding, children, ...rest }) => (
   <>
