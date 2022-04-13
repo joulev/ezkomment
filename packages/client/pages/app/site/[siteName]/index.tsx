@@ -87,7 +87,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
               icon={SearchOutlinedIcon}
               className="flex-grow"
             />
-            <Button icon={AddOutlinedIcon}>
+            <Button icon={screenWidth === "xs" ? undefined : AddOutlinedIcon}>
               {screenWidth === "xs" ? "New page" : "Add a new page"}
             </Button>
           </div>
