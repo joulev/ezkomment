@@ -43,7 +43,7 @@
     strong {
         @apply font-semibold;
     }
-    form:invalid button {
+    form:invalid button:not([type="button"]):not([type="reset"]) {
         @apply cursor-not-allowed text-neutral-500 bg-neutral-300 dark:bg-neutral-700
             border-neutral-300 dark:border-neutral-700;
     }

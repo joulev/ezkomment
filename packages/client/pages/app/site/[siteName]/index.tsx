@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { GetServerSideProps, NextPage } from "next";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
+import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
@@ -14,7 +15,10 @@ import { useScreenWidth } from "@client/context/screenWidth";
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
+import { InputDetachedLabel } from "@client/components/forms/input";
+import Modal from "@client/components/modal";
 import SiteGraph from "@client/components/siteGraph";
+import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
 import site from "@client/sample/site.json";
@@ -33,6 +37,8 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
 
 const SiteOverview: NextPage<Props> = ({ site }) => {
   const screenWidth = useScreenWidth();
+  const [showNewPageModal, setShowNewPageModal] = useState(false);
+
   return (
     <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
       <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
@@ -87,9 +93,45 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
               icon={SearchOutlinedIcon}
               className="flex-grow"
             />
-            <Button icon={screenWidth === "xs" ? undefined : AddOutlinedIcon}>
+            <Button
+              icon={screenWidth === "xs" ? undefined : AddOutlinedIcon}
+              onClick={() => setShowNewPageModal(true)}
+            >
               {screenWidth === "xs" ? "New page" : "Add a new page"}
             </Button>
+            <Modal isVisible={showNewPageModal} onOutsideClick={() => setShowNewPageModal(false)}>
+              <div className="p-6 max-w-lg">
+                <h2>Add a new page</h2>
+                <p>
+                  Please fill in these information as they helps identify this page from other pages
+                  in the same site.
+                </p>
+                <form className="flex flex-col gap-6">
+                  <InputDetachedLabel
+                    label="Page title"
+                    icon={LabelOutlinedIcon}
+                    type="text"
+                    required
+                  />
+                  <InputDetachedLabel
+                    label="Page URL"
+                    icon={WebOutlinedIcon}
+                    type="text"
+                    required
+                  />
+                  <RightAligned className="gap-6">
+                    <Button
+                      variant="tertiary"
+                      onClick={() => setShowNewPageModal(false)}
+                      type="button"
+                    >
+                      Cancel
+                    </Button>
+                    <Button>Create</Button>
+                  </RightAligned>
+                </form>
+              </div>
+            </Modal>
           </div>
           <div
             className={clsx(
