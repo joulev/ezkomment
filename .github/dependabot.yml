@@ -4,3 +4,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # TODO: Remove this when it looks like @mui accepts React v18.
+    # This major React version really is really driving dependency handling to madness.
+    ignore:
+      - dependency-name: "react"
+        versions: "^18.0.0"
+      - dependency-name: "@types/react"
+        versions: "^18.0.0"
