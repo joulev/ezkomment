@@ -155,10 +155,12 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
             <DateText daysAgo={29 - currentHover} />
           </div>
           <div>
-            <strong>Total comments:</strong> {currentHover === -1 ? 0 : totalComment[currentHover]}
+            <span className="font-semibold">Total comments:</span>{" "}
+            {currentHover === -1 ? 0 : totalComment[currentHover]}
           </div>
           <div>
-            <strong>New comments:</strong> {currentHover === -1 ? 0 : newComment[currentHover]}
+            <span className="font-semibold">New comments:</span>{" "}
+            {currentHover === -1 ? 0 : newComment[currentHover]}
           </div>
         </div>
       </div>

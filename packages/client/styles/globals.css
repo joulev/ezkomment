@@ -41,7 +41,7 @@
         @apply mt-0;
     }
     strong {
-        @apply font-semibold;
+        @apply font-bold;
     }
     form:invalid button:not([type="button"]):not([type="reset"]) {
         @apply cursor-not-allowed text-neutral-500 bg-neutral-300 dark:bg-neutral-700
