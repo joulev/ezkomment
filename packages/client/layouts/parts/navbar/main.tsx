@@ -32,8 +32,8 @@ function items(pageType: PageType, siteName?: string, pageId?: string): Items<ty
       };
     case "page":
       return {
-        all: { href: `/app/site/${siteName}/page/${pageId}`, label: "All comments" },
-        settings: { href: `/app/site/${siteName}/page/${pageId}/settings`, label: "Settings" },
+        all: { href: `/app/site/${siteName}/${pageId}`, label: "All comments" },
+        settings: { href: `/app/site/${siteName}/${pageId}/settings`, label: "Settings" },
       };
     default:
       return {};

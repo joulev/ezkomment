@@ -82,11 +82,7 @@ const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
     {pageId && (
       <>
         <BreadCrumbSlash />
-        <A
-          notStyled
-          className="font-semibold text-lg"
-          href={`/app/site/${siteName}/page/${pageId}`}
-        >
+        <A notStyled className="font-semibold text-lg" href={`/app/site/${siteName}/${pageId}`}>
           {/* Workaround; I think I will change it to the right approach of using text-transform in the future */}
           <span className="sm:hidden md:inline">{pageId}</span>
           <span className="hidden sm:inline md:hidden">{pageId.substring(0, 5)}&hellip;</span>
@@ -108,7 +104,7 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
     {pageId && (
       <>
         <BreadCrumbSlash />
-        <A notStyled className="font-semibold" href={`/app/site/${siteName}/page/${pageId}`}>
+        <A notStyled className="font-semibold" href={`/app/site/${siteName}/${pageId}`}>
           {pageId.substring(0, 5)}&hellip;
         </A>
       </>

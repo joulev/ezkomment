@@ -147,7 +147,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
                 notStyled
                 key={i}
                 className="p-6 flex flex-col transition hover:bg-neutral-100 dark:hover:bg-neutral-900"
-                href={`/app/site/${site.name}/page/${page.id}`}
+                href={`/app/site/${site.name}/${page.id}`}
               >
                 <div className="font-semibold text-lg mb-1.5">{page.name}</div>
                 <div className="text-neutral-500 text-sm mb-6">{page.url}</div>
