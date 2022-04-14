@@ -18,14 +18,14 @@ const Modal: FC<{
   return (
     <div
       className={clsx(
-        "fixed inset-0 z-50 grid place-items-center bg-neutral-500 bg-opacity-50 transition",
+        "fixed inset-0 z-50 grid place-items-center bg-white dark:bg-black bg-opacity-90 dark:bg-opacity-90 transition",
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
       onClick={onOutsideClick}
     >
       <div
         className={clsx(
-          "bg-white dark:bg-black border rounded border-neutral-500 transition",
+          "bg-white dark:bg-black border rounded border-neutral-300 dark:border-neutral-700 transition",
           isVisible ? "translate-y-0" : "-translate-y-6"
         )}
         onClick={e => e.stopPropagation()}
