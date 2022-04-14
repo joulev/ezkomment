@@ -1,4 +1,6 @@
 import { AppProps } from "next/app";
+import { useRouter } from "next/router";
+import NProgress from "nprogress";
 import { useEffect, useState } from "react";
 
 import ModeContext from "@client/context/mode";
@@ -12,8 +14,12 @@ import "@client/styles/globals.css";
 function MyApp({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<Mode>("system");
   const [screenWidth, setScreenWidth] = useState<Breakpoint>("unknown");
+  const router = useRouter();
 
   const handleResize = () => setScreenWidth(getScreenWidth());
+
+  const handleRouterStartChange = () => NProgress.start();
+  const handleRouterEndChange = () => NProgress.done();
 
   useEffect(() => {
     const storedMode = localStorage.getItem("mode");
@@ -32,6 +38,17 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (dark) document.querySelector("html")?.classList.add("dark");
     else document.querySelector("html")?.classList.remove("dark");
   }, [mode]);
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", handleRouterStartChange);
+    router.events.on("routeChangeComplete", handleRouterEndChange);
+    router.events.on("routeChangeError", handleRouterEndChange);
+    return () => {
+      router.events.off("routeChangeStart", handleRouterStartChange);
+      router.events.off("routeChangeComplete", handleRouterEndChange);
+      router.events.off("routeChangeError", handleRouterEndChange);
+    };
+  }, [router]);
 
   return (
     <ModeContext.Provider value={{ mode, setMode }}>
