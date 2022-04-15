@@ -100,9 +100,7 @@ const Home: NextPage = () => {
         <div
           className="absolute top-0 inset-x-0 bg-gradient-to-br from-indigo-400 to-indigo-600"
           style={{
-            // This doesn't exactly yield the midway of appScreenshot for some reasons. However,
-            // it's still close enough, and the bug only happens when the user resizes the browser,
-            // which doesn't happen often.
+            // TODO: Fix this
             height:
               (appScreenshotRef.current?.offsetTop ?? 0) +
               (appScreenshotRef.current?.clientHeight ?? 0) / 2 +
