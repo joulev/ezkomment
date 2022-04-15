@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { format, formatISO } from "date-fns";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -24,7 +25,10 @@ const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   </A>
 );
 
-const Footer: FC = () => {
+const Footer: FC<{ className?: string; containerClasses?: string }> = ({
+  className,
+  containerClasses = "container",
+}) => {
   // Don't even know if this is guaranteed to always work as Next.js don't document this.
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   useEffect(() => {
@@ -34,8 +38,18 @@ const Footer: FC = () => {
     setBuildId(parseBuildId(getBuildId));
   }, []);
   return (
-    <footer className="bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6">
-      <div className="container flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center">
+    <footer
+      className={clsx(
+        "bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6",
+        className
+      )}
+    >
+      <div
+        className={clsx(
+          "flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center",
+          containerClasses
+        )}
+      >
         <div className="min-w-[50%] sm:max-w-[66%]">
           <Image src="/images/logo-text.svg" alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
           <div className="mt-3 text-sm text-neutral-500">
