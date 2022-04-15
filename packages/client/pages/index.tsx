@@ -2,39 +2,80 @@ import clsx from "clsx";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
+
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+
+import { useScreenWidth } from "@client/context/screenWidth";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import Footer from "@client/layouts/parts/footer";
 
-const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => (
-  <nav
-    className={clsx(
-      "fixed z-40 top-0 inset-x-0 px-6 sm:px-10",
-      "bg-white dark:bg-black border-b border-neutral-300 dark:border-neutral-700"
-    )}
-  >
-    <div
+type SectionImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => {
+  const screenWidth = useScreenWidth();
+  return (
+    <nav
       className={clsx(
-        show ? "h-[72px]" : "h-0",
-        "mx-auto w-full lg:w-5/6 xl:w-4/5 flex flex-row justify-between items-center transition-all overflow-hidden"
+        "fixed z-40 top-0 inset-x-0 px-6 sm:px-10",
+        "bg-white dark:bg-black border-b border-neutral-300 dark:border-neutral-700"
       )}
     >
-      <button
-        className="w-[calc(397px*0.4)]"
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      <div
+        className={clsx(
+          show ? "h-[72px]" : "h-0",
+          "mx-auto w-full lg:w-5/6 xl:w-4/5 flex flex-row justify-between items-center transition-all overflow-hidden"
+        )}
       >
-        <Image src="/images/logo-text.svg" alt="logo" layout="responsive" width={397} height={80} />
-      </button>
-      <div className="flex flex-row gap-6">
-        <Button variant="tertiary" href="/app">
-          Log in
-        </Button>
-        <Button href="/app">Get started</Button>
+        <button
+          className="w-[calc(397px*0.4)]"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <Image
+            src="/images/logo-text.svg"
+            alt="logo"
+            layout="responsive"
+            width={397}
+            height={80}
+          />
+        </button>
+        <div className="flex flex-row gap-6">
+          <Button variant="tertiary" href="/app" className="hidden sm:block">
+            Log in
+          </Button>
+          <Button href="/app" icon={screenWidth === "xs" ? LoginOutlinedIcon : undefined}>
+            {screenWidth === "xs" ? undefined : "Get started"}
+          </Button>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+const Section: FC<{ image: SectionImage; children: ReactNode }> = ({ image, children }) => (
+  <section className="px-6 sm:px-10 my-48">
+    <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 grid grid-cols-12 gap-y-9 lg:gap-x-12">
+      <div className="order-last col-span-full lg:order-first lg:col-span-5">{children}</div>
+      <div className="order-first col-span-full lg:order-last lg:col-span-7">
+        <div className="w-full sm:w-3/4 md:w-2/3 lg:w-full mx-auto">
+          <Image
+            layout="responsive"
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+          />
+        </div>
       </div>
     </div>
-  </nav>
+  </section>
 );
 
 const Home: NextPage = () => {
@@ -123,110 +164,86 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
-      <section className="px-6 sm:px-10 my-48">
-        <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 grid grid-cols-12 gap-12">
-          <div className="col-span-5">
-            <h2 className="text-4xl">Plain HTML is enough</h2>
-            <p>
-              You never have to worry about backend, server, anything. Simply add an{" "}
-              <code>&lt;iframe&gt;</code> to your HTML and you&apos;re all set!
-            </p>
-            <p>
-              Work out of the box for all tools and frameworks: Jekyll, React, Vue, you name it.
-              Heck, it even works for good old plain HTML.
-            </p>
-            <Button>See it in action</Button>
-          </div>
-          <div className="col-span-7">
-            <Image
-              src="/images/landing/iframe-sample.png"
-              alt="Iframe sample"
-              layout="responsive"
-              width={1422}
-              height={682}
-            />
-          </div>
-        </div>
-      </section>
-      <section className="px-6 sm:px-10 my-48">
-        <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 grid grid-cols-12 gap-12">
-          <div className="col-span-5">
-            <h2 className="text-4xl">Moderating your comments</h2>
-            <p>
-              Built-in moderation tool for your comments. All comments need to be manually approved
-              by you before they go public.
-            </p>
-            <p>Think it&apos;s not worth the work? You can disable it at any time!</p>
-            <Button>Learn more</Button>
-          </div>
-          <div className="col-span-7">
-            <Image
-              src="/images/landing/moderation.png"
-              alt="Moderation tool"
-              layout="responsive"
-              width={1058}
-              height={538}
-            />
-          </div>
-        </div>
-      </section>
-      <section className="px-6 sm:px-10 my-48">
-        <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 grid grid-cols-12 gap-12">
-          <div className="col-span-5">
-            <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
-            <p>
-              You can change the look and feel of your comments section to your liking and your
-              page&apos;s design: the HTML and CSS of the comment section can be completely
-              customised. Oh, and you can even have dark mode.
-            </p>
-            <p>
-              The <A href="https://microsoft.github.io/monaco-editor">Monaco editor</A>, which also
-              powers <A href="https://code.visualstudio.com">Visual Studio Code</A>, is provided to
-              help you do almost anything you want.
-            </p>
-            <Button>Learn more</Button>
-          </div>
-          <div className="col-span-7">
-            <Image
-              src="/images/landing/customisation.png"
-              alt="Customisation"
-              layout="responsive"
-              width={1296}
-              height={1174}
-            />
-          </div>
-        </div>
-      </section>
-      <section className="px-6 sm:px-10 my-48">
-        <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 grid grid-cols-12 gap-12">
-          <div className="col-span-5">
-            <h2 className="text-4xl">Powerful API for power users</h2>
-            <p>
-              With the powerful API provided, you can really do anything you want with the comments.
-              Absolutely zero restrictions on your creativity, be it custom JavaScript, fetching
-              additional resources, paginations, etc.
-            </p>
-            <p>
-              It&apos;s even <em>more</em> powerful, feature-rich than the built-in tools above.
-            </p>
-            <Button>Learn more</Button>
-          </div>
-          <div className="col-span-7">
-            <Image
-              src="/images/landing/api-sample.png"
-              alt="API demonstration"
-              layout="responsive"
-              width={1422}
-              height={682}
-            />
-          </div>
-        </div>
-      </section>
+      <Section
+        image={{
+          src: "/images/landing/iframe-sample.png",
+          alt: "Iframe sample",
+          width: 1422,
+          height: 682,
+        }}
+      >
+        <h2 className="text-4xl">Plain HTML is enough</h2>
+        <p>
+          You never have to worry about backend, server, anything. Simply add an{" "}
+          <code>&lt;iframe&gt;</code> to your HTML and you&apos;re all set!
+        </p>
+        <p>
+          Work out of the box for all tools and frameworks: Jekyll, React, Vue, you name it. Heck,
+          it even works for good old plain HTML.
+        </p>
+        <Button>See it in action</Button>
+      </Section>
+      <Section
+        image={{
+          src: "/images/landing/moderation.png",
+          alt: "Moderation tool",
+          width: 1058,
+          height: 538,
+        }}
+      >
+        <h2 className="text-4xl">Moderating your comments</h2>
+        <p>
+          Built-in moderation tool for your comments. All comments need to be manually approved by
+          you before they go public.
+        </p>
+        <p>Think it&apos;s not worth the work? You can disable it at any time!</p>
+        <Button>Learn more</Button>
+      </Section>
+      <Section
+        image={{
+          src: "/images/landing/customisation.png",
+          alt: "Customisation",
+          width: 1296,
+          height: 1174,
+        }}
+      >
+        <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
+        <p>
+          You can change the look and feel of your comments section to your liking and your
+          page&apos;s design: the HTML and CSS of the comment section can be completely customised.
+          Oh, and you can even have dark mode.
+        </p>
+        <p>
+          The <A href="https://microsoft.github.io/monaco-editor">Monaco editor</A>, which also
+          powers <A href="https://code.visualstudio.com">Visual Studio Code</A>, is provided to help
+          you do almost anything you want.
+        </p>
+        <Button>Learn more</Button>
+      </Section>
+      <Section
+        image={{
+          src: "/images/landing/api-sample.png",
+          alt: "API demonstration",
+          width: 1422,
+          height: 682,
+        }}
+      >
+        <h2 className="text-4xl">Powerful API for power users</h2>
+        <p>
+          With the powerful API provided, you can really do anything you want with the comments.
+          Absolutely zero restrictions on your creativity, be it custom JavaScript, fetching
+          additional resources, paginations, etc.
+        </p>
+        <p>
+          It&apos;s even <em>more</em> powerful, feature-rich than the built-in tools above.
+        </p>
+        <Button>Learn more</Button>
+      </Section>
       <section className="px-6 sm:px-10 my-48">
         <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 text-center">
           <h2 className="text-4xl">&hellip; and much more!</h2>
           <p>Why not join now to play with it yourself?</p>
-          <div className="flex flex-row gap-6 justify-center">
+          <div className="flex flex-col sm:flex-row gap-x-6 gap-y-3 justify-center">
             <Button href="/app">Get started for free</Button>
             <Button variant="tertiary">Read the docs</Button>
           </div>
