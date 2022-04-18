@@ -4,7 +4,8 @@ import Markdown from "markdown-to-jsx";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { FC, ReactNode, useEffect, useState } from "react";
 
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
@@ -19,6 +20,26 @@ import { BuildInfo } from "@client/types/utils.type";
 
 type URLParams = { slug: string[] };
 type PageProps = { title: string; content: string };
+
+const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children }) => {
+  const router = useRouter();
+  return (
+    <A
+      href={href}
+      notStyled
+      className={clsx(
+        "block mb-6",
+        router.asPath === href ? "text-indigo-500 font-semibold" : "text-neutral-500"
+      )}
+    >
+      {children}
+    </A>
+  );
+};
+
+const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
+  <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">{children}</h2>
+);
 
 const DocPage: NextPage<PageProps> = ({ title, content }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
@@ -62,15 +83,9 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
           </div>
           <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
           <div className="flex-grow min-h-0 overflow-y-auto">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique animi aperiam eum
-            hic atque est quod aliquam maxime repellat nostrum! Dolores similique doloremque quae
-            enim aperiam velit vitae rerum sit placeat dignissimos, natus temporibus corporis
-            recusandae porro quisquam fugiat ratione optio amet. Consequuntur aperiam rem nisi, qui
-            omnis architecto ex suscipit, mollitia aspernatur eaque nam placeat blanditiis a
-            consectetur, impedit natus laboriosam nesciunt dolorum. Tempore consequatur sed, nisi,
-            laborum natus impedit totam distinctio enim facilis provident sunt facere numquam veniam
-            esse aperiam. Provident repellat quos vero harum, adipisci tempore, impedit suscipit
-            voluptas eos, quisquam dignissimos perspiciatis labore fugit quibusdam iste.
+            <SidebarLink href="/docs/getting-started">Getting started</SidebarLink>
+            <SidebarSection>Basic features</SidebarSection>
+            <SidebarLink href="/docs/basic-features/pages">Pages</SidebarLink>
           </div>
           <footer className="flex flex-row justify-between items-center">
             {process.env.NODE_ENV === "development" && (
