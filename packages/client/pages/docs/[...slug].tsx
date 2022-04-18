@@ -69,7 +69,7 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
         >
           <div>
             <A
-              href="/docs"
+              href="/"
               notStyled
               className={clsx(
                 "relative after:absolute after:content-['docs'] after:left-full after:-top-full after:ml-3",
