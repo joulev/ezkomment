@@ -33,7 +33,7 @@ const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children
       className={clsx(
         "block mb-6 transition-all",
         router.asPath === href
-          ? "text-indigo-500 dark:text-indigo-400 font-semibold"
+          ? "text-primary font-semibold"
           : "text-muted hover:text-neutral-900 dark:hover:text-neutral-100"
       )}
     >
@@ -73,7 +73,7 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
               notStyled
               className={clsx(
                 "relative after:absolute after:content-['docs'] after:left-full after:-top-full after:ml-3",
-                "after:text-indigo-500 after:uppercase",
+                "after:text-primary after:uppercase",
                 "after:bg-indigo-100 dark:after:bg-indigo-900 dark:after:bg-opacity-50",
                 "after:px-3 after:py-1 after:rounded after:hidden lg:after:block"
               )}

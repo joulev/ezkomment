@@ -18,7 +18,7 @@
         text-shadow: none;
     }
     .a {
-        @apply text-indigo-500 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300
+        @apply text-primary hover:text-indigo-700 dark:hover:text-indigo-300
             hover:underline transition underline-offset-4 cursor-pointer;
     }
     h1 {
@@ -49,6 +49,9 @@
     }
     .text-muted {
         @apply text-neutral-400 dark:text-neutral-500;
+    }
+    .text-primary {
+        @apply text-indigo-500 dark:text-indigo-400;
     }
     /* NProgress */
     #nprogress {
