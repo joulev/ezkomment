@@ -5,6 +5,10 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import prism from "prismjs";
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-jsx";
 import { FC, ReactNode, useEffect, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
@@ -48,11 +52,13 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
 
 const DocPage: NextPage<PageProps> = ({ title, content }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
+
   useEffect(() => {
     const getBuildId: string = JSON.parse(
       document.querySelector("#__NEXT_DATA__")?.textContent as string
     ).buildId;
     setBuildId(parseBuildId(getBuildId));
+    prism.highlightAll();
   }, []);
 
   return (
