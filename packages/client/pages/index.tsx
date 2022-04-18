@@ -246,7 +246,9 @@ const Home: NextPage = () => {
           <p>Why not join now to play with it yourself?</p>
           <div className="flex flex-col sm:flex-row gap-x-6 gap-y-3 justify-center">
             <Button href="/app/auth/signup">Get started for free</Button>
-            <Button variant="tertiary">Read the docs</Button>
+            <Button variant="tertiary" href="/docs">
+              Read the docs
+            </Button>
           </div>
         </div>
       </section>
