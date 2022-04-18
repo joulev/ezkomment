@@ -49,7 +49,7 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest
       icon={icon}
       label={label}
       className={clsx(
-        "px-3 py-1.5 transition shrink-0 text-neutral-500 cursor-pointer",
+        "px-3 py-1.5 transition shrink-0 text-muted cursor-pointer",
         "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100",
         "group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
       )}
@@ -58,7 +58,7 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest
       type={type}
       onChange={onUpdate && (e => onUpdate(e.target.value))}
       className={clsx(
-        "px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500",
+        "px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-muted",
         type === "color" ? "cursor-pointer rounded-none h-9" : "cursor-text"
       )}
       {...rest}
@@ -70,7 +70,7 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest
  * A wrapper for the `Input` component to support outside-the-input-flex label and help text.
  *
  * @param props.label The label used.
- * @param props.helpText The help text. Default styling is `.text-sm.text-neutral-500`.
+ * @param props.helpText The help text. Default styling is `.text-sm.text-muted`.
  *
  * @note All props of `Input` are supported. However, `Input` also uses `label`, so `label` applied
  * on this component will be used by it and will **not** be passed to `Input`
@@ -79,7 +79,7 @@ export const InputDetachedLabel: FC<InputDetachedLabelProps> = ({ label, helpTex
   <div className="flex flex-col gap-3">
     <div className="font-semibold">{label}</div>
     <Input {...rest} />
-    {helpText && <div className="text-sm text-neutral-500">{helpText}</div>}
+    {helpText && <div className="text-sm text-muted">{helpText}</div>}
   </div>
 );
 

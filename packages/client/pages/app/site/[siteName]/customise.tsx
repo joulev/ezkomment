@@ -57,7 +57,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
           active === index
             ? "bg-indigo-500 text-white"
             : clsx(
-                "bg-white dark:bg-black text-neutral-500",
+                "bg-white dark:bg-black text-muted",
                 "hover:bg-neutral-200 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100"
               )
         )}

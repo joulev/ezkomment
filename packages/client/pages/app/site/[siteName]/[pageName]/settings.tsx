@@ -37,7 +37,7 @@ const PageSettings: NextPage<Props> = ({ page }) => {
     >
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-3">{page.name}</h1>
-        <div className="flex flex-row gap-3 text-neutral-500">
+        <div className="flex flex-row gap-3 text-muted">
           <WebOutlinedIcon />
           <A
             href={page.url}

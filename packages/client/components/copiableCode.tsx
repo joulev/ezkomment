@@ -44,7 +44,7 @@ const CopiableCode: FC<{ content: string; className?: string }> = ({ content, cl
       </div>
       <div
         className={clsx(
-          "px-3 py-1.5 shrink-0 transition text-neutral-500",
+          "px-3 py-1.5 shrink-0 transition text-muted",
           "group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
         )}
       >

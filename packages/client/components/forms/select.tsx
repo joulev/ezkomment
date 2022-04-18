@@ -41,14 +41,14 @@ const Select: FC<SelectProps> = ({ label, icon, onUpdate, className, children, .
       icon={icon}
       label={label}
       className={clsx(
-        "px-3 py-1.5 transition shrink-0 text-neutral-500 cursor-pointer",
+        "px-3 py-1.5 transition shrink-0 text-muted cursor-pointer",
         "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100",
         "group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
       )}
     />
     <select
       onChange={onUpdate && (e => onUpdate(e.target.value))}
-      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-neutral-500 cursor-pointer"
+      className="px-3 py-1.5 bg-transparent w-full border-0 focus:ring-0 transition placeholder:text-muted cursor-pointer"
       {...rest}
     >
       {children}

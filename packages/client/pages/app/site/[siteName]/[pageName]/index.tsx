@@ -35,7 +35,7 @@ const Comments: FC<{ comments: Comment[]; children?: ReactNode }> = ({ comments,
           <strong>{comment.author}</strong>
           <time
             className={clsx(
-              "text-neutral-500 sm:relative before:hidden sm:before:block",
+              "text-muted sm:relative before:hidden sm:before:block",
               "before:absolute before:content-['•'] before:-left-3 before:-translate-x-1/2"
             )}
             title={comment.date}
@@ -71,7 +71,7 @@ const PageOverview: NextPage<Props> = ({ page }) => {
     >
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-3">{page.name}</h1>
-        <div className="flex flex-row gap-3 text-neutral-500">
+        <div className="flex flex-row gap-3 text-muted">
           <WebOutlinedIcon />
           <A
             href={page.url}

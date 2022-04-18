@@ -22,7 +22,7 @@ type Props = { sites: Site[] };
 const Stats: FC<{ value: number; label: string }> = ({ value, label }) => (
   <div>
     <div className="text-3xl font-light">{value}</div>
-    <div className="text-neutral-500 text-xs uppercase tracking-widest">{label}</div>
+    <div className="text-muted text-xs uppercase tracking-widest">{label}</div>
   </div>
 );
 
@@ -68,7 +68,7 @@ const EmptyCard: FC = () => {
       className={clsx(
         "rounded border border-dashed border-neutral-300 dark:border-neutral-700",
         "grid place-items-center transition cursor-pointer group",
-        "text-neutral-300 dark:text-neutral-700 hover:text-neutral-500 dark:hover:text-neutral-500"
+        "text-neutral-300 dark:text-neutral-700 hover:text-muted"
       )}
     >
       <div className="flex flex-col items-center gap-3">

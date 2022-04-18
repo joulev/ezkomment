@@ -34,7 +34,7 @@ const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children
         "block mb-6 transition-all",
         router.asPath === href
           ? "text-indigo-500 dark:text-indigo-400 font-semibold"
-          : "text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+          : "text-muted hover:text-neutral-900 dark:hover:text-neutral-100"
       )}
     >
       {children}
@@ -94,10 +94,10 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
           </div>
           <footer className="flex flex-row justify-between items-center">
             {process.env.NODE_ENV === "development" && (
-              <span className="text-neutral-500 font-mono">dev</span>
+              <span className="text-muted font-mono">dev</span>
             )}
             {process.env.NODE_ENV === "production" && !buildId && (
-              <span className="text-neutral-500">Loading&hellip;</span>
+              <span className="text-muted">Loading&hellip;</span>
             )}
             {process.env.NODE_ENV === "production" && buildId && (
               <A

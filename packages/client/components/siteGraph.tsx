@@ -151,7 +151,7 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
         )}
       >
         <div>
-          <div className="text-neutral-500 mb-1.5">
+          <div className="text-muted mb-1.5">
             <DateText daysAgo={29 - currentHover} />
           </div>
           <div>

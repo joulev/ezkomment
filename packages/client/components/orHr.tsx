@@ -10,7 +10,7 @@ const OrHr: FC<{ className?: string }> = ({ className }) => (
     className={clsx(
       "relative after:absolute after:content-['or'] after:bg-white dark:after:bg-black",
       "after:px-3 after:-translate-y-1/2 after:-translate-x-1/2 after:text-xs after:uppercase",
-      "after:text-neutral-500",
+      "after:text-muted",
       className
     )}
   />

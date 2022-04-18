@@ -31,7 +31,7 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
     <div className={clsx("font-light tracking-tighter", small ? "text-3xl" : "text-4xl")}>
       {value}
     </div>
-    <div className={clsx("text-neutral-500", small && "text-sm")}>{label}</div>
+    <div className={clsx("text-muted", small && "text-sm")}>{label}</div>
   </div>
 );
 
@@ -49,7 +49,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
           </div>
           <div>
             <div className="mb-1.5 text-3xl">{site.name}</div>
-            <div className="flex flex-row gap-3 text-neutral-500">
+            <div className="flex flex-row gap-3 text-muted">
               <WebOutlinedIcon />
               <A
                 href={`https://${site.domain}`}
@@ -150,7 +150,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
                 href={`/app/site/${site.name}/${page.id}`}
               >
                 <div className="font-semibold text-lg mb-1.5">{page.name}</div>
-                <div className="text-neutral-500 text-sm mb-6">{page.url}</div>
+                <div className="text-muted text-sm mb-6">{page.url}</div>
                 <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
                   <div className="grid grid-cols-2 sm:gap-12">
                     <Stats small label="comments" value={page.commentCount} />

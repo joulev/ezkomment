@@ -33,7 +33,7 @@ const ModeSwitcher: FC = () => {
             "px-2 py-1",
             value === mode
               ? "bg-indigo-500 border-indigo-500 text-white"
-              : "transition text-neutral-500 hover:text-neutral-900 dark:hover:text-white " +
+              : "transition text-muted hover:text-neutral-900 dark:hover:text-white " +
                   "hover:bg-neutral-200 dark:hover:bg-neutral-800"
           )}
           onClick={() => (setMode ? setMode(value) : null)}

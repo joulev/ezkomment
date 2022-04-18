@@ -19,7 +19,7 @@ const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   <A
     href={href}
     notStyled
-    className="transition text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+    className="transition text-muted hover:text-neutral-900 dark:hover:text-neutral-100"
   >
     <Icon />
   </A>
@@ -59,7 +59,7 @@ const Footer: FC<{ className?: string; containerClasses?: string }> = ({
               height={80 / 2.5}
             />
           </A>
-          <div className="mt-3 text-sm text-neutral-500">
+          <div className="mt-3 text-sm text-muted">
             {process.env.NODE_ENV === "development" && <>Development build</>}
             {process.env.NODE_ENV === "production" && !buildId && (
               <>Retrieving build information&hellip;</>
