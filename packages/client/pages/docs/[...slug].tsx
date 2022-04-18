@@ -118,7 +118,7 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
             <ModeSwitcher />
           </footer>
         </div>
-        <main className="col-span-full md:col-span-2 p-12 max-w-prose">
+        <main className="col-span-full md:col-span-2 px-6 py-12 sm:px-12 max-w-prose">
           <div className="docs">
             <Markdown
               options={{
