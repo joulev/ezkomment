@@ -52,14 +52,16 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
 
 const DocPage: NextPage<PageProps> = ({ title, content }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const getBuildId: string = JSON.parse(
       document.querySelector("#__NEXT_DATA__")?.textContent as string
     ).buildId;
     setBuildId(parseBuildId(getBuildId));
-    prism.highlightAll();
   }, []);
+
+  useEffect(() => prism.highlightAll(), [router]);
 
   return (
     <>
