@@ -12,5 +12,9 @@ module.exports = {
         center: true,
         padding: "1.5rem",
     },
-    extend: {},
+    extend: {
+        maxWidth: {
+            prose: "80ch",
+        },
+    },
 };
