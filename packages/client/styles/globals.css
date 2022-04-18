@@ -18,8 +18,8 @@
         text-shadow: none;
     }
     .a {
-        @apply text-indigo-500 hover:underline hover:text-indigo-700 dark:hover:text-indigo-300
-            transition underline-offset-4 cursor-pointer;
+        @apply text-indigo-500 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300
+            hover:underline transition underline-offset-4 cursor-pointer;
     }
     h1 {
         @apply text-4xl font-light mt-9 mb-6;

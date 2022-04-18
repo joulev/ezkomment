@@ -31,8 +31,10 @@ const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children
       href={href}
       notStyled
       className={clsx(
-        "block mb-6",
-        router.asPath === href ? "text-indigo-500 font-semibold" : "text-neutral-500"
+        "block mb-6 transition-all",
+        router.asPath === href
+          ? "text-indigo-500 dark:text-indigo-400 font-semibold"
+          : "text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
       )}
     >
       {children}
