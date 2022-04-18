@@ -66,7 +66,14 @@
         @apply pointer-events-none;
     }
     #nprogress .bar {
-        @apply bg-indigo-500 fixed z-[60] top-0 left-0 w-full h-0.5;
+        @apply bg-indigo-500 fixed z-[60] top-0 left-0 w-full h-[3px];
+    }
+    #nprogress .peg {
+        @apply block absolute right-0 w-24 h-full opacity-1;
+        box-shadow: 0 0 10px theme("colors.indigo.500"), 0 0 5px theme("colors.indigo.500");
+        -webkit-transform: rotate(3deg) translate(0px, -4px);
+        -ms-transform: rotate(3deg) translate(0px, -4px);
+        transform: rotate(3deg) translate(0px, -4px);
     }
     /* Docs */
     .docs h1 {
