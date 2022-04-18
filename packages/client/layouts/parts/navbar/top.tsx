@@ -133,7 +133,7 @@ const TopNav: FC<CurrentPage> = props => {
         className={clsx(
           "sm:hidden overflow-hidden",
           // 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4
-          expanded ? "fixed inset-0 bg-white dark:bg-black z-10 px-5" : "max-h-14"
+          expanded ? "fixed inset-0 bg-card z-10 px-5" : "max-h-14"
         )}
       >
         <nav className="flex flex-row py-3 items-center justify-between">

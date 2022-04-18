@@ -53,6 +53,9 @@
     .text-primary {
         @apply text-indigo-500 dark:text-indigo-400;
     }
+    .bg-card {
+        @apply bg-white dark:bg-black;
+    }
     /* NProgress */
     #nprogress {
         @apply pointer-events-none;
@@ -78,7 +81,7 @@
     }
     .docs pre {
         @apply text-sm border p-3 rounded mb-6
-            bg-white dark:bg-black  border-neutral-300 dark:border-neutral-700;
+            bg-card  border-neutral-300 dark:border-neutral-700;
     }
     .docs ul {
         @apply list-disc ml-9;

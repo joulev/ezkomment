@@ -40,7 +40,7 @@ const Footer: FC<{ className?: string; containerClasses?: string }> = ({
   return (
     <footer
       className={clsx(
-        "bg-white dark:bg-black border-t border-neutral-300 dark:border-neutral-700 py-6",
+        "bg-card border-t border-neutral-300 dark:border-neutral-700 py-6",
         className
       )}
     >

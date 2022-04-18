@@ -73,7 +73,7 @@ const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
       )}
       ref={wrapper}
     >
-      <svg className="bg-white dark:bg-black">
+      <svg className="bg-card">
         <g transform={`matrix(1 0 0 -1 0 ${wrapper.current?.clientHeight ?? 0})`}>
           {[4, 9, 14, 19, 24].map(val => (
             <line

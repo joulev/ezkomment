@@ -25,7 +25,7 @@ const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => {
     <nav
       className={clsx(
         "fixed z-40 top-0 inset-x-0 px-6 sm:px-10",
-        "bg-white dark:bg-black border-b border-neutral-300 dark:border-neutral-700"
+        "bg-card border-b border-neutral-300 dark:border-neutral-700"
       )}
     >
       <div

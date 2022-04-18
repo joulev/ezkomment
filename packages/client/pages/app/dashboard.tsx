@@ -31,7 +31,7 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site: Site }>(({ site }, ref) =
     notStyled
     className={clsx(
       "cursor-pointer p-6 transition",
-      "bg-white dark:bg-black rounded border border-neutral-300 dark:border-neutral-700",
+      "bg-card rounded border border-neutral-300 dark:border-neutral-700",
       "hover:border-neutral-700 dark:hover:border-neutral-300"
     )}
     href={`/app/site/${site.name}`}

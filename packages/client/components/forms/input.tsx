@@ -36,7 +36,7 @@ type InputDetachedLabelProps = InputProps & {
 const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest }) => (
   <label
     className={clsx(
-      "group flex flex-row rounded border divide-x transition bg-white dark:bg-black",
+      "group flex flex-row rounded border divide-x transition bg-card",
       "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700",
       "focus-within:border-neutral-700 dark:focus-within:border-neutral-300",
       "focus-within:divide-neutral-700 dark:focus-within:divide-neutral-300",
