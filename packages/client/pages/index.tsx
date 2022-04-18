@@ -47,8 +47,8 @@ const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => {
           />
         </button>
         <div className="flex flex-row gap-6">
-          <Button variant="tertiary" href="/app" className="hidden sm:block">
-            Log in
+          <Button variant="tertiary" href="/app/auth/signin" className="hidden sm:block">
+            Sign in
           </Button>
           <Button
             href="/app/auth/signup"
@@ -151,10 +151,10 @@ const Home: NextPage = () => {
             Already a user?{" "}
             <A
               notStyled
-              href="/app"
+              href="/app/auth/signin"
               className="font-bold underline underline-offset-4 transition hover:text-neutral-300"
             >
-              Log in
+              Sign in
             </A>
           </p>
           <div ref={appScreenshotRef}>

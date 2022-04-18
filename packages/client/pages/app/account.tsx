@@ -59,7 +59,7 @@ const Account: NextPage = () => {
           <h2>Link accounts</h2>
           <p>
             Your account is currently linked with the following services, and you can use these to
-            log in to your account instead of using one-time links sent to your email address.
+            sign in to your account instead of using one-time links sent to your email address.
           </p>
           <div
             className={clsx(
