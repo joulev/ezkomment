@@ -138,7 +138,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
               "flex flex-col rounded overflow-hidden bg-card transition",
               "border border-card",
               "hover:border-neutral-700 dark:hover:border-neutral-300",
-              "divide-y divide-neutral-300 dark:divide-neutral-700",
+              "divide-y divide-card",
               "hover:divide-neutral-700 dark:hover:divide-neutral-300"
             )}
           >

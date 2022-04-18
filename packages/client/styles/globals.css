@@ -59,6 +59,9 @@
     .border-card {
         @apply border-neutral-300 dark:border-neutral-700;
     }
+    .divide-card {
+        @apply divide-neutral-300 dark:divide-neutral-700;
+    }
     /* NProgress */
     #nprogress {
         @apply pointer-events-none;

@@ -22,7 +22,7 @@ const ModeSwitcher: FC = () => {
     <div
       className={clsx(
         "flex flex-row items-center overflow-hidden rounded",
-        "divide-x divide-neutral-300 dark:divide-neutral-700",
+        "divide-x divide-card",
         "border border-card"
       )}
     >

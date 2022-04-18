@@ -23,12 +23,7 @@ type Comment = { author: string; date: string; text: string };
 const site = { name: "blog-app" };
 
 const Comments: FC<{ comments: Comment[]; children?: ReactNode }> = ({ comments, children }) => (
-  <div
-    className={clsx(
-      "flex flex-col divide-y border rounded bg-card",
-      "border-card divide-neutral-300 dark:divide-neutral-700"
-    )}
-  >
+  <div className={clsx("flex flex-col divide-y border rounded bg-card", "border-card divide-card")}>
     {comments.map((comment, index) => (
       <div key={index} className="p-6 flex flex-col gap-3 relative">
         <div className="flex flex-col sm:flex-row gap-x-6">

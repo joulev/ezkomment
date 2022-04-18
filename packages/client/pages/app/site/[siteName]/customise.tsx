@@ -44,7 +44,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   <div
     className={clsx(
       "flex flex-row rounded border divide-x overflow-hidden",
-      "border-card divide-neutral-300 dark:divide-neutral-700"
+      "border-card divide-card"
     )}
   >
     {buttons.map(({ label, icon, onClick }, index) => (

@@ -29,7 +29,7 @@ const Select: FC<SelectProps> = ({ label, icon, onUpdate, className, children, .
   <label
     className={clsx(
       "group flex flex-row rounded border divide-x transition bg-card",
-      "border-card divide-neutral-300 dark:divide-neutral-700",
+      "border-card divide-card",
       "focus-within:border-neutral-700 dark:focus-within:border-neutral-300",
       "focus-within:divide-neutral-700 dark:focus-within:divide-neutral-300",
       "hover:border-neutral-700 dark:hover:border-neutral-300",
