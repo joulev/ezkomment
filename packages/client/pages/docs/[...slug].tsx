@@ -7,12 +7,15 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, ReactNode, useEffect, useState } from "react";
 
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import { getFileData, getFiles } from "@client/lib/documentation";
 import parseBuildId from "@client/lib/parseBuildId";
 
 import A from "@client/components/anchor";
+import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
@@ -107,6 +110,16 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
         </div>
         <main className="col-span-full md:col-span-2 p-12 max-w-prose">
           <Markdown>{content}</Markdown>
+          <hr />
+          <div className="text-center">Was this page helpful?</div>
+          <div className="flex flex-row justify-center gap-6 mt-3">
+            <Button variant="tertiary" icon={CheckOutlinedIcon}>
+              Yes
+            </Button>
+            <Button variant="tertiary" icon={ClearOutlinedIcon}>
+              No
+            </Button>
+          </div>
         </main>
       </div>
     </>
