@@ -28,7 +28,7 @@
         @apply text-2xl font-semibold mt-9 mb-6;
     }
     hr {
-        @apply my-9 border-neutral-300 dark:border-neutral-700;
+        @apply my-9 border-card;
     }
     p {
         @apply mb-6;
@@ -44,8 +44,7 @@
         @apply font-bold;
     }
     form:invalid button:not([type="button"]):not([type="reset"]) {
-        @apply cursor-not-allowed text-muted bg-neutral-300 dark:bg-neutral-700
-            border-neutral-300 dark:border-neutral-700;
+        @apply cursor-not-allowed text-muted bg-neutral-300 dark:bg-neutral-700 border-card;
     }
     .text-muted {
         @apply text-neutral-400 dark:text-neutral-500;
@@ -86,8 +85,7 @@
         @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded;
     }
     .docs pre {
-        @apply text-sm border p-3 rounded mb-6
-            bg-card  border-neutral-300 dark:border-neutral-700;
+        @apply text-sm border p-3 rounded mb-6 bg-card border-card;
     }
     .docs ul {
         @apply list-disc ml-9;
