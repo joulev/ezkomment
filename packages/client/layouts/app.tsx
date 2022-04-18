@@ -15,7 +15,7 @@ const AppLayout: FC<AppProps> = ({ title, removePadding, children, ...rest }) =>
       <title>{title} | ezkomment</title>
     </Head>
     <Navbar {...rest} />
-    <div className={clsx("container", removePadding || "py-9")}>{children}</div>
+    <main className={clsx("container", removePadding || "py-9")}>{children}</main>
     <Footer />
   </>
 );

@@ -50,7 +50,10 @@ const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => {
           <Button variant="tertiary" href="/app" className="hidden sm:block">
             Log in
           </Button>
-          <Button href="/app" icon={screenWidth === "xs" ? LoginOutlinedIcon : undefined}>
+          <Button
+            href="/app/auth/signup"
+            icon={screenWidth === "xs" ? LoginOutlinedIcon : undefined}
+          >
             {screenWidth === "xs" ? undefined : "Get started"}
           </Button>
         </div>
@@ -136,7 +139,7 @@ const Home: NextPage = () => {
           <A
             notStyled
             role="button"
-            href="/app"
+            href="/app/auth/signup"
             className={clsx(
               "inline-block border-2 rounded-lg border-white sm:text-xl px-9 py-3 transition mb-3",
               "bg-white text-indigo-500 hover:bg-transparent hover:text-white"
@@ -245,7 +248,7 @@ const Home: NextPage = () => {
           <h2 className="text-4xl">&hellip; and much more!</h2>
           <p>Why not join now to play with it yourself?</p>
           <div className="flex flex-col sm:flex-row gap-x-6 gap-y-3 justify-center">
-            <Button href="/app">Get started for free</Button>
+            <Button href="/app/auth/signup">Get started for free</Button>
             <Button variant="tertiary">Read the docs</Button>
           </div>
         </div>
