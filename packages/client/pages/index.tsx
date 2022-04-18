@@ -125,11 +125,11 @@ const Home: NextPage = () => {
               height={80}
             />
           </div>
-          <h1 className="text-4xl sm:text-6xl font-extralight">
+          <h1 className="text-5xl sm:text-6xl font-extralight">
             Commenting made&nbsp;
             <span className="font-extrabold">easy</span>.
           </h1>
-          <div className="text-lg sm:text-2xl font-light mb-12">
+          <div className="text-2xl font-light mb-12">
             No complicated backend configuration. Add a comment section anywhere &ndash; even if you
             use plain HTML, we got you covered.
           </div>
