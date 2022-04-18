@@ -54,6 +54,39 @@
     #nprogress .bar {
         @apply bg-indigo-500 fixed z-[60] top-0 left-0 w-full h-0.5;
     }
+    /* Docs */
+    .docs h1 {
+        @apply mb-12;
+    }
+    .docs h2 {
+        @apply text-3xl font-semibold mt-12 mb-9;
+    }
+    .docs h3 {
+        @apply text-2xl font-semibold mt-12 mb-9;
+    }
+    .docs h4 {
+        @apply text-xl font-light mt-9 mb-6;
+    }
+    .docs :not(pre) > code {
+        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded;
+    }
+    .docs pre {
+        @apply text-sm border p-3 rounded mb-6
+            bg-white dark:bg-black  border-neutral-300 dark:border-neutral-700;
+    }
+    .docs ul {
+        @apply list-disc ml-9;
+    }
+    .docs ul li {
+        @apply mb-3;
+    }
+    .docs ul li:last-child {
+        @apply mb-6;
+    }
+    .docs blockquote {
+        @apply mb-6 italic ml-6 relative before:absolute before:-left-6 before:inset-y-0
+            before:w-1 before:bg-neutral-500 before:rounded;
+    }
 }
 
 html {

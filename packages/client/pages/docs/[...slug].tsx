@@ -109,7 +109,19 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
           </footer>
         </div>
         <main className="col-span-full md:col-span-2 p-12 max-w-prose">
-          <Markdown>{content}</Markdown>
+          <div className="docs">
+            <Markdown
+              options={{
+                overrides: {
+                  a: {
+                    component: A,
+                  },
+                },
+              }}
+            >
+              {content}
+            </Markdown>
+          </div>
           <hr />
           <div className="text-center">Was this page helpful?</div>
           <div className="flex flex-row justify-center gap-6 mt-3">
