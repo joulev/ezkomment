@@ -79,6 +79,7 @@ const Section: FC<{ image: SectionImage; children: ReactNode }> = ({ image, chil
 );
 
 const Home: NextPage = () => {
+  const bannerRef = useRef<HTMLDivElement>(null);
   const appScreenshotRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
 
@@ -96,19 +97,20 @@ const Home: NextPage = () => {
         <title>ezkomment: Commenting made easy</title>
       </Head>
       <LandingNavbar show={scrollY > 300} />
-      <section className="relative text-white px-6 sm:px-10 pt-36 mb-36">
+      <section className="relative text-white px-6 sm:px-10 mb-36">
         <div
           className="absolute top-0 inset-x-0 bg-gradient-to-br from-indigo-400 to-indigo-600"
           style={{
-            // TODO: Fix this
             height:
-              (appScreenshotRef.current?.offsetTop ?? 0) +
-              (appScreenshotRef.current?.clientHeight ?? 0) / 2 +
-              96 +
-              "px",
+              bannerRef.current && appScreenshotRef.current
+                ? `${bannerRef.current.clientHeight - appScreenshotRef.current.clientHeight / 2}px`
+                : "100vh",
           }}
         />
-        <div className="relative mx-auto w-full lg:w-3/4 xl:w-2/3 text-center">
+        <div
+          className="relative mx-auto pt-36 w-full lg:w-3/4 xl:w-2/3 text-center"
+          ref={bannerRef}
+        >
           <div
             className={clsx(
               "max-w-[calc(397px*0.6)] max-h-[calc(80px*0.6)]", // LOL
