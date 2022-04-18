@@ -1,3 +1,7 @@
+---
+title: "Basic features: Pages"
+---
+
 # Pages
 
 > This document is for Next.js versions 9.3 and up. If you're using older versions of Next.js, refer to our [previous documentation](https://nextjs.org/docs/tag/v9.2.2/basic-features/pages).
