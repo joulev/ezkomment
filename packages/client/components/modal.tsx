@@ -25,7 +25,7 @@ const Modal: FC<{
     >
       <div
         className={clsx(
-          "bg-card border rounded border-neutral-300 dark:border-neutral-700 transition",
+          "bg-card border rounded border-card transition",
           isVisible ? "translate-y-0" : "-translate-y-6"
         )}
         onClick={e => e.stopPropagation()}

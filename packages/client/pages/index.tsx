@@ -23,10 +23,7 @@ const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => {
   const screenWidth = useScreenWidth();
   return (
     <nav
-      className={clsx(
-        "fixed z-40 top-0 inset-x-0 px-6 sm:px-10",
-        "bg-card border-b border-neutral-300 dark:border-neutral-700"
-      )}
+      className={clsx("fixed z-40 top-0 inset-x-0 px-6 sm:px-10", "bg-card border-b border-card")}
     >
       <div
         className={clsx(

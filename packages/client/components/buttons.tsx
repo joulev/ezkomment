@@ -25,7 +25,7 @@ const variantClasses: Record<ButtonVariant, string> = {
     "active:bg-red-800 active:border-red-800"
   ),
   tertiary: clsx(
-    "text-neutral-700 dark:text-neutral-300 border-neutral-300 dark:border-neutral-700 bg-card",
+    "text-neutral-700 dark:text-neutral-300 border-card bg-card",
     "hover:text-neutral-900 dark:hover:text-neutral-100 hover:border-neutral-700 dark:hover:border-neutral-300",
     "active:bg-neutral-200 dark:active:bg-neutral-800"
   ),

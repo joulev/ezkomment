@@ -38,12 +38,7 @@ const Footer: FC<{ className?: string; containerClasses?: string }> = ({
     setBuildId(parseBuildId(getBuildId));
   }, []);
   return (
-    <footer
-      className={clsx(
-        "bg-card border-t border-neutral-300 dark:border-neutral-700 py-6",
-        className
-      )}
-    >
+    <footer className={clsx("bg-card border-t border-card py-6", className)}>
       <div
         className={clsx(
           "flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center",
@@ -81,7 +76,7 @@ const Footer: FC<{ className?: string; containerClasses?: string }> = ({
             )}
           </div>
         </div>
-        <hr className="my-6 border-neutral-300 dark:border-neutral-700 sm:hidden" />
+        <hr className="my-6 border-card sm:hidden" />
         <div className="flex flex-row gap-6 justify-between items-center sm:justify-start sm:flex-col sm:items-end">
           <div className="flex flex-row gap-3">
             <SocialIconLink href="#" icon={GitHubIcon} />

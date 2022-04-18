@@ -64,7 +64,7 @@ const Account: NextPage = () => {
           <div
             className={clsx(
               "flex flex-col mb-6 bg-card rounded overflow-hidden",
-              "border border-neutral-300 dark:border-neutral-700",
+              "border border-card",
               "divide-y divide-neutral-300 dark:divide-neutral-700"
             )}
           >

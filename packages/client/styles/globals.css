@@ -56,6 +56,9 @@
     .bg-card {
         @apply bg-white dark:bg-black;
     }
+    .border-card {
+        @apply border-neutral-300 dark:border-neutral-700;
+    }
     /* NProgress */
     #nprogress {
         @apply pointer-events-none;

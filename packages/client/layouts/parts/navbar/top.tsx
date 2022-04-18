@@ -44,7 +44,7 @@ const TopNavExpandedItem: FC<TopNavItemProps & { children: ReactNode }> = ({
   children,
 }) => {
   const classes = clsx(
-    "py-3 mx-1 border-t border-neutral-300 dark:border-neutral-700 text-left flex flex-row items-center gap-3",
+    "py-3 mx-1 border-t border-card text-left flex flex-row items-center gap-3",
     "transition text-neutral-700 dark:text-neutral-300"
   );
   return href ? (

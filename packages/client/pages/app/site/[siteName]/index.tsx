@@ -136,7 +136,7 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
           <div
             className={clsx(
               "flex flex-col rounded overflow-hidden bg-card transition",
-              "border border-neutral-300 dark:border-neutral-700",
+              "border border-card",
               "hover:border-neutral-700 dark:hover:border-neutral-300",
               "divide-y divide-neutral-300 dark:divide-neutral-700",
               "hover:divide-neutral-700 dark:hover:divide-neutral-300"

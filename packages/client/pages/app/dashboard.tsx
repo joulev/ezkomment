@@ -31,7 +31,7 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site: Site }>(({ site }, ref) =
     notStyled
     className={clsx(
       "cursor-pointer p-6 transition",
-      "bg-card rounded border border-neutral-300 dark:border-neutral-700",
+      "bg-card rounded border border-card",
       "hover:border-neutral-700 dark:hover:border-neutral-300"
     )}
     href={`/app/site/${site.name}`}
@@ -66,7 +66,7 @@ const EmptyCard: FC = () => {
       href="/app/new"
       notStyled
       className={clsx(
-        "rounded border border-dashed border-neutral-300 dark:border-neutral-700",
+        "rounded border border-dashed border-card",
         "grid place-items-center transition cursor-pointer group",
         "text-neutral-300 dark:text-neutral-700 hover:text-muted"
       )}

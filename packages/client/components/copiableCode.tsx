@@ -27,7 +27,7 @@ const CopiableCode: FC<{ content: string; className?: string }> = ({ content, cl
     <button
       className={clsx(
         "flex flex-row border divide-x rounded transition cursor-pointer w-full text-left group",
-        "bg-card border-neutral-300 dark:border-neutral-700",
+        "bg-card border-card",
         "divide-neutral-300 dark:divide-neutral-700",
         "hover:border-neutral-700 dark:hover:border-neutral-300",
         "hover:divide-neutral-700 dark:hover:divide-neutral-300",

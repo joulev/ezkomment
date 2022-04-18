@@ -26,7 +26,7 @@ const Comments: FC<{ comments: Comment[]; children?: ReactNode }> = ({ comments,
   <div
     className={clsx(
       "flex flex-col divide-y border rounded bg-card",
-      "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700"
+      "border-card divide-neutral-300 dark:divide-neutral-700"
     )}
   >
     {comments.map((comment, index) => (

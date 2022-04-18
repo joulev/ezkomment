@@ -64,7 +64,7 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
         <div
           className={clsx(
             "hidden md:flex sticky top-0 h-screen pt-12 pb-6 px-6 lg:px-12 flex-col gap-6",
-            "bg-card border-r border-neutral-300 dark:border-neutral-700"
+            "bg-card border-r border-card"
           )}
         >
           <div>

@@ -23,7 +23,7 @@ const ModeSwitcher: FC = () => {
       className={clsx(
         "flex flex-row items-center overflow-hidden rounded",
         "divide-x divide-neutral-300 dark:divide-neutral-700",
-        "border border-neutral-300 dark:border-neutral-700"
+        "border border-card"
       )}
     >
       {modes.map(({ value, icon: Icon }, index) => (

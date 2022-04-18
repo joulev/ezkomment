@@ -44,7 +44,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   <div
     className={clsx(
       "flex flex-row rounded border divide-x overflow-hidden",
-      "border-neutral-300 dark:border-neutral-700 divide-neutral-300 dark:divide-neutral-700"
+      "border-card divide-neutral-300 dark:divide-neutral-700"
     )}
   >
     {buttons.map(({ label, icon, onClick }, index) => (
@@ -146,10 +146,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
           onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
           options={monacoOptions}
         />
-        <div
-          className="p-6 rounded border border-neutral-300 dark:border-neutral-700"
-          style={{ backgroundColor: previewBg }}
-        >
+        <div className="p-6 rounded border border-card" style={{ backgroundColor: previewBg }}>
           <iframe
             srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
             sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
