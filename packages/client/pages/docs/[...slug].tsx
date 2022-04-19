@@ -1,15 +1,13 @@
 import clsx from "clsx";
 import matter from "gray-matter";
-import Markdown from "markdown-to-jsx";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import prism from "prismjs";
-import "prismjs/components/prism-bash";
-import "prismjs/components/prism-json";
-import "prismjs/components/prism-jsx";
 import { FC, ReactNode, useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import rehypeRaw from "rehype-raw";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -52,7 +50,6 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
 
 const DocPage: NextPage<PageProps> = ({ title, content }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const getBuildId: string = JSON.parse(
@@ -60,8 +57,6 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
     ).buildId;
     setBuildId(parseBuildId(getBuildId));
   }, []);
-
-  useEffect(() => prism.highlightAll(), [router]);
 
   return (
     <>
@@ -120,17 +115,31 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
         </div>
         <main className="col-span-full md:col-span-2 px-6 py-12 sm:px-12 max-w-prose">
           <div className="docs">
-            <Markdown
-              options={{
-                overrides: {
-                  a: {
-                    component: A,
-                  },
+            <ReactMarkdown
+              components={{
+                a: ({ node, children, ...props }) => <A {...props}>{children}</A>,
+                // why tf did I need 30 lines in another project just for the same thing?
+                pre: ({ children }) => <>{children}</>,
+                // https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight
+                code: ({ node, inline, className, ...props }) => {
+                  const match = /language-(\w+)/.exec(className || "");
+                  return !inline && match ? (
+                    <SyntaxHighlighter
+                      language={match[1]}
+                      {...props}
+                      // No thanks I will use my own CSS
+                      useInlineStyles={false}
+                      codeTagProps={{ style: undefined }}
+                    />
+                  ) : (
+                    <code className={className} {...props} />
+                  );
                 },
               }}
+              rehypePlugins={[rehypeRaw]}
             >
               {content}
-            </Markdown>
+            </ReactMarkdown>
           </div>
           <hr />
           <div className="text-center">Was this page helpful?</div>
