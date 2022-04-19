@@ -93,7 +93,7 @@
         @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded;
     }
     .docs pre {
-        @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card;
+        @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card overflow-x-auto;
     }
     .docs ul {
         @apply list-disc ml-9;

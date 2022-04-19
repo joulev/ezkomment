@@ -62,11 +62,14 @@ pnpm add next react react-dom
 Open `package.json` and add the following `scripts`:
 
 ```json
-"scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "next lint"
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "content": "A very super long content line to show whether overflow-x-auto works inside pre code blocks and hello world blah some other text"
 }
 ```
 
