@@ -59,6 +59,10 @@ export function getFiles() {
 export function getFileData(fileName: string[]): DocsData {
     const filePath = join(docsDir, ...fileName) + ".md";
     const { content, data } = matter(readFileSync(filePath, "utf8"));
-    const time = parseInt(execSync(`git log -1 --format="%ct" ${filePath}`).toString()) * 1000;
-    return { content, title: data.title as string, time, path: fileName };
+    return {
+        content,
+        title: data.title as string,
+        lastModified: parseInt(execSync(`git log -1 --format="%ct" ${filePath}`).toString()) * 1000,
+        path: fileName,
+    };
 }

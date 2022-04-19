@@ -1,6 +1,6 @@
 export type DocsData = {
     content: string;
     title: string;
-    time: number;
+    lastModified: number;
     path: string[];
 };

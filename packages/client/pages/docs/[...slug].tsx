@@ -49,7 +49,7 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
   <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">{children}</h2>
 );
 
-const DocPage: NextPage<DocsData> = ({ title, content, time, path }) => {
+const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
   const [screenHeight, setScreenHeight] = useState(0);
@@ -182,8 +182,8 @@ const DocPage: NextPage<DocsData> = ({ title, content, time, path }) => {
           <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-baseline gap-y-3 text-sm">
             <div className="text-muted">
               Last modified:{" "}
-              <time title={formatISO(time)}>
-                {formatDistanceToNowStrict(time, { addSuffix: true })}
+              <time title={formatISO(lastModified)}>
+                {formatDistanceToNowStrict(lastModified, { addSuffix: true })}
               </time>
             </div>
             <A href={`https://github.com/joulev/ezkomment/blob/main/docs/${path.join("/")}.md`}>
@@ -204,6 +204,6 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
 const getStaticProps: GetStaticProps<DocsData, URLParams> = ({ params }) =>
   params
     ? { props: { ...getFileData(params.slug) } }
-    : { props: { content: "something's wrong", title: "", time: 0, path: [] } };
+    : { props: { content: "something's wrong", title: "", lastModified: 0, path: [] } };
 
 export { DocPage as default, getStaticPaths, getStaticProps };
