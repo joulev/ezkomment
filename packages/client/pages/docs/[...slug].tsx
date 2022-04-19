@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { formatDistanceToNowStrict, formatISO, parseISO } from "date-fns";
 import matter from "gray-matter";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
@@ -25,7 +26,7 @@ import ModeSwitcher from "@client/components/modeSwitcher";
 import { BuildInfo } from "@client/types/utils.type";
 
 type URLParams = { slug: string[] };
-type PageProps = { title: string; content: string };
+type PageProps = { title: string; content: string; time: number; path: string[] };
 
 const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children }) => {
   const router = useRouter();
@@ -49,7 +50,7 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
   <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">{children}</h2>
 );
 
-const DocPage: NextPage<PageProps> = ({ title, content }) => {
+const DocPage: NextPage<PageProps> = ({ title, content, time, path }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
   const [screenHeight, setScreenHeight] = useState(0);
@@ -178,6 +179,18 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
               No
             </Button>
           </div>
+          <hr />
+          <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-baseline gap-y-3 text-sm">
+            <div className="text-muted">
+              Last modified:{" "}
+              <time title={formatISO(time)}>
+                {formatDistanceToNowStrict(time, { addSuffix: true })}
+              </time>
+            </div>
+            <A href={`https://github.com/joulev/ezkomment/blob/main/docs/${path.join("/")}.md`}>
+              Edit this page on GitHub
+            </A>
+          </div>
         </main>
       </div>
     </>
@@ -190,11 +203,11 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
 });
 
 const getStaticProps: GetStaticProps<PageProps, URLParams> = ({ params }) => {
-  if (!params) return { props: { content: "something's wrong", title: "something's wrong" } };
-  const { content, data } = matter(getFileData(params.slug));
-
+  if (!params) return { props: { content: "something's wrong", title: "", time: 0, path: [] } };
+  const fileData = getFileData(params.slug);
+  const { content, data } = matter(fileData.content);
   return {
-    props: { content, title: data.title as string },
+    props: { content, title: data.title as string, time: fileData.time, path: params.slug },
   };
 };
 
