@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { formatDistanceToNowStrict, formatISO, parseISO } from "date-fns";
+import { formatDistanceToNowStrict, formatISO } from "date-fns";
 import matter from "gray-matter";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
