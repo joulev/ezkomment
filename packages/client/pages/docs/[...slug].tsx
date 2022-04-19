@@ -11,6 +11,7 @@ import rehypeRaw from "rehype-raw";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import { getFileData, getFiles } from "@client/lib/documentation";
@@ -50,13 +51,21 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
 
 const DocPage: NextPage<PageProps> = ({ title, content }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
+  const [navbarCollapsed, setNavbarCollapsed] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const getBuildId: string = JSON.parse(
       document.querySelector("#__NEXT_DATA__")?.textContent as string
     ).buildId;
     setBuildId(parseBuildId(getBuildId));
+
+    const handleResize = () => setNavbarCollapsed(true);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => setNavbarCollapsed(true), [router.asPath]);
 
   return (
     <>
@@ -66,28 +75,38 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div
           className={clsx(
-            "hidden md:flex sticky top-0 h-screen pt-12 pb-6 px-6 lg:px-12 flex-col gap-6",
-            "bg-card border-r border-card"
+            "sticky top-0 inset-x-0 md:left-0 md:right-auto flex flex-col gap-6",
+            "overflow-hidden px-6 sm:px-12 md:px-6 md:pt-12 md:pb-6",
+            "bg-card md:h-screen md:border-b-0 md:border-r border-card transition-all",
+            navbarCollapsed ? "h-[60px] border-b py-3" : "h-screen border-b-0 py-6"
           )}
         >
-          <div>
+          <div className="flex flex-row justify-between">
             <A
               href="/"
               notStyled
               className={clsx(
-                "relative after:absolute after:content-['docs'] after:left-full after:-top-full after:ml-3",
-                "after:text-primary after:uppercase",
+                "relative block h-9 w-[calc(397px/80*36)]",
+                "after:absolute after:content-['docs'] after:left-full after:top-1.5 after:ml-1.5",
+                "after:text-primary after:uppercase after:text-sm",
                 "after:bg-indigo-100 dark:after:bg-indigo-900 dark:after:bg-opacity-50",
-                "after:px-3 after:py-1 after:rounded after:hidden lg:after:block"
+                "after:px-1.5 after:py-0.5 after:rounded md:after:hidden lg:after:block"
               )}
             >
               <Image
                 src="/images/logo-text.svg"
                 alt="ezkomment"
-                width={397 * 0.4}
-                height={80 * 0.4}
+                layout="responsive"
+                width={397}
+                height={80}
               />
             </A>
+            <Button
+              icon={navbarCollapsed ? MenuOutlinedIcon : ClearOutlinedIcon}
+              variant="tertiary"
+              className="md:hidden"
+              onClick={() => setNavbarCollapsed(!navbarCollapsed)}
+            />
           </div>
           <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
           <div className="flex-grow min-h-0 overflow-y-auto">
@@ -113,7 +132,7 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
             <ModeSwitcher />
           </footer>
         </div>
-        <main className="col-span-full md:col-span-2 px-6 py-12 sm:px-12 max-w-prose">
+        <main className="col-span-full md:col-span-2 px-6 sm:px-12 py-12 max-w-prose">
           <div className="docs">
             <ReactMarkdown
               components={{
