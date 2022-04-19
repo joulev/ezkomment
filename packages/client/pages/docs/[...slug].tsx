@@ -52,6 +52,7 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
 const DocPage: NextPage<PageProps> = ({ title, content }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
+  const [screenHeight, setScreenHeight] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -60,9 +61,20 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
     ).buildId;
     setBuildId(parseBuildId(getBuildId));
 
-    const handleResize = () => setNavbarCollapsed(true);
+    setScreenHeight(window.innerHeight);
+
+    const handleResize = () => {
+      setNavbarCollapsed(true);
+      setScreenHeight(window.innerHeight);
+    };
+    const handleScroll = () => setScreenHeight(window.innerHeight);
+
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => setNavbarCollapsed(true), [router.asPath]);
@@ -77,9 +89,10 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
           className={clsx(
             "sticky top-0 inset-x-0 md:left-0 md:right-auto z-40 flex flex-col gap-6",
             "overflow-hidden px-6 sm:px-12 md:px-6 md:pt-12 md:pb-6",
-            "bg-card md:h-screen md:border-b-0 md:border-r border-card transition-all",
-            navbarCollapsed ? "h-[60px] border-b py-3" : "h-screen border-b-0 py-6"
+            "bg-card md:!h-screen md:border-b-0 md:border-r border-card transition-all", // sorry for using !important
+            navbarCollapsed ? "border-b py-3" : "border-b-0 py-6"
           )}
+          style={{ height: navbarCollapsed ? "60px" : screenHeight + "px" }}
         >
           <div className="flex flex-row justify-between items-center">
             <A
