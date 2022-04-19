@@ -52,7 +52,6 @@ export function getFiles() {
 export function getFileData(fileName: string[]) {
     const filePath = join(docsDir, ...fileName) + ".md";
     const time = parseInt(execSync(`git log -1 --format="%ct" ${filePath}`).toString()) * 1000;
-    console.log(filePath, time);
     return {
         content: readFileSync(filePath, "utf8"),
         time,
