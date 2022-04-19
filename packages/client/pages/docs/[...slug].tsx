@@ -81,16 +81,16 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
             navbarCollapsed ? "h-[60px] border-b py-3" : "h-screen border-b-0 py-6"
           )}
         >
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between items-center">
             <A
               href="/"
               notStyled
               className={clsx(
-                "relative block h-9 w-[calc(397px/80*36)]",
-                "after:absolute after:content-['docs'] after:left-full after:top-1.5 after:ml-1.5",
+                "relative block h-[30px] w-[calc(397px/80*30)]",
+                "after:absolute after:content-['docs'] after:left-full after:top-1 after:ml-1.5",
                 "after:text-primary after:uppercase after:text-sm",
                 "after:bg-indigo-100 dark:after:bg-indigo-900 dark:after:bg-opacity-50",
-                "after:px-1.5 after:py-0.5 after:rounded md:after:hidden lg:after:block"
+                "after:px-1.5 after:py-0.5 after:rounded"
               )}
             >
               <Image
