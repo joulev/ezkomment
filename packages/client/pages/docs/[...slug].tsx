@@ -109,11 +109,11 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
             />
           </div>
           <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
-          <div className="flex-grow min-h-0 overflow-y-auto">
+          <nav className="flex-grow min-h-0 overflow-y-auto">
             <SidebarLink href="/docs/getting-started">Getting started</SidebarLink>
             <SidebarSection>Basic features</SidebarSection>
             <SidebarLink href="/docs/basic-features/pages">Pages</SidebarLink>
-          </div>
+          </nav>
           <footer className="flex flex-row justify-between items-center">
             {process.env.NODE_ENV === "development" && (
               <span className="text-muted font-mono">dev</span>
