@@ -61,19 +61,14 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
     ).buildId;
     setBuildId(parseBuildId(getBuildId));
 
-    setScreenHeight(window.innerHeight);
+    const handleScreenHeight = () => setScreenHeight(window.innerHeight);
 
-    const handleResize = () => {
-      setNavbarCollapsed(true);
-      setScreenHeight(window.innerHeight);
-    };
-    const handleScroll = () => setScreenHeight(window.innerHeight);
-
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScreenHeight);
+    window.addEventListener("scroll", handleScreenHeight);
+    handleScreenHeight();
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScreenHeight);
+      window.removeEventListener("scroll", handleScreenHeight);
     };
   }, []);
 
