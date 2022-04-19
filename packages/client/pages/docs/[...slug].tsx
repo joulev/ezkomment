@@ -82,7 +82,7 @@ const DocPage: NextPage<PageProps> = ({ title, content }) => {
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div
           className={clsx(
-            "sticky top-0 inset-x-0 md:left-0 md:right-auto z-40 flex flex-col gap-6",
+            "sticky top-0 inset-x-0 md:left-0 md:right-auto z-40 md:z-auto flex flex-col gap-6",
             "overflow-hidden px-6 sm:px-12 md:px-6 md:pt-12 md:pb-6",
             "bg-card md:!h-screen md:border-b-0 md:border-r border-card transition-all", // sorry for using !important
             navbarCollapsed ? "border-b py-3" : "border-b-0 py-6"
