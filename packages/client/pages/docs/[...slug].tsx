@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict, formatISO } from "date-fns";
-import matter from "gray-matter";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -23,10 +22,10 @@ import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
+import { DocsData } from "@client/types/docs.type";
 import { BuildInfo } from "@client/types/utils.type";
 
 type URLParams = { slug: string[] };
-type PageProps = { title: string; content: string; time: number; path: string[] };
 
 const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children }) => {
   const router = useRouter();
@@ -50,7 +49,7 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
   <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">{children}</h2>
 );
 
-const DocPage: NextPage<PageProps> = ({ title, content, time, path }) => {
+const DocPage: NextPage<DocsData> = ({ title, content, time, path }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
   const [screenHeight, setScreenHeight] = useState(0);
@@ -202,13 +201,9 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
   fallback: false,
 });
 
-const getStaticProps: GetStaticProps<PageProps, URLParams> = ({ params }) => {
-  if (!params) return { props: { content: "something's wrong", title: "", time: 0, path: [] } };
-  const fileData = getFileData(params.slug);
-  const { content, data } = matter(fileData.content);
-  return {
-    props: { content, title: data.title as string, time: fileData.time, path: params.slug },
-  };
-};
+const getStaticProps: GetStaticProps<DocsData, URLParams> = ({ params }) =>
+  params
+    ? { props: { ...getFileData(params.slug) } }
+    : { props: { content: "something's wrong", title: "", time: 0, path: [] } };
 
 export { DocPage as default, getStaticPaths, getStaticProps };

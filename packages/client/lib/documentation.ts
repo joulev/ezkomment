@@ -1,7 +1,10 @@
 import { execSync } from "child_process";
 import { readFileSync } from "fs";
+import matter from "gray-matter";
 import { files as readDirRecursive } from "node-dir";
 import { join } from "path";
+
+import { DocsData } from "@client/types/docs.type";
 
 const docsDir = join(process.cwd(), "..", "..", "docs");
 
@@ -36,7 +39,9 @@ export function getFiles() {
  *
  * @param fileName The path of the file to read as an array (from `getFiles`). Doesn't include file
  * extension, and it will be treated as a `.md` file.
- * @returns An object containing the file contents and the last modified date (according to `git`).
+ *
+ * @returns An object containing file information. It can be passed directly to page props in
+ * docs pages.
  *
  * @example
  * ```
@@ -45,15 +50,15 @@ export function getFiles() {
  * {
  *   // /path/to/docs/basic-features/pages.md
  *   content: "The content of the file",
- *   lastModified: 1234234123 // Unix timestamp to milliseconds
+ *   title: "The title of the file as in file frontmatter",
+ *   lastModified: 1234234123 // Unix timestamp to milliseconds,
+ *   path: ["the file path (the input to this function)"]
  * }
  * ```
  */
-export function getFileData(fileName: string[]) {
+export function getFileData(fileName: string[]): DocsData {
     const filePath = join(docsDir, ...fileName) + ".md";
+    const { content, data } = matter(readFileSync(filePath, "utf8"));
     const time = parseInt(execSync(`git log -1 --format="%ct" ${filePath}`).toString()) * 1000;
-    return {
-        content: readFileSync(filePath, "utf8"),
-        time,
-    };
+    return { content, title: data.title as string, time, path: fileName };
 }
