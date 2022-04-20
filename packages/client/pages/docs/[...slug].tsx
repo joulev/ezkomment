@@ -144,7 +144,7 @@ const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => 
           </footer>
         </div>
         <main className="col-span-full md:col-span-2 px-6 sm:px-12 py-12 max-w-prose">
-          <div style={{ height: "60px" }} />
+          <div style={{ height: "60px" }} className="md:hidden" />
           <article className="docs">
             <ReactMarkdown
               components={{
