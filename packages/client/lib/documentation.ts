@@ -54,11 +54,9 @@ export const filePaths = Object.entries(navData)
  */
 export function getFileData(fileName: string[]): DocsData {
     const filePath = join(docsDir, ...fileName) + ".md";
+    const data = navData[fileName[0]];
     return {
-        title:
-            fileName.length === 1
-                ? (navData[fileName[0]] as string)
-                : (navData[fileName[0]] as SectionData).pages[fileName[1]],
+        title: typeof data === "string" ? data : `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
         content: readFileSync(filePath, "utf8").trim(),
         lastModified: parseInt(execSync(`git log -1 --format="%ct" ${filePath}`).toString()) * 1000,
     };
