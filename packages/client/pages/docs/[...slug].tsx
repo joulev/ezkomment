@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import rehypeRaw from "rehype-raw";
@@ -49,8 +49,27 @@ const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children
   );
 };
 
-const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
-  <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">{children}</h2>
+const Nav: FC<{ navData: NavData }> = ({ navData }) => (
+  <nav className="flex-grow min-h-0 overflow-y-auto">
+    {Object.entries(navData).map(([topLevel, data], i) =>
+      typeof data === "string" ? (
+        <SidebarLink key={i} href={`/docs/${topLevel}`}>
+          {data}
+        </SidebarLink>
+      ) : (
+        <Fragment key={i}>
+          <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">
+            {data.sectionTitle}
+          </h2>
+          {Object.entries(data.pages).map(([secondLevel, title], j) => (
+            <SidebarLink key={j} href={`/docs/${topLevel}/${secondLevel}`}>
+              {title}
+            </SidebarLink>
+          ))}
+        </Fragment>
+      )
+    )}
+  </nav>
 );
 
 const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navData }) => {
@@ -83,7 +102,6 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
       <Head>
         <title>{title} | ezkomment Docs</title>
       </Head>
-      {console.log(navData)}
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div
           className={clsx(
@@ -125,11 +143,7 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
             </button>
           </div>
           <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
-          <nav className="flex-grow min-h-0 overflow-y-auto">
-            <SidebarLink href="/docs/getting-started">Getting started</SidebarLink>
-            <SidebarSection>Basic features</SidebarSection>
-            <SidebarLink href="/docs/basic-features/pages">Pages</SidebarLink>
-          </nav>
+          <Nav navData={navData} />
           <footer className="flex flex-row justify-between items-center">
             {process.env.NODE_ENV === "development" && (
               <span className="text-muted font-mono">dev</span>
