@@ -11,7 +11,7 @@ import rehypeRaw from "rehype-raw";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import { getFileData, getFiles } from "@client/lib/documentation";
@@ -109,12 +109,15 @@ const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => 
                 height={80}
               />
             </A>
-            <Button
-              icon={navbarCollapsed ? MenuOutlinedIcon : ClearOutlinedIcon}
-              variant="tertiary"
-              className="md:hidden"
+            <button
+              className={clsx(
+                "md:hidden text-neutral-600 dark:text-neutral-400 rounded p-1 transition leading-none",
+                "hover:text-neutral-900 dark:hover:text-neutral-100"
+              )}
               onClick={() => setNavbarCollapsed(!navbarCollapsed)}
-            />
+            >
+              {navbarCollapsed ? <DensityMediumOutlinedIcon /> : <ClearOutlinedIcon />}
+            </button>
           </div>
           <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
           <nav className="flex-grow min-h-0 overflow-y-auto">
