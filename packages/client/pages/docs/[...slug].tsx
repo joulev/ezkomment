@@ -82,7 +82,7 @@ const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => 
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div
           className={clsx(
-            "sticky top-0 inset-x-0 md:left-0 md:right-auto z-40 md:z-auto flex flex-col gap-6",
+            "fixed md:sticky top-0 inset-x-0 md:left-0 md:right-auto z-40 md:z-auto flex flex-col gap-6",
             "overflow-hidden px-6 sm:px-12 md:px-6 md:pt-12 md:pb-6",
             "bg-card md:!h-screen md:border-b-0 md:border-r border-card transition-all", // sorry for using !important
             navbarCollapsed ? "border-b py-3" : "border-b-0 py-6"
@@ -144,7 +144,8 @@ const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => 
           </footer>
         </div>
         <main className="col-span-full md:col-span-2 px-6 sm:px-12 py-12 max-w-prose">
-          <div className="docs">
+          <div style={{ height: "60px" }} />
+          <article className="docs">
             <ReactMarkdown
               components={{
                 a: ({ node, children, ...props }) => <A {...props}>{children}</A>,
@@ -170,7 +171,7 @@ const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => 
             >
               {content}
             </ReactMarkdown>
-          </div>
+          </article>
           <hr />
           <div className="text-center">Was this page helpful?</div>
           <div className="flex flex-row justify-center gap-6 mt-3">
