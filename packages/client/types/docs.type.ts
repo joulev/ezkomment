@@ -1,6 +1,16 @@
 export type DocsData = {
-    content: string;
     title: string;
+    content: string;
     lastModified: number;
-    path: string[];
+};
+
+export type SectionData = {
+    sectionTitle: string;
+    pages: {
+        [key: string]: string; // we only go one level deep, and that's intentional
+    };
+};
+
+export type NavData = {
+    [key: string]: string | SectionData;
 };

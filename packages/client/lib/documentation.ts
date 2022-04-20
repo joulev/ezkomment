@@ -1,38 +1,37 @@
 import { execSync } from "child_process";
 import { readFileSync } from "fs";
-import matter from "gray-matter";
-import { files as readDirRecursive } from "node-dir";
+import { parse as JSON5Parse } from "json5";
 import { join } from "path";
 
-import { DocsData } from "@client/types/docs.type";
+import { DocsData, NavData, SectionData } from "@client/types/docs.type";
 
 const docsDir = join(process.cwd(), "..", "..", "docs");
 
 /**
- * Get the filename of all `.md` files in the docs directory
- *
- * @returns An array of all the files in the docs directory, each element being another array
- * describing the path to the file. File extensions are removed.
- *
+ * @see /docs/nav.json5
+ */
+export const navData = JSON5Parse<NavData>(readFileSync(join(docsDir, "nav.json5"), "utf8"));
+
+/**
  * @example
  * ```
  * [
- *   [ "filename" ],
- *   [ "subfolder", "filename" ],
- *   ...
+ *   ["getting-started"], // note that .md is omitted
+ *   ["basic-features", "pages"],
+ *   // ...
  * ]
  * ```
  */
-export function getFiles() {
-    return readDirRecursive(docsDir, { sync: true })
-        .filter(file => file.endsWith(".md"))
-        .map(file =>
-            file
-                .replace(".md", "")
-                .replace(docsDir + "/", "")
-                .split("/")
-        );
-}
+export const filePaths = Object.entries(navData)
+    .map(([topLevelName, data]) =>
+        typeof data === "string"
+            ? topLevelName
+            : Object.entries(data.pages).map(
+                  ([secondLevelName, _]) => `${topLevelName}/${secondLevelName}`
+              )
+    )
+    .flat(1)
+    .map(path => path.split("/"));
 
 /**
  * Read a file from the `/docs` directory
@@ -40,8 +39,7 @@ export function getFiles() {
  * @param fileName The path of the file to read as an array (from `getFiles`). Doesn't include file
  * extension, and it will be treated as a `.md` file.
  *
- * @returns An object containing file information. It can be passed directly to page props in
- * docs pages.
+ * @returns An object containing file content and last committed date according to `git`.
  *
  * @example
  * ```
@@ -50,19 +48,18 @@ export function getFiles() {
  * {
  *   // /path/to/docs/basic-features/pages.md
  *   content: "The content of the file",
- *   title: "The title of the file as in file frontmatter",
  *   lastModified: 1234234123 // Unix timestamp to milliseconds,
- *   path: ["the file path (the input to this function)"]
  * }
  * ```
  */
 export function getFileData(fileName: string[]): DocsData {
     const filePath = join(docsDir, ...fileName) + ".md";
-    const { content, data } = matter(readFileSync(filePath, "utf8"));
     return {
-        content,
-        title: data.title as string,
+        title:
+            fileName.length === 1
+                ? (navData[fileName[0]] as string)
+                : (navData[fileName[0]] as SectionData).pages[fileName[1]],
+        content: readFileSync(filePath, "utf8").trim(),
         lastModified: parseInt(execSync(`git log -1 --format="%ct" ${filePath}`).toString()) * 1000,
-        path: fileName,
     };
 }

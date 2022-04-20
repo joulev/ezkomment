@@ -14,7 +14,7 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import { getFileData, getFiles } from "@client/lib/documentation";
+import { filePaths, getFileData, navData } from "@client/lib/documentation";
 import parseBuildId from "@client/lib/parseBuildId";
 
 import A from "@client/components/anchor";
@@ -22,10 +22,14 @@ import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
-import { DocsData } from "@client/types/docs.type";
+import { DocsData, NavData } from "@client/types/docs.type";
 import { BuildInfo } from "@client/types/utils.type";
 
 type URLParams = { slug: string[] };
+type PageProps = DocsData & {
+  navData: NavData;
+  path: string[];
+};
 
 const SidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, children }) => {
   const router = useRouter();
@@ -49,7 +53,7 @@ const SidebarSection: FC<{ children: ReactNode }> = ({ children }) => (
   <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">{children}</h2>
 );
 
-const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => {
+const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navData }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
   const [screenHeight, setScreenHeight] = useState(0);
@@ -79,6 +83,7 @@ const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => 
       <Head>
         <title>{title} | ezkomment Docs</title>
       </Head>
+      {console.log(navData)}
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div
           className={clsx(
@@ -201,13 +206,22 @@ const DocPage: NextPage<DocsData> = ({ title, content, lastModified, path }) => 
 };
 
 const getStaticPaths: GetStaticPaths<URLParams> = () => ({
-  paths: getFiles().map(slug => ({ params: { slug } })),
+  paths: filePaths.map(slug => ({ params: { slug } })),
   fallback: false,
 });
 
-const getStaticProps: GetStaticProps<DocsData, URLParams> = ({ params }) =>
-  params
-    ? { props: { ...getFileData(params.slug) } }
-    : { props: { content: "something's wrong", title: "", lastModified: 0, path: [] } };
+const getStaticProps: GetStaticProps<PageProps, URLParams> = ({ params }) => {
+  if (!params)
+    return {
+      props: { content: "something's wrong", title: "", lastModified: 0, path: [], navData },
+    };
+  return {
+    props: {
+      ...getFileData(params.slug),
+      path: params.slug,
+      navData,
+    },
+  };
+};
 
 export { DocPage as default, getStaticPaths, getStaticProps };
