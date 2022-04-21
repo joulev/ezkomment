@@ -14,6 +14,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import TagOutlinedIcon from "@mui/icons-material/TagOutlined";
 
 import { filePaths, getFileData, navData } from "@client/lib/documentation";
 import parseBuildId from "@client/lib/parseBuildId";
@@ -72,6 +73,27 @@ const Nav: FC<{ navData: NavData }> = ({ navData }) => (
     )}
   </nav>
 );
+
+const Heading: FC<{ level: number; id?: string; children: ReactNode }> = ({
+  level,
+  id,
+  children,
+}) => {
+  const HeadingTag: keyof JSX.IntrinsicElements = `h${level as 1 | 2 | 3 | 4 | 5 | 6}`;
+  return (
+    <HeadingTag id={id} className="relative group">
+      {children}
+      {level > 1 && (
+        <A
+          href={`#${id}`}
+          className="absolute bottom-0 right-full pr-1 opacity-0 group-hover:opacity-100 transition"
+        >
+          <TagOutlinedIcon fontSize="small" />
+        </A>
+      )}
+    </HeadingTag>
+  );
+};
 
 const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navData }) => {
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
@@ -169,6 +191,13 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
             <ReactMarkdown
               components={{
                 a: ({ node, children, ...props }) => <A {...props}>{children}</A>,
+                // for headings: `level` is already provided (yes I feel like cheating)
+                h1: props => <Heading {...props} />,
+                h2: props => <Heading {...props} />,
+                h3: props => <Heading {...props} />,
+                h4: props => <Heading {...props} />,
+                h5: props => <Heading {...props} />,
+                h6: props => <Heading {...props} />,
                 // why tf did I need 30 lines in another project just for the same thing?
                 pre: ({ children }) => <>{children}</>,
                 // https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight

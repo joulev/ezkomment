@@ -81,13 +81,13 @@
         @apply mb-12;
     }
     .docs h2 {
-        @apply text-3xl font-semibold mt-12 mb-9;
+        @apply text-3xl font-semibold mt-12 mb-9 scroll-mt-[108px] md:scroll-mt-12;
     }
     .docs h3 {
-        @apply text-2xl font-semibold mt-12 mb-9;
+        @apply text-2xl font-semibold mt-12 mb-9 scroll-mt-[108px] md:scroll-mt-12;
     }
     .docs h4 {
-        @apply text-xl font-light mt-9 mb-6;
+        @apply text-xl font-light mt-9 mb-6 scroll-mt-[96px] md:scroll-mt-9;
     }
     .docs :not(pre) > code {
         @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded;
@@ -112,4 +112,5 @@
 
 html {
     -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
 }
