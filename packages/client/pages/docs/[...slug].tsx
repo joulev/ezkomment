@@ -8,6 +8,7 @@ import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -186,7 +187,7 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
                   );
                 },
               }}
-              rehypePlugins={[rehypeRaw]}
+              rehypePlugins={[rehypeRaw, rehypeSlug]}
             >
               {content}
             </ReactMarkdown>
