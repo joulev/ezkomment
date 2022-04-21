@@ -7,6 +7,8 @@ import ModeContext from "@client/context/mode";
 import ScreenWidthContext from "@client/context/screenWidth";
 import getScreenWidth from "@client/lib/getScreenWidth";
 
+import { ErrorBoundary } from "@client/layouts/errors";
+
 import { Breakpoint, Mode } from "@client/types/utils.type";
 
 import "@client/styles/globals.css";
@@ -51,11 +53,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router]);
 
   return (
-    <ModeContext.Provider value={{ mode, setMode }}>
-      <ScreenWidthContext.Provider value={screenWidth}>
-        <Component {...pageProps} />
-      </ScreenWidthContext.Provider>
-    </ModeContext.Provider>
+    <ErrorBoundary>
+      <ModeContext.Provider value={{ mode, setMode }}>
+        <ScreenWidthContext.Provider value={screenWidth}>
+          <Component {...pageProps} />
+        </ScreenWidthContext.Provider>
+      </ModeContext.Provider>
+    </ErrorBoundary>
   );
 }
 
