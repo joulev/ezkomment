@@ -1,7 +1,5 @@
-import clsx from "clsx";
-import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { GetServerSideProps, NextPage } from "next";
-import { FC, ReactNode, useState } from "react";
+import { useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -10,6 +8,7 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
+import Comments from "@client/components/comments";
 import Modal from "@client/components/modal";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
@@ -18,32 +17,8 @@ import page from "@client/sample/page.json";
 
 type Page = typeof page;
 type Props = { page: Page };
-type Comment = { author: string; date: string; text: string };
 
 const site = { name: "blog-app" };
-
-const Comments: FC<{ comments: Comment[]; children?: ReactNode }> = ({ comments, children }) => (
-  <div className={clsx("flex flex-col divide-y border rounded bg-card", "border-card divide-card")}>
-    {comments.map((comment, index) => (
-      <div key={index} className="p-6 flex flex-col gap-3 relative">
-        <div className="flex flex-col sm:flex-row gap-x-6">
-          <strong>{comment.author}</strong>
-          <time
-            className={clsx(
-              "text-muted sm:relative before:hidden sm:before:block",
-              "before:absolute before:content-['•'] before:-left-3 before:-translate-x-1/2"
-            )}
-            title={comment.date}
-          >
-            {formatDistanceToNowStrict(parseISO(comment.date))} ago
-          </time>
-        </div>
-        <div>{comment.text}</div>
-        {children && <div className="absolute right-3 top-3 md:right-6 md:top-6">{children}</div>}
-      </div>
-    ))}
-  </div>
-);
 
 const PageOverview: NextPage<Props> = ({ page }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
