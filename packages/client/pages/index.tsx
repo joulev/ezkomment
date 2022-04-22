@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { ComponentProps, FC, ReactNode, useEffect, useRef, useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
@@ -186,18 +187,6 @@ const Home: NextPage = () => {
         </p>
         <Button>Learn more</Button>
       </Section>
-      <Section image={{ src: imageApi, alt: "API demonstration", width: 1422, height: 682 }}>
-        <h2 className="text-4xl">Powerful API for power users</h2>
-        <p>
-          With the powerful API provided, you can really do anything you want with the comments.
-          Absolutely zero restrictions on your creativity, be it custom JavaScript, fetching
-          additional resources, paginations, etc.
-        </p>
-        <p>
-          It&apos;s even <em>more</em> powerful, feature-rich than the built-in tools above.
-        </p>
-        <Button>Learn more</Button>
-      </Section>
       <section className="px-6 sm:px-10 my-48">
         <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 grid grid-cols-12 gap-y-9 lg:gap-x-12">
           <div className="order-last col-span-full lg:order-first lg:col-span-5">
@@ -215,7 +204,29 @@ const Home: NextPage = () => {
           <div className="order-first col-span-full lg:order-last lg:col-span-7">
             <div className="w-full sm:w-3/4 md:w-2/3 lg:w-full mx-auto">
               <Window tabs={["node", "zsh"]} activeTab={0}>
-                Hello world
+                <div className="overflow-x-auto text-sm p-3">
+                  <SyntaxHighlighter
+                    language="javascript"
+                    useInlineStyles={false}
+                    codeTagProps={{ style: undefined }}
+                  >
+                    {`> const res = await fetcher(url, { page: "873e276648d48e4fd1e1" });
+undefined
+> res.status
+200
+> const { comments } = await res.json();
+undefined
+> comments
+[
+  {
+    author: "John Doe",
+    timestamp: "2020-06-01T12:00:00.000Z",
+    content: "This is a comment",
+  },
+  ...
+]`}
+                  </SyntaxHighlighter>
+                </div>
               </Window>
             </div>
           </div>

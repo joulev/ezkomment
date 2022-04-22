@@ -33,7 +33,7 @@ const WindowTab: FC<{ title: string; active?: boolean }> = ({ title, active }) =
 );
 
 const Window: FC<WindowProps> = ({ tabs, activeTab, children }) => (
-  <div className="flex flex-col border rounded bg-card border-card pointer-events-none">
+  <div className="flex flex-col border rounded bg-card border-card">
     <div className="overflow-x-hidden">
       <div className="flex flex-row min-w-full">
         <MacOSWindowButton />
