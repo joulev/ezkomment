@@ -233,3 +233,8 @@ pre[class*="language-"] {
 .token.namespace {
     opacity: 0.8;
 }
+
+/* Line number */
+.comment.linenumber {
+    color: var(--syntax-gutter);
+}

@@ -1,13 +1,40 @@
 import { FC } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import Button from "@client/components/buttons";
 
-import image from "@client/public/images/home/iframe-sample.png";
+import Section from "../section";
+import Window from "../window";
 
-import { SectionImage } from "../section";
+const code = `      <span>Last updated: 1 January 2022</span>
+    </div>
+  </section>
+  <section id="comments">
+    <iframe src="https://api.ezkomment.joulev.dev/..."></iframe>
+  </section>
+</article>
+<footer class="footer">
+  <div class="footer-left-column">`;
 
 const HomePlainHTML: FC = () => (
-  <SectionImage image={{ src: image, alt: "Iframe sample", width: 1422, height: 682 }}>
+  <Section
+    illustration={
+      <Window tabs={["index.html"]} activeTab={0}>
+        <div className="overflow-x-auto text-sm p-3">
+          <SyntaxHighlighter
+            language="html"
+            useInlineStyles={false}
+            codeTagProps={{ style: undefined }}
+            showLineNumbers
+            startingLineNumber={146} // just a random line number
+            wrapLines
+          >
+            {code}
+          </SyntaxHighlighter>
+        </div>
+      </Window>
+    }
+  >
     <h2 className="text-4xl">Plain HTML is enough</h2>
     <p>
       You never have to worry about backend, server, anything. Simply add an{" "}
@@ -18,7 +45,7 @@ const HomePlainHTML: FC = () => (
       even works for good old plain HTML.
     </p>
     <Button>See it in action</Button>
-  </SectionImage>
+  </Section>
 );
 
 export default HomePlainHTML;
