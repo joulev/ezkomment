@@ -15,7 +15,7 @@ import ModeSwitcher from "@client/components/modeSwitcher";
 import { CurrentPage } from "@client/types/page.type";
 import { IconType } from "@client/types/utils.type";
 
-import defaultAvatar from "@client/public/images/default-photo.png";
+import defaultAvatar from "@client/public/images/default-photo.svg";
 import logo from "@client/public/images/logo.svg";
 
 type LinkOrButtonProps =
