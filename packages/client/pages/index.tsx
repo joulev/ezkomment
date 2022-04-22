@@ -12,11 +12,11 @@ import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import Footer from "@client/layouts/parts/footer";
 
-import imageApi from "@client/public/images/landing/api-sample.png";
-import imageApp from "@client/public/images/landing/app-screenshot.png";
-import imageCustom from "@client/public/images/landing/customisation.png";
-import imageIframe from "@client/public/images/landing/iframe-sample.png";
-import imageModeration from "@client/public/images/landing/moderation.png";
+import imageApi from "@client/public/images/home/api-sample.png";
+import imageApp from "@client/public/images/home/app-screenshot.png";
+import imageCustom from "@client/public/images/home/customisation.png";
+import imageIframe from "@client/public/images/home/iframe-sample.png";
+import imageModeration from "@client/public/images/home/moderation.png";
 import logoTextWhite from "@client/public/images/logo-text-white.svg";
 import logoText from "@client/public/images/logo-text.svg";
 
@@ -27,7 +27,7 @@ type SectionImage = {
   height: number;
 };
 
-const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => {
+const HomeNavbar: FC<{ show?: boolean }> = ({ show }) => {
   const screenWidth = useScreenWidth();
   return (
     <nav
@@ -93,7 +93,7 @@ const Home: NextPage = () => {
       <Head>
         <title>ezkomment: Commenting made easy</title>
       </Head>
-      <LandingNavbar show={scrollY > 300} />
+      <HomeNavbar show={scrollY > 300} />
       <section className="relative text-white px-6 sm:px-10 mb-36">
         <div
           className="absolute top-0 inset-x-0 bg-gradient-to-br from-indigo-400 to-indigo-600"
