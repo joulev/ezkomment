@@ -14,6 +14,8 @@ import ModeSwitcher from "@client/components/modeSwitcher";
 
 import { BuildInfo, IconType } from "@client/types/utils.type";
 
+import logoText from "@client/public/images/logo-text.svg";
+
 type SocialIconLinkProps = { href: string; icon: IconType };
 const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   <A
@@ -47,12 +49,7 @@ const Footer: FC<{ className?: string; containerClasses?: string }> = ({
       >
         <div className="min-w-[50%] sm:max-w-[66%]">
           <A href="/">
-            <Image
-              src="/images/logo-text.svg"
-              alt="ezkomment"
-              width={397 / 2.5}
-              height={80 / 2.5}
-            />
+            <Image src={logoText} alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
           </A>
           <div className="mt-3 text-sm text-muted">
             {process.env.NODE_ENV === "development" && <>Development build</>}

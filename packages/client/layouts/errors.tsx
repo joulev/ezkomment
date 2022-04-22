@@ -4,6 +4,8 @@ import { Component, ErrorInfo, FC, ReactNode } from "react";
 
 import Button from "@client/components/buttons";
 
+import logo from "@client/public/images/logo.svg";
+
 export const ErrorLayout: FC<{ code?: number }> = ({ code }) => {
   const errors = {
     404: "The page you requested cannot be found.",
@@ -18,7 +20,7 @@ export const ErrorLayout: FC<{ code?: number }> = ({ code }) => {
       </Head>
       <main className="h-screen grid place-items-center">
         <div className="flex flex-col items-center gap-6 max-w-md">
-          <Image src="/images/logo.svg" alt="ezkomment" width={80} height={80} />
+          <Image src={logo} alt="ezkomment" width={80} height={80} />
           <h1 className="my-0">{code ? code : "Error"}</h1>
           <div className="text-center">
             {code && [404, 500].includes(code)

@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import { ComponentProps, FC, ReactNode, useEffect, useRef, useState } from "react";
 
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
@@ -12,8 +12,16 @@ import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import Footer from "@client/layouts/parts/footer";
 
+import imageApi from "@client/public/images/landing/api-sample.png";
+import imageApp from "@client/public/images/landing/app-screenshot.png";
+import imageCustom from "@client/public/images/landing/customisation.png";
+import imageIframe from "@client/public/images/landing/iframe-sample.png";
+import imageModeration from "@client/public/images/landing/moderation.png";
+import logoTextWhite from "@client/public/images/logo-text-white.svg";
+import logoText from "@client/public/images/logo-text.svg";
+
 type SectionImage = {
-  src: string;
+  src: ComponentProps<typeof Image>["src"];
   alt: string;
   width: number;
   height: number;
@@ -35,13 +43,7 @@ const LandingNavbar: FC<{ show?: boolean }> = ({ show }) => {
           className="w-[calc(397px*0.4)]"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          <Image
-            src="/images/logo-text.svg"
-            alt="logo"
-            layout="responsive"
-            width={397}
-            height={80}
-          />
+          <Image src={logoText} alt="logo" layout="responsive" width={397} height={80} />
         </button>
         <div className="flex flex-row gap-6">
           <Button variant="tertiary" href="/app/auth/signin" className="hidden sm:block">
@@ -65,13 +67,8 @@ const Section: FC<{ image: SectionImage; children: ReactNode }> = ({ image, chil
       <div className="order-last col-span-full lg:order-first lg:col-span-5">{children}</div>
       <div className="order-first col-span-full lg:order-last lg:col-span-7">
         <div className="w-full sm:w-3/4 md:w-2/3 lg:w-full mx-auto">
-          <Image
-            layout="responsive"
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-          />
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <Image layout="responsive" {...image} />
         </div>
       </div>
     </div>
@@ -117,13 +114,7 @@ const Home: NextPage = () => {
               "sm:max-w-[calc(397px*0.75)] sm:max-h-[calc(397px*0.75)] mx-auto"
             )}
           >
-            <Image
-              src="/images/logo-text-white.svg"
-              alt="logo"
-              layout="responsive"
-              width={397}
-              height={80}
-            />
+            <Image src={logoTextWhite} alt="logo" layout="responsive" width={397} height={80} />
           </div>
           <h1 className="text-5xl sm:text-6xl font-extralight">
             Commenting made&nbsp;
@@ -155,24 +146,11 @@ const Home: NextPage = () => {
             </A>
           </p>
           <div ref={appScreenshotRef}>
-            <Image
-              src="/images/landing/app-screenshot.png"
-              alt="App screenshot"
-              width={2442}
-              height={1702}
-              layout="responsive"
-            />
+            <Image src={imageApp} alt="Screenshot" width={2442} height={1702} layout="responsive" />
           </div>
         </div>
       </section>
-      <Section
-        image={{
-          src: "/images/landing/iframe-sample.png",
-          alt: "Iframe sample",
-          width: 1422,
-          height: 682,
-        }}
-      >
+      <Section image={{ src: imageIframe, alt: "Iframe sample", width: 1422, height: 682 }}>
         <h2 className="text-4xl">Plain HTML is enough</h2>
         <p>
           You never have to worry about backend, server, anything. Simply add an{" "}
@@ -184,14 +162,7 @@ const Home: NextPage = () => {
         </p>
         <Button>See it in action</Button>
       </Section>
-      <Section
-        image={{
-          src: "/images/landing/moderation.png",
-          alt: "Moderation tool",
-          width: 1058,
-          height: 538,
-        }}
-      >
+      <Section image={{ src: imageModeration, alt: "Moderation tool", width: 1058, height: 538 }}>
         <h2 className="text-4xl">Moderating your comments</h2>
         <p>
           Built-in moderation tool for your comments. All comments need to be manually approved by
@@ -200,14 +171,7 @@ const Home: NextPage = () => {
         <p>Think it&apos;s not worth the work? You can disable it at any time!</p>
         <Button>Learn more</Button>
       </Section>
-      <Section
-        image={{
-          src: "/images/landing/customisation.png",
-          alt: "Customisation",
-          width: 1296,
-          height: 1174,
-        }}
-      >
+      <Section image={{ src: imageCustom, alt: "Customisation", width: 1296, height: 1174 }}>
         <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
         <p>
           You can change the look and feel of your comments section to your liking and your
@@ -221,14 +185,7 @@ const Home: NextPage = () => {
         </p>
         <Button>Learn more</Button>
       </Section>
-      <Section
-        image={{
-          src: "/images/landing/api-sample.png",
-          alt: "API demonstration",
-          width: 1422,
-          height: 682,
-        }}
-      >
+      <Section image={{ src: imageApi, alt: "API demonstration", width: 1422, height: 682 }}>
         <h2 className="text-4xl">Powerful API for power users</h2>
         <p>
           With the powerful API provided, you can really do anything you want with the comments.

@@ -15,6 +15,9 @@ import ModeSwitcher from "@client/components/modeSwitcher";
 import { CurrentPage } from "@client/types/page.type";
 import { IconType } from "@client/types/utils.type";
 
+import defaultAvatar from "@client/public/images/default-photo.png";
+import logo from "@client/public/images/logo.svg";
+
 type LinkOrButtonProps =
   | { href: string; onClick?: never }
   | { href?: never; onClick: MouseEventHandler<HTMLButtonElement> };
@@ -69,7 +72,7 @@ const BreadCrumbSlash: FC = () => (
 const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
   <div className="flex flex-row gap-3 items-center">
     <A href="/app" notStyled className="w-8 h-8 relative">
-      <Image src="/images/logo.svg" alt="ezkomment" layout="fill" />
+      <Image src={logo} alt="ezkomment" layout="fill" />
     </A>
     <BreadCrumbSlash />
     <A
@@ -125,7 +128,7 @@ const TopNav: FC<CurrentPage> = props => {
         <TopNavButton href="/app" icon={HomeOutlinedIcon} />
         <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
         <A href="/app/account" className="h-8 w-8 shrink-0 relative">
-          <Image src="/images/default-photo.svg" alt="" layout="fill" />
+          <Image src={defaultAvatar} alt="" layout="fill" />
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
@@ -160,7 +163,7 @@ const TopNav: FC<CurrentPage> = props => {
             Log out
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between items-center mx-1 mt-6">
-            <Image src="/images/logo.svg" alt="ezkomment" width={40} height={40} />
+            <Image src={logo} alt="ezkomment" width={40} height={40} />
             <ModeSwitcher />
           </div>
         </nav>

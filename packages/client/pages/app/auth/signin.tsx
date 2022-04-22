@@ -13,11 +13,13 @@ import Input from "@client/components/forms/input";
 import OrHr from "@client/components/orHr";
 import AuthLayout from "@client/layouts/auth";
 
+import logo from "@client/public/images/logo.svg";
+
 const SignUp: NextPage = () => (
   <AuthLayout title="Sign in">
     <div className="text-center">
       <A href="/" notStyled>
-        <Image src="/images/logo.svg" alt="Logo" width={80} height={80} />
+        <Image src={logo} alt="Logo" width={80} height={80} />
       </A>
       <h1 className="text-3xl mt-6 mb-12">Sign in to ezkomment</h1>
       <div className="flex flex-col gap-6">

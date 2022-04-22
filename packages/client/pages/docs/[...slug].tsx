@@ -27,6 +27,8 @@ import ModeSwitcher from "@client/components/modeSwitcher";
 import { DocsData, NavData } from "@client/types/docs.type";
 import { BuildInfo } from "@client/types/utils.type";
 
+import logoText from "@client/public/images/logo-text.svg";
+
 type URLParams = { slug: string[] };
 type PageProps = DocsData & {
   navData: NavData;
@@ -147,13 +149,7 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
                 "after:px-1.5 after:py-0.5 after:rounded"
               )}
             >
-              <Image
-                src="/images/logo-text.svg"
-                alt="ezkomment"
-                layout="responsive"
-                width={397}
-                height={80}
-              />
+              <Image src={logoText} alt="ezkomment" layout="responsive" width={397} height={80} />
             </A>
             <button
               className={clsx(

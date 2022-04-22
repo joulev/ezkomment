@@ -33,6 +33,7 @@ module.exports = {
     "^@client/(config|lib|context)/(.*)$",
     "^@client/(layouts|components)/(.*)$",
     "^@client/types/(.*)$",
+    "^@client/public/(.*)$",
     "^@client/styles/(.*)$",
     "^@client/sample/(.*)$",
     "^[./]",
