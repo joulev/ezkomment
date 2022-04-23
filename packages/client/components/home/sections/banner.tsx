@@ -2,14 +2,16 @@ import clsx from "clsx";
 import Image from "next/image";
 import { FC, useRef } from "react";
 
+import useCurrentTheme from "@client/lib/getCurrentTheme";
+
 import A from "@client/components/anchor";
 
-import imageApp from "@client/public/images/home/app-screenshot.png";
 import logoTextWhite from "@client/public/images/logo-text-white.svg";
 
 const HomeBanner: FC = () => {
   const bannerRef = useRef<HTMLDivElement>(null);
   const appScreenshotRef = useRef<HTMLDivElement>(null);
+  const theme = useCurrentTheme();
   return (
     <section className="relative text-white px-6 sm:px-10 mb-36">
       <div
@@ -60,7 +62,13 @@ const HomeBanner: FC = () => {
           </A>
         </p>
         <div ref={appScreenshotRef}>
-          <Image src={imageApp} alt="Screenshot" width={2442} height={1702} layout="responsive" />
+          <Image
+            src={theme === "dark" ? "/images/home/app-dark.png" : "/images/home/app-light.png"}
+            alt="Screenshot"
+            width={2216}
+            height={1674}
+            layout="responsive"
+          />
         </div>
       </div>
     </section>
