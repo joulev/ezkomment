@@ -197,7 +197,7 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
                 // why tf did I need 30 lines in another project just for the same thing?
                 pre: ({ children }) => <>{children}</>,
                 // https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight
-                code: ({ node, inline, className, ...props }) => {
+                code: ({ node, inline, className, style, children, ...props }) => {
                   const match = /language-(\w+)/.exec(className || "");
                   return !inline && match ? (
                     <SyntaxHighlighter
@@ -205,10 +205,14 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
                       {...props}
                       // No thanks I will use my own CSS
                       useInlineStyles={false}
-                      codeTagProps={{ style: undefined }}
-                    />
+                      codeTagProps={{ style }}
+                    >
+                      {children as string}
+                    </SyntaxHighlighter>
                   ) : (
-                    <code className={className} {...props} />
+                    <code className={className} style={style} {...props}>
+                      {children}
+                    </code>
                   );
                 },
               }}
