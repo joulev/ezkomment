@@ -9,13 +9,14 @@
 
 type lineNumberStyleFunction = (lineNumber: number) => React.CSSProperties;
 type lineTagPropsFunction = (lineNumber: number) => React.HTMLProps<HTMLElement>;
-type rendererNode = {
+interface rendererNode {
     type: "element" | "text";
     value?: string | number | undefined;
-    tagName?: string;
-    properties?: { [key: string]: any; };
+    tagName?: keyof JSX.IntrinsicElements | React.ComponentType<any> | undefined;
+    properties?: { className: any[], [key: string]: any; };
+    children?: rendererNode[];
 }
-type rendererProps = {
+interface rendererProps {
     rows: rendererNode[];
     stylesheet: { [key: string]: React.CSSProperties };
     useInlineStyles: boolean;
