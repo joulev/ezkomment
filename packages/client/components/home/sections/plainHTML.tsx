@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { Prism as SyntaxHighlighter, createElement } from "react-syntax-highlighter";
 
 import Button from "@client/components/buttons";
 
@@ -28,6 +28,16 @@ const HomePlainHTML: FC = () => (
             showLineNumbers
             startingLineNumber={146} // just a random line number
             wrapLines
+            renderer={({ rows }) =>
+              rows.map((node, i) =>
+                createElement({
+                  node: { ...node, properties: { className: i === 4 ? [] : ["ignored"] } },
+                  stylesheet: {},
+                  useInlineStyles: false,
+                  key: i,
+                })
+              )
+            }
           >
             {code}
           </SyntaxHighlighter>
