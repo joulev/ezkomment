@@ -56,7 +56,6 @@ export async function getFileData(fileName: string[]): Promise<DocsData> {
     const filePath = `docs/${fileName.join("/")}.md`;
     const fillFilePath = join(docsDir, ...fileName) + ".md";
     const data = navData[fileName[0]];
-    console.log("\nRetrieving commit data for", filePath);
     const ghFetch = await fetch(
         `https://api.github.com/repos/joulev/ezkomment/commits?path=${encodeURIComponent(
             filePath
@@ -68,11 +67,11 @@ export async function getFileData(fileName: string[]): Promise<DocsData> {
             },
         }
     );
-    console.log(ghFetch.ok ? (await ghFetch.json())[0].commit.committer : "Failed");
     return {
         title: typeof data === "string" ? data : `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
         content: readFileSync(fillFilePath, "utf8").trim(),
-        lastModified:
-            parseInt(execSync(`git log -1 --format="%ct" ${fillFilePath}`).toString()) * 1000,
+        lastModified: ghFetch.ok
+            ? ((await ghFetch.json())[0].commit.committer.date as string)
+            : "unknown",
     };
 }

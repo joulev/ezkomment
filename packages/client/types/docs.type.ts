@@ -1,7 +1,7 @@
 export type DocsData = {
     title: string;
     content: string;
-    lastModified: number;
+    lastModified: string;
 };
 
 export type SectionData = {

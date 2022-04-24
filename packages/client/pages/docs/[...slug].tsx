@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { formatDistanceToNowStrict, formatISO } from "date-fns";
+import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -235,8 +235,10 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
           <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-baseline gap-y-3 text-sm">
             <div className="text-muted">
               Last modified:{" "}
-              <time title={formatISO(lastModified)}>
-                {formatDistanceToNowStrict(lastModified, { addSuffix: true })}
+              <time title={lastModified}>
+                {lastModified === "unknown"
+                  ? "unknown"
+                  : formatDistanceToNowStrict(parseISO(lastModified), { addSuffix: true })}
               </time>
             </div>
             <A href={`https://github.com/joulev/ezkomment/blob/main/docs/${path.join("/")}.md`}>
@@ -257,7 +259,7 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
 const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => {
   if (!params)
     return {
-      props: { content: "something's wrong", title: "", lastModified: 0, path: [], navData },
+      props: { content: "something's wrong", title: "", lastModified: "", path: [], navData },
     };
   return {
     props: {
