@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import { readFileSync } from "fs";
+import { readFile, readFileSync } from "fs";
 import { parse as JSON5Parse } from "json5";
 import { join } from "path";
 
@@ -52,12 +52,27 @@ export const filePaths = Object.entries(navData)
  * }
  * ```
  */
-export function getFileData(fileName: string[]): DocsData {
-    const filePath = join(docsDir, ...fileName) + ".md";
+export async function getFileData(fileName: string[]): Promise<DocsData> {
+    const filePath = `docs/${fileName.join("/")}.md`;
+    const fillFilePath = join(docsDir, ...fileName) + ".md";
     const data = navData[fileName[0]];
+    console.log("\nRetrieving commit data for", filePath);
+    const ghFetch = await fetch(
+        `https://api.github.com/repos/joulev/ezkomment/commits?path=${encodeURIComponent(
+            filePath
+        )}&page=1&per_page=1`,
+        {
+            headers: {
+                Authorization: `token ${process.env.GH_TOKEN}`,
+                Accept: "application/vnd.github.v3+json",
+            },
+        }
+    );
+    console.log(ghFetch.ok ? (await ghFetch.json())[0].commit.committer : "Failed");
     return {
         title: typeof data === "string" ? data : `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
-        content: readFileSync(filePath, "utf8").trim(),
-        lastModified: parseInt(execSync(`git log -1 --format="%ct" ${filePath}`).toString()) * 1000,
+        content: readFileSync(fillFilePath, "utf8").trim(),
+        lastModified:
+            parseInt(execSync(`git log -1 --format="%ct" ${fillFilePath}`).toString()) * 1000,
     };
 }

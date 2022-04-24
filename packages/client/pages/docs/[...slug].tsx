@@ -254,14 +254,14 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
   fallback: false,
 });
 
-const getStaticProps: GetStaticProps<PageProps, URLParams> = ({ params }) => {
+const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => {
   if (!params)
     return {
       props: { content: "something's wrong", title: "", lastModified: 0, path: [], navData },
     };
   return {
     props: {
-      ...getFileData(params.slug),
+      ...(await getFileData(params.slug)),
       path: params.slug,
       navData,
     },
