@@ -6,10 +6,14 @@ Tailwind CSS.
 ## Set up a development server
 
 ```sh
-# start from repository root
-$ lerna bootstrap
+$ npm install
+
+# then either
 $ cd packages/client
 $ npm run dev
+
+# or
+$ npm run dev --workspaces=packages/client
 ```
 
 Now a development server is deployed to http://localhost:3000.

@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "ezkomment",
   "private": true,
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
