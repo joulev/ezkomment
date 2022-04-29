@@ -7,6 +7,6 @@
     "module": "esnext",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "types/react-syntax-highlighter.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
