@@ -43,7 +43,7 @@ const Window: FC<WindowProps> = ({ tabs, activeTab, children }) => (
         <div className="flex-grow border-b border-card" />
       </div>
     </div>
-    <div>{children}</div>
+    {children}
   </div>
 );
 

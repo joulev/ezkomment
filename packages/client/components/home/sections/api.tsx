@@ -26,7 +26,7 @@ const HomeApi: FC = () => (
   <Section
     illustration={
       <Window tabs={["node", "zsh"]} activeTab={0}>
-        <div className="overflow-x-auto text-sm p-3">
+        <div className="overflow-x-auto no-scrollbar text-sm p-3">
           <SyntaxHighlighter
             language="javascript"
             useInlineStyles={false}

@@ -20,7 +20,7 @@ const HomePlainHTML: FC = () => (
   <Section
     illustration={
       <Window tabs={["index.html"]} activeTab={0}>
-        <div className="overflow-x-auto text-sm p-3">
+        <div className="overflow-x-auto no-scrollbar text-sm p-3">
           <SyntaxHighlighter
             language="html"
             useInlineStyles={false}
