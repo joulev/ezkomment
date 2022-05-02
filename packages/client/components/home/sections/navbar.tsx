@@ -43,6 +43,7 @@ const HomeNavbar: FC = () => {
             Sign in
           </Button>
           <Button
+            variant={screenWidth === "xs" ? "tertiary" : "primary"}
             href="/app/auth/signup"
             icon={screenWidth === "xs" ? LoginOutlinedIcon : undefined}
           >
