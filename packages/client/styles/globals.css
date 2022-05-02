@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./prism-onedark.css";
+@import "./prism-theme.css";
 
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
