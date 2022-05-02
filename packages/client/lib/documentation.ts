@@ -59,13 +59,7 @@ export async function getFileData(fileName: string[]): Promise<DocsData> {
     const ghFetch = await fetch(
         `https://api.github.com/repos/joulev/ezkomment/commits?path=${encodeURIComponent(
             filePath
-        )}&page=1&per_page=1`,
-        {
-            headers: {
-                Authorization: `token ${process.env.GH_TOKEN}`,
-                Accept: "application/vnd.github.v3+json",
-            },
-        }
+        )}&page=1&per_page=1`
     );
     return {
         title: typeof data === "string" ? data : `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
