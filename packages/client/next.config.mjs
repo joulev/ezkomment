@@ -9,6 +9,18 @@ const nextConfig = {
     const hash = execSync("git rev-parse --short HEAD").toString().trim();
     return `${hash}-${time}`;
   },
+  redirects: async () => [
+    {
+      source: "/docs",
+      destination: "/docs/getting-started",
+      permanent: true,
+    },
+    {
+      source: "/app", // likely will change this when authentication is added
+      destination: "/app/dashboard",
+      permanent: true,
+    },
+  ],
 };
 
 export default nextConfig;
