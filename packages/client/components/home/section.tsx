@@ -1,12 +1,4 @@
-import Image from "next/image";
-import { ComponentProps, FC, ReactNode } from "react";
-
-type ImageProps = {
-  src: ComponentProps<typeof Image>["src"];
-  alt: string;
-  width: number;
-  height: number;
-};
+import { FC, ReactNode } from "react";
 
 type SectionProps = { children: ReactNode; illustration?: ReactNode };
 
@@ -25,17 +17,4 @@ const Section: FC<SectionProps> = ({ children, illustration }) => (
   </section>
 );
 
-const SectionImage: FC<{ image: ImageProps; children: ReactNode }> = ({ image, children }) => (
-  <Section
-    illustration={
-      <div className="w-full sm:w-3/4 md:w-2/3 lg:w-full mx-auto">
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <Image layout="responsive" {...image} />
-      </div>
-    }
-  >
-    {children}
-  </Section>
-);
-
-export { Section as default, SectionImage };
+export default Section;
