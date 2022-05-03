@@ -110,8 +110,8 @@
             before:absolute before:-left-6 before:inset-y-0 before:w-1 before:bg-neutral-500 before:rounded;
     }
     /* Code */
-    pre .ignored * {
-        @apply text-neutral-300 dark:text-neutral-700;
+    .ignored * {
+        @apply !text-neutral-300 dark:!text-neutral-700;
     }
 }
 
