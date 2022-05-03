@@ -45,6 +45,19 @@ const Illustration: FC = () => {
           ref={iframeRef}
         />
       </div>
+      <svg width={61} height={106} className="absolute bottom-24 left-[3%] sm:left-[6%]">
+        {["M 1 1 C 1 50 20 90 60 100", "M 40 105 L 60 100 L 47 84"].map((path, i) => (
+          <path
+            d={path}
+            className="stroke-indigo-500"
+            fill="none"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            key={i}
+          />
+        ))}
+      </svg>
     </div>
   );
 };
