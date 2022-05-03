@@ -1,14 +1,54 @@
-import { FC } from "react";
+import { FC, useEffect, useRef, useState } from "react";
+import { Prism } from "react-syntax-highlighter";
+
+import generateCommentHTML from "@client/lib/generateCommentHTML";
+import { comment, all as main, styles } from "@client/lib/sampleCommentCode";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 
-import image from "@client/public/images/home/customisation.png";
+import Section from "../section";
+import Window from "../window";
 
-import { SectionImage } from "../section";
+const Illustration: FC = () => {
+  const [contentHeight, setContentHeight] = useState(0);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (iframeRef.current)
+        setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 0);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div className="relative h-[480px]">
+      <div className="absolute top-0 inset-x-0 scale-75 origin-top-left">
+        <Window tabs={["index.html", "comment.html", "styles.css"]} activeTab={0}>
+          <div className="overflow-x-auto no-scrollbar text-sm p-3">
+            <Prism language="html" useInlineStyles={false} codeTagProps={{ style: undefined }}>
+              {main}
+            </Prism>
+          </div>
+        </Window>
+      </div>
+      <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right">
+        <iframe
+          srcDoc={generateCommentHTML(main, comment, styles, true)}
+          className="w-full"
+          style={{ height: contentHeight }}
+          ref={iframeRef}
+        />
+      </div>
+    </div>
+  );
+};
 
 const HomeCustomisation: FC = () => (
-  <SectionImage image={{ src: image, alt: "Customisation", width: 1296, height: 1174 }}>
+  <Section illustration={<Illustration />}>
     <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
     <p>
       You can change the look and feel of your comments section to your liking and your page&apos;s
@@ -21,7 +61,7 @@ const HomeCustomisation: FC = () => (
       almost anything you want.
     </p>
     <Button>Learn more</Button>
-  </SectionImage>
+  </Section>
 );
 
 export default HomeCustomisation;
