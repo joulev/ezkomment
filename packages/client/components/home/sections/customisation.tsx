@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Prism } from "react-syntax-highlighter";
 
 import generateCommentHTML from "@client/lib/generateCommentHTML";
+import useCurrentTheme from "@client/lib/getCurrentTheme";
 import { comment, all as main, styles } from "@client/lib/sampleCommentCode";
 
 import A from "@client/components/anchor";
@@ -13,6 +14,7 @@ import Window from "../window";
 const Illustration: FC = () => {
   const [contentHeight, setContentHeight] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const theme = useCurrentTheme();
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,7 +39,7 @@ const Illustration: FC = () => {
       </div>
       <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right">
         <iframe
-          srcDoc={generateCommentHTML(main, comment, styles, true)}
+          srcDoc={generateCommentHTML(main, comment, styles, theme === "dark")}
           className="w-full"
           style={{ height: contentHeight }}
           ref={iframeRef}
