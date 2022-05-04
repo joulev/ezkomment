@@ -11,21 +11,29 @@ import Button from "@client/components/buttons";
 import Section from "../section";
 import Window from "../window";
 
-const Illustration: FC = () => {
+function useIframe() {
   const [contentHeight, setContentHeight] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const theme = useTheme();
+
+  const handleContentHeight = () => {
+    if (iframeRef.current)
+      setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 0);
+  };
 
   useEffect(() => {
-    const handleResize = () => {
-      if (iframeRef.current)
-        setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 0);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    handleContentHeight();
+    window.addEventListener("resize", handleContentHeight);
+    return () => window.removeEventListener("resize", handleContentHeight);
   }, []);
 
+  useEffect(() => handleContentHeight(), [iframeRef]);
+
+  return { contentHeight, iframeRef };
+}
+
+const Illustration: FC = () => {
+  const theme = useTheme();
+  const { contentHeight, iframeRef } = useIframe();
   return (
     <div className="relative h-[480px]">
       <div className="absolute top-0 inset-x-0 scale-75 origin-top-left">
