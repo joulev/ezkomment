@@ -12,6 +12,15 @@ const DateText: FC<{ daysAgo: number }> = ({ daysAgo }) => {
   return <>{daysAgo} days ago</>;
 };
 
+/**
+ * A graph for the total number of comments and the number of new comments over the last 30 days,
+ * used in individual site pages.
+ *
+ * @param props.totalComment An array of numbers representing the total number of comments over the
+ * last 30 days
+ * @param props.newComment An array of numbers representing the number of new comments over the last
+ * 30 days
+ */
 const SiteGraph: FC<SiteGraphProps> = ({ totalComment, newComment }) => {
   const wrapper = useRef<HTMLDivElement>(null);
   const xpos = (i: number) => ((wrapper.current?.clientWidth ?? 0) / 31) * (i + 1);

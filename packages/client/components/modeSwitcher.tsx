@@ -9,6 +9,10 @@ import { useMode } from "@client/context/mode";
 
 import { IconType, Mode } from "@client/types/utils.type";
 
+/**
+ * The mode switcher component is used to switch between light and dark mode. It's not customisable
+ * by design. Just throw the component wherever it needs to be.
+ */
 const ModeSwitcher: FC = () => {
   const modeContext = useMode();
   const mode = modeContext?.mode;

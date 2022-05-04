@@ -8,6 +8,11 @@ type ModeContextType = {
 };
 const ModeContext = createContext<ModeContextType | null>(null);
 
+/**
+ * Get the current mode of the app (light/dark/system).
+ *
+ * @returns The current mode of the app
+ */
 export const useMode = () => useContext(ModeContext);
 
 export default ModeContext;

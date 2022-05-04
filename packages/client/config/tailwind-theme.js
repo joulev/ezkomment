@@ -1,4 +1,6 @@
-/** @type {import("@types/tailwindcss/tailwind-config").TailwindTheme } */
+/**
+ * @type {import("@types/tailwindcss/tailwind-config").TailwindTheme}
+ */
 module.exports = {
     // Screen breakpoints from Bootstrap, https://getbootstrap.com/docs/5.1/layout/breakpoints
     screens: {

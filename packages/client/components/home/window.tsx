@@ -32,6 +32,13 @@ const WindowTab: FC<{ title: string; active?: boolean }> = ({ title, active }) =
   </div>
 );
 
+/**
+ * Display a macOS-style window with tabs. Used in home page illustrations.
+ *
+ * @param props.tabs An array of strings used as the titles of the tabs
+ * @param props.activeTab The index of the tab to be active
+ * @param props.children A React node used as the content of the window
+ */
 const Window: FC<WindowProps> = ({ tabs, activeTab, children }) => (
   <div className="flex flex-col border rounded bg-card border-card">
     <div className="overflow-x-hidden">

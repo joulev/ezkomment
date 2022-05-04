@@ -31,6 +31,15 @@ const variantClasses: Record<ButtonVariant, string> = {
   ),
 };
 
+/**
+ * A button. Can also be used as an anchor (if `href` is provided). The button can be `ref`'d
+ *
+ * @param props.variant The variant of the button. Currently only `primary`, `danger` and `tertiary` are allowed
+ * @param props.href The URL to which the button will link
+ * @param props.icon The icon to be displayed on the button
+ * @param props.className Additional classes to be added to the component (if any)
+ * @param props.children A React node used as the content of the button
+ */
 const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
   ({ variant = "primary", href, icon, className, children, ...props }, ref) => {
     const classes = clsx(

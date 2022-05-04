@@ -2,7 +2,14 @@ import { FC, ReactNode } from "react";
 
 type SectionProps = { children: ReactNode; illustration?: ReactNode };
 
-const Section: FC<SectionProps> = ({ children, illustration }) => (
+/**
+ * A section in the home page. If an illustration is available, the section is displayed with the
+ * content and the illustration side by side. Otherwise, the content is centered.
+ *
+ * @param props.illustration A React node used as the illustration for the section
+ * @param props.children A React node used as the content of the section
+ */
+const Section: FC<SectionProps> = ({ illustration, children }) => (
   <section className="px-6 sm:px-10 my-48">
     {illustration ? (
       <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 grid grid-cols-12 gap-y-9 lg:gap-x-12">
