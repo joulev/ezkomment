@@ -10,7 +10,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
-import { useScreenWidth } from "@client/context/screenWidth";
+import useBreakpoint from "@client/hooks/breakpoint";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -20,7 +20,7 @@ import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
 const Account: NextPage = () => {
-  const screenWidth = useScreenWidth();
+  const breakpoint = useBreakpoint();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
@@ -79,7 +79,7 @@ const Account: NextPage = () => {
               </A>
               <div className="flex-grow" />
               <Button variant="danger" icon={DeleteOutlinedIcon}>
-                {["xs", "md"].includes(screenWidth) ? null : "Unlink"}
+                {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
               </Button>
             </div>
           </div>

@@ -10,7 +10,7 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-import { useScreenWidth } from "@client/context/screenWidth";
+import useBreakpoint from "@client/hooks/breakpoint";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -36,7 +36,7 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
 );
 
 const SiteOverview: NextPage<Props> = ({ site }) => {
-  const screenWidth = useScreenWidth();
+  const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
 
   return (
@@ -89,15 +89,15 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
           <div className="flex flex-row gap-6 mb-6">
             <Input
               type="text"
-              label={["xs", "sm"].includes(screenWidth) ? null : "Search"}
+              label={["xs", "sm"].includes(breakpoint) ? null : "Search"}
               icon={SearchOutlinedIcon}
               className="flex-grow"
             />
             <Button
-              icon={screenWidth === "xs" ? undefined : AddOutlinedIcon}
+              icon={breakpoint === "xs" ? undefined : AddOutlinedIcon}
               onClick={() => setShowNewPageModal(true)}
             >
-              {screenWidth === "xs" ? "New page" : "Add a new page"}
+              {breakpoint === "xs" ? "New page" : "Add a new page"}
             </Button>
             <Modal isVisible={showNewPageModal} onOutsideClick={() => setShowNewPageModal(false)}>
               <div className="p-6 max-w-lg">

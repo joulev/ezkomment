@@ -32,7 +32,7 @@ module.exports = {
   importOrder: [
     "^@mui/(.*)$",
     "^@server/(.*)$",
-    "^@client/(config|lib|context)/(.*)$",
+    "^@client/(config|lib|context|hooks)/(.*)$",
     "^@client/(layouts|components)/(.*)$",
     "^@client/types/(.*)$",
     "^@client/public/(.*)$",

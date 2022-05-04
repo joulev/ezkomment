@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
-import { useScreenWidth } from "@client/context/screenWidth";
+import useBreakpoint from "@client/hooks/breakpoint";
 
 import Button from "@client/components/buttons";
 
@@ -13,7 +13,8 @@ import logoText from "@client/public/images/logo-text.svg";
 const scrollThreshold = 300;
 
 const HomeNavbar: FC = () => {
-  const screenWidth = useScreenWidth();
+  const breakpoint = useBreakpoint();
+
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => setScrollY(window.scrollY);
   useEffect(() => {
@@ -43,11 +44,11 @@ const HomeNavbar: FC = () => {
             Sign in
           </Button>
           <Button
-            variant={screenWidth === "xs" ? "tertiary" : "primary"}
+            variant={breakpoint === "xs" ? "tertiary" : "primary"}
             href="/app/auth/signup"
-            icon={screenWidth === "xs" ? LoginOutlinedIcon : undefined}
+            icon={breakpoint === "xs" ? LoginOutlinedIcon : undefined}
           >
-            {screenWidth === "xs" ? undefined : "Get started"}
+            {breakpoint === "xs" ? undefined : "Get started"}
           </Button>
         </div>
       </div>

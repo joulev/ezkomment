@@ -15,7 +15,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import monacoOptions from "@client/config/monaco";
-import { useScreenWidth } from "@client/context/screenWidth";
+import useBreakpoint from "@client/hooks/breakpoint";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
 import useCurrentTheme from "@client/lib/getCurrentTheme";
 import { all, comment, styles } from "@client/lib/sampleCommentCode";
@@ -70,7 +70,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
 
 const SiteCustomise: NextPage<Props> = ({ site }) => {
   const currentTheme = useCurrentTheme();
-  const screenWidth = useScreenWidth();
+  const breakpoint = useBreakpoint();
 
   const [active, setActive] = useState(0);
   const [code, setCode] = useState(sampleCode);
@@ -105,16 +105,16 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
         <ButtonGroup
           buttons={[
             {
-              icon: screenWidth === "lg" ? LightModeOutlinedIcon : undefined,
-              label: screenWidth === "lg" ? undefined : "Light",
+              icon: breakpoint === "lg" ? LightModeOutlinedIcon : undefined,
+              label: breakpoint === "lg" ? undefined : "Light",
               onClick: () => {
                 setPreviewIsDark(false);
                 setPreviewBg("#ffffff");
               },
             },
             {
-              icon: screenWidth === "lg" ? DarkModeOutlinedIcon : undefined,
-              label: screenWidth === "lg" ? undefined : "Dark",
+              icon: breakpoint === "lg" ? DarkModeOutlinedIcon : undefined,
+              label: breakpoint === "lg" ? undefined : "Dark",
               onClick: () => {
                 setPreviewIsDark(true);
                 setPreviewBg("#000000");

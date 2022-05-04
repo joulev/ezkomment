@@ -6,7 +6,7 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
-import { useScreenWidth } from "@client/context/screenWidth";
+import useBreakpoint from "@client/hooks/breakpoint";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -83,7 +83,7 @@ const EmptyCard: FC = () => {
 };
 
 const Dashboard: NextPage<Props> = ({ sites }) => {
-  const screenWidth = useScreenWidth();
+  const breakpoint = useBreakpoint();
 
   const [showEmptyCard, setShowEmptyCard] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -112,7 +112,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
         <div className="flex flex-row gap-x-6">
           <Select
             icon={SortOutlinedIcon}
-            label={["xs", "md", "unknown"].includes(screenWidth) ? undefined : "Sort by"}
+            label={["xs", "md", "unknown"].includes(breakpoint) ? undefined : "Sort by"}
             value="all"
             className="flex-grow"
             onUpdate={() => {}} // to silence the readOnly warning for now
