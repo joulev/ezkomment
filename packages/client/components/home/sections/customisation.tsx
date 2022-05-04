@@ -1,8 +1,8 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Prism } from "react-syntax-highlighter";
 
+import useTheme from "@client/hooks/theme";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import useCurrentTheme from "@client/lib/getCurrentTheme";
 import { comment, all as main, styles } from "@client/lib/sampleCommentCode";
 
 import A from "@client/components/anchor";
@@ -14,7 +14,7 @@ import Window from "../window";
 const Illustration: FC = () => {
   const [contentHeight, setContentHeight] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const theme = useCurrentTheme();
+  const theme = useTheme();
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,12 +38,13 @@ const Illustration: FC = () => {
         </Window>
       </div>
       <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right">
-        <iframe
+        <p>Oopsie, something&apos;s wrong</p>
+        {/*<iframe
           srcDoc={generateCommentHTML(main, comment, styles, theme === "dark")}
           className="w-full"
           style={{ height: contentHeight }}
           ref={iframeRef}
-        />
+  />*/}
       </div>
       <svg width={61} height={106} className="absolute bottom-24 left-[3%] sm:left-[6%]">
         {["M 1 1 C 1 50 20 90 60 100", "M 40 105 L 60 100 L 47 84"].map((path, i) => (

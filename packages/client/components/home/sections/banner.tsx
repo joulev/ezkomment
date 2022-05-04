@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { FC, useRef } from "react";
 
-import useCurrentTheme from "@client/lib/getCurrentTheme";
+import useTheme from "@client/hooks/theme";
 
 import A from "@client/components/anchor";
 
@@ -11,7 +11,7 @@ import logoTextWhite from "@client/public/images/logo-text-white.svg";
 const HomeBanner: FC = () => {
   const bannerRef = useRef<HTMLDivElement>(null);
   const appScreenshotRef = useRef<HTMLDivElement>(null);
-  const theme = useCurrentTheme();
+  const theme = useTheme();
   return (
     <section className="relative text-white px-6 sm:px-10 mb-36">
       <div

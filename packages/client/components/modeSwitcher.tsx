@@ -5,7 +5,7 @@ import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 
-import { useMode } from "@client/context/mode";
+import { useMode } from "@client/hooks/theme";
 
 import { IconType, Mode } from "@client/types/utils.type";
 

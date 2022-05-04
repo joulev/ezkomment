@@ -16,8 +16,8 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import monacoOptions from "@client/config/monaco";
 import useBreakpoint from "@client/hooks/breakpoint";
+import useTheme from "@client/hooks/theme";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import useCurrentTheme from "@client/lib/getCurrentTheme";
 import { all, comment, styles } from "@client/lib/sampleCommentCode";
 
 import Button from "@client/components/buttons";
@@ -69,7 +69,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
 );
 
 const SiteCustomise: NextPage<Props> = ({ site }) => {
-  const currentTheme = useCurrentTheme();
+  const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
 
   const [active, setActive] = useState(0);
