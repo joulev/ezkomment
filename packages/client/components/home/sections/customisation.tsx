@@ -40,7 +40,7 @@ const Illustration: FC = () => {
           </div>
         </Window>
       </div>
-      <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right">
+      <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right pointer-events-none">
         <iframe
           srcDoc={generateCommentHTML(main, comment, styles, theme === "dark")}
           className="w-full"
