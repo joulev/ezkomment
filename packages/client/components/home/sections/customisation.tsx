@@ -14,20 +14,15 @@ import Window from "../window";
 function useIframe() {
   const [contentHeight, setContentHeight] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  const handleContentHeight = () => {
+  const handler = () => {
     if (iframeRef.current)
       setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 0);
   };
-
+  useEffect(handler, [iframeRef]);
   useEffect(() => {
-    handleContentHeight();
-    window.addEventListener("resize", handleContentHeight);
-    return () => window.removeEventListener("resize", handleContentHeight);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
   }, []);
-
-  useEffect(() => handleContentHeight(), [iframeRef]);
-
   return { contentHeight, iframeRef };
 }
 

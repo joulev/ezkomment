@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import useTheme from "@client/hooks/theme";
 
@@ -8,20 +8,32 @@ import A from "@client/components/anchor";
 
 import logoTextWhite from "@client/public/images/logo-text-white.svg";
 
-const HomeBanner: FC = () => {
+function useBackgroundRef() {
   const bannerRef = useRef<HTMLDivElement>(null);
   const appScreenshotRef = useRef<HTMLDivElement>(null);
+  const [backgroundHeight, setBackgroundHeight] = useState("100vh");
+  const handler = () =>
+    setBackgroundHeight(
+      bannerRef.current && appScreenshotRef.current
+        ? `${bannerRef.current.clientHeight - appScreenshotRef.current.clientHeight / 2}px`
+        : "100vh"
+    );
+  useEffect(handler, [bannerRef, appScreenshotRef]);
+  useEffect(() => {
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return { bannerRef, appScreenshotRef, backgroundHeight };
+}
+
+const HomeBanner: FC = () => {
   const theme = useTheme();
+  const { bannerRef, appScreenshotRef, backgroundHeight } = useBackgroundRef();
   return (
     <section className="relative text-white px-6 sm:px-10 mb-36">
       <div
         className="absolute top-0 inset-x-0 bg-gradient-to-br from-indigo-400 to-indigo-600"
-        style={{
-          height:
-            bannerRef.current && appScreenshotRef.current
-              ? `${bannerRef.current.clientHeight - appScreenshotRef.current.clientHeight / 2}px`
-              : "100vh",
-        }}
+        style={{ height: backgroundHeight }}
       />
       <div className="relative mx-auto pt-36 w-full lg:w-3/4 xl:w-2/3 text-center" ref={bannerRef}>
         <div
