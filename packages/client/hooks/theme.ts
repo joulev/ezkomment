@@ -11,11 +11,10 @@ import { Mode } from "@client/types/utils.type";
  * @returns Whether the mode evaluates to a dark theme
  */
 function modeIsDark(mode: Mode) {
-    if (typeof window === "undefined") return false;
-    return (
-        mode === "dark" ||
-        (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
+    if (mode !== "system") return mode === "dark";
+    return typeof window === "undefined"
+        ? false
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
 /**
