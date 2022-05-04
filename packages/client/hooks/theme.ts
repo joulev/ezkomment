@@ -57,7 +57,7 @@ const useMode = () => useContext(ModeContext);
  */
 const useTheme = () => {
     const [theme, setTheme] = useState<"light" | "dark">("light");
-    const mode = useMode()?.mode ?? "system";
+    const mode = useMode().mode;
     useEffect(() => setTheme(modeIsDark(mode) ? "dark" : "light"), [mode]);
     return theme;
 };

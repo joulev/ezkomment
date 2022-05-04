@@ -14,9 +14,7 @@ import { IconType, Mode } from "@client/types/utils.type";
  * by design. Just throw the component wherever it needs to be.
  */
 const ModeSwitcher: FC = () => {
-  const modeContext = useMode();
-  const mode = modeContext?.mode;
-  const setMode = modeContext?.setMode;
+  const { mode, setMode } = useMode();
   const modes: { value: Mode; icon: IconType }[] = [
     { value: "light", icon: LightModeOutlinedIcon },
     { value: "dark", icon: DarkModeOutlinedIcon },
