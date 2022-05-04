@@ -38,13 +38,12 @@ const Illustration: FC = () => {
         </Window>
       </div>
       <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right">
-        <p>Oopsie, something&apos;s wrong</p>
-        {/*<iframe
+        <iframe
           srcDoc={generateCommentHTML(main, comment, styles, theme === "dark")}
           className="w-full"
           style={{ height: contentHeight }}
           ref={iframeRef}
-  />*/}
+        />
       </div>
       <svg width={61} height={106} className="absolute bottom-24 left-[3%] sm:left-[6%]">
         {["M 1 1 C 1 50 20 90 60 100", "M 40 105 L 60 100 L 47 84"].map((path, i) => (

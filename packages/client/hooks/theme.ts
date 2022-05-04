@@ -4,6 +4,12 @@ import ModeContext from "@client/context/mode";
 
 import { Mode } from "@client/types/utils.type";
 
+/**
+ * Check whether the current mode is a dark theme or not, especially for "system" mode.
+ *
+ * @param mode The current mode as "light", "dark" or "system"
+ * @returns Whether the mode evaluates to a dark theme
+ */
 function modeIsDark(mode: Mode) {
     if (typeof window === "undefined") return false;
     return (
@@ -12,6 +18,9 @@ function modeIsDark(mode: Mode) {
     );
 }
 
+/**
+ * Initialise the mode global state.
+ */
 function useModeInit() {
     const [mode, setMode] = useState<Mode>("system");
 
@@ -29,8 +38,28 @@ function useModeInit() {
     return { mode, setMode };
 }
 
+/**
+ * Get the mode from the global context.
+ * @returns The current mode
+ */
 const useMode = () => useContext(ModeContext);
 
-const useTheme = () => (modeIsDark(useMode()?.mode ?? "system") ? "dark" : "light");
+/**
+ * Get the *theme* from the current mode. Theme here means either light or dark, not including
+ * "system".
+ *
+ * @returns The current theme
+ *
+ * @note If I use `useMode` with `modeisDark` directly, React hydration will fail. React sometimes
+ * s*cks, after all.
+ *
+ * @see https://youtu.be/HyWYpM_S-2c
+ */
+const useTheme = () => {
+    const [theme, setTheme] = useState<"light" | "dark">("light");
+    const mode = useMode()?.mode ?? "system";
+    useEffect(() => setTheme(modeIsDark(mode) ? "dark" : "light"), [mode]);
+    return theme;
+};
 
 export { useModeInit, useMode, useTheme as default };
