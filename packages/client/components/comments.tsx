@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
-type Comment = { author: string; date: string; text: string };
+import { CommentsProps } from "@client/types/components.type";
 
 /**
  * Display comments as in `/app/site/[siteName]/[pageName]/index.tsx`
@@ -14,7 +14,7 @@ type Comment = { author: string; date: string; text: string };
  * @param props.children This React node will be displayed at the top right of each comment.
  * Intended for controlling buttons (delete, approve, etc.)
  */
-const Comments: FC<{ comments: Comment[]; children?: ReactNode }> = ({ comments, children }) => (
+const Comments: FC<CommentsProps> = ({ comments, children }) => (
   <div className={clsx("flex flex-col divide-y border rounded bg-card", "border-card divide-card")}>
     {comments.map((comment, index) => (
       <div key={index} className="p-6 flex flex-col gap-3 relative">

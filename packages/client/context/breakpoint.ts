@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
-import { Breakpoint } from "@client/types/utils.type";
+import { BreakpointContextType } from "@client/types/utils.type";
 
-const BreakpointContext = createContext<Breakpoint>("unknown");
+const BreakpointContext = createContext<BreakpointContextType>("unknown");
 
 export default BreakpointContext;

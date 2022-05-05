@@ -1,6 +1,6 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
-type SectionProps = { children: ReactNode; illustration?: ReactNode };
+import { SectionProps } from "@client/types/components.type";
 
 /**
  * A section in the home page. If an illustration is available, the section is displayed with the

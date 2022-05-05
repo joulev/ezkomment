@@ -1,12 +1,24 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
 
 export type Mode = "light" | "dark" | "system";
+export type ModeContextType = {
+    mode: Mode;
+    setMode: Dispatch<SetStateAction<Mode>>;
+};
+
 export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "unknown";
+export type BreakpointContextType = Breakpoint;
+
 export type BuildInfo = { hash: string; timestamp: number };
+
 export type IconType = OverridableComponent<SvgIconTypeMap> & { muiName: string };
 export type IconAndLabel =
     | { label: ReactNode; icon?: IconType }
     | { icon: IconType; label?: ReactNode };
+
+export type BannerVariant = "warning";
+export type ButtonVariant = "primary" | "danger" | "tertiary";
+export type Comment = { author: string; date: string; text: string };

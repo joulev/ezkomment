@@ -4,6 +4,8 @@ import { FC, useState } from "react";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 
+import { CopiableCodeProps } from "@client/types/components.type";
+
 import IconLabel from "./utils/iconAndLabel";
 
 /**
@@ -21,7 +23,7 @@ import IconLabel from "./utils/iconAndLabel";
  * @param props.content The content to be copied to the clipboard
  * @param props.className The className (if any) to be applied to *the whole* component
  */
-const CopiableCode: FC<{ content: string; className?: string }> = ({ content, className }) => {
+const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
   const [copied, setCopied] = useState(false);
   return (
     <button

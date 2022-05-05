@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
-type BannerVariant = "warning";
-type BannerProps = { variant: BannerVariant; className?: string; children: ReactNode };
+import { BannerProps } from "@client/types/components.type";
+import { BannerVariant } from "@client/types/utils.type";
 
 /**
  * A banner (for warnings, etc.)

@@ -1,5 +1,7 @@
 import clsx from "clsx";
-import { FC, MouseEventHandler, ReactNode } from "react";
+import { FC } from "react";
+
+import { ModalProps } from "@client/types/components.type";
 
 /**
  * A modal. Well, what else can I say?
@@ -10,11 +12,7 @@ import { FC, MouseEventHandler, ReactNode } from "react";
  * @param params.children The content of the modal. Can be quite literally anything. Recommended
  * that this children have a `max-width` CSS property.
  */
-const Modal: FC<{
-  isVisible?: boolean;
-  onOutsideClick?: MouseEventHandler<HTMLDivElement>;
-  children: ReactNode;
-}> = ({ isVisible, onOutsideClick, children }) => {
+const Modal: FC<ModalProps> = ({ isVisible, onOutsideClick, children }) => {
   return (
     <div
       className={clsx(

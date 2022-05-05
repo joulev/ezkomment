@@ -12,6 +12,7 @@ import parseBuildId from "@client/lib/parseBuildId";
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
+import { FooterProps } from "@client/types/components.type";
 import { BuildInfo, IconType } from "@client/types/utils.type";
 
 import logoText from "@client/public/images/logo-text.svg";
@@ -27,10 +28,7 @@ const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   </A>
 );
 
-const Footer: FC<{ className?: string; containerClasses?: string }> = ({
-  className,
-  containerClasses = "container",
-}) => {
+const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) => {
   // Don't even know if this is guaranteed to always work as Next.js don't document this.
   const [buildId, setBuildId] = useState<BuildInfo | null>(null);
   useEffect(() => {

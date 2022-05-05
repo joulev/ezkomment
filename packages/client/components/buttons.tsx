@@ -1,16 +1,11 @@
 import clsx from "clsx";
-import { ComponentProps, ForwardedRef, forwardRef } from "react";
+import { ForwardedRef, forwardRef } from "react";
 
-import { IconType } from "@client/types/utils.type";
+import { ButtonProps } from "@client/types/components.type";
+import { ButtonVariant } from "@client/types/utils.type";
 
 import A from "./anchor";
 import IconLabel from "./utils/iconAndLabel";
-
-type ButtonVariant = "primary" | "danger" | "tertiary";
-type ButtonProps = (ComponentProps<"a"> & ComponentProps<"button">) & {
-  variant?: ButtonVariant;
-  icon?: IconType;
-};
 
 const baseClasses = "cursor-pointer rounded transition border whitespace-nowrap";
 const variantClasses: Record<ButtonVariant, string> = {

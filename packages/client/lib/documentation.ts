@@ -1,9 +1,8 @@
-import { execSync } from "child_process";
-import { readFile, readFileSync } from "fs";
+import { readFileSync } from "fs";
 import { parse as JSON5Parse } from "json5";
 import { join } from "path";
 
-import { DocsData, NavData, SectionData } from "@client/types/docs.type";
+import { DocsData, NavData } from "@client/types/docs.type";
 
 const docsDir = join(process.cwd(), "..", "..", "docs");
 

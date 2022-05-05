@@ -1,19 +1,9 @@
 import clsx from "clsx";
-import { ComponentProps, FC, ReactNode } from "react";
+import { FC } from "react";
 
-import { IconAndLabel, IconType } from "@client/types/utils.type";
+import { InputDetachedLabelProps, InputProps } from "@client/types/components.type";
 
 import IconLabel from "../utils/iconAndLabel";
-
-type InputProps = (ComponentProps<"input"> & IconAndLabel) & {
-  type: ComponentProps<"input">["type"]; // make `type` required.
-  onUpdate?: (value: string) => void;
-};
-
-type InputDetachedLabelProps = InputProps & {
-  icon: IconType; // required
-  helpText?: ReactNode;
-};
 
 /**
  * A wrapper for the default `input` component, with styling from the design system and label

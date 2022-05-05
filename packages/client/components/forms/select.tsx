@@ -1,13 +1,9 @@
 import clsx from "clsx";
-import { ComponentProps, FC } from "react";
+import { FC } from "react";
 
-import { IconAndLabel } from "@client/types/utils.type";
+import { SelectProps } from "@client/types/components.type";
 
 import IconLabel from "../utils/iconAndLabel";
-
-type SelectProps = (ComponentProps<"select"> & IconAndLabel) & {
-  onUpdate?: (value: string) => void;
-};
 
 /**
  * A wrapper for the default `select` component, with styling from the design system and label

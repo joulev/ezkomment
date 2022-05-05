@@ -1,11 +1,8 @@
-import { Dispatch, SetStateAction, createContext } from "react";
+import { createContext } from "react";
 
-import { Mode } from "@client/types/utils.type";
+import { ModeContextType } from "@client/types/utils.type";
 
-const ModeContext = createContext<{
-    mode: Mode;
-    setMode: Dispatch<SetStateAction<Mode>>;
-}>({
+const ModeContext = createContext<ModeContextType>({
     mode: "system",
     setMode: () => {},
 });

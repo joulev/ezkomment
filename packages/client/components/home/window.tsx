@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
-type WindowProps = { tabs: string[]; activeTab?: number; children: ReactNode };
+import { WindowProps } from "@client/types/components.type";
 
 const MacOSWindowButton: FC = () => (
   <div className="border-r border-b border-card h-12 px-[18px] flex flex-row items-center shrink-0">
