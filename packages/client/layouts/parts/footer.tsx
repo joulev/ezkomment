@@ -1,19 +1,19 @@
 import clsx from "clsx";
 import { format, formatISO } from "date-fns";
 import Image from "next/image";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
-import parseBuildId from "@client/lib/parseBuildId";
+import useBuildId from "@client/hooks/buildId";
 
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
 import { FooterProps } from "@client/types/components.type";
-import { BuildInfo, IconType } from "@client/types/utils.type";
+import { IconType } from "@client/types/utils.type";
 
 import logoText from "@client/public/images/logo-text.svg";
 
@@ -29,14 +29,7 @@ const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
 );
 
 const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) => {
-  // Don't even know if this is guaranteed to always work as Next.js don't document this.
-  const [buildId, setBuildId] = useState<BuildInfo | null>(null);
-  useEffect(() => {
-    const getBuildId: string = JSON.parse(
-      document.querySelector("#__NEXT_DATA__")?.textContent as string
-    ).buildId;
-    setBuildId(parseBuildId(getBuildId));
-  }, []);
+  const buildId = useBuildId();
   return (
     <footer className={clsx("bg-card border-t border-card py-6", className)}>
       <div

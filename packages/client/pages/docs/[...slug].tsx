@@ -16,8 +16,8 @@ import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import TagOutlinedIcon from "@mui/icons-material/TagOutlined";
 
+import useBuildId from "@client/hooks/buildId";
 import { filePaths, getFileData, navData } from "@client/lib/documentation";
-import parseBuildId from "@client/lib/parseBuildId";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -25,7 +25,6 @@ import Input from "@client/components/forms/input";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
 import { DocsData, NavData } from "@client/types/docs.type";
-import { BuildInfo } from "@client/types/utils.type";
 
 import logoText from "@client/public/images/logo-text.svg";
 
@@ -98,17 +97,12 @@ const Heading: FC<{ level: number; id?: string; children: ReactNode }> = ({
 };
 
 const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navData }) => {
-  const [buildId, setBuildId] = useState<BuildInfo | null>(null);
+  const buildId = useBuildId();
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
   const [screenHeight, setScreenHeight] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
-    const getBuildId: string = JSON.parse(
-      document.querySelector("#__NEXT_DATA__")?.textContent as string
-    ).buildId;
-    setBuildId(parseBuildId(getBuildId));
-
     const handleScreenHeight = () => setScreenHeight(window.innerHeight);
 
     window.addEventListener("resize", handleScreenHeight);
