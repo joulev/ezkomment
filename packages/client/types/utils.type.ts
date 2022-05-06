@@ -22,3 +22,12 @@ export type IconAndLabel =
 export type BannerVariant = "warning";
 export type ButtonVariant = "primary" | "danger" | "tertiary";
 export type Comment = { author: string; date: string; text: string };
+
+export type PrismLanguage = "html" | "javascript";
+export type PrismOptions = {
+    language: PrismLanguage;
+    /**
+     * If `undefined`, line numbers are not shown. Otherwise, this is the number for the first line.
+     */
+    lineNumberFrom?: number;
+};

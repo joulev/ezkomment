@@ -1,8 +1,8 @@
 import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { highlight, languages } from "prismjs";
 import { useState } from "react";
 
+import prism from "@client/lib/prism";
 import { all as customiseCode } from "@client/lib/sampleCommentCode";
 import { apiCode, plainHtmlCode } from "@client/lib/sampleHomepageCode";
 
@@ -50,9 +50,9 @@ const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr 
 
 export const getStaticProps: GetStaticProps<Props> = () => ({
   props: {
-    plainHtmlHtmlStr: highlight(plainHtmlCode, languages.html, "html"),
-    customiseHtmlStr: highlight(customiseCode, languages.html, "html"),
-    apiHtmlStr: highlight(apiCode, languages.javascript, "javascript"),
+    plainHtmlHtmlStr: prism(plainHtmlCode, { language: "html" }),
+    customiseHtmlStr: prism(customiseCode, { language: "html", lineNumberFrom: 1 }),
+    apiHtmlStr: prism(apiCode, { language: "javascript" }),
   },
 });
 
