@@ -1,9 +1,8 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { Prism } from "react-syntax-highlighter";
 
 import useTheme from "@client/hooks/theme";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import { comment, all as main, styles } from "@client/lib/sampleCommentCode";
+import { all, comment, styles } from "@client/lib/sampleCommentCode";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -26,7 +25,7 @@ function useIframe() {
   return { contentHeight, iframeRef };
 }
 
-const Illustration: FC = () => {
+const Illustration: FC<{ codeHtml: string }> = ({ codeHtml }) => {
   const theme = useTheme();
   const { contentHeight, iframeRef } = useIframe();
   return (
@@ -34,15 +33,15 @@ const Illustration: FC = () => {
       <div className="absolute top-0 inset-x-0 scale-75 origin-top-left">
         <Window tabs={["index.html", "comment.html", "styles.css"]} activeTab={0}>
           <div className="overflow-x-auto no-scrollbar text-sm p-3">
-            <Prism language="html" useInlineStyles={false} codeTagProps={{ style: undefined }}>
-              {main}
-            </Prism>
+            <pre>
+              <code className="whitespace-pre" dangerouslySetInnerHTML={{ __html: codeHtml }} />
+            </pre>
           </div>
         </Window>
       </div>
       <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right pointer-events-none">
         <iframe
-          srcDoc={generateCommentHTML(main, comment, styles, theme === "dark")}
+          srcDoc={generateCommentHTML(all, comment, styles, theme === "dark")}
           className="w-full"
           style={{ height: contentHeight }}
           ref={iframeRef}
@@ -65,8 +64,8 @@ const Illustration: FC = () => {
   );
 };
 
-const HomeCustomisation: FC = () => (
-  <Section illustration={<Illustration />}>
+const HomeCustomisation: FC<{ codeHtml: string }> = ({ codeHtml }) => (
+  <Section illustration={<Illustration codeHtml={codeHtml} />}>
     <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
     <p>
       You can change the look and feel of your comments section to your liking and your page&apos;s

@@ -1,46 +1,18 @@
 import { FC } from "react";
-import { Prism as SyntaxHighlighter, createElement } from "react-syntax-highlighter";
 
 import Button from "@client/components/buttons";
 
 import Section from "../section";
 import Window from "../window";
 
-const code = `      <span>Last updated: 1 January 2022</span>
-    </div>
-  </section>
-  <section id="comments">
-    <iframe src="https://api.ezkomment.joulev.dev/..."></iframe>
-  </section>
-</article>
-<footer class="footer">
-  <div class="footer-left-column">`;
-
-const HomePlainHTML: FC = () => (
+const HomePlainHTML: FC<{ codeHtml: string }> = ({ codeHtml }) => (
   <Section
     illustration={
       <Window tabs={["index.html"]} activeTab={0}>
         <div className="overflow-x-auto no-scrollbar text-sm p-3">
-          <SyntaxHighlighter
-            language="html"
-            useInlineStyles={false}
-            codeTagProps={{ style: undefined }}
-            showLineNumbers
-            startingLineNumber={146} // just a random line number
-            wrapLines
-            renderer={({ rows }) =>
-              rows.map((node, i) =>
-                createElement({
-                  node: { ...node, properties: { className: i === 4 ? [] : ["ignored"] } },
-                  stylesheet: {},
-                  useInlineStyles: false,
-                  key: i,
-                })
-              )
-            }
-          >
-            {code}
-          </SyntaxHighlighter>
+          <pre>
+            <code className="whitespace-pre" dangerouslySetInnerHTML={{ __html: codeHtml }} />
+          </pre>
         </div>
       </Window>
     }

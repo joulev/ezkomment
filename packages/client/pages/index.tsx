@@ -1,6 +1,10 @@
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
+import { highlight, languages } from "prismjs";
 import { useState } from "react";
+
+import { all as customiseCode } from "@client/lib/sampleCommentCode";
+import { apiCode, plainHtmlCode } from "@client/lib/sampleHomepageCode";
 
 import * as home from "@client/components/home/sections";
 import A from "@client/components/anchor";
@@ -8,7 +12,13 @@ import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import Footer from "@client/layouts/parts/footer";
 
-const Home: NextPage = () => {
+type Props = {
+  plainHtmlHtmlStr: string;
+  customiseHtmlStr: string;
+  apiHtmlStr: string;
+};
+
+const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr }) => {
   const [showWarningBanner, setShowWarningBanner] = useState(true);
   return (
     <>
@@ -17,10 +27,10 @@ const Home: NextPage = () => {
       </Head>
       <home.Navbar />
       <home.Banner />
-      <home.PlainHTML />
+      <home.PlainHTML codeHtml={plainHtmlHtmlStr} />
       <home.Moderation />
-      <home.Customisation />
-      <home.Api />
+      <home.Customisation codeHtml={customiseHtmlStr} />
+      <home.Api codeHtml={apiHtmlStr} />
       <home.Ending />
       <Footer className="px-6 sm:px-10" containerClasses="mx-auto w-full lg:w-5/6 xl:w-4/5" />
       {showWarningBanner && (
@@ -37,5 +47,13 @@ const Home: NextPage = () => {
     </>
   );
 };
+
+export const getStaticProps: GetStaticProps<Props> = () => ({
+  props: {
+    plainHtmlHtmlStr: highlight(plainHtmlCode, languages.html, "html"),
+    customiseHtmlStr: highlight(customiseCode, languages.html, "html"),
+    apiHtmlStr: highlight(apiCode, languages.javascript, "javascript"),
+  },
+});
 
 export default Home;
