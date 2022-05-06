@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import Button from "@client/components/buttons";
 
+import CodeBlock from "../codeblock";
 import Section from "../section";
 import Window from "../window";
 
@@ -9,11 +10,7 @@ const HomePlainHTML: FC<{ codeHtml: string }> = ({ codeHtml }) => (
   <Section
     illustration={
       <Window tabs={["index.html"]} activeTab={0}>
-        <div className="overflow-x-auto no-scrollbar text-sm p-3">
-          <pre>
-            <code className="whitespace-pre" dangerouslySetInnerHTML={{ __html: codeHtml }} />
-          </pre>
-        </div>
+        <CodeBlock codeHtml={codeHtml} />
       </Window>
     }
   >
