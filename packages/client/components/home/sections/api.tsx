@@ -1,39 +1,18 @@
 import { FC } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
 import Button from "@client/components/buttons";
 
 import Section from "../section";
 import Window from "../window";
 
-const code = `> const res = await fetcher(url, { page: "873e276648d48e4fd1e1" });
-undefined
-> res.status
-200
-> const { comments } = await res.json();
-undefined
-> comments
-[
-  {
-    author: "John Doe",
-    timestamp: "2020-06-01T12:00:00.000Z",
-    content: "This is a comment",
-  },
-  ...
-]`;
-
-const HomeApi: FC = () => (
+const HomeApi: FC<{ codeHtml: string }> = ({ codeHtml }) => (
   <Section
     illustration={
       <Window tabs={["node", "zsh"]} activeTab={0}>
         <div className="overflow-x-auto no-scrollbar text-sm p-3">
-          <SyntaxHighlighter
-            language="javascript"
-            useInlineStyles={false}
-            codeTagProps={{ style: undefined }}
-          >
-            {code}
-          </SyntaxHighlighter>
+          <pre>
+            <code className="whitespace-pre" dangerouslySetInnerHTML={{ __html: codeHtml }} />
+          </pre>
         </div>
       </Window>
     }
