@@ -30,4 +30,8 @@ export type PrismOptions = {
      * If `undefined`, line numbers are not shown. Otherwise, this is the number for the first line.
      */
     lineNumberFrom?: number;
+    /**
+     * Array of line numbers to be highlighted. `undefined` is treated as `[]`.
+     */
+    highlighted?: number[];
 };

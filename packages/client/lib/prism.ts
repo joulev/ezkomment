@@ -25,5 +25,16 @@ export default function prism(code: string, options: PrismOptions): string {
             )
             .join("\n");
     }
+    if (options.highlighted !== undefined) {
+        const lines = rendered.split("\n");
+        const addedLineNo = options.lineNumberFrom ?? 1;
+        rendered = lines
+            .map((line, index) =>
+                options.highlighted?.includes(index + addedLineNo)
+                    ? `<span>${line}</span>`
+                    : `<span class="ignored">${line}</span>`
+            )
+            .join("\n");
+    }
     return rendered;
 }

@@ -2,7 +2,7 @@
  * @type {import("@types/tailwindcss/tailwind-config").TailwindConfig}
  */
 module.exports = {
-  content: ["**/*.tsx"],
+  content: ["**/*.tsx", "**/*.ts"],
   darkMode: "class",
   theme: require("./config/tailwind-theme"),
   corePlugins: { aspectRatio: false },
