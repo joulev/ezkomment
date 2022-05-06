@@ -7,6 +7,7 @@ import { all, comment, styles } from "@client/lib/sampleCommentCode";
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 
+import CodeBlock from "../codeblock";
 import Section from "../section";
 import Window from "../window";
 
@@ -32,11 +33,7 @@ const Illustration: FC<{ codeHtml: string }> = ({ codeHtml }) => {
     <div className="relative h-[480px]">
       <div className="absolute top-0 inset-x-0 scale-75 origin-top-left">
         <Window tabs={["index.html", "comment.html", "styles.css"]} activeTab={0}>
-          <div className="overflow-x-auto no-scrollbar text-sm p-3">
-            <pre>
-              <code className="whitespace-pre" dangerouslySetInnerHTML={{ __html: codeHtml }} />
-            </pre>
-          </div>
+          <CodeBlock codeHtml={codeHtml} />
         </Window>
       </div>
       <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right pointer-events-none">
