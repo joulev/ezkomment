@@ -50,8 +50,8 @@ const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr 
 
 export const getStaticProps: GetStaticProps<Props> = () => ({
   props: {
-    plainHtmlHtmlStr: prism(plainHtmlCode, { language: "html" }),
-    customiseHtmlStr: prism(customiseCode, { language: "html", lineNumberFrom: 1 }),
+    plainHtmlHtmlStr: prism(plainHtmlCode, { language: "html", lineNumberFrom: 146 }),
+    customiseHtmlStr: prism(customiseCode.slice(0, -1), { language: "html", lineNumberFrom: 1 }),
     apiHtmlStr: prism(apiCode, { language: "javascript" }),
   },
 });
