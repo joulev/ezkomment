@@ -5,7 +5,11 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "esModuleInterop": true,
     "module": "esnext",
-    "incremental": true
+    "incremental": true,
+    "jsx": "preserve",
+    "paths": {
+      "@client/*": ["packages/client/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

@@ -30,14 +30,17 @@ module.exports = {
     },
   ],
   importOrder: [
-    "^@mui/(.*)$",
+    // Server import order
     "^@server/(.*)$",
+    // Client import order
+    "^@mui/(.*)$",
     "^@client/(config|lib|context|hooks)/(.*)$",
     "^@client/(layouts|components)/(.*)$",
     "^@client/types/(.*)$",
     "^@client/public/(.*)$",
     "^@client/styles/(.*)$",
     "^@client/sample/(.*)$",
+    // Relative import
     "^[./]",
   ],
   importOrderSeparation: true,
