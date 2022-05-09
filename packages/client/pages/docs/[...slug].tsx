@@ -3,9 +3,9 @@ import { compile, nodeTypes, run } from "@mdx-js/mdx";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
-import { Prism } from "react-syntax-highlighter";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
+import remarkPrism from "remark-prism";
 
 import TagOutlinedIcon from "@mui/icons-material/TagOutlined";
 
@@ -70,27 +70,6 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
                 h4: (props: HeadingProps) => <Heading {...props} level={4} />,
                 h5: (props: HeadingProps) => <Heading {...props} level={5} />,
                 h6: (props: HeadingProps) => <Heading {...props} level={6} />,
-                // why tf did I need 30 lines in another project just for the same thing?
-                pre: ({ children }: { children: ReactNode }) => <>{children}</>,
-                // https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight
-                code: ({ inline, className, style, children, ...props }: any) => {
-                  const match = /language-(\w+)/.exec(className || "");
-                  return !inline && match ? (
-                    <Prism
-                      language={match[1]}
-                      {...props}
-                      // No thanks I will use my own CSS
-                      useInlineStyles={false}
-                      codeTagProps={{ style }}
-                    >
-                      {children as string}
-                    </Prism>
-                  ) : (
-                    <code className={className} style={style} {...props}>
-                      {children}
-                    </code>
-                  );
-                },
               }}
             />
           </article>
@@ -119,6 +98,7 @@ const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) 
             [rehypeRaw, { passThrough: nodeTypes }],
             rehypeSlug,
           ],
+          remarkPlugins: [remarkPrism],
         })
       ),
       path: params?.slug ?? [],
