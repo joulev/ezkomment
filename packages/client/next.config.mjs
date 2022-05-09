@@ -5,6 +5,7 @@ import { execSync } from "child_process";
  */
 const nextConfig = {
   reactStrictMode: true,
+  pageExtensions: ["mdx", "tsx"],
   generateBuildId: () => {
     // If change this, also update lib/parseBuildId.ts accordingly
     const time = execSync("git log -1 --pretty=format:%ct").toString();
@@ -23,6 +24,20 @@ const nextConfig = {
       permanent: true,
     },
   ],
+  webpack: (config, options) => {
+    config.module.rules.push({
+      test: /\.mdx$/, // no need of .md
+      use: [
+        options.defaultLoaders.babel,
+        {
+          loader: "@mdx-js/loader",
+          /** @type {import("@mdx-js/loader").Options} */
+          options: {},
+        },
+      ],
+    });
+    return config;
+  },
 };
 
 export default nextConfig;
