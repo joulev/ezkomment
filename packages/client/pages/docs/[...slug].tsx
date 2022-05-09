@@ -104,18 +104,12 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
   fallback: false,
 });
 
-const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => {
-  if (!params)
-    return {
-      props: { content: "something's wrong", title: "", lastModified: "", path: [], navData },
-    };
-  return {
-    props: {
-      ...(await getFileData(params.slug)),
-      path: params.slug,
-      navData,
-    },
-  };
-};
+const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => ({
+  props: {
+    ...(await getFileData(params?.slug ?? [])), // [] case never happens, but TS complains
+    path: params?.slug ?? [],
+    navData,
+  },
+});
 
 export { DocPage as default, getStaticPaths, getStaticProps };
