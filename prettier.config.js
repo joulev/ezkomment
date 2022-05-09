@@ -21,6 +21,7 @@ module.exports = {
         "*.json",
         // Others where 4-space tabs are also too much
         "*.md",
+        "*.mdx",
         "*.yml",
         "*.yaml",
       ],

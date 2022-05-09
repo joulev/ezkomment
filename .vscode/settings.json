@@ -1,4 +1,8 @@
 {
   "editor.rulers": [100],
-  "editor.formatOnSave": true
+  "editor.wordWrapColumn": 100,
+  "editor.formatOnSave": true,
+  "[mdx][markdown]": {
+    "editor.wordWrap": "wordWrapColumn"
+  }
 }
