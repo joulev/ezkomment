@@ -1,8 +1,9 @@
+import * as runtime from "react/jsx-runtime";
+import { compile, nodeTypes, run } from "@mdx-js/mdx";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { FC, ReactNode } from "react";
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
+import { Prism } from "react-syntax-highlighter";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 
@@ -22,11 +23,8 @@ type PageProps = DocsData & {
   path: string[];
 };
 
-const Heading: FC<{ level: number; id?: string; children: ReactNode }> = ({
-  level,
-  id,
-  children,
-}) => {
+type HeadingProps = { id?: string; children: ReactNode };
+const Heading: FC<HeadingProps & { level: number }> = ({ level, id, children }) => {
   const HeadingTag: keyof JSX.IntrinsicElements = `h${level as 1 | 2 | 3 | 4 | 5 | 6}`;
   return (
     <HeadingTag id={id} className="relative group">
@@ -43,7 +41,16 @@ const Heading: FC<{ level: number; id?: string; children: ReactNode }> = ({
   );
 };
 
+// `components` is just to avoid a warning when that prop is passed when MDX hasn't been rendered
+const Loading: FC<{ components: any }> = ({ components }) => <>Loading</>;
+
 const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navData }) => {
+  // Sorry for using any here, but since run() in @mdx-js/mdx returns Promise<any>, I can't do anything else.
+  const [mdxModule, setMdxModule] = useState<any>(null);
+  const Content = mdxModule ? mdxModule.default : Loading;
+  useEffect(() => {
+    (async () => setMdxModule(await run(content, runtime)))();
+  }, [content]);
   return (
     <>
       <Head>
@@ -54,23 +61,22 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
         <main className="col-span-full md:col-span-2 px-6 sm:px-12 py-12 max-w-prose">
           <div style={{ height: "60px" }} className="md:hidden" />
           <article className="docs">
-            <ReactMarkdown
+            <Content
               components={{
-                a: ({ node, children, ...props }) => <A {...props}>{children}</A>,
-                // for headings: `level` is already provided (yes I feel like cheating)
-                h1: props => <Heading {...props} />,
-                h2: props => <Heading {...props} />,
-                h3: props => <Heading {...props} />,
-                h4: props => <Heading {...props} />,
-                h5: props => <Heading {...props} />,
-                h6: props => <Heading {...props} />,
+                a: (props: ComponentProps<typeof A>) => <A {...props} />,
+                h1: (props: HeadingProps) => <Heading {...props} level={1} />,
+                h2: (props: HeadingProps) => <Heading {...props} level={2} />,
+                h3: (props: HeadingProps) => <Heading {...props} level={3} />,
+                h4: (props: HeadingProps) => <Heading {...props} level={4} />,
+                h5: (props: HeadingProps) => <Heading {...props} level={5} />,
+                h6: (props: HeadingProps) => <Heading {...props} level={6} />,
                 // why tf did I need 30 lines in another project just for the same thing?
-                pre: ({ children }) => <>{children}</>,
+                pre: ({ children }: { children: ReactNode }) => <>{children}</>,
                 // https://github.com/remarkjs/react-markdown#use-custom-components-syntax-highlight
-                code: ({ node, inline, className, style, children, ...props }) => {
+                code: ({ inline, className, style, children, ...props }: any) => {
                   const match = /language-(\w+)/.exec(className || "");
                   return !inline && match ? (
-                    <SyntaxHighlighter
+                    <Prism
                       language={match[1]}
                       {...props}
                       // No thanks I will use my own CSS
@@ -78,7 +84,7 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
                       codeTagProps={{ style }}
                     >
                       {children as string}
-                    </SyntaxHighlighter>
+                    </Prism>
                   ) : (
                     <code className={className} style={style} {...props}>
                       {children}
@@ -86,10 +92,7 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
                   );
                 },
               }}
-              rehypePlugins={[rehypeRaw, rehypeSlug]}
-            >
-              {content}
-            </ReactMarkdown>
+            />
           </article>
           <hr />
           <DocsBottomBar lastModified={lastModified} path={path} />
@@ -104,12 +107,25 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
   fallback: false,
 });
 
-const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => ({
-  props: {
-    ...(await getFileData(params?.slug ?? [])), // [] case never happens, but TS complains
-    path: params?.slug ?? [],
-    navData,
-  },
-});
+const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => {
+  const { content, ...rest } = await getFileData(params?.slug ?? []); // [] case never happens, but TS complains
+  return {
+    props: {
+      content: String(
+        await compile(content, {
+          outputFormat: "function-body",
+          rehypePlugins: [
+            // https://github.com/orgs/mdx-js/discussions/2023#discussioncomment-2649772
+            [rehypeRaw, { passThrough: nodeTypes }],
+            rehypeSlug,
+          ],
+        })
+      ),
+      path: params?.slug ?? [],
+      navData,
+      ...rest,
+    },
+  };
+};
 
 export { DocPage as default, getStaticPaths, getStaticProps };
