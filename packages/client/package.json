@@ -34,6 +34,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/prismjs": "^1.26.0",
     "@types/react": "18.0.9",
+    "@types/react-dom": "^18.0.3",
     "@types/react-syntax-highlighter": "^15.5.1",
     "@types/tailwindcss": "^3.0.10",
     "autoprefixer": "^10.4.7",
