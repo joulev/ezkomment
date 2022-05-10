@@ -4,7 +4,6 @@ import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
 import A from "@client/components/anchor";
-import BlogImage from "@client/components/blogImage";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
 import PostHeading from "@client/components/postHeading";
@@ -13,6 +12,7 @@ import { BlogLayoutProps } from "@client/types/components.type";
 import { Author } from "@client/types/utils.type";
 
 import defaultAvatar from "@client/public/images/default-photo.svg";
+import logo from "@client/public/images/logo-text.svg";
 
 const AuthorCard: FC<Author> = ({ name, github }) => (
   <div className="flex flex-row gap-3 items-center">
@@ -51,7 +51,10 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
       <HomeNavbar />
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto w-full lg:w-5/6 xl:w-4/5">
-          <h1 className="text-5xl md:text-6xl font-extralight mb-12">{title}</h1>
+          <A className="block w-[calc(397px*0.4)] mb-3" href="/">
+            <Image src={logo} alt="logo" width={397} height={80} />
+          </A>
+          <h1 className="text-5xl md:text-6xl font-extralight mb-12 mt-0">{title}</h1>
           <div className="flex flex-col gap-12 md:flex-row md:justify-between">
             <div className="flex flex-col gap-6 md:flex-row md:gap-12">
               {authors.map((author, index) => (
