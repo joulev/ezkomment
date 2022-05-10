@@ -11,6 +11,7 @@ import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import Footer from "@client/components/footer";
+import HomeNavbar from "@client/components/home/navbar";
 
 type Props = {
   plainHtmlHtmlStr: string;
@@ -25,7 +26,7 @@ const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr 
       <Head>
         <title>ezkomment: Commenting made easy</title>
       </Head>
-      <home.Navbar />
+      <HomeNavbar />
       <home.Banner />
       <home.PlainHTML codeHtml={plainHtmlHtmlStr} />
       <home.Moderation />
