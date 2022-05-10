@@ -60,7 +60,7 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
         <DocsSidebar navData={navData} />
         <main className="col-span-full md:col-span-2 px-6 sm:px-12 py-12 max-w-prose">
           <div style={{ height: "60px" }} className="md:hidden" />
-          <article className="docs">
+          <article className="post">
             <Content
               components={{
                 a: (props: ComponentProps<typeof A>) => <A {...props} />,

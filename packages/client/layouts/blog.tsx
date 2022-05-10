@@ -26,7 +26,7 @@ const AuthorCard: FC<Author> = ({ name, github }) => (
       height={36}
       className="rounded-full"
     />
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <div className="font-semibold text-lg leading-3">{name}</div>
       {github && (
         <A
@@ -70,8 +70,8 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children }
           </div>
         </div>
       </header>
-      <main className="px-6 sm:px-10 py-12">
-        <article className="mx-auto max-w-prose post">{children}</article>
+      <main className="px-6 sm:px-10">
+        <article className="mx-auto my-[72px] max-w-prose post">{children}</article>
       </main>
       <Footer className="px-6 sm:px-10" containerClasses="mx-auto w-full lg:w-5/6 xl:w-4/5" />
     </>
