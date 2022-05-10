@@ -3,6 +3,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
+import blogAnchors from "@client/lib/blogAnchors";
+
 import A from "@client/components/anchor";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
@@ -43,6 +45,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
     const wordCnt = document.getElementsByClassName("post")[0].textContent?.split(" ").length ?? 0;
     setMinutesToRead(Math.round(wordCnt / 200));
   }, []);
+  const anchors = blogAnchors(Content({})); // Yeap. <Content /> doesn't work here.
   return (
     <>
       <Head>
@@ -73,6 +76,10 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
       <main className="px-6 sm:px-10">
         <article className="mx-auto my-[72px] max-w-prose post blog">
           <h1 className="hidden print:block">{title}</h1>
+          <PostHeading level={2} id="table-of-content">
+            Table of Content
+          </PostHeading>
+          {/* TODO: Render anchors as a TOC */}
           <Content
             components={{
               a: ({ ref, ...rest }) => <A {...rest} />,

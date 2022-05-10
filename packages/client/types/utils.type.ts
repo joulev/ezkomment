@@ -40,3 +40,9 @@ export type Author = {
     name: string;
     github?: string;
 };
+
+export type BlogAnchor = {
+    id: string;
+    title: string;
+    level: "h2" | "h3";
+};
