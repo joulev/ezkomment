@@ -62,7 +62,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children }
               ))}
             </div>
             <div className="flex flex-col md:items-end">
-              <span className="text-xl">Posted: {format(timestamp, "d MMM y")}</span>
+              <span className="text-xl">{format(timestamp, "d MMMM y")}</span>
               <span className="text-muted">
                 {minutesToRead} min{minutesToRead !== 1 && "s"} read
               </span>
