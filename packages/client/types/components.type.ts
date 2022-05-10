@@ -26,7 +26,7 @@ export type BlogLayoutProps = {
 
 export type BlogImageProps = {
     src: string;
-    alt?: string;
+    caption: string;
 };
 
 export type FooterProps = {
