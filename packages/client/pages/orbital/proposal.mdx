@@ -1,4 +1,19 @@
-# Proposal for Orbital 2022
+import BlogLayout from "@client/layouts/blog";
+
+export default function Layout({ children }) {
+  return (
+    <BlogLayout
+      title="Orbital 2022 Proposal"
+      authors={[
+        { name: "Vu Van Dung", github: "joulev" },
+        { name: "Nguyen Viet Anh", github: "VietAnh1010" },
+      ]}
+      timestamp={new Date("2022-03-14")}
+    >
+      {children}
+    </BlogLayout>
+  );
+}
 
 ## Team Information
 

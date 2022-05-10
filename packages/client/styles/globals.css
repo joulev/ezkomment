@@ -77,35 +77,41 @@
         transform: rotate(3deg) translate(0px, -4px);
     }
     /* Docs */
-    .docs h1 {
+    :where(.docs, .post) h1 {
         @apply mb-12;
     }
-    .docs h2 {
+    :where(.docs, .post) h2 {
         @apply text-3xl font-semibold mt-12 mb-9 scroll-mt-[108px] md:scroll-mt-12;
     }
-    .docs h3 {
+    .post h2:first-child {
+        @apply mt-0;
+    }
+    :where(.docs, .post) h3 {
         @apply text-2xl font-semibold mt-12 mb-9 scroll-mt-[108px] md:scroll-mt-12;
     }
-    .docs h4 {
+    :where(.docs, .post) h4 {
         @apply text-xl font-light mt-9 mb-6 scroll-mt-[96px] md:scroll-mt-9;
     }
-    .docs :not(pre) > code {
+    :where(.docs, .post) :not(pre) > code {
         @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded;
     }
-    .docs pre {
+    :where(.docs, .post) pre {
         @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card overflow-x-auto
             no-scrollbar; /* not sure if this is a good design decision */
     }
-    .docs ul {
+    :where(.docs, .post) ul {
         @apply list-disc ml-9;
     }
-    .docs ul li {
+    :where(.docs, .post) ol {
+        @apply list-decimal ml-9;
+    }
+    :where(.docs, .post) :where(ul, ol) li {
         @apply mb-3;
     }
-    .docs ul li:last-child {
+    :where(.docs, .post) :where(ul, ol) li:last-child {
         @apply mb-6;
     }
-    .docs blockquote {
+    :where(.docs, .post) blockquote {
         @apply mb-6 italic ml-6 relative text-neutral-700 dark:text-neutral-300
             before:absolute before:-left-6 before:inset-y-0 before:w-1 before:bg-neutral-500 before:rounded;
     }

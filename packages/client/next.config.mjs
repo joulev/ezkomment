@@ -6,6 +6,9 @@ import { execSync } from "child_process";
 const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ["mdx", "tsx"],
+  images: {
+    domains: ["avatars.githubusercontent.com"],
+  },
   generateBuildId: () => {
     // If change this, also update lib/parseBuildId.ts accordingly
     const time = execSync("git log -1 --pretty=format:%ct").toString();
