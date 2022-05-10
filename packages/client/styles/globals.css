@@ -96,7 +96,7 @@
         @apply scroll-mt-[108px];
     }
     .post :not(pre) > code {
-        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded;
+        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 dark:print:bg-neutral-300 rounded;
     }
     .post pre {
         @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card overflow-x-auto
@@ -115,7 +115,7 @@
         @apply mb-6;
     }
     .post blockquote {
-        @apply mb-6 italic ml-6 relative text-neutral-700 dark:text-neutral-300
+        @apply mb-6 italic ml-6 relative text-neutral-700 dark:text-neutral-300 dark:print:text-neutral-700
             before:absolute before:-left-6 before:inset-y-0 before:w-1 before:bg-neutral-500 before:rounded;
     }
     /* Code */

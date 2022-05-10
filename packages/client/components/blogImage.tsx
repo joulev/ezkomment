@@ -11,7 +11,8 @@ const BlogImage: FC<BlogImageProps> = ({ src, caption }) => (
       <div
         className={clsx(
           "absolute top-0 h-full w-full transition pointer-events-none",
-          "dark:bg-black dark:bg-opacity-30 dark:peer-hover:bg-opacity-0"
+          "dark:bg-black dark:bg-opacity-30 dark:peer-hover:bg-opacity-0",
+          "hidden dark:block dark:print:hidden"
         )}
       />
     </div>
