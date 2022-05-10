@@ -38,7 +38,7 @@ module.exports = {
     "^@client/(config|lib|context|hooks)/(.*)$",
     "^@client/(layouts|components)/(.*)$",
     "^@client/types/(.*)$",
-    "^@client/public/(.*)$",
+    "^@client/(public|markdown)/(.*)$",
     "^@client/styles/(.*)$",
     "^@client/sample/(.*)$",
     // Relative import

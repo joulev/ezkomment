@@ -45,6 +45,11 @@ export type ModalProps = {
     children: ReactNode;
 };
 
+export type PostHeadingProps = {
+    id?: string;
+    children?: ReactNode;
+};
+
 export type SiteGraphProps = {
     totalComment: number[];
     newComment: number[];

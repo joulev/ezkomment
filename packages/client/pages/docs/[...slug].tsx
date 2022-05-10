@@ -2,43 +2,25 @@ import * as runtime from "react/jsx-runtime";
 import { compile, nodeTypes, run } from "@mdx-js/mdx";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { ComponentProps, FC, ReactNode, useEffect, useState } from "react";
+import { ComponentProps, FC, useEffect, useState } from "react";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkPrism from "remark-prism";
-
-import TagOutlinedIcon from "@mui/icons-material/TagOutlined";
 
 import { filePaths, getFileData, navData } from "@client/lib/documentation";
 
 import A from "@client/components/anchor";
 import DocsBottomBar from "@client/components/docs/bottombar";
 import DocsSidebar from "@client/components/docs/sidebar";
+import PostHeading from "@client/components/postheading";
 
+import { PostHeadingProps } from "@client/types/components.type";
 import { DocsData, NavData } from "@client/types/docs.type";
 
 type URLParams = { slug: string[] };
 type PageProps = DocsData & {
   navData: NavData;
   path: string[];
-};
-
-type HeadingProps = { id?: string; children: ReactNode };
-const Heading: FC<HeadingProps & { level: number }> = ({ level, id, children }) => {
-  const HeadingTag: keyof JSX.IntrinsicElements = `h${level as 1 | 2 | 3 | 4 | 5 | 6}`;
-  return (
-    <HeadingTag id={id} className="relative group">
-      {children}
-      {level > 1 && (
-        <A
-          href={`#${id}`}
-          className="absolute bottom-0 right-full pr-1 opacity-0 group-hover:opacity-100 transition"
-        >
-          <TagOutlinedIcon fontSize="small" />
-        </A>
-      )}
-    </HeadingTag>
-  );
 };
 
 // `components` is just to avoid a warning when that prop is passed when MDX hasn't been rendered
@@ -64,12 +46,12 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
             <Content
               components={{
                 a: (props: ComponentProps<typeof A>) => <A {...props} />,
-                h1: (props: HeadingProps) => <Heading {...props} level={1} />,
-                h2: (props: HeadingProps) => <Heading {...props} level={2} />,
-                h3: (props: HeadingProps) => <Heading {...props} level={3} />,
-                h4: (props: HeadingProps) => <Heading {...props} level={4} />,
-                h5: (props: HeadingProps) => <Heading {...props} level={5} />,
-                h6: (props: HeadingProps) => <Heading {...props} level={6} />,
+                h1: (props: PostHeadingProps) => <PostHeading {...props} level={1} />,
+                h2: (props: PostHeadingProps) => <PostHeading {...props} level={2} />,
+                h3: (props: PostHeadingProps) => <PostHeading {...props} level={3} />,
+                h4: (props: PostHeadingProps) => <PostHeading {...props} level={4} />,
+                h5: (props: PostHeadingProps) => <PostHeading {...props} level={5} />,
+                h6: (props: PostHeadingProps) => <PostHeading {...props} level={6} />,
               }}
             />
           </article>

@@ -29,7 +29,7 @@ const nextConfig = {
   ],
   webpack: (config, options) => {
     config.module.rules.push({
-      test: /\.mdx$/, // no need of .md
+      test: /\.mdx?$/,
       use: [
         options.defaultLoaders.babel,
         {

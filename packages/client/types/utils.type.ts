@@ -35,3 +35,8 @@ export type PrismOptions = {
      */
     highlighted?: number[];
 };
+
+export type Author = {
+    name: string;
+    github?: string;
+};
