@@ -31,7 +31,7 @@ const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
 const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) => {
   const buildId = useBuildId();
   return (
-    <footer className={clsx("bg-card border-t border-card py-6", className)}>
+    <footer className={clsx("bg-card border-t border-card py-6 print:hidden", className)}>
       <div
         className={clsx(
           "flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center",

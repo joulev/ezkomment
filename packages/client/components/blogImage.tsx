@@ -15,7 +15,7 @@ const BlogImage: FC<BlogImageProps> = ({ src, caption }) => (
         )}
       />
     </div>
-    <span className="text-sm text-muted">{caption}</span>
+    <span className="text-sm print:text-[8pt] text-muted">{caption}</span>
   </div>
 );
 

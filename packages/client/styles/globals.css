@@ -77,17 +77,20 @@
         transform: rotate(3deg) translate(0px, -4px);
     }
     /* Docs */
+    .post {
+        @apply print:text-[10pt] print:text-black print:text-justify;
+    }
     .post h1 {
-        @apply mb-12;
+        @apply mb-12 print:text-[24pt];
     }
     .post h2 {
-        @apply text-3xl font-semibold mt-12 mb-9 scroll-mt-[108px] md:scroll-mt-12;
+        @apply text-3xl print:text-[18pt] font-semibold mt-12 mb-9 print:my-6 scroll-mt-[108px] md:scroll-mt-12;
     }
     .post h3 {
-        @apply text-2xl font-semibold mt-12 mb-9 scroll-mt-[108px] md:scroll-mt-12;
+        @apply text-2xl print:text-[15pt] font-semibold mt-12 mb-9 print:my-6 scroll-mt-[108px] md:scroll-mt-12;
     }
     .post h4 {
-        @apply text-xl font-light mt-9 mb-6 scroll-mt-[96px] md:scroll-mt-9;
+        @apply text-xl print:text-[12pt] font-light mt-9 mb-6 print:mt-6 print:mb-3 scroll-mt-[96px] md:scroll-mt-9;
     }
     .post.blog :where(h2, h3, h4) {
         @apply scroll-mt-[108px];

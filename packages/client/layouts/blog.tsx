@@ -49,7 +49,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
         <title>{title} | ezkomment</title>
       </Head>
       <HomeNavbar />
-      <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
+      <header className="bg-card border-b border-card px-6 sm:px-10 py-24 print:hidden">
         <div className="mx-auto w-full lg:w-5/6 xl:w-4/5">
           <A className="block w-[calc(397px*0.4)] mb-3" href="/">
             <Image src={logo} alt="logo" width={397} height={80} />
@@ -72,6 +72,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
       </header>
       <main className="px-6 sm:px-10">
         <article className="mx-auto my-[72px] max-w-prose post blog">
+          <h1 className="hidden print:block">{title}</h1>
           <Content
             components={{
               a: ({ ref, ...rest }) => <A {...rest} />,
