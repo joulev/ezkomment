@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { MDXProps } from "mdx/types";
 import Head from "next/head";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -10,16 +9,10 @@ import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
 import PostHeading from "@client/components/postheading";
 
+import { BlogLayoutProps } from "@client/types/components.type";
 import { Author } from "@client/types/utils.type";
 
 import defaultAvatar from "@client/public/images/default-photo.svg";
-
-type BlogLayoutProps = {
-  title: string;
-  authors: Author[];
-  timestamp: Date;
-  children: (props: MDXProps) => JSX.Element;
-};
 
 const AuthorCard: FC<Author> = ({ name, github }) => (
   <div className="flex flex-row gap-3 items-center">

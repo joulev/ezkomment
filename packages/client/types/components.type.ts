@@ -1,12 +1,27 @@
+import { MDXProps } from "mdx/types";
 import { ComponentProps, MouseEventHandler, ReactNode } from "react";
 
 import { CurrentPage } from "./page.type";
-import { BannerVariant, ButtonVariant, Comment, IconAndLabel, IconType } from "./utils.type";
+import {
+    Author,
+    BannerVariant,
+    ButtonVariant,
+    Comment,
+    IconAndLabel,
+    IconType,
+} from "./utils.type";
 
 export type AppProps = CurrentPage & {
     title: string;
     removePadding?: boolean;
     children: ReactNode;
+};
+
+export type BlogLayoutProps = {
+    title: string;
+    authors: Author[];
+    timestamp: Date;
+    children: (props: MDXProps) => JSX.Element;
 };
 
 export type BlogImageProps = {
