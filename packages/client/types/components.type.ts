@@ -9,6 +9,11 @@ export type AppProps = CurrentPage & {
     children: ReactNode;
 };
 
+export type BlogImageProps = {
+    src: string;
+    alt?: string;
+};
+
 export type FooterProps = {
     className?: string;
     containerClasses?: string;

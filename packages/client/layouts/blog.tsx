@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
 import A from "@client/components/anchor";
+import BlogImage from "@client/components/blogImage";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
 import PostHeading from "@client/components/postheading";
@@ -84,6 +85,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
               h4: props => <PostHeading {...props} level={4} />,
               h5: props => <PostHeading {...props} level={5} />,
               h6: props => <PostHeading {...props} level={6} />,
+              img: ({ src, alt }) => (src ? <BlogImage src={src} alt={alt} /> : <></>),
             }}
           />
         </article>
