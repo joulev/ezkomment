@@ -22,13 +22,13 @@ type BlogLayoutProps = {
 
 const AuthorCard: FC<Author> = ({ name, github }) => (
   <div className="flex flex-row gap-3 items-center">
-    <Image
-      src={github ? `https://avatars.githubusercontent.com/${github}` : defaultAvatar}
-      alt="avatar"
-      width={36}
-      height={36}
-      className="rounded-full"
-    />
+    <div className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 relative overflow-hidden">
+      <Image
+        src={github ? `https://avatars.githubusercontent.com/${github}` : defaultAvatar}
+        alt="avatar"
+        layout="fill"
+      />
+    </div>
     <div className="flex flex-col gap-2">
       <div className="font-semibold text-lg leading-3">{name}</div>
       {github && (
