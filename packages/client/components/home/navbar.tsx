@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
@@ -10,10 +11,13 @@ import Button from "@client/components/buttons";
 
 import logoText from "@client/public/images/logo-text.svg";
 
+import A from "../anchor";
+
 const scrollThreshold = 300;
 
 const HomeNavbar: FC = () => {
   const breakpoint = useBreakpoint();
+  const router = useRouter();
 
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => setScrollY(window.scrollY);
@@ -33,12 +37,13 @@ const HomeNavbar: FC = () => {
           "mx-auto w-full lg:w-5/6 xl:w-4/5 flex flex-row justify-between items-center transition-all overflow-hidden"
         )}
       >
-        <button
+        <A
           className="w-[calc(397px*0.4)]"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          href={router.pathname === "/" ? undefined : "/"}
+          onClick={() => router.pathname === "/" && window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <Image src={logoText} alt="logo" layout="responsive" width={397} height={80} />
-        </button>
+        </A>
         <div className="flex flex-row gap-6">
           <Button variant="tertiary" href="/app/auth/signin" className="hidden sm:block">
             Sign in
