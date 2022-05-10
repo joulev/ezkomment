@@ -74,7 +74,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
         </div>
       </header>
       <main className="px-6 sm:px-10">
-        <article className="mx-auto my-[72px] max-w-prose post">
+        <article className="mx-auto my-[72px] max-w-prose post blog">
           <Content
             components={{
               a: ({ ref, ...rest }) => <A {...rest} />,

@@ -89,6 +89,9 @@
     .post h4 {
         @apply text-xl font-light mt-9 mb-6 scroll-mt-[96px] md:scroll-mt-9;
     }
+    .post.blog :where(h2, h3, h4) {
+        @apply scroll-mt-[108px];
+    }
     .post :not(pre) > code {
         @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded;
     }
