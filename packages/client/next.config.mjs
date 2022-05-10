@@ -1,4 +1,5 @@
 import { execSync } from "child_process";
+import rehypeSlug from "rehype-slug";
 
 /**
  * @type {import("next").NextConfig}
@@ -35,7 +36,9 @@ const nextConfig = {
         {
           loader: "@mdx-js/loader",
           /** @type {import("@mdx-js/loader").Options} */
-          options: {},
+          options: {
+            rehypePlugins: [rehypeSlug],
+          },
         },
       ],
     });
