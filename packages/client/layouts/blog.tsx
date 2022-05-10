@@ -7,7 +7,7 @@ import A from "@client/components/anchor";
 import BlogImage from "@client/components/blogImage";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
-import PostHeading from "@client/components/postheading";
+import PostHeading from "@client/components/postHeading";
 
 import { BlogLayoutProps } from "@client/types/components.type";
 import { Author } from "@client/types/utils.type";

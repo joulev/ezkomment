@@ -12,7 +12,7 @@ import { filePaths, getFileData, navData } from "@client/lib/documentation";
 import A from "@client/components/anchor";
 import DocsBottomBar from "@client/components/docs/bottombar";
 import DocsSidebar from "@client/components/docs/sidebar";
-import PostHeading from "@client/components/postheading";
+import PostHeading from "@client/components/postHeading";
 
 import { PostHeadingProps } from "@client/types/components.type";
 import { DocsData, NavData } from "@client/types/docs.type";
