@@ -4,8 +4,8 @@ import { FC } from "react";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
-import A from "../anchor";
-import Button from "../buttons";
+import A from "@client/components/anchor";
+import Button from "@client/components/buttons";
 
 const DocsBottomBar: FC<{ lastModified: string; path: string[] }> = ({ lastModified, path }) => (
   <>

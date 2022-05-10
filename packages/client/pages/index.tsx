@@ -10,7 +10,7 @@ import * as home from "@client/components/home/sections";
 import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
-import Footer from "@client/layouts/parts/footer";
+import Footer from "@client/components/footer";
 
 type Props = {
   plainHtmlHtmlStr: string;

@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import { InputDetachedLabelProps, InputProps } from "@client/types/components.type";
+import IconLabel from "@client/components/utils/iconAndLabel";
 
-import IconLabel from "../utils/iconAndLabel";
+import { InputDetachedLabelProps, InputProps } from "@client/types/components.type";
 
 /**
  * A wrapper for the default `input` component, with styling from the design system and label

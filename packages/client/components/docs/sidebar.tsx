@@ -9,13 +9,14 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import useBuildId from "@client/hooks/buildId";
 
+import A from "@client/components/anchor";
+import Input from "@client/components/forms/input";
+import ModeSwitcher from "@client/components/modeSwitcher";
+
 import { NavData } from "@client/types/docs.type";
 
 import logoText from "@client/public/images/logo-text.svg";
 
-import A from "../anchor";
-import Input from "../forms/input";
-import ModeSwitcher from "../modeSwitcher";
 import DocsNav from "./navbar";
 
 const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {

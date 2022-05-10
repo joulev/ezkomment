@@ -2,8 +2,8 @@ import clsx from "clsx";
 import Head from "next/head";
 import { FC } from "react";
 
-import Footer from "@client/layouts/parts/footer";
-import Navbar from "@client/layouts/parts/navbar";
+import Navbar from "@client/components/app/navbar";
+import Footer from "@client/components/footer";
 
 import { AppProps } from "@client/types/components.type";
 

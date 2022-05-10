@@ -5,8 +5,7 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 import Button from "@client/components/buttons";
 import Comments from "@client/components/comments";
-
-import Section from "../section";
+import Section from "@client/components/home/section";
 
 const comments = [
   {

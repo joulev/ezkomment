@@ -6,10 +6,9 @@ import { all, comment, styles } from "@client/lib/sampleCommentCode";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
-
-import CodeBlock from "../codeblock";
-import Section from "../section";
-import Window from "../window";
+import CodeBlock from "@client/components/home/codeblock";
+import Section from "@client/components/home/section";
+import Window from "@client/components/home/window";
 
 function useIframe() {
   const [contentHeight, setContentHeight] = useState(0);
