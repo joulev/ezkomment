@@ -59,7 +59,7 @@ const OrbitalHome: NextPage = () => {
       <HomeNavbar />
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 text-center">
-          <A className="mx-auto block w-[calc(801px*0.4)]" href="/">
+          <A className="mx-auto block w-[calc(801px*0.4)] max-w-full" href="/">
             <Image
               src={theme === "dark" ? logoDark : logoLight}
               alt="logo with orbital"
