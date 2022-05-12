@@ -38,6 +38,7 @@ const nextConfig = {
           /** @type {import("@mdx-js/loader").Options} */
           options: {
             rehypePlugins: [rehypeSlug],
+            providerImportSource: "@mdx-js/react",
           },
         },
       ],
