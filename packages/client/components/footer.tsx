@@ -83,9 +83,9 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
         <hr className="my-6 border-card sm:hidden" />
         <div className="flex flex-row gap-6 justify-between items-center sm:justify-start sm:flex-col sm:items-end">
           <div className="flex flex-row gap-3">
-            <SocialIconLink href="#" icon={GitHubIcon} />
-            <SocialIconLink href="#" icon={TelegramIcon} />
-            <SocialIconLink href="#" icon={EmailOutlinedIcon} />
+            <SocialIconLink href="https://github.com/joulev/ezkomment" icon={GitHubIcon} />
+            <SocialIconLink href="https://t.me/joulev3" icon={TelegramIcon} />
+            <SocialIconLink href="mailto:joulev.vvd@yahoo.com" icon={EmailOutlinedIcon} />
           </div>
           <ModeSwitcher />
         </div>
