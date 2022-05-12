@@ -1,12 +1,19 @@
 import authors from "@client/lib/authors";
 
 import BlogImage from "@client/components/blogImage";
+import BlogLayout from "@client/layouts/blog";
 
-export const meta = {
-  title: "Orbital 2022 Proposal",
-  authors: [authors.joulev, authors.vietanh],
-  timestamp: new Date("2022-03-14"),
-};
+export default function ({ children }) {
+  return (
+    <BlogLayout
+      title="Orbital 2022 Proposal"
+      authors={[authors.joulev, authors.vietanh]}
+      timestamp={new Date("2022-03-14")}
+    >
+      {children}
+    </BlogLayout>
+  );
+}
 
 ## Team Information
 
