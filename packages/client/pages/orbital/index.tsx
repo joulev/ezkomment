@@ -35,7 +35,7 @@ const SectionLink: FC<SectionLinkProps> = ({ icon: Icon, title, href, descriptio
     href={href}
     className={clsx(
       "rounded border border-card bg-card hover:border-neutral-700 dark:hover:border-neutral-300",
-      "p-6 flex flex-col gap-6"
+      "p-6 flex flex-col gap-6 transition"
     )}
   >
     <div className="flex flex-row gap-3 items-center">
