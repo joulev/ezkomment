@@ -32,7 +32,7 @@ const FooterNavLink: FC<{ href: string; title: string }> = ({ href, title }) => 
   <A
     href={href}
     notStyled
-    className="transition text-muted hover:text-neutral-900 dark:hover:text-neutral-100"
+    className="transition font-semibold text-muted hover:text-neutral-900 dark:hover:text-neutral-100"
   >
     {title}
   </A>
