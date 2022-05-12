@@ -1,4 +1,3 @@
-import { MDXProps } from "mdx/types";
 import { ComponentProps, MouseEventHandler, ReactNode } from "react";
 
 import { CurrentPage } from "./page.type";
@@ -21,7 +20,7 @@ export type BlogLayoutProps = {
     title: string;
     authors: Author[];
     timestamp: Date;
-    children: (props: MDXProps) => JSX.Element;
+    children: ReactNode;
 };
 
 export type BlogImageProps = {

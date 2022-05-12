@@ -6,7 +6,6 @@ import { FC, useEffect, useState } from "react";
 import A from "@client/components/anchor";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
-import PostHeading from "@client/components/postHeading";
 
 import { BlogLayoutProps } from "@client/types/components.type";
 import { Author } from "@client/types/utils.type";
@@ -37,7 +36,7 @@ const AuthorCard: FC<Author> = ({ name, github }) => (
   </div>
 );
 
-const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: Content }) => {
+const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children }) => {
   const [minutesToRead, setMinutesToRead] = useState(0);
   useEffect(() => {
     const wordCnt = document.getElementsByClassName("post")[0].textContent?.split(" ").length ?? 0;
@@ -73,17 +72,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children: 
       <main className="px-6 sm:px-10">
         <article className="mx-auto my-[72px] max-w-prose post blog">
           <h1 className="hidden print:block">{title}</h1>
-          <Content
-            components={{
-              a: ({ ref, ...rest }) => <A {...rest} />,
-              h1: props => <PostHeading {...props} level={1} />,
-              h2: props => <PostHeading {...props} level={2} />,
-              h3: props => <PostHeading {...props} level={3} />,
-              h4: props => <PostHeading {...props} level={4} />,
-              h5: props => <PostHeading {...props} level={5} />,
-              h6: props => <PostHeading {...props} level={6} />,
-            }}
-          />
+          {children}
         </article>
       </main>
       <Footer className="px-6 sm:px-10" containerClasses="mx-auto w-full lg:w-5/6 xl:w-4/5" />
