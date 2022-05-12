@@ -1,0 +1,18 @@
+name: Lint frontend code
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "npm"
+      - run: npm install
+      # Since CD on Vercel already builds the site for us, we only need to run linting here
+      - run: npm run lint --workspace=packages/client
