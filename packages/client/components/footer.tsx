@@ -28,6 +28,16 @@ const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (
   </A>
 );
 
+const FooterNavLink: FC<{ href: string; title: string }> = ({ href, title }) => (
+  <A
+    href={href}
+    notStyled
+    className="transition text-muted hover:text-neutral-900 dark:hover:text-neutral-100"
+  >
+    {title}
+  </A>
+);
+
 const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) => {
   const buildId = useBuildId();
   return (
@@ -38,11 +48,17 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
           containerClasses
         )}
       >
-        <div className="min-w-[50%] sm:max-w-[66%]">
-          <A href="/">
+        <div className="min-w-[50%] sm:max-w-[66%] flex flex-col">
+          <A href="/" notStyled className="block mb-3">
             <Image src={logoText} alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
           </A>
-          <div className="mt-3 text-sm text-muted">
+          <div className="flex flex-row flex-wrap gap-x-6 mb-6">
+            <FooterNavLink href="/" title="Homepage" />
+            <FooterNavLink href="/app" title="Dashboard" />
+            <FooterNavLink href="/docs" title="Docs" />
+            <FooterNavLink href="/orbital" title="Orbital" />
+          </div>
+          <div className="text-sm text-muted">
             {process.env.NODE_ENV === "development" && <>Development build</>}
             {process.env.NODE_ENV === "production" && !buildId && (
               <>Retrieving build information&hellip;</>
