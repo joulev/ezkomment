@@ -15,3 +15,5 @@ $ npm install
 from the project root directory. This command should also install the packages at `/packages` as if
 they were NPM packages. Currently it is not yet necessary but it will in the future when we need to
 import code cross-packages.
+
+[See development guide in the Wiki](https://github.com/joulev/ezkomment/wiki/Development-Guide).
