@@ -1,6 +1,6 @@
 # `@ezkomment/client`
 
-The client of the app hosted at https://ezkomment.vercel.app. Written in Next.js and styled by
+The client of the app hosted at https://ezkomment.joulev.dev. Written in Next.js and styled by
 Tailwind CSS.
 
 ## Set up a development server

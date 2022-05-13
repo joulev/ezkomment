@@ -107,7 +107,7 @@ const OrbitalHome: NextPage = () => {
               <SectionLink
                 title="Lift-off poster"
                 description="First design of the poster, submitted during the lift-off stage."
-                href="https://ezkomment.vercel.app/images/orbital/liftoff-poster.png"
+                href="https://ezkomment.joulev.dev/images/orbital/liftoff-poster.png"
                 icon={ImageOutlinedIcon}
                 date={"11 May 2022"}
               />

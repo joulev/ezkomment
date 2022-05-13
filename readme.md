@@ -3,7 +3,7 @@
 Monorepo for everything related to `ezkomment`. See readme in each individual package folder for
 more details.
 
-- [`client`](/packages/client): The client of the app hosted at https://ezkomment.vercel.app.
+- [`client`](/packages/client): The client of the app hosted at https://ezkomment.joulev.dev.
 - [`server`](/packages/server): The server of the app. Currently just a dummy test file though.
 
 This project uses NPM workspaces. To install all dependencies, simply run
