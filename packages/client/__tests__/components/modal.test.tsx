@@ -17,16 +17,8 @@ describe("Modal component", () => {
       )
     ).not.toThrow();
 
-    // We use .parentElement since the `id` is applied to the modal, but we are checking the
-    // class list of the backdrop.
-    //
-    // Safari is really the new IE here... it doesn't support `<dialog>` and everything that goes
-    // with it, until v15.4
-    expect(document.getElementById("not-shown")?.parentElement).toHaveClass(
-      "pointer-events-none opacity-0"
-    );
-    expect(document.getElementById("shown")?.parentElement).not.toHaveClass("pointer-events-none");
-    expect(document.getElementById("shown")?.parentElement).toHaveClass("opacity-100");
+    expect(screen.queryByText("Not shown")?.closest(".opacity-0") ?? null).not.toBeNull();
+    expect(screen.queryByText("Shown")?.closest(".opacity-0") ?? null).toBeNull();
   });
 
   it("`onOutsideClick` testing", async () => {
