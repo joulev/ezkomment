@@ -17,8 +17,8 @@ describe("Modal component", () => {
       )
     ).not.toThrow();
 
-    expect(screen.queryByText("Not shown")?.closest(".opacity-0") ?? null).not.toBeNull();
-    expect(screen.queryByText("Shown")?.closest(".opacity-0") ?? null).toBeNull();
+    expect(screen.getByText("Not shown")?.closest(".opacity-0")).not.toBeNull();
+    expect(screen.getByText("Shown")?.closest(".opacity-0")).toBeNull();
   });
 
   it("`onOutsideClick` testing", async () => {

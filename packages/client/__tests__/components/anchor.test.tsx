@@ -42,24 +42,22 @@ describe("Anchor component", () => {
     expect(() =>
       render(
         <>
-          <A id="normal">Normal link</A>
-          <A id="not-styled" notStyled>
-            Not styled
-          </A>
+          <A>Normal link</A>
+          <A notStyled>Not styled</A>
         </>
       )
     ).not.toThrow();
 
     expect(screen.getByText("Normal link")).toBeInTheDocument();
-    expect(document.getElementById("normal")).toHaveClass("a");
+    expect(screen.getByText("Normal link").closest(".a")).not.toBeNull();
 
     expect(screen.getByText("Not styled")).toBeInTheDocument();
-    expect(document.getElementById("not-styled")).not.toHaveClass("a");
+    expect(screen.getByText("Not styled").closest(".a")).toBeNull();
   });
 
   it("`className` tests", () => {
     expect(() => render(<A className="custom-class">Custom class</A>)).not.toThrow();
     expect(screen.getByText("Custom class")).toBeInTheDocument();
-    expect(document.getElementsByTagName("a")[0]).toHaveClass("a custom-class");
+    expect(screen.getByText("Custom class").closest(".a.custom-class")).not.toBeNull();
   });
 });

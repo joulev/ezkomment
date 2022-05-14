@@ -8,33 +8,29 @@ describe("Button component", () => {
     expect(() =>
       render(
         <>
-          <Button id="no-variant">No variant</Button>
-          <Button id="primary" variant="primary">
-            Primary
-          </Button>
-          <Button id="danger" variant="danger">
-            Danger
-          </Button>
-          <Button id="tertiary" variant="tertiary">
-            Tertiary
-          </Button>
+          <Button>No variant</Button>
+          <Button variant="primary">Primary</Button>
+          <Button variant="danger">Danger</Button>
+          <Button variant="tertiary">Tertiary</Button>
         </>
       )
     ).not.toThrow();
 
     expect(screen.getByText("No variant")).toBeInTheDocument();
-    expect(document.getElementById("no-variant")).toHaveClass("text-white bg-indigo-500");
+    expect(screen.getByText("No variant").closest(".text-white.bg-indigo-500")).not.toBeNull();
 
     expect(screen.getByText("Primary")).toBeInTheDocument();
-    expect(document.getElementById("primary")).toHaveClass("text-white bg-indigo-500");
+    expect(screen.getByText("Primary").closest(".text-white.bg-indigo-500")).not.toBeNull();
 
     expect(screen.getByText("Danger")).toBeInTheDocument();
-    expect(document.getElementById("danger")).toHaveClass("text-white bg-red-500");
+    expect(screen.getByText("Danger").closest(".text-white.bg-red-500")).not.toBeNull();
 
     expect(screen.getByText("Tertiary")).toBeInTheDocument();
-    expect(document.getElementById("tertiary")).toHaveClass(
-      "text-neutral-700 dark:text-neutral-300 border-card bg-card"
-    );
+    expect(
+      screen
+        .getByText("Tertiary")
+        .closest(".text-neutral-700.dark\\:text-neutral-300.border-card.bg-card")
+    ).not.toBeNull();
   });
 
   it("`href` testing", () => {
@@ -58,14 +54,8 @@ describe("Button component", () => {
   });
 
   it("`className` testing", () => {
-    expect(() =>
-      render(
-        <Button id="class-name" className="test">
-          Class name
-        </Button>
-      )
-    ).not.toThrow();
-    expect(document.getElementById("class-name")).toHaveClass("test");
+    expect(() => render(<Button className="test">Class name</Button>)).not.toThrow();
+    expect(screen.getByText("Class name").closest(".test")).not.toBeNull();
   });
 
   it("`children` testing", () => {
@@ -73,7 +63,7 @@ describe("Button component", () => {
       render(
         <>
           <Button id="no-children" />
-          <Button id="have-children">Text</Button>
+          <Button>Text</Button>
         </>
       )
     ).not.toThrow();
@@ -81,6 +71,6 @@ describe("Button component", () => {
     expect(document.getElementById("no-children")).toHaveClass("p-1.5");
 
     expect(screen.getByText("Text")).toBeInTheDocument();
-    expect(document.getElementById("have-children")).not.toHaveClass("p-1.5");
+    expect(screen.getByText("Text").closest(".p-1\\.5")).toBeNull();
   });
 });
