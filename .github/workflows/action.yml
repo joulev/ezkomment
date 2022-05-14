@@ -1,11 +1,9 @@
-name: Lint frontend code
+name: Continuous integration
 
-on:
-  push:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
-  build:
+  frontend-lint-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,3 +14,4 @@ jobs:
       - run: npm install
       # Since CD on Vercel already builds the site for us, we only need to run linting here
       - run: npm run lint --workspace=packages/client
+      - run: npm run test --workspace=packages/client
