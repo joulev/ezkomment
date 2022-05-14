@@ -56,10 +56,9 @@ export type CopiableCodeProps = {
     className?: string;
 };
 
-export type ModalProps = {
+export type ModalProps = ComponentProps<"div"> & {
     isVisible?: boolean;
     onOutsideClick?: MouseEventHandler<HTMLDivElement>;
-    children: ReactNode;
 };
 
 export type PostHeadingProps = {
