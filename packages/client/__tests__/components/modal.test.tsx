@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 
 import Modal from "@client/components/modal";
 
-describe("Button component", () => {
+describe("Modal component", () => {
   it("`isVisible` testing", () => {
     expect(() =>
       render(
