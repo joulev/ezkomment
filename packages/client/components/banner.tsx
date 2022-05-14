@@ -11,12 +11,16 @@ import { BannerVariant } from "@client/types/utils.type";
  * @param props.className Additional classes to be added to the component (if any)
  * @param props.children A React node used as the content of the component
  */
-const Banner: FC<BannerProps> = ({ variant, className, children }) => {
+const Banner: FC<BannerProps> = ({ variant, className, children, ...rest }) => {
   const commonClasses = "p-6 rounded border bg-opacity-20";
   const variantClasses: Record<BannerVariant, string> = {
     warning: "border-amber-500 bg-amber-500",
   };
-  return <div className={clsx(commonClasses, variantClasses[variant], className)}>{children}</div>;
+  return (
+    <div className={clsx(commonClasses, variantClasses[variant], className)} {...rest}>
+      {children}
+    </div>
+  );
 };
 
 export default Banner;

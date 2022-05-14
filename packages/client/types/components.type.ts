@@ -37,10 +37,8 @@ export type HyperlinkProps = ComponentProps<"a"> & {
     notStyled?: boolean;
 };
 
-export type BannerProps = {
+export type BannerProps = ComponentProps<"div"> & {
     variant: BannerVariant;
-    className?: string;
-    children: ReactNode;
 };
 
 export type ButtonProps = (ComponentProps<"a"> & ComponentProps<"button">) & {
