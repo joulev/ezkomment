@@ -14,4 +14,4 @@ jobs:
       - run: npm install
       # Since CD on Vercel already builds the site for us, we only need to run linting here
       - run: npm run lint --workspace=packages/client
-      - run: npm run test --workspace=packages/client
+      - run: npm run test:ci --workspace=packages/client
