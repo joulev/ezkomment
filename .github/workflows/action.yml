@@ -19,3 +19,8 @@ jobs:
       # Since CD on Vercel already builds the site for us, we only need to run linting here
       - run: npm run lint --workspace=packages/client
       - run: npm run test:ci --workspace=packages/client
+      - uses: codecov/codecov-action@v2
+        with:
+          files: packages/client/coverage/clover.xml
+          fail_ci_if_error: true
+          verbose: true

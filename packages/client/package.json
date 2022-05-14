@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch --coverage",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
