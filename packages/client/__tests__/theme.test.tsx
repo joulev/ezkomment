@@ -48,7 +48,11 @@ const Page: FC = () => (
   </Document>
 );
 
-describe("Theme/mode integration test", () => {
+describe("Integration between theme/mode states and `<ModeSwitcher />`", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it("Theme test for switch mode buttons", async () => {
     setupMedia("light");
     const user = userEvent.setup();
@@ -88,5 +92,67 @@ describe("Theme/mode integration test", () => {
     render(<Page />);
     expect(document.getElementById("mode")!.innerHTML).toBe("system");
     expect(document.getElementById("theme")!.innerHTML).toBe("dark");
+  });
+});
+
+describe("Integration with `localStorage`", () => {
+  beforeEach(() => {
+    setupMedia("light");
+    localStorage.clear();
+  });
+
+  it("Empty `localStorage`", () => {
+    expect(localStorage.getItem("mode")).toBeNull();
+    render(<Page />);
+    expect(document.getElementById("mode")!.innerHTML).toBe("system");
+    expect(localStorage.getItem("mode")).toBe("system");
+  });
+
+  it("`localStorage` with predefined value", () => {
+    localStorage.setItem("mode", "dark");
+    render(<Page />);
+    expect(document.getElementById("mode")!.innerHTML).toBe("dark");
+    expect(localStorage.getItem("mode")).toBe("dark");
+  });
+
+  it("Modifying `localStorage` value", async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    expect(localStorage.getItem("mode")).toBe("system");
+    await user.click(screen.getAllByRole("button")[1]); // dark button
+    expect(localStorage.getItem("mode")).toBe("dark");
+  });
+});
+
+describe("Intergration with document element `classList`", () => {
+  beforeEach(() => {
+    setupMedia("light");
+    localStorage.clear();
+  });
+
+  it("Should not have `.dark` on first load", () => {
+    render(<Page />);
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  it("Should have `.dark` after switching to dark mode", async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getAllByRole("button")[1]); // dark button
+    expect(document.documentElement.classList.contains("dark")).toBe(true);
+  });
+
+  it("Should not have `.dark` after switching to light mode", async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getAllByRole("button")[0]); // light button
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  it("Should not have `.dark` after switching to system mode", async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getAllByRole("button")[2]); // system button
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
   });
 });
