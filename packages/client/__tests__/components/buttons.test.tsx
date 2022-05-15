@@ -16,16 +16,9 @@ describe("Button component", () => {
       )
     ).not.toThrow();
 
-    expect(screen.getByText("No variant")).toBeInTheDocument();
     expect(screen.getByText("No variant").closest(".text-white.bg-indigo-500")).not.toBeNull();
-
-    expect(screen.getByText("Primary")).toBeInTheDocument();
     expect(screen.getByText("Primary").closest(".text-white.bg-indigo-500")).not.toBeNull();
-
-    expect(screen.getByText("Danger")).toBeInTheDocument();
     expect(screen.getByText("Danger").closest(".text-white.bg-red-500")).not.toBeNull();
-
-    expect(screen.getByText("Tertiary")).toBeInTheDocument();
     expect(
       screen
         .getByText("Tertiary")
@@ -39,7 +32,7 @@ describe("Button component", () => {
         <>
           <Button id="no-href">No href</Button>
           <Button id="href" href="https://google.com">
-            Href
+            Have href
           </Button>
         </>
       )
@@ -48,7 +41,7 @@ describe("Button component", () => {
     expect(screen.getByText("No href")).toBeInTheDocument();
     expect(document.getElementById("no-href")).not.toHaveAttribute("href");
 
-    expect(screen.getByText("Href")).toBeInTheDocument();
+    expect(screen.getByText("Have href")).toBeInTheDocument();
     expect(document.getElementById("href")).toHaveAttribute("href", "https://google.com");
     expect(document.getElementById("href")).toHaveAttribute("target", "_blank");
   });
@@ -69,8 +62,6 @@ describe("Button component", () => {
     ).not.toThrow();
 
     expect(document.getElementById("no-children")).toHaveClass("p-1.5");
-
-    expect(screen.getByText("Text")).toBeInTheDocument();
     expect(screen.getByText("Text").closest(".p-1\\.5")).toBeNull();
   });
 });

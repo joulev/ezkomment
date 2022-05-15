@@ -2,9 +2,9 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+// anything is fine actually
 import Icon from "@mui/icons-material/AbcOutlined";
 
-// anything is fine actually
 import Input, { InputDetachedLabel } from "@client/components/forms/input";
 
 describe("Input component", () => {
@@ -12,7 +12,6 @@ describe("Input component", () => {
     const user = userEvent.setup();
 
     expect(() => render(<Input label="Input" type="text" />)).not.toThrow();
-    expect(screen.getByText("Input")).toBeInTheDocument();
 
     await user.click(screen.getByText("Input"));
     expect(screen.getByRole("textbox")).toHaveFocus();
@@ -36,8 +35,9 @@ describe("Input component", () => {
         <Input label="Normal" type="text" />
       </>
     );
-    expect(document.getElementsByTagName("input")[0]).toHaveClass("cursor-pointer");
-    expect(document.getElementsByTagName("input")[1]).toHaveClass("cursor-text");
+    const inputElements = document.getElementsByTagName("input");
+    expect(inputElements[0]).toHaveClass("cursor-pointer");
+    expect(inputElements[1]).toHaveClass("cursor-text");
   });
 });
 

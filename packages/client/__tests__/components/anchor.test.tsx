@@ -22,18 +22,18 @@ describe("Anchor component", () => {
       )
     ).not.toThrow();
 
-    expect(screen.getByText("fake link")).toBeInTheDocument();
+    expect(screen.queryByText("fake link")).toBeInTheDocument();
     expect(document.getElementById("fake")).not.toHaveAttribute("href");
 
-    expect(screen.getByText("anchor")).toBeInTheDocument();
+    expect(screen.queryByText("anchor")).toBeInTheDocument();
     expect(document.getElementById("anchor")).toHaveAttribute("href", "#");
     expect(document.getElementById("anchor")).not.toHaveAttribute("target");
 
-    expect(screen.getByText("internal")).toBeInTheDocument();
+    expect(screen.queryByText("internal")).toBeInTheDocument();
     expect(document.getElementById("internal")).toHaveAttribute("href", "/");
     expect(document.getElementById("internal")).not.toHaveAttribute("target");
 
-    expect(screen.getByText("external")).toBeInTheDocument();
+    expect(screen.queryByText("external")).toBeInTheDocument();
     expect(document.getElementById("external")).toHaveAttribute("href", "https://google.com");
     expect(document.getElementById("external")).toHaveAttribute("target", "_blank");
   });
@@ -47,17 +47,12 @@ describe("Anchor component", () => {
         </>
       )
     ).not.toThrow();
-
-    expect(screen.getByText("Normal link")).toBeInTheDocument();
     expect(screen.getByText("Normal link").closest(".a")).not.toBeNull();
-
-    expect(screen.getByText("Not styled")).toBeInTheDocument();
     expect(screen.getByText("Not styled").closest(".a")).toBeNull();
   });
 
   it("`className` tests", () => {
     expect(() => render(<A className="custom-class">Custom class</A>)).not.toThrow();
-    expect(screen.getByText("Custom class")).toBeInTheDocument();
     expect(screen.getByText("Custom class").closest(".a.custom-class")).not.toBeNull();
   });
 });

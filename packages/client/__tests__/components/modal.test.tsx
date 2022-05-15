@@ -11,14 +11,14 @@ describe("Modal component", () => {
         <>
           <Modal id="not-shown">Not shown</Modal>
           <Modal id="shown" isVisible>
-            Shown
+            Is shown
           </Modal>
         </>
       )
     ).not.toThrow();
 
     expect(screen.getByText("Not shown")?.closest(".opacity-0")).not.toBeNull();
-    expect(screen.getByText("Shown")?.closest(".opacity-0")).toBeNull();
+    expect(screen.getByText("Is shown")?.closest(".opacity-0")).toBeNull();
   });
 
   it("`onOutsideClick` testing", async () => {

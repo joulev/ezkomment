@@ -11,11 +11,12 @@ describe("Copiable code component", () => {
     jest.spyOn(navigator.clipboard, "writeText");
 
     expect(() => render(<CopiableCode content={str} />)).not.toThrow();
-    expect(document.getElementsByTagName("button")[0]).toBeInTheDocument();
+    const button = screen.getByRole("button");
+
     expect(screen.queryByText("Copy")).not.toBeNull();
     expect(screen.queryByText("Copied")).toBeNull();
 
-    await user.click(document.getElementsByTagName("button")[0]);
+    await user.click(button);
     expect(screen.queryByText("Copy")).toBeNull();
     expect(screen.queryByText("Copied")).not.toBeNull();
 
