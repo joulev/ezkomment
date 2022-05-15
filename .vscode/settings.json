@@ -4,5 +4,6 @@
   "editor.formatOnSave": true,
   "[mdx][markdown]": {
     "editor.wordWrap": "wordWrapColumn"
-  }
+  },
+  "editor.tabSize": 2
 }
