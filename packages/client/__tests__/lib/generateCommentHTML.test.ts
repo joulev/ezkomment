@@ -1,5 +1,6 @@
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import { all, comment, styles } from "@client/lib/sampleCommentCode";
+
+import { all, comment, styles } from "@client/constants/sampleCommentCode";
 
 describe("Test the comment HTML generator", () => {
     it("Should match snapshot", () => {

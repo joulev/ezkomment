@@ -3,8 +3,6 @@ import Head from "next/head";
 import { useState } from "react";
 
 import prism from "@client/lib/prism";
-import { all as customiseCode } from "@client/lib/sampleCommentCode";
-import { apiCode, plainHtmlCode } from "@client/lib/sampleHomepageCode";
 
 import * as home from "@client/components/home/sections";
 import A from "@client/components/anchor";
@@ -12,6 +10,9 @@ import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
+
+import { all as customiseCode } from "@client/constants/sampleCommentCode";
+import { apiCode, plainHtmlCode } from "@client/constants/sampleHomepageCode";
 
 type Props = {
   plainHtmlHtmlStr: string;
