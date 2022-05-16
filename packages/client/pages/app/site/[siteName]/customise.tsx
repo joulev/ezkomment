@@ -18,7 +18,6 @@ import monacoOptions from "@client/config/monaco";
 import useBreakpoint from "@client/hooks/breakpoint";
 import useTheme from "@client/hooks/theme";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import { all, comment, styles } from "@client/lib/sampleCommentCode";
 
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
@@ -26,6 +25,8 @@ import IconLabel from "@client/components/utils/iconAndLabel";
 import AppLayout from "@client/layouts/app";
 
 import { IconAndLabel } from "@client/types/utils.type";
+
+import { all, comment, styles } from "@client/constants/sampleCommentCode";
 
 import site from "@client/sample/site.json";
 

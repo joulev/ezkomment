@@ -2,13 +2,14 @@ import { FC, useEffect, useRef, useState } from "react";
 
 import useTheme from "@client/hooks/theme";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import { all, comment, styles } from "@client/lib/sampleCommentCode";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import CodeBlock from "@client/components/home/codeblock";
 import Section from "@client/components/home/section";
 import Window from "@client/components/home/window";
+
+import { all, comment, styles } from "@client/constants/sampleCommentCode";
 
 function useIframe() {
   const [contentHeight, setContentHeight] = useState(0);
