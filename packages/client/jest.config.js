@@ -7,6 +7,7 @@ const customJestConfig = {
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: { "^@client/(.*)$": "<rootDir>/$1" },
   testEnvironment: "jest-environment-jsdom",
+  transform: { "^.+\\.svg$": "<rootDir>/config/jestTransformer.js" },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

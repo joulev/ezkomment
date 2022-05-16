@@ -39,7 +39,7 @@ const AuthorCard: FC<Author> = ({ name, github }) => (
 const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children }) => {
   const [minutesToRead, setMinutesToRead] = useState(0);
   useEffect(() => {
-    const wordCnt = document.getElementsByClassName("post")[0].textContent?.split(" ").length ?? 0;
+    const wordCnt = document.getElementsByClassName("post")[0].textContent!.split(" ").length;
     setMinutesToRead(Math.round(wordCnt / 200));
   }, []);
   return (
