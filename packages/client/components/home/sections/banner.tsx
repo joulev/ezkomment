@@ -55,7 +55,7 @@ const HomeBanner: FC = () => {
         <A
           notStyled
           role="button"
-          href="/auth/signup"
+          href="/auth"
           className={clsx(
             "inline-block border-2 rounded-lg border-white sm:text-xl px-9 py-3 transition mb-3",
             "bg-white text-indigo-500 hover:bg-transparent hover:text-white"
@@ -63,16 +63,6 @@ const HomeBanner: FC = () => {
         >
           Get started!
         </A>
-        <p className="font-light text-sm sm:text-base mb-10">
-          Already a user?{" "}
-          <A
-            notStyled
-            href="/auth/signin"
-            className="font-bold underline underline-offset-4 transition hover:text-neutral-300"
-          >
-            Sign in
-          </A>
-        </p>
         <div ref={appScreenshotRef}>
           <Image
             src={theme === "dark" ? "/images/home/app-dark.png" : "/images/home/app-light.png"}
