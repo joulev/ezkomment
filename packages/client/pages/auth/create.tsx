@@ -24,7 +24,7 @@ const SignUp: NextPage = () => (
           <Input icon={EmailOutlinedIcon} placeholder="Email" type="email" required />
           <Input icon={KeyOutlinedIcon} placeholder="Password" type="password" required />
           <Input icon={KeyOutlinedIcon} placeholder="Confirm password" type="password" required />
-          <Button>Create a new account</Button>
+          <Button disabled>Create a new account</Button>
         </form>
         <OrHr className="my-0" />
         <Button variant="tertiary" href="/auth/signup">

@@ -20,10 +20,10 @@ const SignUp: NextPage = () => (
       </A>
       <h1 className="text-3xl mt-6 mb-12">Create a new account</h1>
       <div className="flex flex-col gap-6">
-        <Button icon={GitHubIcon} href="/app/dashboard">
+        <Button icon={GitHubIcon} disabled>
           Continue with GitHub
         </Button>
-        <Button icon={GoogleIcon} href="/app/dashboard">
+        <Button icon={GoogleIcon} disabled>
           Continue with Google
         </Button>
         <OrHr className="my-0" />
