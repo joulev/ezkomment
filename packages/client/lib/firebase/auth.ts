@@ -2,8 +2,7 @@ import {
     GithubAuthProvider,
     signOut as firebaseSignOut,
     getAuth,
-    getRedirectResult,
-    signInWithRedirect,
+    signInWithPopup,
 } from "firebase/auth";
 
 import { AppAuth } from "@client/types/auth.type";
@@ -16,9 +15,8 @@ export async function signInGitHub(appAuth: AppAuth) {
     const { setUser, setLoading } = appAuth;
     setLoading(true);
     const auth = getAuth(firebaseApp);
-    await signInWithRedirect(auth, githubProvider);
-    const credential = await getRedirectResult(auth);
-    setUser(credential ? { uid: credential.user.uid, email: credential.user.email } : null);
+    const result = await signInWithPopup(auth, githubProvider);
+    setUser({ uid: result.user.uid, email: result.user.email });
     setLoading(false);
 }
 
