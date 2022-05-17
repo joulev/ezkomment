@@ -1,7 +1,16 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { NextPage } from "next";
+import { AppProps } from "next/app";
+import { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
 
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+    getLayout?: (page: ReactElement) => ReactNode;
+};
+export type AppPropsWithLayout<P = {}> = AppProps<P> & {
+    Component: NextPageWithLayout;
+};
 
 export type Mode = "light" | "dark" | "system";
 export type ModeContextType = {

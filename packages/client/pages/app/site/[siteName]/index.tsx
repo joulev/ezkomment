@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import { FC, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -21,6 +21,8 @@ import SiteGraph from "@client/components/siteGraph";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
+import { NextPageWithLayout } from "@client/types/utils.type";
+
 import site from "@client/sample/site.json";
 
 type Site = typeof site;
@@ -35,12 +37,12 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
   </div>
 );
 
-const SiteOverview: NextPage<Props> = ({ site }) => {
+const SiteOverview: NextPageWithLayout<Props> = ({ site }) => {
   const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
 
   return (
-    <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
+    <>
       <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
         <div className="flex flex-row gap-6 items-center">
           <div>
@@ -165,9 +167,15 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 };
+
+SiteOverview.getLayout = page => (
+  <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
+    {page}
+  </AppLayout>
+);
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
 

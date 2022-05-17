@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { GetStaticProps, NextPage } from "next";
+import { GetStaticProps } from "next";
 import { FC, RefObject, forwardRef, useEffect, useRef, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -13,6 +13,8 @@ import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import Select from "@client/components/forms/select";
 import AppLayout from "@client/layouts/app";
+
+import { NextPageWithLayout } from "@client/types/utils.type";
 
 import sites from "@client/sample/sites.json";
 
@@ -82,7 +84,7 @@ const EmptyCard: FC = () => {
   );
 };
 
-const Dashboard: NextPage<Props> = ({ sites }) => {
+const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
   const breakpoint = useBreakpoint();
 
   const [showEmptyCard, setShowEmptyCard] = useState(false);
@@ -106,7 +108,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
   }, []);
 
   return (
-    <AppLayout title="Dashboard" type="overview" activeTab="dashboard">
+    <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input label="Search" icon={SearchOutlinedIcon} type="text" />
         <div className="flex flex-row gap-x-6">
@@ -139,9 +141,15 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
         ))}
         {showEmptyCard && <EmptyCard />}
       </main>
-    </AppLayout>
+    </>
   );
 };
+
+Dashboard.getLayout = page => (
+  <AppLayout title="Dashboard" type="overview" activeTab="dashboard">
+    {page}
+  </AppLayout>
+);
 
 export const getStaticProps: GetStaticProps<Props> = () => ({ props: { sites } });
 
