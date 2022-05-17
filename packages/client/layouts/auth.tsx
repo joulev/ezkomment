@@ -2,12 +2,10 @@ import clsx from "clsx";
 import Head from "next/head";
 import { FC, ReactNode } from "react";
 
-import HourglassBottomOutlinedIcon from "@mui/icons-material/HourglassBottomOutlined";
-
 import AuthContext from "@client/context/auth";
 import { useAuthInit } from "@client/hooks/auth";
 
-import IconLabel from "@client/components/utils/iconAndLabel";
+import LoadingBanner from "@client/components/loadingBanner";
 
 const AuthLayout: FC<{ title: string; children: ReactNode }> = ({ title, children }) => {
   const providedAuth = useAuthInit();
@@ -26,16 +24,7 @@ const AuthLayout: FC<{ title: string; children: ReactNode }> = ({ title, childre
           {children}
         </div>
       </main>
-      <div
-        className={clsx(
-          "fixed py-1.5 px-6 border rounded border-card bg-card transition-all z-50 left-9 bottom-0",
-          providedAuth.loading
-            ? "-translate-y-10 opacity-100 visible"
-            : "translate-y-full opacity-0 invisible"
-        )}
-      >
-        <IconLabel icon={HourglassBottomOutlinedIcon} label="Loading&hellip;" />
-      </div>
+      <LoadingBanner />
     </AuthContext.Provider>
   );
 };
