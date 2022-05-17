@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 export type AppUser = {
     uid: string;
     email: string | null;
+    photoURL: string | null;
 } | null;
 
 export type AppAuth = {
