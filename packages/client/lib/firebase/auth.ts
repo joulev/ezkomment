@@ -9,22 +9,17 @@ import { AppAuth } from "@client/types/auth.type";
 
 import firebaseApp from "./app";
 
+const auth = getAuth(firebaseApp);
 const githubProvider = new GithubAuthProvider();
 
-export async function signInGitHub(appAuth: AppAuth) {
-    const { setUser, setLoading } = appAuth;
+export async function signInGitHub({ setLoading }: AppAuth) {
     setLoading(true);
-    const auth = getAuth(firebaseApp);
-    const result = await signInWithPopup(auth, githubProvider);
-    setUser({ uid: result.user.uid, email: result.user.email });
+    await signInWithPopup(auth, githubProvider);
     setLoading(false);
 }
 
-export async function signOut(appAuth: AppAuth) {
-    const { setUser, setLoading } = appAuth;
+export async function signOut({ setLoading }: AppAuth) {
     setLoading(true);
-    const auth = getAuth(firebaseApp);
     await firebaseSignOut(auth);
-    setUser(null);
     setLoading(false);
 }
