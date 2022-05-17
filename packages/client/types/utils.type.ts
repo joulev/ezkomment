@@ -28,7 +28,7 @@ export type IconAndLabel =
     | { label: ReactNode; icon?: IconType }
     | { icon: IconType; label?: ReactNode };
 
-export type BannerVariant = "warning" | "error";
+export type BannerVariant = "warning" | "error" | "info";
 export type ButtonVariant = "primary" | "danger" | "tertiary";
 export type Comment = { author: string; date: string; text: string };
 

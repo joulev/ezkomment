@@ -16,6 +16,7 @@ const Banner: FC<BannerProps> = ({ variant, className, children, ...rest }) => {
   const variantClasses: Record<BannerVariant, string> = {
     warning: "border-amber-500 bg-amber-500",
     error: "border-red-500 bg-red-500",
+    info: "border-cyan-500 bg-cyan-500",
   };
   return (
     <div className={clsx(commonClasses, variantClasses[variant], className)} {...rest}>
