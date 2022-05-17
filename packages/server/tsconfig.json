@@ -10,7 +10,6 @@
     "esModuleInterop": true,
     "module": "esnext",
     "incremental": true,
-    "jsx": "preserve",
     "paths": {
       "@server/*": [
         "packages/server/*"
@@ -19,7 +18,6 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx"
   ],
   "exclude": [
     "node_modules"
