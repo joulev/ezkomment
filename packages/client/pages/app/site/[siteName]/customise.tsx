@@ -5,7 +5,7 @@
  */
 import Editor from "@monaco-editor/react";
 import clsx from "clsx";
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import { FC, useState } from "react";
 
 import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
@@ -24,7 +24,7 @@ import Input from "@client/components/forms/input";
 import IconLabel from "@client/components/utils/iconAndLabel";
 import AppLayout from "@client/layouts/app";
 
-import { IconAndLabel } from "@client/types/utils.type";
+import { IconAndLabel, NextPageWithLayout } from "@client/types/utils.type";
 
 import { all, comment, styles } from "@client/constants/sampleCommentCode";
 
@@ -69,7 +69,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   </div>
 );
 
-const SiteCustomise: NextPage<Props> = ({ site }) => {
+const SiteCustomise: NextPageWithLayout<Props> = ({ site }) => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
 
@@ -79,13 +79,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
   const [previewIsDark, setPreviewIsDark] = useState(false);
 
   return (
-    <AppLayout
-      title={`Customise | ${site.name}`}
-      type="site"
-      activeTab="customise"
-      siteName={site.name}
-      removePadding
-    >
+    <>
       <div className="lg:hidden py-9">
         Please use a laptop or a device with a wider screen to use this feature.
       </div>
@@ -155,9 +149,21 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
           />
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 };
+
+SiteCustomise.getLayout = page => (
+  <AppLayout
+    title={`Customise | ${site.name}`}
+    type="site"
+    activeTab="customise"
+    siteName={site.name}
+    removePadding
+  >
+    {page}
+  </AppLayout>
+);
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
 

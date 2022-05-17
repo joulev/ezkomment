@@ -1,5 +1,4 @@
 import { MDXProvider } from "@mdx-js/react";
-import { AppProps } from "next/app";
 
 import BreakpointContext from "@client/context/breakpoint";
 import ModeContext from "@client/context/mode";
@@ -11,13 +10,16 @@ import A from "@client/components/anchor";
 import PostHeading from "@client/components/postHeading";
 import { ErrorBoundary } from "@client/layouts/errors";
 
+import { AppPropsWithLayout } from "@client/types/utils.type";
+
 import "@client/styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   useNProgress();
   const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
-  return (
+  const getLayout = Component.getLayout ?? (page => page);
+  return getLayout(
     <ErrorBoundary>
       <ModeContext.Provider value={{ mode, setMode }}>
         <BreakpointContext.Provider value={breakpoint}>
