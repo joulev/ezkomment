@@ -5,7 +5,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
 import useAuth from "@client/hooks/auth";
-import { signInGitHub } from "@client/lib/firebase/auth";
+import { signInGitHub, signInGoogle } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -29,7 +29,7 @@ const Auth: NextPageWithLayout = () => {
         <Button icon={GitHubIcon} onClick={() => signInGitHub(auth)}>
           Continue with GitHub
         </Button>
-        <Button icon={GoogleIcon} disabled>
+        <Button icon={GoogleIcon} onClick={() => signInGoogle(auth)}>
           Continue with Google
         </Button>
         <OrHr className="my-0" />

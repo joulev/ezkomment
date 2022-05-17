@@ -1,5 +1,6 @@
 import {
     GithubAuthProvider,
+    GoogleAuthProvider,
     signOut as firebaseSignOut,
     getAuth,
     signInWithPopup,
@@ -11,10 +12,17 @@ import firebaseApp from "./app";
 
 const auth = getAuth(firebaseApp);
 const githubProvider = new GithubAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
 export async function signInGitHub({ setLoading }: AppAuth) {
     setLoading(true);
     await signInWithPopup(auth, githubProvider);
+    setLoading(false);
+}
+
+export async function signInGoogle({ setLoading }: AppAuth) {
+    setLoading(true);
+    await signInWithPopup(auth, googleProvider);
     setLoading(false);
 }
 

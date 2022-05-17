@@ -135,7 +135,12 @@ const TopNav: FC<CurrentPage> = props => {
           href="/app/account"
           className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
         >
-          <Image src={auth.user?.photoURL ?? defaultAvatar} alt="avatar" layout="fill" />
+          {auth.user && auth.user.photoURL ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={auth.user.photoURL} alt="avatar" className="w-9 h-9" />
+          ) : (
+            <Image src={defaultAvatar} alt="avatar" layout="fill" />
+          )}
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
