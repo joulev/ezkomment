@@ -33,7 +33,7 @@ const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
     "sm:hover:bg-indigo-100 sm:dark:hover:bg-indigo-900 sm:dark:hover:bg-opacity-50 sm:hover:text-primary" // styling for desktop
   );
   return href ? (
-    <A href="/app" notStyled className={classes}>
+    <A href="/app/dashboard" notStyled className={classes}>
       <Icon />
     </A>
   ) : (
@@ -74,14 +74,14 @@ const BreadCrumbSlash: FC = () => (
 
 const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
   <div className="flex flex-row gap-3 items-center">
-    <A href="/app" notStyled className="w-8 h-8 relative">
+    <A href="/app/dashboard" notStyled className="w-8 h-8 relative">
       <Image src={logo} alt="ezkomment" layout="fill" />
     </A>
     <BreadCrumbSlash />
     <A
       notStyled
       className="font-semibold text-lg"
-      href={type === "overview" ? "/app" : `/app/site/${siteName}`}
+      href={type === "overview" ? "/app/dashboard" : `/app/site/${siteName}`}
     >
       {type === "overview" ? "Overview" : siteName}
     </A>
@@ -103,7 +103,7 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
     <A
       notStyled
       className="font-semibold"
-      href={type === "overview" ? "/app" : `/app/site/${siteName}`}
+      href={type === "overview" ? "/app/dashboard" : `/app/site/${siteName}`}
     >
       {type === "overview" ? "Overview" : siteName}
     </A>
@@ -129,7 +129,7 @@ const TopNav: FC<CurrentPage> = props => {
       <nav className="hidden sm:flex flex-row gap-6 pt-3 sm:pt-6 items-center justify-between">
         <TopNavBreadcrumb {...props} />
         <div className="flex-grow" />
-        <TopNavButton href="/app" icon={HomeOutlinedIcon} />
+        <TopNavButton href="/app/dashboard" icon={HomeOutlinedIcon} />
         <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
         <A
           href="/app/account"
@@ -165,7 +165,7 @@ const TopNav: FC<CurrentPage> = props => {
             expanded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           )}
         >
-          <TopNavExpandedItem icon={HomeOutlinedIcon} href="/app">
+          <TopNavExpandedItem icon={HomeOutlinedIcon} href="/app/dashboard">
             Dashboard
           </TopNavExpandedItem>
           <TopNavExpandedItem icon={SettingsOutlinedIcon} href="/app/account">

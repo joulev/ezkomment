@@ -54,7 +54,7 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
           </A>
           <div className="flex flex-row flex-wrap gap-x-6 mb-6">
             <FooterNavLink href="/" title="Homepage" />
-            <FooterNavLink href="/app" title="Dashboard" />
+            <FooterNavLink href="/app/dashboard" title="Dashboard" />
             <FooterNavLink href="/docs" title="Docs" />
             <FooterNavLink href="/orbital" title="Orbital" />
           </div>
