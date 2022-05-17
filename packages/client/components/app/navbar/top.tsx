@@ -9,6 +9,9 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
+import useAuth from "@client/hooks/auth";
+import { signOut } from "@client/lib/firebase/auth";
+
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
 
@@ -117,7 +120,8 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
 
 const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
-  const handleLogout: MouseEventHandler<HTMLButtonElement> = () => console.log("log out");
+  const auth = useAuth();
+  const handleLogout: MouseEventHandler<HTMLButtonElement> = () => signOut(auth);
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
 
   return (
