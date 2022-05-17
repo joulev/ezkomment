@@ -12,7 +12,7 @@ import firebaseApp from "./app";
 
 const githubProvider = new GithubAuthProvider();
 
-export async function signIn(appAuth: AppAuth) {
+export async function signInGitHub(appAuth: AppAuth) {
     const { setUser, setLoading } = appAuth;
     setLoading(true);
     const auth = getAuth(firebaseApp);

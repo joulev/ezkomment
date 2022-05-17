@@ -6,6 +6,7 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
+import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
 
 import A from "@client/components/anchor";
@@ -85,6 +86,7 @@ const EmptyCard: FC = () => {
 };
 
 const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
+  const { user } = useAuth();
   const breakpoint = useBreakpoint();
 
   const [showEmptyCard, setShowEmptyCard] = useState(false);
@@ -109,6 +111,7 @@ const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
 
   return (
     <>
+      <h1>{user ? <>Welcome, {user.email}</> : "Not authenticated"}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input label="Search" icon={SearchOutlinedIcon} type="text" />
         <div className="flex flex-row gap-x-6">
