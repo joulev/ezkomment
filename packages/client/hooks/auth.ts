@@ -20,7 +20,7 @@ export function useAuthInit(): AppAuth {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
             setUser(user ? { uid: user.uid, email: user.email } : null);
-            if (!user && router.pathname.startsWith("/app")) router.push("/auth/signin");
+            if (!user && router.pathname.startsWith("/app")) router.push("/auth");
             else if (user && router.pathname.startsWith("/auth")) router.push("/app/dashboard");
             setLoading(false);
         });
