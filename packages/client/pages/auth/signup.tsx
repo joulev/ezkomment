@@ -27,7 +27,7 @@ const SignUp: NextPage = () => (
           Continue with Google
         </Button>
         <OrHr className="my-0" />
-        <Button variant="tertiary" href="/app/auth/create">
+        <Button variant="tertiary" href="/auth/create">
           Sign up with email
         </Button>
       </div>

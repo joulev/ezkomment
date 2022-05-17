@@ -43,12 +43,12 @@ const HomeNavbar: FC = () => {
           <Image src={logoText} alt="logo" layout="responsive" width={397} height={80} />
         </A>
         <div className="flex flex-row gap-6">
-          <Button variant="tertiary" href="/app/auth/signin" className="hidden sm:block">
+          <Button variant="tertiary" href="/auth/signin" className="hidden sm:block">
             Sign in
           </Button>
           <Button
             variant={breakpoint === "xs" ? "tertiary" : "primary"}
-            href="/app/auth/signup"
+            href="/auth/signup"
             icon={breakpoint === "xs" ? LoginOutlinedIcon : undefined}
           >
             {breakpoint === "xs" ? undefined : "Get started"}
