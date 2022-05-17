@@ -27,7 +27,7 @@ const SignUp: NextPage = () => (
           <Button>Create a new account</Button>
         </form>
         <OrHr className="my-0" />
-        <Button variant="tertiary" href="/app/auth/signup">
+        <Button variant="tertiary" href="/auth/signup">
           Other sign up options
         </Button>
       </div>
