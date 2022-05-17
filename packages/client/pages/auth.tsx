@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -8,6 +9,7 @@ import useAuth from "@client/hooks/auth";
 import { signInGitHub, signInGoogle } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
+import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import OrHr from "@client/components/orHr";
@@ -19,6 +21,28 @@ import logo from "@client/public/images/logo.svg";
 
 const Auth: NextPageWithLayout = () => {
   const auth = useAuth();
+  const [error, setError] = useState("");
+
+  async function handleSignInWithGitHub() {
+    try {
+      await signInGitHub(auth);
+    } catch (err) {
+      if (process.env.NODE_ENV === "development") console.log(err);
+      setError("Signing in with GitHub failed.");
+      auth.setLoading(false);
+    }
+  }
+
+  async function handleSignInWithGoogle() {
+    try {
+      await signInGoogle(auth);
+    } catch (err) {
+      if (process.env.NODE_ENV === "development") console.log(err);
+      setError("Signing in with Google failed.");
+      auth.setLoading(false);
+    }
+  }
+
   return (
     <div className="text-center">
       <A href="/" notStyled>
@@ -26,10 +50,11 @@ const Auth: NextPageWithLayout = () => {
       </A>
       <h1 className="text-3xl mt-6 mb-12">Continue to ezkomment</h1>
       <div className="flex flex-col gap-6">
-        <Button icon={GitHubIcon} onClick={() => signInGitHub(auth)}>
+        {error && <Banner variant="error">{error}</Banner>}
+        <Button icon={GitHubIcon} onClick={handleSignInWithGitHub}>
           Continue with GitHub
         </Button>
-        <Button icon={GoogleIcon} onClick={() => signInGoogle(auth)}>
+        <Button icon={GoogleIcon} onClick={handleSignInWithGoogle}>
           Continue with Google
         </Button>
         <OrHr className="my-0" />
