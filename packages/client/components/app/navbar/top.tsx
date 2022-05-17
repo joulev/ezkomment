@@ -131,8 +131,11 @@ const TopNav: FC<CurrentPage> = props => {
         <div className="flex-grow" />
         <TopNavButton href="/app" icon={HomeOutlinedIcon} />
         <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
-        <A href="/app/account" className="h-8 w-8 shrink-0 relative">
-          <Image src={defaultAvatar} alt="" layout="fill" />
+        <A
+          href="/app/account"
+          className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
+        >
+          <Image src={auth.user?.photoURL ?? defaultAvatar} alt="avatar" layout="fill" />
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
