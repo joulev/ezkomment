@@ -41,7 +41,6 @@ const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
       baseClasses,
       children ? "py-1.5 px-6" : "p-1.5", // no labels
       variantClasses[variant],
-      "disabled:cursor-not-allowed disabled:text-muted disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:border-card",
       className
     );
     return href ? (
