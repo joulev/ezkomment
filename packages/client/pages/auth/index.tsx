@@ -30,7 +30,7 @@ const Auth: NextPageWithLayout = () => {
     try {
       await signInGitHub(auth);
     } catch (err) {
-      if (process.env.NODE_ENV === "development") console.log(err);
+      console.log(err);
       setError("Signing in with GitHub failed.");
       auth.setLoading(false);
     }
@@ -41,7 +41,7 @@ const Auth: NextPageWithLayout = () => {
     try {
       await signInGoogle(auth);
     } catch (err) {
-      if (process.env.NODE_ENV === "development") console.log(err);
+      console.log(err);
       setError("Signing in with Google failed.");
       auth.setLoading(false);
     }
@@ -53,7 +53,7 @@ const Auth: NextPageWithLayout = () => {
       await signInEmailLink(auth, email);
       setShowEmailLinkInfo(true);
     } catch (err) {
-      if (process.env.NODE_ENV === "development") console.log(err);
+      console.log(err);
       setError("Signing in with email link failed.");
       auth.setLoading(false);
     }
