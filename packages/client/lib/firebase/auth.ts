@@ -9,6 +9,7 @@ import {
     signInWithEmailLink,
     signInWithPopup,
     unlink,
+    updateProfile,
 } from "firebase/auth";
 
 import { AppAuth } from "@client/types/auth.type";
@@ -86,5 +87,12 @@ export async function finaliseSignInEmailLink({ setLoading }: AppAuth, href: str
 export async function signOut({ setLoading }: AppAuth) {
     setLoading(true);
     await firebaseSignOut(auth);
+    setLoading(false);
+}
+
+export async function updateDisplayName({ setLoading }: AppAuth, displayName: string) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    await updateProfile(auth.currentUser, { displayName });
     setLoading(false);
 }

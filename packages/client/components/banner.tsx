@@ -12,7 +12,7 @@ import { BannerVariant } from "@client/types/utils.type";
  * @param props.children A React node used as the content of the component
  */
 const Banner: FC<BannerProps> = ({ variant, className, children, ...rest }) => {
-  const commonClasses = "px-6 py-3 rounded border bg-opacity-20 text-left";
+  const commonClasses = "px-6 py-3 rounded border bg-opacity-20 text-left [hyphens:auto]";
   const variantClasses: Record<BannerVariant, string> = {
     warning: "border-amber-500 bg-amber-500",
     error: "border-red-500 bg-red-500",
