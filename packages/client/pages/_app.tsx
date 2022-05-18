@@ -19,23 +19,25 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
   const getLayout = Component.getLayout ?? (page => page);
-  return getLayout(
+  return (
     <ErrorBoundary>
       <ModeContext.Provider value={{ mode, setMode }}>
         <BreakpointContext.Provider value={breakpoint}>
-          <MDXProvider
-            components={{
-              a: ({ ref, ...rest }) => <A {...rest} />,
-              h1: props => <PostHeading {...props} level={1} />,
-              h2: props => <PostHeading {...props} level={2} />,
-              h3: props => <PostHeading {...props} level={3} />,
-              h4: props => <PostHeading {...props} level={4} />,
-              h5: props => <PostHeading {...props} level={5} />,
-              h6: props => <PostHeading {...props} level={6} />,
-            }}
-          >
-            <Component {...pageProps} />
-          </MDXProvider>
+          {getLayout(
+            <MDXProvider
+              components={{
+                a: ({ ref, ...rest }) => <A {...rest} />,
+                h1: props => <PostHeading {...props} level={1} />,
+                h2: props => <PostHeading {...props} level={2} />,
+                h3: props => <PostHeading {...props} level={3} />,
+                h4: props => <PostHeading {...props} level={4} />,
+                h5: props => <PostHeading {...props} level={5} />,
+                h6: props => <PostHeading {...props} level={6} />,
+              }}
+            >
+              <Component {...pageProps} />
+            </MDXProvider>
+          )}
         </BreakpointContext.Provider>
       </ModeContext.Provider>
     </ErrorBoundary>
