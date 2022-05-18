@@ -2,9 +2,10 @@
   "name": "@ezkomment/server",
   "private": true,
   "description": "Backend server for ezkomment",
-  "main": "index.js",
+  "main": "dist",
   "scripts": {
-    "start": "node index.js"
+    "build": "tsc --project './tsconfig.json'",
+    "dev": "tsc --project './tsconfig.json' && NODE_ENV=development node dist"
   },
   "dependencies": {
     "dotenv": "^16.0.1",

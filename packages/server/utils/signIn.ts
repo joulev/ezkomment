@@ -10,7 +10,7 @@ import {
 
 import { Request, Response } from "express";
 
-import firebaseApp from "@server/lib/firebaseApp";
+import firebaseApp from "../lib/firebaseApp";
 
 const auth = getAuth(firebaseApp);
 const githubProvider = new GithubAuthProvider();

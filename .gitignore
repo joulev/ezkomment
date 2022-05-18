@@ -38,5 +38,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# text files
-packages/server/*.txt
+# generated js files
+dist

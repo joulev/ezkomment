@@ -1,20 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "es6",
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "commonjs",
     "incremental": true,
     "paths": {
       "@server/*": [
         "packages/server/*"
       ]
-    }
+    },
+    "outDir": "dist",
+    "sourceMap": true
   },
   "include": [
     "**/*.ts",
