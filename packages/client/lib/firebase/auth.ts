@@ -4,14 +4,16 @@ import {
     signOut as firebaseSignOut,
     getAuth,
     isSignInWithEmailLink,
+    linkWithPopup,
     sendSignInLinkToEmail,
     signInWithEmailLink,
     signInWithPopup,
+    unlink,
 } from "firebase/auth";
 
 import { AppAuth } from "@client/types/auth.type";
 
-import { INVALID_EMAIL_LINK } from "../errors";
+import { INVALID_EMAIL_LINK, NOT_AUTHENTICATED } from "../errors";
 import firebaseApp from "./app";
 
 const auth = getAuth(firebaseApp);
@@ -24,9 +26,37 @@ export async function signInGitHub({ setLoading }: AppAuth) {
     setLoading(false);
 }
 
+export async function linkGitHub({ setLoading }: AppAuth) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    await linkWithPopup(auth.currentUser, githubProvider);
+    setLoading(false);
+}
+
+export async function unlinkGitHub({ setLoading }: AppAuth) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    await unlink(auth.currentUser, githubProvider.providerId);
+    setLoading(false);
+}
+
 export async function signInGoogle({ setLoading }: AppAuth) {
     setLoading(true);
     await signInWithPopup(auth, googleProvider);
+    setLoading(false);
+}
+
+export async function linkGoogle({ setLoading }: AppAuth) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    await linkWithPopup(auth.currentUser, googleProvider);
+    setLoading(false);
+}
+
+export async function unlinkGoogle({ setLoading }: AppAuth) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    await unlink(auth.currentUser, googleProvider.providerId);
     setLoading(false);
 }
 

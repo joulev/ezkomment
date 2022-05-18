@@ -1,14 +1,9 @@
+import { User } from "firebase/auth";
 import { Dispatch, SetStateAction } from "react";
 
-export type AppUser = {
-    uid: string;
-    email: string | null;
-    photoURL: string | null;
-} | null;
-
 export type AppAuth = {
-    user: AppUser;
-    setUser: Dispatch<SetStateAction<AppUser>>;
+    user: User | null;
+    setUser: Dispatch<SetStateAction<User | null>>;
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
 };
