@@ -1,21 +1,22 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
 import AuthContext from "@client/context/auth";
 import firebaseApp from "@client/lib/firebase/app";
 
-import { AppAuth, AppUser } from "@client/types/auth.type";
+import { AppAuth } from "@client/types/auth.type";
 
 export function useAuthInit(): AppAuth {
-    const [user, setUser] = useState<AppUser>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     const auth = getAuth(firebaseApp);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
-            setUser(user ? { uid: user.uid, email: user.email, photoURL: user.photoURL } : null);
+            setUser(user);
+            if (process.env.NODE_ENV === "development") console.log(user);
             if (!user && router.pathname.startsWith("/app/dashboard")) router.push("/auth");
             else if (user && router.pathname.startsWith("/auth")) router.push("/app/dashboard");
             setLoading(false);
