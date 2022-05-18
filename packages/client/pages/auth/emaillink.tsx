@@ -6,6 +6,7 @@ import { finaliseSignInEmailLink } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
+import UnknownError from "@client/components/unknownError";
 import AuthLayout from "@client/layouts/auth";
 
 import { NextPageWithLayout } from "@client/types/utils.type";
@@ -22,14 +23,7 @@ const AuthEmailLinkAction: NextPageWithLayout = () => {
     } catch (err: any) {
       if (process.env.NODE_ENV === "development") console.log(err);
       if (err.code === "ezkomment/client") setError(err.message);
-      else
-        setError(
-          <>
-            An unknown error occurred. Please{" "}
-            <A href="mailto:joulev.vvd@yahoo.com">report it to us</A> with the following error code:{" "}
-            <code>{err.code}</code> and try again later.
-          </>
-        );
+      else setError(<UnknownError err={err} />);
       auth.setLoading(false);
     }
   };
