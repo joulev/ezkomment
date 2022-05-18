@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FormEventHandler, MouseEventHandler, useState } from "react";
+import { FormEventHandler, MouseEventHandler, ReactNode, useState } from "react";
 
 import EmailIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -21,7 +21,7 @@ import logo from "@client/public/images/logo.svg";
 
 const Auth: NextPageWithLayout = () => {
   const auth = useAuth();
-  const [error, setError] = useState("");
+  const [error, setError] = useState<ReactNode>(null);
   const [email, setEmail] = useState("");
   const [showEmailLinkInfo, setShowEmailLinkInfo] = useState(false);
 
@@ -29,9 +29,33 @@ const Auth: NextPageWithLayout = () => {
     event.preventDefault();
     try {
       await signInGitHub(auth);
-    } catch (err) {
+    } catch (err: any) {
       if (process.env.NODE_ENV === "development") console.log(err);
-      setError("Signing in with GitHub failed.");
+      switch (err.code) {
+        case "auth/popup-blocked":
+          setError(
+            "The popup is blocked. Please disable your popup locker and try again, or use email-based authentication."
+          );
+          break;
+        case "auth/popup-closed-by-user":
+          setError(
+            "The popup was closed by the user before completing the sign in process. Please try again."
+          );
+          break;
+        case "auth/account-exists-with-different-credential":
+          setError(
+            "An account already exists with the same email address but different sign-in credentials. Please try again using a provider associated with this email address."
+          );
+          break;
+        default:
+          setError(
+            <>
+              An unknown error occurred. Please{" "}
+              <A href="mailto:joulev.vvd@yahoo.com">report it to us</A> with the following error
+              code: <code>{err.code}</code> and try again later.
+            </>
+          );
+      }
       auth.setLoading(false);
     }
   };

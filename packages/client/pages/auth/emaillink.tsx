@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import useAuth from "@client/hooks/auth";
 import { finaliseSignInEmailLink } from "@client/lib/firebase/auth";
@@ -14,14 +14,22 @@ import logo from "@client/public/images/logo.svg";
 
 const AuthEmailLinkAction: NextPageWithLayout = () => {
   const auth = useAuth();
-  const [error, setError] = useState("");
+  const [error, setError] = useState<ReactNode>(null);
 
   const finishSignInWithEmail = async () => {
     try {
       await finaliseSignInEmailLink(auth, window.location.href);
-    } catch (err) {
+    } catch (err: any) {
       if (process.env.NODE_ENV === "development") console.log(err);
-      setError("Signing in by email link failed.");
+      if (err.code === "ezkomment/client") setError(err.message);
+      else
+        setError(
+          <>
+            An unknown error occurred. Please{" "}
+            <A href="mailto:joulev.vvd@yahoo.com">report it to us</A> with the following error code:{" "}
+            <code>{err.code}</code> and try again later.
+          </>
+        );
       auth.setLoading(false);
     }
   };

@@ -11,6 +11,7 @@ import {
 
 import { AppAuth } from "@client/types/auth.type";
 
+import { INVALID_EMAIL_LINK } from "../errors";
 import firebaseApp from "./app";
 
 const auth = getAuth(firebaseApp);
@@ -44,7 +45,7 @@ export async function signInEmailLink({ setLoading }: AppAuth, email: string) {
 
 export async function finaliseSignInEmailLink({ setLoading }: AppAuth, href: string) {
     setLoading(true);
-    if (!isSignInWithEmailLink(auth, href)) throw new Error("Invalid email link");
+    if (!isSignInWithEmailLink(auth, href)) throw INVALID_EMAIL_LINK;
     let email = localStorage.getItem("emailLinkSignIn");
     while (!email) email = window.prompt("Please enter your email address for confirmation.");
     await signInWithEmailLink(auth, email, href);
