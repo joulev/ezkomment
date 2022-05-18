@@ -1,11 +1,18 @@
 import clsx from "clsx";
 import { User } from "firebase/auth";
-import { FC, MouseEventHandler, ReactNode, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  FormEventHandler,
+  MouseEventHandler,
+  ReactNode,
+  SetStateAction,
+  useState,
+} from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -13,9 +20,14 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
-import { linkGitHub, linkGoogle, unlinkGitHub, unlinkGoogle } from "@client/lib/firebase/auth";
+import {
+  linkGitHub,
+  linkGoogle,
+  unlinkGitHub,
+  unlinkGoogle,
+  updateDisplayName,
+} from "@client/lib/firebase/auth";
 
-import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import { InputDetachedLabel } from "@client/components/forms/input";
@@ -26,27 +38,89 @@ import AppLayout from "@client/layouts/app";
 
 import { NextPageWithLayout } from "@client/types/utils.type";
 
+type Msg = { type: "success" | "error"; message: ReactNode } | null;
+
+function handleError(setMsg: Dispatch<SetStateAction<Msg>>, err: NodeJS.ErrnoException) {
+  switch (err.code) {
+    case "auth/account-exists-with-different-credential":
+      setMsg({
+        type: "error",
+        message:
+          "An account already exists with the same email address but different sign-in credentials, hence linking is not allowed.",
+      });
+      break;
+    case "auth/email-already-in-use":
+      setMsg({
+        type: "error",
+        message:
+          "The account's primary email address is already used in another account, hence linking is not allowed.",
+      });
+      break;
+    case "ezkomment/client":
+      setMsg({ type: "error", message: err.message });
+      break;
+    default:
+      setMsg({ type: "error", message: <UnknownError err={err} /> });
+  }
+}
+
+const ProfileSection: FC = () => {
+  const auth = useAuth();
+  const [displayName, setDisplayName] = useState(auth.user?.displayName ?? "");
+  const [msg, setMsg] = useState<Msg>(null);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    try {
+      await updateDisplayName(auth, displayName);
+      setMsg({ type: "success", message: "Display name updated successfully." });
+    } catch (err: any) {
+      handleError(setMsg, err);
+    }
+  };
+
+  return (
+    <section>
+      <h2>Profile</h2>
+      <p>
+        An up-to-date information here will help others identify you in comments, as well as help us
+        help you with technical details and issues.
+      </p>
+      {!auth.user!.displayName && (
+        <Banner variant="warning" className="mb-6">
+          You currently do not have a display name. In your replies to comments, you will simply be
+          identified as <i>Author</i>. It is recommended to have a display name.
+        </Banner>
+      )}
+      {msg && (
+        <Banner variant={msg.type === "success" ? "info" : "error"} className="mb-6">
+          {msg.message}
+        </Banner>
+      )}
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+        <InputDetachedLabel
+          label="Display name"
+          placeholder="Your name"
+          icon={PersonOutlinedIcon}
+          type="text"
+          value={displayName}
+          helpText="Your name is displayed in your replies to comments."
+          onUpdate={setDisplayName}
+          required
+        />
+        <RightAligned>
+          <Button icon={SaveOutlinedIcon}>Save</Button>
+        </RightAligned>
+      </form>
+    </section>
+  );
+};
+
 const LinkAccountSection: FC = () => {
   const auth = useAuth();
   const { providerData } = auth.user as User;
   const breakpoint = useBreakpoint();
-  const [msg, setMsg] = useState<{ type: "success" | "error"; message: ReactNode } | null>(null);
-
-  function handleErrorWhenLinking(err: NodeJS.ErrnoException) {
-    setMsg({
-      type: "error",
-      message:
-        err.code === "auth/email-already-in-use" ? (
-          "The account's primary email address is already used in another account, hence linking is not allowed."
-        ) : (
-          <UnknownError err={err} />
-        ),
-    });
-  }
-
-  function handleErrorWhenUnlinking(err: NodeJS.ErrnoException) {
-    setMsg({ type: "error", message: <UnknownError err={err} /> });
-  }
+  const [msg, setMsg] = useState<Msg>(null);
 
   const handleLinkGitHub: MouseEventHandler<HTMLElement> = async event => {
     event.preventDefault();
@@ -54,7 +128,7 @@ const LinkAccountSection: FC = () => {
       await linkGitHub(auth);
       setMsg({ type: "success", message: "Successfully linked GitHub account." });
     } catch (err: any) {
-      handleErrorWhenLinking(err);
+      handleError(setMsg, err);
     }
   };
 
@@ -64,7 +138,7 @@ const LinkAccountSection: FC = () => {
       await linkGoogle(auth);
       setMsg({ type: "success", message: "Successfully linked Google account." });
     } catch (err: any) {
-      handleErrorWhenLinking(err);
+      handleError(setMsg, err);
     }
   };
 
@@ -74,7 +148,7 @@ const LinkAccountSection: FC = () => {
       await unlinkGitHub(auth);
       setMsg({ type: "success", message: "Successfully unlinked GitHub account." });
     } catch (err: any) {
-      handleErrorWhenUnlinking(err);
+      handleError(setMsg, err);
     }
   };
 
@@ -84,7 +158,7 @@ const LinkAccountSection: FC = () => {
       await unlinkGoogle(auth);
       setMsg({ type: "success", message: "Successfully unlinked Google account." });
     } catch (err: any) {
-      handleErrorWhenUnlinking(err);
+      handleError(setMsg, err);
     }
   };
 
@@ -172,36 +246,7 @@ const Account: NextPageWithLayout = () => {
   ) : (
     <div className="grid md:grid-cols-2 gap-x-12">
       <div>
-        <section>
-          <h2>Profile</h2>
-          <p>
-            An up-to-date information here will help others identify you in comments, as well as
-            help us help you with technical details and issues.
-          </p>
-          <form className="flex flex-col gap-6">
-            <InputDetachedLabel
-              label="Display name"
-              icon={PersonOutlinedIcon}
-              type="text"
-              value="John Doe"
-              helpText="Your name is displayed in your replies to comments."
-              onUpdate={() => {}}
-              required
-            />
-            <InputDetachedLabel
-              label="Email address"
-              icon={EmailOutlinedIcon}
-              type="email"
-              value="john.doe@example.com"
-              helpText="Your email address is used for logging in and recovering your account."
-              onUpdate={() => {}}
-              required
-            />
-            <RightAligned>
-              <Button icon={SaveOutlinedIcon}>Save</Button>
-            </RightAligned>
-          </form>
-        </section>
+        <ProfileSection />
         <hr />
         <LinkAccountSection />
         <hr className="md:hidden" />
