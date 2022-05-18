@@ -20,7 +20,7 @@ const AuthEmailLinkAction: NextPageWithLayout = () => {
     try {
       await finaliseSignInEmailLink(auth, window.location.href);
     } catch (err) {
-      console.log(err);
+      if (process.env.NODE_ENV === "development") console.log(err);
       setError("Signing in by email link failed.");
       auth.setLoading(false);
     }

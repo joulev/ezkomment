@@ -15,7 +15,6 @@ export function useAuthInit(): AppAuth {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
-            console.log("user:", user);
             setUser(user ? { uid: user.uid, email: user.email, photoURL: user.photoURL } : null);
             if (!user && router.pathname.startsWith("/app/dashboard")) router.push("/auth");
             else if (user && router.pathname.startsWith("/auth")) router.push("/app/dashboard");
