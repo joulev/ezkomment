@@ -20,6 +20,7 @@ import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import { InputDetachedLabel } from "@client/components/forms/input";
 import Modal from "@client/components/modal";
+import UnknownError from "@client/components/unknownError";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
@@ -38,26 +39,13 @@ const LinkAccountSection: FC = () => {
         err.code === "auth/email-already-in-use" ? (
           "The account's primary email address is already used in another account, hence linking is not allowed."
         ) : (
-          <>
-            An unknown error occurred. Please{" "}
-            <A href="mailto:joulev.vvd@yahoo.com">report it to us</A> with the following error code:{" "}
-            <code>{err.code}</code> and try again later.
-          </>
+          <UnknownError err={err} />
         ),
     });
   }
 
   function handleErrorWhenUnlinking(err: NodeJS.ErrnoException) {
-    setMsg({
-      type: "error",
-      message: (
-        <>
-          An unknown error occurred. Please{" "}
-          <A href="mailto:joulev.vvd@yahoo.com">report it to us</A> with the following error code:{" "}
-          <code>{err.code}</code> and try again later.
-        </>
-      ),
-    });
+    setMsg({ type: "error", message: <UnknownError err={err} /> });
   }
 
   const handleLinkGitHub: MouseEventHandler<HTMLElement> = async event => {

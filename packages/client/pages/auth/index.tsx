@@ -13,6 +13,7 @@ import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
 import OrHr from "@client/components/orHr";
+import UnknownError from "@client/components/unknownError";
 import AuthLayout from "@client/layouts/auth";
 
 import { NextPageWithLayout } from "@client/types/utils.type";
@@ -48,13 +49,7 @@ const Auth: NextPageWithLayout = () => {
           );
           break;
         default:
-          setError(
-            <>
-              An unknown error occurred. Please{" "}
-              <A href="mailto:joulev.vvd@yahoo.com">report it to us</A> with the following error
-              code: <code>{err.code}</code> and try again later.
-            </>
-          );
+          setError(<UnknownError err={err} />);
       }
       auth.setLoading(false);
     }
