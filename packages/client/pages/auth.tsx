@@ -1,18 +1,15 @@
 import Image from "next/image";
-import { FormEventHandler, MouseEventHandler, ReactNode, useState } from "react";
+import { MouseEventHandler, ReactNode, useState } from "react";
 
-import EmailIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
 import useAuth from "@client/hooks/auth";
-import { signInEmailLink, signInGitHub, signInGoogle } from "@client/lib/firebase/auth";
+import { signInGitHub, signInGoogle } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
-import Input from "@client/components/forms/input";
-import OrHr from "@client/components/orHr";
 import UnknownError from "@client/components/unknownError";
 import AuthLayout from "@client/layouts/auth";
 
@@ -23,8 +20,6 @@ import logo from "@client/public/images/logo.svg";
 const Auth: NextPageWithLayout = () => {
   const auth = useAuth();
   const [error, setError] = useState<ReactNode>(null);
-  const [email, setEmail] = useState("");
-  const [showEmailLinkInfo, setShowEmailLinkInfo] = useState(false);
 
   const handleSignInWithGitHub: MouseEventHandler<HTMLElement> = async event => {
     event.preventDefault();
@@ -34,9 +29,7 @@ const Auth: NextPageWithLayout = () => {
       if (process.env.NODE_ENV === "development") console.log(err);
       switch (err.code) {
         case "auth/popup-blocked":
-          setError(
-            "The popup is blocked. Please disable your popup locker and try again, or use email-based authentication."
-          );
+          setError("The popup is blocked. Please disable your popup locker and try again.");
           break;
         case "auth/popup-closed-by-user":
           setError(
@@ -66,18 +59,6 @@ const Auth: NextPageWithLayout = () => {
     }
   };
 
-  const handleSignInWithEmailLink: FormEventHandler<HTMLFormElement> = async event => {
-    event.preventDefault();
-    try {
-      await signInEmailLink(auth, email);
-      setShowEmailLinkInfo(true);
-    } catch (err) {
-      if (process.env.NODE_ENV === "development") console.log(err);
-      setError("Signing in with email link failed.");
-      auth.setLoading(false);
-    }
-  };
-
   return (
     <div className="text-center">
       <A href="/" notStyled>
@@ -86,20 +67,12 @@ const Auth: NextPageWithLayout = () => {
       <h1 className="text-3xl mt-6 mb-12">Continue to ezkomment</h1>
       <div className="flex flex-col gap-6">
         {error && <Banner variant="error">{error}</Banner>}
-        {showEmailLinkInfo && (
-          <Banner variant="info">A link to sign in has been sent to your email account.</Banner>
-        )}
         <Button icon={GitHubIcon} onClick={handleSignInWithGitHub}>
           Continue with GitHub
         </Button>
         <Button icon={GoogleIcon} onClick={handleSignInWithGoogle}>
           Continue with Google
         </Button>
-        <OrHr className="my-0" />
-        <form className="flex flex-col gap-3 w-full" onSubmit={handleSignInWithEmailLink}>
-          <Input icon={EmailIcon} placeholder="Email" type="email" required onUpdate={setEmail} />
-          <Button>Sign in with email</Button>
-        </form>
       </div>
     </div>
   );
