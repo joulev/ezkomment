@@ -1,5 +1,5 @@
 import { User } from "firebase/auth";
-import { FC, FormEventHandler, MouseEvent, ReactNode, useState } from "react";
+import { FC, FormEventHandler, MouseEvent, ReactNode, useEffect, useState } from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
@@ -45,7 +45,19 @@ const MsgBanner: FC<{ msg: NonNullable<Msg> }> = ({ msg }) => (
 const ProfileSection: FC = () => {
   const auth = useAuth();
   const [displayName, setDisplayName] = useState(auth.user?.displayName ?? "");
+  const [image, setImage] = useState<File | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [msg, setMsg] = useState<Msg>(null);
+
+  useEffect(() => {
+    if (!image) {
+      setImageSrc(undefined);
+      return;
+    }
+    setImageSrc(URL.createObjectURL(image));
+    return () => URL.revokeObjectURL(imageSrc!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [image]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
@@ -72,7 +84,7 @@ const ProfileSection: FC = () => {
         </Banner>
       )}
       {msg && <MsgBanner msg={msg} />}
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-6 mb-12" onSubmit={handleSubmit}>
         <InputDetachedLabel
           label="Display name"
           placeholder="Your name"
@@ -85,6 +97,37 @@ const ProfileSection: FC = () => {
         />
         <RightAligned>
           <Button icon={SaveOutlinedIcon}>Save</Button>
+        </RightAligned>
+      </form>
+      <form className="flex flex-col gap-6">
+        <div className="flex flex-row items-start gap-6">
+          <div className="flex-grow">
+            <div className="font-semibold mb-3">Profile image</div>
+            <div>
+              Your profile picture is displayed on your replies to comments. It is also used as your
+              general profile picture in this site.
+            </div>
+          </div>
+          <div>
+            <label className="cursor-pointer block w-[72px] md:w-24 overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageSrc ?? "/images/default-photo.svg"}
+                alt="Photo"
+                className="w-[72px] h-[72px] md:w-24 md:h-24 rounded-full"
+              />
+              <input
+                type="file"
+                onChange={event => setImage(event.target.files ? event.target.files[0] : null)}
+                className="hidden"
+              />
+            </label>
+          </div>
+        </div>
+        <RightAligned>
+          <Button icon={SaveOutlinedIcon} disabled={!image}>
+            Save
+          </Button>
         </RightAligned>
       </form>
     </section>
