@@ -1,14 +1,5 @@
-import clsx from "clsx";
 import { User } from "firebase/auth";
-import {
-  Dispatch,
-  FC,
-  FormEventHandler,
-  MouseEvent,
-  ReactNode,
-  SetStateAction,
-  useState,
-} from "react";
+import { FC, FormEventHandler, MouseEvent, ReactNode, useState } from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
@@ -41,7 +32,7 @@ import { NextPageWithLayout } from "@client/types/utils.type";
 
 type Msg = { type: "success" | "error"; message: ReactNode } | null;
 
-function handleError(setMsg: Dispatch<SetStateAction<Msg>>, err: NodeJS.ErrnoException) {
+function handleError(setMsg: (msg: Msg) => void, err: NodeJS.ErrnoException) {
   switch (err.code) {
     case "auth/account-exists-with-different-credential":
       setMsg({
@@ -142,55 +133,38 @@ const LinkAccountSection: FC = () => {
           {msg.message}
         </Banner>
       )}
-      {providerData.length === 1 && providerData[0].providerId === "password" ? (
-        <p>
-          Your account is currently not linked with any of the following services. If you want to,
-          you can link them below.
-        </p>
-      ) : (
-        <>
-          <p>
-            Your account is currently linked with the following services, and you can use these to
-            sign in to your account instead of using one-time links sent to your email address.
-          </p>
-          <div
-            className={clsx(
-              "flex flex-col mb-6 bg-card rounded overflow-hidden",
-              "border border-card",
-              "divide-y divide-card"
+      <p>
+        Your account is currently linked with the following services, and you can use these to sign
+        in to your account. You must link your account with at least one service.
+      </p>
+      <div className="flex flex-col mb-6 bg-card rounded overflow-hidden border border-card divide-y divide-card">
+        {providerData.map(data => (
+          <div className="flex flex-row p-3 gap-x-6 items-center" key={data.providerId}>
+            {data.providerId === "github.com" ? (
+              <GitHubIcon fontSize="large" />
+            ) : (
+              <GoogleIcon fontSize="large" />
             )}
-          >
-            {providerData
-              .filter(data => data.providerId !== "password")
-              .map(data => (
-                <div className="flex flex-row p-3 gap-x-6 items-center" key={data.providerId}>
-                  {data.providerId === "github.com" ? (
-                    <GitHubIcon fontSize="large" />
-                  ) : (
-                    <GoogleIcon fontSize="large" />
-                  )}
-                  <div className="min-w-0 flex-grow">
-                    <div className="text-sm font-medium truncate">
-                      {data.displayName ?? "no username"}
-                    </div>
-                    <div className="text-xs text-muted truncate">{data.email ?? "no email"}</div>
-                  </div>
-                  <Button
-                    variant="danger"
-                    icon={DeleteOutlinedIcon}
-                    onClick={
-                      data.providerId === "github.com"
-                        ? handler(unlinkGitHub, "unlinked GitHub account")
-                        : handler(unlinkGoogle, "unlinked Google account")
-                    }
-                  >
-                    {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
-                  </Button>
-                </div>
-              ))}
+            <div className="min-w-0 flex-grow">
+              <div className="text-sm font-medium truncate">
+                {data.displayName ?? "no username"}
+              </div>
+              <div className="text-xs text-muted truncate">{data.email ?? "no email"}</div>
+            </div>
+            <Button
+              variant="danger"
+              icon={DeleteOutlinedIcon}
+              onClick={
+                data.providerId === "github.com"
+                  ? handler(unlinkGitHub, "unlinked GitHub account")
+                  : handler(unlinkGoogle, "unlinked Google account")
+              }
+            >
+              {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
+            </Button>
           </div>
-        </>
-      )}
+        ))}
+      </div>
       <div className="grid grid-cols-2 gap-x-6 gap-y-3">
         <span className="col-span-2 font-semibold">Link new account</span>
         <Button
