@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { MouseEventHandler, ReactNode, useState } from "react";
+import { MouseEvent, ReactNode, useState } from "react";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
 import useAuth from "@client/hooks/auth";
-import { signInGitHub, signInGoogle } from "@client/lib/firebase/auth";
+import { githubProvider, googleProvider, signIn } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
@@ -13,6 +13,7 @@ import Button from "@client/components/buttons";
 import UnknownError from "@client/components/unknownError";
 import AuthLayout from "@client/layouts/auth";
 
+import { Provider } from "@client/types/auth.type";
 import { NextPageWithLayout } from "@client/types/utils.type";
 
 import logo from "@client/public/images/logo.svg";
@@ -21,10 +22,10 @@ const Auth: NextPageWithLayout = () => {
   const auth = useAuth();
   const [error, setError] = useState<ReactNode>(null);
 
-  const handleSignInWithGitHub: MouseEventHandler<HTMLElement> = async event => {
+  const handler = (provider: Provider) => async (event: MouseEvent) => {
     event.preventDefault();
     try {
-      await signInGitHub(auth);
+      await signIn(auth, provider);
     } catch (err: any) {
       if (process.env.NODE_ENV === "development") console.log(err);
       switch (err.code) {
@@ -48,17 +49,6 @@ const Auth: NextPageWithLayout = () => {
     }
   };
 
-  const handleSignInWithGoogle: MouseEventHandler<HTMLElement> = async event => {
-    event.preventDefault();
-    try {
-      await signInGoogle(auth);
-    } catch (err) {
-      if (process.env.NODE_ENV === "development") console.log(err);
-      setError("Signing in with Google failed.");
-      auth.setLoading(false);
-    }
-  };
-
   return (
     <div className="text-center">
       <A href="/" notStyled>
@@ -67,10 +57,10 @@ const Auth: NextPageWithLayout = () => {
       <h1 className="text-3xl mt-6 mb-12">Continue to ezkomment</h1>
       <div className="flex flex-col gap-6">
         {error && <Banner variant="error">{error}</Banner>}
-        <Button icon={GitHubIcon} onClick={handleSignInWithGitHub}>
+        <Button icon={GitHubIcon} onClick={handler(githubProvider)}>
           Continue with GitHub
         </Button>
-        <Button icon={GoogleIcon} onClick={handleSignInWithGoogle}>
+        <Button icon={GoogleIcon} onClick={handler(googleProvider)}>
           Continue with Google
         </Button>
       </div>
