@@ -22,12 +22,12 @@ import {
   updateDisplayName,
 } from "@client/lib/firebase/auth";
 
+import AuthError from "@client/components/auth/error";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import CopiableCode from "@client/components/copiableCode";
 import { InputDetachedLabel } from "@client/components/forms/input";
 import Modal from "@client/components/modal";
-import UnknownError from "@client/components/unknownError";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
@@ -36,29 +36,11 @@ import { NextPageWithLayout } from "@client/types/utils.type";
 
 type Msg = { type: "success" | "error"; message: ReactNode } | null;
 
-function handleError(setMsg: (msg: Msg) => void, err: NodeJS.ErrnoException) {
-  switch (err.code) {
-    case "auth/account-exists-with-different-credential":
-      setMsg({
-        type: "error",
-        message:
-          "An account already exists with the same email address but different sign-in credentials, hence linking is not allowed.",
-      });
-      break;
-    case "auth/email-already-in-use":
-      setMsg({
-        type: "error",
-        message:
-          "The account's primary email address is already used in another account, hence linking is not allowed.",
-      });
-      break;
-    case "ezkomment/client":
-      setMsg({ type: "error", message: err.message });
-      break;
-    default:
-      setMsg({ type: "error", message: <UnknownError err={err} /> });
-  }
-}
+const MsgBanner: FC<{ msg: NonNullable<Msg> }> = ({ msg }) => (
+  <Banner variant={msg.type === "success" ? "info" : "error"} className="mb-6">
+    {msg.message}
+  </Banner>
+);
 
 const ProfileSection: FC = () => {
   const auth = useAuth();
@@ -71,7 +53,8 @@ const ProfileSection: FC = () => {
       await updateDisplayName(auth, displayName);
       setMsg({ type: "success", message: "Display name updated successfully." });
     } catch (err: any) {
-      handleError(setMsg, err);
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+      auth.setLoading(false);
     }
   };
 
@@ -88,11 +71,7 @@ const ProfileSection: FC = () => {
           identified as <i>Author</i>. It is recommended to have a display name.
         </Banner>
       )}
-      {msg && (
-        <Banner variant={msg.type === "success" ? "info" : "error"} className="mb-6">
-          {msg.message}
-        </Banner>
-      )}
+      {msg && <MsgBanner msg={msg} />}
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <InputDetachedLabel
           label="Display name"
@@ -125,18 +104,15 @@ const LinkAccountSection: FC = () => {
         await func(auth, provider);
         setMsg({ type: "success", message: `Successfully ${str}.` });
       } catch (err: any) {
-        handleError(setMsg, err);
+        setMsg({ type: "error", message: <AuthError err={err} /> });
+        auth.setLoading(false);
       }
     };
 
   return (
     <section>
       <h2>Link accounts</h2>
-      {msg && (
-        <Banner variant={msg.type === "success" ? "info" : "error"} className="mb-6">
-          {msg.message}
-        </Banner>
-      )}
+      {msg && <MsgBanner msg={msg} />}
       <p>
         Your account is currently linked with the following services, and you can use these to sign
         in to your account. You must link your account with at least one service.
@@ -150,18 +126,19 @@ const LinkAccountSection: FC = () => {
               <div className="font-medium truncate">{data.displayName ?? "no username"}</div>
               <div className="text-xs text-muted truncate">{data.email ?? "no email"}</div>
             </div>
-            <Button
-              variant="danger"
-              icon={DeleteOutlinedIcon}
-              onClick={
-                data.providerId === "github.com"
-                  ? handler(unlink, githubProvider, "unlinked GitHub account")
-                  : handler(unlink, googleProvider, "unlinked Google account")
-              }
-              disabled={providerData.length <= 1}
-            >
-              {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
-            </Button>
+            {providerData.length > 1 && (
+              <Button
+                variant="danger"
+                icon={DeleteOutlinedIcon}
+                onClick={
+                  data.providerId === "github.com"
+                    ? handler(unlink, githubProvider, "unlinked GitHub account")
+                    : handler(unlink, googleProvider, "unlinked Google account")
+                }
+              >
+                {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
+              </Button>
+            )}
           </div>
         ))}
       </div>
@@ -201,7 +178,8 @@ const DeleteAccountSection: FC = () => {
       );
       setShowDeleteModal(true);
     } catch (err: any) {
-      handleError(setMsg, err);
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+      auth.setLoading(false);
     }
   };
 
@@ -211,18 +189,15 @@ const DeleteAccountSection: FC = () => {
       await deleteAccount(auth);
     } catch (err: any) {
       setShowDeleteModal(false);
-      handleError(setMsg, err);
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+      auth.setLoading(false);
     }
   };
 
   return (
     <section>
       <h2>Delete account</h2>
-      {msg && (
-        <Banner variant={msg.type === "success" ? "info" : "error"} className="mb-6">
-          {msg.message}
-        </Banner>
-      )}
+      {msg && <MsgBanner msg={msg} />}
       <p>
         This is an <strong>irreversible</strong> action. All of your data will be completely erased
         and there is no way to recover it. Proceed with caution.
