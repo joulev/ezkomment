@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Head from "next/head";
 import { FC, ReactNode } from "react";
 
-import AuthProvider from "@client/components/authProvider";
+import AuthProvider from "@client/components/auth/provider";
 import LoadingBanner from "@client/components/loadingBanner";
 
 const AuthLayout: FC<{ title: string; children: ReactNode }> = ({ title, children }) => (

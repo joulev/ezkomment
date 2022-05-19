@@ -8,9 +8,9 @@ import useAuth from "@client/hooks/auth";
 import { githubProvider, googleProvider, signIn } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
+import AuthError from "@client/components/auth/error";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
-import UnknownError from "@client/components/unknownError";
 import AuthLayout from "@client/layouts/auth";
 
 import { Provider } from "@client/types/auth.type";
@@ -27,24 +27,7 @@ const Auth: NextPageWithLayout = () => {
     try {
       await signIn(auth, provider);
     } catch (err: any) {
-      if (process.env.NODE_ENV === "development") console.log(err);
-      switch (err.code) {
-        case "auth/popup-blocked":
-          setError("The popup is blocked. Please disable your popup locker and try again.");
-          break;
-        case "auth/popup-closed-by-user":
-          setError(
-            "The popup was closed by the user before completing the sign in process. Please try again."
-          );
-          break;
-        case "auth/account-exists-with-different-credential":
-          setError(
-            "An account already exists with the same email address but different sign-in credentials. Please try again using a provider associated with this email address."
-          );
-          break;
-        default:
-          setError(<UnknownError err={err} />);
-      }
+      setError(<AuthError err={err} />);
       auth.setLoading(false);
     }
   };
