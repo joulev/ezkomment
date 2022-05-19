@@ -17,7 +17,7 @@ export function useAuthInit(): AppAuth {
         const unsubscribe = onAuthStateChanged(auth, user => {
             setUser(user);
             if (process.env.NODE_ENV === "development") console.log(user);
-            if (!user && router.pathname.startsWith("/app/dashboard")) router.push("/auth");
+            if (!user && router.pathname.startsWith("/app")) router.push("/auth");
             else if (user && router.pathname.startsWith("/auth")) router.push("/app/dashboard");
             setLoading(false);
         });

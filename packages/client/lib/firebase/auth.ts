@@ -1,10 +1,12 @@
 import {
     GithubAuthProvider,
     GoogleAuthProvider,
+    deleteUser,
     signOut as firebaseSignOut,
     unlink as firebaseUnlink,
     getAuth,
     linkWithPopup,
+    reauthenticateWithPopup,
     signInWithPopup,
     updateProfile,
 } from "firebase/auth";
@@ -48,5 +50,19 @@ export async function updateDisplayName({ setLoading }: AppAuth, displayName: st
     setLoading(true);
     if (!auth.currentUser) throw NOT_AUTHENTICATED;
     await updateProfile(auth.currentUser, { displayName });
+    setLoading(false);
+}
+
+export async function reauthenticate({ setLoading }: AppAuth, provider: Provider) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    await reauthenticateWithPopup(auth.currentUser, provider);
+    setLoading(false);
+}
+
+export async function deleteAccount({ setLoading }: AppAuth) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    await deleteUser(auth.currentUser);
     setLoading(false);
 }
