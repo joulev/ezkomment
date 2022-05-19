@@ -21,6 +21,7 @@ import {
 
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
+import CopiableCode from "@client/components/copiableCode";
 import { InputDetachedLabel } from "@client/components/forms/input";
 import Modal from "@client/components/modal";
 import UnknownError from "@client/components/unknownError";
@@ -196,10 +197,18 @@ const Account: NextPageWithLayout = () => {
       <div>
         <ProfileSection />
         <hr />
-        <LinkAccountSection />
+        <h2>User ID</h2>
+        <p>Your user ID is</p>
+        <CopiableCode content={auth.user.uid} className="mb-6" />
+        <p>
+          Please use this ID to identify yourself if you need to contact us for support for issues
+          related to your profile.
+        </p>
         <hr className="md:hidden" />
       </div>
       <div>
+        <LinkAccountSection />
+        <hr />
         <section>
           <h2>Export all data</h2>
           <p>
