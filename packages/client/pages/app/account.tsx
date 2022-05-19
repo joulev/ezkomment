@@ -4,7 +4,7 @@ import {
   Dispatch,
   FC,
   FormEventHandler,
-  MouseEventHandler,
+  MouseEvent,
   ReactNode,
   SetStateAction,
   useState,
@@ -36,6 +36,7 @@ import UnknownError from "@client/components/unknownError";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
+import { AppAuth } from "@client/types/auth.type";
 import { NextPageWithLayout } from "@client/types/utils.type";
 
 type Msg = { type: "success" | "error"; message: ReactNode } | null;
@@ -122,45 +123,16 @@ const LinkAccountSection: FC = () => {
   const breakpoint = useBreakpoint();
   const [msg, setMsg] = useState<Msg>(null);
 
-  const handleLinkGitHub: MouseEventHandler<HTMLElement> = async event => {
-    event.preventDefault();
-    try {
-      await linkGitHub(auth);
-      setMsg({ type: "success", message: "Successfully linked GitHub account." });
-    } catch (err: any) {
-      handleError(setMsg, err);
-    }
-  };
-
-  const handleLinkGoogle: MouseEventHandler<HTMLElement> = async event => {
-    event.preventDefault();
-    try {
-      await linkGoogle(auth);
-      setMsg({ type: "success", message: "Successfully linked Google account." });
-    } catch (err: any) {
-      handleError(setMsg, err);
-    }
-  };
-
-  const handleUnlinkGitHub: MouseEventHandler<HTMLElement> = async event => {
-    event.preventDefault();
-    try {
-      await unlinkGitHub(auth);
-      setMsg({ type: "success", message: "Successfully unlinked GitHub account." });
-    } catch (err: any) {
-      handleError(setMsg, err);
-    }
-  };
-
-  const handleUnlinkGoogle: MouseEventHandler<HTMLElement> = async event => {
-    event.preventDefault();
-    try {
-      await unlinkGoogle(auth);
-      setMsg({ type: "success", message: "Successfully unlinked Google account." });
-    } catch (err: any) {
-      handleError(setMsg, err);
-    }
-  };
+  const handler =
+    (func: (auth: AppAuth) => Promise<void>, str: string) => async (event: MouseEvent) => {
+      event.preventDefault();
+      try {
+        await func(auth);
+        setMsg({ type: "success", message: `Successfully ${str}.` });
+      } catch (err: any) {
+        handleError(setMsg, err);
+      }
+    };
 
   return (
     <section>
@@ -207,7 +179,9 @@ const LinkAccountSection: FC = () => {
                     variant="danger"
                     icon={DeleteOutlinedIcon}
                     onClick={
-                      data.providerId === "github.com" ? handleUnlinkGitHub : handleUnlinkGoogle
+                      data.providerId === "github.com"
+                        ? handler(unlinkGitHub, "unlinked GitHub account")
+                        : handler(unlinkGoogle, "unlinked Google account")
                     }
                   >
                     {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
@@ -221,14 +195,14 @@ const LinkAccountSection: FC = () => {
         <span className="col-span-2 font-semibold">Link new account</span>
         <Button
           variant="tertiary"
-          onClick={handleLinkGitHub}
+          onClick={handler(linkGitHub, "linked GitHub account")}
           disabled={!!providerData.find(data => data.providerId === "github.com")}
         >
           GitHub
         </Button>
         <Button
           variant="tertiary"
-          onClick={handleLinkGoogle}
+          onClick={handler(linkGoogle, "linked Google account")}
           disabled={!!providerData.find(data => data.providerId === "google.com")}
         >
           Google
