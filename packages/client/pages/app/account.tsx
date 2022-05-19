@@ -12,10 +12,10 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
 import {
-  linkGitHub,
-  linkGoogle,
-  unlinkGitHub,
-  unlinkGoogle,
+  githubProvider,
+  googleProvider,
+  link,
+  unlink,
   updateDisplayName,
 } from "@client/lib/firebase/auth";
 
@@ -28,7 +28,7 @@ import UnknownError from "@client/components/unknownError";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
-import { AppAuth } from "@client/types/auth.type";
+import { Provider } from "@client/types/auth.type";
 import { NextPageWithLayout } from "@client/types/utils.type";
 
 type Msg = { type: "success" | "error"; message: ReactNode } | null;
@@ -116,10 +116,10 @@ const LinkAccountSection: FC = () => {
   const [msg, setMsg] = useState<Msg>(null);
 
   const handler =
-    (func: (auth: AppAuth) => Promise<void>, str: string) => async (event: MouseEvent) => {
+    (func: typeof link, provider: Provider, str: string) => async (event: MouseEvent) => {
       event.preventDefault();
       try {
-        await func(auth);
+        await func(auth, provider);
         setMsg({ type: "success", message: `Successfully ${str}.` });
       } catch (err: any) {
         handleError(setMsg, err);
@@ -141,15 +141,10 @@ const LinkAccountSection: FC = () => {
       <div className="flex flex-col mb-6 bg-card rounded overflow-hidden border border-card divide-y divide-card">
         {providerData.map(data => (
           <div className="flex flex-row p-3 gap-x-6 items-center" key={data.providerId}>
-            {data.providerId === "github.com" ? (
-              <GitHubIcon fontSize="large" />
-            ) : (
-              <GoogleIcon fontSize="large" />
-            )}
+            {data.providerId === "github.com" && <GitHubIcon fontSize="large" />}
+            {data.providerId === "google.com" && <GoogleIcon fontSize="large" />}
             <div className="min-w-0 flex-grow">
-              <div className="text-sm font-medium truncate">
-                {data.displayName ?? "no username"}
-              </div>
+              <div className="font-medium truncate">{data.displayName ?? "no username"}</div>
               <div className="text-xs text-muted truncate">{data.email ?? "no email"}</div>
             </div>
             <Button
@@ -157,8 +152,8 @@ const LinkAccountSection: FC = () => {
               icon={DeleteOutlinedIcon}
               onClick={
                 data.providerId === "github.com"
-                  ? handler(unlinkGitHub, "unlinked GitHub account")
-                  : handler(unlinkGoogle, "unlinked Google account")
+                  ? handler(unlink, githubProvider, "unlinked GitHub account")
+                  : handler(unlink, googleProvider, "unlinked Google account")
               }
             >
               {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
@@ -170,14 +165,14 @@ const LinkAccountSection: FC = () => {
         <span className="col-span-2 font-semibold">Link new account</span>
         <Button
           variant="tertiary"
-          onClick={handler(linkGitHub, "linked GitHub account")}
+          onClick={handler(link, githubProvider, "linked GitHub account")}
           disabled={!!providerData.find(data => data.providerId === "github.com")}
         >
           GitHub
         </Button>
         <Button
           variant="tertiary"
-          onClick={handler(linkGoogle, "linked Google account")}
+          onClick={handler(link, googleProvider, "linked Google account")}
           disabled={!!providerData.find(data => data.providerId === "google.com")}
         >
           Google
