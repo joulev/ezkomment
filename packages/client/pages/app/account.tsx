@@ -155,6 +155,7 @@ const LinkAccountSection: FC = () => {
                   ? handler(unlink, githubProvider, "unlinked GitHub account")
                   : handler(unlink, googleProvider, "unlinked Google account")
               }
+              disabled={providerData.length <= 1}
             >
               {["xs", "md"].includes(breakpoint) ? null : "Unlink"}
             </Button>
