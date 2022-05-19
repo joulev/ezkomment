@@ -11,10 +11,13 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
+import { NOT_AUTHENTICATED } from "@client/lib/errors";
 import {
+  deleteAccount,
   githubProvider,
   googleProvider,
   link,
+  reauthenticate,
   unlink,
   updateDisplayName,
 } from "@client/lib/firebase/auth";
@@ -183,9 +186,82 @@ const LinkAccountSection: FC = () => {
   );
 };
 
-const Account: NextPageWithLayout = () => {
+const DeleteAccountSection: FC = () => {
   const auth = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [msg, setMsg] = useState<Msg>(null);
+
+  const handleReauthenticate = async (event: MouseEvent) => {
+    event.preventDefault();
+    try {
+      if (!auth.user) throw NOT_AUTHENTICATED;
+      await reauthenticate(
+        auth,
+        auth.user.providerData[0].providerId === "github.com" ? githubProvider : googleProvider
+      );
+      setShowDeleteModal(true);
+    } catch (err: any) {
+      handleError(setMsg, err);
+    }
+  };
+
+  const handleDelete = async (event: MouseEvent) => {
+    event.preventDefault();
+    try {
+      await deleteAccount(auth);
+    } catch (err: any) {
+      setShowDeleteModal(false);
+      handleError(setMsg, err);
+    }
+  };
+
+  return (
+    <section>
+      <h2>Delete account</h2>
+      {msg && (
+        <Banner variant={msg.type === "success" ? "info" : "error"} className="mb-6">
+          {msg.message}
+        </Banner>
+      )}
+      <p>
+        This is an <strong>irreversible</strong> action. All of your data will be completely erased
+        and there is no way to recover it. Proceed with caution.
+      </p>
+      <p>
+        Since this is a sensitive action, you will be asked to re-authenticate with{" "}
+        <strong>
+          {auth.user?.providerData[0].providerId === "github.com" ? "GitHub" : "Google"}
+        </strong>
+        . Continue by clicking the button below.
+      </p>
+      <RightAligned>
+        <Button variant="danger" icon={DangerousOutlinedIcon} onClick={handleReauthenticate}>
+          Continue
+        </Button>
+      </RightAligned>
+      <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+        <div className="p-6 max-w-lg">
+          <h2>You are attempting a dangerous action.</h2>
+          <p>
+            Deleting an account is <strong>irreversible</strong>, and we cannot do anything to
+            recover your data. It will be lost permanently. Please think twice before proceeding.
+          </p>
+          <RightAligned className="gap-3">
+            <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+          </RightAligned>
+        </div>
+      </Modal>
+    </section>
+  );
+};
+
+const Account: NextPageWithLayout = () => {
+  const auth = useAuth();
   return !auth.user ? (
     <div>Authenticating</div>
   ) : (
@@ -217,38 +293,7 @@ const Account: NextPageWithLayout = () => {
           </RightAligned>
         </section>
         <hr />
-        <section>
-          <h2>Delete account</h2>
-          <p>
-            This is an <strong>irreversible</strong> action. All of your data will be completely
-            erased and there is no way to recover it. Proceed with caution.
-          </p>
-          <RightAligned>
-            <Button
-              variant="danger"
-              icon={DangerousOutlinedIcon}
-              onClick={() => setShowDeleteModal(true)}
-            >
-              Delete my account
-            </Button>
-          </RightAligned>
-          <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
-            <div className="p-6 max-w-lg">
-              <h2>You are attempting a dangerous action.</h2>
-              <p>
-                Deleting an account is <strong>irreversible</strong>, and we cannot do anything to
-                recover your data. It will be lost permanently. Please think twice before
-                proceeding.
-              </p>
-              <RightAligned className="gap-3">
-                <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
-                  Cancel
-                </Button>
-                <Button variant="danger">Delete</Button>
-              </RightAligned>
-            </div>
-          </Modal>
-        </section>
+        <DeleteAccountSection />
       </div>
     </div>
   );
