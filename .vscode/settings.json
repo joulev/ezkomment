@@ -1,14 +1,14 @@
 {
-  "editor.rulers": [
-    100
-  ],
+  "editor.rulers": [100],
   "editor.wordWrapColumn": 100,
   "editor.formatOnSave": true,
   "[mdx][markdown]": {
     "editor.wordWrap": "wordWrapColumn"
   },
-  "editor.tabSize": 2,
-  "[jsonc][javascript][typescript][css][html][typescriptreact][json]": {
+  "[javascript][typescript][css][html][typescriptreact][json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

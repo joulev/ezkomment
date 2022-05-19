@@ -6,17 +6,11 @@
     "module": "commonjs",
     "incremental": true,
     "paths": {
-      "@server/*": [
-        "packages/server/*"
-      ]
+      "@server/*": ["packages/server/*"]
     },
     "outDir": "dist",
     "sourceMap": true
   },
-  "include": [
-    "**/*.ts",
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
 }
