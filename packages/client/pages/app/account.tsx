@@ -166,8 +166,8 @@ const LinkAccountSection: FC = () => {
             {data.providerId === "github.com" && <GitHubIcon fontSize="large" />}
             {data.providerId === "google.com" && <GoogleIcon fontSize="large" />}
             <div className="min-w-0 flex-grow">
-              <div className="font-medium truncate">{data.displayName ?? "no username"}</div>
-              <div className="text-xs text-muted truncate">{data.email ?? "no email"}</div>
+              <div className="font-medium truncate">{data.displayName ?? "No username"}</div>
+              <div className="text-xs text-muted truncate">{data.email ?? "No email"}</div>
             </div>
             {providerData.length > 1 && (
               <Button
@@ -279,10 +279,8 @@ const DeleteAccountSection: FC = () => {
 };
 
 const Account: NextPageWithLayout = () => {
-  const auth = useAuth();
-  return !auth.user ? (
-    <div>Authenticating</div>
-  ) : (
+  const user = useAuth().user as User;
+  return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
       <div>
         <ProfileSection />
@@ -290,7 +288,7 @@ const Account: NextPageWithLayout = () => {
         <section>
           <h2>User ID</h2>
           <p>Your user ID is</p>
-          <CopiableCode content={auth.user.uid} className="mb-6" />
+          <CopiableCode content={user.uid} className="mb-6" />
           <p>
             Please use this ID to identify yourself if you need to contact us for support for issues
             related to your profile.

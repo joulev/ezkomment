@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Head from "next/head";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 
 import useAuth from "@client/hooks/auth";
 
