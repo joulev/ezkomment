@@ -11,9 +11,10 @@ import {
     updateProfile,
 } from "firebase/auth";
 
+import { NOT_AUTHENTICATED } from "@client/lib/errors";
+
 import { AppAuth, Provider } from "@client/types/auth.type";
 
-import { NOT_AUTHENTICATED } from "../errors";
 import firebaseApp from "./app";
 
 const auth = getAuth(firebaseApp);
