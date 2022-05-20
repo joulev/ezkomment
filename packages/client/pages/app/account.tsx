@@ -283,7 +283,7 @@ const Account: NextPageWithLayout = () => {
   return !auth.user ? (
     <div>Authenticating</div>
   ) : (
-    <div className="grid md:grid-cols-2 gap-x-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
       <div>
         <ProfileSection />
         <hr />
