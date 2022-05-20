@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import Head from "next/head";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+
+import useAuth from "@client/hooks/auth";
 
 import Navbar from "@client/components/app/navbar";
 import AuthProvider from "@client/components/auth/provider";
@@ -8,14 +10,30 @@ import Footer from "@client/components/footer";
 
 import { AppProps } from "@client/types/components.type";
 
-const AppLayout: FC<AppProps> = ({ title, removePadding, children, ...rest }) => (
+const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
+  const { user } = useAuth();
+  useEffect(() => {
+    console.log("User changed", user);
+  }, [user]);
+  return (
+    <>
+      <Head>
+        <title>{title} | ezkomment</title>
+      </Head>
+      <Navbar {...rest} />
+      <main className={clsx("container", removePadding || "py-9")}>
+        {user
+          ? children
+          : loadingScreen ?? <>You are accessing a protected page. Authenticating&hellip;</>}
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+const AppLayout: FC<AppProps> = props => (
   <AuthProvider>
-    <Head>
-      <title>{title} | ezkomment</title>
-    </Head>
-    <Navbar {...rest} />
-    <main className={clsx("container", removePadding || "py-9")}>{children}</main>
-    <Footer />
+    <App {...props} />
   </AuthProvider>
 );
 

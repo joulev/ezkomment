@@ -6,7 +6,6 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
-import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
 
 import A from "@client/components/anchor";
@@ -29,7 +28,7 @@ const Stats: FC<{ value: number; label: string }> = ({ value, label }) => (
   </div>
 );
 
-const SiteCard = forwardRef<HTMLAnchorElement, { site: Site }>(({ site }, ref) => (
+const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) => (
   <A
     notStyled
     className={clsx(
@@ -37,24 +36,42 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site: Site }>(({ site }, ref) =
       "bg-card rounded border border-card",
       "hover:border-neutral-700 dark:hover:border-neutral-300"
     )}
-    href={`/app/site/${site.name}`}
+    href={site ? `/app/site/${site.name}` : undefined}
     ref={ref}
   >
-    <div className="flex flex-row gap-6 mb-3">
-      <div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={site.iconURL} alt="" width={48} height={48} loading="lazy" />
-      </div>
-      <div>
-        <div className="text-xl font-semibold">{site.name}</div>
-        <div className="text-sm">{site.domain}</div>
-      </div>
-    </div>
-    <div className="grid grid-cols-3 gap-3">
-      <Stats label="pages" value={site.pageCount} />
-      <Stats label="comments" value={site.totalCommentCount} />
-      <Stats label="pending" value={site.needsApproval} />
-    </div>
+    {site ? (
+      <>
+        <div className="flex flex-row gap-6 mb-3">
+          <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={site.iconURL} alt="" width={48} height={48} loading="lazy" />
+          </div>
+          <div>
+            <div className="text-xl font-semibold">{site.name}</div>
+            <div className="text-sm">{site.domain}</div>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <Stats label="pages" value={site.pageCount} />
+          <Stats label="comments" value={site.totalCommentCount} />
+          <Stats label="pending" value={site.needsApproval} />
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="flex flex-row gap-6 mb-3">
+          <div>
+            <div className="w-12 h-12 rounded-full pulse" />
+          </div>
+          <div>
+            <div className="h-6 w-36 rounded pulse mb-1" />
+            <div className="h-4 w-32 rounded pulse" />
+          </div>
+        </div>
+        <div className="h-7 rounded pulse mb-3" />
+        <div className="h-4 rounded pulse" />
+      </>
+    )}
   </A>
 ));
 SiteCard.displayName = "SiteCard";
@@ -86,7 +103,6 @@ const EmptyCard: FC = () => {
 };
 
 const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
-  const { user } = useAuth();
   const breakpoint = useBreakpoint();
 
   const [showEmptyCard, setShowEmptyCard] = useState(false);
@@ -111,7 +127,6 @@ const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
 
   return (
     <>
-      <h1>{user ? <>Welcome, {user.email}</> : "Not authenticated"}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input label="Search" icon={SearchOutlinedIcon} type="text" />
         <div className="flex flex-row gap-x-6">
@@ -148,8 +163,23 @@ const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
   );
 };
 
+const Loading: FC = () => (
+  <>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="col-span-2 h-9 rounded pulse" />
+      <div className="col-span-1 h-9 rounded pulse" />
+      <div className="col-span-1 h-9 rounded pulse" />
+    </div>
+    <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+      {[...Array(16)].map((_, i) => (
+        <SiteCard key={i} />
+      ))}
+    </main>
+  </>
+);
+
 Dashboard.getLayout = page => (
-  <AppLayout title="Dashboard" type="overview" activeTab="dashboard">
+  <AppLayout title="Dashboard" type="overview" activeTab="dashboard" loadingScreen={<Loading />}>
     {page}
   </AppLayout>
 );
