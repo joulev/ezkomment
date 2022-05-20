@@ -2,35 +2,25 @@ import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import { useEffect } from "react";
 
-export const loadingStart = new Event("loadingStart");
-export const loadingEnd = new Event("loadingEnd");
+export function startProgress() {
+    if (NProgress.isStarted()) NProgress.inc();
+    else NProgress.start();
+}
+
+export function endProgress() {
+    NProgress.done();
+}
 
 export default function useNProgress() {
     const router = useRouter();
-
-    const handleRouterStartChange = () => {
-        if (NProgress.isStarted()) NProgress.inc();
-        else NProgress.start();
-    };
-    const handleRouterEndChange = () => NProgress.done();
-
     useEffect(() => {
-        router.events.on("routeChangeStart", handleRouterStartChange);
-        router.events.on("routeChangeComplete", handleRouterEndChange);
-        router.events.on("routeChangeError", handleRouterEndChange);
+        router.events.on("routeChangeStart", startProgress);
+        router.events.on("routeChangeComplete", endProgress);
+        router.events.on("routeChangeError", endProgress);
         return () => {
-            router.events.off("routeChangeStart", handleRouterStartChange);
-            router.events.off("routeChangeComplete", handleRouterEndChange);
-            router.events.off("routeChangeError", handleRouterEndChange);
+            router.events.off("routeChangeStart", startProgress);
+            router.events.off("routeChangeComplete", endProgress);
+            router.events.off("routeChangeError", endProgress);
         };
     }, [router]);
-
-    useEffect(() => {
-        window.addEventListener("loadingStart", handleRouterStartChange);
-        window.addEventListener("loadingEnd", handleRouterEndChange);
-        return () => {
-            window.removeEventListener("loadingStart", handleRouterStartChange);
-            window.removeEventListener("loadingEnd", handleRouterEndChange);
-        };
-    }, []);
 }
