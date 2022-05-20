@@ -11,7 +11,6 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
-import { loadingEnd } from "@client/hooks/nprogress";
 import { NOT_AUTHENTICATED } from "@client/lib/errors";
 import {
   deleteAccount,
@@ -68,7 +67,6 @@ const ProfileSection: FC = () => {
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
-      window.dispatchEvent(loadingEnd);
     }
   };
 
@@ -151,7 +149,6 @@ const LinkAccountSection: FC = () => {
       } catch (err: any) {
         setMsg({ type: "error", message: <AuthError err={err} /> });
         auth.setLoading(false);
-        window.dispatchEvent(loadingEnd);
       }
     };
 
@@ -226,7 +223,6 @@ const DeleteAccountSection: FC = () => {
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
-      window.dispatchEvent(loadingEnd);
     }
   };
 
@@ -238,7 +234,6 @@ const DeleteAccountSection: FC = () => {
       setShowDeleteModal(false);
       setMsg({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
-      window.dispatchEvent(loadingEnd);
     }
   };
 
