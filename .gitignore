@@ -40,3 +40,6 @@ yarn-error.log*
 
 # generated js files
 dist
+
+# service account informations
+service-account.json

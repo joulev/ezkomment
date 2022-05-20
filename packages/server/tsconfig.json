@@ -11,6 +11,6 @@
     "outDir": "dist",
     "sourceMap": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["**/*.ts", "service-account.json"],
+  "exclude": ["node_modules", "dist"]
 }

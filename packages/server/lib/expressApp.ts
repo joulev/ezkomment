@@ -2,8 +2,9 @@ import { config } from "dotenv";
 import express, { Application, Request, Response } from "express";
 
 import route from "../routes/auth";
+import initializeConfig from "./configEnv";
 
-config();
+initializeConfig();
 
 if (!process.env.PORT) {
     process.stderr.write("No port defined!\n");
