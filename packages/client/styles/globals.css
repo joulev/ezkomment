@@ -65,6 +65,9 @@
     .divide-card {
         @apply divide-neutral-300 dark:divide-neutral-700;
     }
+    .pulse {
+        @apply bg-neutral-300 dark:bg-neutral-700 animate-pulse;
+    }
     /* NProgress */
     #nprogress {
         @apply pointer-events-none;

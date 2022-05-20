@@ -13,6 +13,7 @@ import {
 export type AppProps = CurrentPage & {
     title: string;
     removePadding?: boolean;
+    loadingScreen?: ReactNode; // TODO: make this mandatory
     children: ReactNode;
 };
 
