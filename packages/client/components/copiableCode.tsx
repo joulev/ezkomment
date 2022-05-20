@@ -26,11 +26,9 @@ import IconLabel from "./utils/iconAndLabel";
 const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
   const [copied, setCopied] = useState(false);
   return (
-    <button
+    <div
       className={clsx(
-        "flex flex-row border divide-x rounded transition cursor-pointer w-full text-left group",
-        "bg-card border-card",
-        "divide-card",
+        "flex flex-row border divide-x rounded transition cursor-pointer text-left group bg-card border-card divide-card",
         "hover:border-neutral-700 dark:hover:border-neutral-300",
         "hover:divide-neutral-700 dark:hover:divide-neutral-300",
         className
@@ -41,10 +39,10 @@ const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
         setTimeout(() => setCopied(false), 1000);
       }}
     >
-      <div className="px-3 py-1.5 flex-grow transition overflow-x-scroll no-scrollbar">
+      <div className="px-3 py-1.5 flex-1 overflow-x-scroll no-scrollbar">
         <code className="whitespace-nowrap">{content}</code>
       </div>
-      <div
+      <button
         className={clsx(
           "px-3 py-1.5 shrink-0 transition text-muted",
           "group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
@@ -55,8 +53,8 @@ const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
           label={copied ? "Copied" : "Copy"}
           className={clsx(copied && "text-green-500")}
         />
-      </div>
-    </button>
+      </button>
+    </div>
   );
 };
 
