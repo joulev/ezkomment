@@ -6,7 +6,6 @@ import { MouseEvent, ReactNode, useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
-import useAuth from "@client/hooks/auth";
 import { loadingEnd } from "@client/hooks/nprogress";
 import { githubProvider, googleProvider, signIn } from "@client/lib/firebase/auth";
 
@@ -15,24 +14,21 @@ import AuthError from "@client/components/auth/error";
 import AuthProvider from "@client/components/auth/provider";
 import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
-import LoadingBanner from "@client/components/loadingBanner";
 
-import { Provider } from "@client/types/auth.type";
+import { Provider } from "@client/types/utils.type";
 import { NextPageWithLayout } from "@client/types/utils.type";
 
 import logo from "@client/public/images/logo.svg";
 
 const Auth: NextPageWithLayout = () => {
-  const auth = useAuth();
   const [error, setError] = useState<ReactNode>(null);
 
   const handler = (provider: Provider) => async (event: MouseEvent) => {
     event.preventDefault();
     try {
-      await signIn(auth, provider);
+      await signIn(provider);
     } catch (err: any) {
       setError(<AuthError err={err} />);
-      auth.setLoading(false);
       window.dispatchEvent(loadingEnd);
     }
   };
@@ -66,7 +62,6 @@ const Auth: NextPageWithLayout = () => {
           </div>
         </div>
       </main>
-      <LoadingBanner />
     </>
   );
 };

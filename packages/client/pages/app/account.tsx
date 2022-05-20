@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { User, getAuth } from "firebase/auth";
 import { FC, FormEventHandler, MouseEvent, ReactNode, useEffect, useState } from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
@@ -9,10 +9,8 @@ import GoogleIcon from "@mui/icons-material/Google";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
-import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
 import { loadingEnd } from "@client/hooks/nprogress";
-import { NOT_AUTHENTICATED } from "@client/lib/errors";
 import {
   deleteAccount,
   githubProvider,
@@ -32,7 +30,7 @@ import Modal from "@client/components/modal";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
-import { Provider } from "@client/types/auth.type";
+import { Provider } from "@client/types/utils.type";
 import { NextPageWithLayout } from "@client/types/utils.type";
 
 type Msg = { type: "success" | "error"; message: ReactNode } | null;
@@ -44,8 +42,8 @@ const MsgBanner: FC<{ msg: NonNullable<Msg> }> = ({ msg }) => (
 );
 
 const ProfileSection: FC = () => {
-  const auth = useAuth();
-  const [displayName, setDisplayName] = useState(auth.user?.displayName ?? "");
+  const user = getAuth().currentUser as User; // guaranteed that user has logged in
+  const [displayName, setDisplayName] = useState(user.displayName ?? "");
   const [image, setImage] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [msg, setMsg] = useState<Msg>(null);
@@ -63,11 +61,10 @@ const ProfileSection: FC = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
     try {
-      await updateDisplayName(auth, displayName);
+      await updateDisplayName(displayName);
       setMsg({ type: "success", message: "Display name updated successfully." });
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
-      auth.setLoading(false);
       window.dispatchEvent(loadingEnd);
     }
   };
@@ -79,7 +76,7 @@ const ProfileSection: FC = () => {
         An up-to-date information here will help others identify you in comments, as well as help us
         help you with technical details and issues.
       </p>
-      {!auth.user!.displayName && (
+      {!user.displayName && (
         <Banner variant="warning" className="mb-6">
           You currently do not have a display name. In your replies to comments, you will simply be
           identified as <i>Author</i>. It is recommended to have a display name.
@@ -137,8 +134,7 @@ const ProfileSection: FC = () => {
 };
 
 const LinkAccountSection: FC = () => {
-  const auth = useAuth();
-  const { providerData } = auth.user as User;
+  const { providerData } = getAuth().currentUser as User;
   const breakpoint = useBreakpoint();
   const [msg, setMsg] = useState<Msg>(null);
 
@@ -146,11 +142,10 @@ const LinkAccountSection: FC = () => {
     (func: typeof link, provider: Provider, str: string) => async (event: MouseEvent) => {
       event.preventDefault();
       try {
-        await func(auth, provider);
+        await func(provider);
         setMsg({ type: "success", message: `Successfully ${str}.` });
       } catch (err: any) {
         setMsg({ type: "error", message: <AuthError err={err} /> });
-        auth.setLoading(false);
         window.dispatchEvent(loadingEnd);
       }
     };
@@ -210,22 +205,19 @@ const LinkAccountSection: FC = () => {
 };
 
 const DeleteAccountSection: FC = () => {
-  const auth = useAuth();
+  const user = getAuth().currentUser as User;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [msg, setMsg] = useState<Msg>(null);
 
   const handleReauthenticate = async (event: MouseEvent) => {
     event.preventDefault();
     try {
-      if (!auth.user) throw NOT_AUTHENTICATED;
       await reauthenticate(
-        auth,
-        auth.user.providerData[0].providerId === "github.com" ? githubProvider : googleProvider
+        user.providerData[0].providerId === "github.com" ? githubProvider : googleProvider
       );
       setShowDeleteModal(true);
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
-      auth.setLoading(false);
       window.dispatchEvent(loadingEnd);
     }
   };
@@ -233,11 +225,10 @@ const DeleteAccountSection: FC = () => {
   const handleDelete = async (event: MouseEvent) => {
     event.preventDefault();
     try {
-      await deleteAccount(auth);
+      await deleteAccount();
     } catch (err: any) {
       setShowDeleteModal(false);
       setMsg({ type: "error", message: <AuthError err={err} /> });
-      auth.setLoading(false);
       window.dispatchEvent(loadingEnd);
     }
   };
@@ -252,10 +243,8 @@ const DeleteAccountSection: FC = () => {
       </p>
       <p>
         Since this is a sensitive action, you will be asked to re-authenticate with{" "}
-        <strong>
-          {auth.user?.providerData[0].providerId === "github.com" ? "GitHub" : "Google"}
-        </strong>
-        . Continue by clicking the button below.
+        <strong>{user.providerData[0].providerId === "github.com" ? "GitHub" : "Google"}</strong>.
+        Continue by clicking the button below.
       </p>
       <RightAligned>
         <Button variant="danger" icon={DangerousOutlinedIcon} onClick={handleReauthenticate}>
@@ -284,8 +273,8 @@ const DeleteAccountSection: FC = () => {
 };
 
 const Account: NextPageWithLayout = () => {
-  const auth = useAuth();
-  return !auth.user ? (
+  const user = getAuth().currentUser;
+  return !user ? (
     <div>Authenticating</div>
   ) : (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
@@ -294,7 +283,7 @@ const Account: NextPageWithLayout = () => {
         <hr />
         <h2>User ID</h2>
         <p>Your user ID is</p>
-        <CopiableCode content={auth.user.uid} className="mb-6" />
+        <CopiableCode content={user.uid} className="mb-6" />
         <p>
           Please use this ID to identify yourself if you need to contact us for support for issues
           related to your profile.

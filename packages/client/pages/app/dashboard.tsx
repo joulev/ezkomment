@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { getAuth } from "firebase/auth";
 import { GetStaticProps } from "next";
 import { FC, RefObject, forwardRef, useEffect, useRef, useState } from "react";
 
@@ -6,7 +7,6 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
-import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
 
 import A from "@client/components/anchor";
@@ -86,7 +86,7 @@ const EmptyCard: FC = () => {
 };
 
 const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
-  const { user } = useAuth();
+  const user = getAuth().currentUser;
   const breakpoint = useBreakpoint();
 
   const [showEmptyCard, setShowEmptyCard] = useState(false);
