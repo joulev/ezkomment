@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { getAuth } from "firebase/auth";
 import Image from "next/image";
 import { FC, MouseEventHandler, ReactNode, useState } from "react";
 
@@ -9,7 +10,6 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-import useAuth from "@client/hooks/auth";
 import { signOut } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
@@ -119,9 +119,9 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
 );
 
 const TopNav: FC<CurrentPage> = props => {
+  const user = getAuth().currentUser;
   const [expanded, setExpanded] = useState(false);
-  const auth = useAuth();
-  const handleLogout: MouseEventHandler<HTMLButtonElement> = () => signOut(auth);
+  const handleLogout: MouseEventHandler<HTMLButtonElement> = () => signOut();
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
 
   return (
@@ -135,9 +135,9 @@ const TopNav: FC<CurrentPage> = props => {
           href="/app/account"
           className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
         >
-          {auth.user && auth.user.photoURL ? (
+          {user && user.photoURL ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={auth.user.photoURL} alt="avatar" className="w-9 h-9" />
+            <img src={user.photoURL} alt="avatar" className="w-9 h-9" />
           ) : (
             <Image src={defaultAvatar} alt="avatar" layout="fill" />
           )}

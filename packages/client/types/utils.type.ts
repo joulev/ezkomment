@@ -1,3 +1,4 @@
+import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
@@ -49,3 +50,5 @@ export type Author = {
     name: string;
     github?: string;
 };
+
+export type Provider = GithubAuthProvider | GoogleAuthProvider;

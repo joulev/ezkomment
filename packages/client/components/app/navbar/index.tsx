@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { FC } from "react";
 
 import { CurrentPage } from "@client/types/page.type";
