@@ -7,6 +7,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
 import useAuth from "@client/hooks/auth";
+import { loadingEnd } from "@client/hooks/nprogress";
 import { githubProvider, googleProvider, signIn } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
@@ -32,6 +33,7 @@ const Auth: NextPageWithLayout = () => {
     } catch (err: any) {
       setError(<AuthError err={err} />);
       auth.setLoading(false);
+      window.dispatchEvent(loadingEnd);
     }
   };
 
