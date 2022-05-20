@@ -287,13 +287,15 @@ const Account: NextPageWithLayout = () => {
       <div>
         <ProfileSection />
         <hr />
-        <h2>User ID</h2>
-        <p>Your user ID is</p>
-        <CopiableCode content={auth.user.uid} className="mb-6" />
-        <p>
-          Please use this ID to identify yourself if you need to contact us for support for issues
-          related to your profile.
-        </p>
+        <section>
+          <h2>User ID</h2>
+          <p>Your user ID is</p>
+          <CopiableCode content={auth.user.uid} className="mb-6" />
+          <p>
+            Please use this ID to identify yourself if you need to contact us for support for issues
+            related to your profile.
+          </p>
+        </section>
         <hr className="md:hidden" />
       </div>
       <div>
@@ -317,8 +319,47 @@ const Account: NextPageWithLayout = () => {
   );
 };
 
+const LoadingSection: FC = () => (
+  <section>
+    <div className="h-8 w-36 rounded pulse mb-6" />
+    <div className="h-4 rounded pulse mb-3" />
+    <div className="h-4 rounded pulse mb-3" />
+    <div className="h-4 rounded pulse mb-6" />
+    <div className="h-6 w-48 rounded pulse mb-3" />
+    <div className="h-9 rounded pulse mb-3" />
+    <div className="h-4 rounded pulse mb-6" />
+    <div className="h-6 w-48 rounded pulse mb-3" />
+    <div className="h-9 rounded pulse mb-3" />
+    <div className="h-4 rounded pulse mb-6" />
+    <RightAligned>
+      <div className="h-9 w-32 rounded pulse" />
+    </RightAligned>
+  </section>
+);
+
+const Loading: FC = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+    <div>
+      <LoadingSection />
+      <hr />
+      <LoadingSection />
+      <hr className="md:hidden" />
+    </div>
+    <div>
+      <LoadingSection />
+      <hr />
+      <LoadingSection />
+    </div>
+  </div>
+);
+
 Account.getLayout = page => (
-  <AppLayout title="Account settings" type="overview" activeTab="account">
+  <AppLayout
+    title="Account settings"
+    type="overview"
+    activeTab="account"
+    loadingScreen={<Loading />}
+  >
     {page}
   </AppLayout>
 );

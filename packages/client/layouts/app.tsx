@@ -12,9 +12,6 @@ import { AppProps } from "@client/types/components.type";
 
 const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
   const { user } = useAuth();
-  useEffect(() => {
-    console.log("User changed", user);
-  }, [user]);
   return (
     <>
       <Head>
