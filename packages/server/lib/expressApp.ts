@@ -1,7 +1,6 @@
-import { config } from "dotenv";
 import express, { Application, Request, Response } from "express";
 
-import route from "../routes/auth";
+import route from "../routes/users";
 import initializeConfig from "./configEnv";
 
 initializeConfig();
@@ -15,7 +14,6 @@ const expressApp: Application = express();
 const port = parseInt(process.env.PORT);
 
 expressApp.use("/", route);
-
 expressApp.get("/", (req: Request, res: Response) => {
     res.status(200).send("There is nothing there...");
 });
