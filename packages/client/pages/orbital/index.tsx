@@ -81,7 +81,7 @@ const OrbitalHome: NextPage = () => {
         </div>
       </header>
       <div className="px-6 sm:px-10">
-        <main className="mx-auto w-full lg:w-5/6 xl:w-4/5 py-12 flex flex-col gap-[72px]">
+        <main className="mx-auto w-full lg:w-5/6 xl:w-4/5 py-12 flex flex-col gap-18">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {[
               ["Team name", "EzKomment"],

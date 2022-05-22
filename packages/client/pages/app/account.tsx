@@ -109,12 +109,12 @@ const ProfileSection: FC = () => {
             </div>
           </div>
           <div>
-            <label className="cursor-pointer block w-[72px] md:w-24 overflow-hidden">
+            <label className="cursor-pointer block w-18 md:w-24 overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imageSrc ?? "/images/default-photo.svg"}
                 alt="Photo"
-                className="w-[72px] h-[72px] md:w-24 md:h-24 rounded-full"
+                className="w-18 h-18 md:w-24 md:h-24 rounded-full"
               />
               <input
                 type="file"

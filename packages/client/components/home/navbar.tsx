@@ -31,7 +31,7 @@ const HomeNavbar: FC = () => {
     <nav className="fixed z-40 top-0 inset-x-0 px-6 sm:px-10 bg-card border-b border-card print:hidden">
       <div
         className={clsx(
-          scrollY > scrollThreshold ? "h-[72px]" : "h-0",
+          scrollY > scrollThreshold ? "h-18" : "h-0",
           "mx-auto w-full lg:w-5/6 xl:w-4/5 flex flex-row justify-between items-center transition-all overflow-hidden"
         )}
       >

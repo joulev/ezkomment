@@ -18,5 +18,10 @@ module.exports = {
         maxWidth: {
             prose: "80ch",
         },
+        spacing: {
+            4.5: "1.125rem",
+            18: "4.5rem",
+            27: "6.75rem",
+        },
     },
 };

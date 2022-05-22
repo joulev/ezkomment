@@ -4,7 +4,7 @@ import { FC } from "react";
 import { WindowProps } from "@client/types/components.type";
 
 const MacOSWindowButton: FC = () => (
-  <div className="border-r border-b border-card h-12 px-[18px] flex flex-row items-center shrink-0">
+  <div className="border-r border-b border-card h-12 px-4.5 flex flex-row items-center shrink-0">
     <svg width={52} height={12}>
       {[0, 1, 2].map(i => (
         <circle
@@ -22,7 +22,7 @@ const MacOSWindowButton: FC = () => (
 const WindowTab: FC<{ title: string; active?: boolean }> = ({ title, active }) => (
   <div
     className={clsx(
-      "w-36 border-r border-card pl-[18px] text-sm flex flex-row items-center shrink-0 relative",
+      "w-36 border-r border-card pl-4.5 text-sm flex flex-row items-center shrink-0 relative",
       active ? "font-semibold" : "border-b text-muted",
       "after:absolute after:content-['×'] after:right-3 after:top-1/2 after:-translate-y-1/2",
       "after:text-xl after:font-extralight"
