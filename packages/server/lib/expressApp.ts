@@ -13,7 +13,8 @@ if (!process.env.PORT) {
 const expressApp: Application = express();
 const port = parseInt(process.env.PORT);
 
-expressApp.use("/", route);
+expressApp.use("/users", route);
+
 expressApp.get("/", (req: Request, res: Response) => {
     res.status(200).send("There is nothing there...");
 });

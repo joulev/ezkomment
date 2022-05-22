@@ -11,9 +11,16 @@ const router = Router();
  * (Authentication is done in the frontend)
  */
 
-// use middlewares to parse json
+// use middlewares to parse json.
 router.use(json());
 
-router.route("/users").get(getUser).post(createUser).delete(deleteUser);
+// Fetch basic user data.
+router.get("/get", getUser);
+// This route must only be used when an user sign up for the app.
+router.post("create", createUser);
+
+// These two routes must only be used when an user has already signed in.
+router.post("/update", updateUser);
+router.delete("/delete", deleteUser);
 
 export default router;

@@ -18,6 +18,7 @@ export async function getUser(req: Request, res: Response) {
         console.error(error);
         res.status(400).json({
             error: "Bad request: cannot read the user info",
+            message: `${error}`,
         });
     }
 }
