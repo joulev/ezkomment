@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
 import rehypeSlug from "rehype-slug";
+import remarkPrism from "remark-prism";
 
 /**
  * @type {import("next").NextConfig}
@@ -38,6 +39,7 @@ const nextConfig = {
           /** @type {import("@mdx-js/loader").Options} */
           options: {
             rehypePlugins: [rehypeSlug],
+            remarkPlugins: [remarkPrism],
             providerImportSource: "@mdx-js/react",
           },
         },
