@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FC, ReactNode } from "react";
 
-import theme from "@client/config/tailwind-theme";
+import theme from "@client/config/tailwindTheme";
 import BreakpointContext from "@client/context/breakpoint";
 import useBreakpoint, { useBreakpointInit } from "@client/hooks/breakpoint";
 
