@@ -105,7 +105,7 @@
         @apply scroll-mt-27;
     }
     .post :not(pre) > code {
-        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 print:bg-neutral-200 rounded;
+        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 print:bg-neutral-200 rounded break-all;
     }
     .post pre {
         @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card overflow-x-auto
