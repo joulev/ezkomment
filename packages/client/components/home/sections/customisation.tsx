@@ -16,7 +16,8 @@ function useIframe() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const handler = () => {
     if (iframeRef.current)
-      setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 0);
+      // 360 as it is an approximation of real-life value, so can work if `useRef` doesn't work. See #38
+      setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 360);
   };
   useEffect(handler, [iframeRef]);
   useEffect(() => {
