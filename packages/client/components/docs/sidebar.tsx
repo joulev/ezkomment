@@ -44,17 +44,17 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
         "fixed md:sticky top-0 inset-x-0 md:left-0 md:right-auto z-40 md:z-auto flex flex-col gap-6",
         "overflow-hidden px-6 sm:px-12 md:px-6 md:pt-12 md:pb-6",
         "bg-card md:!h-screen md:border-b-0 md:border-r border-card transition-all", // sorry for using !important
-        navbarCollapsed ? "border-b py-3" : "border-b-0 py-6"
+        navbarCollapsed ? "border-b py-4.5" : "border-b-0 py-6"
       )}
-      style={{ height: navbarCollapsed ? "60px" : screenHeight + "px" }}
+      style={{ height: navbarCollapsed ? "72px" : screenHeight + "px" }}
     >
       <div className="flex flex-row justify-between items-center">
         <A
           href="/"
           notStyled
           className={clsx(
-            "relative block h-[30px] w-[calc(397px/80*30)]",
-            "after:absolute after:content-['docs'] after:left-full after:top-1 after:ml-1.5",
+            "relative block h-9 logo-width",
+            "after:absolute after:content-['docs'] after:left-full after:top-1.5 after:ml-1.5",
             "after:text-primary after:uppercase after:text-sm",
             "after:bg-indigo-100 dark:after:bg-indigo-900 dark:after:bg-opacity-50",
             "after:px-1.5 after:py-0.5 after:rounded"

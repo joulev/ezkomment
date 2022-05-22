@@ -50,7 +50,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children }
       <HomeNavbar />
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24 print:hidden">
         <div className="mx-auto w-full lg:w-5/6 xl:w-4/5">
-          <A className="block w-[calc(397px*0.4)] mb-3" href="/">
+          <A className="block logo-width mb-3" href="/">
             <Image src={logo} alt="logo" width={397} height={80} />
           </A>
           <h1 className="text-5xl md:text-6xl font-extralight mb-12 mt-0">{title}</h1>

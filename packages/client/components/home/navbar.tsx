@@ -36,7 +36,7 @@ const HomeNavbar: FC = () => {
         )}
       >
         <A
-          className="w-[calc(397px*0.4)]"
+          className="logo-width"
           href={router.pathname === "/" ? undefined : "/"}
           onClick={() => router.pathname === "/" && window.scrollTo({ top: 0, behavior: "smooth" })}
         >

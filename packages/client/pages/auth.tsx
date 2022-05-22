@@ -48,7 +48,7 @@ const Auth: NextPageWithLayout = () => {
         >
           <div className="text-center">
             <A href="/" notStyled>
-              <Image src={logo} alt="Logo" width={80} height={80} />
+              <Image src={logo} alt="Logo" width={72} height={72} />
             </A>
             <h1 className="text-3xl mt-6 mb-12">Continue to ezkomment</h1>
             <div className="flex flex-col gap-6">

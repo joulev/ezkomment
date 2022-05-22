@@ -68,6 +68,9 @@
     .pulse {
         @apply bg-neutral-300 dark:bg-neutral-700 animate-pulse;
     }
+    .logo-width {
+        @apply w-[calc(397px/80*36)];
+    }
     /* NProgress */
     #nprogress {
         @apply pointer-events-none;

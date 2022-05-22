@@ -67,14 +67,14 @@ const TopNavExpandedItem: FC<TopNavItemProps & { children: ReactNode }> = ({
 };
 
 const BreadCrumbSlash: FC = () => (
-  <svg width={12} height={32}>
-    <line x1="12" y1="0" x2="0" y2="32" className="stroke-neutral-500" />
+  <svg width={12} height={36}>
+    <line x1="12" y1="0" x2="0" y2="36" className="stroke-neutral-500" />
   </svg>
 );
 
 const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
   <div className="flex flex-row gap-3 items-center">
-    <A href="/app/dashboard" notStyled className="w-8 h-8 relative">
+    <A href="/app/dashboard" notStyled className="w-9 h-9 relative">
       <Image src={logo} alt="ezkomment" layout="fill" />
     </A>
     <BreadCrumbSlash />
@@ -179,7 +179,7 @@ const TopNav: FC<CurrentPage> = props => {
             Log out
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between items-center mx-1 mt-6">
-            <Image src={logo} alt="ezkomment" width={40} height={40} />
+            <Image src={logo} alt="ezkomment" width={36} height={36} />
             <ModeSwitcher />
           </div>
         </nav>
