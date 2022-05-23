@@ -1,76 +1,78 @@
-import { Request, Response } from "express";
-
-import firestoreAdmin from "../lib/firestoreAdmin";
-
-const USER_COLLECTION = firestoreAdmin.collection("users");
+import { authAdmin } from "../lib/firebaseAdmin";
+import { IRequest, IResponse } from "../models/expressTypes";
 
 function reportBadRequest(err: unknown, msg: string) {
+    console.error(err);
     return {
         error: `${err}`,
         message: msg,
     };
 }
 
-export async function getUser(req: Request, res: Response) {
+export const getUser = async (req: IRequest, res: IResponse) => {
     console.dir(req.body, { depth: null });
+    // Can only get data of the user when the user is logged in
     try {
-        const uid = req.body.uid;
-        const result = await USER_COLLECTION.doc(uid).get();
-        if (!result.exists) {
-            res.status(404).json({ error: "Not found: No such user exist!" });
-            return;
-        }
+        const result = await authAdmin.getUser(req.body.uid);
         res.status(200).json({
-            message: "Successfully read user's data",
-            data: result.data(),
+            message: "Successfully get user's data",
+            data: result.toJSON,
         });
     } catch (error) {
-        console.error(error);
-        res.status(400).json(reportBadRequest(error, "Bad request: cannot get document"));
+        res.status(400).json(reportBadRequest(error, "Bad request: cannot get user"));
     }
-}
+};
 
-export async function createUser(req: Request, res: Response) {
-    console.dir(req.body, { depth: null });
+export async function updateUser(req: IRequest, res: IResponse) {
     try {
-        const { uid, name, photo_url } = req.body.uid;
-        await USER_COLLECTION.doc(uid).create({
-            uid,
-            name,
-            photo_url,
-        });
-        res.status(201).json({ message: "New document was created!" });
-    } catch (error) {
-        console.error(error);
-        res.status(400).json(reportBadRequest(error, "Bad request: cannot create new document"));
-    }
-}
-
-export async function updateUser(req: Request, res: Response) {
-    try {
-        const { uid, name, photo_url } = req.body;
+        const { uid, displayName, photoURL } = req.body;
         const data: { [k: string]: any } = {};
-        if (name) {
-            data.name = name;
+        if (displayName) {
+            data.displayName = displayName;
         }
-        if (photo_url) {
-            data.photo_url = photo_url;
+        if (photoURL) {
+            data.photoURL = photoURL;
         }
-        await USER_COLLECTION.doc(uid).update(data);
-        res.status(200).json({ message: "Document was updated successfully" });
+        await authAdmin.updateUser(uid, data);
+        res.status(200).json({ message: "User was updated successfully" });
     } catch (error) {
-        console.error(error);
-        res.status(400).json(reportBadRequest(error, "Bad request: cannot update document"));
+        res.status(400).json(reportBadRequest(error, "Bad request: cannot update user"));
     }
 }
 
-export async function deleteUser(req: Request, res: Response) {
+export async function deleteUser(req: IRequest, res: IResponse) {
     try {
         const uid = req.body.uid;
-        await USER_COLLECTION.doc(uid).delete();
+        await authAdmin.deleteUser(uid);
         res.status(200).json({ message: "Document was deleted successfully" });
     } catch (error) {
-        console.error(error);
         res.status(400).json(reportBadRequest(error, "Bad request: cannot delete document"));
+    }
+}
+
+// For development and testing
+export async function createUser(req: IRequest, res: IResponse) {
+    console.dir(req.body, { depth: null });
+    try {
+        const { uid, displayName, photoURL } = req.body.uid;
+        await authAdmin.createUser({
+            uid,
+            displayName,
+            photoURL,
+        });
+        res.status(201).json({ message: "New user was created!" });
+    } catch (error) {
+        res.status(400).json(reportBadRequest(error, "Bad request: cannot create new user"));
+    }
+}
+
+export async function importUsers(req: IRequest, res: IResponse) {
+    try {
+        // need to store all users info in an array, which is not the best design
+        const userInfo = req.body.users;
+        await authAdmin.importUsers(userInfo);
+        res.status(201).json({ message: "Imported new users" });
+    } catch (error) {
+        res.status(400).json(reportBadRequest(error, "Bad request: cannot import users"));
     }
 }

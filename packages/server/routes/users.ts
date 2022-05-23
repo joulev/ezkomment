@@ -1,6 +1,7 @@
+import { decodeIDToken, validateRequest } from "../middlewares/validate";
 import { Router, json } from "express";
 
-import { createUser, deleteUser, getUser, updateUser } from "../utils/userUtils";
+import { createUser, deleteUser, getUser, importUsers, updateUser } from "../utils/userUtils";
 
 const router = Router();
 
@@ -14,13 +15,18 @@ const router = Router();
 // use middlewares to parse json.
 router.use(json());
 
-// Fetch basic user data.
-router.get("/get", getUser);
-// This route must only be used when an user sign up for the app.
-router.post("create", createUser);
+// Make sure that the user can only access their own data
+// Without <any>, Typescript raise errors?
+router.use(<any>decodeIDToken);
+router.use(<any>validateRequest);
 
-// These two routes must only be used when an user has already signed in.
-router.post("/update", updateUser);
-router.delete("/delete", deleteUser);
+router.get("/get", <any>getUser);
+router.post("/update", <any>updateUser);
+router.delete("/delete", <any>deleteUser);
+
+if (process.env.NODE_ENV === "development") {
+    router.post("/create", <any>createUser);
+    router.post("/import", <any>importUsers);
+}
 
 export default router;

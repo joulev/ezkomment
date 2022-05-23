@@ -1,4 +1,5 @@
 import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
 import initializeConfig from "./configEnv";
@@ -10,5 +11,6 @@ const firebaseAdmin = initializeApp({
 });
 
 const firestoreAdmin = getFirestore(firebaseAdmin);
+const authAdmin = getAuth(firebaseAdmin);
 
-export default firestoreAdmin;
+export { firestoreAdmin, authAdmin };

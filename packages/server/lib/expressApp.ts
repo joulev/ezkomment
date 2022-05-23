@@ -19,7 +19,7 @@ expressApp.get("/", (req: Request, res: Response) => {
     res.status(200).send("There is nothing there...");
 });
 
-// Dealing with undefined routes, may be changed later
+// Dealing with undefined routes
 expressApp.use((_, res) => {
     res.status(404).json({ error: "Not found" });
 });
