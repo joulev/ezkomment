@@ -15,9 +15,12 @@ function useIframe() {
   const [contentHeight, setContentHeight] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const handler = () => {
-    if (iframeRef.current)
+    if (iframeRef.current) {
+      const height = iframeRef.current.contentWindow?.document.body.clientHeight ?? 0;
+      console.log("iframe height", height);
       // 360 as it is an approximation of real-life value, so can work if `useRef` doesn't work. See #38
-      setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 360);
+      setContentHeight(Math.max(height, 360));
+    }
   };
   useEffect(handler, [iframeRef]);
   useEffect(() => {
