@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 
-import route from "../routes/users";
+import siteRouter from "../routes/sites";
+import userRouter from "../routes/users";
 import initializeConfig from "./configEnv";
 
 initializeConfig();
@@ -13,7 +14,8 @@ if (!process.env.PORT) {
 const expressApp: Application = express();
 const port = parseInt(process.env.PORT);
 
-expressApp.use("/users", route);
+expressApp.use("/users", userRouter);
+expressApp.use("/sites", siteRouter);
 
 expressApp.get("/", (req: Request, res: Response) => {
     res.status(200).send("There is nothing there...");
