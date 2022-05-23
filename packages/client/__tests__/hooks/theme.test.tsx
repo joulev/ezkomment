@@ -128,6 +128,7 @@ describe("Intergration with document element `classList`", () => {
   beforeEach(() => {
     setupMedia("light");
     localStorage.clear();
+    document.documentElement.classList.remove("dark");
   });
 
   it("Should not have `.dark` on first load", () => {
