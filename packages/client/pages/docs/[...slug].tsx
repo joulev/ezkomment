@@ -33,17 +33,16 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
       <Head>
         <title>{title} | ezkomment Docs</title>
       </Head>
-      <div className="grid grid-cols-1 md:grid-cols-3">
-        <DocsSidebar navData={navData} />
-        <main className="col-span-full md:col-span-2 px-6 sm:px-12 py-12 max-w-prose">
-          <div style={{ height: "60px" }} className="md:hidden" />
+      <DocsSidebar navData={navData} />
+      <main className="ml-0 mt-18 lg:ml-96 lg:mt-0">
+        <div className="container lg:max-w-prose py-12">
           <article className="post">
             <Content />
           </article>
           <hr />
           <DocsBottomBar lastModified={lastModified} path={path} />
-        </main>
-      </div>
+        </div>
+      </main>
     </>
   );
 };

@@ -30,12 +30,15 @@ const HomeBanner: FC = () => {
   const theme = useTheme();
   const { bannerRef, appScreenshotRef, backgroundHeight } = useBackgroundRef();
   return (
-    <section className="relative text-white px-6 sm:px-10 mb-36">
+    <section className="relative text-white mb-36">
       <div
         className="absolute top-0 inset-x-0 bg-gradient-to-br from-indigo-400 to-indigo-600"
         style={{ height: backgroundHeight }}
       />
-      <div className="relative mx-auto pt-36 w-full lg:w-3/4 xl:w-2/3 text-center" ref={bannerRef}>
+      <div
+        className="relative mx-auto pt-36 container lg:max-w-screen-md xl:max-w-screen-lg text-center"
+        ref={bannerRef}
+      >
         <div
           className={clsx(
             "max-w-[calc(397px*0.6)] max-h-[calc(80px*0.6)]", // LOL

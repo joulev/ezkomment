@@ -34,7 +34,7 @@ const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr 
       <home.Customisation codeHtml={customiseHtmlStr} />
       <home.Api codeHtml={apiHtmlStr} />
       <home.Ending />
-      <Footer className="px-6 sm:px-10" containerClasses="mx-auto w-full lg:w-5/6 xl:w-4/5" />
+      <Footer />
       {showWarningBanner && (
         <div className="fixed bottom-0 left-0 bg-card border-card rounded m-6">
           <Banner variant="warning">

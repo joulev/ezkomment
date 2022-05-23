@@ -58,7 +58,7 @@ const OrbitalHome: NextPage = () => {
       </Head>
       <HomeNavbar />
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
-        <div className="mx-auto w-full lg:w-5/6 xl:w-4/5 text-center">
+        <div className="mx-auto container text-center">
           <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/">
             <Image
               src={theme === "dark" ? logoDark : logoLight}
@@ -80,49 +80,47 @@ const OrbitalHome: NextPage = () => {
           </Button>
         </div>
       </header>
-      <div className="px-6 sm:px-10">
-        <main className="mx-auto w-full lg:w-5/6 xl:w-4/5 py-12 flex flex-col gap-18">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {[
-              ["Team name", "EzKomment"],
-              ["Team number", "5007"],
-              ["Achievement level", "Artemis"],
-            ].map(([label, value]) => (
-              <div key={label} className="text-center">
-                <div className="text-muted text-lg">{label}</div>
-                <div className="text-3xl">{value}</div>
-              </div>
-            ))}
-          </div>
-          <section>
-            <h2 className="text-center">Registration and Lift-off</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <SectionLink
-                title="Proposal"
-                description="The first description of the application, sent along with the Orbital application form."
-                href="/orbital/proposal"
-                icon={ArticleOutlinedIcon}
-                date={"14 March 2022"}
-              />
-              <SectionLink
-                title="Lift-off poster"
-                description="First design of the poster, submitted during the lift-off stage."
-                href="https://ezkomment.joulev.dev/images/orbital/liftoff-poster.png"
-                icon={ImageOutlinedIcon}
-                date={"11 May 2022"}
-              />
-              <SectionLink
-                title="Lift-off video"
-                description="The video submitted during the lift-off stage."
-                href="https://drive.google.com/file/d/1wkvvl-EeYFRbqdmqBBfFu5B-NO_vVxFK/view?usp=drivesdk"
-                icon={OndemandVideoOutlinedIcon}
-                date={"11 May 2022"}
-              />
+      <main className="container py-12 flex flex-col gap-18">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+          {[
+            ["Team name", "EzKomment"],
+            ["Team number", "5007"],
+            ["Achievement level", "Artemis"],
+          ].map(([label, value]) => (
+            <div key={label} className="text-center">
+              <div className="text-muted text-lg">{label}</div>
+              <div className="text-3xl">{value}</div>
             </div>
-          </section>
-        </main>
-      </div>
-      <Footer className="px-6 sm:px-10" containerClasses="mx-auto w-full lg:w-5/6 xl:w-4/5" />
+          ))}
+        </div>
+        <section>
+          <h2 className="text-center">Registration and Lift-off</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SectionLink
+              title="Proposal"
+              description="The first description of the application, sent along with the Orbital application form."
+              href="/orbital/proposal"
+              icon={ArticleOutlinedIcon}
+              date={"14 March 2022"}
+            />
+            <SectionLink
+              title="Lift-off poster"
+              description="First design of the poster, submitted during the lift-off stage."
+              href="https://ezkomment.joulev.dev/images/orbital/liftoff-poster.png"
+              icon={ImageOutlinedIcon}
+              date={"11 May 2022"}
+            />
+            <SectionLink
+              title="Lift-off video"
+              description="The video submitted during the lift-off stage."
+              href="https://drive.google.com/file/d/1wkvvl-EeYFRbqdmqBBfFu5B-NO_vVxFK/view?usp=drivesdk"
+              icon={OndemandVideoOutlinedIcon}
+              date={"11 May 2022"}
+            />
+          </div>
+        </section>
+      </main>
+      <Footer />
     </>
   );
 };
