@@ -17,11 +17,11 @@ function useIframe() {
 
   const handler = async () => {
     if (iframeRef.current) {
-      await new Promise(resolve => setTimeout(resolve, 20));
-      const height = iframeRef.current.contentWindow?.document.body.clientHeight ?? 0;
-      console.log("iframe height", height);
-      // 360 as it is an approximation of real-life value, so can work if `useRef` doesn't work. See #38
-      setContentHeight(Math.max(height, 360));
+      // Wait for the iframe to render? Without it, the height is 0 for about (shockingly) 70% of
+      // the time. Yeap, neither 0% nor 100%. Never think what I do would depend on pure luck but
+      // here we go.
+      await new Promise(resolve => setTimeout(resolve, 50));
+      setContentHeight(iframeRef.current.contentWindow?.document.body.clientHeight ?? 0);
     }
   };
 
