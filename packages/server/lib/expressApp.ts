@@ -19,6 +19,11 @@ expressApp.get("/", (req: Request, res: Response) => {
     res.status(200).send("There is nothing there...");
 });
 
+// Dealing with undefined routes, may be changed later
+expressApp.use((_, res) => {
+    res.status(404).json({ error: "Not found" });
+});
+
 expressApp.listen(port, () => {
     console.log(`Express app is listening on port ${port}`);
 });
