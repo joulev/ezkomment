@@ -16,6 +16,7 @@ const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...r
     <>
       <Head>
         <title>{title} | ezkomment</title>
+        <meta name="robots" content="noindex" />
       </Head>
       <Navbar {...rest} />
       <main className={clsx("container", removePadding || "py-9")}>

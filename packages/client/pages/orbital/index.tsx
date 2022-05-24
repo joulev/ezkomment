@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import { NextPage } from "next";
-import Head from "next/head";
+import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { FC } from "react";
 
@@ -9,18 +8,25 @@ import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
 
 import useTheme from "@client/hooks/theme";
+import getOgImage from "@client/lib/getOgImage";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
+import Seo from "@client/components/seo";
 
+import { SeoProps } from "@client/types/components.type";
 import { IconType } from "@client/types/utils.type";
 
 import logoDark from "@client/public/images/orbital/logo-orbital-dark.svg";
 import logoLight from "@client/public/images/orbital/logo-orbital-light.svg";
 
 const lastUpdated = "12 May 2022";
+
+type Props = {
+  seo: SeoProps;
+};
 
 type SectionLinkProps = {
   icon: IconType;
@@ -49,13 +55,11 @@ const SectionLink: FC<SectionLinkProps> = ({ icon: Icon, title, href, descriptio
   </A>
 );
 
-const OrbitalHome: NextPage = () => {
+const OrbitalHome: NextPage<Props> = ({ seo }) => {
   const theme = useTheme();
   return (
     <>
-      <Head>
-        <title>Orbital | ezkomment</title>
-      </Head>
+      <Seo {...seo} />
       <HomeNavbar />
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto container text-center">
@@ -123,6 +127,21 @@ const OrbitalHome: NextPage = () => {
       <Footer />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const image = await getOgImage({ title: "ezkomment @ NUS Orbital", label: "orbital" });
+  return {
+    props: {
+      seo: {
+        title: "Orbital | ezkomment",
+        description:
+          "ezkomment is an NUS Orbital project. This page includes all public information of ezkomment that is related to NUS Orbital 2022.",
+        image,
+        url: "https://ezkomment.joulev.dev/orbital",
+      },
+    },
+  };
 };
 
 export default OrbitalHome;
