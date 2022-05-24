@@ -62,11 +62,6 @@ export type ModalProps = ComponentProps<"div"> & {
     onOutsideClick?: MouseEventHandler<HTMLDivElement>;
 };
 
-export type OgImageProps = {
-    title?: string;
-    label?: "docs" | "posts" | "orbital";
-};
-
 export type PostHeadingProps = {
     id?: string;
     children?: ReactNode;
