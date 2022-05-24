@@ -15,6 +15,10 @@ const Seo: FC<SeoProps> = ({ title, description, image, url }) => (
       type: "website",
       images: [{ url: image, width: 1200, height: 630, alt: title }],
     }}
+    twitter={{
+      cardType: "summary_large_image",
+      handle: "@joulev_3",
+    }}
   />
 );
 
