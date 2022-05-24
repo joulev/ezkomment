@@ -39,3 +39,6 @@ yarn-error.log*
 
 # jest coverage
 coverage
+
+# generated og:image
+/packages/client/public/images/og
