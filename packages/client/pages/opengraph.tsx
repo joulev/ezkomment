@@ -1,4 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-page-custom-font, @next/next/no-img-element */
+import clsx from "clsx";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { NextPageWithLayout } from "@client/types/utils.type";
@@ -6,51 +8,36 @@ import { NextPageWithLayout } from "@client/types/utils.type";
 const OpenGraphImageGenerator: NextPageWithLayout = () => {
   const router = useRouter();
   const title = router.query.title as string | undefined;
-  if (!title)
-    return (
-      <div
-        style={{ width: 1200, height: 630, gap: 48, fontSize: 80 }}
-        className="flex flex-col justify-center items-center bg-gradient-to-br from-indigo-400 to-indigo-600"
-      >
-        <div>
-          <img
-            src="/images/logo-text-white.svg"
-            alt="you shouldn't see this"
-            width={397}
-            height={80}
-          />
-        </div>
-        <div className="font-extralight text-white">
-          Commenting made <span className="font-extrabold">easy</span>.
-        </div>
-      </div>
-    );
+  const label = router.query.label as string | undefined;
   return (
-    <div
-      style={{
-        width: 1200,
-        height: 630,
-        padding: "150px 120px",
-        fontSize: title.length > 32 ? 72 : 80,
-        gap: 48,
-      }}
-      className="bg-gradient-to-br from-indigo-400 to-indigo-600 text-white flex flex-col justify-center"
-    >
-      <div className="flex flex-row divide-x divide-neutral-100 items-center" style={{ gap: 32 }}>
-        <img
-          src="/images/logo-text-white.svg"
-          alt="you shouldn't see this"
-          width={397}
-          height={80}
+    <>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap"
+          rel="stylesheet"
         />
-        {router.query.label && (
-          <div style={{ fontSize: 48, paddingLeft: 32 }} className="uppercase font-light">
-            {router.query.label}
+      </Head>
+      <div
+        className={clsx(
+          "font-['Inter'] w-[1200px] h-[630px] px-32 py-40",
+          "flex flex-col justify-center gap-12 bg-gradient-to-br from-indigo-400 to-indigo-600 text-white",
+          title || "items-center",
+          title && title.length > 32 ? "text-[72px]" : "text-[80px]"
+        )}
+      >
+        <div className={label && "flex flex-row gap-8 divide-x divide-neutral-100 items-center"}>
+          <img src="/images/logo-text-white.svg" alt="you shouldn't see this" />
+          {label && <div className="uppercase font-light pl-8 text-[48px]">{label}</div>}
+        </div>
+        {title ? (
+          <div className="font-semibold leading-tight line-clamp-2">{title}</div>
+        ) : (
+          <div className="font-light text-white tracking-tighter">
+            Commenting made <span className="font-extrabold tracking-normal">easy</span>.
           </div>
         )}
       </div>
-      <div className="font-semibold leading-tight line-clamp-2">{title}</div>
-    </div>
+    </>
   );
 };
 
