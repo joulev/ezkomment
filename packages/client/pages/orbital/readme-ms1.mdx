@@ -8,7 +8,7 @@ export default function ({ children }) {
     <BlogLayout
       title="Orbital 2022 Milestone 1 README"
       authors={[authors.joulev, authors.vietanh]}
-      timestamp={new Date("2022-05-22")}
+      timestamp={new Date("2022-05-24")}
     >
       {children}
     </BlogLayout>
@@ -435,6 +435,18 @@ Other accent colours are `red` (for danger actions), `emerald` (for success stat
 #### Spacing
 
 We use the default [Tailwind CSS spacing scale](https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale), and pick all spacing entries whose values are divisible by 3. Hence, most spaces in the application is a multiplier of 0.75rem.
+
+### Search Engine Optimisations
+
+In pull request [#66](https://github.com/joulev/ezkomment/pull/66), we have added the necessary
+[SEO](https://en.wikipedia.org/wiki/Search_engine_optimization) tags to every page that need them,
+and also set up a process to
+
+- automatically generate new `og:image` image URL for new pages based on a common skeleton, at build time, and
+- easily add SEO tags to new pages, as well as new page types.
+
+Although we have not enable the site to be crawled for search engines as of now, the tags are now
+effective when sharing the pages over social media.
 
 ### Software Engineering Practices
 
