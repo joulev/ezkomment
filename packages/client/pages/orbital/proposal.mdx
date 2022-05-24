@@ -1,15 +1,7 @@
-import getOgImage from "@client/lib/getOgImage";
-
 import BlogImage from "@client/components/blogImage";
 import BlogLayout from "@client/layouts/blog";
 
 import authors from "@client/constants/authors";
-
-export async function getStaticProps() {
-  const path = await getOgImage({ title: "Orbital 2022 Proposal", label: "posts" });
-  console.log(path);
-  return { props: {} };
-}
 
 export default function ({ children }) {
   return (
