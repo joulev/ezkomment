@@ -14,7 +14,7 @@ export default async function getOgImage({ title, label }: OgImageProps) {
     const filePath = `${dir}/${hash}.png`;
     const publicPath = `https://ezkomment.joulev.dev/images/og/${hash}.png`;
 
-    //if (existsSync(filePath)) return publicPath;
+    if (existsSync(filePath)) return publicPath;
 
     const url = new URL("https://ezkomment-4llbaljfn-joulev.vercel.app/opengraph"); // change this when merged
     if (title) url.searchParams.append("title", title);

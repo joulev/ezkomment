@@ -38,6 +38,7 @@ const Auth: NextPageWithLayout = () => {
     <>
       <Head>
         <title>Authentication | ezkomment</title>
+        <meta name="robots" content="noindex" />
       </Head>
       <main className="h-screen grid place-items-center">
         <div

@@ -1,11 +1,11 @@
 import { format } from "date-fns";
-import Head from "next/head";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
 import A from "@client/components/anchor";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
+import Seo from "@client/components/seo";
 
 import { BlogLayoutProps } from "@client/types/components.type";
 import { Author } from "@client/types/utils.type";
@@ -36,7 +36,7 @@ const AuthorCard: FC<Author> = ({ name, github }) => (
   </div>
 );
 
-const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children }) => {
+const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children, seo }) => {
   const [minutesToRead, setMinutesToRead] = useState(0);
   useEffect(() => {
     const wordCnt = document.getElementsByClassName("post")[0].textContent!.split(" ").length;
@@ -44,9 +44,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children }
   }, []);
   return (
     <>
-      <Head>
-        <title>{title} | ezkomment</title>
-      </Head>
+      <Seo {...seo} />
       <HomeNavbar />
       <header className="bg-card border-b border-card py-24 print:hidden">
         <div className="container">

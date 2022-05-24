@@ -22,6 +22,7 @@ export type BlogLayoutProps = {
     authors: Author[];
     timestamp: Date;
     children: ReactNode;
+    seo: SeoProps;
 };
 
 export type BlogImageProps = {
@@ -70,6 +71,13 @@ export type OgImageProps = {
 export type PostHeadingProps = {
     id?: string;
     children?: ReactNode;
+};
+
+export type SeoProps = {
+    title: string;
+    description?: string;
+    image: string;
+    url: string;
 };
 
 export type SiteGraphProps = {

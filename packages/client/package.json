@@ -24,6 +24,7 @@
     "json5": "^2.2.1",
     "monaco-editor": "^0.33.0",
     "next": "12.1.6",
+    "next-seo": "^5.4.0",
     "nprogress": "^0.2.0",
     "prismjs": "^1.28.0",
     "react": "18.1.0",

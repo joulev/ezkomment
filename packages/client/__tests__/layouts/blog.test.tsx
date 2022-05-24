@@ -14,6 +14,12 @@ const Component: FC<Props> = ({ authors, wordCount }) => (
     title="A blog"
     authors={authors ?? [{ name: "Author", github: "joulev" }]}
     timestamp={new Date("2022-01-02")}
+    seo={{
+      title: "A blog",
+      description: "A blog",
+      image: "https://example.com/image.png",
+      url: "https://example.com/blog",
+    }}
   >
     {Array(wordCount ?? 301)
       .fill("hello")
