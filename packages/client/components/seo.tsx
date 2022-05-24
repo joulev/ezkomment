@@ -12,14 +12,8 @@ const Seo: FC<SeoProps> = ({ title, description, image, url }) => (
       url,
       title,
       description,
-      images: [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      type: "website",
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
     }}
   />
 );
