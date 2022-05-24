@@ -12,7 +12,7 @@ export default async function getOgImage({ title, label }: OgImageProps) {
     const hash = createHash("sha256").update(`${title}|${label}`).digest("hex");
     const dir = `./public/images/og`;
     const filePath = `${dir}/${hash}.png`;
-    const publicPath = `https://ezkomment.joulev.dev/images/og/${hash}.png`;
+    const publicPath = `https://${process.env.VERCEL_URL}/images/og/${hash}.png`;
 
     if (existsSync(filePath)) return publicPath;
 
