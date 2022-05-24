@@ -24,8 +24,8 @@ router.post("/create", createSite);
 router.post("/update", updateSite);
 router.delete("/delete", deleteSite);
 
-router.post("/create/page", createSitePage);
-router.delete("/delete/page", deleteSitePage);
+router.post("page/create", createSitePage);
+router.delete("page/delete", deleteSitePage);
 
 const siteRouter = router;
 export default siteRouter;

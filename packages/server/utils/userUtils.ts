@@ -38,9 +38,9 @@ export async function deleteUser(req: Request, res: Response) {
     try {
         const uid = req.body.uid;
         await authAdmin.deleteUser(uid);
-        res.status(200).json({ message: "Document was deleted successfully" });
+        res.status(200).json({ message: "User was deleted successfully" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot delete document");
+        reportBadRequest(res, error, "Bad request: cannot delete user");
     }
 }
 

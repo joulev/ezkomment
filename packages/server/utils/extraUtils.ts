@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { CollectionReference, DocumentData } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "../lib/firebaseAdmin";
 
@@ -11,11 +12,10 @@ export function reportBadRequest(res: Response, err: unknown, msg: string) {
 }
 
 export async function deleteCollection(
-    collectionRef: FirebaseFirestore.CollectionReference<FirebaseFirestore.DocumentData>,
-    fieldName: string,
-    batchSize: number
+    collectionRef: CollectionReference<DocumentData>,
+    batchSize: number = 10
 ) {
-    const query = collectionRef.orderBy(fieldName).limit(batchSize);
+    const query = collectionRef.limit(batchSize);
     async function deleteQueryBatch(resolve: any) {
         // resolve :: callback
         const snapshot = await query.get();

@@ -1,5 +1,7 @@
+import cors from "cors";
 import express, { Application, Request, Response } from "express";
 
+import pageRouter from "../routes/pages";
 import siteRouter from "../routes/sites";
 import userRouter from "../routes/users";
 import initializeConfig from "./configEnv";
@@ -14,8 +16,14 @@ if (!process.env.PORT) {
 const expressApp: Application = express();
 const port = parseInt(process.env.PORT);
 
+/**
+ * Middlewares for CORS will be implemented later
+ */
+expressApp.use(cors());
+
 expressApp.use("/users", userRouter);
 expressApp.use("/sites", siteRouter);
+expressApp.use("/pages", pageRouter);
 
 expressApp.get("/", (req: Request, res: Response) => {
     res.status(200).send("There is nothing there...");
@@ -26,9 +34,7 @@ expressApp.use((_, res) => {
     res.status(404).json({ error: "Not found" });
 });
 
-expressApp.listen(port, () => {
-    console.log(`Express app is listening on port ${port}`);
-});
+expressApp.listen(port);
 
 function initializeExpressApp() {
     return expressApp;
