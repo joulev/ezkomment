@@ -24,6 +24,8 @@ export default async function getOgImage({ title, label }: OgImageProps) {
         width: 1200,
         height: 630,
         scaleFactor: 1,
+        // https://github.com/sindresorhus/capture-website#im-getting-a-sandbox-related-error
+        launchOptions: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
     });
 
     mkdirSync(dir, { recursive: true });
