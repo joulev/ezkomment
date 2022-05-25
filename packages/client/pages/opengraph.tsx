@@ -31,7 +31,7 @@ const OpenGraphImageGenerator: NextPageWithLayout = () => {
           {label && <div className="uppercase font-light pl-8 text-[48px]">{label}</div>}
         </div>
         {title ? (
-          <div className="font-semibold leading-tight line-clamp-2">{title}</div>
+          <div className="font-semibold leading-tight line-clamp-2 -my-4">{title}</div>
         ) : (
           <div className="font-light text-white tracking-tighter">
             Commenting made <span className="font-extrabold tracking-normal">easy</span>.
