@@ -438,15 +438,12 @@ We use the default [Tailwind CSS spacing scale](https://tailwindcss.com/docs/cus
 
 ### Search Engine Optimisations
 
-In pull request [#66](https://github.com/joulev/ezkomment/pull/66), we have added the necessary
-[SEO](https://en.wikipedia.org/wiki/Search_engine_optimization) tags to every page that need them,
-and also set up a process to
+In pull request [#66](https://github.com/joulev/ezkomment/pull/66), we have added the necessary [SEO](https://en.wikipedia.org/wiki/Search_engine_optimization) tags to every page that need them, and also set up a process to
 
 - automatically generate new `og:image` image URL for new pages based on a common skeleton, at build time, and
 - easily add SEO tags to new pages, as well as new page types.
 
-Although we have not enable the site to be crawled for search engines as of now, the tags are now
-effective when sharing the pages over social media.
+Although we have not enable the site to be crawled for search engines as of now, the tags are now effective when sharing the pages over social media.
 
 ### Software Engineering Practices
 
@@ -499,9 +496,31 @@ Testing is done by [Jest](https://jestjs.io) whenever possible, due to its simpl
 
 However, for front-end, Jest is likely to not be enough. We are considering also using more complex testing tools, such as [Cypress](https://www.cypress.io) for integration tests and end-to-end tests, however these tests are not yet implemented.
 
-## Planning
+## Timeline
 
-TBD
+### Currently Already Implemented Features
+
+- The main interfaces of the front-end app
+- Public pages of the front-end
+- The front-end has been deployed
+- Firebase (client-based) authentication for the front-end app
+
+### Going Forwards to Milestone 2 (27 June)
+
+- By 3 June: set up a basic deployable and usable back-end with cookie-based authentication features, as well as deploy it
+- By 7 June: finish integrating authentication between front-end and back-end
+- By 14 June: implement site management features (users can add new sites, can edit existing sites, can delete existing sites)
+- By 20 June: implement page management features (users can add new pages to sites, can edit and delete existing pages, have a embeddable `<iframe>` to use with placeholder comments)
+- By 27 June (Milestone 2): make the comment sections _commentable_, with updated statistics metrics in the site dashboard.
+- Also by 27 June: find resolution for all known issues in the app design mentioned above.
+
+### After Milestone 2
+
+These do not have a planned timestamp yet, since (at least) [@joulev](https://github.com/joulev) does not fully understand how fast we will be moving yet.
+
+- Implement moderation features
+- Implement customisation features
+- Implement the public API
 
 ## Conclusion
 
