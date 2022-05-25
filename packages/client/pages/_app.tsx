@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               h6: props => <PostHeading {...props} level={6} />,
             }}
           >
-            {getLayout(<Component {...pageProps} />)}
+            {getLayout(<Component {...pageProps} />, pageProps)}
           </MDXProvider>
         </BreakpointContext.Provider>
       </ModeContext.Provider>

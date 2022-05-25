@@ -23,6 +23,8 @@ export type BlogLayoutProps = {
     timestamp: Date;
     children: ReactNode;
     seo: SeoProps;
+    /** Whether the post content should be full-width (`.container`) or limited-width (`.max-w-prose`) */
+    container?: boolean;
 };
 
 export type BlogImageProps = {
