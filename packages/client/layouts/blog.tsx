@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { format } from "date-fns";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -36,7 +37,14 @@ const AuthorCard: FC<Author> = ({ name, github }) => (
   </div>
 );
 
-const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children, seo }) => {
+const BlogLayout: FC<BlogLayoutProps> = ({
+  title,
+  authors,
+  timestamp,
+  seo,
+  container,
+  children,
+}) => {
   const [minutesToRead, setMinutesToRead] = useState(0);
   useEffect(() => {
     const wordCnt = document.getElementsByClassName("post")[0].textContent!.split(" ").length;
@@ -68,7 +76,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({ title, authors, timestamp, children, 
         </div>
       </header>
       <main className="container">
-        <article className="mx-auto my-18 max-w-prose post blog">
+        <article className={clsx("my-18 post blog", container || "max-w-prose mx-auto")}>
           <h1 className="hidden print:block">{title}</h1>
           {children}
         </article>

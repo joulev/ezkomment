@@ -6,7 +6,7 @@ import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-    getLayout?: (page: ReactElement) => ReactNode;
+    getLayout?: (page: ReactElement, pageProps?: AppPropsWithLayout["pageProps"]) => ReactNode;
 };
 export type AppPropsWithLayout<P = {}> = AppProps<P> & {
     Component: NextPageWithLayout;
@@ -48,4 +48,14 @@ export type PrismOptions = {
 export type Author = {
     name: string;
     github?: string;
+};
+
+export type ProjectLog = {
+    total: number;
+    logs: {
+        time: string;
+        content: string;
+        hours: string;
+        remarks: string;
+    }[];
 };
