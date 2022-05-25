@@ -26,6 +26,7 @@ type Props = {
 // The following "parsers" are specific for joulev's project log only. For other logs, write different parsers.
 // First time I actually do serious OOP in any programming languages and I think I did a decent job.
 class ReplaceableReact {
+  // Type React.ReactNodeArray is deprecated, however react-string-replace uses it so I have no choice.
   value: string | ReactNodeArray;
   constructor(value: string) {
     this.value = value;
@@ -115,7 +116,7 @@ const ProjectLogJoulev: NextPageWithLayout<Props> = ({ lastUpdated, data }) => {
           <A href="https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration">
             updated
           </A>{" "}
-          at most once every two days. Last updated at{" "}
+          once every two days. Last updated at{" "}
           <time title={lastUpdated} className="font-bold">
             {format(parseISO(lastUpdated), "d MMMM y HH:mm:ss")}
           </time>
