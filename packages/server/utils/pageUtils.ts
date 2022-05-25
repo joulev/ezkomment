@@ -1,3 +1,4 @@
+// TODO: Fix sites and pages data models
 import { Request, Response } from "express";
 import { FieldValue } from "firebase-admin/firestore";
 
@@ -5,18 +6,19 @@ import { firestoreAdmin } from "../lib/firebaseAdmin";
 import { deleteCollection, reportBadRequest } from "./extraUtils";
 
 /**
- * Utilities for individual page
- * Each page contains these infomation
- * - url: the url of this page
- * - uid: uid of the user that own this page
- * - site-name: the name of the site that this page is contained inside
- * - comments: a collections of comment, each comments may store extra information
- * What should a comment contain?
- * - created time (can we use this as a primary key?)
- * - content
- * - author (allow anonymous author)
- * Created pages cannot be updated, but the subcollections inside it can.
- * A comment stores its version, this will be implemented later.
+ * Utilities for individual pages. Each `page` document contains these fields:
+ * - `pageURL`: the URL of this page
+ * - `uid`: uid of the user who owns this page
+ * - `siteId`: the id of the site containing this page
+ *
+ * Also, each `page` document contains these subcollection:
+ * - `comments`: a collection of comment
+ *
+ * Each `comment` document contains these fields:
+ * - `createdAt`
+ * - `updatedAt`
+ * - `commentId`
+ * - `commentContent`
  */
 
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");
@@ -26,7 +28,6 @@ export async function getPage(req: Request, res: Response) {
         // May be changed to req.params
         const { pageURL } = req.body;
         const pageRef = PAGES_COLLECTION.doc(pageURL);
-        // first get the basic information about this page
         const pageInfos = await pageRef.get();
         const listComments = await pageRef.collection("comment").get();
         res.status(200).json({
@@ -41,7 +42,6 @@ export async function getPage(req: Request, res: Response) {
 
 export async function createPage(req: Request, res: Response) {
     try {
-        // Need uid and siteName
         const { pageURL, uid, siteId } = req.body;
         await PAGES_COLLECTION.doc(pageURL).create({
             pageURL,
@@ -54,9 +54,6 @@ export async function createPage(req: Request, res: Response) {
     }
 }
 
-/**
- * Creates a new comment in a given page.
- */
 export async function createPageComment(req: Request, res: Response) {
     try {
         const { pageURL, commentContent } = req.body;
@@ -78,9 +75,6 @@ export async function createPageComment(req: Request, res: Response) {
     }
 }
 
-/**
- * Updates a comment in a given page.
- */
 export async function updatePageComment(req: Request, res: Response) {
     try {
         const { pageURL, commentContent, commentId } = req.body;
@@ -94,9 +88,6 @@ export async function updatePageComment(req: Request, res: Response) {
     }
 }
 
-/**
- * Deletes a comment in a given page.
- */
 export async function deletePageComment(req: Request, res: Response) {
     try {
         const { pageURL, commentId } = req.body;
@@ -107,14 +98,10 @@ export async function deletePageComment(req: Request, res: Response) {
     }
 }
 
-/**
- * Deletes a page and ALL comments in it.
- */
 export async function deletePage(req: Request, res: Response) {
     try {
         const pageURL = req.body.pageURL;
         const pageRef = PAGES_COLLECTION.doc(pageURL);
-
         await deleteCollection(pageRef.collection("comments"));
         await pageRef.delete();
         res.status(200).json({ message: "Successfully deleted page and its content" });

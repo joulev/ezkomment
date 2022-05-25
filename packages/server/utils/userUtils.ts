@@ -5,7 +5,6 @@ import { reportBadRequest } from "./extraUtils";
 
 export const getUser = async (req: Request, res: Response) => {
     console.dir(req.body, { depth: null });
-    // Can only get data of the user when the user is logged in
     try {
         const result = await authAdmin.getUser(req.body.uid);
         res.status(200).json({

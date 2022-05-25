@@ -1,6 +1,6 @@
 import { Router, json } from "express";
 
-import { decodeIDToken, validateRequest } from "../middlewares/validate";
+import validateRequest from "../middlewares/validateRequest";
 import {
     createPage,
     createPageComment,
@@ -13,7 +13,6 @@ import {
 const router = Router();
 router.use(json());
 
-router.use(decodeIDToken);
 router.use(validateRequest);
 
 router.get("/get", getPage);

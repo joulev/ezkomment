@@ -1,6 +1,6 @@
 import { Router, json } from "express";
 
-import { decodeIDToken, validateRequest } from "../middlewares/validate";
+import validateRequest from "../middlewares/validateRequest";
 import {
     createSite,
     createSitePage,
@@ -16,7 +16,6 @@ const router = Router();
 router.use(json());
 
 // Make sure that the user can only access their own data
-router.use(decodeIDToken);
 router.use(validateRequest);
 
 router.get("/get", getSite);

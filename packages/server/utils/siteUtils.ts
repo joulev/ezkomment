@@ -1,3 +1,4 @@
+// TODO: Fix sites and pages models
 import { Request, Response } from "express";
 
 import { firestoreAdmin } from "../lib/firebaseAdmin";
@@ -54,7 +55,7 @@ export async function getSite(req: Request, res: Response) {
 export async function createSite(req: Request, res: Response) {
     try {
         const { uid, siteURL, siteId } = req.body;
-        // siteId is optional, if there is no siteId then Firebase will auto generated it
+        // siteId is optional, if there is no siteId then Firebase will auto generate it
         const configURL = req.body.configURL ?? DEFAULT_CONFIG_URL;
         const siteRef = USER_SITES_COLLECTION.doc(uid).collection("sites").doc(siteId);
         await siteRef.create({
@@ -129,10 +130,7 @@ export async function deleteSite(req: Request, res: Response) {
     try {
         const { uid, siteId } = req.body;
         const siteRef = USER_SITES_COLLECTION.doc(uid).collection("sites").doc(siteId);
-        // Delete all pages that is contained within this site
-        /** Modification required here! */
         await deleteCollection(siteRef.collection("pages"));
-        /** Modification required here! */
         await siteRef.delete();
         res.status(200).json({ message: "Successfully deleted site" });
     } catch (error) {

@@ -1,6 +1,6 @@
 import { Router, json } from "express";
 
-import { decodeIDToken, validateRequest } from "../middlewares/validate";
+import validateRequest from "../middlewares/validateRequest";
 import { createUser, deleteUser, getUser, importUsers, updateUser } from "../utils/userUtils";
 
 const router = Router();
@@ -17,7 +17,6 @@ router.use(json());
 
 // Make sure that the user can only access their own data
 // Without , Typescript raise errors?
-router.use(decodeIDToken);
 router.use(validateRequest);
 
 router.get("/get", getUser);
