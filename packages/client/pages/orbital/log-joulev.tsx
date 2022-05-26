@@ -114,9 +114,9 @@ const ProjectLogJoulev: NextPageWithLayout<Props> = ({ lastUpdated, data }) => {
         <p className="text-muted mb-0">
           This page is{" "}
           <A href="https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration">
-            updated
-          </A>{" "}
-          once every two days. Last updated at{" "}
+            updated daily
+          </A>
+          . Last updated at{" "}
           <time title={lastUpdated} className="font-bold">
             {format(parseISO(lastUpdated), "d MMMM y HH:mm:ss")}
           </time>
@@ -169,7 +169,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       },
       data,
     },
-    revalidate: 2 * 24 * 60 * 60,
+    revalidate: 24 * 60 * 60,
   };
 };
 
