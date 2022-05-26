@@ -16,7 +16,7 @@ export default async function getOgImage({ title, label }: OgImageProps) {
 
     if (existsSync(filePath)) return publicPath;
 
-    const url = new URL("https://ezkomment-4llbaljfn-joulev.vercel.app/opengraph"); // change this when merged
+    const url = new URL("https://ezkomment-67rtb9jff-joulev.vercel.app/opengraph");
     if (title) url.searchParams.append("title", title);
     if (label) url.searchParams.append("label", label);
 
