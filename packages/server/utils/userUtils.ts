@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { UserRecord } from "firebase-admin/auth";
 
 import { authAdmin } from "../lib/firebaseAdmin";
 import { reportBadRequest } from "./extraUtils";
@@ -6,7 +7,7 @@ import { reportBadRequest } from "./extraUtils";
 export const getUser = async (req: Request, res: Response) => {
     console.dir(req.body, { depth: null });
     try {
-        const result = await authAdmin.getUser(req.body.uid);
+        const result: UserRecord = await authAdmin.getUser(req.body.uid);
         res.status(200).json({
             message: "Successfully get user's data",
             data: result.toJSON(),
@@ -47,9 +48,10 @@ export async function deleteUser(req: Request, res: Response) {
 export async function createUser(req: Request, res: Response) {
     console.dir(req.body, { depth: null });
     try {
-        const { uid, displayName, photoURL } = req.body.uid;
+        const { uid, email, displayName, photoURL } = req.body;
         await authAdmin.createUser({
             uid,
+            email,
             displayName,
             photoURL,
         });
