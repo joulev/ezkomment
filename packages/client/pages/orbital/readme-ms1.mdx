@@ -8,7 +8,7 @@ export default function ({ children }) {
     <BlogLayout
       title="Orbital 2022 Milestone 1 README"
       authors={[authors.joulev, authors.vietanh]}
-      timestamp={new Date("2022-05-24")}
+      timestamp={new Date("2022-05-27")}
     >
       {children}
     </BlogLayout>
@@ -133,7 +133,7 @@ In a lot of occasions, the comments serve as questions to the post author. There
 
 For the public to reply to other users' comments, we are still undecided as in whether to allow this. The design for the comment section and the page dashboard will be a lot cleaner without this, and the JavaScript footprint will also be reduced significantly. However, that might make it hard to have a discussion in the comment section.
 
-Even if we do allow everyone to reply to any comment, it is unlikely that we will only support one level deep (so Reddit-like threads are not supported).
+Even if we do allow everyone to reply to any comment, it is likely that we will only support one level deep (so Reddit-like threads are not supported).
 
 #### Editing
 
@@ -485,7 +485,7 @@ We will use the "Merge and rebase" method as the merging method for all pull req
 
 However, feature branching is not strictly enforced. In cases where there are few chances for bugs, separate branch and pull requests are not required. We have seen in repository where feature branching is strictly enforced, a developer needs a separate branch and pull request just to update the copyright year value in the footer. Such pull requests would typically be merged immediately without reviewing code and waiting for CI pipelines to pass, hence losing the purpose of pull requests. We consider it to be way too redundant and will only spam the notification of all developers watching the repository (similar to how `+1` messages are discouraged in GitHub issues).
 
-Therefore, for smaller commits, about less than 50 lines changed (excluding machine-generated files such as lock files), feature branching is not needed and the developer can always push directly to `main`. After all, `main` is not production-ready and if anything goes wrong, `git revert` and `git reset` are available.
+Therefore, for smaller commits, typically about less than 50 lines changed (excluding machine-generated files such as lock files), feature branching is not needed and the developer can always push directly to `main`. After all, `main` is not production-ready and if anything goes wrong, `git revert` and `git reset` are available.
 
 The contribution process is described in details in the [repository wiki](https://github.com/joulev/ezkomment/wiki/Development-Guide).
 
