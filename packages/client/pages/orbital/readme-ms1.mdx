@@ -30,11 +30,11 @@ Static sites have always been struggling to support commenting, because unlike p
 
 ### Problems with Handling Comments in the Web
 
-Many programmers start learning web development by writing _static_ sites. It can be for various purposes: self-introduction, product showcases or blogs. And we all want to get feedback on the products we built. However, since the sites we built, whether by pure HTML, with static generators such as Jekyll, or even more complex frameworks such as React, are all static, we cannot host comments on it since they are dynamic contents and do require a backend with at least a database to store those contents.
+Many programmers start learning web development by writing _static_ sites. It can be for various purposes: self-introduction, product showcases or blogs. And we all want to get feedback on the products we built. However, since the sites we built, whether by pure HTML, with static generators such as Jekyll, or even more complex frameworks such as React, are all static, we cannot host comments on it since they are dynamic contents and do require a back-end with at least a database to store those contents.
 
 A member of the team, [Dung](https://github.com/joulev) was also once in the same position: he would like to add a form to the end of his blog for readers to add comments to it, so that he (and other readers if he wanted to) could know what people think of his contents. However, he could only work on front-end development at the time, so that was not possible. He found a tutorial on the Internet on making some tweaks on his Google account and the form such that whenever the reader submits the form, client-side JavaScript would update a Google Sheets document, which would consequently trigger his Google account to send an email to himself. He did make it work, but of course not only was it terribly complicated, it was also impractical: other readers could not read those comments, and he would like to host the comments elsewhere so that his inbox does not get filled.
 
-And not only static sites face these problems: since implementing the whole system to handle comments to posts may be unnecessarily complex while not contributing much to the main application logic, many modern full-stack applications also did not implement a comment section at all, despite having a fully functional backend and database.
+And not only static sites face these problems: since implementing the whole system to handle comments to posts may be unnecessarily complex while not contributing much to the main application logic, many modern full-stack applications also did not implement a comment section at all, despite having a fully functional back-end and database.
 
 Therefore, many websites and applications opted to use more easy-to-use services.
 
@@ -376,7 +376,7 @@ The front-end is built using [Next.js](https://nextjs.org), which is a popular R
 
 We will host the front-end in [Vercel](https://vercel.com). Since Next.js is made by Vercel, it is literally the best platform to host Next.js apps. We also notice that Vercel can build our front-end app significantly faster than other services, such as Netlify.
 
-The back-end is currently written with [Express.js](https://expressjs.com). Currently, we are planning to deploy our backend API using [Firebase Hosting](https://firebase.google.com/docs/hosting) - however, we are still considering other options for suitable hosting cost and deployment process.
+The back-end is currently written with [Express.js](https://expressjs.com). Currently, we are planning to deploy our back-end API using [Firebase Hosting](https://firebase.google.com/docs/hosting) &ndash; however, we are still considering other options for suitable hosting cost and deployment process.
 
 Since Next.js also offers API routes to act as a back-end, it can also be used for back-end development. However, currently we do not plan to mitigate our back-end to Next.js.
 
@@ -417,7 +417,7 @@ We will only support authentication with third-party OAuth providers (currently 
 - `/sites`: The route to get, create, update and delete sites
 - `/pages`: The route to get, create, update and delete pages
 
-The Route Structure will be further improved as we progress. Nested routes will be used to show the hierarchy relation between the entites.
+The Route Structure will be further improved as we progress. Nested routes will be used to show the hierarchy relation between the entities.
 
 ### User Interface Design
 
