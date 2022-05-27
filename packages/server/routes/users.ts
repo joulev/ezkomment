@@ -1,31 +1,31 @@
 import { Router, json } from "express";
 
-import validateRequest from "../middlewares/validateRequest";
-import { createUser, deleteUser, getUser, importUsers, updateUser } from "../utils/userUtils";
+import * as userHandlers from "@server/handlers/userHandlers";
+import { validateRequest } from "@server/middlewares/validateRequest";
 
-const router = Router();
-
-/** Sign in routes
- * router.post("/auth/signin/github", signInGitHub);
- * router.post("/auth/signin/google", signInGoogle);
- * router.post("/auth/signin/email", signInEmailLink);
- * (Authentication is done in the frontend)
- */
+const router = Router({
+    mergeParams: true,
+});
 
 // use middlewares to parse json.
 router.use(json());
 
 // Make sure that the user can only access their own data
-// Without , Typescript raise errors?
 router.use(validateRequest);
 
-router.get("/get", getUser);
-router.post("/update", updateUser);
-router.delete("/delete", deleteUser);
+router
+    .route("/:uid")
+    .get(userHandlers.getUser)
+    .put(userHandlers.updateUser)
+    .delete(userHandlers.deleteUser);
+
+router
+    .route("/:uid/sites") // get all sites of a user
+    .get(userHandlers.listUserSites);
 
 if (process.env.NODE_ENV === "development") {
-    router.post("/create", createUser);
-    router.post("/import", importUsers);
+    router.post("/create", userHandlers.createUser);
+    router.post("/import", userHandlers.importUsers);
 }
 
 const userRouter = router;

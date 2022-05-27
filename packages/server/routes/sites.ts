@@ -1,30 +1,20 @@
 import { Router, json } from "express";
 
-import validateRequest from "../middlewares/validateRequest";
-import {
-    createSite,
-    createSitePage,
-    deleteSite,
-    deleteSitePage,
-    getSite,
-    updateSite,
-} from "../utils/siteUtils";
+import * as SiteHandlers from "@server/handlers/siteHandler";
+
+import { validateRequest } from "../middlewares/validateRequest";
 
 const router = Router();
 
 // use middlewares to parse json.
 router.use(json());
 
-// Make sure that the user can only access their own data
-router.use(validateRequest);
-
-router.get("/get", getSite);
-router.post("/create", createSite);
-router.post("/update", updateSite);
-router.delete("/delete", deleteSite);
-
-router.post("page/create", createSitePage);
-router.delete("page/delete", deleteSitePage);
+router
+    .route("/:siteId")
+    .get(SiteHandlers.getSite)
+    .put(SiteHandlers.updateSite)
+    .post(SiteHandlers.createSite)
+    .delete(SiteHandlers.deleteSite);
 
 const siteRouter = router;
 export default siteRouter;

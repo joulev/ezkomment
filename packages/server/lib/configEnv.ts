@@ -1,8 +1,7 @@
 import { config } from "dotenv";
 
 let INITIALIZED = false;
-function initializeConfig() {
+
+export default function initializeConfig() {
     if (!INITIALIZED) config();
 }
-
-export default initializeConfig;

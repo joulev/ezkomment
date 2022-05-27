@@ -1,6 +1,7 @@
 import { Router, json } from "express";
 
-import validateRequest from "../middlewares/validateRequest";
+import { validateRequest } from "@server/middlewares/validateRequest";
+
 import {
     createPage,
     createPageComment,
