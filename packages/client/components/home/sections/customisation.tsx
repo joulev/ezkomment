@@ -77,8 +77,8 @@ const HomeCustomisation: FC<{ codeHtml: string }> = ({ codeHtml }) => (
     <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
     <p>
       You can change the look and feel of your comments section to your liking and your page&apos;s
-      design: the HTML and CSS of the comment section can be completely customised. Oh, and you can
-      even have dark mode.
+      design: the HTML and CSS of the comment section can be completely customised. Also, dark mode
+      is supported.
     </p>
     <p>
       The <A href="https://microsoft.github.io/monaco-editor">Monaco editor</A>, which also powers{" "}

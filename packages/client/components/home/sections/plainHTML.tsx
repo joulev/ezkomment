@@ -19,8 +19,8 @@ const HomePlainHTML: FC<{ codeHtml: string }> = ({ codeHtml }) => (
       <code>&lt;iframe&gt;</code> to your HTML and you&apos;re all set!
     </p>
     <p>
-      Work out of the box for all tools and frameworks: Jekyll, React, Vue, you name it. Heck, it
-      even works for good old plain HTML.
+      Work out of the box for all tools and frameworks: Jekyll, React, Vue, you name it. Including
+      plain HTML!
     </p>
     <Button>See it in action</Button>
   </Section>
