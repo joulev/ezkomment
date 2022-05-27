@@ -317,11 +317,7 @@ The currently planned URI for the API is
 https://api.ezkomment.joulev.dev/comments/{siteName}/{pageId}
 ```
 
-Depending on whether we ultimately choose Express or Next.js API routes for the backend, this URI may become
-
-```
-https://ezkomment.joulev.dev/api/comments/{siteName}/{pageId}
-```
+This URI may be changed later revisions of README, depending on how the back-end API is implemented.
 
 #### Fetching Comments for a Page
 
@@ -380,7 +376,11 @@ The front-end is built using [Next.js](https://nextjs.org), which is a popular R
 
 We will host the front-end in [Vercel](https://vercel.com). Since Next.js is made by Vercel, it is literally the best platform to host Next.js apps. We also notice that Vercel can build our front-end app significantly faster than other services, such as Netlify.
 
-The back-end is currently planned to be written in [Express.js](https://expressjs.com), and [@VietAnh1010](https://github.com/VietAnh1010) is making some progress in it. We decided to use TypeScript for the entire project for easier management, and talking of web servers in Node.js, Express is pretty much the single best choice. However, since Next.js also offers API routes to act as a back-end, we will only decide whether to use Express or Next.js for the back-end when we implement the app, after considering relevant security configurations, deployment processes and hosting costs.
+The back-end is currently written with [Express.js](https://expressjs.com). Currently, we are planning to deploy our backend API using [Firebase Hosting](https://firebase.google.com/docs/hosting) - however, we are still considering other options for suitable hosting cost and deployment process.
+
+Since Next.js also offers API routes to act as a back-end, it can also be used for back-end development. However, currently we do not plan to mitigate our back-end to Next.js.
+
+We decided to use TypeScript for the entire project for easier management.
 
 #### Communication between Front-end and Back-end
 
@@ -410,7 +410,14 @@ We will only support authentication with third-party OAuth providers (currently 
 
 #### Back-end API Route Structure
 
-We have not had a clear plan of how all back-end API routes are. We will implement them incrementally as the app features are added.
+- `/users`: The route to get, update and delete user information
+  - `/users/get`: Getting user basic information
+  - `/users/update`: Updating user basic information
+  - `/users/delete`: Deleting ALL user information
+- `/sites`: The route to get, create, update and delete sites
+- `/pages`: The route to get, create, update and delete pages
+
+The Route Structure will be further improved as we progress. Nested routes will be used to show the hierarchy relation between the entites.
 
 ### User Interface Design
 
