@@ -11,7 +11,7 @@ export async function getUser(req: Request, res: Response) {
         const result = await userUtils.getUserById(uid);
         res.status(200).json({
             message: "Successfully get user's data",
-            data: result.toJSON(),
+            data: result,
         });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot get user");
@@ -42,8 +42,11 @@ export async function deleteUser(req: Request, res: Response) {
 export async function listUserSites(req: Request, res: Response) {
     const uid: string = req.params.uid;
     try {
-        await userUtils.listUserSitesById(uid);
-        res.status(200).json({ message: "Successfully got all user's sites" });
+        const result = await userUtils.listUserSitesById(uid);
+        res.status(200).json({
+            message: "Successfully got all user's sites",
+            data: result,
+        });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot list user's sites");
     }

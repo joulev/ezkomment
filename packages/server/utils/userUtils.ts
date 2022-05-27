@@ -3,7 +3,8 @@ import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/a
 import { authAdmin, firestoreAdmin } from "@server/lib/firebaseAdmin";
 
 export async function getUserById(uid: string) {
-    return await authAdmin.getUser(uid);
+    const user = await authAdmin.getUser(uid);
+    return user.toJSON();
 }
 
 export async function deleteUserById(uid: string) {
@@ -25,5 +26,6 @@ export async function importUsers(data: UserImportRecord[]) {
 const SITES_COLLECTION = firestoreAdmin.collection("sites");
 
 export async function listUserSitesById(uid: string) {
-    return (await SITES_COLLECTION.where("uid", "==", uid).get()).docs;
+    const sites = await SITES_COLLECTION.where("uid", "==", uid).get();
+    return sites.docs.map(doc => doc.data());
 }

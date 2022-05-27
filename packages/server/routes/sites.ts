@@ -9,11 +9,12 @@ const router = Router();
 // use middlewares to parse json.
 router.use(json());
 
+router.route("/").post(SiteHandlers.createSite);
+
 router
     .route("/:siteId")
     .get(SiteHandlers.getSite)
-    .put(SiteHandlers.updateSite)
-    .post(SiteHandlers.createSite)
+    .post(SiteHandlers.updateSite)
     .delete(SiteHandlers.deleteSite);
 
 const siteRouter = router;
