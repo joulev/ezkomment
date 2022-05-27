@@ -410,12 +410,9 @@ We will only support authentication with third-party OAuth providers (currently 
 
 #### Back-end API Route Structure
 
-- `/users`: The route to get, update and delete user information
-  - `/users/get`: Getting user basic information
-  - `/users/update`: Updating user basic information
-  - `/users/delete`: Deleting ALL user information
-- `/sites`: The route to get, create, update and delete sites
-- `/pages`: The route to get, create, update and delete pages
+- `/users/:uid`: The route to get, update and delete user information, given their uid
+- `/sites/:domain`: The route to get, create, update and delete sites, given their domain URL
+- `/pages/:id`: The route to get, create, update and delete pages, given the pages' id
 
 The Route Structure will be further improved as we progress. Nested routes will be used to show the hierarchy relation between the entities.
 
