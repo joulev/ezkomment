@@ -1,10 +1,8 @@
 # `@ezkomment/client`
 
-The client of the app hosted at https://ezkdev.joulev.dev. Written in Next.js and styled by
-Tailwind CSS.
+The front-end of the app hosted at https://ezkdev.joulev.dev. Written in Next.js and styled by Tailwind CSS.
 
-It currently uses Firebase for authentication, which is _subject to change_. **Don't merge this to
-`prod` just yet when this message is still here.**
+It currently uses Firebase for authentication, which is _subject to change_. **Don't merge this to `prod` just yet when this message is still here.**
 
 - Set up a [Firebase project](https://firebase.google.com)
 - Set up a [GitHub OAuth application](https://github.com/settings/developers)
