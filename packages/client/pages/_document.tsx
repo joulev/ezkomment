@@ -8,11 +8,12 @@ const Document: NextPage = () => (
         dangerouslySetInnerHTML={{
           __html: `
             const mode = localStorage.getItem("mode");
+            const darkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
             if (mode) {
-              const dark =
-                mode !== "light" &&
-                (mode === "dark" || window.matchMedia("(prefers-color-scheme: dark)").matches);
-              if (dark) document.querySelector("html").classList.add("dark");
+              if (mode !== "light" && (mode === "dark" || darkTheme))
+                document.querySelector("html").classList.add("dark");
+            } else if (darkTheme) {
+              document.querySelector("html").classList.add("dark");
             }`,
         }}
       />
