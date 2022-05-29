@@ -86,7 +86,7 @@
       "Date": "24/05",
       "Content": "Learn CORS",
       "Hrs": 2,
-      "Remark": ["Learned about CORS and experienced with browers"]
+      "Remark": ["Learned about CORS and experienced with browsers"]
     },
     {
       "Date": "24/05 - 25/05",
@@ -99,7 +99,7 @@
       "Content": "Learn Nest.js for back-end development in Typescript",
       "Hrs": 6,
       "Remark": [
-        "Nest.js uses classes and decorators extensively, making the code looks similar to Spring project",
+        "Nest.js uses classes and decorators extensively, making the code look similar to Spring project",
         "Decided to stick with Express at the momment"
       ]
     },
