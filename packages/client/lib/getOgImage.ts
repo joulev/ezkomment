@@ -6,8 +6,6 @@ import { OgImageProps } from "@client/types/components.type";
 
 export default async function getOgImage({ title, label }: OgImageProps) {
     if (!process.env.VERCEL) return "only run on Vercel";
-    if (typeof window !== "undefined")
-        throw new Error("getOgImage should only be called in the server");
 
     const hash = createHash("sha256").update(`${title}|${label}`).digest("hex");
     const dir = `./public/images/og`;
