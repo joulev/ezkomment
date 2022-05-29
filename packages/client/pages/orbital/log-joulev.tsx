@@ -88,72 +88,69 @@ const TableRemarks: FC<{ remarks: string }> = ({ remarks }) => {
   return <>{new ReplaceableReact(remarks).replaceAll()}</>;
 };
 
-const ProjectLogJoulev: NextPageWithLayout<Props> = ({ lastUpdated, data }) => {
-  return (
-    <div className="flex flex-col gap-18">
-      <div className="max-w-prose mx-auto">
-        <Banner variant="warning" className="lg:hidden mb-6">
-          It is recommended to view this page in a wider screen.
-        </Banner>
-        <p>
-          This notes all activities that Vu Van Dung (
-          <A href="https://github.com/joulev">@joulev</A>) does on the ezkomment project from the
-          day it commences (12 March &ndash; the date of the first commit). Since all activities
-          from 12 March to 7 May are not properly logged as they are done, the time spent on
-          studying and playing with new technologies, as well as the time to make small fixes and
-          improvements have to be merged to one entry. All other entries also have to be derived
-          from the commit history.
-        </p>
-        <p>All activities from 7 May onwards are properly logged as they are done.</p>
-        <p>
-          Since the two project member live about 300km from each other during the summer,{" "}
-          <abbr title="face-to-face">F2F</abbr> is not possible, and we choose instant messaging for
-          all communications. Therefore during the summer, we have no direct meetings, whether
-          online or offline, between the members.
-        </p>
-        <p className="text-muted mb-0">
-          This page is{" "}
-          <A href="https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration">
-            updated daily
-          </A>
-          . Last updated at{" "}
-          <time title={lastUpdated} className="font-bold">
-            {format(parseISO(lastUpdated), "d MMMM y HH:mm:ss")}
-          </time>
-          .
-        </p>
-      </div>
-      <div>
-        <div className="border rounded border-card bg-card p-6 max-w-fit mx-auto">
-          <div className="text-lg text-muted">Total hours spent</div>
-          <div className="text-3xl text-center">{data.total}</div>
-        </div>
-      </div>
-      <div className="overflow-x-scroll -my-3">
-        <div className="grid grid-cols-24">
-          <div className="col-span-3 font-bold p-3 pl-0">Dates (D/M)</div>
-          <div className="col-span-8 font-bold p-3">Content</div>
-          <div className="col-span-1 font-bold p-3">Hrs</div>
-          <div className="col-span-12 font-bold p-3 pr-0">Remarks</div>
-          {data.logs.map(({ time, content, hours, remarks }, index) => (
-            <Fragment key={index}>
-              <div className="col-span-3 p-3 border-t border-card pl-0">
-                <TableTime time={time} />
-              </div>
-              <div className="col-span-8 p-3 border-t border-card">
-                <TableContent content={content} />
-              </div>
-              <div className="col-span-1 p-3 border-t border-card">{hours}</div>
-              <div className="col-span-12 p-3 border-t border-card pr-0">
-                <TableRemarks remarks={remarks} />
-              </div>
-            </Fragment>
-          ))}
-        </div>
+const ProjectLogJoulev: NextPageWithLayout<Props> = ({ lastUpdated, data }) => (
+  <div className="flex flex-col gap-18">
+    <div className="max-w-prose mx-auto">
+      <Banner variant="warning" className="lg:hidden mb-6">
+        It is recommended to view this page in a wider screen.
+      </Banner>
+      <p>
+        This notes all activities that Vu Van Dung (<A href="https://github.com/joulev">@joulev</A>)
+        does on the ezkomment project from the day it commences (12 March &ndash; the date of the
+        first commit). Since all activities from 12 March to 7 May are not properly logged as they
+        are done, the time spent on studying and playing with new technologies, as well as the time
+        to make small fixes and improvements have to be merged to one entry. All other entries also
+        have to be derived from the commit history.
+      </p>
+      <p>All activities from 7 May onwards are properly logged as they are done.</p>
+      <p>
+        Since the two project member live about 300km from each other during the summer,{" "}
+        <abbr title="face-to-face">F2F</abbr> is not possible, and we choose instant messaging for
+        all communications. Therefore during the summer, we have no direct meetings, whether online
+        or offline, between the members.
+      </p>
+      <p className="text-muted mb-0">
+        This page is{" "}
+        <A href="https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration">
+          updated daily
+        </A>
+        . Last updated at{" "}
+        <time title={lastUpdated} className="font-bold">
+          {format(parseISO(lastUpdated), "d MMMM y HH:mm:ss")}
+        </time>
+        .
+      </p>
+    </div>
+    <div>
+      <div className="border rounded border-card bg-card p-6 max-w-fit mx-auto">
+        <div className="text-lg text-muted">Total hours spent</div>
+        <div className="text-3xl text-center">{data.total}</div>
       </div>
     </div>
-  );
-};
+    <div className="overflow-x-scroll -my-3">
+      <div className="grid grid-cols-24">
+        <div className="col-span-3 font-bold p-3 pl-0">Dates (D/M)</div>
+        <div className="col-span-8 font-bold p-3">Content</div>
+        <div className="col-span-1 font-bold p-3">Hrs</div>
+        <div className="col-span-12 font-bold p-3 pr-0">Remarks</div>
+        {data.logs.map(({ time, content, hours, remarks }, index) => (
+          <Fragment key={index}>
+            <div className="col-span-3 p-3 border-t border-card pl-0">
+              <TableTime time={time} />
+            </div>
+            <div className="col-span-8 p-3 border-t border-card">
+              <TableContent content={content} />
+            </div>
+            <div className="col-span-1 p-3 border-t border-card">{hours}</div>
+            <div className="col-span-12 p-3 border-t border-card pr-0">
+              <TableRemarks remarks={remarks} />
+            </div>
+          </Fragment>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const image = await getOgImage({ title: "Project Log for Vu Van Dung", label: "orbital" });
