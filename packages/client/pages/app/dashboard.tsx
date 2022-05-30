@@ -72,31 +72,24 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) 
 ));
 SiteCard.displayName = "SiteCard";
 
-const EmptyCard: FC = () => {
-  const strokeClasses = clsx(
-    "stroke-neutral-300 dark:stroke-neutral-700 group-hover:stroke-neutral-500",
-    "stroke-[4px] transition"
-  );
-  return (
-    <A
-      href="/app/new"
-      notStyled
-      className={clsx(
-        "rounded border border-dashed border-card",
-        "grid place-items-center transition cursor-pointer group",
-        "text-neutral-300 dark:text-neutral-700 hover:text-muted"
-      )}
-    >
-      <div className="flex flex-col items-center gap-3">
-        <svg width={36} height={36}>
-          <line x1="18" y1="0" x2="18" y2="36" className={strokeClasses} />
-          <line x1="0" y1="18" x2="36" y2="18" className={strokeClasses} />
-        </svg>
-        <span>Add new site</span>
-      </div>
-    </A>
-  );
-};
+const EmptyCard: FC = () => (
+  <A
+    href="/app/new"
+    notStyled
+    className={clsx(
+      "rounded border border-dashed border-card grid place-items-center transition cursor-pointer",
+      "text-neutral-300 dark:text-neutral-700 hover:text-muted"
+    )}
+  >
+    <div className="flex flex-col items-center gap-3">
+      <svg width={36} height={36}>
+        <line x1="18" y1="0" x2="18" y2="36" className="stroke-current stroke-[4px] transition" />
+        <line x1="0" y1="18" x2="36" y2="18" className="stroke-current stroke-[4px] transition" />
+      </svg>
+      <span>Add new site</span>
+    </div>
+  </A>
+);
 
 const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
   const breakpoint = useBreakpoint();
