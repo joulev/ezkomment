@@ -162,7 +162,7 @@ const LinkAccountSection: FC = () => {
       </p>
       <div className="flex flex-col mb-6 bg-card rounded overflow-hidden border border-card divide-y divide-card">
         {providerData.map(data => (
-          <div className="flex flex-row p-3 gap-x-6 items-center" key={data.providerId}>
+          <div className="flex flex-row p-3 pl-4.5 gap-x-4.5 items-center" key={data.providerId}>
             {data.providerId === "github.com" && <GitHubIcon fontSize="large" />}
             {data.providerId === "google.com" && <GoogleIcon fontSize="large" />}
             <div className="min-w-0 flex-grow">
