@@ -1,6 +1,8 @@
+import clsx from "clsx";
 import { User } from "firebase/auth";
 import { FC, FormEventHandler, MouseEvent, ReactNode, useEffect, useState } from "react";
 
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -110,12 +112,24 @@ const ProfileSection: FC = () => {
           </div>
           <div>
             <label className="cursor-pointer block w-18 md:w-24 overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={imageSrc ?? "/images/default-photo.svg"}
-                alt="Photo"
-                className="w-18 h-18 md:w-24 md:h-24 rounded-full"
-              />
+              {imageSrc ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={imageSrc ?? "/images/default-photo.svg"}
+                  alt="Photo"
+                  className="w-18 h-18 md:w-24 md:h-24 rounded-full"
+                />
+              ) : (
+                <div
+                  className={clsx(
+                    "w-18 h-18 md:w-24 md:h-24 rounded-full flex flex-col justify-center items-center transition",
+                    "border border-dashed border-card text-neutral-300 dark:text-neutral-700 hover:text-muted"
+                  )}
+                >
+                  <AddOutlinedIcon fontSize="large" />
+                  <div className="hidden md:block text-xs">upload</div>
+                </div>
+              )}
               <input
                 type="file"
                 onChange={event => setImage(event.target.files ? event.target.files[0] : null)}
