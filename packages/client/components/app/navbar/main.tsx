@@ -47,10 +47,11 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
       notStyled
       className={clsx(
         "p-3 transition sm:hover:text-neutral-900 sm:dark:hover:text-neutral-100 whitespace-nowrap",
-        active ? "text-neutral-900 dark:text-neutral-100" : "text-muted",
-        active &&
-          "relative after:absolute after:bottom-0 after:inset-x-3 after:h-0 " +
-            "after:border-b-2 after:border-neutral-900 dark:after:border-neutral-100",
+        "relative after:absolute after:bottom-0 after:inset-x-3 after:h-0",
+        "after:border-neutral-900 dark:after:border-neutral-100 after:transition-all",
+        active
+          ? "text-neutral-900 dark:text-neutral-100 after:border-b-2"
+          : "text-muted after:border-b-0",
         className
       )}
       ref={ref}

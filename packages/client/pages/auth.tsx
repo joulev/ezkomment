@@ -41,12 +41,7 @@ const Auth: NextPageWithLayout = () => {
         <meta name="robots" content="noindex" />
       </Head>
       <main className="h-screen grid place-items-center">
-        <div
-          className={clsx(
-            "w-full h-full px-6 py-12 sm:py-6 sm:w-96 sm:h-auto mx-auto",
-            "bg-card sm:border sm:border-neutral-300 dark:sm:border-neutral-700 sm:rounded"
-          )}
-        >
+        <div className="w-full h-full px-6 py-12 sm:py-6 sm:w-96 sm:h-auto mx-auto bg-card sm:border sm:border-card sm:rounded">
           <div className="text-center">
             <A href="/" notStyled>
               <Image src={logo} alt="Logo" width={72} height={72} />

@@ -28,9 +28,8 @@ const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
   return (
     <div
       className={clsx(
-        "flex flex-row border divide-x rounded transition cursor-pointer text-left group bg-card border-card divide-card",
-        "hover:border-neutral-700 dark:hover:border-neutral-300",
-        "hover:divide-neutral-700 dark:hover:divide-neutral-300",
+        "flex flex-row border divide-x rounded transition cursor-pointer text-left group",
+        "bg-card border-card divide-card hover:border-neutral-500 hover:divide-neutral-500",
         className
       )}
       onClick={() => {
@@ -45,7 +44,7 @@ const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
       <button
         className={clsx(
           "px-3 py-1.5 shrink-0 transition text-muted",
-          "group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
+          "group-hover:text-neutral-700 dark:group-hover:text-neutral-300"
         )}
       >
         <IconLabel

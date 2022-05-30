@@ -137,11 +137,8 @@ const SiteOverview: NextPageWithLayout<Props> = ({ site }) => {
           </div>
           <div
             className={clsx(
-              "flex flex-col rounded overflow-hidden bg-card transition",
-              "border border-card",
-              "hover:border-neutral-700 dark:hover:border-neutral-300",
-              "divide-y divide-card",
-              "hover:divide-neutral-700 dark:hover:divide-neutral-300"
+              "flex flex-col rounded overflow-hidden transition bg-card border border-card divide-y divide-card",
+              "hover:border-neutral-500 hover:divide-neutral-500"
             )}
           >
             {site.pages.map((page, i) => (
