@@ -1,7 +1,6 @@
 <div align="center">
-  <a href="https://ezkomment.joulev.dev"><img src="https://ezkomment.joulev.dev/images/logo-text.svg" alt="ezkomment" height="50"></a>
+  <a href="https://ezkomment.joulev.dev"><img src="https://ezkomment.joulev.dev/images/logo-text.svg" alt="ezkomment" height="40"></a>
   <h3>Commenting made easy.</h3>
-  <p>No complicated backend configuration. Add a comment section anywhere – even if you use plain HTML, we got you covered.</p>
   <!-- not affiliated with Starship; however their logo is the most similar to Orbital logo on simple-icon that I can find -->
   <img alt="Orbital level" src="https://img.shields.io/badge/level-artemis-blue?style=flat-square&logo=starship">
   <img alt="FE prod deployments" src="https://img.shields.io/github/deployments/joulev/ezkomment/production?label=FE%20%5Bprod%5D&logo=vercel&style=flat-square">
@@ -10,7 +9,7 @@
   <img alt="Codecov" src="https://img.shields.io/codecov/c/gh/joulev/ezkomment?logo=codecov&style=flat-square">
 </div>
 
----
+<br>
 
 ## Development
 
@@ -27,5 +26,5 @@ $ npm install
 ## Helpful links
 
 - [Production front-end deployment](https://ezkomment.joulev.dev)
-- [Development back-end deployment](https://ezkdev.joulev.dev)
+- [Development front-end deployment](https://ezkdev.joulev.dev)
 - [ezkomment is a NUS Orbital 2022 project](https://ezkdev.joulev.dev/orbital)
