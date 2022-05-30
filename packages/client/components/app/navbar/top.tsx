@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { FC, MouseEventHandler, ReactNode, useState } from "react";
+import { useRouter } from "next/router";
+import { FC, MouseEventHandler, ReactNode, useEffect, useState } from "react";
 
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
@@ -120,6 +121,9 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
 
 const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
+  const router = useRouter();
+  useEffect(() => setExpanded(false), [router.pathname]);
+
   const auth = useAuth();
   const handleLogout: MouseEventHandler<HTMLButtonElement> = () => signOut(auth);
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
