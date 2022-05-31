@@ -27,7 +27,7 @@ const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest
   <label
     className={clsx(
       "group flex flex-row rounded border divide-x transition bg-card border-card divide-card",
-      "focus-within:border-neutral-500 focus-within:divide-neutral-500 hover:border-neutral-500 hover:divide-neutral-500",
+      "focus-within:border-muted focus-within:divide-muted hover:border-muted hover:divide-muted",
       className
     )}
   >

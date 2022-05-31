@@ -31,7 +31,7 @@ const Stats: FC<{ value: number; label: string }> = ({ value, label }) => (
 const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) => (
   <A
     notStyled
-    className="cursor-pointer p-6 transition bg-card rounded border border-card hover:border-neutral-500"
+    className="cursor-pointer p-6 transition bg-card rounded border border-card hover:border-muted"
     href={site ? `/app/site/${site.name}` : undefined}
     ref={ref}
   >

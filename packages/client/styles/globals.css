@@ -62,8 +62,14 @@
     .border-card {
         @apply border-neutral-300 dark:border-neutral-700;
     }
+    .border-muted {
+        @apply border-neutral-500; /* intended for hover, focus states of border */
+    }
     .divide-card {
         @apply divide-neutral-300 dark:divide-neutral-700;
+    }
+    .divide-muted {
+        @apply divide-neutral-500;
     }
     .pulse {
         @apply bg-neutral-300 dark:bg-neutral-700 animate-pulse;

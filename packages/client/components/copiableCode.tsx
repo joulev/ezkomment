@@ -29,7 +29,7 @@ const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
     <div
       className={clsx(
         "flex flex-row border divide-x rounded transition cursor-pointer text-left group",
-        "bg-card border-card divide-card hover:border-neutral-500 hover:divide-neutral-500",
+        "bg-card border-card divide-card hover:border-muted hover:divide-muted",
         className
       )}
       onClick={() => {
