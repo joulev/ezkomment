@@ -1,4 +1,5 @@
 import { MDXProvider } from "@mdx-js/react";
+import { NextWebVitalsMetric } from "next/app";
 
 import BreakpointContext from "@client/context/breakpoint";
 import ModeContext from "@client/context/mode";
@@ -40,6 +41,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       </ModeContext.Provider>
     </ErrorBoundary>
   );
+}
+
+/**
+ * @see {@link https://www.axiom.co/docs/integrations/vercel}
+ */
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  const url = process.env.NEXT_PUBLIC_AXIOM_INGEST_ENDPOINT;
+  if (!url) return;
+
+  const body = JSON.stringify({ route: window.__NEXT_DATA__.page, ...metric });
+
+  if (navigator.sendBeacon) navigator.sendBeacon(url, body);
+  else fetch(url, { body, method: "POST", keepalive: true });
 }
 
 export default MyApp;
