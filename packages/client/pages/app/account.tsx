@@ -98,7 +98,12 @@ const ProfileSection: FC = () => {
           required
         />
         <RightAligned>
-          <Button icon={SaveOutlinedIcon}>Save</Button>
+          <Button
+            icon={SaveOutlinedIcon}
+            disabled={displayName === "" || displayName === auth.user?.displayName}
+          >
+            Save
+          </Button>
         </RightAligned>
       </form>
       <form className="flex flex-col gap-6">
