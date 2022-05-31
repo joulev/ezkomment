@@ -82,6 +82,11 @@ export type SeoProps = {
     url: string;
 };
 
+export type SideBySideProps = {
+    left: ReactNode;
+    right: ReactNode;
+};
+
 export type SiteGraphProps = {
     totalComment: number[];
     newComment: number[];

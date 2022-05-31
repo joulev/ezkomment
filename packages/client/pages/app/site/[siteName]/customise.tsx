@@ -21,6 +21,7 @@ import generateCommentHTML from "@client/lib/generateCommentHTML";
 
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
+import SideBySide from "@client/components/sideBySide";
 import IconLabel from "@client/components/utils/iconAndLabel";
 import AppLayout from "@client/layouts/app";
 
@@ -132,22 +133,31 @@ const SiteCustomise: NextPageWithLayout<Props> = ({ site }) => {
         </Button>
         <Button icon={DoneOutlinedIcon}>Deploy</Button>
       </div>
-      <div className="hidden lg:grid grid-cols-2 gap-6 mb-9">
-        <Editor
-          height="90vh"
-          language={active === 2 ? "css" : "html"}
-          value={code[editorTabs[active]]}
-          theme={currentTheme === "light" ? "light" : "vs-dark"}
-          onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
-          options={monacoOptions}
+      <div className="hidden lg:block mb-9">
+        <SideBySide
+          left={
+            <Editor
+              height="90vh"
+              language={active === 2 ? "css" : "html"}
+              value={code[editorTabs[active]]}
+              theme={currentTheme === "light" ? "light" : "vs-dark"}
+              onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
+              options={monacoOptions}
+            />
+          }
+          right={
+            <div
+              className="p-6 rounded border border-card h-full"
+              style={{ backgroundColor: previewBg }}
+            >
+              <iframe
+                srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
+                sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
+                className="w-full h-full"
+              />
+            </div>
+          }
         />
-        <div className="p-6 rounded border border-card" style={{ backgroundColor: previewBg }}>
-          <iframe
-            srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
-            sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
-            className="w-full h-full"
-          />
-        </div>
       </div>
     </>
   );
