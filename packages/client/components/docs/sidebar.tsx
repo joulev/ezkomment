@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import useBuildId from "@client/hooks/buildId";
@@ -49,8 +49,8 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
     >
       <div
         className={clsx(
-          "container h-screen flex flex-col gap-6 lg:pt-12 lg:pb-6",
-          navbarCollapsed ? "py-4.5" : "py-6"
+          "container h-screen flex flex-col gap-6 lg:pt-12 lg:pb-6 transition-all",
+          navbarCollapsed ? "py-4.5" : "pt-12 pb-6"
         )}
       >
         <div className="flex flex-row justify-between items-center">
@@ -74,7 +74,7 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
             )}
             onClick={() => setNavbarCollapsed(!navbarCollapsed)}
           >
-            {navbarCollapsed ? <DensityMediumOutlinedIcon /> : <ClearOutlinedIcon />}
+            {navbarCollapsed ? <MenuOutlinedIcon /> : <ClearOutlinedIcon />}
           </button>
         </div>
         <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />

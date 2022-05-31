@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import { FC, MouseEventHandler, ReactNode, useEffect, useState } from "react";
 
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
@@ -161,7 +161,7 @@ const TopNav: FC<CurrentPage> = props => {
       >
         <nav className="flex flex-row py-3 items-center justify-between">
           <TopNavButton
-            icon={expanded ? CloseOutlinedIcon : DensityMediumOutlinedIcon}
+            icon={expanded ? CloseOutlinedIcon : MenuOutlinedIcon}
             onClick={() => setExpanded(!expanded)}
           />
           <TopNavMobileBreadcrumb {...props} />
