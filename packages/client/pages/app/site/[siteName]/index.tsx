@@ -135,17 +135,12 @@ const SiteOverview: NextPageWithLayout<Props> = ({ site }) => {
               </div>
             </Modal>
           </div>
-          <div
-            className={clsx(
-              "flex flex-col rounded overflow-hidden transition bg-card border border-card divide-y divide-card",
-              "hover:border-neutral-500 hover:divide-neutral-500"
-            )}
-          >
+          <div className="flex flex-col gap-6">
             {site.pages.map((page, i) => (
               <A
                 notStyled
                 key={i}
-                className="p-6 flex flex-col transition hover:bg-neutral-100 dark:hover:bg-neutral-900"
+                className="p-6 bg-card border border-card hover:border-neutral-500 flex flex-col transition"
                 href={`/app/site/${site.name}/${page.id}`}
               >
                 <div className="font-semibold text-lg mb-1.5">{page.name}</div>
