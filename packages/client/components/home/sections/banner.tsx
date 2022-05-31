@@ -67,8 +67,8 @@ const HomeBanner: FC = () => {
           <Image
             src={theme === "dark" ? "/images/home/app-dark.png" : "/images/home/app-light.png"}
             alt="Screenshot"
-            width={2216}
-            height={1674}
+            width={2212}
+            height={1612}
             layout="responsive"
           />
         </div>
