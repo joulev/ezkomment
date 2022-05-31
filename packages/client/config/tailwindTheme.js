@@ -25,5 +25,8 @@ module.exports = {
         gridTemplateColumns: {
             24: "repeat(24, minmax(0, 1fr))",
         },
+        fontSize: {
+            "8xl": "5.5rem",
+        },
     },
 };

@@ -31,7 +31,7 @@ const HomeModeration: FC = () => (
       </Comments>
     }
   >
-    <h2 className="text-4xl">Moderating your comments</h2>
+    <h2>Moderating your comments</h2>
     <p>
       Built-in moderation tool for your comments. All comments need to be manually approved by you
       before they go public.

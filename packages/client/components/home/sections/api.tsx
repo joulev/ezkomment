@@ -13,7 +13,7 @@ const HomeApi: FC<{ codeHtml: string }> = ({ codeHtml }) => (
       </Window>
     }
   >
-    <h2 className="text-4xl">Powerful API for power users</h2>
+    <h2>Powerful API for power users</h2>
     <p>
       With the powerful API provided, you can really do anything you want with the comments.
       Absolutely zero restrictions on your creativity, be it custom JavaScript, fetching additional

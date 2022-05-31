@@ -91,6 +91,13 @@
         -ms-transform: rotate(3deg) translate(0px, -4px);
         transform: rotate(3deg) translate(0px, -4px);
     }
+    /* Homepage */
+    .home-section {
+        @apply sm:text-lg md:text-xl lg:text-lg xl:text-xl;
+    }
+    .home-section h2 {
+        @apply text-4xl md:text-5xl lg:text-4xl xl:text-5xl;
+    }
     /* Docs */
     .post {
         @apply print:text-[10pt] print:text-black print:text-justify;

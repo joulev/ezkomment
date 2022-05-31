@@ -74,7 +74,7 @@ const Illustration: FC<{ codeHtml: string }> = ({ codeHtml }) => {
 
 const HomeCustomisation: FC<{ codeHtml: string }> = ({ codeHtml }) => (
   <Section illustration={<Illustration codeHtml={codeHtml} />}>
-    <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
+    <h2>Customising to your heart&apos;s content</h2>
     <p>
       You can change the look and feel of your comments section to your liking and your page&apos;s
       design: the HTML and CSS of the comment section can be completely customised. Also, dark mode
