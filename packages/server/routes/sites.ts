@@ -1,7 +1,6 @@
 import { Router, json } from "express";
 
 import * as SiteHandlers from "@server/handlers/siteHandler";
-import { validateRequest } from "@server/middlewares/validateRequest";
 
 const router = Router();
 

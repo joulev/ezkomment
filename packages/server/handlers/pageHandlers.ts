@@ -83,7 +83,7 @@ export async function updatePageComment(req: Request, res: Response) {
     const { pageId, commentId } = req.params;
     try {
         const data: UpdateCommentRequest = req.body;
-        await PageUtils.updatePageComment(pageId, commentId, data);
+        await PageUtils.updatePageCommentById(pageId, commentId, data);
         res.status(200).json({ message: "Successfully updated comment" });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot update the comment in the targeted page");
@@ -93,7 +93,7 @@ export async function updatePageComment(req: Request, res: Response) {
 export async function deletePageComment(req: Request, res: Response) {
     const { pageId, commentId } = req.params;
     try {
-        await PageUtils.deletePageComment(pageId, commentId);
+        await PageUtils.deletePageCommentById(pageId, commentId);
         res.status(200).json({ message: "Successfully deleted comment" });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot delete the comment in the targeted page");

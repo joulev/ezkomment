@@ -1,24 +1,28 @@
 import { Router, json } from "express";
 
-import { validateRequest } from "@server/middlewares/validateRequest";
-
-import {
-    createPage,
-    createPageComment,
-    deletePage,
-    deletePageComment,
-    getPage,
-    updatePageComment,
-} from "../utils/pageUtils";
+import * as PageHandlers from "@server/handlers/pageHandlers";
 
 const router = Router({
     mergeParams: true,
 });
+
 router.use(json());
 
-router.route("/:pageId");
+router.route("/").post(PageHandlers.createPage);
 
-router.route("/:pageId/comments/:commentId");
+router
+    .route("/:pageId")
+    .get(PageHandlers.getPage)
+    .post(PageHandlers.updatePage)
+    .delete(PageHandlers.deletePage);
+
+router.route("/:pageId/comments").post(PageHandlers.createPageComment);
+
+// Currently, we do not support getting a single comment
+router
+    .route("/:pageId/comments/:commentId")
+    .post(PageHandlers.updatePageComment)
+    .delete(PageHandlers.deletePageComment);
 
 // router.get("/get", getPage);
 // router.post("/create", createPage);

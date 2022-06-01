@@ -71,7 +71,7 @@ export async function createPageComment(pageId: string, data: CreateCommentReque
     return await commentRef.create({ id: commentRef.id, ...data });
 }
 
-export async function updatePageComment(
+export async function updatePageCommentById(
     pageId: string,
     commentId: string,
     data: UpdateCommentRequest
@@ -84,6 +84,6 @@ export async function updatePageComment(
  * @param pageId The page's id
  * @param commentId The comment's id
  */
-export async function deletePageComment(pageId: string, commentId: string) {
+export async function deletePageCommentById(pageId: string, commentId: string) {
     return await getCommentsCollection(pageId).doc(commentId).delete();
 }

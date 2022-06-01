@@ -24,7 +24,7 @@ router
     .get(userHandlers.listUserSites);
 
 if (process.env.NODE_ENV === "development") {
-    router.post("/create", userHandlers.createUser);
+    router.post("/", userHandlers.createUser);
     router.post("/import", userHandlers.importUsers);
 }
 
