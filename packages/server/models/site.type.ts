@@ -37,4 +37,8 @@ export type UpdateSiteRequest = {
     iconURL?: string;
 };
 
-export type CreateSiteRequest = Omit<Site, "id"> & { id?: string };
+export type CreateSiteRequest = UpdateSiteRequest & {
+    id?: string;
+    domain: string;
+    uid: string;
+};

@@ -32,7 +32,7 @@ export async function deleteCollection(
     const query = collectionRef.limit(batchSize);
     async function deleteQueryBatch(resolve: any) {
         const snapshot = await query.get();
-        if (snapshot.size === 0) {
+        if (snapshot.empty) {
             resolve();
             return;
         }

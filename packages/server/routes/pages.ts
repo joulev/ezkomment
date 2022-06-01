@@ -11,18 +11,22 @@ import {
     updatePageComment,
 } from "../utils/pageUtils";
 
-const router = Router();
+const router = Router({
+    mergeParams: true,
+});
 router.use(json());
 
-router.use(validateRequest);
+router.route("/:pageId");
 
-router.get("/get", getPage);
-router.post("/create", createPage);
-router.delete("/delete", deletePage);
+router.route("/:pageId/comments/:commentId");
 
-router.post("/comment/create", createPageComment);
-router.post("/comment/update", updatePageComment);
-router.delete("/comment/delete", deletePageComment);
+// router.get("/get", getPage);
+// router.post("/create", createPage);
+// router.delete("/delete", deletePage);
+
+// router.post("/comment/create", createPageComment);
+// router.post("/comment/update", updatePageComment);
+// router.delete("/comment/delete", deletePageComment);
 
 const pageRouter = router;
 export default pageRouter;

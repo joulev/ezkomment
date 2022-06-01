@@ -7,14 +7,9 @@ import { reportBadRequest } from "@server/utils/extraUtils";
 export async function getSite(req: Request, res: Response) {
     const siteId: string = req.params.siteId;
     try {
-        const result = await SiteUtils.getSiteById(siteId);
-        if (!result.exists) {
-            res.status(404).json({ error: "Not found: No such site" });
-            return;
-        }
         res.status(200).json({
             message: "Successfully get site information",
-            data: result.data(),
+            data: await SiteUtils.getSiteById(siteId),
         });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot get site's information");

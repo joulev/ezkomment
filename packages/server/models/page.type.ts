@@ -7,7 +7,13 @@ export type Page = {
     siteId: string; // foreign key
 };
 
-export type PageUpdate = {
+export type UpdatePageRequest = {
     name?: string;
     autoApprove?: boolean;
+};
+
+export type CreatePageRequest = UpdatePageRequest & {
+    id?: string;
+    url: string;
+    siteId: string;
 };

@@ -14,7 +14,11 @@ const SITES_COLLECTION = firestoreAdmin.collection("sites");
  * @returns The data of the site.
  */
 export async function getSiteById(siteId: string) {
-    return await SITES_COLLECTION.doc(siteId).get();
+    const result = await SITES_COLLECTION.doc(siteId).get();
+    if (!result.exists) {
+        throw Error("No such site!");
+    }
+    return result.data();
 }
 
 /**
