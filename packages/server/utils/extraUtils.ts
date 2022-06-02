@@ -56,10 +56,26 @@ async function deleteQueryBatch(query: Query<DocumentData>) {
     process.nextTick(() => deleteQueryBatch(query));
 }
 
-export function castNextToExpress(req: NextApiRequest, res: NextApiResponse): [Request, Response] {
+function castNextToExpress(req: NextApiRequest, res: NextApiResponse): [Request, Response] {
     // may lost type information
-    const expressReq = <Request> <unknown> req;
-    const expressRes = <Response> <unknown> res;
+    const expressReq = <unknown> req as Request;
+    const expressRes = <unknown> res as Response;
     expressReq.params = { ...<any> req.query };
     return [expressReq, expressRes];
+}
+
+type Handers = Record<string, (req: Request, res: Response) => unknown>;
+
+export function createNextHandler(handers: Handers): 
+    (nextRequest: NextApiRequest, nextResponse: NextApiResponse) => Promise<unknown> | unknown {
+    return async (req, res) => {
+        const [expressReq, expressRes] = castNextToExpress(req, res);
+        const method = req.method;
+        let delegateMethod = handers[req.method || ""];
+        if (!delegateMethod) {
+            res.status(500).json({ error: "" });
+        } else {
+            await delegateMethod(expressReq, expressRes);
+        }
+    }
 }

@@ -1,6 +1,6 @@
-import * as UserHandlers from "@server/handlers/userHandlers";
+import * as SiteHandler from "@server/handlers/siteHandler";
 import { createNextHandler } from "@server/utils/extraUtils";
 
 export default createNextHandler({
-    GET: UserHandlers.listUserSites,
+    POST: SiteHandler.createSite,
 });
