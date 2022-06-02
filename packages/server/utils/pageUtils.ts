@@ -7,7 +7,7 @@ import {
     UpdatePageRequest,
 } from "@server/models";
 
-import { firestoreAdmin } from "../lib/firebaseAdmin";
+import { firestoreAdmin } from "@server/lib/firebaseAdmin";
 import { deleteCollection } from "./extraUtils";
 
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");

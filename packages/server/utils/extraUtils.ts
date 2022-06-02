@@ -1,8 +1,11 @@
+/**
+ * This file need to be reorganized.
+ */
 import { Request, Response } from "express";
 import { CollectionReference, DocumentData, Query } from "firebase-admin/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { firestoreAdmin } from "../lib/firebaseAdmin";
+import { firestoreAdmin } from "@server/lib/firebaseAdmin";
 
 /**
  * A helper function to report bad requests in `catch` blocks.
@@ -65,6 +68,10 @@ function castNextToExpress(req: NextApiRequest, res: NextApiResponse): [Request,
 }
 
 type Handers = Record<string, (req: Request, res: Response) => unknown>;
+
+// We will need another method to inject middlewares into end points
+// The problem with the current implementation for Next API generators is that we cannot inject 
+// seperate middlewares when handling differen methods. Must solve this later.
 
 export function createNextHandler(handers: Handers): 
     (nextRequest: NextApiRequest, nextResponse: NextApiResponse) => Promise<unknown> | unknown {
