@@ -116,7 +116,7 @@ const ProjectLogJoulev: NextPageWithLayout<Props> = ({ data: prefetch }) => {
       <div>
         <div className="border rounded border-card bg-card p-6 max-w-fit mx-auto">
           <div className="text-lg text-muted">Total hours spent</div>
-          <div className="text-3xl text-center">{data?.total ?? "loading"}</div>
+          <div className="text-3xl text-center">{(data ?? prefetch).total}</div>
         </div>
       </div>
       <div className="overflow-x-scroll -my-3">
@@ -125,7 +125,7 @@ const ProjectLogJoulev: NextPageWithLayout<Props> = ({ data: prefetch }) => {
           <div className="col-span-8 font-bold p-3">Content</div>
           <div className="col-span-1 font-bold p-3">Hrs</div>
           <div className="col-span-12 font-bold p-3 pr-0">Remarks</div>
-          {(data?.logs ?? []).map(({ time, content, hours, remarks }, index) => (
+          {(data ?? prefetch).logs.map(({ time, content, hours, remarks }, index) => (
             <Fragment key={index}>
               <div className="col-span-3 p-3 border-t border-card pl-0">
                 <TableTime time={time} />
