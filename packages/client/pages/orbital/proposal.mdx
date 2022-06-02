@@ -1,14 +1,28 @@
-import authors from "@client/lib/authors";
+import getOgImage from "@client/lib/getOgImage";
 
 import BlogImage from "@client/components/blogImage";
 import BlogLayout from "@client/layouts/blog";
 
-export default function ({ children }) {
+import authors from "@client/constants/authors";
+
+export async function getStaticProps() {
+  const image = await getOgImage({ title: "Orbital 2022 Proposal", label: "orbital" });
+  return { props: { image } };
+}
+
+export default function ({ image, children }) {
   return (
     <BlogLayout
       title="Orbital 2022 Proposal"
       authors={[authors.joulev, authors.vietanh]}
       timestamp={new Date("2022-03-14")}
+      seo={{
+        title: "Orbital 2022 Proposal | ezkomment",
+        description:
+          "The first description of the application, sent along with the Orbital application form.",
+        image,
+        url: "https://ezkomment.joulev.dev/orbital/proposal",
+      }}
     >
       {children}
     </BlogLayout>

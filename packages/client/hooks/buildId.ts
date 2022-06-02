@@ -19,7 +19,7 @@ function parseBuildId(buildId: string): BuildInfo {
  * @returns The git hash and timestamp of the build
  */
 export default function useBuildId() {
-    const [buildId, setBuildId] = useState<BuildInfo | null>(null);
+    const [buildId, setBuildId] = useState<BuildInfo>({ hash: "", timestamp: 0 });
     useEffect(() => {
         const getBuildId: string = JSON.parse(
             document.querySelector("#__NEXT_DATA__")?.textContent as string

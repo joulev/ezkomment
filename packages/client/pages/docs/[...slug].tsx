@@ -2,26 +2,29 @@ import * as runtime from "react/jsx-runtime";
 import { compile, nodeTypes, run } from "@mdx-js/mdx";
 import { useMDXComponents } from "@mdx-js/react";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import Head from "next/head";
 import { useEffect, useState } from "react";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkPrism from "remark-prism";
 
 import { filePaths, getFileData, navData } from "@client/lib/documentation";
+import getOgImage from "@client/lib/getOgImage";
 
 import DocsBottomBar from "@client/components/docs/bottombar";
 import DocsSidebar from "@client/components/docs/sidebar";
+import Seo from "@client/components/seo";
 
+import { SeoProps } from "@client/types/components.type";
 import { DocsData, NavData } from "@client/types/docs.type";
 
 type URLParams = { slug: string[] };
-type PageProps = DocsData & {
+type PageProps = Omit<DocsData, "title"> & {
   navData: NavData;
   path: string[];
+  seo: SeoProps;
 };
 
-const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navData }) => {
+const DocPage: NextPage<PageProps> = ({ content, lastModified, path, navData, seo }) => {
   // Sorry for using any here, but since run() in @mdx-js/mdx returns Promise<any>, I can't do anything else.
   const [mdxModule, setMdxModule] = useState<any>(null);
   const Content = mdxModule ? mdxModule.default : () => <>Loading</>;
@@ -30,20 +33,17 @@ const DocPage: NextPage<PageProps> = ({ title, content, lastModified, path, navD
   }, [content]);
   return (
     <>
-      <Head>
-        <title>{title} | ezkomment Docs</title>
-      </Head>
-      <div className="grid grid-cols-1 md:grid-cols-3">
-        <DocsSidebar navData={navData} />
-        <main className="col-span-full md:col-span-2 px-6 sm:px-12 py-12 max-w-prose">
-          <div style={{ height: "60px" }} className="md:hidden" />
+      <Seo {...seo} />
+      <DocsSidebar navData={navData} />
+      <main className="ml-0 mt-18 lg:ml-96 lg:mt-0">
+        <div className="container lg:max-w-prose py-12">
           <article className="post">
             <Content />
           </article>
           <hr />
           <DocsBottomBar lastModified={lastModified} path={path} />
-        </main>
-      </div>
+        </div>
+      </main>
     </>
   );
 };
@@ -54,7 +54,8 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
 });
 
 const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => {
-  const { content, ...rest } = await getFileData(params?.slug ?? []); // [] case never happens, but TS complains
+  const { content, title, ...rest } = await getFileData(params?.slug ?? []); // [] case never happens, but TS complains
+  const image = await getOgImage({ title, label: "docs" });
   return {
     props: {
       content: String(
@@ -72,6 +73,11 @@ const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) 
       path: params?.slug ?? [],
       navData,
       ...rest,
+      seo: {
+        title: `${title} | ezkomment Docs`,
+        url: `https://ezkomment.joulev.dev/docs/${params?.slug?.join("/")}`,
+        image,
+      },
     },
   };
 };

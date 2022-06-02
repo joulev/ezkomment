@@ -4,7 +4,11 @@
 module.exports = {
   content: ["**/*.tsx", "**/*.ts"],
   darkMode: "class",
-  theme: require("./config/tailwind-theme"),
+  theme: require("./config/tailwindTheme"),
   corePlugins: { aspectRatio: false },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/aspect-ratio")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/line-clamp"),
+  ],
 };

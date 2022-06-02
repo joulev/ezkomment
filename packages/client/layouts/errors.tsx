@@ -18,11 +18,12 @@ export const ErrorLayout: FC<{ code?: number }> = ({ code }) => {
     <>
       <Head>
         <title>Error{code ? ` ${code}` : ""} | ezkomment</title>
+        <meta name="robots" content="noindex" />
       </Head>
       <main className="h-screen grid place-items-center">
         <div className="flex flex-col items-center gap-6 max-w-md">
           <A href="/">
-            <Image src={logo} alt="ezkomment" width={80} height={80} />
+            <Image src={logo} alt="ezkomment" width={72} height={72} />
           </A>
           <h1 className="my-0">{code ? code : "Error"}</h1>
           <div className="text-center">

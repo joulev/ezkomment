@@ -44,8 +44,11 @@
     strong {
         @apply font-bold;
     }
-    form:invalid button:not([type="button"]):not([type="reset"]) {
-        @apply cursor-not-allowed text-muted bg-neutral-300 dark:bg-neutral-700 border-card;
+    form:invalid button:not([type="button"]):not([type="reset"]),
+    button:disabled {
+        @apply cursor-not-allowed text-muted bg-neutral-300 dark:bg-neutral-700 border-card
+            hover:text-muted hover:bg-neutral-300 dark:hover:bg-neutral-700 hover:border-card
+            focus:text-muted focus:bg-neutral-300 dark:focus:bg-neutral-700 focus:border-card;
     }
     .text-muted {
         @apply text-neutral-400 dark:text-neutral-500;
@@ -59,8 +62,20 @@
     .border-card {
         @apply border-neutral-300 dark:border-neutral-700;
     }
+    .border-muted {
+        @apply border-neutral-500; /* intended for hover, focus states of border */
+    }
     .divide-card {
         @apply divide-neutral-300 dark:divide-neutral-700;
+    }
+    .divide-muted {
+        @apply divide-neutral-500;
+    }
+    .pulse {
+        @apply bg-neutral-300 dark:bg-neutral-700 animate-pulse;
+    }
+    .logo-width {
+        @apply w-[calc(397px/80*36)];
     }
     /* NProgress */
     #nprogress {
@@ -76,6 +91,13 @@
         -ms-transform: rotate(3deg) translate(0px, -4px);
         transform: rotate(3deg) translate(0px, -4px);
     }
+    /* Homepage */
+    .home-section {
+        @apply sm:text-lg md:text-xl lg:text-lg xl:text-xl;
+    }
+    .home-section h2 {
+        @apply text-4xl md:text-5xl lg:text-4xl xl:text-5xl;
+    }
     /* Docs */
     .post {
         @apply print:text-[10pt] print:text-black print:text-justify;
@@ -84,23 +106,26 @@
         @apply mb-12 print:text-[24pt];
     }
     .post h2 {
-        @apply text-3xl print:text-[18pt] font-semibold mt-12 mb-9 print:my-6 scroll-mt-[108px] md:scroll-mt-12;
+        @apply text-3xl print:text-[18pt] font-semibold mt-12 mb-9 print:my-6 scroll-mt-27 md:scroll-mt-12;
     }
     .post h3 {
-        @apply text-2xl print:text-[15pt] font-semibold mt-12 mb-9 print:my-6 scroll-mt-[108px] md:scroll-mt-12;
+        @apply text-2xl print:text-[15pt] font-semibold mt-12 mb-9 print:my-6 scroll-mt-27 md:scroll-mt-12;
     }
     .post h4 {
-        @apply text-xl print:text-[12pt] font-light mt-9 mb-6 print:mt-6 print:mb-3 scroll-mt-[96px] md:scroll-mt-9;
+        @apply text-xl print:text-[14pt] font-light mt-9 mb-6 print:my-6 scroll-mt-24 md:scroll-mt-9;
     }
     .post.blog :where(h2, h3, h4) {
-        @apply scroll-mt-[108px];
+        @apply scroll-mt-27;
     }
     .post :not(pre) > code {
-        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 dark:print:bg-neutral-300 rounded;
+        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 print:bg-neutral-200 rounded break-all;
     }
     .post pre {
         @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card overflow-x-auto
             no-scrollbar; /* not sure if this is a good design decision */
+    }
+    .post :where(pre, code) {
+        @apply print:!text-[8pt];
     }
     .post ul {
         @apply list-disc ml-9;
@@ -115,7 +140,7 @@
         @apply mb-6;
     }
     .post blockquote {
-        @apply mb-6 italic ml-6 relative text-neutral-700 dark:text-neutral-300 dark:print:text-neutral-700
+        @apply mb-6 italic ml-6 relative text-neutral-700 dark:text-neutral-300
             before:absolute before:-left-6 before:inset-y-0 before:w-1 before:bg-neutral-500 before:rounded;
     }
     /* Code */

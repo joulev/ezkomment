@@ -48,6 +48,27 @@
     --syntax-accent: hsl(220, 100%, 66%);
 }
 
+@media print {
+    .dark {
+        --mono-1: hsl(230, 8%, 24%);
+        --mono-2: hsl(230, 6%, 44%);
+        --mono-3: hsl(230, 4%, 64%);
+        --hue-1: hsl(198, 99%, 37%);
+        --hue-2: hsl(221, 87%, 60%);
+        --hue-3: hsl(301, 63%, 40%);
+        --hue-4: hsl(119, 34%, 47%);
+        --hue-5: hsl(5, 74%, 59%);
+        --hue-5-2: hsl(344, 84%, 43%);
+        --hue-6: hsl(35, 99%, 36%);
+        --hue-6-2: hsl(35, 99%, 40%);
+        --syntax-fg: hsl(230, 8%, 24%);
+        /* --syntax-bg: hsl(230, 1%, 98%); */
+        --syntax-gutter: hsl(230, 1%, 62%);
+        --syntax-guide: hsla(230, 8%, 24%, 0.2);
+        --syntax-accent: hsl(230, 100%, 66%);
+    }
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
     color: var(--syntax-fg);
@@ -64,6 +85,13 @@ pre[class*="language-"] {
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
+}
+
+@media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        line-height: 1.3 !important;
+    }
 }
 
 /* Code blocks */

@@ -1,25 +1,12 @@
 # `@ezkomment/client`
 
-The client of the app hosted at https://ezkomment.joulev.dev. Written in Next.js and styled by
-Tailwind CSS.
+The front-end of the app hosted at https://ezkdev.joulev.dev. Written in Next.js and styled by Tailwind CSS.
 
-## Set up a development server
+It currently uses Firebase for authentication, which is _subject to change_. **Don't merge this to `prod` just yet when this message is still here.**
 
-```sh
-$ npm install
-
-# then either
-$ cd packages/client
-$ npm run dev
-
-# or
-$ npm run dev --workspaces=packages/client
-```
-
-Now a development server is deployed to http://localhost:3000.
-
-## Deploy your own instance
-
-Currently we don't have any environment variables or special configuration to take note of.
-Therefore you can simply deploy with all default settings on platforms such as Vercel or Netlify
-and the app will be up and running.
+- Set up a [Firebase project](https://firebase.google.com)
+- Set up a [GitHub OAuth application](https://github.com/settings/developers)
+- Set up Firebase authentication by GitHub with the client ID and client secret in the GitHub app
+- Create a `.env.local` file (**not `.env`**) based on the structure of `.env.example` with your
+  Firebase project's specific values.
+- Run this with `npm build && npm run dev`.

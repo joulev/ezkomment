@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import theme from "@client/config/tailwind-theme";
+import theme from "@client/config/tailwindTheme";
 import BreakpointContext from "@client/context/breakpoint";
 
 import { Breakpoint } from "@client/types/utils.type";

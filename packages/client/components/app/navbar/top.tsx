@@ -1,13 +1,17 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { FC, MouseEventHandler, ReactNode, useState } from "react";
+import { useRouter } from "next/router";
+import { FC, MouseEventHandler, ReactNode, useEffect, useState } from "react";
 
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import DensityMediumOutlinedIcon from "@mui/icons-material/DensityMediumOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+
+import useAuth from "@client/hooks/auth";
+import { signOut } from "@client/lib/firebase/auth";
 
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";
@@ -30,7 +34,7 @@ const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
     "sm:hover:bg-indigo-100 sm:dark:hover:bg-indigo-900 sm:dark:hover:bg-opacity-50 sm:hover:text-primary" // styling for desktop
   );
   return href ? (
-    <A href="/app" notStyled className={classes}>
+    <A href="/app/dashboard" notStyled className={classes}>
       <Icon />
     </A>
   ) : (
@@ -64,21 +68,21 @@ const TopNavExpandedItem: FC<TopNavItemProps & { children: ReactNode }> = ({
 };
 
 const BreadCrumbSlash: FC = () => (
-  <svg width={12} height={32}>
-    <line x1="12" y1="0" x2="0" y2="32" className="stroke-neutral-500" />
+  <svg width={12} height={36}>
+    <line x1="12" y1="0" x2="0" y2="36" className="stroke-neutral-500" />
   </svg>
 );
 
 const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
   <div className="flex flex-row gap-3 items-center">
-    <A href="/app" notStyled className="w-8 h-8 relative">
+    <A href="/app/dashboard" notStyled className="w-9 h-9 relative">
       <Image src={logo} alt="ezkomment" layout="fill" />
     </A>
     <BreadCrumbSlash />
     <A
       notStyled
       className="font-semibold text-lg"
-      href={type === "overview" ? "/app" : `/app/site/${siteName}`}
+      href={type === "overview" ? "/app/dashboard" : `/app/site/${siteName}`}
     >
       {type === "overview" ? "Overview" : siteName}
     </A>
@@ -100,7 +104,7 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
     <A
       notStyled
       className="font-semibold"
-      href={type === "overview" ? "/app" : `/app/site/${siteName}`}
+      href={type === "overview" ? "/app/dashboard" : `/app/site/${siteName}`}
     >
       {type === "overview" ? "Overview" : siteName}
     </A>
@@ -117,7 +121,11 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
 
 const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
-  const handleLogout: MouseEventHandler<HTMLButtonElement> = () => console.log("log out");
+  const router = useRouter();
+  useEffect(() => setExpanded(false), [router.pathname]);
+
+  const auth = useAuth();
+  const handleLogout: MouseEventHandler<HTMLButtonElement> = () => signOut(auth);
   const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
 
   return (
@@ -125,10 +133,22 @@ const TopNav: FC<CurrentPage> = props => {
       <nav className="hidden sm:flex flex-row gap-6 pt-3 sm:pt-6 items-center justify-between">
         <TopNavBreadcrumb {...props} />
         <div className="flex-grow" />
-        <TopNavButton href="/app" icon={HomeOutlinedIcon} />
+        <TopNavButton href="/app/dashboard" icon={HomeOutlinedIcon} />
         <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
-        <A href="/app/account" className="h-8 w-8 shrink-0 relative">
-          <Image src={defaultAvatar} alt="" layout="fill" />
+        <A
+          href="/app/account"
+          className={clsx(
+            "rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden",
+            auth.user || "pulse"
+          )}
+        >
+          {auth.user && auth.user.photoURL && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={auth.user.photoURL} alt="avatar" className="w-9 h-9" />
+          )}
+          {auth.user && !auth.user.photoURL && (
+            <Image src={defaultAvatar} alt="avatar" layout="fill" />
+          )}
         </A>
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
@@ -141,7 +161,7 @@ const TopNav: FC<CurrentPage> = props => {
       >
         <nav className="flex flex-row py-3 items-center justify-between">
           <TopNavButton
-            icon={expanded ? CloseOutlinedIcon : DensityMediumOutlinedIcon}
+            icon={expanded ? CloseOutlinedIcon : MenuOutlinedIcon}
             onClick={() => setExpanded(!expanded)}
           />
           <TopNavMobileBreadcrumb {...props} />
@@ -153,7 +173,7 @@ const TopNav: FC<CurrentPage> = props => {
             expanded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           )}
         >
-          <TopNavExpandedItem icon={HomeOutlinedIcon} href="/app">
+          <TopNavExpandedItem icon={HomeOutlinedIcon} href="/app/dashboard">
             Dashboard
           </TopNavExpandedItem>
           <TopNavExpandedItem icon={SettingsOutlinedIcon} href="/app/account">
@@ -163,7 +183,7 @@ const TopNav: FC<CurrentPage> = props => {
             Log out
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between items-center mx-1 mt-6">
-            <Image src={logo} alt="ezkomment" width={40} height={40} />
+            <Image src={logo} alt="ezkomment" width={36} height={36} />
             <ModeSwitcher />
           </div>
         </nav>

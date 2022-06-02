@@ -8,7 +8,6 @@ module.exports = {
         md: "768px",
         lg: "992px",
         xl: "1200px",
-        "2xl": "1400px",
     },
     container: {
         center: true,
@@ -17,6 +16,17 @@ module.exports = {
     extend: {
         maxWidth: {
             prose: "80ch",
+        },
+        spacing: {
+            4.5: "1.125rem",
+            18: "4.5rem",
+            27: "6.75rem",
+        },
+        gridTemplateColumns: {
+            24: "repeat(24, minmax(0, 1fr))",
+        },
+        fontSize: {
+            "8xl": "5.5rem",
         },
     },
 };

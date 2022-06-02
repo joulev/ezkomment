@@ -1,10 +1,8 @@
 import { GetStaticProps, NextPage } from "next";
-import Head from "next/head";
 import { useState } from "react";
 
+import getOgImage from "@client/lib/getOgImage";
 import prism from "@client/lib/prism";
-import { all as customiseCode } from "@client/lib/sampleCommentCode";
-import { apiCode, plainHtmlCode } from "@client/lib/sampleHomepageCode";
 
 import * as home from "@client/components/home/sections";
 import A from "@client/components/anchor";
@@ -12,20 +10,25 @@ import Banner from "@client/components/banner";
 import Button from "@client/components/buttons";
 import Footer from "@client/components/footer";
 import HomeNavbar from "@client/components/home/navbar";
+import Seo from "@client/components/seo";
+
+import { SeoProps } from "@client/types/components.type";
+
+import { all as customiseCode } from "@client/constants/sampleCommentCode";
+import { apiCode, plainHtmlCode } from "@client/constants/sampleHomepageCode";
 
 type Props = {
   plainHtmlHtmlStr: string;
   customiseHtmlStr: string;
   apiHtmlStr: string;
+  seo: SeoProps;
 };
 
-const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr }) => {
+const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr, seo }) => {
   const [showWarningBanner, setShowWarningBanner] = useState(true);
   return (
     <>
-      <Head>
-        <title>ezkomment: Commenting made easy</title>
-      </Head>
+      <Seo {...seo} />
       <HomeNavbar />
       <home.Banner />
       <home.PlainHTML codeHtml={plainHtmlHtmlStr} />
@@ -33,7 +36,7 @@ const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr 
       <home.Customisation codeHtml={customiseHtmlStr} />
       <home.Api codeHtml={apiHtmlStr} />
       <home.Ending />
-      <Footer className="px-6 sm:px-10" containerClasses="mx-auto w-full lg:w-5/6 xl:w-4/5" />
+      <Footer />
       {showWarningBanner && (
         <div className="fixed bottom-0 left-0 bg-card border-card rounded m-6">
           <Banner variant="warning">
@@ -49,16 +52,32 @@ const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr 
   );
 };
 
-export const getStaticProps: GetStaticProps<Props> = () => ({
-  props: {
-    plainHtmlHtmlStr: prism(plainHtmlCode, {
-      language: "html",
-      lineNumberFrom: 146,
-      highlighted: [150],
-    }),
-    customiseHtmlStr: prism(customiseCode.slice(0, -1), { language: "html", lineNumberFrom: 1 }),
-    apiHtmlStr: prism(apiCode, { language: "javascript" }),
-  },
-});
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const plainHtmlHtmlStr = prism(plainHtmlCode, {
+    language: "html",
+    lineNumberFrom: 146,
+    highlighted: [150],
+  });
+  const customiseHtmlStr = prism(customiseCode.slice(0, -1), {
+    language: "html",
+    lineNumberFrom: 1,
+  });
+  const apiHtmlStr = prism(apiCode, { language: "javascript" });
+  const image = await getOgImage({});
+  return {
+    props: {
+      plainHtmlHtmlStr,
+      customiseHtmlStr,
+      apiHtmlStr,
+      seo: {
+        title: "ezkomment: Commenting made easy",
+        description:
+          "No complicated backend configuration. Add a comment section anywhere – even if you use plain HTML, we got you covered.",
+        image,
+        url: "https://ezkomment.joulev.dev",
+      },
+    },
+  };
+};
 
 export default Home;

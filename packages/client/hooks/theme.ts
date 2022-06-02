@@ -22,16 +22,20 @@ function modeIsDark(mode: Mode) {
  */
 function useModeInit() {
     const [mode, setMode] = useState<Mode>("system");
+    const [haveSetMode, setHaveSetMode] = useState(false); // to fix flickering on hydration
 
     useEffect(() => {
         const storedMode = localStorage.getItem("mode");
         if (storedMode) setMode(storedMode as Mode);
+        setHaveSetMode(true);
     }, []);
 
     useEffect(() => {
         localStorage.setItem("mode", mode);
+        if (!haveSetMode) return;
         if (modeIsDark(mode)) document.documentElement.classList.add("dark");
         else document.documentElement.classList.remove("dark");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mode]);
 
     return { mode, setMode };

@@ -2,7 +2,6 @@ import { FC, useEffect, useRef, useState } from "react";
 
 import useTheme from "@client/hooks/theme";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import { all, comment, styles } from "@client/lib/sampleCommentCode";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -10,18 +9,31 @@ import CodeBlock from "@client/components/home/codeblock";
 import Section from "@client/components/home/section";
 import Window from "@client/components/home/window";
 
+import { all, comment, styles } from "@client/constants/sampleCommentCode";
+
 function useIframe() {
   const [contentHeight, setContentHeight] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const handler = () => {
-    if (iframeRef.current)
-      setContentHeight(iframeRef.current.contentWindow?.document.body.scrollHeight ?? 0);
+
+  const handler = async () => {
+    if (iframeRef.current) {
+      // Wait for the iframe to render? Without it, the height is 0 for about (shockingly) 70% of
+      // the time. Yeap, neither 0% nor 100%. Never think what I do would depend on pure luck but
+      // here we go.
+      await new Promise(resolve => setTimeout(resolve, 50));
+      setContentHeight(iframeRef.current.contentWindow?.document.body.clientHeight ?? 0);
+    }
   };
-  useEffect(handler, [iframeRef]);
+
+  useEffect(() => {
+    handler();
+  }, [iframeRef]);
+
   useEffect(() => {
     window.addEventListener("resize", handler);
     return () => window.removeEventListener("resize", handler);
   }, []);
+
   return { contentHeight, iframeRef };
 }
 
@@ -62,11 +74,11 @@ const Illustration: FC<{ codeHtml: string }> = ({ codeHtml }) => {
 
 const HomeCustomisation: FC<{ codeHtml: string }> = ({ codeHtml }) => (
   <Section illustration={<Illustration codeHtml={codeHtml} />}>
-    <h2 className="text-4xl">Customising to your heart&apos;s content</h2>
+    <h2>Customising to your heart&apos;s content</h2>
     <p>
       You can change the look and feel of your comments section to your liking and your page&apos;s
-      design: the HTML and CSS of the comment section can be completely customised. Oh, and you can
-      even have dark mode.
+      design: the HTML and CSS of the comment section can be completely customised. Also, dark mode
+      is supported.
     </p>
     <p>
       The <A href="https://microsoft.github.io/monaco-editor">Monaco editor</A>, which also powers{" "}

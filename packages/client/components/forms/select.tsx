@@ -24,12 +24,8 @@ import { SelectProps } from "@client/types/components.type";
 const Select: FC<SelectProps> = ({ label, icon, onUpdate, className, children, ...rest }) => (
   <label
     className={clsx(
-      "group flex flex-row rounded border divide-x transition bg-card",
-      "border-card divide-card",
-      "focus-within:border-neutral-700 dark:focus-within:border-neutral-300",
-      "focus-within:divide-neutral-700 dark:focus-within:divide-neutral-300",
-      "hover:border-neutral-700 dark:hover:border-neutral-300",
-      "hover:divide-neutral-700 dark:hover:divide-neutral-300",
+      "group flex flex-row rounded border divide-x transition bg-card border-card divide-card",
+      "focus-within:border-muted focus-within:divide-muted hover:border-muted hover:divide-muted",
       className
     )}
   >
@@ -38,8 +34,8 @@ const Select: FC<SelectProps> = ({ label, icon, onUpdate, className, children, .
       label={label}
       className={clsx(
         "px-3 py-1.5 transition shrink-0 text-muted cursor-pointer",
-        "group-focus-within:text-neutral-900 dark:group-focus-within:text-neutral-100",
-        "group-hover:text-neutral-900 dark:group-hover:text-neutral-100"
+        "group-focus-within:text-neutral-700 dark:group-focus-within:text-neutral-300",
+        "group-hover:text-neutral-700 dark:group-hover:text-neutral-300"
       )}
     />
     <select

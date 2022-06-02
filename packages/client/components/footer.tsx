@@ -49,12 +49,12 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
         )}
       >
         <div className="min-w-[50%] sm:max-w-[66%] flex flex-col">
-          <A href="/" notStyled className="block mb-3">
-            <Image src={logoText} alt="ezkomment" width={397 / 2.5} height={80 / 2.5} />
+          <A href="/" notStyled className="block logo-width mb-3">
+            <Image src={logoText} alt="ezkomment" layout="responsive" width={397} height={80} />
           </A>
           <div className="flex flex-row flex-wrap gap-x-6 mb-6">
             <FooterNavLink href="/" title="Homepage" />
-            <FooterNavLink href="/app" title="Dashboard" />
+            <FooterNavLink href="/app/dashboard" title="Dashboard" />
             <FooterNavLink href="/docs" title="Docs" />
             <FooterNavLink href="/orbital" title="Orbital" />
           </div>

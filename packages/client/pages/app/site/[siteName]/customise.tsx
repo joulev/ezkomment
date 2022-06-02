@@ -5,7 +5,7 @@
  */
 import Editor from "@monaco-editor/react";
 import clsx from "clsx";
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import { FC, useState } from "react";
 
 import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
@@ -18,14 +18,16 @@ import monacoOptions from "@client/config/monaco";
 import useBreakpoint from "@client/hooks/breakpoint";
 import useTheme from "@client/hooks/theme";
 import generateCommentHTML from "@client/lib/generateCommentHTML";
-import { all, comment, styles } from "@client/lib/sampleCommentCode";
 
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";
+import SideBySide from "@client/components/sideBySide";
 import IconLabel from "@client/components/utils/iconAndLabel";
 import AppLayout from "@client/layouts/app";
 
-import { IconAndLabel } from "@client/types/utils.type";
+import { IconAndLabel, NextPageWithLayout } from "@client/types/utils.type";
+
+import { all, comment, styles } from "@client/constants/sampleCommentCode";
 
 import site from "@client/sample/site.json";
 
@@ -68,7 +70,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   </div>
 );
 
-const SiteCustomise: NextPage<Props> = ({ site }) => {
+const SiteCustomise: NextPageWithLayout<Props> = ({ site }) => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
 
@@ -78,13 +80,7 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
   const [previewIsDark, setPreviewIsDark] = useState(false);
 
   return (
-    <AppLayout
-      title={`Customise | ${site.name}`}
-      type="site"
-      activeTab="customise"
-      siteName={site.name}
-      removePadding
-    >
+    <>
       <div className="lg:hidden py-9">
         Please use a laptop or a device with a wider screen to use this feature.
       </div>
@@ -137,26 +133,47 @@ const SiteCustomise: NextPage<Props> = ({ site }) => {
         </Button>
         <Button icon={DoneOutlinedIcon}>Deploy</Button>
       </div>
-      <div className="hidden lg:grid grid-cols-2 gap-6 mb-9">
-        <Editor
-          height="90vh"
-          language={active === 2 ? "css" : "html"}
-          value={code[editorTabs[active]]}
-          theme={currentTheme === "light" ? "light" : "vs-dark"}
-          onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
-          options={monacoOptions}
+      <div className="hidden lg:block mb-9">
+        <SideBySide
+          left={
+            <Editor
+              height="90vh"
+              language={active === 2 ? "css" : "html"}
+              value={code[editorTabs[active]]}
+              theme={currentTheme === "light" ? "light" : "vs-dark"}
+              onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
+              options={monacoOptions}
+            />
+          }
+          right={
+            <div
+              className="p-6 rounded border border-card h-full"
+              style={{ backgroundColor: previewBg }}
+            >
+              <iframe
+                srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
+                sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
+                className="w-full h-full"
+              />
+            </div>
+          }
         />
-        <div className="p-6 rounded border border-card" style={{ backgroundColor: previewBg }}>
-          <iframe
-            srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
-            sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
-            className="w-full h-full"
-          />
-        </div>
       </div>
-    </AppLayout>
+    </>
   );
 };
+
+SiteCustomise.getLayout = page => (
+  <AppLayout
+    title={`Customise | ${site.name}`}
+    type="site"
+    activeTab="customise"
+    siteName={site.name}
+    removePadding
+  >
+    {page}
+  </AppLayout>
+);
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
 

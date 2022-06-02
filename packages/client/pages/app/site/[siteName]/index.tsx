@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import { FC, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -21,6 +21,8 @@ import SiteGraph from "@client/components/siteGraph";
 import RightAligned from "@client/components/utils/rightAligned";
 import AppLayout from "@client/layouts/app";
 
+import { NextPageWithLayout } from "@client/types/utils.type";
+
 import site from "@client/sample/site.json";
 
 type Site = typeof site;
@@ -35,12 +37,12 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
   </div>
 );
 
-const SiteOverview: NextPage<Props> = ({ site }) => {
+const SiteOverview: NextPageWithLayout<Props> = ({ site }) => {
   const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
 
   return (
-    <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
+    <>
       <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
         <div className="flex flex-row gap-6 items-center">
           <div>
@@ -133,20 +135,12 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
               </div>
             </Modal>
           </div>
-          <div
-            className={clsx(
-              "flex flex-col rounded overflow-hidden bg-card transition",
-              "border border-card",
-              "hover:border-neutral-700 dark:hover:border-neutral-300",
-              "divide-y divide-card",
-              "hover:divide-neutral-700 dark:hover:divide-neutral-300"
-            )}
-          >
+          <div className="flex flex-col gap-6">
             {site.pages.map((page, i) => (
               <A
                 notStyled
                 key={i}
-                className="p-6 flex flex-col transition hover:bg-neutral-100 dark:hover:bg-neutral-900"
+                className="p-6 bg-card border border-card hover:border-muted flex flex-col transition"
                 href={`/app/site/${site.name}/${page.id}`}
               >
                 <div className="font-semibold text-lg mb-1.5">{page.name}</div>
@@ -165,9 +159,15 @@ const SiteOverview: NextPage<Props> = ({ site }) => {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 };
+
+SiteOverview.getLayout = page => (
+  <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
+    {page}
+  </AppLayout>
+);
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
 

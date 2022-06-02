@@ -5,6 +5,7 @@ const _: NextPage = () => (
   <>
     <Head>
       <title>アクアマリン</title>
+      <meta name="robots" content="noindex" />
     </Head>
     <main
       className="w-screen h-screen grid place-items-center p-6"

@@ -13,6 +13,7 @@ import {
 export type AppProps = CurrentPage & {
     title: string;
     removePadding?: boolean;
+    loadingScreen?: ReactNode; // TODO: make this mandatory
     children: ReactNode;
 };
 
@@ -21,6 +22,9 @@ export type BlogLayoutProps = {
     authors: Author[];
     timestamp: Date;
     children: ReactNode;
+    seo: SeoProps;
+    /** Whether the post content should be full-width (`.container`) or limited-width (`.max-w-prose`) */
+    container?: boolean;
 };
 
 export type BlogImageProps = {
@@ -37,10 +41,8 @@ export type HyperlinkProps = ComponentProps<"a"> & {
     notStyled?: boolean;
 };
 
-export type BannerProps = {
+export type BannerProps = ComponentProps<"div"> & {
     variant: BannerVariant;
-    className?: string;
-    children: ReactNode;
 };
 
 export type ButtonProps = (ComponentProps<"a"> & ComponentProps<"button">) & {
@@ -58,15 +60,31 @@ export type CopiableCodeProps = {
     className?: string;
 };
 
-export type ModalProps = {
+export type ModalProps = ComponentProps<"div"> & {
     isVisible?: boolean;
     onOutsideClick?: MouseEventHandler<HTMLDivElement>;
-    children: ReactNode;
+};
+
+export type OgImageProps = {
+    title?: string;
+    label?: "docs" | "posts" | "orbital";
 };
 
 export type PostHeadingProps = {
     id?: string;
     children?: ReactNode;
+};
+
+export type SeoProps = {
+    title: string;
+    description?: string;
+    image: string;
+    url: string;
+};
+
+export type SideBySideProps = {
+    left: ReactNode;
+    right: ReactNode;
 };
 
 export type SiteGraphProps = {

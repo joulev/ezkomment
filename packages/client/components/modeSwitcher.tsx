@@ -38,7 +38,7 @@ const ModeSwitcher: FC = () => {
               : "transition text-muted hover:text-neutral-900 dark:hover:text-white " +
                   "hover:bg-neutral-200 dark:hover:bg-neutral-800"
           )}
-          onClick={() => (setMode ? setMode(value) : null)}
+          onClick={() => setMode(value)}
           title={value + " mode"}
         >
           <Icon />

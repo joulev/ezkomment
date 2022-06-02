@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { GetStaticProps, NextPage } from "next";
+import { GetStaticProps } from "next";
 import { FC, RefObject, forwardRef, useEffect, useRef, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -14,6 +14,8 @@ import Input from "@client/components/forms/input";
 import Select from "@client/components/forms/select";
 import AppLayout from "@client/layouts/app";
 
+import { NextPageWithLayout } from "@client/types/utils.type";
+
 import sites from "@client/sample/sites.json";
 
 type Site = typeof sites[number];
@@ -26,63 +28,70 @@ const Stats: FC<{ value: number; label: string }> = ({ value, label }) => (
   </div>
 );
 
-const SiteCard = forwardRef<HTMLAnchorElement, { site: Site }>(({ site }, ref) => (
+const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) => (
   <A
     notStyled
-    className={clsx(
-      "cursor-pointer p-6 transition",
-      "bg-card rounded border border-card",
-      "hover:border-neutral-700 dark:hover:border-neutral-300"
-    )}
-    href={`/app/site/${site.name}`}
+    className="cursor-pointer p-6 transition bg-card rounded border border-card hover:border-muted"
+    href={site ? `/app/site/${site.name}` : undefined}
     ref={ref}
   >
-    <div className="flex flex-row gap-6 mb-3">
-      <div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={site.iconURL} alt="" width={48} height={48} loading="lazy" />
-      </div>
-      <div>
-        <div className="text-xl font-semibold">{site.name}</div>
-        <div className="text-sm">{site.domain}</div>
-      </div>
-    </div>
-    <div className="grid grid-cols-3 gap-3">
-      <Stats label="pages" value={site.pageCount} />
-      <Stats label="comments" value={site.totalCommentCount} />
-      <Stats label="pending" value={site.needsApproval} />
-    </div>
+    {site ? (
+      <>
+        <div className="flex flex-row gap-6 mb-3">
+          <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={site.iconURL} alt="" width={48} height={48} loading="lazy" />
+          </div>
+          <div>
+            <div className="text-xl font-semibold">{site.name}</div>
+            <div className="text-sm">{site.domain}</div>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <Stats label="pages" value={site.pageCount} />
+          <Stats label="comments" value={site.totalCommentCount} />
+          <Stats label="pending" value={site.needsApproval} />
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="flex flex-row gap-6 mb-3">
+          <div>
+            <div className="w-12 h-12 rounded-full pulse" />
+          </div>
+          <div>
+            <div className="h-6 w-36 rounded pulse mb-1" />
+            <div className="h-4 w-32 rounded pulse" />
+          </div>
+        </div>
+        <div className="h-7 rounded pulse mb-3" />
+        <div className="h-4 rounded pulse" />
+      </>
+    )}
   </A>
 ));
 SiteCard.displayName = "SiteCard";
 
-const EmptyCard: FC = () => {
-  const strokeClasses = clsx(
-    "stroke-neutral-300 dark:stroke-neutral-700 group-hover:stroke-neutral-500",
-    "stroke-[4px] transition"
-  );
-  return (
-    <A
-      href="/app/new"
-      notStyled
-      className={clsx(
-        "rounded border border-dashed border-card",
-        "grid place-items-center transition cursor-pointer group",
-        "text-neutral-300 dark:text-neutral-700 hover:text-muted"
-      )}
-    >
-      <div className="flex flex-col items-center gap-3">
-        <svg width={36} height={36}>
-          <line x1="18" y1="0" x2="18" y2="36" className={strokeClasses} />
-          <line x1="0" y1="18" x2="36" y2="18" className={strokeClasses} />
-        </svg>
-        <span>Add new site</span>
-      </div>
-    </A>
-  );
-};
+const EmptyCard: FC = () => (
+  <A
+    href="/app/new"
+    notStyled
+    className={clsx(
+      "rounded border border-dashed border-card grid place-items-center transition cursor-pointer",
+      "text-neutral-300 dark:text-neutral-700 hover:text-muted"
+    )}
+  >
+    <div className="flex flex-col items-center gap-3">
+      <svg width={36} height={36}>
+        <line x1="18" y1="0" x2="18" y2="36" className="stroke-current stroke-[4px] transition" />
+        <line x1="0" y1="18" x2="36" y2="18" className="stroke-current stroke-[4px] transition" />
+      </svg>
+      <span>Add new site</span>
+    </div>
+  </A>
+);
 
-const Dashboard: NextPage<Props> = ({ sites }) => {
+const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
   const breakpoint = useBreakpoint();
 
   const [showEmptyCard, setShowEmptyCard] = useState(false);
@@ -106,7 +115,7 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
   }, []);
 
   return (
-    <AppLayout title="Dashboard" type="overview" activeTab="dashboard">
+    <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input label="Search" icon={SearchOutlinedIcon} type="text" />
         <div className="flex flex-row gap-x-6">
@@ -139,9 +148,30 @@ const Dashboard: NextPage<Props> = ({ sites }) => {
         ))}
         {showEmptyCard && <EmptyCard />}
       </main>
-    </AppLayout>
+    </>
   );
 };
+
+const Loading: FC = () => (
+  <>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="col-span-2 h-9 rounded pulse" />
+      <div className="col-span-1 h-9 rounded pulse" />
+      <div className="col-span-1 h-9 rounded pulse" />
+    </div>
+    <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+      {[...Array(16)].map((_, i) => (
+        <SiteCard key={i} />
+      ))}
+    </main>
+  </>
+);
+
+Dashboard.getLayout = page => (
+  <AppLayout title="Dashboard" type="overview" activeTab="dashboard" loadingScreen={<Loading />}>
+    {page}
+  </AppLayout>
+);
 
 export const getStaticProps: GetStaticProps<Props> = () => ({ props: { sites } });
 

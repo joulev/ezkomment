@@ -38,8 +38,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# generated js files
-dist
-
-# service account informations
+# firebase-admin service account information
 service-account.json
+
+# jest coverage
+coverage
+
+# generated og:image
+/packages/client/public/images/og

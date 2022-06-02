@@ -12,7 +12,7 @@ import { ModalProps } from "@client/types/components.type";
  * @param params.children The content of the modal. Can be quite literally anything. Recommended
  * that this children have a `max-width` CSS property.
  */
-const Modal: FC<ModalProps> = ({ isVisible, onOutsideClick, children }) => {
+const Modal: FC<ModalProps> = ({ isVisible, onOutsideClick, children, ...rest }) => {
   return (
     <div
       className={clsx(
@@ -26,6 +26,7 @@ const Modal: FC<ModalProps> = ({ isVisible, onOutsideClick, children }) => {
           "bg-card border rounded border-card transition",
           isVisible ? "translate-y-0" : "-translate-y-6"
         )}
+        {...rest}
         onClick={e => e.stopPropagation()}
       >
         {children}

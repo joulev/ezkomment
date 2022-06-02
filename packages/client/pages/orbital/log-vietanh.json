@@ -1,0 +1,116 @@
+{
+  "TotalHrs": 105,
+  "Events": [
+    {
+      "Date": "12/03 - 14/03",
+      "Content": "Brainstorm for ideas and finalise idea",
+      "Hrs": 16,
+      "Remark": [
+        "F2F meeting with teammate",
+        "Decided the app features",
+        "Finalised proporsal for Orbital submission"
+      ]
+    },
+    {
+      "Date": "15/04 - 3/5",
+      "Content": "Learn the basics of backend development",
+      "Hrs": 30,
+      "Remark": [
+        "I initially started with Spring Framework, but later switched and considered Django and Express",
+        "Express was choosen because Express app can be written using Typescript, which has a better type system than Python"
+      ]
+    },
+    {
+      "Date": "06/05 - 09/05",
+      "Content": "Produce Lift-Off poster and video",
+      "Hrs": 3,
+      "Remark": ["Checked and provided suggestions for the poster and video"]
+    },
+    {
+      "Date": "09/05 - 14/05",
+      "Content": "Learn and set up nessessary tools and configurations for developments",
+      "Hrs": 8,
+      "Remark": [
+        "Installed WSL, Node.js and Typescript on my local PC",
+        "Fixed bugs related to npm on WSL 2",
+        "Learned and set up suitable configurations for Node.js runtime environment",
+        "Learned Firebase local emumerator and hosting"
+      ]
+    },
+    {
+      "Date": "09/05 - 14/05",
+      "Content": "Install dependencies for back-end development",
+      "Hrs": 6,
+      "Remark": [
+        "Installed Express and Firebase to prepare for development",
+        "Developed simple Express app"
+      ]
+    },
+    {
+      "Date": "12/05",
+      "Content": "Read mentors' introduction slides and apply for mentor",
+      "Hrs": 3,
+      "Remark": ["N/A"]
+    },
+    {
+      "Date": "15/05 - 19/05",
+      "Content": "Create new branch and add basic files",
+      "Hrs": 1,
+      "Remark": ["Created new branch for back-end development", "Created basic repo stucture"]
+    },
+    {
+      "Date": "20/05",
+      "Content": "Learn Firebase Admin SDK",
+      "Hrs": 6,
+      "Remark": [
+        "Learned to do authentication on server side with Firebase using JWT or session cookie and manage users",
+        "Learned to design data models and do complex query with Firestore"
+      ]
+    },
+    {
+      "Date": "21/05 - 23/05",
+      "Content": "Implement and test /users/* routes to handle users",
+      "Hrs": 4,
+      "Remark": [
+        "Added route to get, update and delete user",
+        "Tested the behaviour of the API using Postman"
+      ]
+    },
+    {
+      "Date": "23/05 - 24/05",
+      "Content": "Implement /sites/* and /pages/* to handle sites and pages",
+      "Hrs": 6,
+      "Remark": ["Created models to represent the relation between entities"]
+    },
+    {
+      "Date": "24/05",
+      "Content": "Learn CORS",
+      "Hrs": 2,
+      "Remark": ["Learned about CORS and experienced with browsers"]
+    },
+    {
+      "Date": "24/05 - 25/05",
+      "Content": "Continue with /sites/* and pages/* routes",
+      "Hrs": 6,
+      "Remark": ["N/A"]
+    },
+    {
+      "Date": "26/05",
+      "Content": "Learn Nest.js for back-end development in Typescript",
+      "Hrs": 6,
+      "Remark": [
+        "Nest.js uses classes and decorators extensively, making the code look similar to Spring project",
+        "Decided to stick with Express at the momment"
+      ]
+    },
+    {
+      "Date": "27/05 - 28/05",
+      "Content": "Modify /users/* routes and look for packages that offer serve similar purpose as Validator in Nest.js",
+      "Hrs": 8,
+      "Remark": [
+        "class-validator can be used for classes, but not for interfaces",
+        "Considered express-validator"
+      ]
+    }
+  ]
+}

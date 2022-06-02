@@ -1,5 +1,5 @@
 import { MDXProvider } from "@mdx-js/react";
-import { AppProps } from "next/app";
+import { NextWebVitalsMetric } from "next/app";
 
 import BreakpointContext from "@client/context/breakpoint";
 import ModeContext from "@client/context/mode";
@@ -11,12 +11,15 @@ import A from "@client/components/anchor";
 import PostHeading from "@client/components/postHeading";
 import { ErrorBoundary } from "@client/layouts/errors";
 
+import { AppPropsWithLayout } from "@client/types/utils.type";
+
 import "@client/styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   useNProgress();
   const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
+  const getLayout = Component.getLayout ?? (page => page);
   return (
     <ErrorBoundary>
       <ModeContext.Provider value={{ mode, setMode }}>
@@ -32,12 +35,25 @@ function MyApp({ Component, pageProps }: AppProps) {
               h6: props => <PostHeading {...props} level={6} />,
             }}
           >
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />, pageProps)}
           </MDXProvider>
         </BreakpointContext.Provider>
       </ModeContext.Provider>
     </ErrorBoundary>
   );
+}
+
+/**
+ * @see {@link https://www.axiom.co/docs/integrations/vercel}
+ */
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  const url = process.env.NEXT_PUBLIC_AXIOM_INGEST_ENDPOINT;
+  if (!url) return;
+
+  const body = JSON.stringify({ route: window.__NEXT_DATA__.page, ...metric });
+
+  if (navigator.sendBeacon) navigator.sendBeacon(url, body);
+  else fetch(url, { body, method: "POST", keepalive: true });
 }
 
 export default MyApp;
