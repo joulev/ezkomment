@@ -40,15 +40,6 @@ describe("Test Opengraph image fetcher", () => {
         expect(temp).toBe("only run on Vercel");
     });
 
-    it("Should not create new file if it already exists", async () => {
-        process.env.VERCEL = "hello";
-        process.env.VERCEL_URL = "example.com";
-        fs.existsSync = jest.fn(() => true);
-        const temp = await getOgImage({});
-        expect(fs.existsSync).toHaveBeenCalledWith(`./public/images/og/${correctHash()}.png`);
-        expect(temp).toBe(correctURL());
-    });
-
     it("Should call correct URL to capture", async () => {
         process.env.VERCEL = "hello";
         process.env.VERCEL_URL = "example.com";
