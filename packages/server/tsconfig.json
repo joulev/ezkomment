@@ -6,11 +6,27 @@
     "module": "commonjs",
     "incremental": true,
     "paths": {
-      "@server/*": ["packages/server/*"]
+      "@server/*": [
+        "packages/server/*"
+      ]
     },
     "outDir": "dist",
-    "sourceMap": true
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "noEmit": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
   },
-  "include": ["**/*.ts", "service-account.json"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "**/*.ts",
+    "service-account.json"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

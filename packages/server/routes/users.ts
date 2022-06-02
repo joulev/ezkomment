@@ -16,7 +16,7 @@ router.use(validateRequest);
 router
     .route("/:uid")
     .get(userHandlers.getUser)
-    .put(userHandlers.updateUser)
+    .post(userHandlers.updateUser)
     .delete(userHandlers.deleteUser);
 
 router

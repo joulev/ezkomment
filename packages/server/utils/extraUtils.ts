@@ -1,5 +1,6 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { CollectionReference, DocumentData, Query } from "firebase-admin/firestore";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import { firestoreAdmin } from "../lib/firebaseAdmin";
 
@@ -53,4 +54,12 @@ async function deleteQueryBatch(query: Query<DocumentData>) {
     }
     await batch.commit(); // should get rid of await?
     process.nextTick(() => deleteQueryBatch(query));
+}
+
+export function castNextToExpress(req: NextApiRequest, res: NextApiResponse): [Request, Response] {
+    // may lost type information
+    const expressReq = <Request> <unknown> req;
+    const expressRes = <Response> <unknown> res;
+    expressReq.params = { ...<any> req.query };
+    return [expressReq, expressRes];
 }
