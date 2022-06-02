@@ -1,4 +1,4 @@
-import generateCommentHTML from "@client/lib/generateCommentHTML";
+import generateCommentHTML from "@client/lib/client/generateCommentHTML";
 
 import { all, comment, styles } from "@client/constants/sampleCommentCode";
 

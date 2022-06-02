@@ -17,7 +17,7 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import monacoOptions from "@client/config/monaco";
 import useBreakpoint from "@client/hooks/breakpoint";
 import useTheme from "@client/hooks/theme";
-import generateCommentHTML from "@client/lib/generateCommentHTML";
+import generateCommentHTML from "@client/lib/client/generateCommentHTML";
 
 import Button from "@client/components/buttons";
 import Input from "@client/components/forms/input";

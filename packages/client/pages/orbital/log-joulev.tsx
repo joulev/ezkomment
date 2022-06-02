@@ -4,8 +4,8 @@ import { FC, Fragment, ReactNode, ReactNodeArray } from "react";
 import reactStringReplace from "react-string-replace";
 import useSWR from "swr";
 
-import getOgImage from "@client/lib/getOgImage";
-import getProjectLogJoulev from "@client/lib/orbital/logJoulev";
+import getOgImage from "@client/lib/client/getOgImage";
+import getProjectLogJoulev from "@client/lib/client/orbital/logJoulev";
 
 import A from "@client/components/anchor";
 import Banner from "@client/components/banner";

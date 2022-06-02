@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
 import AuthContext from "@client/context/auth";
-import firebaseApp from "@client/lib/firebase/app";
+import firebaseApp from "@client/lib/client/firebase/app";
 
 import { AppAuth } from "@client/types/auth.type";
 

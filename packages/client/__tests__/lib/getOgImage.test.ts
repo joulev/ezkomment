@@ -5,7 +5,7 @@ import captureWebsite from "capture-website";
 import { createHash } from "crypto";
 import fs from "fs";
 
-import getOgImage from "@client/lib/getOgImage";
+import getOgImage from "@client/lib/client/getOgImage";
 
 jest.mock("capture-website", () => ({
     buffer: jest.fn(async () => Buffer.from("")),

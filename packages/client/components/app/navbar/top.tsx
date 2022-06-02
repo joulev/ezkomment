@@ -11,7 +11,7 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 import useAuth from "@client/hooks/auth";
-import { signOut } from "@client/lib/firebase/auth";
+import { signOut } from "@client/lib/client/firebase/auth";
 
 import A from "@client/components/anchor";
 import ModeSwitcher from "@client/components/modeSwitcher";

@@ -7,8 +7,8 @@ import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkPrism from "remark-prism";
 
-import { filePaths, getFileData, navData } from "@client/lib/documentation";
-import getOgImage from "@client/lib/getOgImage";
+import { filePaths, getFileData, navData } from "@client/lib/client/documentation";
+import getOgImage from "@client/lib/client/getOgImage";
 
 import DocsBottomBar from "@client/components/docs/bottombar";
 import DocsSidebar from "@client/components/docs/sidebar";

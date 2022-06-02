@@ -13,7 +13,7 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import useAuth from "@client/hooks/auth";
 import useBreakpoint from "@client/hooks/breakpoint";
-import { NOT_AUTHENTICATED } from "@client/lib/errors";
+import { NOT_AUTHENTICATED } from "@client/lib/client/errors";
 import {
   deleteAccount,
   githubProvider,
@@ -22,7 +22,7 @@ import {
   reauthenticate,
   unlink,
   updateDisplayName,
-} from "@client/lib/firebase/auth";
+} from "@client/lib/client/firebase/auth";
 
 import AuthError from "@client/components/auth/error";
 import Banner from "@client/components/banner";

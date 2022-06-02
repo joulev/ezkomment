@@ -8,7 +8,7 @@ import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
 
 import useTheme from "@client/hooks/theme";
-import getOgImage from "@client/lib/getOgImage";
+import getOgImage from "@client/lib/client/getOgImage";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";

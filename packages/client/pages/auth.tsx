@@ -7,7 +7,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
 import useAuth from "@client/hooks/auth";
-import { githubProvider, googleProvider, signIn } from "@client/lib/firebase/auth";
+import { githubProvider, googleProvider, signIn } from "@client/lib/client/firebase/auth";
 
 import A from "@client/components/anchor";
 import AuthError from "@client/components/auth/error";

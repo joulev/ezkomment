@@ -6,7 +6,7 @@ import { FC, ReactNode } from "react";
 
 import BreakpointContext from "@client/context/breakpoint";
 import { useBreakpointInit } from "@client/hooks/breakpoint";
-import setupMediaViewport from "@client/lib/tests/setupMediaViewport";
+import setupMediaViewport from "@client/lib/client/tests/setupMediaViewport";
 
 import Nav from "@client/components/home/navbar";
 

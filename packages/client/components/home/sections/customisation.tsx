@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 
 import useTheme from "@client/hooks/theme";
-import generateCommentHTML from "@client/lib/generateCommentHTML";
+import generateCommentHTML from "@client/lib/client/generateCommentHTML";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";

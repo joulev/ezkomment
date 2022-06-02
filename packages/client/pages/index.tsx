@@ -1,8 +1,8 @@
 import { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
 
-import getOgImage from "@client/lib/getOgImage";
-import prism from "@client/lib/prism";
+import getOgImage from "@client/lib/client/getOgImage";
+import prism from "@client/lib/client/prism";
 
 import * as home from "@client/components/home/sections";
 import A from "@client/components/anchor";

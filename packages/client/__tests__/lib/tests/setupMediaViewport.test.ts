@@ -1,4 +1,4 @@
-import setupMediaViewport from "@client/lib/tests/setupMediaViewport";
+import setupMediaViewport from "@client/lib/client/tests/setupMediaViewport";
 
 describe("Test setup functions `setupMediaViewport` and `queryMatchesCurrentWidth`", () => {
     it("Never thought I'd see a test for another test", () => {

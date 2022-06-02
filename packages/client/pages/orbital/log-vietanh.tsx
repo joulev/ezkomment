@@ -3,7 +3,7 @@ import { parseISO } from "date-fns";
 import { GetStaticProps } from "next";
 import { Fragment } from "react";
 
-import getOgImage from "@client/lib/getOgImage";
+import getOgImage from "@client/lib/client/getOgImage";
 
 import A from "@client/components/anchor";
 import Banner from "@client/components/banner";
