@@ -9,4 +9,4 @@ It currently uses Firebase for authentication, which is _subject to change_. **D
 - Set up Firebase authentication by GitHub with the client ID and client secret in the GitHub app
 - Create a `.env.local` file (**not `.env`**) based on the structure of `.env.example` with your
   Firebase project's specific values.
-- Run this with `npm build && npm run dev`.
+- Run this with `yarn build && yarn dev`.

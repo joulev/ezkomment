@@ -14,11 +14,11 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16"
-          cache: "npm"
-      - run: npm install
+          cache: "yarn"
+      - run: yarn
       # Since CD on Vercel already builds the site for us, we only need to run linting here
-      - run: npm run lint --workspace=packages/client
-      - run: npm run test:ci --workspace=packages/client
+      - run: yarn workspace @ezkomment/client lint
+      - run: yarn workspace @ezkomment/client test:ci
       - uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true

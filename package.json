@@ -1,5 +1,6 @@
 {
   "name": "ezkomment",
+  "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",

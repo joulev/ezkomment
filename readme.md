@@ -15,10 +15,10 @@
 
 This is the monorepo for everything related to ezkomment. See readme for [front-end](/packages/client) and [back-end](/packages/server) for more details.
 
-This project uses NPM workspaces. To install all dependencies, simply run
+This project uses Yarn workspaces. To install all dependencies, simply run
 
 ```
-$ npm install
+$ yarn
 ```
 
 [See development guide in the Wiki](https://github.com/joulev/ezkomment/wiki/Development-Guide).
