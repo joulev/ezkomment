@@ -3,13 +3,13 @@
   "private": true,
   "description": "Backend server for ezkomment",
   "scripts": {
-    "build": "tsc --project './tsconfig.json'",
-    "dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --rs ./index.ts",
-    "start": "npm run build && NODE_ENV=production TS_NODE_BASEURL=./dist node -r tsconfig-paths/register dist/index.js",
-    "next:dev": "next dev",
-    "next:build": "next build",
-    "next:start": "next start",
-    "next:lint": "next lint"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "express:build": "tsc --project './tsconfig.json'",
+    "express:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --rs ./index.ts",
+    "express:start": "npm run build && NODE_ENV=production TS_NODE_BASEURL=./dist node -r tsconfig-paths/register dist/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

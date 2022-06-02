@@ -1,16 +1,22 @@
 import * as admin from "firebase-admin";
-import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { cert, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
-import initializeConfig from "./configEnv";
+import initializeConfig from "@server/lib/configEnv";
 
 initializeConfig();
+
+const serviceAccount = {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+};
 
 const firebaseAdmin = admin.apps.length
     ? admin.app()
     : initializeApp({
-          credential: applicationDefault(),
+          credential: cert(serviceAccount),
       });
 
 const firestoreAdmin = getFirestore(firebaseAdmin);
