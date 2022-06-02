@@ -154,7 +154,7 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
               title={<>Vu Van Dung&apos;s Project&nbsp;Log</>}
               href="/orbital/log-joulev"
               icon={ArticleOutlinedIcon}
-              date="updated daily"
+              date="automatically updated"
             />
             <SectionLink
               title={<>Nguyen Viet Anh&apos;s Project&nbsp;Log</>}

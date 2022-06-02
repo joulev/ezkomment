@@ -7,7 +7,7 @@ import remarkPrism from "remark-prism";
  */
 const nextConfig = {
   reactStrictMode: true,
-  pageExtensions: ["mdx", "tsx"],
+  pageExtensions: ["mdx", "tsx", "ts"],
   images: {
     domains: ["avatars.githubusercontent.com"],
   },
