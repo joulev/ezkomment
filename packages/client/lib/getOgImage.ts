@@ -1,6 +1,6 @@
 import captureWebsite from "capture-website";
 import { createHash } from "crypto";
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, writeFileSync } from "fs";
 
 import { OgImageProps } from "@client/types/components.type";
 
@@ -11,8 +11,6 @@ export default async function getOgImage({ title, label }: OgImageProps) {
     const dir = `./public/images/og`;
     const filePath = `${dir}/${hash}.png`;
     const publicPath = `https://${process.env.VERCEL_URL}/images/og/${hash}.png`;
-
-    if (existsSync(filePath)) return publicPath;
 
     const url = new URL("https://ezkomment-67rtb9jff-joulev.vercel.app/opengraph");
     if (title) url.searchParams.append("title", title);
