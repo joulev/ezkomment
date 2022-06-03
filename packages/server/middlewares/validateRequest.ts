@@ -1,6 +1,6 @@
 import { INextApiMiddleware } from "@server/models/nextApi.type";
 import { validateJWT } from "@server/utils/authUtils";
-import { extractFirstQueryValue, reportBadRequest } from "@server/utils/extraUtils";
+import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
 
 /**
  * Middleware that checks whether the current user's uid and the targeted document's uid match.

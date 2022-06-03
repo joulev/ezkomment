@@ -1,5 +1,5 @@
 import * as UserHandlers from "@server/handlers/userHandlers";
-import { createNextHandler } from "@server/utils/extraUtils";
+import { createNextHandler } from "@server/utils/nextHandlerUtils";
 
 export default createNextHandler({
     GET: UserHandlers.listUserSites,

@@ -8,7 +8,7 @@ import {
     UpdateCommentRequest,
     UpdatePageRequest,
 } from "@server/models";
-import { extractFirstQueryValue, reportBadRequest } from "@server/utils/extraUtils";
+import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
 
 ///////////
 // PAGES //
