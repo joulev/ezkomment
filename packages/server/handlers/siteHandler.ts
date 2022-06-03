@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import * as SiteUtils from "@server/utils/siteUtils";
 import { CreateSiteRequest, UpdateSiteRequest } from "@server/models";
-import { reportBadRequest } from "@server/utils/extraUtils";
+import { extractFirstQueryValue, reportBadRequest } from "@server/utils/extraUtils";
 
-export async function getSite(req: Request, res: Response) {
-    const siteId: string = req.params.siteId;
+export async function getSite(req: NextApiRequest, res: NextApiResponse) {
+    const { siteId } = extractFirstQueryValue(req);
     try {
         res.status(200).json({
             message: "Successfully get site information",
@@ -16,7 +16,7 @@ export async function getSite(req: Request, res: Response) {
     }
 }
 
-export async function createSite(req: Request, res: Response) {
+export async function createSite(req: NextApiRequest, res: NextApiResponse) {
     try {
         const data: CreateSiteRequest = req.body;
         await SiteUtils.createSite(data);
@@ -26,8 +26,8 @@ export async function createSite(req: Request, res: Response) {
     }
 }
 
-export async function updateSite(req: Request, res: Response) {
-    const siteId: string = req.params.siteId;
+export async function updateSite(req: NextApiRequest, res: NextApiResponse) {
+    const { siteId } = extractFirstQueryValue(req);
     try {
         const data: UpdateSiteRequest = req.body;
         await SiteUtils.updateSiteById(siteId, data);
@@ -37,8 +37,8 @@ export async function updateSite(req: Request, res: Response) {
     }
 }
 
-export async function deleteSite(req: Request, res: Response) {
-    const siteId: string = req.params.siteId;
+export async function deleteSite(req: NextApiRequest, res: NextApiResponse) {
+    const { siteId } = extractFirstQueryValue(req);
     try {
         await SiteUtils.deleteSiteById(siteId);
         res.status(200).json({ message: "Successfully deleted site" });

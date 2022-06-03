@@ -1,5 +1,5 @@
 // TODO: Fix sites and pages data models
-import { Request, Response } from "express";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import * as PageUtils from "@server/utils/pageUtils";
 import {
@@ -8,14 +8,14 @@ import {
     UpdateCommentRequest,
     UpdatePageRequest,
 } from "@server/models";
-import { reportBadRequest } from "@server/utils/extraUtils";
+import { extractFirstQueryValue, reportBadRequest } from "@server/utils/extraUtils";
 
 ///////////
 // PAGES //
 ///////////
 
-export async function getPage(req: Request, res: Response) {
-    const pageId: string = req.params.pageId;
+export async function getPage(req: NextApiRequest, res: NextApiResponse) {
+    const { pageId } = extractFirstQueryValue(req);
     try {
         res.status(200).json({
             message: "Successfully got page information",
@@ -26,7 +26,7 @@ export async function getPage(req: Request, res: Response) {
     }
 }
 
-export async function createPage(req: Request, res: Response) {
+export async function createPage(req: NextApiRequest, res: NextApiResponse) {
     try {
         const data: CreatePageRequest = req.body;
         await PageUtils.createPage(data);
@@ -36,8 +36,8 @@ export async function createPage(req: Request, res: Response) {
     }
 }
 
-export async function updatePage(req: Request, res: Response) {
-    const pageId: string = req.params.pageId;
+export async function updatePage(req: NextApiRequest, res: NextApiResponse) {
+    const { pageId } = extractFirstQueryValue(req);
     try {
         const data: UpdatePageRequest = req.body;
         await PageUtils.updatePageById(pageId, data);
@@ -47,8 +47,8 @@ export async function updatePage(req: Request, res: Response) {
     }
 }
 
-export async function deletePage(req: Request, res: Response) {
-    const pageId: string = req.params.pageId;
+export async function deletePage(req: NextApiRequest, res: NextApiResponse) {
+    const { pageId } = extractFirstQueryValue(req);
     try {
         await PageUtils.deletePageById(pageId);
         res.status(200).json({ message: "Successfully deleted page and its content" });
@@ -61,8 +61,8 @@ export async function deletePage(req: Request, res: Response) {
 // COMMENTS //
 //////////////
 
-export async function createPageComment(req: Request, res: Response) {
-    const pageId: string = req.params.pageId;
+export async function createPageComment(req: NextApiRequest, res: NextApiResponse) {
+    const { pageId } = extractFirstQueryValue(req);
     // May update in the future, using page's url.
     try {
         const data: CreateCommentRequest = req.body;
@@ -79,8 +79,8 @@ export async function createPageComment(req: Request, res: Response) {
     }
 }
 
-export async function updatePageComment(req: Request, res: Response) {
-    const { pageId, commentId } = req.params;
+export async function updatePageComment(req: NextApiRequest, res: NextApiResponse) {
+    const { pageId, commentId } = extractFirstQueryValue(req);
     try {
         const data: UpdateCommentRequest = req.body;
         await PageUtils.updatePageCommentById(pageId, commentId, data);
@@ -90,8 +90,8 @@ export async function updatePageComment(req: Request, res: Response) {
     }
 }
 
-export async function deletePageComment(req: Request, res: Response) {
-    const { pageId, commentId } = req.params;
+export async function deletePageComment(req: NextApiRequest, res: NextApiResponse) {
+    const { pageId, commentId } = extractFirstQueryValue(req);
     try {
         await PageUtils.deletePageCommentById(pageId, commentId);
         res.status(200).json({ message: "Successfully deleted comment" });

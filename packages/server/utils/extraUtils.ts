@@ -14,7 +14,7 @@ import { firestoreAdmin } from "@server/lib/firebaseAdmin";
  * @param err The error occured
  * @param msg Extra message to be sent back with the response
  */
-export function reportBadRequest(res: Response, err: unknown, msg: string) {
+export function reportBadRequest(res: NextApiResponse, err: unknown, msg: string) {
     console.error(err);
     res.status(400).json({
         error: `${err}`,
@@ -59,30 +59,29 @@ async function deleteQueryBatch(query: Query<DocumentData>) {
     process.nextTick(() => deleteQueryBatch(query));
 }
 
-function castNextToExpress(req: NextApiRequest, res: NextApiResponse): [Request, Response] {
-    // may lost type information
-    const expressReq = <unknown> req as Request;
-    const expressRes = <unknown> res as Response;
-    expressReq.params = { ...<any> req.query };
-    return [expressReq, expressRes];
-}
-
-type Handers = Record<string, (req: Request, res: Response) => unknown>;
+type Handers = Record<string, (req: NextApiRequest, res: NextApiResponse) => unknown>;
 
 // We will need another method to inject middlewares into end points
-// The problem with the current implementation for Next API generators is that we cannot inject 
+// The problem with the current implementation for Next API generators is that we cannot inject
 // seperate middlewares when handling differen methods. Must solve this later.
 
-export function createNextHandler(handers: Handers): 
-    (nextRequest: NextApiRequest, nextResponse: NextApiResponse) => Promise<unknown> | unknown {
+export function createNextHandler(
+    handers: Handers
+): (nextRequest: NextApiRequest, nextResponse: NextApiResponse) => Promise<unknown> | unknown {
     return async (req, res) => {
-        const [expressReq, expressRes] = castNextToExpress(req, res);
-        const method = req.method;
         let delegateMethod = handers[req.method || ""];
         if (!delegateMethod) {
-            res.status(500).json({ error: "" });
+            res.status(400).json({ message: "Bad request: invalid request method" });
         } else {
-            await delegateMethod(expressReq, expressRes);
+            await delegateMethod(req, res);
         }
+    };
+}
+
+export function extractFirstQueryValue(req: NextApiRequest) {
+    const values: { [key: string]: string } = {};
+    for (const [k, v] of Object.entries(req.query)) {
+        values[k] = Array.isArray(v) ? v[0] : v;
     }
+    return values;
 }

@@ -1,12 +1,11 @@
-import { Request, Response } from "express";
 import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/auth";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import * as userUtils from "@server/utils/userUtils";
-import { reportBadRequest } from "@server/utils/extraUtils";
+import { extractFirstQueryValue, reportBadRequest } from "@server/utils/extraUtils";
 
-export async function getUser(req: Request, res: Response) {
-    console.dir(req.query, { depth: null });
-    const uid: string = req.params.uid;
+export async function getUser(req: NextApiRequest, res: NextApiResponse) {
+    const { uid } = extractFirstQueryValue(req);
     try {
         const result = await userUtils.getUserById(uid);
         res.status(200).json({
@@ -18,8 +17,8 @@ export async function getUser(req: Request, res: Response) {
     }
 }
 
-export async function updateUser(req: Request, res: Response) {
-    const uid: string = req.params.uid;
+export async function updateUser(req: NextApiRequest, res: NextApiResponse) {
+    const { uid } = extractFirstQueryValue(req);
     const data: UpdateRequest = req.body;
     try {
         await userUtils.updateUserById(uid, data);
@@ -29,8 +28,8 @@ export async function updateUser(req: Request, res: Response) {
     }
 }
 
-export async function deleteUser(req: Request, res: Response) {
-    const uid: string = req.params.uid;
+export async function deleteUser(req: NextApiRequest, res: NextApiResponse) {
+    const { uid } = extractFirstQueryValue(req);
     try {
         await userUtils.deleteUserById(uid);
         res.status(200).json({ message: "User was deleted successfully" });
@@ -39,8 +38,8 @@ export async function deleteUser(req: Request, res: Response) {
     }
 }
 
-export async function listUserSites(req: Request, res: Response) {
-    const uid: string = req.params.uid;
+export async function listUserSites(req: NextApiRequest, res: NextApiResponse) {
+    const { uid } = extractFirstQueryValue(req);
     try {
         const result = await userUtils.listUserSitesById(uid);
         res.status(200).json({
@@ -53,7 +52,7 @@ export async function listUserSites(req: Request, res: Response) {
 }
 
 // For development and testing
-export async function createUser(req: Request, res: Response) {
+export async function createUser(req: NextApiRequest, res: NextApiResponse) {
     const data: CreateRequest = req.body;
     try {
         await userUtils.createUser(data);
@@ -63,7 +62,7 @@ export async function createUser(req: Request, res: Response) {
     }
 }
 
-export async function importUsers(req: Request, res: Response) {
+export async function importUsers(req: NextApiRequest, res: NextApiResponse) {
     const data: UserImportRecord[] = req.body;
     try {
         await userUtils.importUsers(data);

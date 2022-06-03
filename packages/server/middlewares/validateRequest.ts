@@ -1,15 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-
+import { INextApiMiddleware } from "@server/models/nextApi.type";
 import { validateJWT } from "@server/utils/authUtils";
-import { reportBadRequest } from "@server/utils/extraUtils";
+import { extractFirstQueryValue, reportBadRequest } from "@server/utils/extraUtils";
 
 /**
  * Middleware that checks whether the current user's uid and the targeted document's uid match.
  *
  * @returns True if the current user's uid is equal to the targeted document's uid.
  */
-export async function validateRequest(req: Request, res: Response, next: NextFunction) {
-    const uid = req.params.uid;
+export const validateRequest: INextApiMiddleware = async (req, res, next) => {
+    const { uid } = extractFirstQueryValue(req);
     try {
         if (await validateJWT(uid, req.headers.authorization)) {
             next();
@@ -20,4 +19,4 @@ export async function validateRequest(req: Request, res: Response, next: NextFun
         console.error(error);
         reportBadRequest(res, error, "");
     }
-}
+};
