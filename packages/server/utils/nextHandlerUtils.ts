@@ -41,7 +41,25 @@ function _createNextHandler(
 }
 
 /**
+ * Turn out that there is a library that support Next API like Express API `next-connect`.
+ *
  * Create an API endpoint, with handlers and middlewares.
+ * To create an API endpoint, imports this function, then call this function with the required
+ * arguments to get a `NextApiHandler` object. Then exports it.</br>
+ *
+ * For example:
+ * ```typescript
+ * import { createNextHandler } from "@server/utils/nextHandlerUtils";
+ * export default createNextHandler(
+ *     {
+ *         GET: <some handler>,
+ *         POST: <some handler>,
+ *         DELETE: <some handler>,
+ *     }, {
+ *         GET: <some middlewares>
+ *     }
+ * );
+ * ```
  *
  * @param handers A mapping of method name and handlers
  * @param middlewares A mapping of method name and middlewares
