@@ -1,5 +1,5 @@
-import * as SiteHandler from "@server/handlers/siteHandler";
-import { createNextHandler } from "@server/utils/nextHandlerUtils";
+import * as SiteHandler from "@ezkomment/server/handlers/siteHandler";
+import { createNextHandler } from "@ezkomment/server/utils/nextHandlerUtils";
 
 export default createNextHandler({
     POST: SiteHandler.createSite,

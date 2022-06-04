@@ -1,6 +1,6 @@
-import * as UserHandlers from "@server/handlers/userHandlers";
-import { logHello } from "@server/middlewares/logHello";
-import { createNextHandler } from "@server/utils/nextHandlerUtils";
+import * as UserHandlers from "@ezkomment/server/handlers/userHandlers";
+import { logHello } from "@ezkomment/server/middlewares/logHello";
+import { createNextHandler } from "@ezkomment/server/utils/nextHandlerUtils";
 
 export default createNextHandler(
     {
