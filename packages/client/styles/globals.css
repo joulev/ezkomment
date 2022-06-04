@@ -77,6 +77,10 @@
     .logo-width {
         @apply w-[calc(397px/80*36)];
     }
+    /* Change mode: Remove all transition */
+    .changing-mode * {
+        @apply !transition-none;
+    }
     /* NProgress */
     #nprogress {
         @apply pointer-events-none;

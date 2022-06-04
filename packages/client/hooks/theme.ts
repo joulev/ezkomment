@@ -33,8 +33,12 @@ function useModeInit() {
     useEffect(() => {
         localStorage.setItem("mode", mode);
         if (!haveSetMode) return;
+
         if (modeIsDark(mode)) document.documentElement.classList.add("dark");
         else document.documentElement.classList.remove("dark");
+
+        document.documentElement.classList.add("changing-mode");
+        setTimeout(() => document.documentElement.classList.remove("changing-mode"), 100);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mode]);
 
