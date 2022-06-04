@@ -54,6 +54,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Uncaught error:", error, errorInfo);
+    fetch("/api/error", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        error: error.toString(),
+        errorInfo,
+        url: window.location.href,
+      }),
+      keepalive: true,
+    });
   }
   render() {
     return this.state.hasError ? <ErrorLayout /> : this.props.children;
