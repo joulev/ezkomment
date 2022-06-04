@@ -10,7 +10,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
-      "@client/*": ["packages/client/*"]
+      "@client/*": ["packages/client/*"],
+      "@server/*": ["packages/server/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
