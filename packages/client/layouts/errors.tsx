@@ -60,6 +60,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       body: JSON.stringify({
         error: error.toString(),
         errorInfo,
+        userAgent: navigator.userAgent,
         url: window.location.href,
       }),
       keepalive: true,
