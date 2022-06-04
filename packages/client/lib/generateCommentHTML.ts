@@ -1,4 +1,4 @@
-const comments = [
+export const comments = [
     {
         author: "John Doe",
         text: "This is a great post. I like it.",
