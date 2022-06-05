@@ -137,8 +137,18 @@ const ProfileSection: FC = () => {
               )}
               <input
                 type="file"
-                onChange={event => setImage(event.target.files ? event.target.files[0] : null)}
+                onChange={event => {
+                  if (
+                    !event.target.files ||
+                    event.target.files.length === 0 ||
+                    !(event.target.files[0] instanceof File) ||
+                    !/\.(jpe?g|png)$/i.test(event.target.files[0].name)
+                  )
+                    setImage(null);
+                  else setImage(event.target.files[0]);
+                }}
                 className="hidden"
+                accept=".jpg, .jpeg, .png"
               />
             </label>
           </div>
