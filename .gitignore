@@ -43,4 +43,9 @@ coverage
 
 # generated og:image
 /packages/client/public/images/og
+
+# server integration in development
 /packages/client/server
+/packages/client/pages/api
+
+!/packages/client/pages/api/project-log

@@ -4,7 +4,7 @@
   "private": true,
   "description": "Web client for ezkomment",
   "scripts": {
-    "copy:server": "cp -r ../server/pages/api/* pages/api && rsync -av ../server . --exclude-from=.exclude",
+    "setup:server": "node ./setup-server.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -15,7 +15,6 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@ezkomment/server": "*",
     "@mdx-js/loader": "^2.1.1",
     "@mdx-js/react": "^2.1.1",
     "@monaco-editor/react": "^4.4.5",
@@ -27,7 +26,7 @@
     "firebase": "^9.8.2",
     "json5": "^2.2.1",
     "monaco-editor": "^0.33.0",
-    "next": "12.1.6",
+    "next": "^12.1.6",
     "next-seo": "^5.4.0",
     "nprogress": "^0.2.0",
     "prismjs": "^1.28.0",
