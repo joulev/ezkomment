@@ -1,0 +1,9 @@
+.env
+.env.example
+.eslintrc.json
+next-env.d.ts
+package.json
+readme.md
+tsconfig.json
+
+.next

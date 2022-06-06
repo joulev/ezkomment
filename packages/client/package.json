@@ -4,6 +4,7 @@
   "private": true,
   "description": "Web client for ezkomment",
   "scripts": {
+    "copy:server": "cp -r ../server/pages/api/* pages/api && rsync -av ../server . --exclude-from=.exclude",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

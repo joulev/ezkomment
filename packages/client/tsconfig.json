@@ -11,7 +11,7 @@
     "jsx": "preserve",
     "paths": {
       "@client/*": ["packages/client/*"],
-      "@server/*": ["packages/server/*"]
+      "@server/*": ["packages/client/server/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

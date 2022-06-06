@@ -11,8 +11,6 @@
     "outDir": "dist",
     "sourceMap": true,
     "lib": ["dom", "dom.iterable", "esnext"],
-    "noEmit": true,
-    "isolatedModules": true,
     "jsx": "preserve"
   },
   "include": ["**/*.ts", "service-account.json"],
