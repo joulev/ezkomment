@@ -1,6 +1,6 @@
 import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/auth";
 
-import { authAdmin, firestoreAdmin } from "@server/lib/firebaseAdmin";
+import { authAdmin, firestoreAdmin } from "@server/firebase/firebaseAdmin";
 
 export async function getUserById(uid: string) {
     const user = await authAdmin.getUser(uid);

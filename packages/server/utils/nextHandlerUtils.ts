@@ -1,6 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
-import { INextApiMiddleware } from "@server/models/nextApi.type";
+import { INextApiMiddleware } from "@server/types/nextApi.type";
 
 /**
  * A helper function to report bad requests in `catch` blocks.

@@ -3,7 +3,7 @@
  */
 import { CollectionReference, DocumentData, Query } from "firebase-admin/firestore";
 
-import { firestoreAdmin } from "@server/lib/firebaseAdmin";
+import { firestoreAdmin } from "@server/firebase/firebaseAdmin";
 
 /**
  * Deletes a Firestore collection. The documents are deleted in batches.

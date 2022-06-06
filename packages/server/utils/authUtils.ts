@@ -1,4 +1,4 @@
-import { authAdmin } from "@server/lib/firebaseAdmin";
+import { authAdmin } from "@server/firebase/firebaseAdmin";
 
 /**
  * Checks whether the current user is authorized using JWT.

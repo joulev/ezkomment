@@ -7,7 +7,7 @@ import {
     CreatePageRequest,
     UpdateCommentRequest,
     UpdatePageRequest,
-} from "@server/models";
+} from "@server/types";
 import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
 
 ///////////

@@ -1,4 +1,4 @@
-import { INextApiMiddleware } from "@server/models/nextApi.type";
+import { INextApiMiddleware } from "@server/types/nextApi.type";
 import { validateJWT } from "@server/utils/authUtils";
 import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
 
