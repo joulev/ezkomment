@@ -41,11 +41,11 @@ function _createNextHandler(
 }
 
 /**
- * Turn out that there is a library that support Next API like Express API `next-connect`.
+ * Turn out that there is a library that support Next API like Express API: `next-connect`.
  *
  * Create an API endpoint, with handlers and middlewares.
  * To create an API endpoint, imports this function, then call this function with the required
- * arguments to get a `NextApiHandler` object. Then exports it.</br>
+ * arguments to get a `NextApiHandler` object. Then exports it.
  *
  * For example:
  * ```typescript

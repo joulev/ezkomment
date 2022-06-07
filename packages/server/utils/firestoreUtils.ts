@@ -1,6 +1,3 @@
-/**
- * This file need to be reorganized.
- */
 import { CollectionReference, DocumentData, Query } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "@server/firebase/firebaseAdmin";

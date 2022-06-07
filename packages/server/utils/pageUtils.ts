@@ -8,7 +8,7 @@ import {
 } from "@server/types";
 
 import { firestoreAdmin } from "@server/firebase/firebaseAdmin";
-import { deleteCollection } from "./extraUtils";
+import { deleteCollection } from "./firestoreUtils";
 
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");
 
