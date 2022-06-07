@@ -1,11 +1,24 @@
-const package_json = require("../server/package.json");
 const { execSync } = require("child_process");
 
-const dependencies = Object.keys(package_json.dependencies).join(" ");
-const devDependencies = Object.keys(package_json.devDependencies).join(" ");
+execSync(
+    "cp -r ../server/pages/api/* pages/api && rsync -av ../server lib --exclude-from=.exclude"
+);
 
-// execSync(
-//     "cp -r ../server/pages/api/* pages/api && rsync -av ../server lib --exclude-from=.exclude"
-// );
-execSync(`yarn add ${dependencies}`);
-execSync(`yarn add --dev ${devDependencies}`);
+const serverPackageJson = require("../server/package.json");
+const clientPackageJson = require("./package.json");
+
+const serverDependencies = Object.keys(serverPackageJson.dependencies);
+const clientDependencies = Object.keys(clientPackageJson.dependencies);
+
+if (serverDependencies.some(dep => !clientDependencies.includes(dep))) {
+    console.log("Missing dependencies, run yarn add");
+    execSync(`yarn add ${serverDependencies.join(" ")}`);
+}
+
+const serverDevDependencies = Object.keys(serverPackageJson.devDependencies);
+const clientDevDependencies = Object.keys(clientPackageJson.devDependencies);
+
+if (serverDevDependencies.some(dep => !clientDevDependencies.includes(dep))) {
+    console.log("Missing dev dependencies, run yarn add --dev");
+    execSync(`yarn add --dev ${serverDevDependencies.join(" ")}`);
+}

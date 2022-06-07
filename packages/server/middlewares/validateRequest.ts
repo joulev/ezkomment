@@ -1,5 +1,5 @@
 import { INextApiMiddleware } from "@server/types/nextApi.type";
-import { validateJWT } from "@server/utils/authUtils";
+import { verifyJWT, verifySessionCookie } from "@server/utils/authUtils";
 import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
 
 /**
@@ -7,16 +7,29 @@ import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHand
  *
  * @returns True if the current user's uid is equal to the targeted document's uid.
  */
-export const validateRequest: INextApiMiddleware = async (req, res, next) => {
+export const validateUidWithJWT: INextApiMiddleware = async (req, res, next) => {
     const { uid } = extractFirstQueryValue(req);
     try {
-        if (await validateJWT(uid, req.headers.authorization)) {
+        const decodedClaim = await verifyJWT(req.headers.authorization);
+        if (decodedClaim.uid === uid) {
             next();
         } else {
-            res.status(403).json({ error: "Forbidden: unauthorized" });
+            throw Error("Unauthorized");
         }
     } catch (error) {
         console.error(error);
-        reportBadRequest(res, error, "");
+        reportBadRequest(res, error, "Bad request: cannot access resources");
+    }
+};
+
+export const validateSessionCookie: INextApiMiddleware = async (req, res, next) => {
+    const sessionCookie = req.cookies.session;
+    try {
+        const decodedClaim = await verifySessionCookie(sessionCookie);
+        // Just need a session cookie at the momment, more logic will be added later.
+        next();
+    } catch (error) {
+        console.error(error);
+        reportBadRequest(res, error, "Bad request: cannot access resources");
     }
 };

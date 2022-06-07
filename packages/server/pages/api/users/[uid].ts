@@ -1,5 +1,5 @@
 import * as UserHandlers from "@server/handlers/userHandlers";
-import { logHello } from "@server/middlewares/logHello";
+import { validateUidWithJWT } from "@server/middlewares/validateRequest";
 import { createNextHandler } from "@server/utils/nextHandlerUtils";
 
 export default createNextHandler(
@@ -9,6 +9,7 @@ export default createNextHandler(
         DELETE: UserHandlers.deleteUser,
     },
     {
-        GET: [...Array(4)].map(_ => logHello),
+        POST: [validateUidWithJWT],
+        DELETE: [validateUidWithJWT],
     }
 );

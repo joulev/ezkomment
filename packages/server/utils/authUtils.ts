@@ -1,30 +1,34 @@
+import { SessionCookieOptions } from "firebase-admin/auth";
+
 import { authAdmin } from "@server/firebase/firebaseAdmin";
 
 /**
  * Checks whether the current user is authorized using JWT.
  *
- * @param uid The current user's uid
  * @param jwt The JWT sent together with the requests
  * @returns Whether the current user's uid is equal to the targeted document's uid.
  */
-export async function validateJWT(uid: string, jwt?: string) {
-    if (process.env.NODE_ENV === "development") return true;
-    if (!jwt?.startsWith("Bearer ")) return false;
+export async function verifyJWT(jwt?: string) {
+    if (!jwt?.startsWith("Bearer ")) throw Error("Invalid id token");
     const idToken = jwt.split("Bearer ")[1];
-    try {
-        const decodedToken = await authAdmin.verifyIdToken(idToken);
-        return decodedToken.uid === uid;
-    } catch (error) {
-        throw error;
-    }
+    return await authAdmin.verifyIdToken(idToken);
+}
+
+export async function verifySessionCookie(cookie?: string) {
+    if (!cookie) throw Error("No session cookie!");
+    return await authAdmin.verifySessionCookie(cookie);
 }
 
 /**
  * Creates a session cookie.
- * @param idToken The id token string sent with the request
+ *
+ * @param idToken The id token sent together with the requests
  * @returns The session cookie
  */
-export async function createSessionCookie(idToken: string) {
-    const expiresIn = 60 * 60 * 1000; // 1 hour
-    return await authAdmin.createSessionCookie(idToken, { expiresIn });
+export async function createSessionCookie(idToken?: string) {
+    if (!idToken) throw Error("Empty id token token");
+    const options: SessionCookieOptions = {
+        expiresIn: 60 * 60 * 1000, // 1 hour
+    };
+    return await authAdmin.createSessionCookie(idToken, options);
 }
