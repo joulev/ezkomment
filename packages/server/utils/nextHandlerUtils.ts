@@ -32,7 +32,7 @@ function _createNextHandler(
         // Inplace modifications
         const wrappedHandler = async () => await handler(req, res);
         const pipeline: any[] = [...middlewareArr, wrappedHandler];
-        for (let i = pipeline.length - 1; i >= 0; i--) {
+        for (let i = pipeline.length - 2; i >= 0; i--) {
             const oldMiddleware = pipeline[i];
             pipeline[i] = async () => await oldMiddleware(req, res, pipeline[i + 1]);
         }
@@ -71,7 +71,7 @@ export function createNextHandler(
 ): NextApiHandler {
     const pipelines: Record<string, NextApiHandler> = {};
     for (const [k, v] of Object.entries(handers)) {
-        const ms = middlewares[k];
+        const ms = middlewares[k] ?? [];
         pipelines[k] = _createNextHandler(v, Array.isArray(ms) ? ms : [ms]);
     }
     return async (req, res) => {
