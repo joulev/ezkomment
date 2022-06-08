@@ -9,7 +9,7 @@ export default createNextHandler(
         DELETE: UserHandlers.deleteUser,
     },
     {
-        POST: [validateUidWithJWT],
-        DELETE: [validateUidWithJWT],
+        POST: validateUidWithJWT,
+        DELETE: validateUidWithJWT,
     }
 );

@@ -67,11 +67,12 @@ function _createNextHandler(
  */
 export function createNextHandler(
     handers: Record<string, NextApiHandler>,
-    middlewares: Record<string, INextApiMiddleware[]> = {}
+    middlewares: Record<string, INextApiMiddleware[] | INextApiMiddleware> = {}
 ): NextApiHandler {
     const pipelines: Record<string, NextApiHandler> = {};
     for (const [k, v] of Object.entries(handers)) {
-        pipelines[k] = _createNextHandler(v, middlewares[k]);
+        const ms = middlewares[k];
+        pipelines[k] = _createNextHandler(v, Array.isArray(ms) ? ms : [ms]);
     }
     return async (req, res) => {
         let delegateMethod = pipelines[req.method || ""];
