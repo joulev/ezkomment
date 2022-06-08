@@ -1,14 +1,12 @@
-import * as UserHandlers from "@server/handlers/userHandlers";
-import { logHello } from "@server/middlewares/logHello";
-import { createNextHandler } from "@server/utils/nextHandlerUtils";
+import { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
 
-export default createNextHandler(
-    {
-        GET: UserHandlers.getUser,
-        POST: UserHandlers.updateUser,
-        DELETE: UserHandlers.deleteUser,
-    },
-    {
-        GET: [...Array(4)].map(_ => logHello),
-    }
-);
+import * as UserHandlers from "@server/handlers/userHandlers";
+import { validateUidWithJWT } from "@server/middlewares/validateRequests";
+
+const handler = nc<NextApiRequest, NextApiResponse>()
+    .get(UserHandlers.getUser)
+    .post(validateUidWithJWT, UserHandlers.updateUser)
+    .delete(validateUidWithJWT, UserHandlers.deleteUser);
+
+export default handler;

@@ -1,6 +1,13 @@
-import * as UserHandlers from "@server/handlers/userHandlers";
-import { createNextHandler } from "@server/utils/nextHandlerUtils";
+import { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
 
-export default createNextHandler({
-    GET: UserHandlers.listUserSites,
-});
+import { listUserSites } from "@server/handlers/userHandlers";
+
+const handler = nc<NextApiRequest, NextApiResponse>({
+    onError: (err, _, res) => {
+        console.error(err);
+        res.status(500).json({ error: "Something broke" });
+    },
+}).get(listUserSites);
+
+export default handler;

@@ -1,4 +1,4 @@
-.env
+.env.local
 .env.example
 .eslintrc.json
 next-env.d.ts

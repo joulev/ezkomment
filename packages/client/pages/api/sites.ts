@@ -1,6 +1,12 @@
-import * as SiteHandler from "@server/handlers/siteHandlers";
-import { createNextHandler } from "@server/utils/nextHandlerUtils";
+import { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
 
-export default createNextHandler({
-    POST: SiteHandler.createSite,
-});
+import { createSite } from "@server/handlers/siteHandlers";
+import { removeCreateSiteRequestProps } from "@server/middlewares/removeProps";
+
+const handler = nc<NextApiRequest, NextApiResponse>().post(
+    removeCreateSiteRequestProps,
+    createSite
+);
+
+export default handler;
