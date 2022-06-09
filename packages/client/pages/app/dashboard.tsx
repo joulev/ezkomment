@@ -37,14 +37,14 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) 
   >
     {site ? (
       <>
-        <div className="flex flex-row gap-6 mb-3">
+        <div className="flex flex-row gap-6 items-center mb-6">
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={site.iconURL} alt="" width={48} height={48} loading="lazy" />
           </div>
           <div>
-            <div className="text-xl font-semibold">{site.name}</div>
-            <div className="text-sm">{site.domain}</div>
+            <div className="text-xl font-semibold mb-1">{site.name}</div>
+            <div className="text-sm text-muted">{site.domain}</div>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-3">
@@ -55,7 +55,7 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) 
       </>
     ) : (
       <>
-        <div className="flex flex-row gap-6 mb-3">
+        <div className="flex flex-row gap-6 mb-6">
           <div>
             <div className="w-12 h-12 rounded-full pulse" />
           </div>

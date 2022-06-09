@@ -41,7 +41,12 @@ const FooterNavLink: FC<{ href: string; title: string }> = ({ href, title }) => 
 const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) => {
   const buildId = useBuildId();
   return (
-    <footer className={clsx("bg-card border-t border-card py-6 print:hidden", className)}>
+    <footer
+      className={clsx(
+        "bg-card border-t border-card py-6 absolute bottom-0 inset-x-0 print:hidden",
+        className
+      )}
+    >
       <div
         className={clsx(
           "flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center",

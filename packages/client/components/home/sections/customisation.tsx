@@ -1,7 +1,7 @@
-import { FC, useEffect, useRef, useState } from "react";
+import clsx from "clsx";
+import { FC, Fragment } from "react";
 
-import useTheme from "@client/hooks/theme";
-import generateCommentHTML from "@client/lib/client/generateCommentHTML";
+import { comments } from "@client/lib/client/generateCommentHTML";
 
 import A from "@client/components/anchor";
 import Button from "@client/components/buttons";
@@ -9,37 +9,9 @@ import CodeBlock from "@client/components/home/codeblock";
 import Section from "@client/components/home/section";
 import Window from "@client/components/home/window";
 
-import { all, comment, styles } from "@client/constants/sampleCommentCode";
-
-function useIframe() {
-  const [contentHeight, setContentHeight] = useState(0);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  const handler = async () => {
-    if (iframeRef.current) {
-      // Wait for the iframe to render? Without it, the height is 0 for about (shockingly) 70% of
-      // the time. Yeap, neither 0% nor 100%. Never think what I do would depend on pure luck but
-      // here we go.
-      await new Promise(resolve => setTimeout(resolve, 50));
-      setContentHeight(iframeRef.current.contentWindow?.document.body.clientHeight ?? 0);
-    }
-  };
-
-  useEffect(() => {
-    handler();
-  }, [iframeRef]);
-
-  useEffect(() => {
-    window.addEventListener("resize", handler);
-    return () => window.removeEventListener("resize", handler);
-  }, []);
-
-  return { contentHeight, iframeRef };
-}
-
 const Illustration: FC<{ codeHtml: string }> = ({ codeHtml }) => {
-  const theme = useTheme();
-  const { contentHeight, iframeRef } = useIframe();
+  const inputCls =
+    "bg-transparent ring-0 border border-card rounded px-3 py-1 placeholder:text-muted";
   return (
     <div className="relative h-[480px]">
       <div className="absolute top-0 inset-x-0 scale-75 origin-top-left">
@@ -48,12 +20,30 @@ const Illustration: FC<{ codeHtml: string }> = ({ codeHtml }) => {
         </Window>
       </div>
       <div className="absolute bottom-0 inset-x-0 p-6 rounded border border-card bg-card scale-75 origin-bottom-right pointer-events-none">
-        <iframe
-          srcDoc={generateCommentHTML(all, comment, styles, theme === "dark")}
-          className="w-full"
-          style={{ height: contentHeight }}
-          ref={iframeRef}
-        />
+        <hr className="mt-0 mb-4.5" />
+        {comments.map(({ author, text, date }, index) => (
+          <Fragment key={index}>
+            <div className="flex flex-row justify-between mb-4.5">
+              <div className="font-bold">{author}</div>
+              <div className="text-muted">{date}</div>
+            </div>
+            <div>{text}</div>
+            <hr className="my-4.5" />
+          </Fragment>
+        ))}
+        <form onSubmit={() => false}>
+          <div className="grid grid-cols-2 gap-4.5 mb-4.5">
+            <input placeholder="Display name" className={inputCls} />
+            <input placeholder="Email (optional)" className={inputCls} />
+            <textarea placeholder="Content" className={clsx(inputCls, "col-span-full")} />
+          </div>
+          <div className="flex flex-row justify-between">
+            <div className="text-xs text-muted">Styling with Markdown is supported</div>
+            <Button type="submit" className="ml-auto" disabled>
+              Post
+            </Button>
+          </div>
+        </form>
       </div>
       <svg width={61} height={106} className="absolute bottom-24 left-[3%] sm:left-[6%]">
         {["M 1 1 C 1 50 20 90 60 100", "M 40 105 L 60 100 L 47 84"].map((path, i) => (
