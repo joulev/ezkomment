@@ -25,20 +25,20 @@ import logo from "@client/public/images/logo.svg";
 type LinkOrButtonProps =
   | { href: string; onClick?: never }
   | { href?: never; onClick: MouseEventHandler<HTMLButtonElement> };
-type TopNavItemProps = { icon: IconType } & LinkOrButtonProps;
+type TopNavItemProps = { icon: IconType; title?: string } & LinkOrButtonProps;
 
-const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon }) => {
+const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, title }) => {
   const classes = clsx(
     "text-neutral-600 dark:text-neutral-400 rounded p-1.5 transition leading-none",
     "hover:text-neutral-900 dark:hover:text-neutral-100", // styling for mobile
     "sm:hover:bg-indigo-100 sm:dark:hover:bg-indigo-900 sm:dark:hover:bg-opacity-50 sm:hover:text-primary" // styling for desktop
   );
   return href ? (
-    <A href="/app/dashboard" notStyled className={classes}>
+    <A href="/app/dashboard" notStyled className={classes} title={title}>
       <Icon />
     </A>
   ) : (
-    <button className={classes} onClick={onClick}>
+    <button className={classes} onClick={onClick} title={title}>
       <Icon />
     </button>
   );
@@ -133,14 +133,19 @@ const TopNav: FC<CurrentPage> = props => {
       <nav className="hidden sm:flex flex-row gap-6 pt-3 sm:pt-6 items-center justify-between">
         <TopNavBreadcrumb {...props} />
         <div className="flex-grow" />
-        <TopNavButton href="/app/dashboard" icon={HomeOutlinedIcon} />
-        <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
+        <TopNavButton
+          onClick={handleNotif}
+          icon={NotificationsOutlinedIcon}
+          title="Notifications"
+        />
+        <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} title="Sign out" />
         <A
           href="/app/account"
           className={clsx(
             "rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden",
             auth.user || "pulse"
           )}
+          title="View account settings"
         >
           {auth.user && auth.user.photoURL && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -150,7 +155,6 @@ const TopNav: FC<CurrentPage> = props => {
             <Image src={defaultAvatar} alt="avatar" layout="fill" />
           )}
         </A>
-        <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} />
       </nav>
       <div
         className={clsx(
