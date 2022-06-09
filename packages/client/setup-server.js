@@ -1,7 +1,7 @@
 const { execSync } = require("child_process");
 
 execSync(
-    "cp -r ../server/pages/api/* pages/api && rsync -av ../server lib --exclude-from=.exclude"
+    "cp -r ../server/pages/api/* pages/api && rm -rf lib/server && rsync -av ../server lib --exclude-from=.exclude"
 );
 
 const serverPackageJson = require("../server/package.json");

@@ -7,5 +7,5 @@ readme.md
 tsconfig.json
 
 .next
-.node_modules
+node_modules
 pages
