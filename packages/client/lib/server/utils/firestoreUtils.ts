@@ -35,6 +35,6 @@ async function deleteQueryBatch(query: Query<DocumentData>) {
     for (const doc of snapshot.docs) {
         batch.delete(doc.ref);
     }
-    await batch.commit(); // should get rid of await?
+    await batch.commit();
     process.nextTick(() => deleteQueryBatch(query));
 }

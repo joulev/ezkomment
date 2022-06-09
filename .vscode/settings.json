@@ -5,10 +5,7 @@
   "[mdx][markdown]": {
     "editor.wordWrap": "wordWrapColumn"
   },
-  "[javascript][typescript][css][html][typescriptreact][json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
+  "[javascript][typescript][css][html][typescriptreact][json][jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

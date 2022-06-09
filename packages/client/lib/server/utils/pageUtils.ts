@@ -1,4 +1,3 @@
-// TODO: Fix sites and pages data models
 import {
     Comment,
     CreateCommentRequest,

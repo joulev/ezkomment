@@ -8,7 +8,9 @@ import { NextApiRequest, NextApiResponse } from "next";
  * @param msg Extra message to be sent back with the response
  */
 export function reportBadRequest(res: NextApiResponse, err: unknown, msg: string) {
-    console.error(err);
+    if (process.env.NODE_ENV === "development") {
+        console.error(err);
+    }
     res.status(400).json({
         error: `${err}`,
         message: msg,
