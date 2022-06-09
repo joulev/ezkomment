@@ -4,6 +4,7 @@
   "private": true,
   "description": "Backend server for ezkomment",
   "scripts": {
+    "setup:server": "node ./setup-server.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

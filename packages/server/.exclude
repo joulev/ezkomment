@@ -6,6 +6,9 @@ package.json
 readme.md
 tsconfig.json
 
+.exclude
+setup-server.js
+
 .next
 node_modules
 pages

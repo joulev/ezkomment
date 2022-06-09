@@ -4,7 +4,6 @@
   "private": true,
   "description": "Web client for ezkomment",
   "scripts": {
-    "setup:server": "node ./setup-server.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
