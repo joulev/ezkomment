@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import Select from "@client/components/forms/select";
+import Select from "~/components/forms/select";
 
 describe("Select component", () => {
   it("`label` tests", async () => {

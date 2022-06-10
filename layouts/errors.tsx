@@ -2,10 +2,10 @@ import Head from "next/head";
 import Image from "next/image";
 import { Component, ErrorInfo, FC, ReactNode } from "react";
 
-import A from "@client/components/anchor";
-import Button from "@client/components/buttons";
+import A from "~/components/anchor";
+import Button from "~/components/buttons";
 
-import logo from "@client/public/images/logo.svg";
+import logo from "~/public/images/logo.svg";
 
 export const ErrorLayout: FC<{ code?: number }> = ({ code }) => {
   const errors = {

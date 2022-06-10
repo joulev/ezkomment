@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import { ModalProps } from "@client/types/components.type";
+import { ModalProps } from "~/types/components.type";
 
 /**
  * A modal. Well, what else can I say?

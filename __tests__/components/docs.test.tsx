@@ -2,9 +2,9 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 
-import Nav from "@client/components/docs/navbar";
+import Nav from "~/components/docs/navbar";
 
-import { NavData } from "@client/types/docs.type";
+import { NavData } from "~/types/docs.type";
 
 jest.mock("next/router", () => require("next-router-mock"));
 

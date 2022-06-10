@@ -5,17 +5,17 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
-import A from "@client/components/anchor";
-import Banner from "@client/components/banner";
-import Button from "@client/components/buttons";
-import Comments from "@client/components/comments";
-import Modal from "@client/components/modal";
-import RightAligned from "@client/components/utils/rightAligned";
-import AppLayout from "@client/layouts/app";
+import A from "~/components/anchor";
+import Banner from "~/components/banner";
+import Button from "~/components/buttons";
+import Comments from "~/components/comments";
+import Modal from "~/components/modal";
+import RightAligned from "~/components/utils/rightAligned";
+import AppLayout from "~/layouts/app";
 
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
-import page from "@client/sample/page.json";
+import page from "~/sample/page.json";
 
 type Page = typeof page;
 type Props = { page: Page };

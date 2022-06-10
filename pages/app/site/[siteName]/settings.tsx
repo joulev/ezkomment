@@ -7,17 +7,17 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
-import A from "@client/components/anchor";
-import Button from "@client/components/buttons";
-import CopiableCode from "@client/components/copiableCode";
-import { InputDetachedLabel } from "@client/components/forms/input";
-import Modal from "@client/components/modal";
-import RightAligned from "@client/components/utils/rightAligned";
-import AppLayout from "@client/layouts/app";
+import A from "~/components/anchor";
+import Button from "~/components/buttons";
+import CopiableCode from "~/components/copiableCode";
+import { InputDetachedLabel } from "~/components/forms/input";
+import Modal from "~/components/modal";
+import RightAligned from "~/components/utils/rightAligned";
+import AppLayout from "~/layouts/app";
 
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
-import site from "@client/sample/site.json";
+import site from "~/sample/site.json";
 
 type Site = typeof site;
 type Props = { site: Site };

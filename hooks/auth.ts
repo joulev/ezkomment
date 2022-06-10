@@ -2,10 +2,10 @@ import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
-import AuthContext from "@client/context/auth";
-import firebaseApp from "@client/lib/client/firebase/app";
+import AuthContext from "~/context/auth";
+import firebaseApp from "~/lib/client/firebase/app";
 
-import { AppAuth } from "@client/types/auth.type";
+import { AppAuth } from "~/types/auth.type";
 
 import { endProgress, startProgress } from "./nprogress";
 

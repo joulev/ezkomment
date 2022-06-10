@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 
-import AuthContext from "@client/context/auth";
-import { useAuthInit } from "@client/hooks/auth";
+import AuthContext from "~/context/auth";
+import { useAuthInit } from "~/hooks/auth";
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const providedAuth = useAuthInit();

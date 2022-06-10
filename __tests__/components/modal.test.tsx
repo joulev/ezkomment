@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import Modal from "@client/components/modal";
+import Modal from "~/components/modal";
 
 describe("Modal component", () => {
   it("`isVisible` testing", () => {

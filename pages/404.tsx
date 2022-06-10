@@ -1,4 +1,4 @@
-import { ErrorLayout } from "@client/layouts/errors";
+import { ErrorLayout } from "~/layouts/errors";
 
 const Error404 = () => <ErrorLayout code={404} />;
 

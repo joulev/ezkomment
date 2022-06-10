@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 // anything is fine actually
 import Icon from "@mui/icons-material/AbcOutlined";
 
-import Input, { InputDetachedLabel } from "@client/components/forms/input";
+import Input, { InputDetachedLabel } from "~/components/forms/input";
 
 describe("Input component", () => {
   it("`label` tests", async () => {

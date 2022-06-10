@@ -4,11 +4,11 @@ import userEvent from "@testing-library/user-event";
 import mockRouter from "next-router-mock";
 import { FC, ReactNode } from "react";
 
-import BreakpointContext from "@client/context/breakpoint";
-import { useBreakpointInit } from "@client/hooks/breakpoint";
-import setupMediaViewport from "@client/lib/client/tests/setupMediaViewport";
+import BreakpointContext from "~/context/breakpoint";
+import { useBreakpointInit } from "~/hooks/breakpoint";
+import setupMediaViewport from "~/lib/client/tests/setupMediaViewport";
 
-import Nav from "@client/components/home/navbar";
+import Nav from "~/components/home/navbar";
 
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("next/dist/client/router", () => require("next-router-mock"));

@@ -2,10 +2,10 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FC, ReactNode } from "react";
 
-import theme from "@client/config/tailwindTheme";
-import BreakpointContext from "@client/context/breakpoint";
-import useBreakpoint, { useBreakpointInit } from "@client/hooks/breakpoint";
-import setupMediaViewport from "@client/lib/client/tests/setupMediaViewport";
+import theme from "~/config/tailwindTheme";
+import BreakpointContext from "~/context/breakpoint";
+import useBreakpoint, { useBreakpointInit } from "~/hooks/breakpoint";
+import setupMediaViewport from "~/lib/client/tests/setupMediaViewport";
 
 const Document: FC<{ children: ReactNode }> = ({ children }) => {
   const breakpoint = useBreakpointInit();

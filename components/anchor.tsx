@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { forwardRef } from "react";
 
-import { HyperlinkProps } from "@client/types/components.type";
+import { HyperlinkProps } from "~/types/components.type";
 
 /**
  * A wrapper for `next/link` to handle all anchors inside the app, including in-page links (#),

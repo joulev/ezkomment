@@ -7,15 +7,15 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
-import useBuildId from "@client/hooks/buildId";
+import useBuildId from "~/hooks/buildId";
 
-import A from "@client/components/anchor";
-import ModeSwitcher from "@client/components/modeSwitcher";
+import A from "~/components/anchor";
+import ModeSwitcher from "~/components/modeSwitcher";
 
-import { FooterProps } from "@client/types/components.type";
-import { IconType } from "@client/types/utils.type";
+import { FooterProps } from "~/types/components.type";
+import { IconType } from "~/types/utils.type";
 
-import logoText from "@client/public/images/logo-text.svg";
+import logoText from "~/public/images/logo-text.svg";
 
 type SocialIconLinkProps = { href: string; icon: IconType };
 const SocialIconLink: FC<SocialIconLinkProps> = ({ href, icon: Icon }) => (

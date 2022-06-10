@@ -35,12 +35,12 @@ module.exports = {
     "^@server/(.*)$",
     // Client import order
     "^@mui/(.*)$",
-    "^@client/(config|lib|context|hooks)/(.*)$",
-    "^@client/(layouts|components)/(.*)$",
-    "^@client/types/(.*)$",
-    "^@client/(public|markdown|constants)/(.*)$",
-    "^@client/styles/(.*)$",
-    "^@client/sample/(.*)$",
+    "^~/(config|lib|context|hooks)/(.*)$",
+    "^~/(layouts|components)/(.*)$",
+    "^~/types/(.*)$",
+    "^~/(public|markdown|constants)/(.*)$",
+    "^~/styles/(.*)$",
+    "^~/sample/(.*)$",
     // Relative import
     "^[./]",
   ],

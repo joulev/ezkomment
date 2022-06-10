@@ -3,9 +3,9 @@ import { FC } from "react";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
-import Button from "@client/components/buttons";
-import Comments from "@client/components/comments";
-import Section from "@client/components/home/section";
+import Button from "~/components/buttons";
+import Comments from "~/components/comments";
+import Section from "~/components/home/section";
 
 const comments = [
   {

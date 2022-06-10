@@ -7,15 +7,15 @@ import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkPrism from "remark-prism";
 
-import { filePaths, getFileData, navData } from "@client/lib/client/documentation";
-import getOgImage from "@client/lib/client/getOgImage";
+import { filePaths, getFileData, navData } from "~/lib/client/documentation";
+import getOgImage from "~/lib/client/getOgImage";
 
-import DocsBottomBar from "@client/components/docs/bottombar";
-import DocsSidebar from "@client/components/docs/sidebar";
-import Seo from "@client/components/seo";
+import DocsBottomBar from "~/components/docs/bottombar";
+import DocsSidebar from "~/components/docs/sidebar";
+import Seo from "~/components/seo";
 
-import { SeoProps } from "@client/types/components.type";
-import { DocsData, NavData } from "@client/types/docs.type";
+import { SeoProps } from "~/types/components.type";
+import { DocsData, NavData } from "~/types/docs.type";
 
 type URLParams = { slug: string[] };
 type PageProps = Omit<DocsData, "title"> & {

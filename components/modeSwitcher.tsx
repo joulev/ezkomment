@@ -5,9 +5,9 @@ import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 
-import { useMode } from "@client/hooks/theme";
+import { useMode } from "~/hooks/theme";
 
-import { IconType, Mode } from "@client/types/utils.type";
+import { IconType, Mode } from "~/types/utils.type";
 
 /**
  * The mode switcher component is used to switch between light and dark mode. It's not customisable

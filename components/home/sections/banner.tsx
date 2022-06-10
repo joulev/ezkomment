@@ -2,11 +2,11 @@ import clsx from "clsx";
 import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 
-import useTheme from "@client/hooks/theme";
+import useTheme from "~/hooks/theme";
 
-import A from "@client/components/anchor";
+import A from "~/components/anchor";
 
-import logoTextWhite from "@client/public/images/logo-text-white.svg";
+import logoTextWhite from "~/public/images/logo-text-white.svg";
 
 function useBackgroundRef() {
   const bannerRef = useRef<HTMLDivElement>(null);

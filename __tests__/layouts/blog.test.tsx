@@ -2,11 +2,11 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FC } from "react";
 
-import useBuildId from "@client/hooks/buildId";
+import useBuildId from "~/hooks/buildId";
 
-import BlogLayout from "@client/layouts/blog";
+import BlogLayout from "~/layouts/blog";
 
-import { Author } from "@client/types/utils.type";
+import { Author } from "~/types/utils.type";
 
 type Props = { authors?: Author[]; wordCount?: number };
 const Component: FC<Props> = ({ authors, wordCount }) => (
@@ -28,7 +28,7 @@ const Component: FC<Props> = ({ authors, wordCount }) => (
 );
 
 jest.mock("next/router", () => require("next-router-mock"));
-jest.mock("@client/hooks/buildId");
+jest.mock("~/hooks/buildId");
 
 describe("Blog layout component", () => {
   it("Render", () => {

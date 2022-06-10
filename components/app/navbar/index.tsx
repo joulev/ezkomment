@@ -1,7 +1,6 @@
-import clsx from "clsx";
 import { FC } from "react";
 
-import { CurrentPage } from "@client/types/page.type";
+import { CurrentPage } from "~/types/page.type";
 
 import MainNav from "./main";
 import TopNav from "./top";

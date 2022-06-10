@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import Link from "next/link";
 import { FC } from "react";
 
-import useNProgress, { endProgress, startProgress } from "@client/hooks/nprogress";
+import useNProgress, { endProgress, startProgress } from "~/hooks/nprogress";
 
 jest.mock("next/dist/client/router", () => require("next-router-mock"));
 
