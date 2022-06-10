@@ -4,9 +4,9 @@ import {
     CreatePageRequest,
     UpdateCommentRequest,
     UpdatePageRequest,
-} from "@server/types";
+} from "~/server/types";
 
-import { firestoreAdmin } from "@server/firebase/firebaseAdmin";
+import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { deleteCollection } from "./firestoreUtils";
 
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");

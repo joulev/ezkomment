@@ -1,4 +1,4 @@
-import { CreateSiteRequest, KeyName, KeyNameSet, UpdateSiteRequest } from "@server/types";
+import { CreateSiteRequest, KeyName, KeyNameSet, UpdateSiteRequest } from "~/server/types";
 
 import { _createRemovePropsMiddleware } from ".";
 

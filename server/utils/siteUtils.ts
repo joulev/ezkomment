@@ -1,6 +1,6 @@
 // TODO: Fix sites and pages models
-import { firestoreAdmin } from "@server/firebase/firebaseAdmin";
-import { CreateSiteRequest, UpdateSiteRequest } from "@server/types";
+import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+import { CreateSiteRequest, UpdateSiteRequest } from "~/server/types";
 
 import { deleteQuery } from "./firestoreUtils";
 

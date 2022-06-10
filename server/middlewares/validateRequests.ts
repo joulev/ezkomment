@@ -1,6 +1,6 @@
-import { INextApiMiddleware } from "@server/types/nextApi.type";
-import { verifyJWT, verifySessionCookie } from "@server/utils/authUtils";
-import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
+import { INextApiMiddleware } from "~/server/types/nextApi.type";
+import { verifyJWT, verifySessionCookie } from "~/server/utils/authUtils";
+import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
 /**
  * Middleware that checks whether the current user's uid and the targeted document's uid match.

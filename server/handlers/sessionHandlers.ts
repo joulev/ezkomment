@@ -1,8 +1,8 @@
 import { CookieSerializeOptions, serialize } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { createSessionCookie } from "@server/utils/authUtils";
-import { reportBadRequest } from "@server/utils/nextHandlerUtils";
+import { createSessionCookie } from "~/server/utils/authUtils";
+import { reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
 export async function login(req: NextApiRequest, res: NextApiResponse) {
     const idToken = req.headers.authorization;

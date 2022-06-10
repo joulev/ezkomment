@@ -34,7 +34,7 @@ module.exports = {
     "^@mui/(.*)$",
     "^~/config/(.*)$",
     // Server import order
-    "^@server/(.*)$",
+    "^~/server/(.*)$",
     // Client import order
     "^~/client/(lib|context|hooks)/(.*)$",
     "^~/client/(layouts|components)/(.*)$",

@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import * as SiteUtils from "@server/utils/siteUtils";
-import { CreateSiteRequest, UpdateSiteRequest } from "@server/types";
-import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
+import * as SiteUtils from "~/server/utils/siteUtils";
+import { CreateSiteRequest, UpdateSiteRequest } from "~/server/types";
+import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
 export async function getSite(req: NextApiRequest, res: NextApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
