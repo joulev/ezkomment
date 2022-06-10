@@ -17,8 +17,8 @@ jobs:
           cache: "yarn"
       - run: yarn
       # Since CD on Vercel already builds the site for us, we only need to run linting here
-      - run: yarn workspace @ezkomment/client lint
-      - run: yarn workspace @ezkomment/client test:ci
+      - run: yarn lint
+      - run: yarn test:ci
       - uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true
