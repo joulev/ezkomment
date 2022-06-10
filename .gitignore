@@ -42,4 +42,4 @@ yarn-error.log*
 coverage
 
 # generated og:image
-/packages/client/public/images/og
+public/images/og
