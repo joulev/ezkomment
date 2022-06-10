@@ -13,7 +13,7 @@ import getOgImage from "~/client/lib/getOgImage";
 import A from "~/client/components/anchor";
 import Button from "~/client/components/buttons";
 import Footer from "~/client/components/footer";
-import HomeNavbar from "~/client/components/home/navbar";
+import PublicNavbar from "~/client/components/navbar";
 import Seo from "~/client/components/seo";
 
 import { SeoProps } from "~/types/client/components.type";
@@ -58,7 +58,7 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
   return (
     <>
       <Seo {...seo} />
-      <HomeNavbar />
+      <PublicNavbar />
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto container text-center">
           <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/">
