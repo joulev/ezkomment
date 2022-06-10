@@ -7,14 +7,14 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
 
-import useTheme from "~/hooks/theme";
-import getOgImage from "~/lib/client/getOgImage";
+import useTheme from "~/client/hooks/theme";
+import getOgImage from "~/client/lib/getOgImage";
 
-import A from "~/components/anchor";
-import Button from "~/components/buttons";
-import Footer from "~/components/footer";
-import HomeNavbar from "~/components/home/navbar";
-import Seo from "~/components/seo";
+import A from "~/client/components/anchor";
+import Button from "~/client/components/buttons";
+import Footer from "~/client/components/footer";
+import HomeNavbar from "~/client/components/home/navbar";
+import Seo from "~/client/components/seo";
 
 import { SeoProps } from "~/types/components.type";
 import { IconType } from "~/types/utils.type";

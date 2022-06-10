@@ -2,10 +2,10 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
-import A from "~/components/anchor";
-import Button from "~/components/buttons";
-import { InputDetachedLabel } from "~/components/forms/input";
-import AppLayout from "~/layouts/app";
+import A from "~/client/components/anchor";
+import Button from "~/client/components/buttons";
+import { InputDetachedLabel } from "~/client/components/forms/input";
+import AppLayout from "~/client/layouts/app";
 
 import { NextPageWithLayout } from "~/types/utils.type";
 

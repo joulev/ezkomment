@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 
-import { ErrorLayout } from "~/layouts/errors";
+import { ErrorLayout } from "~/client/layouts/errors";
 
 const Error: NextPage<{ code?: number }> = ({ code }) => <ErrorLayout code={code} />;
 

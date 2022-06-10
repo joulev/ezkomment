@@ -10,16 +10,16 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-import useBreakpoint from "~/hooks/breakpoint";
+import useBreakpoint from "~/client/hooks/breakpoint";
 
-import A from "~/components/anchor";
-import Button from "~/components/buttons";
-import Input from "~/components/forms/input";
-import { InputDetachedLabel } from "~/components/forms/input";
-import Modal from "~/components/modal";
-import SiteGraph from "~/components/siteGraph";
-import RightAligned from "~/components/utils/rightAligned";
-import AppLayout from "~/layouts/app";
+import A from "~/client/components/anchor";
+import Button from "~/client/components/buttons";
+import Input from "~/client/components/forms/input";
+import { InputDetachedLabel } from "~/client/components/forms/input";
+import Modal from "~/client/components/modal";
+import SiteGraph from "~/client/components/siteGraph";
+import RightAligned from "~/client/components/utils/rightAligned";
+import AppLayout from "~/client/layouts/app";
 
 import { NextPageWithLayout } from "~/types/utils.type";
 

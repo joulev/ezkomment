@@ -1,19 +1,19 @@
 import { MDXProvider } from "@mdx-js/react";
 import { NextWebVitalsMetric } from "next/app";
 
-import BreakpointContext from "~/context/breakpoint";
-import ModeContext from "~/context/mode";
-import { useBreakpointInit } from "~/hooks/breakpoint";
-import useNProgress from "~/hooks/nprogress";
-import { useModeInit } from "~/hooks/theme";
+import BreakpointContext from "~/client/context/breakpoint";
+import ModeContext from "~/client/context/mode";
+import { useBreakpointInit } from "~/client/hooks/breakpoint";
+import useNProgress from "~/client/hooks/nprogress";
+import { useModeInit } from "~/client/hooks/theme";
 
-import A from "~/components/anchor";
-import PostHeading from "~/components/postHeading";
-import { ErrorBoundary } from "~/layouts/errors";
+import A from "~/client/components/anchor";
+import PostHeading from "~/client/components/postHeading";
+import { ErrorBoundary } from "~/client/layouts/errors";
 
 import { AppPropsWithLayout } from "~/types/utils.type";
 
-import "~/styles/globals.css";
+import "~/client/styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   useNProgress();

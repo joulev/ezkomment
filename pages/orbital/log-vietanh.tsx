@@ -3,11 +3,11 @@ import { parseISO } from "date-fns";
 import { GetStaticProps } from "next";
 import { Fragment } from "react";
 
-import getOgImage from "~/lib/client/getOgImage";
+import getOgImage from "~/client/lib/getOgImage";
 
-import A from "~/components/anchor";
-import Banner from "~/components/banner";
-import BlogLayout from "~/layouts/blog";
+import A from "~/client/components/anchor";
+import Banner from "~/client/components/banner";
+import BlogLayout from "~/client/layouts/blog";
 
 import { SeoProps } from "~/types/components.type";
 import { NextPageWithLayout } from "~/types/utils.type";

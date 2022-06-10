@@ -1,16 +1,16 @@
 import { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
 
-import getOgImage from "~/lib/client/getOgImage";
-import prism from "~/lib/client/prism";
+import getOgImage from "~/client/lib/getOgImage";
+import prism from "~/client/lib/prism";
 
-import * as home from "~/components/home/sections";
-import A from "~/components/anchor";
-import Banner from "~/components/banner";
-import Button from "~/components/buttons";
-import Footer from "~/components/footer";
-import HomeNavbar from "~/components/home/navbar";
-import Seo from "~/components/seo";
+import * as home from "~/client/components/home/sections";
+import A from "~/client/components/anchor";
+import Banner from "~/client/components/banner";
+import Button from "~/client/components/buttons";
+import Footer from "~/client/components/footer";
+import HomeNavbar from "~/client/components/home/navbar";
+import Seo from "~/client/components/seo";
 
 import { SeoProps } from "~/types/components.type";
 
