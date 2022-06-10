@@ -1,13 +1,9 @@
 import { GetStaticProps, NextPage } from "next";
-import { useState } from "react";
 
 import getOgImage from "~/client/lib/getOgImage";
 import prism from "~/client/lib/prism";
 
 import * as home from "~/client/components/home/sections";
-import A from "~/client/components/anchor";
-import Banner from "~/client/components/banner";
-import Button from "~/client/components/buttons";
 import Footer from "~/client/components/footer";
 import HomeNavbar from "~/client/components/home/navbar";
 import Seo from "~/client/components/seo";
@@ -25,7 +21,6 @@ type Props = {
 };
 
 const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr, seo }) => {
-  const [showWarningBanner, setShowWarningBanner] = useState(true);
   return (
     <>
       <Seo {...seo} />
@@ -37,17 +32,6 @@ const Home: NextPage<Props> = ({ plainHtmlHtmlStr, customiseHtmlStr, apiHtmlStr,
       <home.Api codeHtml={apiHtmlStr} />
       <home.Ending />
       <Footer />
-      {showWarningBanner && (
-        <div className="fixed bottom-0 left-0 bg-card border-card rounded m-6">
-          <Banner variant="warning">
-            This site is an <A href="https://orbital.comp.nus.edu.sg">NUS Orbital</A> project. It is
-            not yet functional and is currently under active development.{" "}
-            <Button onClick={() => setShowWarningBanner(false)} className="ml-3">
-              Close
-            </Button>
-          </Banner>
-        </div>
-      )}
     </>
   );
 };
