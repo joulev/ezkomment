@@ -2,13 +2,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import * as PageUtils from "~/server/utils/pageUtils";
+import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
+
 import {
     CreateCommentRequest,
     CreatePageRequest,
     UpdateCommentRequest,
     UpdatePageRequest,
-} from "~/server/types";
-import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
+} from "~/types/server";
 
 ///////////
 // PAGES //
