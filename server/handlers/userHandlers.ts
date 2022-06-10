@@ -1,8 +1,8 @@
 import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import * as userUtils from "@server/utils/userUtils";
-import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
+import * as userUtils from "~/server/utils/userUtils";
+import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
 export async function getUser(req: NextApiRequest, res: NextApiResponse) {
     const { uid } = extractFirstQueryValue(req);

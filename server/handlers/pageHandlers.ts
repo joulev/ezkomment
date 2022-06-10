@@ -1,14 +1,14 @@
 // TODO: Fix sites and pages data models
 import { NextApiRequest, NextApiResponse } from "next";
 
-import * as PageUtils from "@server/utils/pageUtils";
+import * as PageUtils from "~/server/utils/pageUtils";
 import {
     CreateCommentRequest,
     CreatePageRequest,
     UpdateCommentRequest,
     UpdatePageRequest,
-} from "@server/types";
-import { extractFirstQueryValue, reportBadRequest } from "@server/utils/nextHandlerUtils";
+} from "~/server/types";
+import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
 ///////////
 // PAGES //

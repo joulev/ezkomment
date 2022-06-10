@@ -1,6 +1,6 @@
 import { SessionCookieOptions } from "firebase-admin/auth";
 
-import { authAdmin } from "@server/firebase/firebaseAdmin";
+import { authAdmin } from "~/server/firebase/firebaseAdmin";
 
 /**
  * Checks whether the current user is authorized using JWT.
