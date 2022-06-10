@@ -187,7 +187,7 @@ const TopNav: FC<CurrentPage> = props => {
             Log out
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between items-center mx-1 mt-6">
-            <Image src={logo} alt="ezkomment" width={36} height={36} />
+            <Image src={logo} alt="ezkomment" />
             <ModeSwitcher />
           </div>
         </nav>

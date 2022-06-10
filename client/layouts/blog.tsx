@@ -57,7 +57,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({
       <header className="bg-card border-b border-card py-24 print:hidden">
         <div className="container">
           <A className="block logo-width" href="/">
-            <Image src={logo} alt="logo" width={397} height={80} />
+            <Image src={logo} alt="logo" />
           </A>
           <h1 className="text-5xl md:text-6xl font-extralight mb-12 mt-9">{title}</h1>
           <div className="flex flex-col gap-12 md:flex-row md:justify-between">

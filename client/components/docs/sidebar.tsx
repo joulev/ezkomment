@@ -65,7 +65,7 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
               "after:px-1.5 after:py-0.5 after:rounded"
             )}
           >
-            <Image src={logoText} alt="ezkomment" layout="responsive" width={397} height={80} />
+            <Image src={logoText} alt="ezkomment" layout="responsive" />
           </A>
           <button
             className={clsx(
