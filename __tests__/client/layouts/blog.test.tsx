@@ -6,7 +6,7 @@ import useBuildId from "~/client/hooks/buildId";
 
 import BlogLayout from "~/client/layouts/blog";
 
-import { Author } from "~/types/utils.type";
+import { Author } from "~/types/client/utils.type";
 
 type Props = { authors?: Author[]; wordCount?: number };
 const Component: FC<Props> = ({ authors, wordCount }) => (

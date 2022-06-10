@@ -7,7 +7,7 @@ import Button from "~/client/components/buttons";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import AppLayout from "~/client/layouts/app";
 
-import { NextPageWithLayout } from "~/types/utils.type";
+import { NextPageWithLayout } from "~/types/client/utils.type";
 
 const New: NextPageWithLayout = () => (
   <div className="mx-auto max-w-lg">

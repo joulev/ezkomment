@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { AppAuth } from "~/types/auth.type";
+import { AppAuth } from "~/types/client/auth.type";
 
 const AuthContext = createContext<AppAuth>({
     user: null,

@@ -14,8 +14,8 @@ import AuthProvider from "~/client/components/auth/provider";
 import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 
-import { Provider } from "~/types/auth.type";
-import { NextPageWithLayout } from "~/types/utils.type";
+import { Provider } from "~/types/client/auth.type";
+import { NextPageWithLayout } from "~/types/client/utils.type";
 
 import logo from "~/public/images/logo.svg";
 

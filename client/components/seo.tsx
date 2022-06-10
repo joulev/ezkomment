@@ -1,7 +1,7 @@
 import { NextSeo } from "next-seo";
 import { FC } from "react";
 
-import { SeoProps } from "~/types/components.type";
+import { SeoProps } from "~/types/client/components.type";
 
 const Seo: FC<SeoProps> = ({ title, description, image, url }) => (
   <NextSeo

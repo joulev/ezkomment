@@ -2,7 +2,7 @@ import captureWebsite from "capture-website";
 import { createHash } from "crypto";
 import { mkdirSync, writeFileSync } from "fs";
 
-import { OgImageProps } from "~/types/components.type";
+import { OgImageProps } from "~/types/client/components.type";
 
 export default async function getOgImage({ title, label }: OgImageProps) {
     if (!process.env.VERCEL) return "only run on Vercel";

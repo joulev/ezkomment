@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { CurrentPage } from "~/types/page.type";
+import { CurrentPage } from "~/types/client/page.type";
 
 import MainNav from "./main";
 import TopNav from "./top";

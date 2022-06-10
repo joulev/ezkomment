@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { FC } from "react";
 
-import { CommentsProps } from "~/types/components.type";
+import { CommentsProps } from "~/types/client/components.type";
 
 /**
  * Display comments as in `/app/site/[siteName]/[pageName]/index.tsx`

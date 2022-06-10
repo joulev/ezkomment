@@ -8,7 +8,7 @@ import Navbar from "~/client/components/app/navbar";
 import AuthProvider from "~/client/components/auth/provider";
 import Footer from "~/client/components/footer";
 
-import { AppProps } from "~/types/components.type";
+import { AppProps } from "~/types/client/components.type";
 
 const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
   const { user } = useAuth();

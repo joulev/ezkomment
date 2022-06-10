@@ -3,7 +3,7 @@ import { ComponentProps, FC, forwardRef, useRef, useState } from "react";
 
 import A from "~/client/components/anchor";
 
-import { CurrentPage, NavbarItems, PageType } from "~/types/page.type";
+import { CurrentPage, NavbarItems, PageType } from "~/types/client/page.type";
 
 type Item = {
   href: string;

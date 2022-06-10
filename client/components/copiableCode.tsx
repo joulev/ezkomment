@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 
-import { CopiableCodeProps } from "~/types/components.type";
+import { CopiableCodeProps } from "~/types/client/components.type";
 
 import IconLabel from "./utils/iconAndLabel";
 

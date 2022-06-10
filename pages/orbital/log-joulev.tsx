@@ -11,9 +11,9 @@ import A from "~/client/components/anchor";
 import Banner from "~/client/components/banner";
 import BlogLayout from "~/client/layouts/blog";
 
-import { SeoProps } from "~/types/components.type";
-import { ProjectLog } from "~/types/utils.type";
-import { NextPageWithLayout } from "~/types/utils.type";
+import { SeoProps } from "~/types/client/components.type";
+import { ProjectLog } from "~/types/client/utils.type";
+import { NextPageWithLayout } from "~/types/client/utils.type";
 
 import authors from "~/constants/authors";
 

@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { SectionProps } from "~/types/components.type";
+import { SectionProps } from "~/types/client/components.type";
 
 /**
  * A section in the home page. If an illustration is available, the section is displayed with the

@@ -4,7 +4,7 @@ import theme from "~/config/tailwindTheme";
 
 import BreakpointContext from "~/client/context/breakpoint";
 
-import { Breakpoint } from "~/types/utils.type";
+import { Breakpoint } from "~/types/client/utils.type";
 
 /**
  * Get the current browser breakpoint.

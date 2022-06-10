@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import AuthContext from "~/client/context/auth";
 import firebaseApp from "~/client/lib/firebase/app";
 
-import { AppAuth } from "~/types/auth.type";
+import { AppAuth } from "~/types/client/auth.type";
 
 import { endProgress, startProgress } from "./nprogress";
 

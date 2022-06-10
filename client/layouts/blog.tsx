@@ -8,8 +8,8 @@ import Footer from "~/client/components/footer";
 import HomeNavbar from "~/client/components/home/navbar";
 import Seo from "~/client/components/seo";
 
-import { BlogLayoutProps } from "~/types/components.type";
-import { Author } from "~/types/utils.type";
+import { BlogLayoutProps } from "~/types/client/components.type";
+import { Author } from "~/types/client/utils.type";
 
 import defaultAvatar from "~/public/images/default-photo.svg";
 import logo from "~/public/images/logo-text.svg";

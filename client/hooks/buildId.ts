@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { BuildInfo } from "~/types/utils.type";
+import { BuildInfo } from "~/types/client/utils.type";
 
 function parseBuildId(buildId: string): BuildInfo {
     if (process.env.NODE_ENV === "development") return { hash: "", timestamp: 0 };

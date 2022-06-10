@@ -1,6 +1,6 @@
 import { FC, Fragment } from "react";
 
-import { NavData } from "~/types/docs.type";
+import { NavData } from "~/types/client/docs.type";
 
 import SidebarLink from "./sidebarlink";
 

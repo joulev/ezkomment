@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC, useEffect, useRef, useState } from "react";
 
-import { SiteGraphProps } from "~/types/components.type";
+import { SiteGraphProps } from "~/types/client/components.type";
 
 const DateText: FC<{ daysAgo: number }> = ({ daysAgo }) => {
   if (daysAgo === 0) return <>Today</>;

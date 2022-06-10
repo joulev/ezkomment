@@ -1,4 +1,4 @@
-import { Author } from "~/types/utils.type";
+import { Author } from "~/types/client/utils.type";
 
 const authors: { [key: string]: Author } = {
     joulev: {
