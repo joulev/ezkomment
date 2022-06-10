@@ -15,12 +15,13 @@
 
 ## Development
 
-This is the monorepo for everything related to ezkomment. See readme for [front-end](/packages/client) and [back-end](/packages/server) for more details.
-
-This project uses Yarn workspaces. To install all dependencies, simply run
-
-```
-$ yarn
+```sh
+$ yarn          # install dependencies
+$ yarn dev      # start a development server at localhost:3000
+$ yarn build    # build the app in production mode
+$ yarn start    # start the app (after yarn build) in production mode
+$ yarn test     # run unit tests in dev mode (only run changed tests)
+$ yarn test:ci  # run all unit tests
 ```
 
 [See development guide in the Wiki](https://github.com/joulev/ezkomment/wiki/Development-Guide).
