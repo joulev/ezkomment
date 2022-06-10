@@ -24,7 +24,7 @@ $ yarn test     # run unit tests in dev mode (only run changed tests)
 $ yarn test:ci  # run all unit tests
 ```
 
-[See development guide in the Wiki](https://github.com/joulev/ezkomment/wiki/Development-Guide).
+[See the development guide](CONTRIBUTING.md).
 
 ## Helpful links
 
