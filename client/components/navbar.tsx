@@ -40,7 +40,7 @@ const PublicNavbar: FC = () => {
           href={router.pathname === "/" ? undefined : "/"}
           onClick={() => router.pathname === "/" && window.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          <Image src={logoText} alt="logo" layout="responsive" width={397} height={80} />
+          <Image src={logoText} alt="logo" layout="responsive" />
         </A>
         <Button
           variant={breakpoint === "xs" ? "tertiary" : "primary"}

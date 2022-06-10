@@ -62,12 +62,7 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto container text-center">
           <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/">
-            <Image
-              src={theme === "dark" ? logoDark : logoLight}
-              alt="logo with orbital"
-              width={801}
-              height={80}
-            />
+            <Image src={theme === "dark" ? logoDark : logoLight} alt="logo with orbital" />
           </A>
           <h1>
             <span className="text-indigo-500 font-bold">ezkomment</span> is an NUS Orbital&nbsp;2022
