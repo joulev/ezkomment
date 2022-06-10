@@ -27,6 +27,6 @@ $ yarn
 
 ## Helpful links
 
-- [Production front-end deployment](https://ezkomment.joulev.dev)
-- [Development front-end deployment](https://ezkdev.joulev.dev)
+- [Production deployment](https://ezkomment.joulev.dev)
+- [Development deployment](https://ezkdev.joulev.dev)
 - [ezkomment is a NUS Orbital 2022 project](https://ezkdev.joulev.dev/orbital)
