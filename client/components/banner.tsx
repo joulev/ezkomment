@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import { BannerProps } from "~/types/components.type";
-import { BannerVariant } from "~/types/utils.type";
+import { BannerProps } from "~/types/client/components.type";
+import { BannerVariant } from "~/types/client/utils.type";
 
 /**
  * A banner (for warnings, etc.)

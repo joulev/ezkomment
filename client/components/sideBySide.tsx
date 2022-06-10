@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC, useEffect, useRef } from "react";
 
-import { SideBySideProps } from "~/types/components.type";
+import { SideBySideProps } from "~/types/client/components.type";
 
 /**
  * Create a resizable side-by-side component.

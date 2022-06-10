@@ -14,8 +14,8 @@ import DocsBottomBar from "~/client/components/docs/bottombar";
 import DocsSidebar from "~/client/components/docs/sidebar";
 import Seo from "~/client/components/seo";
 
-import { SeoProps } from "~/types/components.type";
-import { DocsData, NavData } from "~/types/docs.type";
+import { SeoProps } from "~/types/client/components.type";
+import { DocsData, NavData } from "~/types/client/docs.type";
 
 type URLParams = { slug: string[] };
 type PageProps = Omit<DocsData, "title"> & {

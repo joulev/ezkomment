@@ -16,8 +16,8 @@ import Footer from "~/client/components/footer";
 import HomeNavbar from "~/client/components/home/navbar";
 import Seo from "~/client/components/seo";
 
-import { SeoProps } from "~/types/components.type";
-import { IconType } from "~/types/utils.type";
+import { SeoProps } from "~/types/client/components.type";
+import { IconType } from "~/types/client/utils.type";
 
 import logoDark from "~/public/images/orbital/logo-orbital-dark.svg";
 import logoLight from "~/public/images/orbital/logo-orbital-light.svg";

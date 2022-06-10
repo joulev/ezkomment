@@ -4,7 +4,7 @@ import TagOutlinedIcon from "@mui/icons-material/TagOutlined";
 
 import A from "~/client/components/anchor";
 
-import { PostHeadingProps } from "~/types/components.type";
+import { PostHeadingProps } from "~/types/client/components.type";
 
 const PostHeading: FC<PostHeadingProps & { level: number }> = ({ level, id, children }) => {
   const HeadingTag: keyof JSX.IntrinsicElements = `h${level as 1 | 2 | 3 | 4 | 5 | 6}`;

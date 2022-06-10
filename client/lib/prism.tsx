@@ -1,7 +1,7 @@
 import { highlight, languages } from "prismjs";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import { PrismOptions } from "~/types/utils.type";
+import { PrismOptions } from "~/types/client/utils.type";
 
 function addLineNumbers(codeHtml: string, lineNumberFrom: number) {
   const lines = codeHtml.split("\n");

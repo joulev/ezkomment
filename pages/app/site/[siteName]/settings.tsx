@@ -15,7 +15,7 @@ import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
-import { NextPageWithLayout } from "~/types/utils.type";
+import { NextPageWithLayout } from "~/types/client/utils.type";
 
 import site from "~/sample/site.json";
 

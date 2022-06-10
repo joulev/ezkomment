@@ -13,7 +13,7 @@ import {
 
 import { NOT_AUTHENTICATED } from "~/client/lib/errors";
 
-import { AppAuth, Provider } from "~/types/auth.type";
+import { AppAuth, Provider } from "~/types/client/auth.type";
 
 import firebaseApp from "./app";
 

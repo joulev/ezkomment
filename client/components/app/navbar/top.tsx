@@ -16,8 +16,8 @@ import { signOut } from "~/client/lib/firebase/auth";
 import A from "~/client/components/anchor";
 import ModeSwitcher from "~/client/components/modeSwitcher";
 
-import { CurrentPage } from "~/types/page.type";
-import { IconType } from "~/types/utils.type";
+import { CurrentPage } from "~/types/client/page.type";
+import { IconType } from "~/types/client/utils.type";
 
 import defaultAvatar from "~/public/images/default-photo.svg";
 import logo from "~/public/images/logo.svg";

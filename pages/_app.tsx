@@ -11,7 +11,7 @@ import A from "~/client/components/anchor";
 import PostHeading from "~/client/components/postHeading";
 import { ErrorBoundary } from "~/client/layouts/errors";
 
-import { AppPropsWithLayout } from "~/types/utils.type";
+import { AppPropsWithLayout } from "~/types/client/utils.type";
 
 import "~/client/styles/globals.css";
 

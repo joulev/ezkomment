@@ -4,7 +4,7 @@ import mockRouter from "next-router-mock";
 
 import Nav from "~/client/components/docs/navbar";
 
-import { NavData } from "~/types/docs.type";
+import { NavData } from "~/types/client/docs.type";
 
 jest.mock("next/router", () => require("next-router-mock"));
 

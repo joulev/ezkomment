@@ -2,7 +2,7 @@ import { NextApiHandler } from "next";
 
 import getProjectLogJoulev from "~/client/lib/orbital/logJoulev";
 
-import { ProjectLog } from "~/types/utils.type";
+import { ProjectLog } from "~/types/client/utils.type";
 
 /**
  * A wrapper to fetch the project log from Google Sheets. I don't want to expose the Google Sheets

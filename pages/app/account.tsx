@@ -33,8 +33,8 @@ import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
-import { Provider } from "~/types/auth.type";
-import { NextPageWithLayout } from "~/types/utils.type";
+import { Provider } from "~/types/client/auth.type";
+import { NextPageWithLayout } from "~/types/client/utils.type";
 
 type Msg = { type: "success" | "error"; message: ReactNode } | null;
 

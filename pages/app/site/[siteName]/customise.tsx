@@ -26,7 +26,7 @@ import SideBySide from "~/client/components/sideBySide";
 import IconLabel from "~/client/components/utils/iconAndLabel";
 import AppLayout from "~/client/layouts/app";
 
-import { IconAndLabel, NextPageWithLayout } from "~/types/utils.type";
+import { IconAndLabel, NextPageWithLayout } from "~/types/client/utils.type";
 
 import { all, comment, styles } from "~/constants/sampleCommentCode";
 

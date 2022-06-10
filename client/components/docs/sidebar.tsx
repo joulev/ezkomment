@@ -13,7 +13,7 @@ import A from "~/client/components/anchor";
 import Input from "~/client/components/forms/input";
 import ModeSwitcher from "~/client/components/modeSwitcher";
 
-import { NavData } from "~/types/docs.type";
+import { NavData } from "~/types/client/docs.type";
 
 import logoText from "~/public/images/logo-text.svg";
 

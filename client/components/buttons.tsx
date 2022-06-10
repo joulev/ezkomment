@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 
-import { ButtonProps } from "~/types/components.type";
-import { ButtonVariant } from "~/types/utils.type";
+import { ButtonProps } from "~/types/client/components.type";
+import { ButtonVariant } from "~/types/client/utils.type";
 
 import A from "./anchor";
 import IconLabel from "./utils/iconAndLabel";

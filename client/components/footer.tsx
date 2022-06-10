@@ -12,8 +12,8 @@ import useBuildId from "~/client/hooks/buildId";
 import A from "~/client/components/anchor";
 import ModeSwitcher from "~/client/components/modeSwitcher";
 
-import { FooterProps } from "~/types/components.type";
-import { IconType } from "~/types/utils.type";
+import { FooterProps } from "~/types/client/components.type";
+import { IconType } from "~/types/client/utils.type";
 
 import logoText from "~/public/images/logo-text.svg";
 

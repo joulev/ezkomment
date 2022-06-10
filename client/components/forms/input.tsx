@@ -3,7 +3,7 @@ import { FC } from "react";
 
 import IconLabel from "~/client/components/utils/iconAndLabel";
 
-import { InputDetachedLabelProps, InputProps } from "~/types/components.type";
+import { InputDetachedLabelProps, InputProps } from "~/types/client/components.type";
 
 /**
  * A wrapper for the default `input` component, with styling from the design system and label
