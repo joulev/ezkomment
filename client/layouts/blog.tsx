@@ -5,7 +5,7 @@ import { FC, useEffect, useState } from "react";
 
 import A from "~/client/components/anchor";
 import Footer from "~/client/components/footer";
-import HomeNavbar from "~/client/components/home/navbar";
+import PublicNavbar from "~/client/components/navbar";
 import Seo from "~/client/components/seo";
 
 import { BlogLayoutProps } from "~/types/client/components.type";
@@ -53,7 +53,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({
   return (
     <>
       <Seo {...seo} />
-      <HomeNavbar />
+      <PublicNavbar />
       <header className="bg-card border-b border-card py-24 print:hidden">
         <div className="container">
           <A className="block logo-width" href="/">

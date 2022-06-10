@@ -8,7 +8,7 @@ import BreakpointContext from "~/client/context/breakpoint";
 import { useBreakpointInit } from "~/client/hooks/breakpoint";
 import setupMediaViewport from "~/client/lib/tests/setupMediaViewport";
 
-import Nav from "~/client/components/home/navbar";
+import Nav from "~/client/components/navbar";
 
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("next/dist/client/router", () => require("next-router-mock"));

@@ -11,11 +11,11 @@ import Button from "~/client/components/buttons";
 
 import logoText from "~/public/images/logo-text.svg";
 
-import A from "../anchor";
+import A from "./anchor";
 
 const scrollThreshold = 300;
 
-const HomeNavbar: FC = () => {
+const PublicNavbar: FC = () => {
   const breakpoint = useBreakpoint();
   const router = useRouter();
 
@@ -54,4 +54,4 @@ const HomeNavbar: FC = () => {
   );
 };
 
-export default HomeNavbar;
+export default PublicNavbar;
