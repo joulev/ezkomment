@@ -15,15 +15,16 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import monacoOptions from "~/config/monaco";
-import useBreakpoint from "~/hooks/breakpoint";
-import useTheme from "~/hooks/theme";
-import generateCommentHTML from "~/lib/client/generateCommentHTML";
 
-import Button from "~/components/buttons";
-import Input from "~/components/forms/input";
-import SideBySide from "~/components/sideBySide";
-import IconLabel from "~/components/utils/iconAndLabel";
-import AppLayout from "~/layouts/app";
+import useBreakpoint from "~/client/hooks/breakpoint";
+import useTheme from "~/client/hooks/theme";
+import generateCommentHTML from "~/client/lib/generateCommentHTML";
+
+import Button from "~/client/components/buttons";
+import Input from "~/client/components/forms/input";
+import SideBySide from "~/client/components/sideBySide";
+import IconLabel from "~/client/components/utils/iconAndLabel";
+import AppLayout from "~/client/layouts/app";
 
 import { IconAndLabel, NextPageWithLayout } from "~/types/utils.type";
 

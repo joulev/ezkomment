@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 
-import getProjectLogJoulev from "~/lib/client/orbital/logJoulev";
+import getProjectLogJoulev from "~/client/lib/orbital/logJoulev";
 
 import { ProjectLog } from "~/types/utils.type";
 

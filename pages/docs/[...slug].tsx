@@ -7,12 +7,12 @@ import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkPrism from "remark-prism";
 
-import { filePaths, getFileData, navData } from "~/lib/client/documentation";
-import getOgImage from "~/lib/client/getOgImage";
+import { filePaths, getFileData, navData } from "~/client/lib/documentation";
+import getOgImage from "~/client/lib/getOgImage";
 
-import DocsBottomBar from "~/components/docs/bottombar";
-import DocsSidebar from "~/components/docs/sidebar";
-import Seo from "~/components/seo";
+import DocsBottomBar from "~/client/components/docs/bottombar";
+import DocsSidebar from "~/client/components/docs/sidebar";
+import Seo from "~/client/components/seo";
 
 import { SeoProps } from "~/types/components.type";
 import { DocsData, NavData } from "~/types/docs.type";

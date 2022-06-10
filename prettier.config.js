@@ -31,15 +31,16 @@ module.exports = {
     },
   ],
   importOrder: [
+    "^@mui/(.*)$",
+    "^~/config/(.*)$",
     // Server import order
     "^@server/(.*)$",
     // Client import order
-    "^@mui/(.*)$",
-    "^~/(config|lib|context|hooks)/(.*)$",
-    "^~/(layouts|components)/(.*)$",
+    "^~/client/(lib|context|hooks)/(.*)$",
+    "^~/client/(layouts|components)/(.*)$",
     "^~/types/(.*)$",
-    "^~/(public|markdown|constants)/(.*)$",
-    "^~/styles/(.*)$",
+    "^~/client/styles/(.*)$",
+    "^~/(public|constants)/(.*)$",
     "^~/sample/(.*)$",
     // Relative import
     "^[./]",

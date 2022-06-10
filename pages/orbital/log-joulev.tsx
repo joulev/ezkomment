@@ -4,12 +4,12 @@ import { FC, Fragment, ReactNode, ReactNodeArray } from "react";
 import reactStringReplace from "react-string-replace";
 import useSWR from "swr";
 
-import getOgImage from "~/lib/client/getOgImage";
-import getProjectLogJoulev from "~/lib/client/orbital/logJoulev";
+import getOgImage from "~/client/lib/getOgImage";
+import getProjectLogJoulev from "~/client/lib/orbital/logJoulev";
 
-import A from "~/components/anchor";
-import Banner from "~/components/banner";
-import BlogLayout from "~/layouts/blog";
+import A from "~/client/components/anchor";
+import Banner from "~/client/components/banner";
+import BlogLayout from "~/client/layouts/blog";
 
 import { SeoProps } from "~/types/components.type";
 import { ProjectLog } from "~/types/utils.type";
