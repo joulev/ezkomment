@@ -1,3 +1,4 @@
+import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
     Comment,
     CreateCommentRequest,
@@ -6,14 +7,13 @@ import {
     UpdatePageRequest,
 } from "~/server/types";
 
-import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { deleteCollection } from "./firestoreUtils";
 
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");
 
 /**
  * Gets the reference to the comment subcollection of a page.
- * 
+ *
  * @param pageId The page's id
  * @returns The reference to the `comments` subcollection.
  */
@@ -31,9 +31,9 @@ export async function getPageById(pageId: string) {
         throw Error("No such page!");
     }
     // Get all comment in the page as well.
-    const comments: Comment[] = <Comment[]> await getCommentsCollection(pageId)
+    const comments: Comment[] = (await getCommentsCollection(pageId)
         .get()
-        .then(query => query.docs.map(doc => doc.data()));
+        .then(query => query.docs.map(doc => doc.data()))) as Comment[];
     return {
         ...result,
         approvedComments: comments.filter(c => c.status === "Approved"),
