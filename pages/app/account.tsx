@@ -11,9 +11,9 @@ import GoogleIcon from "@mui/icons-material/Google";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
-import useAuth from "@client/hooks/auth";
-import useBreakpoint from "@client/hooks/breakpoint";
-import { NOT_AUTHENTICATED } from "@client/lib/client/errors";
+import useAuth from "~/hooks/auth";
+import useBreakpoint from "~/hooks/breakpoint";
+import { NOT_AUTHENTICATED } from "~/lib/client/errors";
 import {
   deleteAccount,
   githubProvider,
@@ -22,19 +22,19 @@ import {
   reauthenticate,
   unlink,
   updateDisplayName,
-} from "@client/lib/client/firebase/auth";
+} from "~/lib/client/firebase/auth";
 
-import AuthError from "@client/components/auth/error";
-import Banner from "@client/components/banner";
-import Button from "@client/components/buttons";
-import CopiableCode from "@client/components/copiableCode";
-import { InputDetachedLabel } from "@client/components/forms/input";
-import Modal from "@client/components/modal";
-import RightAligned from "@client/components/utils/rightAligned";
-import AppLayout from "@client/layouts/app";
+import AuthError from "~/components/auth/error";
+import Banner from "~/components/banner";
+import Button from "~/components/buttons";
+import CopiableCode from "~/components/copiableCode";
+import { InputDetachedLabel } from "~/components/forms/input";
+import Modal from "~/components/modal";
+import RightAligned from "~/components/utils/rightAligned";
+import AppLayout from "~/layouts/app";
 
-import { Provider } from "@client/types/auth.type";
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { Provider } from "~/types/auth.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
 type Msg = { type: "success" | "error"; message: ReactNode } | null;
 

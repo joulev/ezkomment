@@ -3,16 +3,16 @@ import { parseISO } from "date-fns";
 import { GetStaticProps } from "next";
 import { Fragment } from "react";
 
-import getOgImage from "@client/lib/client/getOgImage";
+import getOgImage from "~/lib/client/getOgImage";
 
-import A from "@client/components/anchor";
-import Banner from "@client/components/banner";
-import BlogLayout from "@client/layouts/blog";
+import A from "~/components/anchor";
+import Banner from "~/components/banner";
+import BlogLayout from "~/layouts/blog";
 
-import { SeoProps } from "@client/types/components.type";
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { SeoProps } from "~/types/components.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
-import authors from "@client/constants/authors";
+import authors from "~/constants/authors";
 
 import data from "./log-vietanh.json";
 

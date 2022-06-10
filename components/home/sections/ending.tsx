@@ -1,7 +1,7 @@
 import { FC } from "react";
 
-import Button from "@client/components/buttons";
-import Section from "@client/components/home/section";
+import Button from "~/components/buttons";
+import Section from "~/components/home/section";
 
 const HomeEnding: FC = () => (
   <Section>

@@ -1,9 +1,9 @@
-import getOgImage from "@client/lib/client/getOgImage";
+import getOgImage from "~/lib/client/getOgImage";
 
-import BlogImage from "@client/components/blogImage";
-import BlogLayout from "@client/layouts/blog";
+import BlogImage from "~/components/blogImage";
+import BlogLayout from "~/layouts/blog";
 
-import authors from "@client/constants/authors";
+import authors from "~/constants/authors";
 
 export async function getStaticProps() {
   const image = await getOgImage({ title: "Orbital 2022 Milestone 1 README", label: "orbital" });

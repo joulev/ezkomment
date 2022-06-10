@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FC } from "react";
 
-import useBuildId from "@client/hooks/buildId";
+import useBuildId from "~/hooks/buildId";
 
 const Component: FC = () => {
   const { hash, timestamp } = useBuildId();

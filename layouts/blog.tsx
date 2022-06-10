@@ -3,16 +3,16 @@ import { format } from "date-fns";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
-import A from "@client/components/anchor";
-import Footer from "@client/components/footer";
-import HomeNavbar from "@client/components/home/navbar";
-import Seo from "@client/components/seo";
+import A from "~/components/anchor";
+import Footer from "~/components/footer";
+import HomeNavbar from "~/components/home/navbar";
+import Seo from "~/components/seo";
 
-import { BlogLayoutProps } from "@client/types/components.type";
-import { Author } from "@client/types/utils.type";
+import { BlogLayoutProps } from "~/types/components.type";
+import { Author } from "~/types/utils.type";
 
-import defaultAvatar from "@client/public/images/default-photo.svg";
-import logo from "@client/public/images/logo-text.svg";
+import defaultAvatar from "~/public/images/default-photo.svg";
+import logo from "~/public/images/logo-text.svg";
 
 const AuthorCard: FC<Author> = ({ name, github }) => (
   <div className="flex flex-row gap-3 items-center">

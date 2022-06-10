@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
-import Button from "@client/components/buttons";
+import Button from "~/components/buttons";
 
 describe("Button component", () => {
   it("`variant` testing", () => {

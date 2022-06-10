@@ -3,10 +3,10 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FC, ReactNode } from "react";
 
-import ModeContext from "@client/context/mode";
-import useTheme, { useMode, useModeInit } from "@client/hooks/theme";
+import ModeContext from "~/context/mode";
+import useTheme, { useMode, useModeInit } from "~/hooks/theme";
 
-import ModeSwitcher from "@client/components/modeSwitcher";
+import ModeSwitcher from "~/components/modeSwitcher";
 
 /**
  * @see https://stackoverflow.com/a/53449595

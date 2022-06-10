@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import IconLabel from "@client/components/utils/iconAndLabel";
+import IconLabel from "~/components/utils/iconAndLabel";
 
-import { SelectProps } from "@client/types/components.type";
+import { SelectProps } from "~/types/components.type";
 
 /**
  * A wrapper for the default `select` component, with styling from the design system and label

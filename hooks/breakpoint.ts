@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 
-import theme from "@client/config/tailwindTheme";
-import BreakpointContext from "@client/context/breakpoint";
+import theme from "~/config/tailwindTheme";
+import BreakpointContext from "~/context/breakpoint";
 
-import { Breakpoint } from "@client/types/utils.type";
+import { Breakpoint } from "~/types/utils.type";
 
 /**
  * Get the current browser breakpoint.

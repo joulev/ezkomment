@@ -1,9 +1,9 @@
 import { FC } from "react";
 
-import Button from "@client/components/buttons";
-import CodeBlock from "@client/components/home/codeblock";
-import Section from "@client/components/home/section";
-import Window from "@client/components/home/window";
+import Button from "~/components/buttons";
+import CodeBlock from "~/components/home/codeblock";
+import Section from "~/components/home/section";
+import Window from "~/components/home/window";
 
 const HomePlainHTML: FC<{ codeHtml: string }> = ({ codeHtml }) => (
   <Section

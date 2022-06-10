@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
-import A from "@client/components/anchor";
+import A from "~/components/anchor";
 
 describe("Anchor component", () => {
   it("`href` tests", () => {

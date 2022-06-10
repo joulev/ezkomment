@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import CopiableCode from "@client/components/copiableCode";
+import CopiableCode from "~/components/copiableCode";
 
 describe("Copiable code component", () => {
   it("Able to copy code", async () => {

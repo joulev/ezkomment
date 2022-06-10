@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import Head from "next/head";
 import Image from "next/image";
 import { MouseEvent, ReactNode, useState } from "react";
@@ -6,19 +5,19 @@ import { MouseEvent, ReactNode, useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
-import useAuth from "@client/hooks/auth";
-import { githubProvider, googleProvider, signIn } from "@client/lib/client/firebase/auth";
+import useAuth from "~/hooks/auth";
+import { githubProvider, googleProvider, signIn } from "~/lib/client/firebase/auth";
 
-import A from "@client/components/anchor";
-import AuthError from "@client/components/auth/error";
-import AuthProvider from "@client/components/auth/provider";
-import Banner from "@client/components/banner";
-import Button from "@client/components/buttons";
+import A from "~/components/anchor";
+import AuthError from "~/components/auth/error";
+import AuthProvider from "~/components/auth/provider";
+import Banner from "~/components/banner";
+import Button from "~/components/buttons";
 
-import { Provider } from "@client/types/auth.type";
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { Provider } from "~/types/auth.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
-import logo from "@client/public/images/logo.svg";
+import logo from "~/public/images/logo.svg";
 
 const Auth: NextPageWithLayout = () => {
   const auth = useAuth();

@@ -6,17 +6,17 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
-import useBreakpoint from "@client/hooks/breakpoint";
+import useBreakpoint from "~/hooks/breakpoint";
 
-import A from "@client/components/anchor";
-import Button from "@client/components/buttons";
-import Input from "@client/components/forms/input";
-import Select from "@client/components/forms/select";
-import AppLayout from "@client/layouts/app";
+import A from "~/components/anchor";
+import Button from "~/components/buttons";
+import Input from "~/components/forms/input";
+import Select from "~/components/forms/select";
+import AppLayout from "~/layouts/app";
 
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
-import sites from "@client/sample/sites.json";
+import sites from "~/sample/sites.json";
 
 type Site = typeof sites[number];
 type Props = { sites: Site[] };

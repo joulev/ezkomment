@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
 const OpenGraphImageGenerator: NextPageWithLayout = () => {
   const router = useRouter();

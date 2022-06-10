@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import { IconAndLabelProps } from "@client/types/components.type";
+import { IconAndLabelProps } from "~/types/components.type";
 
 /**
  * Consistently place a MUI icon in front of a label

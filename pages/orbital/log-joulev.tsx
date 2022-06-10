@@ -4,18 +4,18 @@ import { FC, Fragment, ReactNode, ReactNodeArray } from "react";
 import reactStringReplace from "react-string-replace";
 import useSWR from "swr";
 
-import getOgImage from "@client/lib/client/getOgImage";
-import getProjectLogJoulev from "@client/lib/client/orbital/logJoulev";
+import getOgImage from "~/lib/client/getOgImage";
+import getProjectLogJoulev from "~/lib/client/orbital/logJoulev";
 
-import A from "@client/components/anchor";
-import Banner from "@client/components/banner";
-import BlogLayout from "@client/layouts/blog";
+import A from "~/components/anchor";
+import Banner from "~/components/banner";
+import BlogLayout from "~/layouts/blog";
 
-import { SeoProps } from "@client/types/components.type";
-import { ProjectLog } from "@client/types/utils.type";
-import { NextPageWithLayout } from "@client/types/utils.type";
+import { SeoProps } from "~/types/components.type";
+import { ProjectLog } from "~/types/utils.type";
+import { NextPageWithLayout } from "~/types/utils.type";
 
-import authors from "@client/constants/authors";
+import authors from "~/constants/authors";
 
 type Props = {
   data: ProjectLog;

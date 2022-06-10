@@ -1,4 +1,4 @@
-import { ProjectLog } from "@client/types/utils.type";
+import { ProjectLog } from "~/types/utils.type";
 
 export default async function getProjectLogJoulev(): Promise<ProjectLog> {
     try {

@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import A from "@client/components/anchor";
+import A from "~/components/anchor";
 
 const AuthError: FC<{ err: NodeJS.ErrnoException }> = ({ err }) => {
   if (process.env.NODE_ENV === "development") console.log(err);

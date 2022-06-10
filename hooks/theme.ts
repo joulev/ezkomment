@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 
-import ModeContext from "@client/context/mode";
+import ModeContext from "~/context/mode";
 
-import { Mode } from "@client/types/utils.type";
+import { Mode } from "~/types/utils.type";
 
 /**
  * Check whether the current mode is a dark theme or not, especially for "system" mode.

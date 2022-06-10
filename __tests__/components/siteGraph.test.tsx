@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import SiteGraph from "@client/components/siteGraph";
+import SiteGraph from "~/components/siteGraph";
 
 const totalComment = [
   39, 47, 50, 52, 56, 58, 61, 68, 72, 75, 81, 83, 85, 87, 88, 96, 97, 99, 104, 107, 108, 111, 112,

@@ -11,9 +11,9 @@ import {
     updateProfile,
 } from "firebase/auth";
 
-import { NOT_AUTHENTICATED } from "@client/lib/client/errors";
+import { NOT_AUTHENTICATED } from "~/lib/client/errors";
 
-import { AppAuth, Provider } from "@client/types/auth.type";
+import { AppAuth, Provider } from "~/types/auth.type";
 
 import firebaseApp from "./app";
 

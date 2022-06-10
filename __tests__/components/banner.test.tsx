@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
-import Banner from "@client/components/banner";
+import Banner from "~/components/banner";
 
 describe("Banner component", () => {
   it("`variant` testing", () => {

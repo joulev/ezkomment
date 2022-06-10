@@ -3,7 +3,7 @@
  */
 import { highlight, languages } from "prismjs";
 
-import prism from "@client/lib/client/prism";
+import prism from "~/lib/client/prism";
 
 const code = `const getBreakpoint = (): Breakpoint =>
 typeof window === "undefined" || !theme.screens

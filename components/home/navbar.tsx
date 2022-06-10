@@ -5,11 +5,11 @@ import { FC, useEffect, useState } from "react";
 
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 
-import useBreakpoint from "@client/hooks/breakpoint";
+import useBreakpoint from "~/hooks/breakpoint";
 
-import Button from "@client/components/buttons";
+import Button from "~/components/buttons";
 
-import logoText from "@client/public/images/logo-text.svg";
+import logoText from "~/public/images/logo-text.svg";
 
 import A from "../anchor";
 

@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { ModeContextType } from "@client/types/utils.type";
+import { ModeContextType } from "~/types/utils.type";
 
 const ModeContext = createContext<ModeContextType>({
     mode: "system",

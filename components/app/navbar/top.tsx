@@ -10,17 +10,17 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-import useAuth from "@client/hooks/auth";
-import { signOut } from "@client/lib/client/firebase/auth";
+import useAuth from "~/hooks/auth";
+import { signOut } from "~/lib/client/firebase/auth";
 
-import A from "@client/components/anchor";
-import ModeSwitcher from "@client/components/modeSwitcher";
+import A from "~/components/anchor";
+import ModeSwitcher from "~/components/modeSwitcher";
 
-import { CurrentPage } from "@client/types/page.type";
-import { IconType } from "@client/types/utils.type";
+import { CurrentPage } from "~/types/page.type";
+import { IconType } from "~/types/utils.type";
 
-import defaultAvatar from "@client/public/images/default-photo.svg";
-import logo from "@client/public/images/logo.svg";
+import defaultAvatar from "~/public/images/default-photo.svg";
+import logo from "~/public/images/logo.svg";
 
 type LinkOrButtonProps =
   | { href: string; onClick?: never }

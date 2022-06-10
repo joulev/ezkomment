@@ -2,13 +2,13 @@ import clsx from "clsx";
 import Head from "next/head";
 import { FC } from "react";
 
-import useAuth from "@client/hooks/auth";
+import useAuth from "~/hooks/auth";
 
-import Navbar from "@client/components/app/navbar";
-import AuthProvider from "@client/components/auth/provider";
-import Footer from "@client/components/footer";
+import Navbar from "~/components/app/navbar";
+import AuthProvider from "~/components/auth/provider";
+import Footer from "~/components/footer";
 
-import { AppProps } from "@client/types/components.type";
+import { AppProps } from "~/types/components.type";
 
 const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
   const { user } = useAuth();

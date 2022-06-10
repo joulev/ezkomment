@@ -2,7 +2,7 @@
 import clsx from "clsx";
 import { FC } from "react";
 
-import { BlogImageProps } from "@client/types/components.type";
+import { BlogImageProps } from "~/types/components.type";
 
 const BlogImage: FC<BlogImageProps> = ({ src, caption }) => (
   <div className="flex flex-col items-center gap-3 py-3 mb-3">

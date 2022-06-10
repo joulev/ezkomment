@@ -7,15 +7,15 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import useBuildId from "@client/hooks/buildId";
+import useBuildId from "~/hooks/buildId";
 
-import A from "@client/components/anchor";
-import Input from "@client/components/forms/input";
-import ModeSwitcher from "@client/components/modeSwitcher";
+import A from "~/components/anchor";
+import Input from "~/components/forms/input";
+import ModeSwitcher from "~/components/modeSwitcher";
 
-import { NavData } from "@client/types/docs.type";
+import { NavData } from "~/types/docs.type";
 
-import logoText from "@client/public/images/logo-text.svg";
+import logoText from "~/public/images/logo-text.svg";
 
 import DocsNav from "./navbar";
 

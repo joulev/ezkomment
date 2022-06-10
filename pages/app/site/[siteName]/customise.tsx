@@ -14,22 +14,22 @@ import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
-import monacoOptions from "@client/config/monaco";
-import useBreakpoint from "@client/hooks/breakpoint";
-import useTheme from "@client/hooks/theme";
-import generateCommentHTML from "@client/lib/client/generateCommentHTML";
+import monacoOptions from "~/config/monaco";
+import useBreakpoint from "~/hooks/breakpoint";
+import useTheme from "~/hooks/theme";
+import generateCommentHTML from "~/lib/client/generateCommentHTML";
 
-import Button from "@client/components/buttons";
-import Input from "@client/components/forms/input";
-import SideBySide from "@client/components/sideBySide";
-import IconLabel from "@client/components/utils/iconAndLabel";
-import AppLayout from "@client/layouts/app";
+import Button from "~/components/buttons";
+import Input from "~/components/forms/input";
+import SideBySide from "~/components/sideBySide";
+import IconLabel from "~/components/utils/iconAndLabel";
+import AppLayout from "~/layouts/app";
 
-import { IconAndLabel, NextPageWithLayout } from "@client/types/utils.type";
+import { IconAndLabel, NextPageWithLayout } from "~/types/utils.type";
 
-import { all, comment, styles } from "@client/constants/sampleCommentCode";
+import { all, comment, styles } from "~/constants/sampleCommentCode";
 
-import site from "@client/sample/site.json";
+import site from "~/sample/site.json";
 
 type Site = typeof site;
 type Props = { site: Site };
