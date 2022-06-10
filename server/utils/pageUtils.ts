@@ -1,11 +1,12 @@
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+
 import {
     Comment,
     CreateCommentRequest,
     CreatePageRequest,
     UpdateCommentRequest,
     UpdatePageRequest,
-} from "~/server/types";
+} from "~/types/server";
 
 import { deleteCollection } from "./firestoreUtils";
 
