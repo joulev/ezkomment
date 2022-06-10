@@ -3,6 +3,7 @@ import { GetStaticProps, NextPage } from "next";
 import getOgImage from "~/client/lib/getOgImage";
 
 import Footer from "~/client/components/footer";
+import Hero from "~/client/components/home/hero";
 import Seo from "~/client/components/seo";
 
 import { SeoProps } from "~/types/client/components.type";
@@ -15,7 +16,7 @@ const Home: NextPage<Props> = ({ seo }) => {
   return (
     <>
       <Seo {...seo} />
-      <div>Hello, world</div>
+      <Hero />
       <Footer />
     </>
   );
