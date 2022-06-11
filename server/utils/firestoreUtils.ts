@@ -10,7 +10,7 @@ import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
  */
 export async function deleteCollection(
     collectionRef: CollectionReference<DocumentData>,
-    batchSize: number = 10
+    batchSize: number = 50
 ) {
     await deleteQueryBatch(collectionRef.limit(batchSize));
 }
@@ -22,7 +22,7 @@ export async function deleteCollection(
  * @param batchSize The number of documents to be deleted in each batch
  */
 
-export async function deleteQuery(query: Query<DocumentData>, batchSize = 10) {
+export async function deleteQuery(query: Query<DocumentData>, batchSize = 50) {
     await deleteQueryBatch(query.limit(batchSize));
 }
 

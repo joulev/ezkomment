@@ -4,6 +4,7 @@ import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { CreateSiteRequest, UpdateSiteBodyParams } from "~/types/server";
 
 import { deleteQuery } from "./firestoreUtils";
+import { deleteSitePagesById } from "./pageUtils";
 
 /**
  * The collection of sites.
@@ -49,19 +50,15 @@ export async function deleteSiteById(siteId: string) {
     return await SITES_COLLECTION.doc(siteId).delete();
 }
 
-// BELOW FUNCTIONS ARE TO BE REDESIGNED
-
-export async function listUserSitesById(uid: string) {
-    const sites = await SITES_COLLECTION.where("uid", "==", uid).get();
-    return sites.docs.map(doc => doc.data());
+async function queryUserSitesById(uid: string) {
+    return (await SITES_COLLECTION.where("uid", "==", uid).get()).docs;
 }
 
-const PAGES_COLLECTION = firestoreAdmin.collection("pages");
+export async function listUserSitesById(uid: string) {
+    return (await queryUserSitesById(uid)).map(doc => doc.data());
+}
 
-/**
- * Delete ALL pages that belong to a site.
- * @param siteId The site's id
- */
-export async function deleteSitePagesById(siteId: string) {
-    await deleteQuery(PAGES_COLLECTION.where("id", "==", siteId));
+export async function deleteUserSitesById(uid: string) {
+    const siteIds = (await queryUserSitesById(uid)).map(doc => doc.id);
+    return await Promise.all(siteIds.map(async id => deleteSiteById(id)));
 }
