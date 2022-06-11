@@ -1,8 +1,6 @@
 import {
     GithubAuthProvider,
     GoogleAuthProvider,
-    User,
-    deleteUser,
     signOut as firebaseSignOut,
     unlink as firebaseUnlink,
     getAuth,
@@ -11,7 +9,7 @@ import {
     signInWithPopup,
 } from "firebase/auth";
 
-import { NOT_AUTHENTICATED, UNABLE_TO_UPDATE_NAME } from "~/client/lib/errors";
+import * as E from "~/client/lib/errors";
 
 import { AppAuth, Provider } from "~/types/client/auth.type";
 
@@ -27,7 +25,7 @@ async function fetcher<T = any>(
     options: RequestInit = {}
 ) {
     const user = auth.currentUser;
-    if (!user) throw NOT_AUTHENTICATED;
+    if (!user) throw E.NOT_AUTHENTICATED;
     const token = await user.getIdToken();
     const response = await fetch(url, {
         ...options,
@@ -55,39 +53,41 @@ export async function signOut({ setLoading }: AppAuth) {
 
 export async function link({ setLoading }: AppAuth, provider: Provider) {
     setLoading(true);
-    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     await linkWithPopup(auth.currentUser, provider);
     setLoading(false);
 }
 
 export async function unlink({ setLoading }: AppAuth, provider: Provider) {
     setLoading(true);
-    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     await firebaseUnlink(auth.currentUser, provider.providerId);
     setLoading(false);
 }
 
 export async function reauthenticate({ setLoading }: AppAuth, provider: Provider) {
     setLoading(true);
-    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     await reauthenticateWithPopup(auth.currentUser, provider);
     setLoading(false);
 }
 
-export async function updateDisplayName({ setUser, setLoading }: AppAuth, displayName: string) {
+export async function updateDisplayName({ setLoading }: AppAuth, displayName: string) {
     setLoading(true);
-    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     const { success } = await fetcher("POST", `/api/users/${auth.currentUser.uid}`, {
         body: JSON.stringify({ displayName }),
     });
-    if (!success) throw UNABLE_TO_UPDATE_NAME;
-    setUser(user => ({ ...user, displayName } as User));
+    await auth.currentUser.reload();
+    if (!success) throw E.UNABLE_TO_UPDATE_NAME;
     setLoading(false);
 }
 
 export async function deleteAccount({ setLoading }: AppAuth) {
     setLoading(true);
-    if (!auth.currentUser) throw NOT_AUTHENTICATED;
-    await deleteUser(auth.currentUser);
+    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
+    const { success } = await fetcher("DELETE", `/api/users/${auth.currentUser.uid}`);
+    await auth.currentUser.reload();
+    if (!success) throw E.UNABLE_TO_DELETE_ACCOUNT;
     setLoading(false);
 }
