@@ -2,6 +2,7 @@ import { NextApiRequest } from "next";
 
 import * as SiteUtils from "~/server/utils/siteUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
+import { deleteSitePagesById, listSitePagesById } from "~/server/utils/pageUtils";
 
 import { CreateSiteBodyParams, CreateSitePathParams, UpdateSiteBodyParams } from "~/types/server";
 import { ApiResponse } from "~/types/server/nextApi.type";
@@ -45,8 +46,26 @@ export async function deleteSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     try {
         await SiteUtils.deleteSiteById(siteId);
+        await deleteSitePagesById(siteId);
         res.status(200).json({ message: "Successfully deleted site" });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot delete site and its content");
+    }
+}
+
+/////////////////////////
+// Interact with pages //
+/////////////////////////
+
+export async function listSitePages(req: NextApiRequest, res: ApiResponse) {
+    const { siteId } = extractFirstQueryValue(req);
+    try {
+        const result = await listSitePagesById(siteId);
+        res.status(200).json({
+            message: "Listed all pages",
+            data: result,
+        });
+    } catch (error) {
+        reportBadRequest(res, error, "");
     }
 }

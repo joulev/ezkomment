@@ -3,7 +3,7 @@ import { NextApiRequest } from "next";
 
 import * as userUtils from "~/server/utils/userUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
-import { listUserSitesById } from "~/server/utils/siteUtils";
+import { deleteUserSitesById, listUserSitesById } from "~/server/utils/siteUtils";
 
 import { ApiResponse } from "~/types/server/nextApi.type";
 
@@ -35,11 +35,16 @@ export async function deleteUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
         await userUtils.deleteUserById(uid);
+        await deleteUserSitesById(uid);
         res.status(200).json({ message: "User was deleted successfully" });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot delete user");
     }
 }
+
+/////////////////////////
+// Interact with sites //
+/////////////////////////
 
 export async function listUserSites(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
