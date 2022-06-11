@@ -1,4 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import nc from "next-connect";
+
+import { ApiResponse } from "~/types/server/nextApi.type";
 
 /**
  * A helper function to report bad requests in `catch` blocks.
@@ -29,4 +32,35 @@ export function extractFirstQueryValue(req: NextApiRequest) {
         values[k] = Array.isArray(v) ? v[0] : v;
     }
     return values;
+}
+
+/**
+ * Creates a next-connect router with configurations.
+ *
+ * @return An instance of `next-connect`.
+ */
+export function ncRouter() {
+    return nc<NextApiRequest, ApiResponse>({
+        // handle uncaught errors.
+        onError: async (err, _, res) => {
+            const jsonErr = { error: String(err) };
+            const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${process.env.AXIOM_ERROR_API_TOKEN}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(jsonErr),
+            });
+            if (!sendErr.ok) {
+                console.log(await sendErr.json());
+            }
+            res.status(500).json({
+                error: `Something broke! The error has${sendErr.ok ? " " : " not "}been logged`,
+            });
+        },
+        onNoMatch: (_, res) => {
+            res.status(404).json({ error: "Method not allowed" });
+        },
+    });
 }

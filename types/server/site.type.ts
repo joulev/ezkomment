@@ -1,6 +1,3 @@
-/**
- * Basic definition and properties of a site.
- */
 export type Site = {
     /**
      * The auto generated id of the site.
@@ -20,7 +17,7 @@ export type Site = {
     /**
      * The URL to the site domain, if set
      */
-    iconURL?: string;
+    iconURL: string | null;
 
     // Other properties to identify the site.
     /**
@@ -29,16 +26,20 @@ export type Site = {
     uid: string;
 };
 
+export type CreateSitePathParams = {
+    uid: string;
+};
+
 /**
  * Basic properties required when update a site.
  */
-export type UpdateSiteRequest = {
+export type UpdateSiteBodyParams = {
     name?: string;
-    iconURL?: string;
+    iconURL?: string | null;
 };
 
-export type CreateSiteRequest = UpdateSiteRequest & {
-    id?: string;
+export type CreateSiteBodyParams = Required<UpdateSiteBodyParams> & {
     domain: string;
-    uid: string;
 };
+
+export type CreateSiteRequest = CreateSitePathParams & CreateSiteBodyParams;

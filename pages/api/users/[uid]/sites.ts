@@ -1,13 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import nc from "next-connect";
-
+import { createSite } from "~/server/handlers/siteHandlers";
 import { listUserSites } from "~/server/handlers/userHandlers";
+import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = nc<NextApiRequest, NextApiResponse>({
-    onError: (err, _, res) => {
-        console.error(err);
-        res.status(500).json({ error: "Something broke" });
-    },
-}).get(listUserSites);
+const handler = ncRouter().get(listUserSites).post(createSite);
 
 export default handler;

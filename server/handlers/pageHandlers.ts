@@ -1,46 +1,52 @@
-// TODO: Fix sites and pages data models
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 
 import * as PageUtils from "~/server/utils/pageUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
 import {
     CreateCommentRequest,
-    CreatePageRequest,
+    CreatePageBodyParams,
+    CreatePagePathParams,
     UpdateCommentRequest,
-    UpdatePageRequest,
+    UpdatePageBodyParams,
 } from "~/types/server";
+import { ApiResponse } from "~/types/server/nextApi.type";
 
 ///////////
 // PAGES //
 ///////////
 
-export async function getPage(req: NextApiRequest, res: NextApiResponse) {
+export async function getPage(req: NextApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
     try {
+        const result = await PageUtils.getPageById(pageId);
         res.status(200).json({
             message: "Successfully got page information",
-            data: await PageUtils.getPageById(pageId),
+            data: result,
         });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot get page's information");
     }
 }
 
-export async function createPage(req: NextApiRequest, res: NextApiResponse) {
+export async function createPage(req: NextApiRequest, res: ApiResponse) {
+    const { siteId } = extractFirstQueryValue(req) as CreatePagePathParams;
+    const data: CreatePageBodyParams = req.body;
     try {
-        const data: CreatePageRequest = req.body;
-        await PageUtils.createPage(data);
+        await PageUtils.createPage({
+            siteId,
+            ...data,
+        });
         res.status(201).json({ message: "Successfully created new page" });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot create new page");
     }
 }
 
-export async function updatePage(req: NextApiRequest, res: NextApiResponse) {
+export async function updatePage(req: NextApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
+    const data: UpdatePageBodyParams = req.body;
     try {
-        const data: UpdatePageRequest = req.body;
         await PageUtils.updatePageById(pageId, data);
         res.status(200).json({ message: "Successfully updated page" });
     } catch (error) {
@@ -48,21 +54,24 @@ export async function updatePage(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function deletePage(req: NextApiRequest, res: NextApiResponse) {
+export async function deletePage(req: NextApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
     try {
         await PageUtils.deletePageById(pageId);
+        // delete associate comments as well.
         res.status(200).json({ message: "Successfully deleted page and its content" });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot delete page and its content");
     }
 }
 
+// BELOW FUNCTIONS WILL BE MODIFIED
+
 //////////////
 // COMMENTS //
 //////////////
 
-export async function createPageComment(req: NextApiRequest, res: NextApiResponse) {
+export async function createPageComment(req: NextApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
     // May update in the future, using page's url.
     try {
@@ -80,7 +89,7 @@ export async function createPageComment(req: NextApiRequest, res: NextApiRespons
     }
 }
 
-export async function updatePageComment(req: NextApiRequest, res: NextApiResponse) {
+export async function updatePageComment(req: NextApiRequest, res: ApiResponse) {
     const { pageId, commentId } = extractFirstQueryValue(req);
     try {
         const data: UpdateCommentRequest = req.body;
@@ -91,7 +100,7 @@ export async function updatePageComment(req: NextApiRequest, res: NextApiRespons
     }
 }
 
-export async function deletePageComment(req: NextApiRequest, res: NextApiResponse) {
+export async function deletePageComment(req: NextApiRequest, res: ApiResponse) {
     const { pageId, commentId } = extractFirstQueryValue(req);
     try {
         await PageUtils.deletePageCommentById(pageId, commentId);

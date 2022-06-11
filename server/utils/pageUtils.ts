@@ -5,7 +5,7 @@ import {
     CreateCommentRequest,
     CreatePageRequest,
     UpdateCommentRequest,
-    UpdatePageRequest,
+    UpdatePageBodyParams,
 } from "~/types/server";
 
 import { deleteCollection } from "./firestoreUtils";
@@ -31,31 +31,23 @@ export async function getPageById(pageId: string) {
     if (!result.exists) {
         throw Error("No such page!");
     }
-    // Get all comment in the page as well.
-    const comments: Comment[] = (await getCommentsCollection(pageId)
-        .get()
-        .then(query => query.docs.map(doc => doc.data()))) as Comment[];
-    return {
-        ...result,
-        approvedComments: comments.filter(c => c.status === "Approved"),
-        pendingApprovedComments: comments.filter(c => c.status === "Pending"),
-    };
+    return result.data();
 }
 
 export async function createPage(data: CreatePageRequest) {
-    const pageRef = data.id ? PAGES_COLLECTION.doc(data.id) : PAGES_COLLECTION.doc();
+    const pageRef = PAGES_COLLECTION.doc();
     return await pageRef.create({ id: pageRef.id, ...data });
 }
 
-export async function updatePageById(pageId: string, data: UpdatePageRequest) {
+export async function updatePageById(pageId: string, data: UpdatePageBodyParams) {
     return await PAGES_COLLECTION.doc(pageId).update(data);
 }
 
 export async function deletePageById(pageId: string) {
-    const pageRef = PAGES_COLLECTION.doc(pageId);
-    await deleteCollection(getCommentsCollection(pageId));
-    return await pageRef.delete();
+    return await PAGES_COLLECTION.doc(pageId).delete();
 }
+
+// BELOW FUNCTIONS ARE TO BE REDESIGNED
 
 //////////////
 // COMMENTS //

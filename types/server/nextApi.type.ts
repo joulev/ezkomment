@@ -1,10 +1,22 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * Similar to Express middleware.
  */
-export type INextApiMiddleware<T = any> = (
+export type ApiMiddleware = (
     req: NextApiRequest,
-    res: NextApiResponse<T>,
+    res: ApiResponse,
     next: () => Promise<unknown> | unknown
 ) => unknown | Promise<unknown>;
+
+export type ApiError = {
+    error: string;
+    errorInfo?: string;
+};
+
+export type ApiResponseBody = {
+    message: string; // must have
+    data?: Record<string, any> | Record<string, any>[];
+};
+
+export type ApiResponse = NextApiResponse<ApiResponseBody | ApiError>;
