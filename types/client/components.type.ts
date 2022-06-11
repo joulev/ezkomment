@@ -110,13 +110,8 @@ export type SelectProps = (ComponentProps<"select"> & IconAndLabel) & {
     onUpdate?: (value: string) => void;
 };
 
-export type SectionProps = {
-    children: ReactNode;
-    illustration?: ReactNode;
-};
-
-export type WindowProps = {
-    tabs: string[];
-    activeTab?: number;
+export type HomeButtonLinkProps = {
+    href: string;
+    className: string;
     children: ReactNode;
 };

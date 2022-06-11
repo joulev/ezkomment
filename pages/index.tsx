@@ -3,6 +3,7 @@ import { GetStaticProps, NextPage } from "next";
 import getOgImage from "~/client/lib/getOgImage";
 
 import Footer from "~/client/components/footer";
+import EasySections from "~/client/components/home/easy";
 import Hero from "~/client/components/home/hero";
 import Seo from "~/client/components/seo";
 
@@ -17,6 +18,7 @@ const Home: NextPage<Props> = ({ seo }) => {
     <>
       <Seo {...seo} />
       <Hero />
+      <EasySections />
       <Footer />
     </>
   );

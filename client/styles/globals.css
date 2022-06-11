@@ -77,6 +77,39 @@
     .logo-width {
         @apply w-[calc(397px/80*36)];
     }
+    .text-gradient {
+        @apply bg-gradient-to-br bg-clip-text text-transparent;
+    }
+    .text-gradient svg {
+        stroke: var(--tw-gradient-to);
+        @apply fill-transparent;
+    }
+    .arrow-bar {
+        stroke-dasharray: 14;
+        stroke-dashoffset: 14;
+        @apply !transition-all;
+    }
+    .group:hover .arrow-bar {
+        stroke-dashoffset: 0;
+    }
+    .landing-link {
+        @apply relative after:absolute after:-bottom-1.5 after:inset-x-0 after:pointer-events-none
+            after:h-[1.5px] after:transition-all;
+    }
+    .landing-link::after {
+        background-image: linear-gradient(#d4d4d4, #d4d4d4),
+            linear-gradient(to right, var(--tw-gradient-from), var(--tw-gradient-to));
+        background-size: 100% 100%, 0 100%;
+        background-position: 100% 100%, 0 100%;
+        background-repeat: no-repeat, no-repeat;
+    }
+    .dark .landing-link::after {
+        background-image: linear-gradient(#404040, #404040),
+            linear-gradient(to right, var(--tw-gradient-from), var(--tw-gradient-to));
+    }
+    .landing-link:hover::after {
+        background-size: 0 100%, 100% 100%;
+    }
     /* Change mode: Remove all transition */
     .changing-mode * {
         @apply !transition-none;
