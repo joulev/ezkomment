@@ -1,6 +1,7 @@
 import {
     GithubAuthProvider,
     GoogleAuthProvider,
+    User,
     deleteUser,
     signOut as firebaseSignOut,
     unlink as firebaseUnlink,
@@ -8,10 +9,9 @@ import {
     linkWithPopup,
     reauthenticateWithPopup,
     signInWithPopup,
-    updateProfile,
 } from "firebase/auth";
 
-import { NOT_AUTHENTICATED } from "~/client/lib/errors";
+import { NOT_AUTHENTICATED, UNABLE_TO_UPDATE_NAME } from "~/client/lib/errors";
 
 import { AppAuth, Provider } from "~/types/client/auth.type";
 
@@ -20,6 +20,26 @@ import firebaseApp from "./app";
 const auth = getAuth(firebaseApp);
 export const githubProvider = new GithubAuthProvider();
 export const googleProvider = new GoogleAuthProvider();
+
+async function fetcher<T = any>(
+    method: "GET" | "POST" | "PUT" | "DELETE",
+    url: string,
+    options: RequestInit = {}
+) {
+    const user = auth.currentUser;
+    if (!user) throw NOT_AUTHENTICATED;
+    const token = await user.getIdToken();
+    const response = await fetch(url, {
+        ...options,
+        method,
+        headers: {
+            ...options.headers,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return { success: response.ok, data: (await response.json()).data as T };
+}
 
 export async function signIn({ setLoading }: AppAuth, provider: Provider) {
     setLoading(true);
@@ -47,17 +67,21 @@ export async function unlink({ setLoading }: AppAuth, provider: Provider) {
     setLoading(false);
 }
 
-export async function updateDisplayName({ setLoading }: AppAuth, displayName: string) {
-    setLoading(true);
-    if (!auth.currentUser) throw NOT_AUTHENTICATED;
-    await updateProfile(auth.currentUser, { displayName });
-    setLoading(false);
-}
-
 export async function reauthenticate({ setLoading }: AppAuth, provider: Provider) {
     setLoading(true);
     if (!auth.currentUser) throw NOT_AUTHENTICATED;
     await reauthenticateWithPopup(auth.currentUser, provider);
+    setLoading(false);
+}
+
+export async function updateDisplayName({ setUser, setLoading }: AppAuth, displayName: string) {
+    setLoading(true);
+    if (!auth.currentUser) throw NOT_AUTHENTICATED;
+    const { success } = await fetcher("POST", `/api/users/${auth.currentUser.uid}`, {
+        body: JSON.stringify({ displayName }),
+    });
+    if (!success) throw UNABLE_TO_UPDATE_NAME;
+    setUser(user => ({ ...user, displayName } as User));
     setLoading(false);
 }
 
