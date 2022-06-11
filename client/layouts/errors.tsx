@@ -54,6 +54,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Uncaught error:", error, errorInfo);
+    if (!process.env.VERCEL) return;
     fetch("/api/error", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
