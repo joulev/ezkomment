@@ -1,36 +1,39 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 
 import * as SiteUtils from "~/server/utils/siteUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
-import { CreateSiteRequest, UpdateSiteRequest } from "~/types/server";
+import { CreateSiteBodyParams, CreateSitePathParams, UpdateSiteBodyParams } from "~/types/server";
+import { ApiResponse } from "~/types/server/nextApi.type";
 
-export async function getSite(req: NextApiRequest, res: NextApiResponse) {
+export async function getSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     try {
+        const result = await SiteUtils.getSiteById(siteId);
         res.status(200).json({
             message: "Successfully get site information",
-            data: await SiteUtils.getSiteById(siteId),
+            data: result,
         });
     } catch (error) {
         reportBadRequest(res, error, "Bad request: cannot get site's information");
     }
 }
 
-export async function createSite(req: NextApiRequest, res: NextApiResponse) {
+export async function createSite(req: NextApiRequest, res: ApiResponse) {
+    const { uid } = extractFirstQueryValue(req) as CreateSitePathParams;
+    const data: CreateSiteBodyParams = req.body;
     try {
-        const data: CreateSiteRequest = req.body;
-        await SiteUtils.createSite(data);
+        await SiteUtils.createSite({ uid, ...data });
         res.status(201).json({ message: "Successfully created site" });
     } catch (error) {
         reportBadRequest(res, error, "");
     }
 }
 
-export async function updateSite(req: NextApiRequest, res: NextApiResponse) {
+export async function updateSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
+    const data: UpdateSiteBodyParams = req.body;
     try {
-        const data: UpdateSiteRequest = req.body;
         await SiteUtils.updateSiteById(siteId, data);
         res.status(200).json({ message: "Successfully updated site information" });
     } catch (error) {
@@ -38,7 +41,7 @@ export async function updateSite(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function deleteSite(req: NextApiRequest, res: NextApiResponse) {
+export async function deleteSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     try {
         await SiteUtils.deleteSiteById(siteId);

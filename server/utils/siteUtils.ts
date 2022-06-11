@@ -1,7 +1,7 @@
 // TODO: Fix sites and pages models
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 
-import { CreateSiteRequest, UpdateSiteRequest } from "~/types/server";
+import { CreateSiteRequest, UpdateSiteBodyParams } from "~/types/server";
 
 import { deleteQuery } from "./firestoreUtils";
 
@@ -29,7 +29,7 @@ export async function getSiteById(siteId: string) {
  * @param data The data of the site to be created.
  */
 export async function createSite(data: CreateSiteRequest) {
-    const siteRef = data.id ? SITES_COLLECTION.doc(data.id) : SITES_COLLECTION.doc();
+    const siteRef = SITES_COLLECTION.doc();
     return await siteRef.create({ id: siteRef.id, ...data });
 }
 
@@ -37,7 +37,7 @@ export async function createSite(data: CreateSiteRequest) {
  * Updates a site with the given id.
  * @param siteId The site's id
  */
-export async function updateSiteById(siteId: string, data: UpdateSiteRequest) {
+export async function updateSiteById(siteId: string, data: UpdateSiteBodyParams) {
     return await SITES_COLLECTION.doc(siteId).update(data);
 }
 
@@ -46,8 +46,14 @@ export async function updateSiteById(siteId: string, data: UpdateSiteRequest) {
  * @param siteId The site's id
  */
 export async function deleteSiteById(siteId: string) {
-    await deleteSitePagesById(siteId);
     return await SITES_COLLECTION.doc(siteId).delete();
+}
+
+// BELOW FUNCTIONS ARE TO BE REDESIGNED
+
+export async function listUserSitesById(uid: string) {
+    const sites = await SITES_COLLECTION.where("uid", "==", uid).get();
+    return sites.docs.map(doc => doc.data());
 }
 
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");

@@ -1,11 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import nc from "next-connect";
-
 import { deletePage, getPage, updatePage } from "~/server/handlers/pageHandlers";
+import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = nc<NextApiRequest, NextApiResponse>()
-    .get(getPage)
-    .post(updatePage)
-    .delete(deletePage);
+const handler = ncRouter().get(getPage).put(updatePage).delete(deletePage);
 
 export default handler;

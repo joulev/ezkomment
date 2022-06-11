@@ -1,10 +1,13 @@
 import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/auth";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 
 import * as userUtils from "~/server/utils/userUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
+import { listUserSitesById } from "~/server/utils/siteUtils";
 
-export async function getUser(req: NextApiRequest, res: NextApiResponse) {
+import { ApiResponse } from "~/types/server/nextApi.type";
+
+export async function getUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
         const result = await userUtils.getUserById(uid);
@@ -17,7 +20,7 @@ export async function getUser(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function updateUser(req: NextApiRequest, res: NextApiResponse) {
+export async function updateUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     const data: UpdateRequest = req.body;
     try {
@@ -28,7 +31,7 @@ export async function updateUser(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function deleteUser(req: NextApiRequest, res: NextApiResponse) {
+export async function deleteUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
         await userUtils.deleteUserById(uid);
@@ -38,10 +41,10 @@ export async function deleteUser(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function listUserSites(req: NextApiRequest, res: NextApiResponse) {
+export async function listUserSites(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
-        const result = await userUtils.listUserSitesById(uid);
+        const result = await listUserSitesById(uid);
         res.status(200).json({
             message: "Successfully got all user's sites",
             data: result,
@@ -51,8 +54,11 @@ export async function listUserSites(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-// For development and testing
-export async function createUser(req: NextApiRequest, res: NextApiResponse) {
+/////////////////////////////////
+// For development and testing //
+/////////////////////////////////
+
+export async function createUser(req: NextApiRequest, res: ApiResponse) {
     const data: CreateRequest = req.body;
     try {
         await userUtils.createUser(data);
@@ -62,7 +68,7 @@ export async function createUser(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
-export async function importUsers(req: NextApiRequest, res: NextApiResponse) {
+export async function importUsers(req: NextApiRequest, res: ApiResponse) {
     const data: UserImportRecord[] = req.body;
     try {
         await userUtils.importUsers(data);

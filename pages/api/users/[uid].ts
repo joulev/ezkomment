@@ -1,12 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import nc from "next-connect";
-
 import { deleteUser, getUser, updateUser } from "~/server/handlers/userHandlers";
 import { validateUidWithJWT } from "~/server/middlewares/validateRequests";
+import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = nc<NextApiRequest, NextApiResponse>()
+const handler = ncRouter()
     .get(getUser)
-    .post(validateUidWithJWT, updateUser)
+    .put(validateUidWithJWT, updateUser)
     .delete(validateUidWithJWT, deleteUser);
 
 export default handler;

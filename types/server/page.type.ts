@@ -7,13 +7,20 @@ export type Page = {
     siteId: string; // foreign key
 };
 
-export type UpdatePageRequest = {
+export type CreatePagePathParams = {
+    /**
+     * The id of the site that contains this page.
+     */
+    siteId: string;
+};
+
+export type UpdatePageBodyParams = {
     name?: string;
     autoApprove?: boolean;
 };
 
-export type CreatePageRequest = UpdatePageRequest & {
-    id?: string;
+export type CreatePageBodyParams = Required<UpdatePageBodyParams> & {
     url: string;
-    siteId: string;
 };
+
+export type CreatePageRequest = CreatePagePathParams & CreatePageBodyParams;

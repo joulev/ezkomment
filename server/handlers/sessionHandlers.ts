@@ -1,10 +1,16 @@
+/**
+ * Implement some handlers to deal with session cookie, in case we need this.
+ * Currently, we will use raw id tokens.
+ */
 import { CookieSerializeOptions, serialize } from "cookie";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 
 import { createSessionCookie } from "~/server/utils/authUtils";
 import { reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
-export async function login(req: NextApiRequest, res: NextApiResponse) {
+import { ApiResponse } from "~/types/server/nextApi.type";
+
+export async function login(req: NextApiRequest, res: ApiResponse) {
     const idToken = req.headers.authorization;
     try {
         const sessionCookie = await createSessionCookie(idToken);

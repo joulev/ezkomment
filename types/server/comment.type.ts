@@ -1,16 +1,14 @@
+import { Timestamp } from "firebase-admin/firestore";
+
 export type Comment = {
     id: string;
-    author: string;
-    date: any; // will be changed later to <Firebase time stamp>
+    author: string | null; // If null, anonymous author
     text: string;
     status: ApprovedStatus;
+    createTime: Timestamp;
 };
 
 export type ApprovedStatus = "Approved" | "Pending";
-
-export type CommentUpdate = {
-    status: ApprovedStatus;
-};
 
 /**
  * Only allow to update comment's status
@@ -22,7 +20,7 @@ export type UpdateCommentRequest = {
 /**
  * Currently, updating comments is not supported.
  */
-export type CreateCommentRequest = UpdateCommentRequest & {
-    author?: string;
+export type CreateCommentRequest = Required<UpdateCommentRequest> & {
+    author: string | null;
     text: string;
 };
