@@ -8,4 +8,9 @@ const UNABLE_TO_UPDATE_NAME = new Error(
 ) as NodeJS.ErrnoException;
 UNABLE_TO_UPDATE_NAME.code = "ezkomment/client";
 
-export { NOT_AUTHENTICATED, UNABLE_TO_UPDATE_NAME };
+const UNABLE_TO_DELETE_ACCOUNT = new Error(
+    "Unable to delete account. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_DELETE_ACCOUNT.code = "ezkomment/client";
+
+export { NOT_AUTHENTICATED, UNABLE_TO_UPDATE_NAME, UNABLE_TO_DELETE_ACCOUNT };
