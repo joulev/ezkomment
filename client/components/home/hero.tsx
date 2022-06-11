@@ -12,7 +12,7 @@ import logoText from "~/public/images/logo-text.svg";
 const Hero: FC = () => {
   const mode = useTheme();
   return (
-    <section className="overflow-x-hidden my-12 lg:my-18">
+    <section className="overflow-x-hidden my-24 md:my-18">
       <div className="container grid grid-cols-1 md:grid-cols-12 gap-6 xl:gap-12 items-center">
         <div className="md:col-span-7 text-center md:text-left flex flex-col gap-9 lg:gap-12">
           <div>
@@ -22,9 +22,7 @@ const Hero: FC = () => {
           </div>
           <h1 className="font-black text-5xl lg:text-6xl xl:text-7xl !leading-[0.85] my-0">
             Commenting made&nbsp;
-            <span className="bg-gradient-to-r from-blue-500 to-violet-500 bg-clip-text text-transparent">
-              easy
-            </span>
+            <span className="text-gradient from-blue-500 to-violet-500">easy</span>
           </h1>
           <div className="text-neutral-600 dark:text-neutral-400 text-lg md:text-xl lg:text-2xl">
             No complicated backend configuration. Add a comment section anywhere &ndash; even if you
