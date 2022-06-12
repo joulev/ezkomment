@@ -12,7 +12,7 @@ import logoText from "~/public/images/logo-text.svg";
 const Hero: FC = () => {
   const mode = useTheme();
   return (
-    <section className="overflow-x-hidden my-36 md:my-18">
+    <section className="overflow-x-hidden my-36 md:my-24 lg:my-18">
       <div className="container grid grid-cols-1 md:grid-cols-12 gap-6 xl:gap-12 items-center">
         <div className="md:col-span-7 text-center md:text-left flex flex-col gap-9 lg:gap-12">
           <div>

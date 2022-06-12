@@ -19,7 +19,7 @@ const EasyIntegration: FC = () => {
       desc={
         <>
           All you need to do then is to add the embedding HTML <code>{"<iframe>"}</code> tag to your
-          webpage.
+          webpage.{" "}
           <span className="text-neutral-900 dark:text-neutral-100">
             No need of complicated frameworks, good ol’ plain HTML can do!
           </span>
