@@ -10,22 +10,22 @@ import sectionLiveLight from "~/public/images/home/section-live-light.svg";
 
 import HomeSection from "../section";
 
-const EasyConfiguration: FC = () => {
+const EasyIntegration: FC = () => {
   const theme = useTheme();
   return (
     <HomeSection
-      colourClass="from-red-500 to-orange-500"
-      title="configuration"
+      colourClass="from-yellow-600 to-lime-600"
+      title="integration"
       desc={
         <>
-          Zero-configuration. Have a webpage ready?{" "}
+          All you need to do then is to add the embedding HTML <code>{"<iframe>"}</code> tag to your
+          webpage.
           <span className="text-neutral-900 dark:text-neutral-100">
-            Adding a fully functional comment section won&apos;t take more than two minutes.
-          </span>{" "}
-          And no, you don&apos;t have to worry about backend, infrastructure&hellip; ever.
+            No need of complicated frameworks, good ol’ plain HTML can do!
+          </span>
         </>
       }
-      button={{ href: "/auth", children: "Create your first" }}
+      button={{ href: "/auth", children: "Embed now" }}
       illustration={{
         className: "flex flex-col gap-12",
         parts: [
@@ -64,4 +64,4 @@ const EasyConfiguration: FC = () => {
   );
 };
 
-export default EasyConfiguration;
+export default EasyIntegration;
