@@ -29,17 +29,14 @@ const CodeWindow: FC = () => {
   const { setIsVisible } = useContext(IsVisibleContext);
   const str = '<iframe src="https://ezkomment.joulev.dev/embed/...">';
   useEffect(() => {
-    if (!el.current) return;
-    if (!inView) {
-      setIsVisible(false);
-      return;
-    }
+    if (!el.current || !inView) return;
     typed.current = new Typed(el.current, {
       strings: [str],
       typeSpeed: 600 / str.length,
       contentType: "null",
+      onComplete: () => setIsVisible(true),
+      onDestroy: () => setIsVisible(false),
     });
-    setIsVisible(true);
     return () => typed.current!.destroy();
   }, [el, inView, setIsVisible]);
   return (
@@ -82,8 +79,8 @@ const BrowserWindow: FC = () => {
           <motion.div
             className="row-span-2 grid grid-rows-3 gap-1.5"
             variants={{
-              hidden: { opacity: 0, transition: { duration: 0.15, delay: 0.3 } },
-              visible: { opacity: 1, transition: { duration: 0.15, delay: 1 } },
+              hidden: { opacity: 0, transition: { duration: 0.15 } },
+              visible: { opacity: 1, transition: { duration: 0.15 } },
             }}
             initial="hidden"
             animate={animation}
