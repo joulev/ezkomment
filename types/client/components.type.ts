@@ -117,7 +117,7 @@ export type HomeButtonLinkProps = {
 };
 
 export type HomeIllustrationProps = ComponentProps<"div"> & {
-    isFirst?: boolean;
+    firstOrLast?: "first" | "last";
     parts: ReactNode[];
 };
 
@@ -126,5 +126,6 @@ export type HomeSectionProps = {
     title: string;
     desc: ReactNode;
     button: Omit<HomeButtonLinkProps, "className">;
+    firstOrLast?: HomeIllustrationProps["firstOrLast"];
     illustration: HomeIllustrationProps;
 };

@@ -21,6 +21,7 @@ module.exports = {
             4.5: "1.125rem",
             18: "4.5rem",
             27: "6.75rem",
+            54: "13.5rem",
         },
         gridTemplateColumns: {
             24: "repeat(24, minmax(0, 1fr))",
