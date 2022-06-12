@@ -61,12 +61,14 @@ const BrowserWindow: FC = () => {
   }, [animation, isVisible]);
   return (
     <Window
-      title={<div className="rounded bg-card w-48 py-1 text-center text-xs">localhost:3000</div>}
+      title={
+        <div className="rounded bg-card w-36 lg:w-48 py-1 text-center text-xs">localhost:3000</div>
+      }
     >
       <div className="grid grid-cols-3 gap-6 p-6">
-        <div className={clsx(cls, "h-72")} />
+        <div className={clsx(cls, "h-48")} />
         <div className="col-span-2 grid grid-rows-3 gap-6">
-          <div className="grid grid-rows-4 gap-3">
+          <div className="grid grid-rows-4 gap-1.5">
             {Array(4)
               .fill(0)
               .map((_, i) => (
@@ -74,10 +76,10 @@ const BrowserWindow: FC = () => {
               ))}
           </div>
           <motion.div
-            className="row-span-2 grid grid-rows-3 gap-3"
+            className="row-span-2 grid grid-rows-3 gap-1.5"
             variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { duration: 0.3, delay: 1.2 } },
+              hidden: { opacity: 0, transition: { duration: 0.15, delay: 0.3 } },
+              visible: { opacity: 1, transition: { duration: 0.15, delay: 1 } },
             }}
             initial="hidden"
             animate={animation}
@@ -112,7 +114,7 @@ const EasyIntegration: FC = () => {
         }
         button={{ href: "/auth", children: "Embed now" }}
         illustration={{
-          className: "flex flex-col gap-12",
+          className: "flex flex-col gap-6",
           parts: [<CodeWindow key="1" />, <BrowserWindow key="2" />],
         }}
       />
