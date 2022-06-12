@@ -33,6 +33,7 @@ const CodeWindow: FC = () => {
       typeSpeed: 50,
       backSpeed: 50,
       contentType: "null",
+      smartBackspace: true,
       loop: true,
       onStringTyped(arrayPos) {
         setActive(arrayPos);
