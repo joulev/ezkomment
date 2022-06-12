@@ -2,10 +2,11 @@ import clsx from "clsx";
 import { FC } from "react";
 
 import EasyConfiguration from "./configuration";
+import EasyIntegration from "./integration";
 
 const EasySections: FC = () => {
   return (
-    <div className="border-y border-card bg-card h-[1234px] md:relative overflow-hidden">
+    <div className="border-y border-card bg-card md:relative overflow-hidden">
       <div className="hidden md:block absolute inset-0">
         <div className="container h-full grid grid-cols-2 gap-18">
           <div />
@@ -24,6 +25,7 @@ const EasySections: FC = () => {
       </div>
       <div className="relative z-10">
         <EasyConfiguration />
+        <EasyIntegration />
       </div>
     </div>
   );
