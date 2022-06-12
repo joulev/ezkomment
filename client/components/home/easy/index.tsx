@@ -13,11 +13,11 @@ const EasySections: FC = () => {
           <div className="relative">
             <div
               className={clsx(
-                "absolute w-px left-1/2 top-24 bottom-0 -translate-x-px bg-gradient-to-b",
-                "from-neutral-200 dark:from-neutral-800"
+                "absolute w-px left-1/2 inset-y-24 -translate-x-px bg-gradient-to-b",
+                "from-neutral-300 dark:from-neutral-700 to-neutral-100 dark:to-neutral-900"
               )}
             />
-            <svg className="absolute left-1/2 top-24 w-2 h-2 -translate-x-[4.5px] -translate-y-1 fill-neutral-200 dark:fill-neutral-800">
+            <svg className="absolute left-1/2 top-24 w-2 h-2 -translate-x-[4.5px] -translate-y-1 fill-neutral-300 dark:fill-neutral-700">
               <circle cx="50%" cy="50%" r="50%" />
             </svg>
           </div>

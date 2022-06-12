@@ -117,6 +117,7 @@ export type HomeButtonLinkProps = {
 };
 
 export type HomeIllustrationProps = ComponentProps<"div"> & {
+    isFirst?: boolean;
     parts: ReactNode[];
 };
 
