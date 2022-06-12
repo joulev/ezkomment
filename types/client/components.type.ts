@@ -115,3 +115,7 @@ export type HomeButtonLinkProps = {
     className: string;
     children: ReactNode;
 };
+
+export type HomeIllustrationProps = ComponentProps<"div"> & {
+    parts: ReactNode[];
+};
