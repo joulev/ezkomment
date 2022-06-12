@@ -39,7 +39,6 @@ const Hero: FC = () => {
             <Image
               src={mode === "dark" ? darkScreen : lightScreen}
               alt="Site dashboard screenshot"
-              priority
             />
           </div>
         </div>
