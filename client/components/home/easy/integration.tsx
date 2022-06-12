@@ -27,14 +27,18 @@ const CodeWindow: FC = () => {
   const typed = useRef<Typed | null>(null);
   const [ref, inView] = useInView({ threshold: 1 });
   const { setIsVisible } = useContext(IsVisibleContext);
-  const str = '&lt;iframe src="https://ezkomment.joulev.dev/embed/..."&gt;';
+  const str = '<iframe src="https://ezkomment.joulev.dev/embed/...">';
   useEffect(() => {
     if (!el.current) return;
     if (!inView) {
       setIsVisible(false);
       return;
     }
-    typed.current = new Typed(el.current, { strings: [str], typeSpeed: 600 / str.length });
+    typed.current = new Typed(el.current, {
+      strings: [str],
+      typeSpeed: 600 / str.length,
+      contentType: "null",
+    });
     setIsVisible(true);
     return () => typed.current!.destroy();
   }, [el, inView, setIsVisible]);
