@@ -129,3 +129,8 @@ export type HomeSectionProps = {
     firstOrLast?: HomeIllustrationProps["firstOrLast"];
     illustration: HomeIllustrationProps;
 };
+
+export type HomeWindowProps = {
+    title?: ReactNode;
+    children: ReactNode;
+};
