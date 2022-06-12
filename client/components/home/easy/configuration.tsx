@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
 import { ComponentProps, FC, ReactNode, useEffect } from "react";
@@ -12,14 +13,27 @@ import sectionLiveLight from "~/public/images/home/section-live-light.svg";
 
 import ButtonLink from "../buttonLink";
 
-const Illustration: FC<{ parts: ReactNode[] } & ComponentProps<"div">> = ({ parts, ...rest }) => {
+const Illustration: FC<{ parts: ReactNode[] } & ComponentProps<"div">> = ({
+  parts,
+  className,
+  ...rest
+}) => {
   const animation = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.5 });
   useEffect(() => {
     if (inView) animation.start("visible");
   }, [animation, inView]);
   return (
-    <div ref={ref} {...rest}>
+    <div ref={ref} className={clsx(className, "pointer-events-none relative pt-12")} {...rest}>
+      <div
+        className={clsx(
+          "md:hidden absolute w-px left-1/2 top-0 bottom-0 -translate-x-px bg-gradient-to-b",
+          "from-neutral-200 dark:from-neutral-800"
+        )}
+      />
+      <svg className="md:hidden absolute left-1/2 top-0 w-2 h-2 -translate-x-[4.5px] -translate-y-1 fill-neutral-200 dark:fill-neutral-800">
+        <circle cx="50%" cy="50%" r="50%" />
+      </svg>
       {parts.map((part, index) => (
         <motion.div
           variants={{
@@ -53,7 +67,7 @@ const EasyConfiguration: FC = () => {
     if (inView) animation.start("visible");
   }, [animation, inView]);
   return (
-    <section className="container my-24 grid md:grid-cols-2 gap-x-18 gap-y-24">
+    <section className="container my-24 grid md:grid-cols-2 gap-18">
       <div className="flex flex-col gap-9">
         <h2 className="my-0 font-black text-4xl lg:text-5xl">
           <span className="text-gradient from-red-500 to-orange-500">easy</span> configuration
@@ -81,7 +95,7 @@ const EasyConfiguration: FC = () => {
         </div>
       </div>
       <Illustration
-        className="flex flex-col gap-12 pointer-events-none"
+        className="flex flex-col gap-12"
         parts={[
           <div
             className="mx-auto"
