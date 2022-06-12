@@ -27,6 +27,7 @@ const EasyConfiguration: FC = () => {
       }
       button={{ href: "/auth", children: "Create your first" }}
       illustration={{
+        isFirst: true,
         className: "flex flex-col gap-12",
         parts: [
           <div

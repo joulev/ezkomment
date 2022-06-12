@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer";
 
 import { HomeIllustrationProps } from "~/types/client/components.type";
 
-const Illustration: FC<HomeIllustrationProps> = ({ parts, className, ...rest }) => {
+const Illustration: FC<HomeIllustrationProps> = ({ isFirst, parts, className, ...rest }) => {
   const animation = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.5 });
   useEffect(() => {
@@ -18,18 +18,23 @@ const Illustration: FC<HomeIllustrationProps> = ({ parts, className, ...rest }) 
   return (
     <div
       ref={ref}
-      className={clsx(className, "pointer-events-none relative pt-12 md:pt-0")}
+      className={clsx(className, "pointer-events-none relative py-12 md:py-0")}
       {...rest}
     >
       <div
         className={clsx(
           "md:hidden absolute w-px left-1/2 top-0 bottom-0 -translate-x-px bg-gradient-to-b",
-          "from-neutral-200 dark:from-neutral-800"
+          isFirst
+            ? "from-neutral-300 dark:from-neutral-700"
+            : "from-neutral-100 dark:from-neutral-900 via-neutral-300 dark:via-neutral-700",
+          "to-neutral-100 dark:to-neutral-900"
         )}
       />
-      <svg className="md:hidden absolute left-1/2 top-0 w-2 h-2 -translate-x-[4.5px] -translate-y-1 fill-neutral-200 dark:fill-neutral-800">
-        <circle cx="50%" cy="50%" r="50%" />
-      </svg>
+      {isFirst && (
+        <svg className="md:hidden absolute left-1/2 top-0 w-2 h-2 -translate-x-[4.5px] -translate-y-1 fill-neutral-300 dark:fill-neutral-700">
+          <circle cx="50%" cy="50%" r="50%" />
+        </svg>
+      )}
       {parts.map((part, i) => (
         <motion.div variants={variants(i * 0.15)} initial="hidden" animate={animation} key={i}>
           {part}
