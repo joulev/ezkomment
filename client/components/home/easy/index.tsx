@@ -2,7 +2,9 @@ import clsx from "clsx";
 import { FC } from "react";
 
 import EasyConfiguration from "./configuration";
+import EasyCustomisation from "./customisation";
 import EasyIntegration from "./integration";
+import EasyModeration from "./moderation";
 
 const EasySections: FC = () => {
   return (
@@ -13,7 +15,7 @@ const EasySections: FC = () => {
           <div className="relative">
             <div
               className={clsx(
-                "absolute w-px left-1/2 inset-y-24 -translate-x-px bg-gradient-to-b",
+                "absolute w-px left-1/2 top-24 bottom-54 -translate-x-px bg-gradient-to-b",
                 "from-neutral-300 dark:from-neutral-700 to-neutral-100 dark:to-neutral-900"
               )}
             />
@@ -26,6 +28,8 @@ const EasySections: FC = () => {
       <div className="relative z-10">
         <EasyConfiguration />
         <EasyIntegration />
+        <EasyModeration />
+        <EasyCustomisation />
       </div>
     </div>
   );

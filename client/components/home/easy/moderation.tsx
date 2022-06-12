@@ -10,23 +10,21 @@ import sectionLiveLight from "~/public/images/home/section-live-light.svg";
 
 import HomeSection from "../section";
 
-const EasyConfiguration: FC = () => {
+const EasyModeration: FC = () => {
   const theme = useTheme();
   return (
     <HomeSection
-      firstOrLast="first"
-      colourClass="from-red-500 to-orange-500"
-      title="configuration"
+      colourClass="from-pink-500 to-violet-500"
+      title="moderation"
       desc={
         <>
-          Zero-configuration. Have a webpage ready?{" "}
+          Spam, hate speech? Unwanted comments? Never a problem.{" "}
           <span className="text-neutral-900 dark:text-neutral-100">
-            Adding a fully functional comment section won&apos;t take more than two minutes.
-          </span>{" "}
-          And no, you don&apos;t have to worry about backend, infrastructure&hellip; ever.
+            You have full control over every comment you have, full stop.
+          </span>
         </>
       }
-      button={{ href: "/auth", children: "Create your first" }}
+      button={{ href: "https://google.com", children: "See how it works" }}
       illustration={{
         className: "flex flex-col gap-12",
         parts: [
@@ -65,4 +63,4 @@ const EasyConfiguration: FC = () => {
   );
 };
 
-export default EasyConfiguration;
+export default EasyModeration;
