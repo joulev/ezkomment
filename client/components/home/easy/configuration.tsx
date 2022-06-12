@@ -1,4 +1,4 @@
-import { Variants, motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
 import { ComponentProps, FC, ReactNode, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -48,12 +48,12 @@ const Illustration: FC<{ parts: ReactNode[] } & ComponentProps<"div">> = ({ part
 const EasyConfiguration: FC = () => {
   const theme = useTheme();
   const animation = useAnimation();
-  const [ref, inView] = useInView({ threshold: 0.5 });
+  const [ref, inView] = useInView();
   useEffect(() => {
     if (inView) animation.start("visible");
   }, [animation, inView]);
   return (
-    <section className="container my-24 grid md:grid-cols-2 gap-12">
+    <section className="container my-24 grid md:grid-cols-2 gap-x-18 gap-y-24">
       <div className="flex flex-col gap-9">
         <h2 className="my-0 font-black text-4xl lg:text-5xl">
           <span className="text-gradient from-red-500 to-orange-500">easy</span> configuration
@@ -81,16 +81,24 @@ const EasyConfiguration: FC = () => {
         </div>
       </div>
       <Illustration
-        className="flex flex-col gap-12"
+        className="flex flex-col gap-12 pointer-events-none"
         parts={[
-          <div className="mx-auto" style={{ width: 200 }} key="1">
+          <div
+            className="mx-auto"
+            style={{ width: `${(234 * 100) / 645}%`, minWidth: 234 / 1.5 }}
+            key="1"
+          >
             <Image
               src={createNewSite}
               alt="Cursor clicking on a 'Create a new site' button"
               layout="responsive"
             />
           </div>,
-          <div className="mx-auto" style={{ width: 200 }} key="2">
+          <div
+            className="mx-auto"
+            style={{ width: `${(243 * 100) / 645}%`, minWidth: 243 / 1.5 }}
+            key="2"
+          >
             <Image
               src={createNewPage}
               alt="Cursor clicking on a 'Create a new page' button"
