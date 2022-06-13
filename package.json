@@ -64,7 +64,7 @@
     "autoprefixer": "^10.4.7",
     "eslint": "^8.17.0",
     "eslint-config-next": "^12.1.6",
-    "jest": "^28.1.0",
+    "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
     "jest-environment-node": "^28.1.0",
     "next-router-mock": "^0.6.10",
