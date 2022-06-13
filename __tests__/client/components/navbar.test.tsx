@@ -13,6 +13,15 @@ import Nav from "~/client/components/navbar";
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("next/dist/client/router", () => require("next-router-mock"));
 
+jest.mock(
+  "next/image",
+  () =>
+    function Image({ src, alt }: { src: string; alt: string }) {
+      // eslint-disable-next-line @next/next/no-img-element
+      return <img src={src} alt={alt} />;
+    }
+);
+
 describe("Test home navbar behaviour when clicking on the button", () => {
   it("Scroll to top if at /", async () => {
     window.scrollTo = jest.fn();

@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/alt-text */
+
+/* eslint-disable @next/next/no-img-element */
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FC } from "react";
@@ -7,6 +10,15 @@ import useBuildId from "~/client/hooks/buildId";
 import BlogLayout from "~/client/layouts/blog";
 
 import { Author } from "~/types/client/utils.type";
+
+jest.mock(
+  "next/image",
+  () =>
+    function Image({ src, alt }: { src: string; alt: string }) {
+      // eslint-disable-next-line @next/next/no-img-element
+      return <img src={src} alt={alt} />;
+    }
+);
 
 type Props = { authors?: Author[]; wordCount?: number };
 const Component: FC<Props> = ({ authors, wordCount }) => (
