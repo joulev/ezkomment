@@ -107,7 +107,7 @@ const Illustration: FC = () => {
         />
       </motion.div>
       <motion.svg
-        className="absolute right-0 -bottom-11 h-[148px] w-[40px] sm:w-[46px] md:w-[40px] lg:w-[46px] text-emerald-500"
+        className="absolute right-0 -bottom-8 sm:-bottom-11 md:-bottom-8 lg:-bottom-11 h-[148px] w-[40px] sm:w-[46px] md:w-[40px] lg:w-[46px] text-emerald-500"
         {...motionProps(0.9)}
       >
         <defs>
