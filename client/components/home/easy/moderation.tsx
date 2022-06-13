@@ -83,7 +83,7 @@ const Illustration: FC = () => {
           <ClearOutlinedIcon fontSize="small" />
         </div>
         <div
-          className="p-1.5 rounded border bg-indigo-500 border-indigo-500 h-fit grid place-content-center relative"
+          className="p-1.5 rounded border bg-indigo-500 border-indigo-500 text-white h-fit grid place-content-center relative"
           ref={btnRef}
         >
           <CheckOutlinedIcon fontSize="small" />
