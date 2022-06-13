@@ -5,6 +5,7 @@ import getOgImage from "~/client/lib/getOgImage";
 import Footer from "~/client/components/footer";
 import EasySections from "~/client/components/home/easy";
 import Hero from "~/client/components/home/hero";
+import FinalSections from "~/client/components/home/spaceship";
 import Seo from "~/client/components/seo";
 
 import { SeoProps } from "~/types/client/components.type";
@@ -19,6 +20,7 @@ const Home: NextPage<Props> = ({ seo }) => {
       <Seo {...seo} />
       <Hero />
       <EasySections />
+      <FinalSections />
       <Footer />
     </>
   );
