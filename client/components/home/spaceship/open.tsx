@@ -14,7 +14,7 @@ const OpenSource: FC = () => (
       </span>{" "}
       All steps are documented and everything is available publicly.
     </div>
-    <div className="flex flex-row gap-12">
+    <div className="flex flex-col items-start sm:flex-row gap-x-12 gap-y-6">
       <ButtonLink className="from-blue-500 to-violet-500" href="/orbital">
         Read more
       </ButtonLink>

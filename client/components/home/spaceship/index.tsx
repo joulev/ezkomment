@@ -29,12 +29,11 @@ const FinalSections: FC = () => {
   const [ref, inView] = useInView({ threshold: 0.5 });
   useEffect(() => {
     if (inView) animation.start("visible");
-    else animation.start("hidden");
   }, [inView, animation]);
   return (
     <div className="stars">
-      <div className="container flex flex-row flex-wrap gap-x-24">
-        <div className="relative px-12">
+      <div className="container flex flex-row flex-wrap gap-x-6 sm:gap-x-24">
+        <div className="relative md:px-12">
           <motion.div
             animate={animation}
             initial="hidden"
@@ -59,11 +58,13 @@ const FinalSections: FC = () => {
           <BeyondTheBoundary />
           <OpenSource />
         </div>
-        <div className="w-full rounded border bg-card border-card p-12 flex flex-row items-center mb-18">
-          <h2 className="flex-grow my-0 text-3xl">Get started, for completely free!</h2>
-          <div className="flex flex-col gap-6 text-xl">
+        <div className="w-full rounded border bg-card border-card p-9 lg:p-12 flex flex-col lg:flex-row lg:items-center gap-6 mb-18">
+          <h2 className="flex-grow my-0 text-2xl lg:text-3xl text-center lg:text-left">
+            Get started, for completely&nbsp;free!
+          </h2>
+          <div className="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 lg:grid-rows-2 lg:grid-cols-1 gap-3 md:gap-6 lg:text-xl">
             <Button href="/auth">Get started</Button>
-            <Button href="/docs" variant="tertiary" className="px-12">
+            <Button href="/docs" variant="tertiary" className="lg:px-12">
               Documentation
             </Button>
           </div>
