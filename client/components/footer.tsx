@@ -68,7 +68,7 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
                 href={`https://github.com/joulev/ezkomment/commit/${process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}`}
                 className="font-mono"
               >
-                {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ?? "unknown"}
+                {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.substring(0, 7) ?? "unknown"}
               </A>
             </>
           )}
