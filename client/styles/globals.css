@@ -96,7 +96,7 @@
         stroke-dashoffset: 0;
     }
     .landing-link {
-        @apply relative after:absolute after:top-full after:inset-x-0 after:h-1.5 after:transition-all;
+        @apply relative after:absolute after:top-full after:inset-x-0 after:h-1 after:transition-all;
     }
     .landing-link::after {
         background-image: linear-gradient(#d4d4d4, #d4d4d4),
