@@ -49,7 +49,6 @@ export function ncRouter<
             if (process.env.NODE_ENV === "development") {
                 console.log("Some uncaught error happened?");
                 console.log(err);
-                return;
             }
             const jsonErr = { error: String(err) };
             const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
