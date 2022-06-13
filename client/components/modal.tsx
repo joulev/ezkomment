@@ -12,27 +12,25 @@ import { ModalProps } from "~/types/client/components.type";
  * @param params.children The content of the modal. Can be quite literally anything. Recommended
  * that this children have a `max-width` CSS property.
  */
-const Modal: FC<ModalProps> = ({ isVisible, onOutsideClick, children, ...rest }) => {
-  return (
+const Modal: FC<ModalProps> = ({ isVisible, onOutsideClick, children, ...rest }) => (
+  <div
+    className={clsx(
+      "fixed inset-0 z-50 grid place-items-center bg-card bg-opacity-90 dark:bg-opacity-90 transition",
+      isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+    )}
+    onClick={onOutsideClick}
+  >
     <div
       className={clsx(
-        "fixed inset-0 z-50 grid place-items-center bg-card bg-opacity-90 dark:bg-opacity-90 transition",
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+        "bg-card border rounded border-card transition",
+        isVisible ? "translate-y-0" : "-translate-y-6"
       )}
-      onClick={onOutsideClick}
+      {...rest}
+      onClick={e => e.stopPropagation()}
     >
-      <div
-        className={clsx(
-          "bg-card border rounded border-card transition",
-          isVisible ? "translate-y-0" : "-translate-y-6"
-        )}
-        {...rest}
-        onClick={e => e.stopPropagation()}
-      >
-        {children}
-      </div>
+      {children}
     </div>
-  );
-};
+  </div>
+);
 
 export default Modal;

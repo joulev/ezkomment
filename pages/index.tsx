@@ -14,17 +14,15 @@ type Props = {
   seo: SeoProps;
 };
 
-const Home: NextPage<Props> = ({ seo }) => {
-  return (
-    <>
-      <Seo {...seo} />
-      <Hero />
-      <EasySections />
-      <FinalSections />
-      <Footer />
-    </>
-  );
-};
+const Home: NextPage<Props> = ({ seo }) => (
+  <>
+    <Seo {...seo} />
+    <Hero />
+    <EasySections />
+    <FinalSections />
+    <Footer />
+  </>
+);
 
 export const getStaticProps: GetStaticProps<Props> = async () => ({
   props: {
