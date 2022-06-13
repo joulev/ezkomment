@@ -8,7 +8,7 @@ const BeyondTheBoundary: FC = () => (
       beyond the boundary
     </h2>
     <div className="text-muted text-lg md:text-xl lg:text-2xl">
-      Want to use custom renderer? Want to integrate the whole thing to your existing
+      Want to use your custom renderer? Want to integrate the whole thing to your existing
       infrastructure? You should REST!{" "}
       <span className="text-neutral-900 dark:text-neutral-100">
         Simply fetch our RESTful API and you have everything in your app.
