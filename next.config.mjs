@@ -1,4 +1,3 @@
-import { execSync } from "child_process";
 import rehypeSlug from "rehype-slug";
 import remarkPrism from "remark-prism";
 
@@ -10,12 +9,6 @@ const nextConfig = {
   pageExtensions: ["mdx", "tsx", "ts"],
   images: {
     domains: ["avatars.githubusercontent.com"],
-  },
-  generateBuildId: () => {
-    // If change this, also update lib/parseBuildId.ts accordingly
-    const time = execSync("git log -1 --pretty=format:%ct").toString();
-    const hash = execSync("git rev-parse --short HEAD").toString().trim();
-    return `${hash}-${time}`;
   },
   redirects: async () => [
     {
