@@ -7,8 +7,6 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import useBuildId from "~/client/hooks/buildId";
-
 import A from "~/client/components/anchor";
 import Input from "~/client/components/forms/input";
 import ModeSwitcher from "~/client/components/modeSwitcher";
@@ -20,7 +18,6 @@ import logoText from "~/public/images/logo-text.svg";
 import DocsNav from "./navbar";
 
 const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
-  const buildId = useBuildId();
   const [navbarCollapsed, setNavbarCollapsed] = useState(true);
   const [screenHeight, setScreenHeight] = useState(0);
   const router = useRouter();
@@ -80,18 +77,14 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
         <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
         <DocsNav navData={navData} />
         <footer className="flex flex-row justify-between items-center">
-          {process.env.NODE_ENV === "development" && (
-            <span className="text-muted font-mono">dev</span>
-          )}
-          {process.env.NODE_ENV === "production" && !buildId && (
-            <span className="text-muted">Loading&hellip;</span>
-          )}
-          {process.env.NODE_ENV === "production" && buildId && (
+          {process.env.NODE_ENV === "development" ? (
+            <span className="text-muted">Dev build</span>
+          ) : (
             <A
-              href={`https://github.com/joulev/ezkomment/commit/${buildId.hash}`}
+              href={`https://github.com/joulev/ezkomment/commit/${process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}`}
               className="font-mono"
             >
-              {buildId.hash}
+              {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.substring(0, 7) ?? "unknown"}
             </A>
           )}
           <ModeSwitcher />

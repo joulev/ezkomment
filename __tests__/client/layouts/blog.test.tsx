@@ -5,8 +5,6 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { FC } from "react";
 
-import useBuildId from "~/client/hooks/buildId";
-
 import BlogLayout from "~/client/layouts/blog";
 
 import { Author } from "~/types/client/utils.type";
@@ -40,13 +38,9 @@ const Component: FC<Props> = ({ authors, wordCount }) => (
 );
 
 jest.mock("next/router", () => require("next-router-mock"));
-jest.mock("~/client/hooks/buildId");
 
 describe("Blog layout component", () => {
   it("Render", () => {
-    // @ts-ignore
-    useBuildId.mockResolvedValue({ hash: "123", timestamp: 123 });
-
     render(<Component />);
     expect(screen.getAllByText("A blog")).not.toBeNull();
     expect(screen.getByText("Author")).toBeInTheDocument();
