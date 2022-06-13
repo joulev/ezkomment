@@ -39,10 +39,18 @@ export function extractFirstQueryValue(req: NextApiRequest) {
  *
  * @return An instance of `next-connect`.
  */
-export function ncRouter() {
-    return nc<NextApiRequest, ApiResponse>({
+export function ncRouter<
+    U extends NextApiRequest = NextApiRequest,
+    V extends ApiResponse = ApiResponse
+>() {
+    return nc<U, V>({
         // handle uncaught errors.
         onError: async (err, _, res) => {
+            if (process.env.NODE_ENV === "development") {
+                console.log("Some uncaught error happened?");
+                console.log(err);
+                return;
+            }
             const jsonErr = { error: String(err) };
             const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
                 method: "POST",
@@ -50,9 +58,10 @@ export function ncRouter() {
                     Authorization: `Bearer ${process.env.AXIOM_ERROR_API_TOKEN}`,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(jsonErr),
+                body: JSON.stringify([jsonErr]),
             });
             if (!sendErr.ok) {
+                console.log("Cannot send error log");
                 console.log(await sendErr.json());
             }
             res.status(500).json({
@@ -60,7 +69,7 @@ export function ncRouter() {
             });
         },
         onNoMatch: (_, res) => {
-            res.status(404).json({ error: "Method not allowed" });
+            res.status(403).json({ error: "Method not allowed" });
         },
     });
 }
