@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { motion, useAnimation } from "framer-motion";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
@@ -11,7 +11,7 @@ import DoneAllOutlinedIcon from "@mui/icons-material/DoneAllOutlined";
 import IconLabel from "../../utils/iconAndLabel";
 import HomeSection from "../section";
 
-const Illustration: FC = () => {
+const useAnimateIllustration = () => {
   const animation = useAnimation();
   const [ref, inView] = useInView({ threshold: 1 });
   const variants = (delay: number) => ({
@@ -26,6 +26,37 @@ const Illustration: FC = () => {
   useEffect(() => {
     if (inView) animation.start("visible");
   }, [inView, animation]);
+  return { ref, motionProps };
+};
+
+const useGreenArrow = () => {
+  const btnRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const handler = () => {
+    if (!btnRef.current || !textRef.current || !svgRef.current || !pathRef.current) return;
+    const btnRect = btnRef.current.getBoundingClientRect();
+    const textRect = textRef.current.getBoundingClientRect();
+    const btnSouthY = btnRect.top + btnRect.height;
+    const textNorthY = textRect.top;
+    const length = textNorthY - btnSouthY - 8;
+    svgRef.current.style.height = `${length}px`;
+    pathRef.current.setAttribute("d", `M17,${length} L17,4`);
+  };
+  useEffect(() => {
+    handler();
+  }, [btnRef, textRef, svgRef, pathRef]);
+  useEffect(() => {
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return { btnRef, textRef, svgRef, pathRef };
+};
+
+const Illustration: FC = () => {
+  const { ref, motionProps } = useAnimateIllustration();
+  const { btnRef, textRef, svgRef, pathRef } = useGreenArrow();
   return (
     <div
       className={clsx(
@@ -51,14 +82,25 @@ const Illustration: FC = () => {
         <div className="p-1.5 rounded border bg-card border-card h-fit grid place-content-center relative">
           <ClearOutlinedIcon fontSize="small" />
         </div>
-        <div className="p-1.5 rounded border bg-indigo-500 border-indigo-500 h-fit grid place-content-center relative">
+        <div
+          className="p-1.5 rounded border bg-indigo-500 border-indigo-500 h-fit grid place-content-center relative"
+          ref={btnRef}
+        >
           <CheckOutlinedIcon fontSize="small" />
         </div>
       </div>
       <svg className="w-full h-full absolute left-0 top-0 -scale-x-100">
         <defs>
           <mask id="buttonMask">
-            <rect fill="white" height="100%" width="100%" x="0" y="0" />
+            <rect
+              fill="white"
+              className="stroke-neutral-300/100 dark:stroke-neutral-700/100"
+              height="100%"
+              width="100%"
+              x="0"
+              y="0"
+              r="4"
+            />
             <rect
               x="0"
               y="0"
@@ -96,7 +138,11 @@ const Illustration: FC = () => {
         </defs>
         <path markerEnd="url(#head1)" className="stroke-current stroke-2" d="M17,0 L17,48" />
       </motion.svg>
-      <motion.div className="absolute right-0 -bottom-18 text-emerald-500" {...motionProps(0.9)}>
+      <motion.div
+        className="absolute right-0 -bottom-18 text-emerald-500"
+        {...motionProps(0.9)}
+        ref={textRef}
+      >
         <IconLabel
           icon={DoneAllOutlinedIcon}
           label={
@@ -107,15 +153,21 @@ const Illustration: FC = () => {
         />
       </motion.div>
       <motion.svg
-        className="absolute right-0 -bottom-8 sm:-bottom-11 md:-bottom-8 lg:-bottom-11 h-[148px] w-[40px] sm:w-[46px] md:w-[40px] lg:w-[46px] text-emerald-500"
+        className="absolute right-0 -bottom-11 w-[40px] sm:w-[46px] md:w-[40px] lg:w-[46px] text-emerald-500"
         {...motionProps(0.9)}
+        ref={svgRef}
       >
         <defs>
           <marker id="head2" orient="auto" markerWidth="6" markerHeight="6" refX="4" refY="3">
             <path d="M0,0 L0,6 L6,3 Z" className="fill-current" />
           </marker>
         </defs>
-        <path markerEnd="url(#head2)" className="stroke-current stroke-2" d="M17,148 L17,4" />
+        <path
+          markerEnd="url(#head2)"
+          className="stroke-current stroke-2"
+          d="M17,148 L17,4"
+          ref={pathRef}
+        />
       </motion.svg>
     </div>
   );
