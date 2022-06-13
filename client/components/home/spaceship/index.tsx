@@ -26,9 +26,10 @@ SpaceshipSVG.displayName = "SpaceshipSVG";
 
 const FinalSections: FC = () => {
   const animation = useAnimation();
-  const [ref, inView] = useInView();
+  const [ref, inView] = useInView({ threshold: 0.5 });
   useEffect(() => {
     if (inView) animation.start("visible");
+    else animation.start("hidden");
   }, [inView, animation]);
   return (
     <div className="stars">
@@ -39,10 +40,10 @@ const FinalSections: FC = () => {
             initial="hidden"
             variants={{
               visible: { marginTop: 192, transition: { duration: 0.6, ease: "easeOut" } },
-              hidden: { marginTop: 384, transition: { duration: 0.6 } },
+              hidden: { marginTop: 500 },
             }}
           >
-            <SpaceshipSVG ref={ref} />
+            <SpaceshipSVG />
           </motion.div>
           <motion.div
             className="absolute left-1/2 bottom-0 w-6 -translate-x-3 spaceship-smoke"
@@ -50,11 +51,11 @@ const FinalSections: FC = () => {
             initial="hidden"
             variants={{
               visible: { top: 342, transition: { duration: 0.6, ease: "easeOut" } },
-              hidden: { top: 534, transition: { duration: 0.6 } },
+              hidden: { top: 650 },
             }}
           />
         </div>
-        <div className="flex-1">
+        <div className="flex-1" ref={ref}>
           <BeyondTheBoundary />
           <OpenSource />
         </div>
