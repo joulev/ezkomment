@@ -58,7 +58,7 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
           <FooterNavLink href="/docs" title="Docs" />
           <FooterNavLink href="/orbital" title="Orbital" />
         </div>
-        <div className="text-sm text-muted">
+        <div className="text-sm text-muted" data-testid="git info">
           {process.env.NODE_ENV === "development" ? (
             "Development build"
           ) : (
@@ -67,6 +67,7 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
               <A
                 href={`https://github.com/joulev/ezkomment/commit/${process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}`}
                 className="font-mono"
+                data-testid="git hash"
               >
                 {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.substring(0, 7) ?? "unknown"}
               </A>
