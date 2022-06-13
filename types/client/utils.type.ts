@@ -30,7 +30,6 @@ export type IconAndLabel =
 
 export type BannerVariant = "warning" | "error" | "info";
 export type ButtonVariant = "primary" | "danger" | "tertiary";
-export type Comment = { author: string; date: string; text: string };
 
 export type PrismLanguage = "html" | "javascript";
 export type PrismOptions = {

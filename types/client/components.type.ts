@@ -1,14 +1,7 @@
 import { ComponentProps, MouseEventHandler, ReactNode } from "react";
 
 import { CurrentPage } from "./page.type";
-import {
-    Author,
-    BannerVariant,
-    ButtonVariant,
-    Comment,
-    IconAndLabel,
-    IconType,
-} from "./utils.type";
+import { Author, BannerVariant, ButtonVariant, IconAndLabel, IconType } from "./utils.type";
 
 export type AppProps = CurrentPage & {
     title: string;
@@ -48,11 +41,6 @@ export type BannerProps = ComponentProps<"div"> & {
 export type ButtonProps = (ComponentProps<"a"> & ComponentProps<"button">) & {
     variant?: ButtonVariant;
     icon?: IconType;
-};
-
-export type CommentsProps = {
-    comments: Comment[];
-    children?: ReactNode;
 };
 
 export type CopiableCodeProps = {
