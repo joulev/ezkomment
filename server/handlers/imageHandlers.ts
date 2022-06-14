@@ -1,7 +1,7 @@
-import * as SiteUtils from "~/server/utils/siteUtils";
-import * as UserUtils from "~/server/utils/userUtils";
 import { getImagePublicUrl, uploadImage } from "~/server/utils/imageUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
+import { updateSiteById } from "~/server/utils/siteUtils";
+import { updateUserById } from "~/server/utils/userUtils";
 
 import { ApiRequestWithFormData, ApiResponse } from "~/types/server/nextApi.type";
 
@@ -10,7 +10,7 @@ export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiRespo
     const imgName = `users/${uid}`;
     try {
         const photoURL = getImagePublicUrl(imgName);
-        await UserUtils.updateUserById(uid, { photoURL });
+        await updateUserById(uid, { photoURL });
         await uploadImage(imgName, req.file);
         res.status(200).json({
             message: "Successfully uploaded user's photo",
@@ -26,7 +26,7 @@ export async function uploadSiteIcon(req: ApiRequestWithFormData, res: ApiRespon
     const imgName = `sites/${siteId}`;
     try {
         const iconURL = getImagePublicUrl(imgName);
-        await SiteUtils.updateSiteById(siteId, { iconURL });
+        await updateSiteById(siteId, { iconURL });
         await uploadImage(imgName, req.file);
         res.status(200).json({
             message: "Successfully uploaded site's icon",
