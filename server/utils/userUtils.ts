@@ -2,8 +2,6 @@ import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/a
 
 import { authAdmin } from "~/server/firebase/firebaseAdmin";
 
-import { deleteUserSitesById } from "./siteUtils";
-
 export async function getUserById(uid: string) {
     const user = await authAdmin.getUser(uid);
     return user.toJSON();
