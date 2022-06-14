@@ -9,8 +9,12 @@ export type ApiMiddleware<
 > = (req: U, res: V, next: () => Promise<unknown> | unknown) => unknown | Promise<unknown>;
 
 export type ApiError = {
-    error: string;
-    errorInfo?: string;
+    error: string | ErrorInfo;
+};
+
+export type ErrorInfo = {
+    code: string;
+    message?: string;
 };
 
 export type ApiResponseBody = {
