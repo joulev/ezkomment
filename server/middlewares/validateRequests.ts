@@ -10,6 +10,10 @@ import { ApiMiddleware } from "~/types/server/nextApi.type";
  */
 export const validateUidWithJWT: ApiMiddleware = async (req, res, next) => {
     const { uid } = extractFirstQueryValue(req);
+    if (process.env.NODE_ENV === "development") {
+        next();
+        return;
+    }
     try {
         const decodedClaim = await verifyJWT(req.headers.authorization);
         if (decodedClaim.uid === uid) {

@@ -28,7 +28,7 @@ export async function uploadImage(imgName: string, file?: FormDataFile) {
 
 export async function deleteImage(imgName: string) {
     const blob = bucketAdmin.file(imgName);
-    const [{ statusCode, body, statusMessage }] = await blob.delete({ ignoreNotFound: false });
+    const [{ statusCode, body, statusMessage }] = await blob.delete({ ignoreNotFound: true });
     if (process.env.NODE_ENV === "development") {
         console.log("deleted image");
         console.log("response statusCode: " + statusCode);
@@ -36,4 +36,12 @@ export async function deleteImage(imgName: string) {
         console.log("response body: ");
         console.dir(body, { depth: null });
     }
+}
+
+export async function deleteUserPhotoById(uid: string) {
+    return await deleteImage(`users/${uid}`);
+}
+
+export async function deleteSiteIconById(siteId: string) {
+    return await deleteImage(`sites/${siteId}`);
 }

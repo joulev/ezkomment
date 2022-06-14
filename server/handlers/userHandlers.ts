@@ -2,6 +2,7 @@ import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/a
 import { NextApiRequest } from "next";
 
 import * as userUtils from "~/server/utils/userUtils";
+import { deleteUserPhotoById } from "~/server/utils/imageUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 import { deleteUserSitesById, listUserSitesById } from "~/server/utils/siteUtils";
 
@@ -35,6 +36,7 @@ export async function deleteUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
         await userUtils.deleteUserById(uid);
+        await deleteUserPhotoById(uid);
         await deleteUserSitesById(uid);
         res.status(200).json({ message: "User was deleted successfully" });
     } catch (error) {

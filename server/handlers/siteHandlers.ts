@@ -1,6 +1,7 @@
 import { NextApiRequest } from "next";
 
 import * as SiteUtils from "~/server/utils/siteUtils";
+import { deleteSiteIconById } from "~/server/utils/imageUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 import { deleteSitePagesById, listSitePagesById } from "~/server/utils/pageUtils";
 
@@ -46,6 +47,7 @@ export async function deleteSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     try {
         await SiteUtils.deleteSiteById(siteId);
+        await deleteSiteIconById(siteId);
         await deleteSitePagesById(siteId);
         res.status(200).json({ message: "Successfully deleted site" });
     } catch (error) {
