@@ -4,8 +4,8 @@ import { all, comment, styles } from "~/constants/sampleCommentCode";
 
 describe("Test the comment HTML generator", () => {
     it("Should match snapshot", () => {
-        const withoutDarkClass = generateCommentHTML(all, comment, styles, false);
-        const withDarkClass = generateCommentHTML(all, comment, styles, true);
+        const withoutDarkClass = generateCommentHTML(all, comment, styles, undefined, false);
+        const withDarkClass = generateCommentHTML(all, comment, styles, undefined, true);
         expect(withoutDarkClass).toMatchSnapshot();
         expect(withDarkClass).toMatchSnapshot();
         expect(generateCommentHTML(all, comment, styles)).toEqual(withoutDarkClass);

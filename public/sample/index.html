@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test ezkomment comments</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css"
+    />
+    <style>
+      body {
+        background-color: #d4d4d4;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      main {
+        background-color: white;
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      @media (min-width: 900px) {
+        main {
+          margin-top: 6rem;
+          margin-bottom: 6rem;
+          width: 80ch;
+          box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+          border-radius: 4px;
+        }
+      }
+      h1 {
+        margin-bottom: 0;
+      }
+      h2 {
+        margin-top: 3rem;
+      }
+      .author {
+        color: #737373;
+        margin-top: 0;
+      }
+      a {
+        color: #6366f1;
+        text-decoration: none;
+        transition: color 0.15s ease-in-out;
+      }
+      a:hover {
+        color: #4338ca;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      iframe {
+        width: 100%;
+        border: none;
+      }
+    </style>
+    <script>
+      // https://stackoverflow.com/a/42308842
+      function setIframeHeight(iframe) {
+        iframe.contentWindow.postMessage("FrameHeight", "*");
+      }
+      window.addEventListener('message', function (event) {
+        if (event.data.hasOwnProperty("FrameHeight"))
+          document.getElementById("embedded-comments").style.height = event.data.FrameHeight + "px";
+      });
+    </script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Lorem Ipsum</h1>
+        <p class="author">Cicero, <em>De finibus bonorum et malorum</em></p>
+      </header>
+      <article>
+        <p>This text was taken from <a href="https://lipsum.com/feed" target="_blank" rel="noopener noreferrer">lipsum.com</a>.</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam in lectus lorem.
+          Pellentesque commodo lectus lectus, nec commodo justo tincidunt laoreet. Aenean efficitur
+          eget massa eu eleifend. Nullam hendrerit in magna ut fringilla. In sagittis urna in
+          euismod lacinia. Duis bibendum nec diam a bibendum. Integer tincidunt odio lacinia ante
+          laoreet suscipit.
+        </p>
+        <p>
+          Integer dui urna, sollicitudin viverra imperdiet ut, facilisis non tortor. Maecenas id
+          massa egestas, sagittis nunc eget, euismod nisi. Etiam faucibus augue ut diam molestie,
+          non consequat nunc venenatis. Sed ut arcu accumsan turpis ultricies cursus vel id nibh.
+          Nulla vitae egestas orci, in ornare ipsum. Cras suscipit, quam sit amet blandit eleifend,
+          lacus ligula molestie leo, ut venenatis sem purus nec nisi. Proin eu velit congue,
+          tristique nulla id, finibus augue. Vivamus ac neque vel justo maximus commodo.
+        </p>
+        <p>
+          Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+          Integer ultrices, nibh eu ullamcorper sagittis, turpis sem maximus felis, in gravida diam
+          ante eu mi. Suspendisse lacinia nisi quis malesuada gravida. Cras egestas dolor tristique
+          diam luctus, at pulvinar eros vestibulum. Vestibulum sit amet consequat nulla. Phasellus a
+          vestibulum velit. Nulla facilisi. Cras iaculis, arcu sed tempus tristique, leo sem
+          convallis ligula, eget tincidunt nunc purus ac diam.
+        </p>
+        <p>
+          Ut a pulvinar mi. Aliquam in leo sit amet turpis imperdiet condimentum et ut libero. In
+          maximus cursus ante ornare commodo. Pellentesque feugiat, massa malesuada mattis rhoncus,
+          purus nulla suscipit erat, in maximus mauris elit egestas ex. In et enim ex. Morbi id
+          felis a magna elementum sodales vitae vitae felis. Integer ornare nec turpis id porta.
+          Proin condimentum imperdiet enim at consequat. Maecenas et ullamcorper ligula. Nunc sed
+          pharetra ex. Cras molestie, turpis sit amet congue iaculis, libero mauris venenatis metus,
+          in feugiat orci orci id ipsum. Nullam viverra malesuada nunc, tempus condimentum enim
+          sollicitudin at. Nullam non mauris ac nisi pharetra convallis. Nunc mauris est, euismod
+          eget rhoncus eu, dapibus vel ante.
+        </p>
+        <p>
+          Sed mattis elit ex, quis pellentesque sem bibendum pretium. Duis sagittis, nisl vitae
+          condimentum tristique, lectus quam hendrerit massa, sed malesuada lacus lorem nec augue.
+          Pellentesque at ipsum libero. Donec maximus tempor mattis. Integer in odio nibh. Sed
+          maximus condimentum convallis. Etiam nisl lacus, suscipit vitae nulla in, iaculis rhoncus
+          dui. Proin id interdum eros. Vivamus ultrices quis tellus sit amet fringilla.
+        </p>
+      </article>
+      <section>
+        <h2>Comments</h2>
+        <iframe id="embedded-comments" src="https://ezkdev.joulev.dev/embed/siteId/pageId" onload="setIframeHeight(this)">
+      </section>
+    </main>
+  </body>
+</html>

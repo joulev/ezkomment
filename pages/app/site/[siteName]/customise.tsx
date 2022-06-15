@@ -152,7 +152,13 @@ const SiteCustomise: NextPageWithLayout<Props> = ({ site }) => {
               style={{ backgroundColor: previewBg }}
             >
               <iframe
-                srcDoc={generateCommentHTML(code.all, code.comment, code.styles, previewIsDark)}
+                srcDoc={generateCommentHTML(
+                  code.all,
+                  code.comment,
+                  code.styles,
+                  undefined,
+                  previewIsDark
+                )}
                 sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
                 className="w-full h-full"
               />

@@ -11,6 +11,16 @@ export const comments = [
     },
 ];
 
+// https://stackoverflow.com/a/42308842
+const serverJs = `
+window.addEventListener('message', function (event) {
+    if (event.data == "FrameHeight") {
+        var body = document.body, html = document.documentElement;
+        var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+        event.source.postMessage({ "FrameHeight": height }, "*");
+    }
+});`;
+
 /**
  * Construct a preview HTML for the given templates in the /site/[siteName]/customise page
  *
@@ -26,9 +36,10 @@ export default function generateCommentHTML(
     allTemplate: string,
     commentTemplate: string,
     styles: string,
+    commentList?: typeof comments,
     addDarkClass: boolean = false
 ) {
-    const commentHTML = comments.map(comment => {
+    const commentHTML = (commentList ?? comments).map(comment => {
         const commentTemplateWithData = commentTemplate
             .replace("<AUTHOR>", comment.author)
             .replace("<TIME>", comment.date)
@@ -39,5 +50,5 @@ export default function generateCommentHTML(
     const allTemplateWithData = allTemplate.replace("<COMMENTS>", allComments);
     return `<html><head><style>${styles}</style></head><body${
         addDarkClass ? ' class="dark"' : ""
-    }>${allTemplateWithData}</body></html>`;
+    }>${allTemplateWithData}<script>${serverJs}</script></body></html>`;
 }
