@@ -60,9 +60,13 @@ export function ncRouter<
             if (err instanceof CustomApiError) {
                 const { code, message } = err;
                 return res.status(code).json({ error: message });
+            } else if (err instanceof TypeError) {
+                const { message } = err;
+                return res.status(400).json({ error: message });
             }
+            const errString = String(err);
             const jsonErr: ApiError = {
-                error: String(err),
+                error: errString,
                 stackTrace: err?.stack ?? "",
             };
             if (process.env.NODE_ENV === "development") {
@@ -82,7 +86,7 @@ export function ncRouter<
                 console.log(await sendErr.json());
             }
             res.status(500).json({
-                error: `The error has${sendErr.ok ? " " : " not "}been logged: ${String(err)}`,
+                error: `The error has${sendErr.ok ? " " : " not "}been logged. ${errString}`,
             });
         },
         onNoMatch: (_, res) => {
