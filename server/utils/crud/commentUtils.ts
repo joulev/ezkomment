@@ -1,18 +1,43 @@
+import { FieldValue } from "firebase-admin/firestore";
+
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 
-import { CreateCommentRequest, UpdateCommentBodyParams } from "~/types/server";
+import {
+    ApprovedStatus,
+    CreateCommentRequest,
+    Page,
+    UpdateCommentBodyParams,
+} from "~/types/server";
 
+import CustomApiError from "../errors/customApiError";
 import { deleteQuery } from "../firestoreUtils";
 
 const COMMENTS_COLLECTION = firestoreAdmin.collection("comments");
+const PAGES_COLLECTION = firestoreAdmin.collection("pages");
 
 /**
  * Creates a new comment for a particular page.
  * @param data The data of the comment
  */
 export async function createComment(data: CreateCommentRequest) {
+    const { pageId } = data;
     const commentRef = COMMENTS_COLLECTION.doc();
-    return await commentRef.create({ id: commentRef.id, ...data });
+    const commentId = commentRef.id;
+    return await firestoreAdmin.runTransaction(async t => {
+        const pageSnapshot = await t.get(PAGES_COLLECTION.doc(pageId));
+        if (!pageSnapshot.exists) {
+            throw new CustomApiError("Page does not exist", 404);
+        }
+        const pageData = pageSnapshot.data() as Page;
+        const newComment = {
+            id: commentId,
+            date: FieldValue.serverTimestamp(),
+            status: pageData.autoApprove ? "Approved" : "Pending",
+            ...data,
+        };
+        t.create(commentRef, newComment);
+        return newComment;
+    });
 }
 
 /**

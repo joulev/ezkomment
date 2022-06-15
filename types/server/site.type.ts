@@ -1,8 +1,7 @@
+import { Timestamp } from "firebase-admin/firestore";
+
 export type Site = {
-    /**
-     * The auto generated id of the site.
-     */
-    id: string;
+    // properties that can be updated safely.
 
     /**
      * The display name of the site.
@@ -10,16 +9,35 @@ export type Site = {
     name: string;
 
     /**
-     * The domain of the site.
-     */
-    domain: string;
-
-    /**
      * The URL to the site domain, if set
      */
     iconURL: string | null;
 
-    // Other properties to identify the site.
+    // Readonly properties.
+
+    /**
+     * The auto generated id of the site.
+     */
+    readonly id: string;
+
+    /**
+     * The domain of the site.
+     *
+     */
+    readonly domain: string;
+
+    // Statistic
+
+    /**
+     * The number of page in this site
+     */
+    pageCount: number;
+    totalCommentCount: number;
+    needApproval: number;
+    lastCommentDate: Timestamp;
+
+    // Foreign key
+
     /**
      *  The uid of the owner of this site.
      */
