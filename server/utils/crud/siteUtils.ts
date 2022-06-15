@@ -3,9 +3,6 @@ import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 
 import { CreateSiteRequest, UpdateSiteBodyParams } from "~/types/server";
 
-import { deleteQuery } from "./firestoreUtils";
-import { deleteSitePagesById } from "./pageUtils";
-
 /**
  * The collection of sites.
  */

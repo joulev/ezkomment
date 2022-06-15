@@ -2,7 +2,7 @@ import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 
 import { CreateCommentRequest, UpdateCommentBodyParams } from "~/types/server";
 
-import { deleteQuery } from "./firestoreUtils";
+import { deleteQuery } from "../firestoreUtils";
 
 const COMMENTS_COLLECTION = firestoreAdmin.collection("comments");
 

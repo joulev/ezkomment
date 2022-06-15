@@ -1,7 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 import nc from "next-connect";
 
-import { ApiResponse } from "~/types/server/nextApi.type";
+import { ApiResponse, ErrorInfo } from "~/types/server/nextApi.type";
+
+import CustomApiError from "./errors/customApiError";
 
 /**
  * A helper function to report bad requests in `catch` blocks.
@@ -10,14 +12,16 @@ import { ApiResponse } from "~/types/server/nextApi.type";
  * @param err The error occured
  * @param msg Extra message to be sent back with the response
  */
-export function reportBadRequest(res: NextApiResponse, err: unknown, msg: string) {
+export function reportBadRequest(res: ApiResponse, err: unknown, msg?: string) {
     if (process.env.NODE_ENV === "development") {
         console.error(err);
     }
-    res.status(400).json({
-        error: `${err}`,
-        message: msg,
-    });
+    if (err instanceof CustomApiError) {
+        const { code, message } = err;
+        res.status(code).json({ error: message });
+    } else {
+        throw err;
+    }
 }
 
 /**

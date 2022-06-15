@@ -1,4 +1,4 @@
-import { deleteCommentById, updateCommentById } from "~/server/utils/commentUtils";
+import { deleteCommentById, updateCommentById } from "~/server/utils/crud/commentUtils";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter().put(updateCommentById).delete(deleteCommentById);

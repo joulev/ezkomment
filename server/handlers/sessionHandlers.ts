@@ -21,6 +21,6 @@ export async function login(req: NextApiRequest, res: ApiResponse) {
         res.setHeader("Set-Cookie", serialize("session", sessionCookie, options));
         res.status(200).json({ message: "Created session cookie" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot create cookie when logged in");
+        reportBadRequest(res, error);
     }
 }
