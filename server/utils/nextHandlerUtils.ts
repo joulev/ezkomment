@@ -82,7 +82,7 @@ export function ncRouter<
                 console.log(await sendErr.json());
             }
             res.status(500).json({
-                error: `Something broke! The error has${sendErr.ok ? " " : " not "}been logged`,
+                error: `The error has${sendErr.ok ? " " : " not "}been logged: ${String(err)}`,
             });
         },
         onNoMatch: (_, res) => {

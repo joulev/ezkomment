@@ -56,8 +56,10 @@ export type UpdateSiteBodyParams = {
     iconURL?: string | null;
 };
 
-export type CreateSiteBodyParams = Required<UpdateSiteBodyParams> & {
+export type CreateSiteBodyParams = {
+    name: string;
     domain: string;
+    iconURL?: string | null;
 };
 
 export type CreateSiteRequest = CreateSitePathParams & CreateSiteBodyParams;

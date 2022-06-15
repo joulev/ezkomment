@@ -1,16 +1,10 @@
 import { FieldValue } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+import CustomApiError from "~/server/utils/errors/customApiError";
+import { deleteQuery } from "~/server/utils/firestoreUtils";
 
-import {
-    ApprovedStatus,
-    CreateCommentRequest,
-    Page,
-    UpdateCommentBodyParams,
-} from "~/types/server";
-
-import CustomApiError from "../errors/customApiError";
-import { deleteQuery } from "../firestoreUtils";
+import { CreateCommentRequest, Page, UpdateCommentBodyParams } from "~/types/server";
 
 const COMMENTS_COLLECTION = firestoreAdmin.collection("comments");
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");
@@ -61,8 +55,8 @@ export async function deleteCommentById(commentId: string) {
 }
 
 export async function listPageCommentsById(pageId: string) {
-    const commentSnapshot = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
-    return commentSnapshot.docs.map(doc => doc.data());
+    const commentsSnapshot = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
+    return commentsSnapshot.docs.map(doc => doc.data());
 }
 
 export async function deletePageCommentsById(pageId: string) {
