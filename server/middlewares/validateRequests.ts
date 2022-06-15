@@ -19,10 +19,10 @@ export const validateUidWithJWT: ApiMiddleware = async (req, res, next) => {
         if (decodedClaim.uid === uid) {
             next();
         } else {
-            throw Error("Unauthorized");
+            res.status(403).json({ error: "Decoded uid does not match path uid" });
         }
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot access resources");
+        reportBadRequest(res, error);
     }
 };
 

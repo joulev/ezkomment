@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import nc from "next-connect";
 
-import { ApiResponse, ErrorInfo } from "~/types/server/nextApi.type";
+import { ApiError, ApiResponse } from "~/types/server/nextApi.type";
 
 import CustomApiError from "./errors/customApiError";
 
@@ -14,7 +14,7 @@ import CustomApiError from "./errors/customApiError";
  */
 export function reportBadRequest(res: ApiResponse, err: unknown, msg?: string) {
     if (process.env.NODE_ENV === "development") {
-        console.error(err);
+        console.log(err);
     }
     if (err instanceof CustomApiError) {
         const { code, message } = err;
@@ -50,11 +50,14 @@ export function ncRouter<
     return nc<U, V>({
         // handle uncaught errors.
         onError: async (err, _, res) => {
+            const jsonErr: ApiError = {
+                error: String(err),
+                stackTrace: err?.stack ?? "",
+            };
             if (process.env.NODE_ENV === "development") {
                 console.log("Some uncaught error happened?");
-                console.log(err);
+                return res.status(500).json(jsonErr);
             }
-            const jsonErr = { error: String(err) };
             const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
                 method: "POST",
                 headers: {
@@ -72,7 +75,7 @@ export function ncRouter<
             });
         },
         onNoMatch: (_, res) => {
-            res.status(403).json({ error: "Method not allowed" });
+            res.status(405).json({ error: "Method not allowed" });
         },
     });
 }

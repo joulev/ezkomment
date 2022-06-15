@@ -1,4 +1,5 @@
 import { bucketAdmin } from "~/server/firebase/firebaseAdmin";
+import CustomApiError from "~/server/utils/errors/customApiError";
 
 import { FormDataFile } from "~/types/server/nextApi.type";
 
@@ -12,7 +13,7 @@ export function getImagePublicUrl(imgName: string) {
 
 export async function uploadImage(imgName: string, file?: FormDataFile) {
     if (!file) {
-        throw Error("No file to upload!");
+        throw new CustomApiError("No file to upload", 400);
     }
     const { mimetype, buffer } = file;
     const blob = bucketAdmin.file(imgName);
