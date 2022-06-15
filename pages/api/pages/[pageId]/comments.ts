@@ -1,7 +1,8 @@
 import { createComment } from "~/server/handlers/commentHandlers";
 import { listPageComments } from "~/server/handlers/pageHandlers";
+import { sanitizeCreateCommentRequest } from "~/server/middlewares/sanitizeRequest/comments";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = ncRouter().get(listPageComments).post(createComment);
+const handler = ncRouter().get(listPageComments).post(sanitizeCreateCommentRequest, createComment);
 
 export default handler;

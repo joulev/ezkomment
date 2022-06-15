@@ -1,10 +1,10 @@
 export type Page = {
-    id: string;
+    readonly id: string;
     name: string;
     url: string;
     autoApprove: boolean;
 
-    siteId: string; // foreign key
+    readonly siteId: string; // foreign key
 };
 
 export type CreatePagePathParams = {
@@ -21,9 +21,9 @@ export type UpdatePageBodyParams = {
 };
 
 export type CreatePageBodyParams = {
-    name: string;
-    autoApprove?: boolean; // default true
     url: string;
+    name: string;
+    autoApprove: boolean; // default true
 };
 
 export type CreatePageRequest = CreatePagePathParams & CreatePageBodyParams;
