@@ -10,6 +10,7 @@ export type ApiMiddleware<
 
 export type ApiError = {
     error: string | ErrorInfo;
+    stackTrace?: string;
 };
 
 export type ErrorInfo = {

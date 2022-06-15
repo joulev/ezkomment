@@ -1,5 +1,5 @@
-// TODO: Fix sites and pages models
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+import CustomApiError from "~/server/utils/errors/customApiError";
 
 import { CreateSiteRequest, UpdateSiteBodyParams } from "~/types/server";
 
@@ -17,7 +17,7 @@ const SITES_COLLECTION = firestoreAdmin.collection("sites");
 export async function getSiteById(siteId: string) {
     const result = await SITES_COLLECTION.doc(siteId).get();
     if (!result.exists) {
-        throw Error("No such site!");
+        throw new CustomApiError("Site does not exist", 404);
     }
     return result.data();
 }
