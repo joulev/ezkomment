@@ -14,10 +14,10 @@ export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
     if (!url || !validator.isURL(url)) {
         throw new CustomApiError("'url' is invalid");
     }
-    if (!autoApprove || !validator.isBoolean(autoApprove)) {
+    if (typeof autoApprove !== "boolean") {
         throw new CustomApiError("'autoApprove' must be a boolean");
     }
-    req.body = { name, url, autoApprove: autoApprove === "true" };
+    req.body = { name, url, autoApprove };
     next();
 };
 
@@ -29,13 +29,13 @@ export const sanitizeUpdatePageRequest: ApiMiddleware = (req, _, next) => {
     if (url && !validator.isURL(url)) {
         throw new CustomApiError("'url' is invalid");
     }
-    if (autoApprove && !validator.isBoolean(autoApprove)) {
+    if (autoApprove !== undefined && typeof autoApprove !== "boolean") {
         throw new CustomApiError("'autoApprove' must be a boolean");
     }
     req.body = removeUndefinedProperties({
         name,
         url,
-        autoApprove: autoApprove === undefined ? undefined : autoApprove === "true",
+        autoApprove,
     });
     next();
 };
