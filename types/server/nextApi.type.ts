@@ -14,11 +14,11 @@ export type ApiError = {
 
 export type ErrorInfo = {
     code: string;
-    message?: string;
+    message: string;
 };
 
 export type ApiResponseBody = {
-    message: string; // must have
+    message: string;
     data?: Record<string, any> | Record<string, any>[];
 };
 

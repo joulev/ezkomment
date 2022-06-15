@@ -1,7 +1,7 @@
-import { getImagePublicUrl, uploadImage } from "~/server/utils/imageUtils";
+import { getImagePublicUrl, uploadImage } from "~/server/utils/crud/imageUtils";
+import { updateSiteById } from "~/server/utils/crud/siteUtils";
+import { updateUserById } from "~/server/utils/crud/userUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
-import { updateSiteById } from "~/server/utils/siteUtils";
-import { updateUserById } from "~/server/utils/userUtils";
 
 import { ApiRequestWithFormData, ApiResponse } from "~/types/server/nextApi.type";
 
@@ -12,12 +12,12 @@ export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiRespo
         const photoURL = getImagePublicUrl(imgName);
         await updateUserById(uid, { photoURL });
         await uploadImage(imgName, req.file);
-        res.status(200).json({
-            message: "Successfully uploaded user's photo",
+        res.status(201).json({
+            message: "Uploaded user's photo",
             data: { photoURL },
         });
     } catch (error) {
-        reportBadRequest(res, error, "");
+        reportBadRequest(res, error);
     }
 }
 
@@ -28,8 +28,8 @@ export async function uploadSiteIcon(req: ApiRequestWithFormData, res: ApiRespon
         const iconURL = getImagePublicUrl(imgName);
         await updateSiteById(siteId, { iconURL });
         await uploadImage(imgName, req.file);
-        res.status(200).json({
-            message: "Successfully uploaded site's icon",
+        res.status(201).json({
+            message: "Uploaded site's icon",
             data: { iconURL },
         });
     } catch (error) {

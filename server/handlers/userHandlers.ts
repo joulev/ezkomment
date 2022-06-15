@@ -1,23 +1,20 @@
 import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/auth";
 import { NextApiRequest } from "next";
 
-import * as userUtils from "~/server/utils/userUtils";
-import { deleteUserPhotoById } from "~/server/utils/imageUtils";
+import * as userUtils from "~/server/utils/crud/userUtils";
+import { deleteUserPhotoById } from "~/server/utils/crud/imageUtils";
+import { deleteUserSitesById, listUserSitesById } from "~/server/utils/crud/siteUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
-import { deleteUserSitesById, listUserSitesById } from "~/server/utils/siteUtils";
 
 import { ApiResponse } from "~/types/server/nextApi.type";
 
 export async function getUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
-        const result = await userUtils.getUserById(uid);
-        res.status(200).json({
-            message: "Successfully get user's data",
-            data: result,
-        });
+        const data = await userUtils.getUserById(uid);
+        res.status(200).json({ message: "Got user's data", data });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot get user");
+        reportBadRequest(res, error);
     }
 }
 
@@ -26,21 +23,21 @@ export async function updateUser(req: NextApiRequest, res: ApiResponse) {
     const data: UpdateRequest = req.body;
     try {
         await userUtils.updateUserById(uid, data);
-        res.status(200).json({ message: "User was updated successfully" });
+        res.status(200).json({ message: "Updated user" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot update user");
+        reportBadRequest(res, error);
     }
 }
 
 export async function deleteUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
+        await deleteUserPhotoById(uid); // delete photo
+        await deleteUserSitesById(uid); // delete ALL sites
         await userUtils.deleteUserById(uid);
-        await deleteUserPhotoById(uid);
-        await deleteUserSitesById(uid);
-        res.status(200).json({ message: "User was deleted successfully" });
+        res.status(200).json({ message: "Deleted user" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot delete user");
+        reportBadRequest(res, error);
     }
 }
 
@@ -51,13 +48,10 @@ export async function deleteUser(req: NextApiRequest, res: ApiResponse) {
 export async function listUserSites(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     try {
-        const result = await listUserSitesById(uid);
-        res.status(200).json({
-            message: "Successfully got all user's sites",
-            data: result,
-        });
+        const data = await listUserSitesById(uid);
+        res.status(200).json({ message: "Got user's sites", data });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot list user's sites");
+        reportBadRequest(res, error);
     }
 }
 
@@ -69,9 +63,9 @@ export async function createUser(req: NextApiRequest, res: ApiResponse) {
     const data: CreateRequest = req.body;
     try {
         await userUtils.createUser(data);
-        res.status(201).json({ message: "New user was created!" });
+        res.status(201).json({ message: "Created new user" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot create new user");
+        reportBadRequest(res, error);
     }
 }
 
@@ -81,6 +75,6 @@ export async function importUsers(req: NextApiRequest, res: ApiResponse) {
         await userUtils.importUsers(data);
         res.status(201).json({ message: "Imported new users" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot import users");
+        reportBadRequest(res, error);
     }
 }

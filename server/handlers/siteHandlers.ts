@@ -1,9 +1,9 @@
 import { NextApiRequest } from "next";
 
-import * as SiteUtils from "~/server/utils/siteUtils";
-import { deleteSiteIconById } from "~/server/utils/imageUtils";
+import * as SiteUtils from "~/server/utils/crud/siteUtils";
+import { deleteSiteIconById } from "~/server/utils/crud/imageUtils";
+import { deleteSitePagesById, listSitePagesById } from "~/server/utils/crud/pageUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
-import { deleteSitePagesById, listSitePagesById } from "~/server/utils/pageUtils";
 
 import { CreateSiteBodyParams, CreateSitePathParams, UpdateSiteBodyParams } from "~/types/server";
 import { ApiResponse } from "~/types/server/nextApi.type";
@@ -11,13 +11,10 @@ import { ApiResponse } from "~/types/server/nextApi.type";
 export async function getSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     try {
-        const result = await SiteUtils.getSiteById(siteId);
-        res.status(200).json({
-            message: "Successfully get site information",
-            data: result,
-        });
+        const data = await SiteUtils.getSiteById(siteId);
+        res.status(200).json({ message: "Got site information", data });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot get site's information");
+        reportBadRequest(res, error);
     }
 }
 
@@ -26,9 +23,9 @@ export async function createSite(req: NextApiRequest, res: ApiResponse) {
     const data: CreateSiteBodyParams = req.body;
     try {
         await SiteUtils.createSite({ uid, ...data });
-        res.status(201).json({ message: "Successfully created site" });
+        res.status(201).json({ message: "Created site" });
     } catch (error) {
-        reportBadRequest(res, error, "");
+        reportBadRequest(res, error);
     }
 }
 
@@ -37,21 +34,21 @@ export async function updateSite(req: NextApiRequest, res: ApiResponse) {
     const data: UpdateSiteBodyParams = req.body;
     try {
         await SiteUtils.updateSiteById(siteId, data);
-        res.status(200).json({ message: "Successfully updated site information" });
+        res.status(200).json({ message: "Updated site" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot update site information");
+        reportBadRequest(res, error);
     }
 }
 
 export async function deleteSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     try {
+        await deleteSiteIconById(siteId); // delete icon
+        await deleteSitePagesById(siteId); // delete ALL pages
         await SiteUtils.deleteSiteById(siteId);
-        await deleteSiteIconById(siteId);
-        await deleteSitePagesById(siteId);
-        res.status(200).json({ message: "Successfully deleted site" });
+        res.status(200).json({ message: "Deleted site" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot delete site and its content");
+        reportBadRequest(res, error);
     }
 }
 
@@ -62,12 +59,9 @@ export async function deleteSite(req: NextApiRequest, res: ApiResponse) {
 export async function listSitePages(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     try {
-        const result = await listSitePagesById(siteId);
-        res.status(200).json({
-            message: "Listed all pages",
-            data: result,
-        });
+        const data = await listSitePagesById(siteId);
+        res.status(200).json({ message: "Listed all pages", data });
     } catch (error) {
-        reportBadRequest(res, error, "");
+        reportBadRequest(res, error);
     }
 }

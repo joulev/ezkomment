@@ -1,6 +1,6 @@
 import { NextApiRequest } from "next";
 
-import * as CommentUtils from "~/server/utils/commentUtils";
+import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import { extractFirstQueryValue, reportBadRequest } from "~/server/utils/nextHandlerUtils";
 
 import {
@@ -15,15 +15,9 @@ export async function createComment(req: NextApiRequest, res: ApiResponse) {
     const data: CreateCommentBodyParams = req.body;
     try {
         await CommentUtils.createComment({ pageId, ...data });
-        res.status(201).json({
-            message: "Successfully created new comment",
-        });
+        res.status(201).json({ message: "Created new comment" });
     } catch (error) {
-        reportBadRequest(
-            res,
-            error,
-            "Bad request: cannot create a new comment in the targeted page"
-        );
+        reportBadRequest(res, error);
     }
 }
 
@@ -32,9 +26,9 @@ export async function updateComment(req: NextApiRequest, res: ApiResponse) {
     const data: UpdateCommentBodyParams = req.body;
     try {
         await CommentUtils.updateCommentById(commentId, data);
-        res.status(200).json({ message: "Successfully updated comment" });
+        res.status(200).json({ message: "Updated comment" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot update the comment in the targeted page");
+        reportBadRequest(res, error);
     }
 }
 
@@ -42,8 +36,8 @@ export async function deleteComment(req: NextApiRequest, res: ApiResponse) {
     const { commentId } = extractFirstQueryValue(req);
     try {
         await CommentUtils.deleteCommentById(commentId);
-        res.status(200).json({ message: "Successfully deleted comment" });
+        res.status(200).json({ message: "Deleted comment" });
     } catch (error) {
-        reportBadRequest(res, error, "Bad request: cannot delete the comment in the targeted page");
+        reportBadRequest(res, error);
     }
 }
