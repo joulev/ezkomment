@@ -1,8 +1,16 @@
+import { Timestamp } from "firebase-admin/firestore";
+
 export type Comment = {
-    id: string;
-    author: string | null; // If null, anonymous author
+    readonly id: string;
+    /**
+     * If null, anonymous author.
+     */
+    readonly author: string | null;
     text: string;
+    date: Timestamp;
     status: ApprovedStatus;
+
+    readonly pageId: string;
 };
 
 export type ApprovedStatus = "Approved" | "Pending";
@@ -15,13 +23,14 @@ export type CreateCommentPathParams = {
  * Only allow to update comment's status
  */
 export type UpdateCommentBodyParams = {
-    status?: ApprovedStatus;
+    status: ApprovedStatus;
 };
 
 /**
- * Currently, updating comments is not supported.
+ * Currently, updating comments' text or author is not supported.
+ * We will get the comment status by querying the page containing the comment
  */
-export type CreateCommentBodyParams = Required<UpdateCommentBodyParams> & {
+export type CreateCommentBodyParams = {
     author: string | null;
     text: string;
 };

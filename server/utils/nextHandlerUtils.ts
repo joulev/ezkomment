@@ -38,6 +38,13 @@ export function extractFirstQueryValue(req: NextApiRequest) {
     return values;
 }
 
+export function removeUndefinedProperties(obj: Record<string, any>) {
+    for (const [k, v] of Object.entries(obj)) {
+        if (v === undefined) delete obj[k];
+    }
+    return obj;
+}
+
 /**
  * Creates a next-connect router with configurations.
  *
@@ -50,6 +57,10 @@ export function ncRouter<
     return nc<U, V>({
         // handle uncaught errors.
         onError: async (err, _, res) => {
+            if (err instanceof CustomApiError) {
+                const { code, message } = err;
+                return res.status(code).json({ error: message });
+            }
             const jsonErr: ApiError = {
                 error: String(err),
                 stackTrace: err?.stack ?? "",

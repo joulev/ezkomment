@@ -15,11 +15,14 @@ export type CreatePagePathParams = {
 };
 
 export type UpdatePageBodyParams = {
+    url?: string;
     name?: string;
     autoApprove?: boolean;
 };
 
-export type CreatePageBodyParams = Required<UpdatePageBodyParams> & {
+export type CreatePageBodyParams = {
+    name: string;
+    autoApprove?: boolean; // default true
     url: string;
 };
 

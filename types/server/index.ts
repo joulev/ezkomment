@@ -12,3 +12,5 @@ export type KeyName<T> = NonNullable<{ [P in keyof T]: P }[keyof T]>;
  * type with all keys of T as members.
  */
 export type KeyNameSet<T> = Set<KeyName<T>>;
+
+export type RawBody<T> = Partial<{ [P in keyof T]: string }>;

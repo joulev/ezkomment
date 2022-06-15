@@ -1,4 +1,4 @@
-import { DecodedIdToken, SessionCookieOptions } from "firebase-admin/auth";
+import { SessionCookieOptions } from "firebase-admin/auth";
 
 import { authAdmin } from "~/server/firebase/firebaseAdmin";
 import CustomApiError from "~/server/utils/errors/customApiError";

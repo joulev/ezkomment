@@ -5,7 +5,7 @@
 export default class CustomApiError extends Error {
     public code: number;
 
-    constructor(errOrMsg: string | Error, code: number) {
+    constructor(errOrMsg: string | Error, code: number = 400) {
         super(errOrMsg instanceof Error ? errOrMsg.message : errOrMsg);
         this.code = code;
     }
