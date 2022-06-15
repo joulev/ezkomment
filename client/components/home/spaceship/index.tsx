@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { motion, useAnimation } from "framer-motion";
 import { FC, forwardRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -6,6 +7,7 @@ import Button from "~/client/components/buttons";
 
 import BeyondTheBoundary from "./beyond";
 import OpenSource from "./open";
+import styles from "./spaceship.module.css";
 
 const SpaceshipSVG = forwardRef<SVGSVGElement, {}>(({}, ref) => (
   <svg
@@ -29,7 +31,7 @@ const FinalSections: FC = () => {
     if (inView) animation.start("visible");
   }, [inView, animation]);
   return (
-    <div className="stars">
+    <div className={styles.stars}>
       <div className="container flex flex-row flex-wrap gap-x-6 sm:gap-x-24">
         <div className="relative md:px-12">
           <motion.div
@@ -43,7 +45,7 @@ const FinalSections: FC = () => {
             <SpaceshipSVG />
           </motion.div>
           <motion.div
-            className="absolute left-1/2 bottom-0 w-6 -translate-x-3 spaceship-smoke"
+            className={clsx("absolute left-1/2 bottom-0 w-6 -translate-x-3", styles.smoke)}
             animate={animation}
             initial="hidden"
             variants={{

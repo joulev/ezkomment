@@ -87,39 +87,6 @@
         stroke: var(--tw-gradient-to);
         @apply fill-transparent;
     }
-    .arrow-bar {
-        stroke-dasharray: 14;
-        stroke-dashoffset: 14;
-        @apply !transition-all;
-    }
-    .group:hover .arrow-bar {
-        stroke-dashoffset: 0;
-    }
-    .landing-link {
-        @apply relative after:absolute after:top-full after:inset-x-0 after:h-1 after:transition-all;
-    }
-    .landing-link::after {
-        background-image: linear-gradient(#d4d4d4, #d4d4d4),
-            linear-gradient(to right, var(--tw-gradient-from), var(--tw-gradient-to));
-        background-size: 100% 1.5px, 0 1.5px;
-        background-position: 100% 100%, 0 100%;
-        background-repeat: no-repeat, no-repeat;
-    }
-    .dark .landing-link::after {
-        background-image: linear-gradient(#404040, #404040),
-            linear-gradient(to right, var(--tw-gradient-from), var(--tw-gradient-to));
-    }
-    .landing-link:hover::after {
-        background-size: 0 1.5px, 100% 1.5px;
-    }
-    .stars {
-        /* Modified from https://heropatterns.com, 4-point star pattern */
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='-48 -48 72 72'%3E%3Cg fill='%2373737380' fill-opacity='0.2'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
-    }
-    .spaceship-smoke {
-        @apply border-x from-neutral-500;
-        border-image: linear-gradient(to bottom, var(--tw-gradient-stops)) 1 100%;
-    }
     /* Change mode: Remove all transition */
     .changing-mode * {
         @apply !transition-none;
@@ -137,13 +104,6 @@
         -webkit-transform: rotate(3deg) translate(0px, -4px);
         -ms-transform: rotate(3deg) translate(0px, -4px);
         transform: rotate(3deg) translate(0px, -4px);
-    }
-    /* Homepage */
-    .home-section {
-        @apply sm:text-lg md:text-xl lg:text-lg xl:text-xl;
-    }
-    .home-section h2 {
-        @apply text-4xl md:text-5xl lg:text-4xl xl:text-5xl;
     }
     /* Docs */
     .post {
@@ -195,8 +155,4 @@
     .ignored * {
         @apply !text-neutral-300 dark:!text-neutral-700;
     }
-}
-
-html {
-    -webkit-tap-highlight-color: transparent;
 }
