@@ -1,7 +1,8 @@
+import validator from "validator";
+
 import CustomApiError from "~/server/utils/errors/customApiError";
 
-import { RawBody } from "~/types/server";
-import { CreateCommentBodyParams, UpdateCommentBodyParams } from "~/types/server";
+import { CreateCommentBodyParams, RawBody, UpdateCommentBodyParams } from "~/types/server";
 import { ApiMiddleware } from "~/types/server/nextApi.type";
 
 function isApprovedStatus(status: string) {
@@ -9,9 +10,14 @@ function isApprovedStatus(status: string) {
 }
 
 export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
-    let { author, text }: RawBody<CreateCommentBodyParams> = req.body;
-    if (!text) {
-        throw new CustomApiError("'text' must not be empty");
+    const { author, text }: RawBody<CreateCommentBodyParams> = req.body;
+    if (typeof text !== "string" || validator.isEmpty(text)) {
+        throw new CustomApiError("'text' must not be a non-empty string");
+    }
+    if (!(author ?? true) && (typeof author !== "string" || validator.isEmpty(author))) {
+        throw new CustomApiError(
+            "'author' must be a non-empty string, undefined or null. If undefined, 'author' will be casted to null."
+        );
     }
     req.body = { author: author ?? null, text };
     next();
@@ -19,7 +25,7 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
 
 export const sanitizeUpdateCommentRequest: ApiMiddleware = (req, _, next) => {
     let { status }: RawBody<UpdateCommentBodyParams> = req.body;
-    if (!status || !isApprovedStatus(status)) {
+    if (typeof status !== "string" || !isApprovedStatus(status)) {
         throw new CustomApiError("'status' must be either 'Approved' or 'Pending'");
     }
     req.body = { status };
