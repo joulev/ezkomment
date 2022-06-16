@@ -2,24 +2,7 @@ import { SessionCookieOptions } from "firebase-admin/auth";
 
 import { authAdmin } from "~/server/firebase/firebaseAdmin";
 import CustomApiError from "~/server/utils/errors/customApiError";
-
-function handleError(err: unknown): never {
-    if (err instanceof Error) {
-        const code = (err as any).errorInfo?.code ?? "";
-        console.log(code);
-        // auth/argument-error is not even mentioned in the documentation, wtf??
-        if (
-            code === "auth/user-disabled" ||
-            code === "auth/id-token-revoked" ||
-            code === "auth/id-token-expired" ||
-            code === "auth/session-cookie-expired" ||
-            code === "auth/session-cookie-revoked" ||
-            code === "auth/argument-error"
-        )
-            throw new CustomApiError(err, 403);
-    }
-    throw err;
-}
+import { handleVerifyError } from "~/server/utils/errors/handleAuthError";
 
 /**
  * Checks whether the current user is authorized using JWT.
@@ -35,7 +18,7 @@ export async function verifyJWT(jwt?: string) {
         const idToken = jwt.split("Bearer ")[1];
         return await authAdmin.verifyIdToken(idToken, true);
     } catch (err) {
-        handleError(err);
+        handleVerifyError(err);
     }
 }
 
@@ -46,7 +29,7 @@ export async function verifySessionCookie(cookie?: string) {
     try {
         return await authAdmin.verifySessionCookie(cookie, true);
     } catch (err) {
-        handleError(err);
+        handleVerifyError(err);
     }
 }
 
@@ -64,6 +47,6 @@ export async function createSessionCookie(idToken?: string) {
         const options: SessionCookieOptions = { expiresIn: 60 * 60 * 1000 };
         return await authAdmin.createSessionCookie(idToken, options);
     } catch (err) {
-        handleError(err);
+        handleVerifyError(err);
     }
 }
