@@ -39,9 +39,12 @@ export function extractFirstQueryValue(req: NextApiRequest) {
 }
 
 export function removeUndefinedProperties(obj: Record<string, any>) {
-    for (const [k, v] of Object.entries(obj)) {
-        if (v === undefined) delete obj[k];
+    const props = Object.entries(obj);
+    const toBeRemoved = props.filter(([_, v]) => v === undefined).map(([k, _]) => k);
+    if (toBeRemoved.length === props.length) {
+        throw new CustomApiError("This request must not have a empty body");
     }
+    toBeRemoved.forEach(k => delete obj[k]);
     return obj;
 }
 
