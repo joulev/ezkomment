@@ -115,7 +115,7 @@ const ProfileSection: FC = () => {
               general profile picture in this site.
             </div>
           </div>
-          <div>
+          <div className="min-w-min">
             <label className="cursor-pointer block w-18 md:w-24 overflow-hidden">
               {imageSrc ? (
                 // eslint-disable-next-line @next/next/no-img-element
