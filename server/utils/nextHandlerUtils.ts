@@ -63,9 +63,6 @@ export function ncRouter<
             if (err instanceof CustomApiError) {
                 const { code, message } = err;
                 return res.status(code).json({ error: message });
-            } else if (err instanceof TypeError) {
-                const { message, stack } = err;
-                return res.status(400).json({ error: message, stackTrace: stack });
             }
             const errString = String(err);
             const jsonErr: ApiError = {
@@ -74,6 +71,7 @@ export function ncRouter<
             };
             if (process.env.NODE_ENV === "development") {
                 console.log("Some uncaught error happened?");
+                console.dir(err, { depth: null });
                 return res.status(500).json(jsonErr);
             }
             const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
