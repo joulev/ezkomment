@@ -1,10 +1,11 @@
 import { deleteSite, getSite, updateSite } from "~/server/handlers/siteHandlers";
-import { sanitizeUpdateSiteRequest } from "~/server/middlewares/sanitizeRequest/sites";
+import { authenticateWithJWT } from "~/server/middlewares/authenticateRequests";
+import { sanitizeUpdateSiteRequest } from "~/server/middlewares/sanitizeRequests/sites";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter()
     .get(getSite)
-    .put(sanitizeUpdateSiteRequest, updateSite)
-    .delete(deleteSite);
+    .put(authenticateWithJWT, sanitizeUpdateSiteRequest, updateSite)
+    .delete(authenticateWithJWT, deleteSite);
 
 export default handler;

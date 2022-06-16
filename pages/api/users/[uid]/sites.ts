@@ -1,8 +1,11 @@
 import { createSite } from "~/server/handlers/siteHandlers";
 import { listUserSites } from "~/server/handlers/userHandlers";
-import { sanitizeCreateSiteRequest } from "~/server/middlewares/sanitizeRequest/sites";
+import { authenticateUidWithJWT } from "~/server/middlewares/authenticateRequests";
+import { sanitizeCreateSiteRequest } from "~/server/middlewares/sanitizeRequests/sites";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = ncRouter().get(listUserSites).post(sanitizeCreateSiteRequest, createSite);
+const handler = ncRouter()
+    .get(listUserSites)
+    .post(authenticateUidWithJWT, sanitizeCreateSiteRequest, createSite);
 
 export default handler;

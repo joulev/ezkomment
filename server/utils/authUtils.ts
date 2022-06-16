@@ -33,7 +33,7 @@ export async function verifyJWT(jwt?: string) {
     }
     try {
         const idToken = jwt.split("Bearer ")[1];
-        return await authAdmin.verifyIdToken(idToken);
+        return await authAdmin.verifyIdToken(idToken, true);
     } catch (err) {
         handleError(err);
     }
@@ -44,7 +44,7 @@ export async function verifySessionCookie(cookie?: string) {
         throw new CustomApiError("No session cookie", 403);
     }
     try {
-        return await authAdmin.verifySessionCookie(cookie);
+        return await authAdmin.verifySessionCookie(cookie, true);
     } catch (err) {
         handleError(err);
     }
