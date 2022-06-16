@@ -42,7 +42,7 @@ export function removeUndefinedProperties(obj: Record<string, any>) {
     const props = Object.entries(obj);
     const toBeRemoved = props.filter(([_, v]) => v === undefined).map(([k, _]) => k);
     if (toBeRemoved.length === props.length) {
-        throw new CustomApiError("This request must not have a empty body");
+        throw new CustomApiError("Request must not have a empty body");
     }
     toBeRemoved.forEach(k => delete obj[k]);
     return obj;
@@ -64,8 +64,8 @@ export function ncRouter<
                 const { code, message } = err;
                 return res.status(code).json({ error: message });
             } else if (err instanceof TypeError) {
-                const { message } = err;
-                return res.status(400).json({ error: message });
+                const { message, stack } = err;
+                return res.status(400).json({ error: message, stackTrace: stack });
             }
             const errString = String(err);
             const jsonErr: ApiError = {

@@ -11,10 +11,14 @@ export const sanitizeCreateSiteRequest: ApiMiddleware = (req, _, next) => {
     if (typeof name !== "string" || validator.isEmpty(name)) {
         throw new CustomApiError("'name' must be a non-empty string");
     }
-    if (typeof domain !== "string" && validator.isURL(domain)) {
+    if (typeof domain !== "string" || !validator.isURL(domain)) {
         throw new CustomApiError("'domain' must be a valid URL");
     }
-    if (!(iconURL ?? true) && (typeof iconURL !== "string" || validator.isURL(iconURL))) {
+    if (
+        iconURL !== undefined &&
+        iconURL !== null &&
+        (typeof iconURL !== "string" || !validator.isURL(iconURL))
+    ) {
         throw new CustomApiError("'iconURL' must be either a valid url, undefined or null");
     }
     req.body = { name, domain, iconURL: iconURL ?? null };
@@ -28,7 +32,8 @@ export const sanitizeUpdateSiteRequest: ApiMiddleware = (req, _, next) => {
     }
     if (
         iconURL !== undefined &&
-        (iconURL !== null || typeof iconURL !== "string" || !validator.isURL(iconURL))
+        iconURL !== null &&
+        (typeof iconURL !== "string" || !validator.isURL(iconURL))
     ) {
         throw new CustomApiError("'iconURL' must be either a valid url or null");
     }

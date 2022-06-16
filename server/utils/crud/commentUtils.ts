@@ -42,7 +42,7 @@ export async function createComment(data: CreateCommentRequest) {
  * @returns The result of the updating action.
  */
 export async function updateCommentById(commentId: string, data: UpdateCommentBodyParams) {
-    return await COMMENTS_COLLECTION.doc(commentId).update(data);
+    return await COMMENTS_COLLECTION.doc(commentId).update(data, { exists: true });
 }
 
 /**

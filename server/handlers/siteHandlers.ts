@@ -17,8 +17,8 @@ export async function getSite(req: NextApiRequest, res: ApiResponse) {
 export async function createSite(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req) as CreateSitePathParams;
     const data: CreateSiteBodyParams = req.body;
-    await SiteUtils.createSite({ uid, ...data });
-    res.status(201).json({ message: "Created site" });
+    const result = await SiteUtils.createSite({ uid, ...data });
+    res.status(201).json({ message: "Created site", data: result });
 }
 
 export async function updateSite(req: NextApiRequest, res: ApiResponse) {

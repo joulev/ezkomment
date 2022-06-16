@@ -14,7 +14,11 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
     if (typeof text !== "string" || validator.isEmpty(text)) {
         throw new CustomApiError("'text' must not be a non-empty string");
     }
-    if (!(author ?? true) && (typeof author !== "string" || validator.isEmpty(author))) {
+    if (
+        author !== undefined &&
+        author !== null &&
+        (typeof author !== "string" || validator.isEmpty(author))
+    ) {
         throw new CustomApiError(
             "'author' must be a non-empty string, undefined or null. If undefined, 'author' will be casted to null."
         );
