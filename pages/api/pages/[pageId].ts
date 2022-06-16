@@ -1,10 +1,11 @@
 import { deletePage, getPage, updatePage } from "~/server/handlers/pageHandlers";
-import { sanitizeUpdatePageRequest } from "~/server/middlewares/sanitizeRequest/pages";
+import { authenticateWithJWT } from "~/server/middlewares/authenticateRequests";
+import { sanitizeUpdatePageRequest } from "~/server/middlewares/sanitizeRequests/pages";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter()
     .get(getPage)
-    .put(sanitizeUpdatePageRequest, updatePage)
-    .delete(deletePage);
+    .put(authenticateWithJWT, sanitizeUpdatePageRequest, updatePage)
+    .delete(authenticateWithJWT, deletePage);
 
 export default handler;

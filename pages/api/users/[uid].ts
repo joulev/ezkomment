@@ -1,10 +1,10 @@
 import { deleteUser, getUser, updateUser } from "~/server/handlers/userHandlers";
-import { validateUidWithJWT } from "~/server/middlewares/validateRequests";
+import { authenticateUidWithJWT } from "~/server/middlewares/authenticateRequests";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter()
     .get(getUser)
-    .put(validateUidWithJWT, updateUser)
-    .delete(validateUidWithJWT, deleteUser);
+    .put(authenticateUidWithJWT, updateUser)
+    .delete(authenticateUidWithJWT, deleteUser);
 
 export default handler;
