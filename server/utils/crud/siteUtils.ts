@@ -24,11 +24,15 @@ export async function getSiteById(siteId: string) {
 
 /**
  * Creates a site.
- * @param data The data of the site to be created.
+ *
+ * @param data The data of the site to be created
+ * @returns The id of the created site.
  */
 export async function createSite(data: CreateSiteRequest) {
     const siteRef = SITES_COLLECTION.doc();
-    return await siteRef.create({ id: siteRef.id, ...data });
+    const siteId = siteRef.id;
+    await siteRef.create({ id: siteId, ...data });
+    return { id: siteId };
 }
 
 /**
@@ -44,7 +48,7 @@ export async function updateSiteById(siteId: string, data: UpdateSiteBodyParams)
  * @param siteId The site's id
  */
 export async function deleteSiteById(siteId: string) {
-    return await SITES_COLLECTION.doc(siteId).delete();
+    return await SITES_COLLECTION.doc(siteId).delete({ exists: true });
 }
 
 async function queryUserSitesById(uid: string) {
