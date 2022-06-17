@@ -2,13 +2,18 @@
 import clsx from "clsx";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import { NextPageWithLayout } from "~/types/client/utils.type";
 
 const OpenGraphImageGenerator: NextPageWithLayout = () => {
   const router = useRouter();
+  const [ready, setReady] = useState(false);
   const title = router.query.title as string | undefined;
   const label = router.query.label as string | undefined;
+  useEffect(() => {
+    if (router.isReady) setReady(true);
+  }, [router.isReady]);
   return (
     <>
       <Head>
@@ -26,16 +31,22 @@ const OpenGraphImageGenerator: NextPageWithLayout = () => {
           title && title.length > 32 ? "text-[72px]" : "text-[80px]"
         )}
       >
-        <div className={label && "flex flex-row gap-8 divide-x divide-neutral-100 items-center"}>
-          <img src="/images/logo-text-white.svg" alt="you shouldn't see this" />
-          {label && <div className="uppercase font-light pl-8 text-[48px]">{label}</div>}
-        </div>
-        {title ? (
-          <div className="font-semibold leading-tight line-clamp-2 -my-4">{title}</div>
-        ) : (
-          <div className="font-light text-white tracking-tighter">
-            Commenting made <span className="font-extrabold tracking-normal">easy</span>.
-          </div>
+        {ready && (
+          <>
+            <div
+              className={label && "flex flex-row gap-8 divide-x divide-neutral-100 items-center"}
+            >
+              <img src="/images/logo-text-white.svg" alt="you shouldn't see this" />
+              {label && <div className="uppercase font-light pl-8 text-[48px]">{label}</div>}
+            </div>
+            {title ? (
+              <div className="font-semibold leading-tight line-clamp-2 -my-4">{title}</div>
+            ) : (
+              <div className="font-light text-white tracking-tighter">
+                Commenting made <span className="font-extrabold tracking-normal">easy</span>.
+              </div>
+            )}
+          </>
         )}
       </div>
     </>
