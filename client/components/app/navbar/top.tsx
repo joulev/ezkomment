@@ -122,7 +122,7 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
 const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
-  useEffect(() => setExpanded(false), [router.pathname]);
+  useEffect(() => setExpanded(false), [router.asPath]);
 
   const auth = useAuth();
   const handleLogout: MouseEventHandler<HTMLButtonElement> = () => signOut(auth);
