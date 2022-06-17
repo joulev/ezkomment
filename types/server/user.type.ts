@@ -18,3 +18,7 @@ type PickedUserRecordProps =
  * properties is redudant.
  */
 export type AppUser = Pick<UserRecord, PickedUserRecordProps>;
+
+export type UpdateUserBodyParams = {
+    displayName: string;
+};
