@@ -6,22 +6,24 @@ import { ApiError, ApiResponse } from "~/types/server/nextApi.type";
 import CustomApiError from "./errors/customApiError";
 
 /**
- * A helper function to report bad requests in `catch` blocks.
+ * A helper function to log uncaught errors.
  *
- * @param res The response to be sent back
  * @param err The error occured
- * @param msg Extra message to be sent back with the response
  */
-export function reportBadRequest(res: ApiResponse, err: unknown, msg?: string) {
-    if (process.env.NODE_ENV === "development") {
-        console.log(err);
+export async function logError(err: unknown) {
+    const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${process.env.AXIOM_ERROR_API_TOKEN}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify([err]),
+    });
+    if (!sendErr.ok) {
+        console.log("Cannot send error log");
+        console.log(await sendErr.json());
     }
-    if (err instanceof CustomApiError) {
-        const { code, message } = err;
-        res.status(code).json({ error: message });
-    } else {
-        throw err;
-    }
+    return sendErr;
 }
 
 /**
@@ -64,30 +66,22 @@ export function ncRouter<
                 const { code, message } = err;
                 return res.status(code).json({ error: message });
             }
-            const errString = String(err);
             const jsonErr: ApiError = {
-                error: errString,
+                error: String(err),
                 stackTrace: err?.stack ?? "",
             };
             if (process.env.NODE_ENV === "development") {
                 console.log("Some uncaught error happened?");
+                /**
+                 * I need to log errors to console in developemt to see their formats to
+                 * deal with as many errors as possible.
+                 */
                 console.dir(err, { depth: null });
                 return res.status(500).json(jsonErr);
             }
-            const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${process.env.AXIOM_ERROR_API_TOKEN}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify([jsonErr]),
-            });
-            if (!sendErr.ok) {
-                console.log("Cannot send error log");
-                console.log(await sendErr.json());
-            }
+            const sendErr = await logError(jsonErr);
             res.status(500).json({
-                error: `The error has${sendErr.ok ? " " : " not "}been logged. ${errString}`,
+                error: `The error has${sendErr.ok ? " " : " not "}been logged.`,
             });
         },
         onNoMatch: (_, res) => {

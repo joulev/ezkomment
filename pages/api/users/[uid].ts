@@ -3,7 +3,7 @@ import { authenticateUidWithJWT } from "~/server/middlewares/authenticateRequest
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter()
-    .get(getUser)
+    .get(authenticateUidWithJWT, getUser)
     .put(authenticateUidWithJWT, updateUser)
     .delete(authenticateUidWithJWT, deleteUser);
 
