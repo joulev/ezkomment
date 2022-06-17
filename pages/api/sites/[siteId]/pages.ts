@@ -5,7 +5,7 @@ import { sanitizeCreatePageRequest } from "~/server/middlewares/sanitizeRequests
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter()
-    .get(listSitePages)
+    .get(authenticateWithJWT, listSitePages)
     .post(authenticateWithJWT, sanitizeCreatePageRequest, createPage);
 
 export default handler;

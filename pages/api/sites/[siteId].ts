@@ -4,7 +4,7 @@ import { sanitizeUpdateSiteRequest } from "~/server/middlewares/sanitizeRequests
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter()
-    .get(getSite)
+    .get(authenticateWithJWT, getSite)
     .put(authenticateWithJWT, sanitizeUpdateSiteRequest, updateSite)
     .delete(authenticateWithJWT, deleteSite);
 

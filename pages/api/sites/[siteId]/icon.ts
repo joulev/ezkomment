@@ -13,7 +13,7 @@ export const config: PageConfig = {
     },
 };
 
-const handler = ncRouter<ApiRequestWithFormData>().post(
+const handler = ncRouter<ApiRequestWithFormData>().put(
     authenticateWithJWT,
     parseSiteIcon,
     uploadSiteIcon
