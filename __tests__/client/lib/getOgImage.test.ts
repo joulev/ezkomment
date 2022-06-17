@@ -23,7 +23,7 @@ const captureOptions = {
     scaleFactor: 1,
     launchOptions: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
 };
-const captureURL = "https://ezkomment-67rtb9jff-joulev.vercel.app/opengraph";
+const captureURL = "https://ezkomment-mpy3giegx-joulev.vercel.app/opengraph";
 
 describe("Test Opengraph image fetcher", () => {
     const oldEnv = process.env;
