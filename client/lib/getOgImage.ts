@@ -12,7 +12,7 @@ export default async function getOgImage({ title, label }: OgImageProps) {
     const filePath = `${dir}/${hash}.png`;
     const publicPath = `https://${process.env.VERCEL_URL}/images/og/${hash}.png`;
 
-    const url = new URL("https://ezkomment-67rtb9jff-joulev.vercel.app/opengraph");
+    const url = new URL("https://ezkomment-mpy3giegx-joulev.vercel.app/opengraph");
     if (title) url.searchParams.append("title", title);
     if (label) url.searchParams.append("label", label);
 
