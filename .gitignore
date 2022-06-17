@@ -47,3 +47,11 @@ public/images/og
 # Firebase service account. We are not actually using the file but it's good to keep it locally so
 # we can look up other firebase-admin fields when needed
 service-account.json
+
+# Firebase Emulator log files
+firestore-debug.log
+ui-debug.log
+firebase-debug.log
+
+# .firebaserc file (we don't really need this file to run Firebase Emulator)
+.firebaserc
