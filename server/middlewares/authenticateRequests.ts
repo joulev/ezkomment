@@ -24,6 +24,10 @@ export const authenticateUidWithJWT: ApiMiddleware = async (req, res, next) => {
  * For some endpoints, decode the token is good enough.
  */
 export const authenticateWithJWT: ApiMiddleware = async (req, _, next) => {
+    if (process.env.NODE_ENV === "development") {
+        next();
+        return;
+    }
     await verifyJWT(req.headers.authorization);
     next();
 };

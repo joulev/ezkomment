@@ -5,6 +5,7 @@ export function handleUserError(err: unknown): never {
         const code: string = (err as any).errorInfo?.code ?? "";
         console.log(code);
         if (code === "auth/user-not-found") throw new CustomApiError(err, 404);
+        // should not happen as request body is sanitized
         if (code.startsWith("auth/invalid")) throw new CustomApiError(err, 400);
     }
     throw err;
