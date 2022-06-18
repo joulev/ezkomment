@@ -21,3 +21,9 @@ const UNABLE_TO_DELETE_ACCOUNT = new Error(
 ) as NodeJS.ErrnoException;
 UNABLE_TO_DELETE_ACCOUNT.code = "ezkomment/client";
 export { UNABLE_TO_DELETE_ACCOUNT };
+
+const UNABLE_TO_CREATE_SITE = new Error(
+    "Unable to create site. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_CREATE_SITE.code = "ezkomment/client";
+export { UNABLE_TO_CREATE_SITE };
