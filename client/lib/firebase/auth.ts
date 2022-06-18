@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 
 import * as E from "~/client/lib/errors";
+import { internalFetcher } from "~/client/lib/fetcher";
 
 import { AppAuth, Provider } from "~/types/client/auth.type";
 
@@ -18,27 +19,6 @@ import firebaseApp from "./app";
 const auth = getAuth(firebaseApp);
 export const githubProvider = new GithubAuthProvider();
 export const googleProvider = new GoogleAuthProvider();
-
-async function fetcher<T = undefined>(
-    method: "GET" | "POST" | "PUT" | "DELETE",
-    url: string,
-    options: RequestInit = {},
-    contentJson = true
-) {
-    const user = auth.currentUser;
-    if (!user) throw E.NOT_AUTHENTICATED;
-    const token = await user.getIdToken();
-    const response = await fetch(url, {
-        ...options,
-        method,
-        headers: {
-            ...options.headers,
-            ...(contentJson ? { "Content-Type": "application/json" } : {}),
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    return { success: response.ok, data: (await response.json()).data as T };
-}
 
 export async function signIn({ setLoading }: AppAuth, provider: Provider) {
     setLoading(true);
@@ -76,8 +56,10 @@ export async function reauthenticate({ setLoading }: AppAuth, provider: Provider
 export async function updateDisplayName({ setLoading }: AppAuth, displayName: string) {
     setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
-    const { success } = await fetcher("PUT", `/api/users/${auth.currentUser.uid}`, {
-        body: JSON.stringify({ displayName }),
+    const { success } = await internalFetcher({
+        method: "PUT",
+        url: `/api/users/${auth.currentUser.uid}`,
+        options: { body: JSON.stringify({ displayName }) },
     });
     await auth.currentUser.reload();
     if (!success) throw E.UNABLE_TO_UPDATE_NAME;
@@ -89,10 +71,8 @@ export async function updatePhoto({ setLoading }: AppAuth, photo: File) {
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     const form = new FormData();
     form.append("photo", photo);
-    const { success } = await fetcher(
-        "PUT",
-        `/api/users/${auth.currentUser.uid}/photo`,
-        { body: form },
+    const { success } = await internalFetcher(
+        { method: "PUT", url: `/api/users/${auth.currentUser.uid}/photo`, options: { body: form } },
         false
     );
     await auth.currentUser.reload();
@@ -103,7 +83,10 @@ export async function updatePhoto({ setLoading }: AppAuth, photo: File) {
 export async function deleteAccount({ setLoading }: AppAuth) {
     setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
-    const { success } = await fetcher("DELETE", `/api/users/${auth.currentUser.uid}`);
+    const { success } = await internalFetcher({
+        method: "DELETE",
+        url: `/api/users/${auth.currentUser.uid}`,
+    });
     await auth.currentUser.reload();
     if (!success) throw E.UNABLE_TO_DELETE_ACCOUNT;
     setLoading(false);
