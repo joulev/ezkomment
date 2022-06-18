@@ -58,3 +58,9 @@ export type ProjectLog = {
         remarks: string;
     }[];
 };
+
+export type FetchOptions = {
+    url: string;
+    method?: "GET" | "POST" | "PUT" | "DELETE";
+    options?: RequestInit;
+};

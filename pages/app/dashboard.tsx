@@ -8,6 +8,7 @@ import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
+import { internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import Button from "~/client/components/buttons";
@@ -16,6 +17,7 @@ import Select from "~/client/components/forms/select";
 import AppLayout from "~/client/layouts/app";
 
 import { NextPageWithLayout } from "~/types/client/utils.type";
+import { FetchOptions } from "~/types/client/utils.type";
 import { Site } from "~/types/server";
 
 const Loading: FC = () => (
@@ -192,22 +194,14 @@ const Dashboard: NextPageWithLayout = () => {
   const breakpoint = useBreakpoint();
   const { showEmptyCard, containerRef, lastCardRef } = useEmptyCard();
 
-  async function fetcher(url: string) {
-    if (!user || !url) return undefined;
-    const token = await user.getIdToken();
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    });
-    return res.json() as Promise<{ data: Site[] }>;
-  }
+  const { data } = useSWR(
+    user ? { url: `/api/users/${user.uid}/sites` } : null,
+    internalSWRGenerator<Site[]>(),
+    { fallbackData: [] }
+  );
 
-  const { data: fetchData } = useSWR(user ? `/api/users/${user.uid}/sites` : null, fetcher, {
-    fallbackData: { data: [] },
-  });
-
-  if (!fetchData) return <Loading />;
-
-  if (fetchData.data.length === 0) return <EmptyState />;
+  if (!data) return <Loading />;
+  if (data.length === 0) return <EmptyState />;
 
   return (
     <>
@@ -238,12 +232,8 @@ const Dashboard: NextPageWithLayout = () => {
         className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
         ref={containerRef}
       >
-        {fetchData.data.map((site, i) => (
-          <SiteCard
-            site={site}
-            key={i}
-            ref={i === fetchData.data.length - 1 ? lastCardRef : null}
-          />
+        {data.map((site, i) => (
+          <SiteCard site={site} key={i} ref={i === data.length - 1 ? lastCardRef : null} />
         ))}
         {showEmptyCard && <EmptyCard />}
       </main>
