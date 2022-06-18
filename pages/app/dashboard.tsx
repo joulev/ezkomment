@@ -195,11 +195,11 @@ const Dashboard: NextPageWithLayout = () => {
 
   const { data } = useSWR(
     user ? { url: `/api/users/${user.uid}/sites` } : null,
-    internalSWRGenerator<Site[]>(),
-    { fallbackData: [] }
+    internalSWRGenerator<Site[] | "waiting">(),
+    { fallbackData: "waiting" }
   );
 
-  if (!data) return <Loading />;
+  if (!data || data === "waiting") return <Loading />;
   if (data.length === 0) return <EmptyState />;
 
   return (
