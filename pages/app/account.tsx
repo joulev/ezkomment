@@ -22,6 +22,7 @@ import {
   reauthenticate,
   unlink,
   updateDisplayName,
+  updatePhoto,
 } from "~/client/lib/firebase/auth";
 
 import AuthError from "~/client/components/auth/error";
@@ -61,11 +62,24 @@ const ProfileSection: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image]);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+  const handleDisplayNameSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
     try {
       await updateDisplayName(auth, displayName);
       setMsg({ type: "success", message: "Display name updated successfully." });
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+      auth.setLoading(false);
+    }
+  };
+
+  const handlePhotoSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!image) return;
+    try {
+      await updatePhoto(auth, image);
+      setMsg({ type: "success", message: "Photo updated successfully." });
+      setImage(null);
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
@@ -86,7 +100,7 @@ const ProfileSection: FC = () => {
         </Banner>
       )}
       {msg && <MsgBanner msg={msg} />}
-      <form className="flex flex-col gap-6 mb-12" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-6 mb-12" onSubmit={handleDisplayNameSubmit}>
         <InputDetachedLabel
           label="Display name"
           placeholder="Your name"
@@ -106,7 +120,7 @@ const ProfileSection: FC = () => {
           </Button>
         </RightAligned>
       </form>
-      <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={handlePhotoSubmit}>
         <div className="flex flex-row items-start gap-6">
           <div className="flex-grow">
             <div className="font-semibold mb-3">Profile image</div>

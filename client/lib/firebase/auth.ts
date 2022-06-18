@@ -19,10 +19,11 @@ const auth = getAuth(firebaseApp);
 export const githubProvider = new GithubAuthProvider();
 export const googleProvider = new GoogleAuthProvider();
 
-async function fetcher<T = any>(
+async function fetcher<T = undefined>(
     method: "GET" | "POST" | "PUT" | "DELETE",
     url: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    contentJson = true
 ) {
     const user = auth.currentUser;
     if (!user) throw E.NOT_AUTHENTICATED;
@@ -32,7 +33,7 @@ async function fetcher<T = any>(
         method,
         headers: {
             ...options.headers,
-            "Content-Type": "application/json",
+            ...(contentJson ? { "Content-Type": "application/json" } : {}),
             Authorization: `Bearer ${token}`,
         },
     });
@@ -80,6 +81,22 @@ export async function updateDisplayName({ setLoading }: AppAuth, displayName: st
     });
     await auth.currentUser.reload();
     if (!success) throw E.UNABLE_TO_UPDATE_NAME;
+    setLoading(false);
+}
+
+export async function updatePhoto({ setLoading }: AppAuth, photo: File) {
+    setLoading(true);
+    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
+    const form = new FormData();
+    form.append("photo", photo);
+    const { success } = await fetcher(
+        "PUT",
+        `/api/users/${auth.currentUser.uid}/photo`,
+        { body: form },
+        false
+    );
+    await auth.currentUser.reload();
+    if (!success) throw E.UNABLE_TO_UPDATE_PHOTO;
     setLoading(false);
 }
 
