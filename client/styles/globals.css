@@ -61,8 +61,14 @@
     .bg-card {
         @apply bg-white dark:bg-black;
     }
+    .fill-card {
+        @apply fill-white dark:fill-black;
+    }
     .border-card {
         @apply border-neutral-300 dark:border-neutral-700;
+    }
+    .stroke-card {
+        @apply stroke-neutral-300 dark:stroke-neutral-700;
     }
     .border-muted {
         @apply border-neutral-500; /* intended for hover, focus states of border */
