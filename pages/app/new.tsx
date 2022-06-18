@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
@@ -47,8 +49,25 @@ const New: NextPageWithLayout = () => (
   </div>
 );
 
+const Loading: FC = () => (
+  <div className="mx-auto max-w-lg">
+    <div className="pulse h-9 w-48 mb-6" />
+    <div className="pulse h-4 mb-3" />
+    <div className="pulse h-4 mb-6" />
+    <div className="pulse h-6 w-48 mb-3" />
+    <div className="pulse h-9 mb-3" />
+    <div className="pulse h-4 mb-3" />
+    <div className="pulse h-4 mb-6" />
+    <div className="pulse h-6 w-48 mb-3" />
+    <div className="pulse h-9 mb-3" />
+    <div className="pulse h-4 mb-3" />
+    <div className="pulse h-4 mb-6" />
+    <div className="pulse h-9 mb-3" />
+  </div>
+);
+
 New.getLayout = page => (
-  <AppLayout title="Add a new site" type="overview" activeTab="new">
+  <AppLayout title="Add a new site" type="overview" activeTab="new" loadingScreen={<Loading />}>
     {page}
   </AppLayout>
 );
