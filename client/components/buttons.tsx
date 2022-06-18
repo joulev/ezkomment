@@ -7,25 +7,22 @@ import { ButtonVariant } from "~/types/client/utils.type";
 import A from "./anchor";
 import IconLabel from "./utils/iconAndLabel";
 
-const baseClasses = clsx(
-  "cursor-pointer rounded transition border whitespace-nowrap disabled:cursor-not-allowed",
-  "disabled:text-muted disabled:bg-neutral-300 disabled:dark:bg-neutral-700 disabled:border-card"
-);
+const baseClasses = "cursor-pointer rounded transition border whitespace-nowrap";
 const variantClasses: Record<ButtonVariant, string> = {
   primary: clsx(
     "text-white bg-indigo-500 border-indigo-500",
-    "hover:enabled:bg-indigo-700 hover:enabled:border-indigo-700",
-    "active:enabled:bg-indigo-800 active:enabled:border-indigo-800"
+    "hover:bg-indigo-700 hover:border-indigo-700",
+    "active:bg-indigo-800 active:border-indigo-800"
   ),
   danger: clsx(
     "text-white bg-red-500 border-red-500",
-    "hover:enabled:bg-red-700 hover:enabled:border-red-700",
-    "active:enabled:bg-red-800 active:enabled:border-red-800"
+    "hover:bg-red-700 hover:border-red-700",
+    "active:bg-red-800 active:border-red-800"
   ),
   tertiary: clsx(
     "text-neutral-700 dark:text-neutral-300 border-card bg-card",
-    "hover:enabled:text-neutral-900 dark:hover:enabled:text-neutral-100 hover:enabled:border-muted",
-    "active:enabled:bg-neutral-200 dark:active:enabled:bg-neutral-800"
+    "hover:text-neutral-900 dark:hover:text-neutral-100 hover:border-muted",
+    "active:bg-neutral-200 dark:active:bg-neutral-800"
   ),
 };
 

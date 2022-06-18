@@ -46,6 +46,12 @@
     strong {
         @apply font-bold;
     }
+    form:invalid button:not([type="button"]):not([type="reset"]),
+    button:disabled {
+        @apply cursor-not-allowed text-muted bg-neutral-300 dark:bg-neutral-700 border-card
+            hover:text-muted hover:bg-neutral-300 dark:hover:bg-neutral-700 hover:border-card
+            focus:text-muted focus:bg-neutral-300 dark:focus:bg-neutral-700 focus:border-card;
+    }
     .text-muted {
         @apply text-neutral-400 dark:text-neutral-500;
     }
