@@ -1,7 +1,6 @@
-import { loadEnvConfig } from "@next/env";
+import { env } from "process";
 
-const setupServerTests = async () => {
-    // .env.test.local is loaded with next.
-};
-
-export default setupServerTests;
+/**
+ * First, we have to ensure that the tests are only run in the emulator.
+ */
+if (Object.keys(env).every(k => !k.includes("EMULATOR_HOST"))) process.exit(1);
