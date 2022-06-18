@@ -1,11 +1,12 @@
 import clsx from "clsx";
-import { GetStaticProps } from "next";
 import { FC, RefObject, forwardRef, useEffect, useRef, useState } from "react";
+import useSWR from "swr";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
+import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 
 import A from "~/client/components/anchor";
@@ -15,11 +16,77 @@ import Select from "~/client/components/forms/select";
 import AppLayout from "~/client/layouts/app";
 
 import { NextPageWithLayout } from "~/types/client/utils.type";
+import { Site } from "~/types/server";
 
-import sites from "~/sample/sites.json";
+const Loading: FC = () => (
+  <>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="col-span-2 h-9 pulse" />
+      <div className="col-span-1 h-9 pulse" />
+      <div className="col-span-1 h-9 pulse" />
+    </div>
+    <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+      {[...Array(16)].map((_, i) => (
+        <SiteCard key={i} />
+      ))}
+    </main>
+  </>
+);
 
-type Site = typeof sites[number];
-type Props = { sites: Site[] };
+const EmptyState: FC = () => (
+  <div className="flex flex-col md:flex-row items-center md:justify-center my-12 md:my-18 gap-12 md:gap-18">
+    <svg
+      className={clsx(
+        "text-neutral-300 dark:text-neutral-700 flex-shrink-0",
+        "w-[calc(286px/1.5)] sm:w-[256px] h-[calc(256px/1.5)] sm:h-[256px]"
+      )}
+      viewBox="0 0 286 256"
+    >
+      <path
+        d="M195.5 0.5C247.25 0.5 285.5 35.6553 285.5 75.3467C285.5 112.97 253.154 135.309 236.369 142.364C235.035 142.925 234.492 144.56 235.271 145.789L255.051 176.998C256.294 178.959 254.15 181.31 252.107 180.226L195.992 150.454C195.669 150.283 195.305 150.194 194.94 150.192C143.474 149.94 105.5 114.895 105.5 75.3467C105.5 35.6553 143.75 0.5 195.5 0.5Z"
+        className="stroke-card fill-card stroke-1"
+      />
+      <rect
+        width="90"
+        height="12"
+        rx="4"
+        transform="matrix(-1 0 0 1 240.5 48.5)"
+        className="fill-current"
+      />
+      <rect
+        width="90"
+        height="12"
+        rx="4"
+        transform="matrix(-1 0 0 1 240.5 69.5)"
+        className="fill-current"
+      />
+      <rect
+        width="90"
+        height="12"
+        rx="4"
+        transform="matrix(-1 0 0 1 240.5 90.5)"
+        className="fill-current"
+      />
+      <path
+        d="M90.5 75.5C38.75 75.5 0.5 110.655 0.5 150.347C0.5 187.97 32.8458 210.309 49.6308 217.364C50.9653 217.925 51.5077 219.56 50.7292 220.789L30.949 251.998C29.7059 253.959 31.8497 256.31 33.8929 255.226L90.0079 225.454C90.3313 225.283 90.6949 225.194 91.06 225.192C142.526 224.94 180.5 189.895 180.5 150.347C180.5 110.655 142.25 75.5 90.5 75.5Z"
+        className="stroke-card fill-card stroke-1"
+      />
+      <rect x="45.5" y="123.5" width="90" height="12" rx="4" className="fill-current" />
+      <rect x="45.5" y="144.5" width="90" height="12" rx="4" className="fill-current" />
+      <rect x="45.5" y="165.5" width="90" height="12" rx="4" className="fill-current" />
+    </svg>
+    <div className="flex flex-col gap-9 justify-center">
+      <div className="text-2xl sm:text-4xl text-center md:text-left">
+        Add a new site to get&nbsp;started
+      </div>
+      <div className="text-center md:text-left">
+        <Button href="/app/new" className="inline-block" icon={AddOutlinedIcon}>
+          Add a new site
+        </Button>
+      </div>
+    </div>
+  </div>
+);
 
 const Stats: FC<{ value: number; label: string }> = ({ value, label }) => (
   <div>
@@ -40,7 +107,13 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) 
         <div className="flex flex-row gap-6 items-center mb-6">
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={site.iconURL} alt="" width={48} height={48} loading="lazy" />
+            <img
+              src={site.iconURL ?? "/images/logo.svg"}
+              alt=""
+              width={48}
+              height={48}
+              loading="lazy"
+            />
           </div>
           <div>
             <div className="text-xl font-semibold mb-1">{site.name}</div>
@@ -48,9 +121,9 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) 
           </div>
         </div>
         <div className="grid grid-cols-3 gap-3">
-          <Stats label="pages" value={site.pageCount} />
-          <Stats label="comments" value={site.totalCommentCount} />
-          <Stats label="pending" value={site.needsApproval} />
+          <Stats label="pages" value={0} />
+          <Stats label="comments" value={0} />
+          <Stats label="pending" value={0} />
         </div>
       </>
     ) : (
@@ -114,66 +187,27 @@ function useEmptyCard() {
   return { showEmptyCard, containerRef, lastCardRef };
 }
 
-const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
+const Dashboard: NextPageWithLayout = () => {
+  const { user } = useAuth();
   const breakpoint = useBreakpoint();
   const { showEmptyCard, containerRef, lastCardRef } = useEmptyCard();
 
-  if (false) {
-    return (
-      <div className="flex flex-col md:flex-row items-center md:justify-center my-12 md:my-18 gap-12 md:gap-18">
-        <svg
-          className={clsx(
-            "text-neutral-300 dark:text-neutral-700 flex-shrink-0",
-            "w-[calc(286px/1.5)] sm:w-[256px] h-[calc(256px/1.5)] sm:h-[256px]"
-          )}
-          viewBox="0 0 286 256"
-        >
-          <path
-            d="M195.5 0.5C247.25 0.5 285.5 35.6553 285.5 75.3467C285.5 112.97 253.154 135.309 236.369 142.364C235.035 142.925 234.492 144.56 235.271 145.789L255.051 176.998C256.294 178.959 254.15 181.31 252.107 180.226L195.992 150.454C195.669 150.283 195.305 150.194 194.94 150.192C143.474 149.94 105.5 114.895 105.5 75.3467C105.5 35.6553 143.75 0.5 195.5 0.5Z"
-            className="stroke-card fill-card stroke-1"
-          />
-          <rect
-            width="90"
-            height="12"
-            rx="4"
-            transform="matrix(-1 0 0 1 240.5 48.5)"
-            className="fill-current"
-          />
-          <rect
-            width="90"
-            height="12"
-            rx="4"
-            transform="matrix(-1 0 0 1 240.5 69.5)"
-            className="fill-current"
-          />
-          <rect
-            width="90"
-            height="12"
-            rx="4"
-            transform="matrix(-1 0 0 1 240.5 90.5)"
-            className="fill-current"
-          />
-          <path
-            d="M90.5 75.5C38.75 75.5 0.5 110.655 0.5 150.347C0.5 187.97 32.8458 210.309 49.6308 217.364C50.9653 217.925 51.5077 219.56 50.7292 220.789L30.949 251.998C29.7059 253.959 31.8497 256.31 33.8929 255.226L90.0079 225.454C90.3313 225.283 90.6949 225.194 91.06 225.192C142.526 224.94 180.5 189.895 180.5 150.347C180.5 110.655 142.25 75.5 90.5 75.5Z"
-            className="stroke-card fill-card stroke-1"
-          />
-          <rect x="45.5" y="123.5" width="90" height="12" rx="4" className="fill-current" />
-          <rect x="45.5" y="144.5" width="90" height="12" rx="4" className="fill-current" />
-          <rect x="45.5" y="165.5" width="90" height="12" rx="4" className="fill-current" />
-        </svg>
-        <div className="flex flex-col gap-9 justify-center">
-          <div className="text-2xl sm:text-4xl text-center md:text-left">
-            Add a new site to get&nbsp;started
-          </div>
-          <div className="text-center md:text-left">
-            <Button href="/app/new" className="inline-block" icon={AddOutlinedIcon}>
-              Add a new site
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+  async function fetcher(url: string) {
+    if (!user || !url) return undefined;
+    const token = await user.getIdToken();
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    });
+    return res.json() as Promise<{ data: Site[] }>;
   }
+
+  const { data: fetchData } = useSWR(user ? `/api/users/${user.uid}/sites` : null, fetcher, {
+    fallbackData: { data: [] },
+  });
+
+  if (!fetchData) return <Loading />;
+
+  if (fetchData.data.length === 0) return <EmptyState />;
 
   return (
     <>
@@ -204,8 +238,12 @@ const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
         className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
         ref={containerRef}
       >
-        {sites.map((site, i) => (
-          <SiteCard site={site} key={i} ref={i === sites.length - 1 ? lastCardRef : null} />
+        {fetchData.data.map((site, i) => (
+          <SiteCard
+            site={site}
+            key={i}
+            ref={i === fetchData.data.length - 1 ? lastCardRef : null}
+          />
         ))}
         {showEmptyCard && <EmptyCard />}
       </main>
@@ -213,27 +251,10 @@ const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
   );
 };
 
-const Loading: FC = () => (
-  <>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div className="col-span-2 h-9 pulse" />
-      <div className="col-span-1 h-9 pulse" />
-      <div className="col-span-1 h-9 pulse" />
-    </div>
-    <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-      {[...Array(16)].map((_, i) => (
-        <SiteCard key={i} />
-      ))}
-    </main>
-  </>
-);
-
 Dashboard.getLayout = page => (
   <AppLayout title="Dashboard" type="overview" activeTab="dashboard" loadingScreen={<Loading />}>
     {page}
   </AppLayout>
 );
-
-export const getStaticProps: GetStaticProps<Props> = () => ({ props: { sites } });
 
 export default Dashboard;
