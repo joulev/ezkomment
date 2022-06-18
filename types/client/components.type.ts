@@ -86,6 +86,7 @@ export type IconAndLabelProps = IconAndLabel & {
 
 export type InputProps = (ComponentProps<"input"> & IconAndLabel) & {
     type: ComponentProps<"input">["type"]; // make `type` required.
+    isInvalid?: boolean;
     onUpdate?: (value: string) => void;
 };
 
