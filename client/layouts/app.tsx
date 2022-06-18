@@ -15,7 +15,7 @@ const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...r
   return (
     <>
       <Head>
-        <title>{title} | ezkomment</title>
+        <title>{`${title} | ezkomment`}</title>
         <meta name="robots" content="noindex" />
       </Head>
       <Navbar {...rest} />
