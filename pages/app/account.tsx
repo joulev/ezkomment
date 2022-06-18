@@ -362,18 +362,18 @@ const Account: NextPageWithLayout = () => {
 
 const LoadingSection: FC = () => (
   <section>
-    <div className="h-8 w-36 rounded pulse mb-6" />
-    <div className="h-4 rounded pulse mb-3" />
-    <div className="h-4 rounded pulse mb-3" />
-    <div className="h-4 rounded pulse mb-6" />
-    <div className="h-6 w-48 rounded pulse mb-3" />
-    <div className="h-9 rounded pulse mb-3" />
-    <div className="h-4 rounded pulse mb-6" />
-    <div className="h-6 w-48 rounded pulse mb-3" />
-    <div className="h-9 rounded pulse mb-3" />
-    <div className="h-4 rounded pulse mb-6" />
+    <div className="h-8 w-36 pulse mb-6" />
+    <div className="h-4 pulse mb-3" />
+    <div className="h-4 pulse mb-3" />
+    <div className="h-4 pulse mb-6" />
+    <div className="h-6 w-48 pulse mb-3" />
+    <div className="h-9 pulse mb-3" />
+    <div className="h-4 pulse mb-6" />
+    <div className="h-6 w-48 pulse mb-3" />
+    <div className="h-9 pulse mb-3" />
+    <div className="h-4 pulse mb-6" />
     <RightAligned>
-      <div className="h-9 w-32 rounded pulse" />
+      <div className="h-9 w-32 pulse" />
     </RightAligned>
   </section>
 );

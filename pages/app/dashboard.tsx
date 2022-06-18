@@ -60,12 +60,12 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) 
             <div className="w-12 h-12 rounded-full pulse" />
           </div>
           <div>
-            <div className="h-6 w-36 rounded pulse mb-1" />
-            <div className="h-4 w-32 rounded pulse" />
+            <div className="h-6 w-36 pulse mb-1" />
+            <div className="h-4 w-32 pulse" />
           </div>
         </div>
-        <div className="h-7 rounded pulse mb-3" />
-        <div className="h-4 rounded pulse" />
+        <div className="h-7 pulse mb-3" />
+        <div className="h-4 pulse" />
       </>
     )}
   </A>
@@ -155,9 +155,9 @@ const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
 const Loading: FC = () => (
   <>
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div className="col-span-2 h-9 rounded pulse" />
-      <div className="col-span-1 h-9 rounded pulse" />
-      <div className="col-span-1 h-9 rounded pulse" />
+      <div className="col-span-2 h-9 pulse" />
+      <div className="col-span-1 h-9 pulse" />
+      <div className="col-span-1 h-9 pulse" />
     </div>
     <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
       {[...Array(16)].map((_, i) => (
