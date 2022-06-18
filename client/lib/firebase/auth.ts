@@ -75,7 +75,7 @@ export async function reauthenticate({ setLoading }: AppAuth, provider: Provider
 export async function updateDisplayName({ setLoading }: AppAuth, displayName: string) {
     setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
-    const { success } = await fetcher("POST", `/api/users/${auth.currentUser.uid}`, {
+    const { success } = await fetcher("PUT", `/api/users/${auth.currentUser.uid}`, {
         body: JSON.stringify({ displayName }),
     });
     await auth.currentUser.reload();
