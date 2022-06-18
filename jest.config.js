@@ -6,7 +6,6 @@ const customJestConfig = {
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: { "^~/(.*)$": "<rootDir>/$1" },
-  testEnvironment: "jest-environment-jsdom",
   transform: { "^.+\\.svg$": "<rootDir>/config/jestTransformer.js" },
 };
 

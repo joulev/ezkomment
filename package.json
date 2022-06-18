@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch --coverage",
-    "test:ci": "jest --ci --coverage"
+    "test": "jest --watch --coverage --env=jsdom",
+    "test:ci": "jest --ci --coverage --env=jsdom"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
