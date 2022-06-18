@@ -3,7 +3,9 @@ import CustomApiError from "./customApiError";
 export function handleUserError(err: unknown): never {
     if (err instanceof Error && !(err instanceof CustomApiError)) {
         const code: string = (err as any).errorInfo?.code ?? "";
-        console.log(code);
+        if (process.env.NODE_ENV === "development") {
+            console.log(code);
+        }
         if (code === "auth/user-not-found") throw new CustomApiError(err, 404);
         // should not happen as request body is sanitized
         if (code.startsWith("auth/invalid")) throw new CustomApiError(err, 400);
@@ -14,7 +16,9 @@ export function handleUserError(err: unknown): never {
 export function handleVerifyError(err: unknown): never {
     if (err instanceof Error && !(err instanceof CustomApiError)) {
         const code = (err as any).errorInfo?.code ?? "";
-        console.log(code);
+        if (process.env.NODE_ENV === "development") {
+            console.log(code);
+        }
         // auth/argument-error is not even mentioned in the documentation
         if (
             code === "auth/user-disabled" ||

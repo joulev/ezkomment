@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch --coverage --env=jsdom",
-    "test:ci": "jest --ci --coverage --env=jsdom"
+    "test:ci": "jest --ci --coverage --env=jsdom",
+    "test:server:ci": "firebase emulators:exec 'jest --ci --coverage --testPathPattern=__tests__/server --setupFilesAfterEnv ./config/jest.server.setup.ts'"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",

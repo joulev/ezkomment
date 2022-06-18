@@ -6,7 +6,7 @@ import { handleUserError } from "~/server/utils/errors/handleAuthError";
 export async function getUserById(uid: string) {
     try {
         const user = await authAdmin.getUser(uid);
-        return user.toJSON();
+        return user;
     } catch (err) {
         handleUserError(err);
     }
@@ -15,7 +15,7 @@ export async function getUserById(uid: string) {
 export async function updateUserById(uid: string, data: UpdateRequest) {
     try {
         const user = await authAdmin.updateUser(uid, data);
-        return user.toJSON();
+        return user;
     } catch (err) {
         handleUserError(err);
     }
