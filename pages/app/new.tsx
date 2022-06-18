@@ -1,6 +1,6 @@
 import { FC, FormEventHandler, useState } from "react";
-import isSlug from "validator/es/lib/isSlug";
-import isURL from "validator/es/lib/isURL";
+import isSlug from "validator/lib/isSlug";
+import isURL from "validator/lib/isURL";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
@@ -37,7 +37,7 @@ const New: NextPageWithLayout = () => {
           required
           value={name}
           onChange={event => setName(event.target.value)}
-          isInvalid={!nameIsValid()}
+          isInvalid={(name.length > 0 || domain.length > 0) && !nameIsValid()}
           helpText={
             <>
               The site name helps identify this site with other sites you also have. It can only
@@ -53,7 +53,7 @@ const New: NextPageWithLayout = () => {
           required
           value={domain}
           onChange={event => setDomain(event.target.value)}
-          isInvalid={!domainIsValid()}
+          isInvalid={(name.length > 0 || domain.length > 0) && !domainIsValid()}
           placeholder="https://example.com, https://mysite.example.com, &hellip;"
           helpText={
             <>
