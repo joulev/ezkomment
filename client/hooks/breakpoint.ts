@@ -13,7 +13,7 @@ import { Breakpoint } from "~/types/client/utils.type";
  * in Tailwind CSS). If on serverside, returns `unknown`.
  */
 const getBreakpoint = (): Breakpoint =>
-    typeof window === "undefined" || !theme.screens
+    typeof window === "undefined" || !theme || !theme.screens
         ? "unknown"
         : (Object.entries({ xs: "0px", ...theme.screens }) as [Breakpoint, string][])
               .reverse()
