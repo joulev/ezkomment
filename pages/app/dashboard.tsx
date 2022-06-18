@@ -91,9 +91,7 @@ const EmptyCard: FC = () => (
   </A>
 );
 
-const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
-  const breakpoint = useBreakpoint();
-
+function useEmptyCard() {
   const [showEmptyCard, setShowEmptyCard] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastCardRef = useRef<HTMLAnchorElement>(null);
@@ -113,6 +111,12 @@ const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
+  return { showEmptyCard, containerRef, lastCardRef };
+}
+
+const Dashboard: NextPageWithLayout<Props> = ({ sites }) => {
+  const breakpoint = useBreakpoint();
+  const { showEmptyCard, containerRef, lastCardRef } = useEmptyCard();
 
   if (false) {
     return (
