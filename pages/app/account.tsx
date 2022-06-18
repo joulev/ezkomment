@@ -30,20 +30,13 @@ import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import { InputDetachedLabel } from "~/client/components/forms/input";
+import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
 import { Provider } from "~/types/client/auth.type";
-import { NextPageWithLayout } from "~/types/client/utils.type";
-
-type Msg = { type: "success" | "error"; message: ReactNode } | null;
-
-const MsgBanner: FC<{ msg: NonNullable<Msg> }> = ({ msg }) => (
-  <Banner variant={msg.type === "success" ? "info" : "error"} className="mb-6">
-    {msg.message}
-  </Banner>
-);
+import { ResponseMessage as Msg, NextPageWithLayout } from "~/types/client/utils.type";
 
 const ProfileSection: FC = () => {
   const auth = useAuth();

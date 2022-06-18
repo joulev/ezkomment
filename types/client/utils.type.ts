@@ -64,3 +64,8 @@ export type FetchOptions = {
     method?: "GET" | "POST" | "PUT" | "DELETE";
     options?: RequestInit;
 };
+
+export type ResponseMessage = {
+    type: "success" | "error";
+    message: ReactNode;
+} | null;

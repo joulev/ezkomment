@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
 import isSlug from "validator/lib/isSlug";
 import isURL from "validator/lib/isURL";
@@ -6,22 +7,53 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
+import * as E from "~/client/lib/errors";
+import useAuth from "~/client/hooks/auth";
+import { internalFetcher } from "~/client/lib/fetcher";
+
 import A from "~/client/components/anchor";
+import AuthError from "~/client/components/auth/error";
 import Button from "~/client/components/buttons";
 import { InputDetachedLabel } from "~/client/components/forms/input";
+import MsgBanner from "~/client/components/messageBanner";
 import AppLayout from "~/client/layouts/app";
 
-import { NextPageWithLayout } from "~/types/client/utils.type";
+import { ResponseMessage as Msg, NextPageWithLayout } from "~/types/client/utils.type";
 
 const New: NextPageWithLayout = () => {
+  const { user, setLoading } = useAuth();
+  const router = useRouter();
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
+  const [msg, setMsg] = useState<Msg>(null);
+
   const nameIsValid = () => isSlug(name);
   const domainIsValid = () => isURL(domain, { require_protocol: true });
-  const handleSubmit: FormEventHandler<HTMLFormElement> = event => {
+
+  const createNewSite = async (name: string, domain: string) => {
+    setLoading(true);
+    if (!user) throw E.NOT_AUTHENTICATED;
+    const { success } = await internalFetcher({
+      url: `/api/users/${user.uid}/sites`,
+      method: "POST",
+      options: { body: JSON.stringify({ name, domain }) },
+    });
+    if (!success) throw E.UNABLE_TO_CREATE_SITE;
+    setLoading(false);
+    router.push("/app/dashboard"); // TODO: redirect to the site dashboard instead
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
     if (!nameIsValid() || !domainIsValid()) return;
+    try {
+      await createNewSite(name, domain);
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setLoading(false);
+    }
   };
+
   return (
     <div className="mx-auto md:max-w-lg">
       <h1>Add a new site</h1>
@@ -29,6 +61,7 @@ const New: NextPageWithLayout = () => {
         A new site let you host comments for all webpages under any domain or subdomain.{" "}
         <A href="https://google.com">Should I create a new site or page?</A>
       </p>
+      {msg && <MsgBanner msg={msg} />}
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <InputDetachedLabel
           label="Site name"

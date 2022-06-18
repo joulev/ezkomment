@@ -17,7 +17,6 @@ import Select from "~/client/components/forms/select";
 import AppLayout from "~/client/layouts/app";
 
 import { NextPageWithLayout } from "~/types/client/utils.type";
-import { FetchOptions } from "~/types/client/utils.type";
 import { Site } from "~/types/server";
 
 const Loading: FC = () => (
