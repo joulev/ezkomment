@@ -1,6 +1,4 @@
 // import clsx from "clsx";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import useSWR from "swr";
 
@@ -11,11 +9,11 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 // import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-import useAuth from "~/client/hooks/auth";
 // import useBreakpoint from "~/client/hooks/breakpoint";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
+import sitePages from "~/client/components/app/handleSite";
 import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 // import Input from "~/client/components/forms/input";
@@ -23,13 +21,8 @@ import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 // import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
-import AppLayout from "~/client/layouts/app";
 
-import { NextPageWithLayout } from "~/types/client/utils.type";
 import { Site } from "~/types/server";
-
-type Props = { siteName: string };
-type Param = Props;
 
 const Loading: FC = () => (
   <>
@@ -85,7 +78,7 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
 );
 */
 
-const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
+const Content: FC<{ siteId: string }> = ({ siteId }) => {
   // const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
   const { data: site } = useSWR(`/api/sites/${siteId}`, internalSWRGenerator<Site | null>(), {
@@ -225,34 +218,10 @@ const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
   );
 };
 
-const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
-  const { user } = useAuth();
-  const router = useRouter();
-  if (!user) return <Loading />;
-  const site = user.sites.find(s => s.name === siteName);
-  if (!site) {
-    // I'm not even sure if this is the recommended way to do a "client-side" 404, but it works and
-    // it is *not* a workaround (I think).
-    router.push("/404", router.asPath);
-    return null;
-  }
-  return <SiteOverviewWithData siteId={site.id} />;
-};
+const {
+  Page: SiteOverview,
+  getStaticPaths,
+  getStaticProps,
+} = sitePages({ title: siteName => siteName, activeTab: "all", Loading, Content });
 
-SiteOverview.getLayout = (page, { siteName }) => (
-  <AppLayout
-    title={siteName ?? "Loading"}
-    type="site"
-    activeTab="all"
-    siteName={siteName}
-    loadingScreen={<Loading />}
-  >
-    {page}
-  </AppLayout>
-);
-
-export const getStaticPaths: GetStaticPaths<Param> = () => ({ paths: [], fallback: true });
-export const getStaticProps: GetStaticProps<Props, Param> = ({ params }) =>
-  params && params.siteName ? { props: { siteName: params.siteName } } : { notFound: true };
-
-export default SiteOverview;
+export { SiteOverview as default, getStaticPaths, getStaticProps };

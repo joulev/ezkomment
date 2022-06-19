@@ -1,5 +1,3 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import useSWR from "swr";
 
@@ -9,22 +7,17 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
-import useAuth from "~/client/hooks/auth";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
+import sitePages from "~/client/components/app/handleSite";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
-import AppLayout from "~/client/layouts/app";
 
-import { NextPageWithLayout } from "~/types/client/utils.type";
 import { Site } from "~/types/server";
-
-type Props = { siteName: string };
-type Param = Props;
 
 const LoadingSection: FC = () => (
   <section>
@@ -60,7 +53,7 @@ const Loading: FC = () => (
   </div>
 );
 
-const SiteSettingsWithData: FC<{ siteId: string }> = ({ siteId }) => {
+const Content: FC<{ siteId: string }> = ({ siteId }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { data: site } = useSWR(`/api/sites/${siteId}`, internalSWRGenerator<Site | null>(), {
     fallbackData: null,
@@ -154,34 +147,15 @@ const SiteSettingsWithData: FC<{ siteId: string }> = ({ siteId }) => {
   );
 };
 
-const SiteSettings: NextPageWithLayout<Props> = ({ siteName }) => {
-  const { user } = useAuth();
-  const router = useRouter();
-  if (!user) return <Loading />;
-  const site = user.sites.find(s => s.name === siteName);
-  if (!site) {
-    // I'm not even sure if this is the recommended way to do a "client-side" 404, but it works and
-    // it is *not* a workaround (I think).
-    router.push("/404", router.asPath);
-    return null;
-  }
-  return <SiteSettingsWithData siteId={site.id} />;
-};
+const {
+  Page: SiteOverview,
+  getStaticPaths,
+  getStaticProps,
+} = sitePages({
+  title: siteName => `Settings | ${siteName}`,
+  activeTab: "settings",
+  Loading,
+  Content,
+});
 
-SiteSettings.getLayout = (page, { siteName }) => (
-  <AppLayout
-    title={siteName ? `Settings | ${siteName}` : "Loading"}
-    type="site"
-    activeTab="settings"
-    siteName={siteName}
-    loadingScreen={<Loading />}
-  >
-    {page}
-  </AppLayout>
-);
-
-export const getStaticPaths: GetStaticPaths<Param> = () => ({ paths: [], fallback: true });
-export const getStaticProps: GetStaticProps<Props, Param> = ({ params }) =>
-  params && params.siteName ? { props: { siteName: params.siteName } } : { notFound: true };
-
-export default SiteSettings;
+export { SiteOverview as default, getStaticPaths, getStaticProps };
