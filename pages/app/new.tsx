@@ -33,11 +33,12 @@ const New: NextPageWithLayout = () => {
   const createNewSite = async (name: string, domain: string) => {
     setLoading(true);
     if (!user) throw E.NOT_AUTHENTICATED;
-    const { success } = await internalFetcher({
+    const { success, status } = await internalFetcher({
       url: `/api/users/${user.uid}/sites`,
       method: "POST",
       options: { body: JSON.stringify({ name, domain }) },
     });
+    if (status === 409) throw E.SITE_ALREADY_EXISTS;
     if (!success) throw E.UNABLE_TO_CREATE_SITE;
     setLoading(false);
     router.push("/app/dashboard"); // TODO: redirect to the site dashboard instead
