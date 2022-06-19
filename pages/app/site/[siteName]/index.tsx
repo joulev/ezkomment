@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { FC, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -25,8 +25,8 @@ import { NextPageWithLayout } from "~/types/client/utils.type";
 
 import site from "~/sample/site.json";
 
-type Site = typeof site;
-type Props = { site: Site };
+type Props = { siteName: string };
+type Param = Props;
 
 const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, label, small }) => (
   <div>
@@ -37,7 +37,7 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
   </div>
 );
 
-const SiteOverview: NextPageWithLayout<Props> = ({ site }) => {
+const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
   const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
 
@@ -50,7 +50,7 @@ const SiteOverview: NextPageWithLayout<Props> = ({ site }) => {
             <img src={site.iconURL} alt="" width={64} height={64} loading="lazy" />
           </div>
           <div>
-            <div className="mb-1.5 text-3xl">{site.name}</div>
+            <div className="mb-1.5 text-3xl">{siteName}</div>
             <div className="flex flex-row gap-3 text-muted">
               <WebOutlinedIcon />
               <A
@@ -163,12 +163,14 @@ const SiteOverview: NextPageWithLayout<Props> = ({ site }) => {
   );
 };
 
-SiteOverview.getLayout = page => (
-  <AppLayout title={site.name} type="site" activeTab="all" siteName={site.name}>
+SiteOverview.getLayout = (page, { siteName }) => (
+  <AppLayout title={siteName} type="site" activeTab="all" siteName={siteName}>
     {page}
   </AppLayout>
 );
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
+export const getStaticPaths: GetStaticPaths<Param> = () => ({ paths: [], fallback: true });
+export const getStaticProps: GetStaticProps<Props, Param> = ({ params }) =>
+  params && params.siteName ? { props: { siteName: params.siteName } } : { notFound: true };
 
 export default SiteOverview;
