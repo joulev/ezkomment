@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 
-import { FetchOptions } from "~/types/client/utils.type";
+import { FetchOptions, FetchOptionsWithMethod } from "~/types/client/utils.type";
 import { ApiError, ApiResponseBody } from "~/types/server/nextApi.type";
 
 import { NOT_AUTHENTICATED } from "./errors";
@@ -8,7 +8,10 @@ import { NOT_AUTHENTICATED } from "./errors";
 /**
  * Fetch data from the backend in an authenticated context.
  */
-export async function internalFetcher({ url, method, options }: FetchOptions, isJson = true) {
+export async function internalFetcher(
+    { url, method, options }: FetchOptionsWithMethod,
+    isJson = true
+) {
     const user = getAuth().currentUser;
     if (!user) throw NOT_AUTHENTICATED;
     const token = await user.getIdToken();
@@ -36,7 +39,7 @@ export async function internalFetcher({ url, method, options }: FetchOptions, is
  * to `fetcher` param (obviously), so while I wanted to do something like this, it's not possible:
  *
  * ```ts
- * async function fetcher<T>({ url, options }: Omit<FetchOptions, "method">) {
+ * async function fetcher<T>({ url, options }: FetchOptions) {
  *   const { body } = internalFetcher({ url, method: "GET", options });
  *   return body.data as T
  * }
@@ -53,7 +56,10 @@ export async function internalFetcher({ url, method, options }: FetchOptions, is
  * @returns A fetcher for `useSWR`
  */
 export function internalSWRGenerator<T = any>() {
-    return async ({ url, options }: Omit<FetchOptions, "method">) => {
+    return async (props: FetchOptions | string) => {
+        const { url, options }: FetchOptions = typeof props === "string" ? { url: props } : props;
+        if (process.env.NODE_ENV === "development") console.log({ url, options });
+
         const { success, body } = await internalFetcher({ url, method: "GET", options });
         if (!success) throw new Error(`Unknown error: ${(body as ApiError).error}`);
         return (body as ApiResponseBody).data as T;

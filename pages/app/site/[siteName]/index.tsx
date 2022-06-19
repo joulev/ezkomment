@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { formatDistanceToNow, parseISO } from "date-fns";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { FC, useState } from "react";
+import useSWR from "swr";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
@@ -10,20 +10,21 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
+import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
+import { internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
-import SiteGraph from "~/client/components/siteGraph";
+// import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
 import { NextPageWithLayout } from "~/types/client/utils.type";
-
-import site from "~/sample/site.json";
+import { Site } from "~/types/server";
 
 type Props = { siteName: string };
 type Param = Props;
@@ -80,20 +81,29 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
   </div>
 );
 
-const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
+const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
   const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
-
+  const { data: site } = useSWR(`/api/sites/${siteId}`, internalSWRGenerator<Site | null>(), {
+    fallbackData: null,
+  });
+  if (!site) return <Loading />;
   return (
     <>
       <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
         <div className="flex flex-row gap-6 items-center">
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={site.iconURL} alt="" width={64} height={64} loading="lazy" />
+            <img
+              src={site.iconURL ?? "/images/logo.svg"}
+              alt=""
+              width={64}
+              height={64}
+              loading="lazy"
+            />
           </div>
           <div>
-            <div className="mb-1.5 text-3xl">{siteName}</div>
+            <div className="mb-1.5 text-3xl">{site.name}</div>
             <div className="flex flex-row gap-3 text-muted">
               <WebOutlinedIcon />
               <A
@@ -122,12 +132,12 @@ const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-9">
         <div className="lg:col-span-5">
           <div className="grid grid-cols-3">
-            <Stats label="pages" value={site.pageCount} />
-            <Stats label="comments" value={site.totalCommentCount} />
-            <Stats label="pending" value={site.needsApproval} />
+            <Stats label="pages" value={0} />
+            <Stats label="comments" value={0} />
+            <Stats label="pending" value={0} />
           </div>
           <h2>Last 30 days</h2>
-          <SiteGraph {...site.statistics} />
+          {/* <SiteGraph {...site.statistics} /> */}
         </div>
         <div className="lg:col-span-7">
           <h2>All pages</h2>
@@ -178,7 +188,7 @@ const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
               </div>
             </Modal>
           </div>
-          <div className="flex flex-col gap-6">
+          {/* <div className="flex flex-col gap-6">
             {site.pages.map((page, i) => (
               <A
                 notStyled
@@ -199,11 +209,24 @@ const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
                 </div>
               </A>
             ))}
-          </div>
+            </div> */}
         </div>
       </div>
     </>
   );
+};
+
+const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
+  const { user } = useAuth();
+  const { data } = useSWR(
+    user ? `/api/users/${user.uid}/sites` : null,
+    internalSWRGenerator<Site[] | null>(),
+    { fallbackData: null }
+  );
+  if (!data) return <Loading />;
+  const site = data.find(s => s.name === siteName);
+  if (!site) return <div>site not found</div>;
+  return <SiteOverviewWithData siteId={site.id} />;
 };
 
 SiteOverview.getLayout = (page, { siteName }) => (
