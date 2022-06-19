@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 export type PageType = "overview" | "site" | "page" | "others";
 export type NavbarItems = {
     overview: "dashboard" | "new" | "account";
@@ -29,3 +31,10 @@ export type CurrentPage =
           siteName?: never;
           pageId?: never;
       };
+
+export type SitePagesOptions = {
+    title: (siteName: string) => string;
+    activeTab: NavbarItems["site"];
+    Loading: FC;
+    Content: FC<{ siteId: string }>;
+};
