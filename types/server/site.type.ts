@@ -26,15 +26,15 @@ export type Site = {
      */
     readonly domain: string;
 
-    // Statistic
+    // Statistic, optional at the moment
 
     /**
      * The number of page in this site
      */
-    pageCount: number;
-    totalCommentCount: number;
-    needApproval: number;
-    lastCommentDate: Timestamp;
+    pageCount?: number;
+    totalCommentCount?: number;
+    needApproval?: number;
+    lastCommentDate?: Timestamp;
 
     // Foreign key
 
