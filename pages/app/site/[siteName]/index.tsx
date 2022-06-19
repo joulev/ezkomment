@@ -1,24 +1,24 @@
-import clsx from "clsx";
+// import clsx from "clsx";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import useSWR from "swr";
-import Error404 from "~/pages/404";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+// import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 import useAuth from "~/client/hooks/auth";
-import useBreakpoint from "~/client/hooks/breakpoint";
+// import useBreakpoint from "~/client/hooks/breakpoint";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
+import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
-import Input from "~/client/components/forms/input";
+// import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 // import SiteGraph from "~/client/components/siteGraph";
@@ -74,6 +74,7 @@ const Loading: FC = () => (
   </>
 );
 
+/*
 const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, label, small }) => (
   <div>
     <div className={clsx("font-light tracking-tighter", small ? "text-3xl" : "text-4xl")}>
@@ -82,9 +83,10 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
     <div className={clsx("text-muted", small && "text-sm")}>{label}</div>
   </div>
 );
+*/
 
 const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
-  const breakpoint = useBreakpoint();
+  // const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
   const { data: site } = useSWR(`/api/sites/${siteId}`, internalSWRGenerator<Site | null>(), {
     fallbackData: null,
@@ -131,6 +133,24 @@ const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
           </Button>
         </div>
       </div>
+      <div className="flex flex-col gap-6 my-12 items-center">
+        <div className="w-48">
+          <BlankIllustration />
+        </div>
+        <div className="text-xl text-center">
+          Create a new page to start collecting&nbsp;comments.
+        </div>
+        <div>
+          <Button
+            icon={AddOutlinedIcon}
+            onClick={() => setShowNewPageModal(true)}
+            className="inline-block"
+          >
+            Add a new page
+          </Button>
+        </div>
+      </div>
+      {/*
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-9">
         <div className="lg:col-span-5">
           <div className="grid grid-cols-3">
@@ -139,7 +159,7 @@ const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
             <Stats label="pending" value={0} />
           </div>
           <h2>Last 30 days</h2>
-          {/* <SiteGraph {...site.statistics} /> */}
+          <SiteGraph {...site.statistics} />
         </div>
         <div className="lg:col-span-7">
           <h2>All pages</h2>
@@ -156,41 +176,8 @@ const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
             >
               {breakpoint === "xs" ? "New page" : "Add a new page"}
             </Button>
-            <Modal isVisible={showNewPageModal} onOutsideClick={() => setShowNewPageModal(false)}>
-              <div className="p-6 max-w-lg">
-                <h2>Add a new page</h2>
-                <p>
-                  Please fill in these information as they helps identify this page from other pages
-                  in the same site.
-                </p>
-                <form className="flex flex-col gap-6">
-                  <InputDetachedLabel
-                    label="Page title"
-                    icon={LabelOutlinedIcon}
-                    type="text"
-                    required
-                  />
-                  <InputDetachedLabel
-                    label="Page URL"
-                    icon={WebOutlinedIcon}
-                    type="text"
-                    required
-                  />
-                  <RightAligned className="gap-6">
-                    <Button
-                      variant="tertiary"
-                      onClick={() => setShowNewPageModal(false)}
-                      type="button"
-                    >
-                      Cancel
-                    </Button>
-                    <Button>Create</Button>
-                  </RightAligned>
-                </form>
-              </div>
-            </Modal>
           </div>
-          {/* <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6">
             {site.pages.map((page, i) => (
               <A
                 notStyled
@@ -211,9 +198,29 @@ const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
                 </div>
               </A>
             ))}
-            </div> */}
+            </div>
         </div>
       </div>
+      */}
+      <Modal isVisible={showNewPageModal} onOutsideClick={() => setShowNewPageModal(false)}>
+        <div className="p-6 max-w-lg">
+          <h2>Add a new page</h2>
+          <p>
+            Please fill in these information as they helps identify this page from other pages in
+            the same site.
+          </p>
+          <form className="flex flex-col gap-6">
+            <InputDetachedLabel label="Page title" icon={LabelOutlinedIcon} type="text" required />
+            <InputDetachedLabel label="Page URL" icon={WebOutlinedIcon} type="text" required />
+            <RightAligned className="gap-6">
+              <Button variant="tertiary" onClick={() => setShowNewPageModal(false)} type="button">
+                Cancel
+              </Button>
+              <Button>Create</Button>
+            </RightAligned>
+          </form>
+        </div>
+      </Modal>
     </>
   );
 };
