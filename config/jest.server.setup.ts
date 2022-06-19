@@ -9,7 +9,7 @@ import { generateTestData } from "~/sample/server/generateTestEntities";
  * setup time.
  */
 if (env.GENERATE_DATA) {
-    console.log("%cStart generating data...");
+    console.log("Start generating data...");
     generateTestData();
 }
 

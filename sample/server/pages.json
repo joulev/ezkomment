@@ -1,7 +1,37 @@
 [
-  { "id": "p0", "name": "Site p0", "domain": "examplep0.com", "iconURL": null, "uid": "s0" },
-  { "id": "p1", "name": "Site p1", "domain": "examplep1.com", "iconURL": null, "uid": "s1" },
-  { "id": "p2", "name": "Site p2", "domain": "examplep2.com", "iconURL": null, "uid": "s2" },
-  { "id": "p3", "name": "Site p3", "domain": "examplep3.com", "iconURL": null, "uid": "s3" },
-  { "id": "p4", "name": "Site p4", "domain": "examplep4.com", "iconURL": null, "uid": "s4" }
+  {
+    "id": "p0",
+    "name": "Page p0",
+    "url": "https://examples0.com/p0",
+    "autoApprove": true,
+    "siteId": "s0"
+  },
+  {
+    "id": "p1",
+    "name": "Page p1",
+    "url": "https://examples1.com/p1",
+    "autoApprove": true,
+    "siteId": "s1"
+  },
+  {
+    "id": "p2",
+    "name": "Page p2",
+    "url": "https://examples2.com/p2",
+    "autoApprove": true,
+    "siteId": "s2"
+  },
+  {
+    "id": "p3",
+    "name": "Page p3",
+    "url": "https://examples3.com/p3",
+    "autoApprove": true,
+    "siteId": "s3"
+  },
+  {
+    "id": "p4",
+    "name": "Page p4",
+    "url": "https://examples4.com/p4",
+    "autoApprove": true,
+    "siteId": "s4"
+  }
 ]

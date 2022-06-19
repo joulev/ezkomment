@@ -1,7 +1,37 @@
 [
-  { "id": "s0", "name": "Site s0", "domain": "examples0.com", "iconURL": null, "uid": "u0" },
-  { "id": "s1", "name": "Site s1", "domain": "examples1.com", "iconURL": null, "uid": "u1" },
-  { "id": "s2", "name": "Site s2", "domain": "examples2.com", "iconURL": null, "uid": "u2" },
-  { "id": "s3", "name": "Site s3", "domain": "examples3.com", "iconURL": null, "uid": "u3" },
-  { "id": "s4", "name": "Site s4", "domain": "examples4.com", "iconURL": null, "uid": "u4" }
+  {
+    "id": "s0",
+    "name": "Site s0",
+    "domain": "examples0.com",
+    "iconURL": null,
+    "uid": "u0"
+  },
+  {
+    "id": "s1",
+    "name": "Site s1",
+    "domain": "examples1.com",
+    "iconURL": null,
+    "uid": "u1"
+  },
+  {
+    "id": "s2",
+    "name": "Site s2",
+    "domain": "examples2.com",
+    "iconURL": null,
+    "uid": "u2"
+  },
+  {
+    "id": "s3",
+    "name": "Site s3",
+    "domain": "examples3.com",
+    "iconURL": null,
+    "uid": "u3"
+  },
+  {
+    "id": "s4",
+    "name": "Site s4",
+    "domain": "examples4.com",
+    "iconURL": null,
+    "uid": "u4"
+  }
 ]

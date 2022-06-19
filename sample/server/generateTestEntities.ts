@@ -63,10 +63,11 @@ export const COMMENT_IDS = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "
 export function generateTestData() {
     const users = UIDS.map(createTestUser);
     const sites = SITE_IDS.map((id, i) => createTestSite(UIDS[i], id));
-    const pages = PAGE_IDS.map((id, i) => createTestSite(SITE_IDS[i], id));
-    const comments = COMMENT_IDS.map((id, i) => createTestSite(PAGE_IDS[i], id));
-    writeFileSync("./sample/server/users.json", JSON.stringify(users));
-    writeFileSync("./sample/server/sites.json", JSON.stringify(sites));
-    writeFileSync("./sample/server/pages.json", JSON.stringify(pages));
-    writeFileSync("./sample/server/comments.json", JSON.stringify(comments));
+    const pages = PAGE_IDS.map((id, i) => createTestPage(SITE_IDS[i], id));
+    const comments = COMMENT_IDS.map((id, i) => createTestComment(PAGE_IDS[i], id));
+    // Thank god `JSON stringify` has a pretty print option.
+    writeFileSync("./sample/server/users.json", `${JSON.stringify(users, null, 2)}\n`);
+    writeFileSync("./sample/server/sites.json", `${JSON.stringify(sites, null, 2)}\n`);
+    writeFileSync("./sample/server/pages.json", `${JSON.stringify(pages, null, 2)}\n`);
+    writeFileSync("./sample/server/comments.json", `${JSON.stringify(comments, null, 2)}\n`);
 }
