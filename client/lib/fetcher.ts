@@ -21,7 +21,11 @@ export async function internalFetcher({ url, method, options }: FetchOptions, is
             Authorization: `Bearer ${token}`,
         },
     });
-    return { success: response.ok, body: (await response.json()) as ApiResponseBody | ApiError };
+    return {
+        success: response.ok,
+        status: response.status,
+        body: (await response.json()) as ApiResponseBody | ApiError,
+    };
 }
 
 /**
