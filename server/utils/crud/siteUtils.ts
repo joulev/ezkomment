@@ -127,6 +127,18 @@ export async function listUserSitesById(uid: string) {
     }
 }
 
+/**
+ * Please help me come up with a better name for this method...
+ */
+export async function listUserBasicSitesById(uid: string) {
+    try {
+        const siteSnapshots = await USERS_COLLECTION.doc(uid).collection("sites").get();
+        return siteSnapshots.docs.map(doc => doc.data());
+    } catch (err) {
+        handleFirestoreError(err);
+    }
+}
+
 export async function deleteUserSitesById(uid: string) {
     try {
         const siteSnapshots = await queryUserSitesById(uid).get();

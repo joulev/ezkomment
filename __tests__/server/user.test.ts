@@ -5,24 +5,16 @@ import { nonExistingUid } from "~/sample/server/nonExistingIds.json";
 
 describe("Test user interaction", () => {
     const existingUid = sampleUsers[0].uid;
-    it(`Should be able to update user with id ${existingUid}`, () => {
+    it(`Should be able to update user with id ${existingUid}`, async () => {
         expect.assertions(1);
-        expect(
+        await expect(
             UserUtils.updateUserById(existingUid, { photoURL: "https://example.com" })
-        ).rejects.toBeFalsy();
+        ).resolves.toBeTruthy();
     });
 
-    it(`Should fail when try to update non-existing user with id ${nonExistingUid}`, () => {
-        /**
-         * If I write
-         *
-         * expect(UserUtils.updateUserById("100", data)).rejects.toBeDefined()
-         *
-         * Then the test will fail as `handleAuthError` will try to log after the test is
-         * completed. I need to have a look at async function again.
-         */
+    it(`Should fail when try to update non-existing user with id ${nonExistingUid}`, async () => {
         expect.assertions(1);
-        expect(
+        await expect(
             UserUtils.updateUserById(nonExistingUid, { photoURL: "https://example.com" })
         ).rejects.toBeTruthy();
     });

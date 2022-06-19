@@ -52,6 +52,3 @@ service-account.json
 firestore-debug.log
 ui-debug.log
 firebase-debug.log
-
-# .firebaserc file (we don't really need this file to run Firebase Emulator)
-.firebaserc
