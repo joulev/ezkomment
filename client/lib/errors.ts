@@ -1,3 +1,8 @@
+const UNKNOWN_ERROR = new Error(
+    "Unknown error. Please contact the administrator."
+) as NodeJS.ErrnoException;
+export { UNKNOWN_ERROR };
+
 const NOT_AUTHENTICATED = new Error(
     "No authenticated users found to link account. Please log in first."
 ) as NodeJS.ErrnoException;

@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import { User } from "firebase/auth";
-import { FC, FormEventHandler, MouseEvent, ReactNode, useEffect, useState } from "react";
+import { FC, FormEventHandler, MouseEvent, useEffect, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
@@ -35,7 +34,7 @@ import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
-import { Provider } from "~/types/client/auth.type";
+import { Provider, User } from "~/types/client/auth.type";
 import { ResponseMessage as Msg, NextPageWithLayout } from "~/types/client/utils.type";
 
 const ProfileSection: FC = () => {

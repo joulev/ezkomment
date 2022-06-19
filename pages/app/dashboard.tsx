@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { FC } from "react";
-import useSWR from "swr";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -8,7 +7,6 @@ import SortOutlinedIcon from "@mui/icons-material/SortOutlined";
 
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
-import { internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import BlankIllustration from "~/client/components/blankIllustration";
@@ -137,16 +135,8 @@ function showEmptyCard(breakpoint: Breakpoint, siteCount: number) {
 const Dashboard: NextPageWithLayout = () => {
   const { user } = useAuth();
   const breakpoint = useBreakpoint();
-
-  const { data } = useSWR(
-    user ? `/api/users/${user.uid}/sites` : null,
-    internalSWRGenerator<Site[] | "waiting">(),
-    { fallbackData: "waiting" }
-  );
-
-  if (!data || data === "waiting") return <Loading />;
-  if (data.length === 0) return <EmptyState />;
-
+  if (!user) return <Loading />;
+  if (user.sites.length === 0) return <EmptyState />;
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -173,10 +163,10 @@ const Dashboard: NextPageWithLayout = () => {
         </div>
       </div>
       <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data.map((site, i) => (
+        {user.sites.map((site, i) => (
           <SiteCard site={site} key={i} />
         ))}
-        {showEmptyCard(breakpoint, data.length) && <EmptyCard />}
+        {showEmptyCard(breakpoint, user.sites.length) && <EmptyCard />}
       </main>
     </>
   );
