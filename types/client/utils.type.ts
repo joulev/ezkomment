@@ -18,7 +18,7 @@ export type ModeContextType = {
     setMode: Dispatch<SetStateAction<Mode>>;
 };
 
-export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "unknown";
+export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "unknown";
 export type BreakpointContextType = Breakpoint;
 
 export type BuildInfo = { hash: string; timestamp: number };

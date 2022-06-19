@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FC, RefObject, forwardRef, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import useSWR from "swr";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -16,7 +16,7 @@ import Input from "~/client/components/forms/input";
 import Select from "~/client/components/forms/select";
 import AppLayout from "~/client/layouts/app";
 
-import { NextPageWithLayout } from "~/types/client/utils.type";
+import { Breakpoint, NextPageWithLayout } from "~/types/client/utils.type";
 import { Site } from "~/types/server";
 
 const Loading: FC = () => (
@@ -26,7 +26,7 @@ const Loading: FC = () => (
       <div className="col-span-1 h-9 pulse" />
       <div className="col-span-1 h-9 pulse" />
     </div>
-    <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+    <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[...Array(16)].map((_, i) => (
         <SiteCard key={i} />
       ))}
@@ -96,12 +96,11 @@ const Stats: FC<{ value: number; label: string }> = ({ value, label }) => (
   </div>
 );
 
-const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) => (
+const SiteCard: FC<{ site?: Site }> = ({ site }) => (
   <A
     notStyled
     className="cursor-pointer p-6 transition bg-card rounded border border-card hover:border-muted"
     href={site ? `/app/site/${site.name}` : undefined}
-    ref={ref}
   >
     {site ? (
       <>
@@ -143,8 +142,7 @@ const SiteCard = forwardRef<HTMLAnchorElement, { site?: Site }>(({ site }, ref) 
       </>
     )}
   </A>
-));
-SiteCard.displayName = "SiteCard";
+);
 
 const EmptyCard: FC = () => (
   <A
@@ -165,33 +163,16 @@ const EmptyCard: FC = () => (
   </A>
 );
 
-function useEmptyCard() {
-  const [showEmptyCard, setShowEmptyCard] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const lastCardRef = useRef<HTMLAnchorElement>(null);
-  useEffect(() => {
-    const lastRowIsNotFilled = (
-      containerRef: RefObject<HTMLDivElement>,
-      lastCardRef: RefObject<HTMLAnchorElement>
-    ) => {
-      if (!containerRef.current || !lastCardRef.current) return false;
-      const container = containerRef.current;
-      const card = lastCardRef.current;
-      return card.offsetLeft + card.offsetWidth < container.offsetLeft + container.offsetWidth - 20;
-    };
-
-    const update = () => setShowEmptyCard(lastRowIsNotFilled(containerRef, lastCardRef));
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-  return { showEmptyCard, containerRef, lastCardRef };
+function showEmptyCard(breakpoint: Breakpoint, siteCount: number) {
+  // grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+  if (breakpoint === "md") return siteCount % 2 !== 0;
+  if (breakpoint === "lg" || breakpoint === "xl") return siteCount % 3 !== 0;
+  return false;
 }
 
 const Dashboard: NextPageWithLayout = () => {
   const { user } = useAuth();
   const breakpoint = useBreakpoint();
-  const { showEmptyCard, containerRef, lastCardRef } = useEmptyCard();
 
   const { data } = useSWR(
     user ? { url: `/api/users/${user.uid}/sites` } : null,
@@ -227,14 +208,11 @@ const Dashboard: NextPageWithLayout = () => {
           </Button>
         </div>
       </div>
-      <main
-        className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6"
-        ref={containerRef}
-      >
+      <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {data.map((site, i) => (
-          <SiteCard site={site} key={i} ref={i === data.length - 1 ? lastCardRef : null} />
+          <SiteCard site={site} key={i} />
         ))}
-        {showEmptyCard && <EmptyCard />}
+        {showEmptyCard(breakpoint, data.length) && <EmptyCard />}
       </main>
     </>
   );
