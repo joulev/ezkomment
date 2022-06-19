@@ -1,7 +1,9 @@
 import clsx from "clsx";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import useSWR from "swr";
+import Error404 from "~/pages/404";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
@@ -218,14 +220,21 @@ const SiteOverviewWithData: FC<{ siteId: string }> = ({ siteId }) => {
 
 const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
   const { user } = useAuth();
+  const router = useRouter();
   const { data } = useSWR(
     user ? `/api/users/${user.uid}/sites` : null,
     internalSWRGenerator<Site[] | null>(),
     { fallbackData: null }
   );
   if (!data) return <Loading />;
+
   const site = data.find(s => s.name === siteName);
-  if (!site) return <div>site not found</div>;
+  if (!site) {
+    // I'm not even sure if this is the recommended way to do a "client-side" 404, but it works and
+    // it is *not* a workaround (I think).
+    router.push("/404", router.asPath);
+    return null;
+  }
   return <SiteOverviewWithData siteId={site.id} />;
 };
 
