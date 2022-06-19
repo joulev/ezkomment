@@ -28,6 +28,49 @@ import site from "~/sample/site.json";
 type Props = { siteName: string };
 type Param = Props;
 
+const Loading: FC = () => (
+  <>
+    <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
+      <div className="flex flex-row gap-6 items-center">
+        <div className="rounded-full w-16 h-16 pulse" />
+        <div>
+          <div className="mb-2.5 h-8 w-36 pulse" />
+          <div className="h-4 w-48 pulse" />
+        </div>
+      </div>
+      <div className="w-full md:w-auto grid grid-cols-2 gap-6">
+        <div className="min-w-[144px] h-9 pulse" />
+        <div className="min-w-[144px] h-9 pulse" />
+      </div>
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-9">
+      <div className="lg:col-span-5">
+        <div className="grid grid-cols-3 gap-9">
+          <div className="h-14 pulse" />
+          <div className="h-14 pulse" />
+          <div className="h-14 pulse" />
+        </div>
+        <div className="w-36 h-7 pulse mt-9 mb-6" />
+        <div className="aspect-h-8 aspect-w-12 md:aspect-h-6 lg:aspect-h-8 pulse" />
+      </div>
+      <div className="lg:col-span-7">
+        <div className="w-36 h-7 pulse mb-6" />
+        <div className="flex flex-row gap-6 mb-6">
+          <div className="h-9 pulse flex-1" />
+          <div className="pulse w-36" />
+        </div>
+        <div className="flex flex-col gap-6">
+          {Array(10)
+            .fill(0)
+            .map((_, i) => (
+              <div className="h-36 pulse" key={i} />
+            ))}
+        </div>
+      </div>
+    </div>
+  </>
+);
+
 const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, label, small }) => (
   <div>
     <div className={clsx("font-light tracking-tighter", small ? "text-3xl" : "text-4xl")}>
@@ -164,7 +207,13 @@ const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
 };
 
 SiteOverview.getLayout = (page, { siteName }) => (
-  <AppLayout title={siteName} type="site" activeTab="all" siteName={siteName}>
+  <AppLayout
+    title={siteName ?? "Loading"}
+    type="site"
+    activeTab="all"
+    siteName={siteName ?? "Loading"}
+    loadingScreen={<Loading />}
+  >
     {page}
   </AppLayout>
 );
