@@ -22,6 +22,7 @@ function items(pageType: PageType, siteName?: string, pageId?: string): Items<ty
         account: { href: `/app/account`, label: ["Account", "Account settings"] },
       };
     case "site":
+      if (!siteName) return {};
       return {
         all: { href: `/app/site/${siteName}`, label: "All pages" },
         customise: {
@@ -31,6 +32,7 @@ function items(pageType: PageType, siteName?: string, pageId?: string): Items<ty
         settings: { href: `/app/site/${siteName}/settings`, label: "Settings" },
       };
     case "page":
+      if (!siteName || !pageId) return {};
       return {
         all: { href: `/app/site/${siteName}/${pageId}`, label: "All comments" },
         settings: { href: `/app/site/${siteName}/${pageId}/settings`, label: "Settings" },
@@ -113,6 +115,7 @@ const MainNav: FC<CurrentPage> = ({ type, activeTab, siteName, pageId }) => {
               )}
             </MainNavButton>
           ))}
+          <div className="h-[42px]" />
         </nav>
       </div>
     </div>
