@@ -26,9 +26,12 @@ export const sanitizeCreateSiteRequest: ApiMiddleware = (req, _, next) => {
 };
 
 export const sanitizeUpdateSiteRequest: ApiMiddleware = (req, _, next) => {
-    const { name, iconURL }: UpdateSiteBodyParams = req.body;
+    const { name, iconURL, domain }: RawBody<UpdateSiteBodyParams> = req.body;
     if (name !== undefined && (typeof name !== "string" || validator.isEmpty(name))) {
         throw new CustomApiError("'name' must be a non-empty string");
+    }
+    if (domain !== undefined && (typeof domain !== "string" || !validator.isURL(domain))) {
+        throw new CustomApiError("'domain' must be a valid URL");
     }
     if (
         iconURL !== undefined &&
@@ -37,6 +40,6 @@ export const sanitizeUpdateSiteRequest: ApiMiddleware = (req, _, next) => {
     ) {
         throw new CustomApiError("'iconURL' must be either a valid url or null");
     }
-    req.body = removeUndefinedProperties({ name, iconURL });
+    req.body = removeUndefinedProperties({ name, iconURL, domain });
     next();
 };
