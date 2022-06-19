@@ -5,7 +5,6 @@
  */
 import Editor from "@monaco-editor/react";
 import clsx from "clsx";
-import { GetServerSideProps } from "next";
 import { FC, useState } from "react";
 
 import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
@@ -20,20 +19,16 @@ import useBreakpoint from "~/client/hooks/breakpoint";
 import useTheme from "~/client/hooks/theme";
 import generateCommentHTML from "~/client/lib/generateCommentHTML";
 
+import sitePages from "~/client/components/app/handleSite";
 import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import SideBySide from "~/client/components/sideBySide";
 import IconLabel from "~/client/components/utils/iconAndLabel";
-import AppLayout from "~/client/layouts/app";
 
-import { IconAndLabel, NextPageWithLayout } from "~/types/client/utils.type";
+import { IconAndLabel } from "~/types/client/utils.type";
 
 import { all, comment, styles } from "~/constants/sampleCommentCode";
 
-import site from "~/sample/site.json";
-
-type Site = typeof site;
-type Props = { site: Site };
 type ButtonGroupProps = {
   buttons: (IconAndLabel & { onClick: () => void })[];
   active: number;
@@ -71,7 +66,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   </div>
 );
 
-const SiteCustomise: NextPageWithLayout<Props> = ({ site }) => {
+const Content: FC<{ siteId: string }> = ({ siteId }) => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
 
@@ -170,18 +165,41 @@ const SiteCustomise: NextPageWithLayout<Props> = ({ site }) => {
   );
 };
 
-SiteCustomise.getLayout = page => (
-  <AppLayout
-    title={`Customise | ${site.name}`}
-    type="site"
-    activeTab="customise"
-    siteName={site.name}
-    removePadding
-  >
-    {page}
-  </AppLayout>
+const Loading: FC = () => (
+  <>
+    <div className="lg:hidden py-9">
+      Please use a laptop or a device with a wider screen to use this feature.
+    </div>
+    <div
+      className={clsx(
+        "hidden lg:flex flex-row gap-6 items-center",
+        "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-[49px] z-10"
+      )}
+    >
+      <div className="h-9 w-72 pulse" />
+      <div className="h-9 w-48 pulse" />
+      <div className="h-9 w-36 pulse" />
+      <div className="flex-grow" />
+      <div className="h-9 w-24 pulse" />
+      <div className="h-9 w-24 pulse" />
+    </div>
+    <div className="hidden lg:grid grid-cols-2 gap-6 mb-9">
+      <div className="h-[90vh] pulse" />
+      <div className="h-[90vh] pulse" />
+    </div>
+  </>
 );
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
+const {
+  Page: SiteCustomise,
+  getStaticPaths,
+  getStaticProps,
+} = sitePages({
+  title: siteName => `Customise | ${siteName}`,
+  activeTab: "customise",
+  removePadding: true,
+  Loading,
+  Content,
+});
 
-export default SiteCustomise;
+export { SiteCustomise as default, getStaticPaths, getStaticProps };
