@@ -17,7 +17,7 @@ export const ErrorLayout: FC<{ code?: number }> = ({ code }) => {
   return (
     <>
       <Head>
-        <title>Error{code ? ` ${code}` : ""} | ezkomment</title>
+        <title>{`Error${code ? ` ${code}` : ""} | ezkomment`}</title>
         <meta name="robots" content="noindex" />
       </Head>
       <main className="h-screen grid place-items-center">
