@@ -61,8 +61,11 @@ export type ProjectLog = {
 
 export type FetchOptions = {
     url: string;
-    method?: "GET" | "POST" | "PUT" | "DELETE";
     options?: RequestInit;
+};
+
+export type FetchOptionsWithMethod = FetchOptions & {
+    method?: "GET" | "POST" | "PUT" | "DELETE";
 };
 
 export type ResponseMessage = {

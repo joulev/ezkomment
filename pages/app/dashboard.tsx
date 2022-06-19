@@ -175,7 +175,7 @@ const Dashboard: NextPageWithLayout = () => {
   const breakpoint = useBreakpoint();
 
   const { data } = useSWR(
-    user ? { url: `/api/users/${user.uid}/sites` } : null,
+    user ? `/api/users/${user.uid}/sites` : null,
     internalSWRGenerator<Site[] | "waiting">(),
     { fallbackData: "waiting" }
   );
