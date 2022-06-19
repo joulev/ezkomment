@@ -231,10 +231,10 @@ const SiteOverview: NextPageWithLayout<Props> = ({ siteName }) => {
 
 SiteOverview.getLayout = (page, { siteName }) => (
   <AppLayout
-    title={siteName ?? "Loading"}
+    title={siteName}
     type="site"
     activeTab="all"
-    siteName={siteName ?? "Loading"}
+    siteName={siteName}
     loadingScreen={<Loading />}
   >
     {page}
