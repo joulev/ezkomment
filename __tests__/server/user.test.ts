@@ -1,13 +1,18 @@
 import * as UserUtils from "~/server/utils/crud/userUtils";
 
+import * as sampleUsers from "~/sample/server/users.json";
+import { nonExistingUid } from "~/sample/server/nonExistingIds.json";
+
 describe("Test user interaction", () => {
-    it("Should be able to update user with id 1", async () => {
-        // hard code is not good, I will try a way to change it.
-        const user = await UserUtils.updateUserById("1", { photoURL: "https://example.com" });
-        expect(user.uid).toEqual("1");
+    const existingUid = sampleUsers[0].uid;
+    it(`Should be able to update user with id ${existingUid}`, () => {
+        expect.assertions(1);
+        expect(
+            UserUtils.updateUserById(existingUid, { photoURL: "https://example.com" })
+        ).rejects.toBeFalsy();
     });
 
-    it("Should fail when try to update non-existing user", async () => {
+    it(`Should fail when try to update non-existing user with id ${nonExistingUid}`, () => {
         /**
          * If I write
          *
@@ -16,9 +21,9 @@ describe("Test user interaction", () => {
          * Then the test will fail as `handleAuthError` will try to log after the test is
          * completed. I need to have a look at async function again.
          */
-        try {
-            await UserUtils.updateUserById("100", { photoURL: "https://example.com" });
-            fail();
-        } catch (err) {}
+        expect.assertions(1);
+        expect(
+            UserUtils.updateUserById(nonExistingUid, { photoURL: "https://example.com" })
+        ).rejects.toBeTruthy();
     });
 });

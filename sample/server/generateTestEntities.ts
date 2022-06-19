@@ -50,22 +50,38 @@ export function createTestComment(pageId: string, commentId: string): Comment {
     };
 }
 
-const NUMBER_OF_SAMPLES = 5;
-
-export const UIDS = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "u" + i);
-export const SITE_IDS = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "s" + i);
-export const PAGE_IDS = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "p" + i);
-export const COMMENT_IDS = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "c" + i);
+export const NUMBER_OF_SAMPLES = 5;
 
 /**
  * Creates test entities, write them into files.
  */
 export function generateTestData() {
-    const users = UIDS.map(createTestUser);
-    const sites = SITE_IDS.map((id, i) => createTestSite(UIDS[i], id));
-    const pages = PAGE_IDS.map((id, i) => createTestPage(SITE_IDS[i], id));
-    const comments = COMMENT_IDS.map((id, i) => createTestComment(PAGE_IDS[i], id));
+    const nonExistingUid = "u" + NUMBER_OF_SAMPLES;
+    const nonExistingSiteId = "s" + NUMBER_OF_SAMPLES;
+    const nonExistingPageId = "p" + NUMBER_OF_SAMPLES;
+    const nonExistingCommentId = "c" + NUMBER_OF_SAMPLES;
+    const nonExistingIds = {
+        nonExistingUid,
+        nonExistingSiteId,
+        nonExistingPageId,
+        nonExistingCommentId,
+    };
     // Thank god `JSON stringify` has a pretty print option.
+    writeFileSync(
+        "./sample/server/nonExistingIds.json",
+        `${JSON.stringify(nonExistingIds, null, 2)}\n`
+    );
+
+    const uids = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "u" + i);
+    const siteIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "s" + i);
+    const pageIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "p" + i);
+    const commentIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "c" + i);
+
+    const users = uids.map(createTestUser);
+    const sites = siteIds.map((id, i) => createTestSite(uids[i], id));
+    const pages = pageIds.map((id, i) => createTestPage(siteIds[i], id));
+    const comments = commentIds.map((id, i) => createTestComment(pageIds[i], id));
+
     writeFileSync("./sample/server/users.json", `${JSON.stringify(users, null, 2)}\n`);
     writeFileSync("./sample/server/sites.json", `${JSON.stringify(sites, null, 2)}\n`);
     writeFileSync("./sample/server/pages.json", `${JSON.stringify(pages, null, 2)}\n`);

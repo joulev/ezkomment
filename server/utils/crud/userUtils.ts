@@ -1,4 +1,4 @@
-import { CreateRequest, UpdateRequest, UserImportRecord } from "firebase-admin/auth";
+import { UpdateRequest, UserImportRecord } from "firebase-admin/auth";
 
 import { authAdmin } from "~/server/firebase/firebaseAdmin";
 import { handleUserError } from "~/server/utils/errors/handleAuthError";
@@ -32,10 +32,6 @@ export async function deleteUserById(uid: string) {
 //////////////////////////
 // For development only //
 //////////////////////////
-
-export async function createUser(data: CreateRequest) {
-    return await authAdmin.createUser(data);
-}
 
 export async function importUsers(data: UserImportRecord[]) {
     return await authAdmin.importUsers(data);

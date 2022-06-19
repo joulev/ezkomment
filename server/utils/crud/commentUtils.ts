@@ -5,7 +5,7 @@ import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { deleteQuery } from "~/server/utils/firestoreUtils";
 
-import { CreateCommentRequest, Page, UpdateCommentBodyParams } from "~/types/server";
+import { Comment, CreateCommentRequest, Page, UpdateCommentBodyParams } from "~/types/server";
 
 const COMMENTS_COLLECTION = firestoreAdmin.collection("comments");
 const PAGES_COLLECTION = firestoreAdmin.collection("pages");
@@ -89,4 +89,13 @@ export async function deletePageCommentsById(pageId: string) {
     } catch (err) {
         handleFirestoreError(err);
     }
+}
+
+export async function importComments(data: Comment[]) {
+    return firestoreAdmin.runTransaction(async t => {
+        for (const comment of data) {
+            const { id } = comment;
+            t.create(COMMENTS_COLLECTION.doc(id), comment);
+        }
+    });
 }

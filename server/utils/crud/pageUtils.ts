@@ -139,3 +139,13 @@ export async function deleteSitePagesById(siteId: string) {
         handleFirestoreError(err);
     }
 }
+
+export async function importPages(data: Page[]) {
+    return await firestoreAdmin.runTransaction(async t => {
+        for (const page of data) {
+            const { id, siteId, name } = page;
+            t.create(PAGES_COLLECTION.doc(id), page);
+            t.create(SITES_COLLECTION.doc(siteId).collection("pages").doc(name), { id });
+        }
+    });
+}

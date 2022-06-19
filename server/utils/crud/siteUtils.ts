@@ -147,3 +147,13 @@ export async function deleteUserSitesById(uid: string) {
         handleFirestoreError(err);
     }
 }
+
+export async function importSites(data: Site[]) {
+    return await firestoreAdmin.runTransaction(async t => {
+        for (const site of data) {
+            const { id, uid, name } = site;
+            t.create(SITES_COLLECTION.doc(id), site);
+            t.create(USERS_COLLECTION.doc(uid).collection("sites").doc(name), { id });
+        }
+    });
+}
