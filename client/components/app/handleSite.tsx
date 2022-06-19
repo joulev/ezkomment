@@ -11,7 +11,7 @@ import { NextPageWithLayout } from "~/types/client/utils.type";
 type Props = { siteName: string };
 type Param = Props;
 
-const sitePages = ({ title, activeTab, Loading, Content }: SitePagesOptions) => {
+const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePagesOptions) => {
   const Page: NextPageWithLayout<Props> = ({ siteName }) => {
     const { user } = useAuth();
     const router = useRouter();
@@ -32,6 +32,7 @@ const sitePages = ({ title, activeTab, Loading, Content }: SitePagesOptions) => 
       activeTab={activeTab}
       siteName={siteName}
       loadingScreen={<Loading />}
+      removePadding={removePadding}
     >
       {page}
     </AppLayout>

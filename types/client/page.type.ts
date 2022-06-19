@@ -35,6 +35,7 @@ export type CurrentPage =
 export type SitePagesOptions = {
     title: (siteName: string) => string;
     activeTab: NavbarItems["site"];
+    removePadding?: boolean;
     Loading: FC;
     Content: FC<{ siteId: string }>;
 };
