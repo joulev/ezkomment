@@ -1,11 +1,16 @@
-import { GetServerSideProps } from "next";
-import { useState } from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import { FC, useState } from "react";
+import useSWR from "swr";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+
+import useAuth from "~/client/hooks/auth";
+import { internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import Button from "~/client/components/buttons";
@@ -16,15 +21,51 @@ import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
 import { NextPageWithLayout } from "~/types/client/utils.type";
+import { Site } from "~/types/server";
 
-import site from "~/sample/site.json";
+type Props = { siteName: string };
+type Param = Props;
 
-type Site = typeof site;
-type Props = { site: Site };
+const LoadingSection: FC = () => (
+  <section>
+    <div className="h-8 w-36 pulse mb-6" />
+    <div className="h-4 pulse mb-3" />
+    <div className="h-4 pulse mb-3" />
+    <div className="h-4 pulse mb-6" />
+    <div className="h-6 w-48 pulse mb-3" />
+    <div className="h-9 pulse mb-3" />
+    <div className="h-4 pulse mb-6" />
+    <div className="h-6 w-48 pulse mb-3" />
+    <div className="h-9 pulse mb-3" />
+    <div className="h-4 pulse mb-6" />
+    <RightAligned>
+      <div className="h-9 w-32 pulse" />
+    </RightAligned>
+  </section>
+);
 
-const SiteSettings: NextPageWithLayout<Props> = ({ site }) => {
+const Loading: FC = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+    <div>
+      <LoadingSection />
+      <hr />
+      <LoadingSection />
+      <hr className="md:hidden" />
+    </div>
+    <div>
+      <LoadingSection />
+      <hr />
+      <LoadingSection />
+    </div>
+  </div>
+);
+
+const SiteSettingsWithData: FC<{ siteId: string }> = ({ siteId }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
+  const { data: site } = useSWR(`/api/sites/${siteId}`, internalSWRGenerator<Site | null>(), {
+    fallbackData: null,
+  });
+  if (!site) return <Loading />;
   return (
     <div className="grid md:grid-cols-2 gap-x-12">
       <div>
@@ -113,17 +154,34 @@ const SiteSettings: NextPageWithLayout<Props> = ({ site }) => {
   );
 };
 
-SiteSettings.getLayout = page => (
+const SiteSettings: NextPageWithLayout<Props> = ({ siteName }) => {
+  const { user } = useAuth();
+  const router = useRouter();
+  if (!user) return <Loading />;
+  const site = user.sites.find(s => s.name === siteName);
+  if (!site) {
+    // I'm not even sure if this is the recommended way to do a "client-side" 404, but it works and
+    // it is *not* a workaround (I think).
+    router.push("/404", router.asPath);
+    return null;
+  }
+  return <SiteSettingsWithData siteId={site.id} />;
+};
+
+SiteSettings.getLayout = (page, { siteName }) => (
   <AppLayout
-    title={`Settings | ${site.name}`}
+    title={siteName ? `Settings | ${siteName}` : "Loading"}
     type="site"
     activeTab="settings"
-    siteName={site.name}
+    siteName={siteName}
+    loadingScreen={<Loading />}
   >
     {page}
   </AppLayout>
 );
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { site } });
+export const getStaticPaths: GetStaticPaths<Param> = () => ({ paths: [], fallback: true });
+export const getStaticProps: GetStaticProps<Props, Param> = ({ params }) =>
+  params && params.siteName ? { props: { siteName: params.siteName } } : { notFound: true };
 
 export default SiteSettings;
