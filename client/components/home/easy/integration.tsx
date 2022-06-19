@@ -33,6 +33,7 @@ const CodeWindow: FC = () => {
     typed.current = new Typed(el.current, {
       strings: [str],
       typeSpeed: 600 / str.length,
+      startDelay: 900,
       contentType: "null",
       onComplete: () => setIsVisible(true),
       onDestroy: () => setIsVisible(false),
