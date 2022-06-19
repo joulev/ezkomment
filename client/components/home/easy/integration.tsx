@@ -26,20 +26,25 @@ const CodeWindow: FC = () => {
   const el = useRef<HTMLElement>(null);
   const typed = useRef<Typed | null>(null);
   const [ref, inView] = useInView({ threshold: 1 });
+  const [canType, setCanType] = useState(false);
   const { setIsVisible } = useContext(IsVisibleContext);
   const str = '<iframe src="https://ezkomment.joulev.dev/embed/...">';
   useEffect(() => {
-    if (!el.current || !inView) return;
+    if (!el.current || !canType) return;
     typed.current = new Typed(el.current, {
       strings: [str],
       typeSpeed: 600 / str.length,
-      startDelay: 900,
+      startDelay: 600,
       contentType: "null",
       onComplete: () => setIsVisible(true),
       onDestroy: () => setIsVisible(false),
     });
     return () => typed.current!.destroy();
-  }, [el, inView, setIsVisible]);
+  }, [el, canType, setIsVisible]);
+  useEffect(() => {
+    if (!inView) return;
+    setCanType(true);
+  }, [inView]);
   return (
     <Window title="index.html">
       <div className="p-3 text-xs" ref={ref}>
