@@ -11,7 +11,7 @@ import { SITE } from "~/misc/validate";
 
 import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
-import { UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
+import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 import { getUser } from "~/client/lib/firebase/auth";
 
@@ -21,7 +21,7 @@ import AuthError from "~/client/components/auth/error";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import IconUpload from "~/client/components/forms/iconUpload";
-import { InputDetachedLabel } from "~/client/components/forms/input";
+import Input, { InputDetachedLabel } from "~/client/components/forms/input";
 import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
@@ -212,8 +212,82 @@ const UpdateSite: FC<{ site: Site }> = ({ site }) => {
   );
 };
 
-const Content: FC = () => {
+const DeleteSite: FC<{ site: Site }> = ({ site }) => {
+  const router = useRouter();
+  const { setUser, setLoading } = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [promptText, setPromptText] = useState("");
+  const [msg, setMsg] = useState<Msg>(null);
+  const validPrompt = `delete ${site.name}`;
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!promptText || promptText !== validPrompt) return;
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({ url: `/api/sites/${site.id}`, method: "DELETE" });
+      if (!success) throw UNABLE_TO_DELETE_SITE;
+      router.replace("/app/dashboard?waitingAuth=true");
+      const newUser = await getUser();
+      setUser(newUser);
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
+  return (
+    <section>
+      <h2>Delete site</h2>
+      {msg && <MsgBanner msg={msg} />}
+      <p>
+        This is an <strong>irreversible</strong> action. All site data, including all comments and
+        pages, will be completely erased and there is no way to recover it. All embed and API
+        endpoints for the site will also stop working. Proceed with caution.
+      </p>
+      <RightAligned>
+        <Button
+          variant="danger"
+          icon={DangerousOutlinedIcon}
+          onClick={() => setShowDeleteModal(true)}
+        >
+          Delete this site
+        </Button>
+      </RightAligned>
+      <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+        <div className="p-6 max-w-lg">
+          <h2>You are attempting a dangerous action.</h2>
+          <p>
+            Deleting a site is <strong>irreversible</strong>, and we cannot do anything to recover
+            any data related to the site. Please think twice before proceeding.
+          </p>
+          <p>
+            To continue, type <strong>delete {site.name}</strong> to the text box below.
+          </p>
+          {msg && <MsgBanner msg={msg} />}
+          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+            <Input
+              icon={LabelOutlinedIcon}
+              type="text"
+              required
+              isInvalid={promptText !== "" && promptText !== validPrompt}
+              value={promptText}
+              onUpdate={setPromptText}
+            />
+            <RightAligned className="gap-3">
+              <Button type="button" variant="tertiary" onClick={() => setShowDeleteModal(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="danger" disabled={promptText !== validPrompt}>
+                Delete
+              </Button>
+            </RightAligned>
+          </form>
+        </div>
+      </Modal>
+    </section>
+  );
+};
+
+const Content: FC = () => {
   const { site } = useSite();
   if (!site) return <Loading />;
   return (
@@ -244,38 +318,7 @@ const Content: FC = () => {
           </RightAligned>
         </section>
         <hr />
-        <section>
-          <h2>Delete site</h2>
-          <p>
-            This is an <strong>irreversible</strong> action. All site data, including all comments
-            and pages, will be completely erased and there is no way to recover it. All embed and
-            API endpoints for the site will also stop working. Proceed with caution.
-          </p>
-          <RightAligned>
-            <Button
-              variant="danger"
-              icon={DangerousOutlinedIcon}
-              onClick={() => setShowDeleteModal(true)}
-            >
-              Delete this site
-            </Button>
-          </RightAligned>
-          <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
-            <div className="p-6 max-w-lg">
-              <h2>You are attempting a dangerous action.</h2>
-              <p>
-                Deleting a site is <strong>irreversible</strong>, and we cannot do anything to
-                recover any data related to the site. Please think twice before proceeding.
-              </p>
-              <RightAligned className="gap-3">
-                <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
-                  Cancel
-                </Button>
-                <Button variant="danger">Delete</Button>
-              </RightAligned>
-            </div>
-          </Modal>
-        </section>
+        <DeleteSite site={site} />
       </div>
     </div>
   );
