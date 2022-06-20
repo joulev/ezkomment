@@ -18,7 +18,7 @@ import { AppPropsWithLayout } from "~/types/client/utils.type";
 import "~/client/styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  useNProgress();
+  // useNProgress(); // The routes are fast enough that this isn't necessary
   const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
   const router = useRouter();
