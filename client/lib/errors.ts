@@ -33,6 +33,12 @@ const UNABLE_TO_CREATE_SITE = new Error(
 UNABLE_TO_CREATE_SITE.code = "ezkomment/client";
 export { UNABLE_TO_CREATE_SITE };
 
+const UNABLE_TO_UPDATE_SITE = new Error(
+    "Unable to update site. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_UPDATE_SITE.code = "ezkomment/client";
+export { UNABLE_TO_UPDATE_SITE };
+
 const SITE_ALREADY_EXISTS = new Error(
     "Site already exists. Please try again with a different name."
 ) as NodeJS.ErrnoException;

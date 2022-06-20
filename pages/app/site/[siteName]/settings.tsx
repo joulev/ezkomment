@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, FormEventHandler, useState } from "react";
 import { SITE } from "~/misc/validate";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
@@ -7,10 +7,14 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
+import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
+import { UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
+import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
+import AuthError from "~/client/components/auth/error";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import IconUpload from "~/client/components/forms/iconUpload";
@@ -82,13 +86,29 @@ const UpdateSiteName: FC<{ siteName: string; setMsg: (msg: Msg) => void }> = ({
   );
 };
 
-const UpdateSiteDomain: FC<{ siteDomain: string; setMsg: (msg: Msg) => void }> = ({
-  siteDomain,
-  setMsg,
-}) => {
-  const [domain, setDomain] = useState(siteDomain);
+const UpdateSiteDomain: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+  const { setLoading } = useAuth();
+  const { mutate } = useSite();
+  const [domain, setDomain] = useState(site.domain);
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({
+        url: `/api/sites/${site.id}`,
+        method: "PUT",
+        options: { body: JSON.stringify({ domain }) },
+      });
+      if (!success) throw UNABLE_TO_UPDATE_SITE;
+      mutate({ ...site, domain });
+      setMsg({ type: "success", message: "Domain updated successfully." });
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
   return (
-    <form className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <InputDetachedLabel
         label="Site domain"
         icon={WebOutlinedIcon}
@@ -102,7 +122,7 @@ const UpdateSiteDomain: FC<{ siteDomain: string; setMsg: (msg: Msg) => void }> =
       <RightAligned>
         <Button
           icon={SaveOutlinedIcon}
-          disabled={domain === siteDomain || !SITE.domainIsValid(domain)}
+          disabled={domain === site.domain || !SITE.domainIsValid(domain)}
         >
           Save
         </Button>
@@ -137,7 +157,7 @@ const UpdateSite: FC<{ site: Site }> = ({ site }) => {
       {msg && <MsgBanner msg={msg} />}
       <div className="flex flex-col gap-12">
         <UpdateSiteName siteName={site.name} setMsg={setMsg} />
-        <UpdateSiteDomain siteDomain={site.domain} setMsg={setMsg} />
+        <UpdateSiteDomain site={site} setMsg={setMsg} />
         <UploadSiteIcon setMsg={setMsg} />
       </div>
     </section>
