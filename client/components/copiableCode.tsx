@@ -14,10 +14,6 @@ import IconLabel from "./utils/iconAndLabel";
  * @note Here we don't use `children`, because to copy something to clipboard, we must use a string.
  * Hence `content` is strongly typed as `string`.
  *
- * @note Currently the scrolling effect is not working on mobile (at least Safari), so do take
- * care when using this component with a long `content` string. TODO: Implement a workaround.
- * C'mon Safari you're really becoming the second Internet Explorer?
- *
  * @note https://stackoverflow.com/q/24193272
  *
  * @param props.content The content to be copied to the clipboard
