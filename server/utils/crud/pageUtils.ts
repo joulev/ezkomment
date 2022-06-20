@@ -41,7 +41,7 @@ export async function createPage(data: CreatePageRequest) {
             }
             const siteData = siteSnapshot.data() as Site;
             if (!url.includes(siteData.domain)) {
-                throw new CustomApiError("Site domain and page url do not match", 400);
+                throw new CustomApiError("Site domain and page url do not match", 409);
             }
             /**
              * If a page with the same name already exists in the site, this operation will fail,
@@ -107,12 +107,13 @@ function querySitePagesById(siteId: string) {
 }
 
 export async function listSitePagesById(siteId: string) {
-    try {
-        const pageSnapshots = await querySitePagesById(siteId).get();
-        return pageSnapshots.docs.map(doc => doc.data());
-    } catch (err) {
-        handleFirestoreError(err);
-    }
+    const pageSnapshots = await querySitePagesById(siteId).get();
+    return pageSnapshots.docs.map(doc => doc.data());
+}
+
+export async function listSiteBasicPagesById(siteId: string) {
+    const pageSnapshots = await SITES_COLLECTION.doc(siteId).collection("pages").get();
+    return pageSnapshots.docs.map(doc => doc.data());
 }
 
 export async function deleteSitePagesById(siteId: string) {

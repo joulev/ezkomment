@@ -27,4 +27,8 @@ describe("Test user utils", () => {
             UserUtils.updateUserById(uid, { photoURL: "https://example.com" })
         ).resolves.toBeTruthy();
     });
+
+    it(`Should be able to delete user`, async () => {
+        await expect(UserUtils.deleteUserById(uid)).resolves.not.toThrow();
+    });
 });
