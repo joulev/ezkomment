@@ -112,11 +112,11 @@ const Content: FC = () => {
           <Button
             icon={CodeOutlinedIcon}
             variant="tertiary"
-            href={`/app/site/${site.id}/customise`}
+            href={`/app/site/${site.name}/customise`}
           >
             Customise
           </Button>
-          <Button icon={SettingsOutlinedIcon} href={`/app/site/${site.id}/settings`}>
+          <Button icon={SettingsOutlinedIcon} href={`/app/site/${site.name}/settings`}>
             Manage
           </Button>
         </div>
