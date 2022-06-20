@@ -7,9 +7,12 @@ import { env } from "process";
  */
 if (env.GENERATE_DATA) {
     console.log("Start generating data...");
-    require("~/config/generateTestEntities").generateTestData();
+    require("~/server/utils/testUtils").generateTestData();
 }
 
+/**
+ * Somehow this does not work, again...
+ */
 beforeAll(async () => {
     try {
         console.log("Check for emulator...");

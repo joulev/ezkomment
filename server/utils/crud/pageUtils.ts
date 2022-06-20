@@ -4,9 +4,8 @@
  *
  * Using sub-collection makes look up fast.
  */
-import { WriteResult } from "firebase-admin/firestore";
-
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+import { PAGES_COLLECTION, SITES_COLLECTION } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { deleteRefArray } from "~/server/utils/firestoreUtils";
@@ -14,9 +13,6 @@ import { deleteRefArray } from "~/server/utils/firestoreUtils";
 import { CreatePageRequest, Page, Site, UpdatePageBodyParams } from "~/types/server";
 
 import { deletePageCommentsById } from "./commentUtils";
-
-const PAGES_COLLECTION = firestoreAdmin.collection("pages");
-const SITES_COLLECTION = firestoreAdmin.collection("sites");
 
 export async function getPageById(pageId: string) {
     try {
@@ -138,14 +134,4 @@ export async function deleteSitePagesById(siteId: string) {
     } catch (err) {
         handleFirestoreError(err);
     }
-}
-
-export async function importPages(...data: Page[]) {
-    const batch = firestoreAdmin.batch();
-    for (const page of data) {
-        const { id, siteId, name } = page;
-        batch.create(PAGES_COLLECTION.doc(id), page);
-        batch.create(SITES_COLLECTION.doc(siteId).collection("pages").doc(name), { id });
-    }
-    return await batch.commit();
 }

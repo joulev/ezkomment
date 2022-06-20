@@ -1,13 +1,86 @@
 import { UserImportRecord } from "firebase-admin/auth";
+import { WriteBatch } from "firebase-admin/firestore";
 import { Timestamp } from "firebase-admin/firestore";
-import { writeFileSync } from "fs";
+
+import { authAdmin, firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+import {
+    COMMENTS_COLLECTION,
+    PAGES_COLLECTION,
+    SITES_COLLECTION,
+    USERS_COLLECTION,
+} from "~/server/firebase/firestoreCollections";
 
 import { Comment, Page, Site } from "~/types/server";
+
+export { randomUUID } from "crypto";
+
+function setSitesInBatch(batch: WriteBatch, sites: Site[]) {
+    for (const site of sites) {
+        const { id, uid, name } = site;
+        batch.set(SITES_COLLECTION.doc(id), site);
+        batch.set(USERS_COLLECTION.doc(uid).collection("sites").doc(name), { id });
+    }
+}
+
+function setPagesInBatch(batch: WriteBatch, pages: Page[]) {
+    for (const page of pages) {
+        const { id, siteId, name } = page;
+        batch.set(PAGES_COLLECTION.doc(id), page);
+        batch.set(SITES_COLLECTION.doc(siteId).collection("pages").doc(name), { id });
+    }
+}
+
+function setCommentsInBatch(batch: WriteBatch, comments: Comment[]) {
+    for (const comment of comments) {
+        const { id } = comment;
+        batch.set(COMMENTS_COLLECTION.doc(id), comment);
+    }
+}
+
+export async function importUsers(...users: UserImportRecord[]) {
+    return await authAdmin.importUsers(users);
+}
+
+export async function importSites(...sites: Site[]) {
+    const batch = firestoreAdmin.batch();
+    setSitesInBatch(batch, sites);
+    return await batch.commit();
+}
+
+export async function importPages(...pages: Page[]) {
+    const batch = firestoreAdmin.batch();
+    setPagesInBatch(batch, pages);
+    return await batch.commit();
+}
+
+export async function importComments(...comments: Comment[]) {
+    const batch = firestoreAdmin.batch();
+    setCommentsInBatch(batch, comments);
+    return await batch.commit();
+}
+
+type ImportData = {
+    sites?: Site[];
+    pages?: Page[];
+    comments?: Comment[];
+};
+
+export async function importFirestoreEntities({
+    sites = [],
+    pages = [],
+    comments = [],
+}: ImportData) {
+    if (sites.length + pages.length + comments.length === 0) return;
+    const batch = firestoreAdmin.batch();
+    setSitesInBatch(batch, sites);
+    setPagesInBatch(batch, pages);
+    setCommentsInBatch(batch, comments);
+    return await batch.commit();
+}
 
 /**
  * Sample users
  */
-
 export function createTestUser(uid: string): UserImportRecord {
     return {
         uid,
@@ -19,14 +92,8 @@ export function createTestUser(uid: string): UserImportRecord {
 /**
  * create site for testing.
  */
-export function createTestSite(uid: string, siteId: string): Site {
-    return {
-        id: siteId,
-        name: `Site ${siteId}`,
-        domain: `example${siteId}.com`,
-        iconURL: null,
-        uid,
-    };
+export function createTestSite(uid: string, id: string, name: string = `Site ${id}`): Site {
+    return { id, name, domain: `example${id}.com`, iconURL: null, uid };
 }
 
 export function createTestPage(siteId: string, pageId: string): Page {
@@ -50,16 +117,17 @@ export function createTestComment(pageId: string, commentId: string): Comment {
     };
 }
 
-export const NUMBER_OF_SAMPLES = 5;
-
 /**
  * Creates test entities, write them into files.
  */
 export function generateTestData() {
+    const NUMBER_OF_SAMPLES = 5;
+
     const nonExistingUid = "u" + NUMBER_OF_SAMPLES;
     const nonExistingSiteId = "s" + NUMBER_OF_SAMPLES;
     const nonExistingPageId = "p" + NUMBER_OF_SAMPLES;
     const nonExistingCommentId = "c" + NUMBER_OF_SAMPLES;
+
     const nonExistingIds = {
         nonExistingUid,
         nonExistingSiteId,
@@ -67,6 +135,9 @@ export function generateTestData() {
         nonExistingCommentId,
     };
     // Thank god `JSON stringify` has a pretty print option.
+
+    const { writeFileSync } = require("fs");
+
     writeFileSync(
         "./sample/server/nonExistingIds.json",
         `${JSON.stringify(nonExistingIds, null, 2)}\n`

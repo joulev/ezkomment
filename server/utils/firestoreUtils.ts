@@ -1,20 +1,6 @@
-import {
-    CollectionReference,
-    DocumentData,
-    DocumentReference,
-    Query,
-} from "firebase-admin/firestore";
+import { DocumentData, DocumentReference, Query } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
-
-/**
- * Deletes a Firestore collection. The documents are deleted in batches.
- *
- * @param collectionRef The reference to the collection
- */
-export async function deleteCollection(collectionRef: CollectionReference<DocumentData>) {
-    return await deleteQueryBatch(collectionRef);
-}
 
 /**
  * Deletes all documents returned from a query.

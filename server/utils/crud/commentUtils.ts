@@ -1,14 +1,12 @@
 import { Timestamp } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+import { COMMENTS_COLLECTION, PAGES_COLLECTION } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { deleteQuery } from "~/server/utils/firestoreUtils";
 
-import { Comment, CreateCommentRequest, Page, UpdateCommentBodyParams } from "~/types/server";
-
-const COMMENTS_COLLECTION = firestoreAdmin.collection("comments");
-const PAGES_COLLECTION = firestoreAdmin.collection("pages");
+import { CreateCommentRequest, Page, UpdateCommentBodyParams } from "~/types/server";
 
 /**
  * Creates a new comment for a particular page.
@@ -89,13 +87,4 @@ export async function deletePageCommentsById(pageId: string) {
     } catch (err) {
         handleFirestoreError(err);
     }
-}
-
-export async function importComments(...data: Comment[]) {
-    const batch = firestoreAdmin.batch();
-    for (const comment of data) {
-        const { id } = comment;
-        batch.create(COMMENTS_COLLECTION.doc(id), comment);
-    }
-    await batch.commit();
 }

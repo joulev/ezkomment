@@ -1,62 +1,74 @@
-import { createTestSite } from "~/config/generateTestEntities";
-
-import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
+import * as TestUtils from "~/server/utils/testUtils";
 
-import * as samplePages from "~/sample/server/pages.json";
-import * as sampleSites from "~/sample/server/sites.json";
 import { nonExistingSiteId } from "~/sample/server/nonExistingIds.json";
 
 describe("Test site interaction", () => {
-    const TEST_ID = 1;
-    const sampleSite = sampleSites[TEST_ID];
-
-    const existingUid = sampleSite.uid;
-    const existingSiteId = sampleSite.id;
-    const existingSiteName = sampleSite.name;
-
-    const extraSiteId = `extra${existingSiteId}`;
+    const uid = TestUtils.randomUUID();
+    const [siteId1, siteId2, ...restSiteIds] = Array.from({ length: 5 }, TestUtils.randomUUID);
+    const siteName = "Bad Apple";
+    const mainSite = TestUtils.createTestSite(uid, siteId1, siteName);
 
     beforeAll(async () => {
-        await Promise.all([
-            SiteUtils.importSites(sampleSite, createTestSite(existingUid, extraSiteId)),
-            PageUtils.importPages(samplePages[TEST_ID]),
-        ]);
+        await TestUtils.importFirestoreEntities({
+            sites: [
+                mainSite,
+                TestUtils.createTestSite(uid, siteId2),
+                ...restSiteIds.map(id => TestUtils.createTestSite(uid, id)),
+            ],
+        });
     });
 
-    it(`Should fail when trying to get a non-existing site`, async () => {
-        await expect(SiteUtils.getSiteById(nonExistingSiteId)).rejects.toBeTruthy();
+    it(`Should be able to get site's information`, () => {
+        expect(SiteUtils.getSiteById(siteId1)).resolves.toMatchObject({
+            id: siteId1,
+            name: siteName,
+        });
     });
 
-    it(`Should fail when trying to create a new site with duplicated name`, async () => {
-        await expect(
+    it(`Should fail when trying to get a non-existing site`, () => {
+        expect(SiteUtils.getSiteById(nonExistingSiteId)).rejects.toMatchObject({ code: 404 });
+    });
+
+    it(`Should fail when trying to create a new site with duplicated name`, () => {
+        expect(
             SiteUtils.createSite({
-                uid: existingUid,
-                name: existingSiteName,
+                uid,
+                name: siteName,
                 domain: "https://en.touhouwiki.net/wiki/Yukari_Yakumo",
             })
-        ).rejects.toBeTruthy();
+        ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to update a site with duplicated name`, async () => {
-        await expect(
-            SiteUtils.updateSiteById(extraSiteId, { name: existingSiteName })
-        ).rejects.toBeTruthy();
+    it(`Should fail when trying to update a site with duplicated name`, () => {
+        expect(SiteUtils.updateSiteById(siteId2, { name: siteName })).rejects.toMatchObject({
+            code: 409,
+        });
     });
 
-    it(`Should be able to delete site's pages and site's comments`, async () => {
-        await PageUtils.deleteSitePagesById(existingSiteId);
-        await expect(PageUtils.getPageById(samplePages[1].id)).rejects.toBeTruthy();
+    it(`Should fail when trying to update a non-existing site`, () => {
+        expect(
+            SiteUtils.updateSiteById(nonExistingSiteId, { name: siteName })
+        ).rejects.toMatchObject({ code: 404 });
     });
 
-    it(`Should be able to delete site`, async () => {
-        await SiteUtils.deleteSiteById(existingSiteId);
-        await expect(SiteUtils.listUserBasicSitesById(existingUid)).resolves.toEqual(
-            expect.not.arrayContaining([existingSiteId])
+    it(`Should fail when trying to delete a non-exisiting site`, () => {
+        expect(SiteUtils.deleteSiteById(nonExistingSiteId)).rejects.toMatchObject({ code: 404 });
+    });
+
+    it(`Should be delete site correctly`, async () => {
+        await SiteUtils.deleteSiteById(siteId1);
+        expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toEqual(
+            expect.not.arrayContaining([siteId1])
+        );
+        expect(SiteUtils.listUserSitesById(uid)).resolves.toEqual(
+            expect.not.arrayContaining([mainSite])
         );
     });
 
-    afterAll(async () => {
-        await SiteUtils.deleteSiteById(extraSiteId);
+    it(`Should be able to delete ALL sites of a user`, async () => {
+        await SiteUtils.deleteUserSitesById(uid);
+        expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toHaveLength(0);
+        expect(SiteUtils.listUserSitesById(uid)).resolves.toHaveLength(0);
     });
 });

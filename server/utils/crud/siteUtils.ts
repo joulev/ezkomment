@@ -2,6 +2,7 @@
  * We also need to ensure the uniqueness of site's name.
  */
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
+import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 
 import { CreateSiteRequest, Site, UpdateSiteBodyParams } from "~/types/server";
@@ -9,12 +10,6 @@ import { CreateSiteRequest, Site, UpdateSiteBodyParams } from "~/types/server";
 import { handleFirestoreError } from "../errors/handleFirestoreError";
 import { deleteRefArray } from "../firestoreUtils";
 import { deleteSitePagesById } from "./pageUtils";
-
-/**
- * The collection of sites.
- */
-const SITES_COLLECTION = firestoreAdmin.collection("sites");
-const USERS_COLLECTION = firestoreAdmin.collection("users");
 
 /**
  * Get a site with the given id.
@@ -158,14 +153,4 @@ export async function deleteUserSitesById(uid: string) {
     } catch (err) {
         handleFirestoreError(err);
     }
-}
-
-export async function importSites(...data: Site[]) {
-    const batch = firestoreAdmin.batch();
-    for (const site of data) {
-        const { id, uid, name } = site;
-        batch.create(SITES_COLLECTION.doc(id), site);
-        batch.create(USERS_COLLECTION.doc(uid).collection("sites").doc(name), { id });
-    }
-    return await batch.commit();
 }

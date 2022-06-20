@@ -1,4 +1,4 @@
-import { UpdateRequest, UserImportRecord } from "firebase-admin/auth";
+import { UpdateRequest } from "firebase-admin/auth";
 
 import { authAdmin } from "~/server/firebase/firebaseAdmin";
 import { handleUserError } from "~/server/utils/errors/handleAuthError";
@@ -27,12 +27,4 @@ export async function deleteUserById(uid: string) {
     } catch (err) {
         handleUserError(err);
     }
-}
-
-//////////////////////////
-// For development only //
-//////////////////////////
-
-export async function importUsers(...data: UserImportRecord[]) {
-    return await authAdmin.importUsers(data);
 }
