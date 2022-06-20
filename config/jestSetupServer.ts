@@ -24,13 +24,6 @@ beforeAll(async () => {
         console.log(`Emulator is not running at the moment? ${String(err)}`);
         process.exit(1);
     }
-    /**
-     * Setup env variables to connect to the emulator.
-     */
-    env.FIREBASE_AUTH_EMULATOR_HOST = `localhost:${emulators.auth.port}`;
-    env.FIRESTORE_EMULATOR_HOST = `localhost:${emulators.firestore.port}`;
-    env.FIREBASE_STORAGE_EMULATOR_HOST = `localhost:${emulators.storage.port}`;
-    env.NEXT_PUBLIC_FIREBASE_PROJECT_ID = "example-project";
 });
 
 beforeAll(async () => {
