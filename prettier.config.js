@@ -33,6 +33,7 @@ module.exports = {
   importOrder: [
     "^@mui/(.*)$",
     "^~/config/(.*)$",
+    "^~/misc/(.*)$",
     // Server import order
     "^~/server/(.*)$",
     // Client import order
