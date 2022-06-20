@@ -1,11 +1,12 @@
 import { FC, FormEventHandler, useState } from "react";
-import { SITE } from "~/misc/validate";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+
+import { SITE } from "~/misc/validate";
 
 import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
