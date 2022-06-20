@@ -10,7 +10,7 @@ import { SITE } from "~/misc/validate";
 import * as E from "~/client/lib/errors";
 import useAuth from "~/client/hooks/auth";
 import { internalFetcher } from "~/client/lib/fetcher";
-import { getUser } from "~/client/lib/firebase/auth";
+import { refreshUser } from "~/client/lib/firebase/auth";
 
 import A from "~/client/components/anchor";
 import AuthError from "~/client/components/auth/error";
@@ -22,7 +22,7 @@ import AppLayout from "~/client/layouts/app";
 import { ResponseMessage as Msg, NextPageWithLayout } from "~/types/client/utils.type";
 
 const New: NextPageWithLayout = () => {
-  const { user, setUser, setLoading } = useAuth();
+  const { user, setUser, loading, setLoading } = useAuth();
   const router = useRouter();
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
@@ -39,8 +39,7 @@ const New: NextPageWithLayout = () => {
     });
     if (status === 409) throw E.SITE_ALREADY_EXISTS;
     if (!success) throw E.UNABLE_TO_CREATE_SITE;
-    const newUser = await getUser();
-    setUser(newUser);
+    await refreshUser({ user, setUser, loading, setLoading });
     setLoading(false);
     router.push(`/app/site/${name}`);
   };
