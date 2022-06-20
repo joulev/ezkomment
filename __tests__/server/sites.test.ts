@@ -1,3 +1,5 @@
+import * as CommentUtils from "~/server/utils/crud/commentUtils";
+import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
@@ -9,6 +11,11 @@ describe("Test site utils", () => {
     const siteName = "Bad Apple";
     const mainSite = TestUtils.createTestSite(uid, siteId1, siteName);
 
+    const pageIds = Array.from({ length: 5 }, TestUtils.randomUUID);
+    const commentIds = Array.from({ length: 5 }, TestUtils.randomUUID);
+
+    const pageId = pageIds[0];
+
     beforeAll(async () => {
         await TestUtils.importFirestoreEntities({
             sites: [
@@ -16,6 +23,8 @@ describe("Test site utils", () => {
                 TestUtils.createTestSite(uid, siteId2),
                 ...restSiteIds.map(id => TestUtils.createTestSite(uid, id)),
             ],
+            pages: pageIds.map(id => TestUtils.createTestPage(siteId1, id)),
+            comments: commentIds.map(id => TestUtils.createTestComment(pageId, id)),
         });
     });
 
@@ -72,9 +81,17 @@ describe("Test site utils", () => {
 
     it(`Should be able to delete ALL sites of a user`, async () => {
         await SiteUtils.deleteUserSitesById(uid);
+        /**
+         * All site must be deleted,
+         * and their pages,
+         * and the pages' comments.
+         */
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toHaveLength(0),
             expect(SiteUtils.listUserSitesById(uid)).resolves.toHaveLength(0),
+            expect(PageUtils.listSitePagesById(siteId1)).resolves.toHaveLength(0),
+            expect(PageUtils.listSiteBasicPagesById(siteId1)).resolves.toHaveLength(0),
+            expect(CommentUtils.listPageCommentsById(pageId)).resolves.toHaveLength(0),
         ]);
     });
 });

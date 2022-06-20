@@ -7,7 +7,7 @@ const customJestConfig = {
   testRegex: "/__tests__/server/.*\\.test\\.[jt]sx?$",
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: { "^~/(.*)$": "<rootDir>/$1" },
-  testEnvironment: "node",
+  testEnvironment: "jest-environment-node",
   setupFilesAfterEnv: ["<rootDir>/config/jestSetupServer.ts"],
 };
 
