@@ -1,4 +1,5 @@
 import {
+    User as FirebaseUser,
     GithubAuthProvider,
     GoogleAuthProvider,
     signOut as firebaseSignOut,
@@ -13,6 +14,8 @@ import * as E from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
 import { AppAuth, Provider } from "~/types/client/auth.type";
+import { Site } from "~/types/server";
+import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 import firebaseApp from "./app";
 
@@ -53,21 +56,39 @@ export async function reauthenticate({ setLoading }: AppAuth, provider: Provider
     setLoading(false);
 }
 
-export async function updateDisplayName({ setLoading }: AppAuth, displayName: string) {
+export async function getUser() {
+    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
+    const fetchInfo = await internalFetcher({ url: `/api/users/${auth.currentUser.uid}` });
+    if (!fetchInfo.success) throw E.UNKNOWN_ERROR;
+    const user = (fetchInfo.body as ApiResponseBody).data as FirebaseUser;
+    const fetchSites = await internalFetcher({ url: `/api/users/${auth.currentUser.uid}/sites` });
+    if (!fetchSites.success) throw E.UNKNOWN_ERROR;
+    const sites = (fetchSites.body as ApiResponseBody).data as Site[];
+    return { ...user, sites };
+}
+
+export async function refreshUser({ setUser, setLoading }: AppAuth) {
     setLoading(true);
+    const user = await getUser();
+    setUser(user);
+    setLoading(false);
+}
+
+export async function updateDisplayName(appAuth: AppAuth, displayName: string) {
+    appAuth.setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     const { success } = await internalFetcher({
         method: "PUT",
         url: `/api/users/${auth.currentUser.uid}`,
         options: { body: JSON.stringify({ displayName }) },
     });
-    await auth.currentUser.reload();
     if (!success) throw E.UNABLE_TO_UPDATE_NAME;
-    setLoading(false);
+    await refreshUser(appAuth);
+    appAuth.setLoading(false);
 }
 
-export async function updatePhoto({ setLoading }: AppAuth, photo: File) {
-    setLoading(true);
+export async function updatePhoto(appAuth: AppAuth, photo: File) {
+    appAuth.setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     const form = new FormData();
     form.append("photo", photo);
@@ -75,19 +96,19 @@ export async function updatePhoto({ setLoading }: AppAuth, photo: File) {
         { method: "PUT", url: `/api/users/${auth.currentUser.uid}/photo`, options: { body: form } },
         false
     );
-    await auth.currentUser.reload();
     if (!success) throw E.UNABLE_TO_UPDATE_PHOTO;
-    setLoading(false);
+    await refreshUser(appAuth);
+    appAuth.setLoading(false);
 }
 
-export async function deleteAccount({ setLoading }: AppAuth) {
-    setLoading(true);
+export async function deleteAccount(appAuth: AppAuth) {
+    appAuth.setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     const { success } = await internalFetcher({
         method: "DELETE",
         url: `/api/users/${auth.currentUser.uid}`,
     });
-    await auth.currentUser.reload();
     if (!success) throw E.UNABLE_TO_DELETE_ACCOUNT;
-    setLoading(false);
+    await refreshUser(appAuth);
+    appAuth.setLoading(false);
 }

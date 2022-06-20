@@ -3,14 +3,11 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
 import AuthContext from "~/client/context/auth";
-import { UNKNOWN_ERROR } from "~/client/lib/errors";
-import { internalFetcher as fetcher } from "~/client/lib/fetcher";
 import firebaseApp from "~/client/lib/firebase/app";
 
 import { AppAuth, User } from "~/types/client/auth.type";
-import { Site } from "~/types/server";
-import { ApiResponseBody } from "~/types/server/nextApi.type";
 
+import { getUser } from "../lib/firebase/auth";
 import { endProgress, startProgress } from "./nprogress";
 
 export function useAuthInit(): AppAuth {
@@ -20,12 +17,10 @@ export function useAuthInit(): AppAuth {
     const auth = getAuth(firebaseApp);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async user => {
-            if (user) {
-                const { success, body } = await fetcher({ url: `/api/users/${user.uid}/sites` });
-                if (!success) throw UNKNOWN_ERROR;
-                const sites = (body as ApiResponseBody).data as Site[];
-                setUser({ ...user, sites });
+        const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
+            if (firebaseUser) {
+                const user = await getUser();
+                setUser(user);
                 if (router.pathname.startsWith("/auth")) router.push("/app/dashboard");
             } else {
                 setUser(null);
