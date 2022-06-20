@@ -99,7 +99,7 @@ const Content: FC = () => {
             <div className="flex flex-row gap-3 text-muted">
               <WebOutlinedIcon />
               <A
-                href={`https://${site.domain}`}
+                href={site.domain.startsWith("https://") ? site.domain : `https://${site.domain}`}
                 notStyled
                 className="hover:text-neutral-900 dark:hover:text-neutral-100 transition"
               >
