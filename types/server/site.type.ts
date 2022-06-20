@@ -24,7 +24,7 @@ export type Site = {
      * The domain of the site.
      *
      */
-    readonly domain: string;
+    domain: string;
 
     // Statistic
 
@@ -54,6 +54,7 @@ export type CreateSitePathParams = {
 export type UpdateSiteBodyParams = {
     name?: string;
     iconURL?: string | null;
+    domain?: string;
 };
 
 export type CreateSiteBodyParams = {
