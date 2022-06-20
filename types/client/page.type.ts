@@ -1,4 +1,7 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
+import { KeyedMutator } from "swr";
+
+import { Site } from "~/types/server";
 
 export type PageType = "overview" | "site" | "page" | "others";
 export type NavbarItems = {
@@ -37,5 +40,10 @@ export type SitePagesOptions = {
     activeTab: NavbarItems["site"];
     removePadding?: boolean;
     Loading: FC;
-    Content: FC<{ siteId: string }>;
+    Content: FC;
+};
+
+export type SiteContextProps = {
+    site: Site | undefined;
+    mutate: KeyedMutator<Site | undefined>;
 };

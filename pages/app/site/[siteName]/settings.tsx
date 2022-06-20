@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import useSWR from "swr";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -7,7 +6,7 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
-import { internalSWRGenerator } from "~/client/lib/fetcher";
+import { useSite } from "~/client/hooks/site";
 
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
@@ -16,8 +15,6 @@ import CopiableCode from "~/client/components/copiableCode";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
-
-import { Site } from "~/types/server";
 
 const LoadingSection: FC = () => (
   <section>
@@ -53,11 +50,9 @@ const Loading: FC = () => (
   </div>
 );
 
-const Content: FC<{ siteId: string }> = ({ siteId }) => {
+const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { data: site } = useSWR(`/api/sites/${siteId}`, internalSWRGenerator<Site | null>(), {
-    fallbackData: null,
-  });
+  const { site } = useSite();
   if (!site) return <Loading />;
   return (
     <div className="grid md:grid-cols-2 gap-x-12">
