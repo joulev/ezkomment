@@ -26,6 +26,7 @@ import RightAligned from "~/client/components/utils/rightAligned";
 
 import { ResponseMessage as Msg } from "~/types/client/utils.type";
 import { Site } from "~/types/server";
+import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const LoadingSection: FC = () => (
   <section>
@@ -132,10 +133,34 @@ const UpdateSiteDomain: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site
   );
 };
 
-const UploadSiteIcon: FC<{ setMsg: (msg: Msg) => void }> = ({ setMsg }) => {
+const UploadSiteIcon: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+  const { setLoading } = useAuth();
+  const { mutate } = useSite();
   const [icon, setIcon] = useState<File | null>(null);
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!icon) return;
+    setLoading(true);
+    try {
+      const form = new FormData();
+      form.append("icon", icon);
+      const { success, body } = await internalFetcher(
+        { url: `/api/sites/${site.id}/icon`, method: "PUT", options: { body: form } },
+        false
+      );
+      if (!success) throw UNABLE_TO_UPDATE_SITE;
+      const iconURL =
+        ((body as ApiResponseBody).data as Record<string, string> | undefined)?.iconURL ?? "";
+      mutate({ ...site, iconURL });
+      setMsg({ type: "success", message: "Site icon updated successfully." });
+      setIcon(null);
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
   return (
-    <form className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <IconUpload
         label="Site icon"
         helpText="This icon helps you identify this site over other sites you also have."
@@ -159,7 +184,7 @@ const UpdateSite: FC<{ site: Site }> = ({ site }) => {
       <div className="flex flex-col gap-12">
         <UpdateSiteName siteName={site.name} setMsg={setMsg} />
         <UpdateSiteDomain site={site} setMsg={setMsg} />
-        <UploadSiteIcon setMsg={setMsg} />
+        <UploadSiteIcon site={site} setMsg={setMsg} />
       </div>
     </section>
   );
