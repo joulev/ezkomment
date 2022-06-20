@@ -12,6 +12,7 @@ import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
+import IconUpload from "~/client/components/forms/iconUpload";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
@@ -50,6 +51,68 @@ const Loading: FC = () => (
   </div>
 );
 
+const UpdateSiteName: FC<{ siteName: string }> = ({ siteName }) => {
+  const [name, setName] = useState(siteName);
+  return (
+    <form className="flex flex-col gap-6">
+      <InputDetachedLabel
+        label="Site name"
+        icon={LabelOutlinedIcon}
+        type="text"
+        value={name}
+        helpText="The site name helps identify your site in the dashboard and the URL."
+        onUpdate={setName}
+        required
+      />
+      <RightAligned>
+        <Button icon={SaveOutlinedIcon} disabled={name === "" || name === siteName}>
+          Save
+        </Button>
+      </RightAligned>
+    </form>
+  );
+};
+
+const UpdateSiteDomain: FC<{ siteDomain: string }> = ({ siteDomain }) => {
+  const [domain, setDomain] = useState(siteDomain);
+  return (
+    <form className="flex flex-col gap-6">
+      <InputDetachedLabel
+        label="Site domain"
+        icon={WebOutlinedIcon}
+        type="text"
+        value={domain}
+        helpText="The domain is where you want to host the comments. It can be any domain or subdomain. Other websites will not be allowed to host the comments."
+        onUpdate={setDomain}
+        required
+      />
+      <RightAligned>
+        <Button icon={SaveOutlinedIcon} disabled={domain === "" || domain === siteDomain}>
+          Save
+        </Button>
+      </RightAligned>
+    </form>
+  );
+};
+
+const UploadSiteIcon: FC = () => {
+  const [icon, setIcon] = useState<File | null>(null);
+  return (
+    <form className="flex flex-col gap-6">
+      <IconUpload
+        label="Site icon"
+        helpText="This icon helps you identify this site over other sites you also have."
+        onUpdate={setIcon}
+      />
+      <RightAligned>
+        <Button icon={SaveOutlinedIcon} disabled={!icon}>
+          Save
+        </Button>
+      </RightAligned>
+    </form>
+  );
+};
+
 const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { site } = useSite();
@@ -58,36 +121,14 @@ const Content: FC = () => {
     <div className="grid md:grid-cols-2 gap-x-12">
       <div>
         <h2>Basic information</h2>
-        <form className="flex flex-col gap-6">
-          <InputDetachedLabel
-            label="Site name"
-            icon={LabelOutlinedIcon}
-            type="text"
-            value={site.name}
-            helpText="The site name helps identify your site in the dashboard and the URL."
-            onUpdate={() => {}}
-            required
-          />
-          <InputDetachedLabel
-            label="Site domain"
-            icon={WebOutlinedIcon}
-            type="text"
-            value={site.domain}
-            helpText={
-              <>
-                The domain is where you want to host the comments. It can be any domain or
-                subdomain. Other websites will not be allowed to host the comments. Use an asterisk
-                (<code>*</code>) to allow all domains.
-              </>
-            }
-            onUpdate={() => {}}
-            required
-          />
-          <RightAligned>
-            <Button icon={SaveOutlinedIcon}>Save</Button>
-          </RightAligned>
-        </form>
-        <hr />
+        <div className="flex flex-col gap-12">
+          <UpdateSiteName siteName={site.name} />
+          <UpdateSiteDomain siteDomain={site.domain} />
+          <UploadSiteIcon />
+        </div>
+        <hr className="md:hidden" />
+      </div>
+      <div>
         <h2>Site ID</h2>
         <p>Your site ID is</p>
         <CopiableCode content={site.id} className="mb-6" />
@@ -95,9 +136,7 @@ const Content: FC = () => {
           You can use this to implement your own comment frontend based on the REST API provided by
           ezkomment. <A href="https://google.com">See more in the documentation</A>.
         </p>
-        <hr className="md:hidden" />
-      </div>
-      <div>
+        <hr />
         <h2>Export all data</h2>
         <p>
           You can request all data related to this site to be exported. You can only perform this
