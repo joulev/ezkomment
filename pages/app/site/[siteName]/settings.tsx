@@ -15,8 +15,12 @@ import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import IconUpload from "~/client/components/forms/iconUpload";
 import { InputDetachedLabel } from "~/client/components/forms/input";
+import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
+
+import { ResponseMessage as Msg } from "~/types/client/utils.type";
+import { Site } from "~/types/server";
 
 const LoadingSection: FC = () => (
   <section>
@@ -52,7 +56,10 @@ const Loading: FC = () => (
   </div>
 );
 
-const UpdateSiteName: FC<{ siteName: string }> = ({ siteName }) => {
+const UpdateSiteName: FC<{ siteName: string; setMsg: (msg: Msg) => void }> = ({
+  siteName,
+  setMsg,
+}) => {
   const [name, setName] = useState(siteName);
   return (
     <form className="flex flex-col gap-6">
@@ -75,7 +82,10 @@ const UpdateSiteName: FC<{ siteName: string }> = ({ siteName }) => {
   );
 };
 
-const UpdateSiteDomain: FC<{ siteDomain: string }> = ({ siteDomain }) => {
+const UpdateSiteDomain: FC<{ siteDomain: string; setMsg: (msg: Msg) => void }> = ({
+  siteDomain,
+  setMsg,
+}) => {
   const [domain, setDomain] = useState(siteDomain);
   return (
     <form className="flex flex-col gap-6">
@@ -101,7 +111,7 @@ const UpdateSiteDomain: FC<{ siteDomain: string }> = ({ siteDomain }) => {
   );
 };
 
-const UploadSiteIcon: FC = () => {
+const UploadSiteIcon: FC<{ setMsg: (msg: Msg) => void }> = ({ setMsg }) => {
   const [icon, setIcon] = useState<File | null>(null);
   return (
     <form className="flex flex-col gap-6">
@@ -119,6 +129,21 @@ const UploadSiteIcon: FC = () => {
   );
 };
 
+const UpdateSite: FC<{ site: Site }> = ({ site }) => {
+  const [msg, setMsg] = useState<Msg>(null);
+  return (
+    <section>
+      <h2>Basic information</h2>
+      {msg && <MsgBanner msg={msg} />}
+      <div className="flex flex-col gap-12">
+        <UpdateSiteName siteName={site.name} setMsg={setMsg} />
+        <UpdateSiteDomain siteDomain={site.domain} setMsg={setMsg} />
+        <UploadSiteIcon setMsg={setMsg} />
+      </div>
+    </section>
+  );
+};
+
 const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { site } = useSite();
@@ -126,62 +151,63 @@ const Content: FC = () => {
   return (
     <div className="grid md:grid-cols-2 gap-x-12">
       <div>
-        <h2>Basic information</h2>
-        <div className="flex flex-col gap-12">
-          <UpdateSiteName siteName={site.name} />
-          <UpdateSiteDomain siteDomain={site.domain} />
-          <UploadSiteIcon />
-        </div>
+        <UpdateSite site={site} />
         <hr className="md:hidden" />
       </div>
       <div>
-        <h2>Site ID</h2>
-        <p>Your site ID is</p>
-        <CopiableCode content={site.id} className="mb-6" />
-        <p>
-          You can use this to implement your own comment frontend based on the REST API provided by
-          ezkomment. <A href="https://google.com">See more in the documentation</A>.
-        </p>
+        <section>
+          <h2>Site ID</h2>
+          <p>Your site ID is</p>
+          <CopiableCode content={site.id} className="mb-6" />
+          <p>
+            You can use this to implement your own comment frontend based on the REST API provided
+            by ezkomment. <A href="https://google.com">See more in the documentation</A>.
+          </p>
+        </section>
         <hr />
-        <h2>Export all data</h2>
-        <p>
-          You can request all data related to this site to be exported. You can only perform this
-          action once a day.
-        </p>
-        <RightAligned>
-          <Button icon={DnsOutlinedIcon}>Request data</Button>
-        </RightAligned>
+        <section>
+          <h2>Export all data</h2>
+          <p>
+            You can request all data related to this site to be exported. You can only perform this
+            action once a day.
+          </p>
+          <RightAligned>
+            <Button icon={DnsOutlinedIcon}>Request data</Button>
+          </RightAligned>
+        </section>
         <hr />
-        <h2>Delete site</h2>
-        <p>
-          This is an <strong>irreversible</strong> action. All site data, including all comments and
-          pages, will be completely erased and there is no way to recover it. All embed and API
-          endpoints for the site will also stop working. Proceed with caution.
-        </p>
-        <RightAligned>
-          <Button
-            variant="danger"
-            icon={DangerousOutlinedIcon}
-            onClick={() => setShowDeleteModal(true)}
-          >
-            Delete this site
-          </Button>
-        </RightAligned>
-        <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
-          <div className="p-6 max-w-lg">
-            <h2>You are attempting a dangerous action.</h2>
-            <p>
-              Deleting a site is <strong>irreversible</strong>, and we cannot do anything to recover
-              any data related to the site. Please think twice before proceeding.
-            </p>
-            <RightAligned className="gap-3">
-              <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
-                Cancel
-              </Button>
-              <Button variant="danger">Delete</Button>
-            </RightAligned>
-          </div>
-        </Modal>
+        <section>
+          <h2>Delete site</h2>
+          <p>
+            This is an <strong>irreversible</strong> action. All site data, including all comments
+            and pages, will be completely erased and there is no way to recover it. All embed and
+            API endpoints for the site will also stop working. Proceed with caution.
+          </p>
+          <RightAligned>
+            <Button
+              variant="danger"
+              icon={DangerousOutlinedIcon}
+              onClick={() => setShowDeleteModal(true)}
+            >
+              Delete this site
+            </Button>
+          </RightAligned>
+          <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+            <div className="p-6 max-w-lg">
+              <h2>You are attempting a dangerous action.</h2>
+              <p>
+                Deleting a site is <strong>irreversible</strong>, and we cannot do anything to
+                recover any data related to the site. Please think twice before proceeding.
+              </p>
+              <RightAligned className="gap-3">
+                <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
+                  Cancel
+                </Button>
+                <Button variant="danger">Delete</Button>
+              </RightAligned>
+            </div>
+          </Modal>
+        </section>
       </div>
     </div>
   );
