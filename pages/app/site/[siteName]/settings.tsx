@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { SITE } from "~/misc/validate";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -60,12 +61,13 @@ const UpdateSiteName: FC<{ siteName: string }> = ({ siteName }) => {
         icon={LabelOutlinedIcon}
         type="text"
         value={name}
+        isInvalid={!SITE.nameIsValid(name)}
         helpText="The site name helps identify your site in the dashboard and the URL."
         onUpdate={setName}
         required
       />
       <RightAligned>
-        <Button icon={SaveOutlinedIcon} disabled={name === "" || name === siteName}>
+        <Button icon={SaveOutlinedIcon} disabled={name === siteName || !SITE.nameIsValid(name)}>
           Save
         </Button>
       </RightAligned>
@@ -82,12 +84,16 @@ const UpdateSiteDomain: FC<{ siteDomain: string }> = ({ siteDomain }) => {
         icon={WebOutlinedIcon}
         type="text"
         value={domain}
+        isInvalid={!SITE.domainIsValid(domain)}
         helpText="The domain is where you want to host the comments. It can be any domain or subdomain. Other websites will not be allowed to host the comments."
         onUpdate={setDomain}
         required
       />
       <RightAligned>
-        <Button icon={SaveOutlinedIcon} disabled={domain === "" || domain === siteDomain}>
+        <Button
+          icon={SaveOutlinedIcon}
+          disabled={domain === siteDomain || !SITE.domainIsValid(domain)}
+        >
           Save
         </Button>
       </RightAligned>
