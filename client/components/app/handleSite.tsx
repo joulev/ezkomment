@@ -23,16 +23,11 @@ const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePa
   const Page: NextPageWithLayout = () => {
     const { user } = useAuth();
     const router = useRouter();
-    useEffect(() => {
-      if (!router.query.switchingSiteName) return;
-      router.push(router.asPath.split("?")[0], undefined, { shallow: true });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
 
     if (!user || !router.isReady) return <Loading />;
     const site = user.sites.find(s => s.name === router.query.siteName);
     if (!site) {
-      if (!router.query.switchingSiteName || router.query.switchingSiteName !== "1") {
+      if (!router.query.loading || router.query.loading !== "1") {
         router.push("/404", router.asPath);
         return null;
       } else return <Loading />;
