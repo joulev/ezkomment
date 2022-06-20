@@ -4,10 +4,10 @@ import { useContext, useEffect, useState } from "react";
 
 import AuthContext from "~/client/context/auth";
 import firebaseApp from "~/client/lib/firebase/app";
+import { getUser } from "~/client/lib/firebase/auth";
 
 import { AppAuth, User } from "~/types/client/auth.type";
 
-import { getUser } from "../lib/firebase/auth";
 import { endProgress, startProgress } from "./nprogress";
 
 export function useAuthInit(): AppAuth {
