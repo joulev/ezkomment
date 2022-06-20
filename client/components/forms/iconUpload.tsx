@@ -6,21 +6,17 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
 import { IconUploaderProps } from "~/types/client/components.type";
 
-const IconUpload: FC<IconUploaderProps> = ({ label, helpText, onUpdate }) => {
-  const [image, setImage] = useState<File | null>(null);
+const IconUpload: FC<IconUploaderProps> = ({ label, helpText, file, onUpdate }) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-
   useEffect(() => {
-    if (!image) {
+    if (!file) {
       setImageSrc(undefined);
       return;
     }
-    setImageSrc(URL.createObjectURL(image));
-    if (onUpdate) onUpdate(image);
+    setImageSrc(URL.createObjectURL(file));
     return () => URL.revokeObjectURL(imageSrc!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image]);
-
+  }, [file]);
   return (
     <div className="flex flex-row items-start gap-6">
       <div className="flex-grow">
@@ -50,14 +46,15 @@ const IconUpload: FC<IconUploaderProps> = ({ label, helpText, onUpdate }) => {
           <input
             type="file"
             onChange={event => {
+              if (!onUpdate) return;
               if (
                 !event.target.files ||
                 event.target.files.length === 0 ||
                 !(event.target.files[0] instanceof File) ||
                 !/\.(jpe?g|png)$/i.test(event.target.files[0].name)
               )
-                setImage(null);
-              else setImage(event.target.files[0]);
+                onUpdate(null);
+              else onUpdate(event.target.files[0]);
             }}
             className="hidden"
             accept=".jpg, .jpeg, .png"

@@ -104,6 +104,7 @@ const ProfileSection: FC = () => {
         <IconUpload
           label="Profile photo"
           helpText="Your profile picture is displayed on your replies to comments. It is also used as your general profile picture in this site."
+          file={image}
           onUpdate={setImage}
         />
         <RightAligned>

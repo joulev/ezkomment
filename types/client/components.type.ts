@@ -102,6 +102,7 @@ export type SelectProps = (ComponentProps<"select"> & IconAndLabel) & {
 export type IconUploaderProps = {
     label: string;
     helpText: ReactNode;
+    file: File | null;
     onUpdate?: (file: File | null) => void;
 };
 

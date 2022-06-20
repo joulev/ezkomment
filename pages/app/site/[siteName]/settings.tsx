@@ -62,11 +62,8 @@ const Loading: FC = () => (
   </div>
 );
 
-const UpdateSiteName: FC<{ siteName: string; setMsg: (msg: Msg) => void }> = ({
-  siteName,
-  setMsg,
-}) => {
-  const [name, setName] = useState(siteName);
+const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+  const [name, setName] = useState(site.name);
   return (
     <form className="flex flex-col gap-6">
       <InputDetachedLabel
@@ -80,7 +77,7 @@ const UpdateSiteName: FC<{ siteName: string; setMsg: (msg: Msg) => void }> = ({
         required
       />
       <RightAligned>
-        <Button icon={SaveOutlinedIcon} disabled={name === siteName || !SITE.nameIsValid(name)}>
+        <Button icon={SaveOutlinedIcon} disabled={name === site.name || !SITE.nameIsValid(name)}>
           Save
         </Button>
       </RightAligned>
@@ -164,6 +161,7 @@ const UploadSiteIcon: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
       <IconUpload
         label="Site icon"
         helpText="This icon helps you identify this site over other sites you also have."
+        file={icon}
         onUpdate={setIcon}
       />
       <RightAligned>
@@ -182,7 +180,7 @@ const UpdateSite: FC<{ site: Site }> = ({ site }) => {
       <h2>Basic information</h2>
       {msg && <MsgBanner msg={msg} />}
       <div className="flex flex-col gap-12">
-        <UpdateSiteName siteName={site.name} setMsg={setMsg} />
+        <UpdateSiteName site={site} setMsg={setMsg} />
         <UpdateSiteDomain site={site} setMsg={setMsg} />
         <UploadSiteIcon site={site} setMsg={setMsg} />
       </div>
