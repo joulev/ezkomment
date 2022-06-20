@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -33,14 +33,14 @@ const Loading: FC = () => (
   </>
 );
 
-const EmptyState: FC = () => (
+const EmptyState: FC<{ bySearch?: boolean }> = ({ bySearch }) => (
   <div className="flex flex-col md:flex-row items-center md:justify-center my-12 md:my-18 gap-12 md:gap-18">
     <div className="flex-shrink-0 w-[calc(286px/1.5)] sm:w-[256px]">
       <BlankIllustration />
     </div>
     <div className="flex flex-col gap-9 justify-center">
       <div className="text-2xl sm:text-4xl text-center md:text-left">
-        Add a new site to get&nbsp;started
+        {bySearch ? "No sites found" : <>Add a new site to get&nbsp;started</>}
       </div>
       <div className="text-center md:text-left">
         <Button href="/app/new" className="inline-block" icon={AddOutlinedIcon}>
@@ -132,15 +132,31 @@ function showEmptyCard(breakpoint: Breakpoint, siteCount: number) {
   return false;
 }
 
+/**
+ * Thanks GitHub Copilot
+ */
+function searchSites(sites: Site[], search: string) {
+  if (search === "") return sites;
+  return sites.filter(site => site.name.toLowerCase().includes(search.toLowerCase()));
+}
+
 const Dashboard: NextPageWithLayout = () => {
   const { user } = useAuth();
   const breakpoint = useBreakpoint();
+  const [search, setSearch] = useState("");
   if (!user) return <Loading />;
   if (user.sites.length === 0) return <EmptyState />;
+  const sites = searchSites(user.sites, search);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Input label="Search" icon={SearchOutlinedIcon} type="text" />
+        <Input
+          label="Search"
+          icon={SearchOutlinedIcon}
+          type="text"
+          value={search}
+          onUpdate={setSearch}
+        />
         <div className="flex flex-row gap-x-6">
           <Select
             icon={SortOutlinedIcon}
@@ -162,12 +178,16 @@ const Dashboard: NextPageWithLayout = () => {
           </Button>
         </div>
       </div>
-      <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {user.sites.map((site, i) => (
-          <SiteCard site={site} key={i} />
-        ))}
-        {showEmptyCard(breakpoint, user.sites.length) && <EmptyCard />}
-      </main>
+      {sites.length === 0 ? (
+        <EmptyState bySearch />
+      ) : (
+        <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sites.map((site, i) => (
+            <SiteCard site={site} key={i} />
+          ))}
+          {showEmptyCard(breakpoint, sites.length) && <EmptyCard />}
+        </main>
+      )}
     </>
   );
 };
