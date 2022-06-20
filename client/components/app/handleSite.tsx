@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 import SiteContext from "~/client/context/site";
 import useAuth from "~/client/hooks/auth";
@@ -23,13 +23,19 @@ const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePa
   const Page: NextPageWithLayout = () => {
     const { user } = useAuth();
     const router = useRouter();
+    useEffect(() => {
+      if (!router.query.switchingSiteName) return;
+      router.push(router.asPath.split("?")[0], undefined, { shallow: true });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
+
     if (!user || !router.isReady) return <Loading />;
     const site = user.sites.find(s => s.name === router.query.siteName);
     if (!site) {
-      // I'm not even sure if this is the recommended way to do a "client-side" 404, but it works and
-      // it is *not* a workaround (I think).
-      router.push("/404", router.asPath);
-      return null;
+      if (!router.query.switchingSiteName || router.query.switchingSiteName !== "1") {
+        router.push("/404", router.asPath);
+        return null;
+      } else return <Loading />;
     }
     return <SiteContextProvider siteId={site.id} Content={Content} />;
   };
