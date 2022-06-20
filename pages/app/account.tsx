@@ -1,7 +1,5 @@
-import clsx from "clsx";
-import { FC, FormEventHandler, MouseEvent, useEffect, useState } from "react";
+import { FC, FormEventHandler, MouseEvent, useState } from "react";
 
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -28,6 +26,7 @@ import AuthError from "~/client/components/auth/error";
 import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
+import IconUpload from "~/client/components/forms/iconUpload";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
@@ -41,18 +40,7 @@ const ProfileSection: FC = () => {
   const auth = useAuth();
   const [displayName, setDisplayName] = useState(auth.user?.displayName ?? "");
   const [image, setImage] = useState<File | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [msg, setMsg] = useState<Msg>(null);
-
-  useEffect(() => {
-    if (!image) {
-      setImageSrc(undefined);
-      return;
-    }
-    setImageSrc(URL.createObjectURL(image));
-    return () => URL.revokeObjectURL(imageSrc!);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image]);
 
   const handleDisplayNameSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
@@ -113,52 +101,11 @@ const ProfileSection: FC = () => {
         </RightAligned>
       </form>
       <form className="flex flex-col gap-6" onSubmit={handlePhotoSubmit}>
-        <div className="flex flex-row items-start gap-6">
-          <div className="flex-grow">
-            <div className="font-semibold mb-3">Profile image</div>
-            <div>
-              Your profile picture is displayed on your replies to comments. It is also used as your
-              general profile picture in this site.
-            </div>
-          </div>
-          <div className="min-w-min">
-            <label className="cursor-pointer block w-18 md:w-24 overflow-hidden">
-              {imageSrc ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={imageSrc ?? "/images/default-photo.svg"}
-                  alt="Photo"
-                  className="w-18 h-18 md:w-24 md:h-24 rounded-full"
-                />
-              ) : (
-                <div
-                  className={clsx(
-                    "w-18 h-18 md:w-24 md:h-24 rounded-full flex flex-col justify-center items-center transition",
-                    "border border-dashed border-card text-neutral-300 dark:text-neutral-700 hover:text-muted"
-                  )}
-                >
-                  <AddOutlinedIcon fontSize="large" />
-                  <div className="hidden md:block text-xs">upload</div>
-                </div>
-              )}
-              <input
-                type="file"
-                onChange={event => {
-                  if (
-                    !event.target.files ||
-                    event.target.files.length === 0 ||
-                    !(event.target.files[0] instanceof File) ||
-                    !/\.(jpe?g|png)$/i.test(event.target.files[0].name)
-                  )
-                    setImage(null);
-                  else setImage(event.target.files[0]);
-                }}
-                className="hidden"
-                accept=".jpg, .jpeg, .png"
-              />
-            </label>
-          </div>
-        </div>
+        <IconUpload
+          label="Profile photo"
+          helpText="Your profile picture is displayed on your replies to comments. It is also used as your general profile picture in this site."
+          onUpdate={setImage}
+        />
         <RightAligned>
           <Button icon={SaveOutlinedIcon} disabled={!image}>
             Save

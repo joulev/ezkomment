@@ -99,6 +99,12 @@ export type SelectProps = (ComponentProps<"select"> & IconAndLabel) & {
     onUpdate?: (value: string) => void;
 };
 
+export type IconUploaderProps = {
+    label: string;
+    helpText: ReactNode;
+    onUpdate?: (file: File | null) => void;
+};
+
 export type HomeButtonLinkProps = {
     href: string;
     className: string;
