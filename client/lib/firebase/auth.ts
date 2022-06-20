@@ -67,11 +67,9 @@ export async function getUser() {
     return { ...user, sites };
 }
 
-export async function refreshUser({ setUser, setLoading }: AppAuth) {
-    setLoading(true);
+export async function refreshUser({ setUser }: AppAuth) {
     const user = await getUser();
     setUser(user);
-    setLoading(false);
 }
 
 export async function updateDisplayName(appAuth: AppAuth, displayName: string) {

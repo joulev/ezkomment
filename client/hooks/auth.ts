@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 
 import AuthContext from "~/client/context/auth";
 import firebaseApp from "~/client/lib/firebase/app";
-import { getUser } from "~/client/lib/firebase/auth";
+import { refreshUser } from "~/client/lib/firebase/auth";
 
 import { AppAuth, User } from "~/types/client/auth.type";
 
@@ -19,8 +19,7 @@ export function useAuthInit(): AppAuth {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
             if (firebaseUser) {
-                const user = await getUser();
-                setUser(user);
+                await refreshUser({ user, setUser, loading, setLoading });
                 if (router.pathname.startsWith("/auth")) router.push("/app/dashboard");
             } else {
                 setUser(null);

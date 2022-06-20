@@ -13,7 +13,7 @@ import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
 import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
-import { getUser } from "~/client/lib/firebase/auth";
+import { refreshUser } from "~/client/lib/firebase/auth";
 
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
@@ -66,12 +66,12 @@ const Loading: FC = () => (
 
 const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
   const router = useRouter();
-  const { setUser, setLoading } = useAuth();
+  const auth = useAuth();
   const { mutate } = useSite();
   const [name, setName] = useState(site.name);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
-    setLoading(true);
+    auth.setLoading(true);
     try {
       const { success } = await internalFetcher({
         url: `/api/sites/${site.id}`,
@@ -80,13 +80,12 @@ const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
       });
       if (!success) throw UNABLE_TO_UPDATE_SITE;
       router.replace(`/app/site/${name}/settings?loading=1`);
-      const newUser = await getUser();
-      setUser(newUser);
+      await refreshUser(auth);
       mutate({ ...site, name });
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
-    setLoading(false);
+    auth.setLoading(false);
   };
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
@@ -110,12 +109,12 @@ const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
 };
 
 const UpdateSiteDomain: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
-  const { setLoading } = useAuth();
+  const auth = useAuth();
   const { mutate } = useSite();
   const [domain, setDomain] = useState(site.domain);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
-    setLoading(true);
+    auth.setLoading(true);
     try {
       const { success } = await internalFetcher({
         url: `/api/sites/${site.id}`,
@@ -123,12 +122,13 @@ const UpdateSiteDomain: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site
         options: { body: JSON.stringify({ domain }) },
       });
       if (!success) throw UNABLE_TO_UPDATE_SITE;
+      await refreshUser(auth);
       mutate({ ...site, domain });
       setMsg({ type: "success", message: "Domain updated successfully." });
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
-    setLoading(false);
+    auth.setLoading(false);
   };
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
@@ -155,13 +155,13 @@ const UpdateSiteDomain: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site
 };
 
 const UploadSiteIcon: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
-  const { setLoading } = useAuth();
+  const auth = useAuth();
   const { mutate } = useSite();
   const [icon, setIcon] = useState<File | null>(null);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
     if (!icon) return;
-    setLoading(true);
+    auth.setLoading(true);
     try {
       const form = new FormData();
       form.append("icon", icon);
@@ -172,13 +172,14 @@ const UploadSiteIcon: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
       if (!success) throw UNABLE_TO_UPDATE_SITE;
       const iconURL =
         ((body as ApiResponseBody).data as Record<string, string> | undefined)?.iconURL ?? "";
+      await refreshUser(auth);
       mutate({ ...site, iconURL });
       setMsg({ type: "success", message: "Site icon updated successfully." });
       setIcon(null);
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
-    setLoading(false);
+    auth.setLoading(false);
   };
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
@@ -214,7 +215,7 @@ const UpdateSite: FC<{ site: Site }> = ({ site }) => {
 
 const DeleteSite: FC<{ site: Site }> = ({ site }) => {
   const router = useRouter();
-  const { setUser, setLoading } = useAuth();
+  const auth = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [promptText, setPromptText] = useState("");
   const [msg, setMsg] = useState<Msg>(null);
@@ -222,17 +223,16 @@ const DeleteSite: FC<{ site: Site }> = ({ site }) => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
     if (!promptText || promptText !== validPrompt) return;
-    setLoading(true);
+    auth.setLoading(true);
     try {
       const { success } = await internalFetcher({ url: `/api/sites/${site.id}`, method: "DELETE" });
       if (!success) throw UNABLE_TO_DELETE_SITE;
       router.replace("/app/dashboard?loading=1");
-      const newUser = await getUser();
-      setUser(newUser);
+      await refreshUser(auth);
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
-    setLoading(false);
+    auth.setLoading(false);
   };
   return (
     <section>
