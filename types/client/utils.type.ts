@@ -1,12 +1,17 @@
 import { NextPage } from "next";
 import { AppProps } from "next/app";
+import { NextRouter } from "next/router";
 import { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
 
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-    getLayout?: (page: ReactElement, pageProps?: AppPropsWithLayout["pageProps"]) => ReactNode;
+    getLayout?: (
+        page: ReactElement,
+        pageProps: AppPropsWithLayout["pageProps"],
+        router: NextRouter
+    ) => ReactNode;
 };
 export type AppPropsWithLayout<P = {}> = AppProps<P> & {
     Component: NextPageWithLayout;

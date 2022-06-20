@@ -195,11 +195,7 @@ const Loading: FC = () => (
   </>
 );
 
-const {
-  Page: SiteCustomise,
-  getStaticPaths,
-  getStaticProps,
-} = sitePages({
+const SiteCustomise = sitePages({
   title: siteName => `Customise | ${siteName}`,
   activeTab: "customise",
   removePadding: true,
@@ -207,4 +203,4 @@ const {
   Content,
 });
 
-export { SiteCustomise as default, getStaticPaths, getStaticProps };
+export default SiteCustomise;

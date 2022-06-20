@@ -213,10 +213,6 @@ const Content: FC = () => {
   );
 };
 
-const {
-  Page: SiteOverview,
-  getStaticPaths,
-  getStaticProps,
-} = sitePages({ title: siteName => siteName, activeTab: "all", Loading, Content });
+const SiteOverview = sitePages({ title: siteName => siteName, activeTab: "all", Loading, Content });
 
-export { SiteOverview as default, getStaticPaths, getStaticProps };
+export default SiteOverview;

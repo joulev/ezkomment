@@ -280,15 +280,11 @@ const Content: FC = () => {
   );
 };
 
-const {
-  Page: SiteOverview,
-  getStaticPaths,
-  getStaticProps,
-} = sitePages({
+const SiteOverview = sitePages({
   title: siteName => `Settings | ${siteName}`,
   activeTab: "settings",
   Loading,
   Content,
 });
 
-export { SiteOverview as default, getStaticPaths, getStaticProps };
+export default SiteOverview;
