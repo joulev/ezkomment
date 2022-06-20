@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
-import isSlug from "validator/lib/isSlug";
-import isURL from "validator/lib/isURL";
+import { SITE } from "~/misc/validate";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
@@ -27,9 +26,6 @@ const New: NextPageWithLayout = () => {
   const [domain, setDomain] = useState("");
   const [msg, setMsg] = useState<Msg>(null);
 
-  const nameIsValid = () => isSlug(name);
-  const domainIsValid = () => isURL(domain, { require_protocol: true });
-
   const createNewSite = async (name: string, domain: string) => {
     setLoading(true);
     if (!user) throw E.NOT_AUTHENTICATED;
@@ -46,7 +42,7 @@ const New: NextPageWithLayout = () => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
-    if (!nameIsValid() || !domainIsValid()) return;
+    if (!SITE.nameIsValid(name) || !SITE.domainIsValid(domain)) return;
     try {
       await createNewSite(name, domain);
     } catch (err: any) {
@@ -71,7 +67,7 @@ const New: NextPageWithLayout = () => {
           required
           value={name}
           onChange={event => setName(event.target.value)}
-          isInvalid={(name.length > 0 || domain.length > 0) && !nameIsValid()}
+          isInvalid={(name.length > 0 || domain.length > 0) && !SITE.nameIsValid(name)}
           helpText={
             <>
               The site name helps identify this site with other sites you also have. It can only
@@ -81,13 +77,13 @@ const New: NextPageWithLayout = () => {
           }
         />
         <InputDetachedLabel
-          label="Site hostname"
+          label="Site domain with protocol"
           type="text"
           icon={WebOutlinedIcon}
           required
           value={domain}
           onChange={event => setDomain(event.target.value)}
-          isInvalid={(name.length > 0 || domain.length > 0) && !domainIsValid()}
+          isInvalid={(name.length > 0 || domain.length > 0) && !SITE.domainIsValid(domain)}
           placeholder="https://example.com, https://mysite.example.com, &hellip;"
           helpText={
             <>
@@ -100,7 +96,10 @@ const New: NextPageWithLayout = () => {
             </>
           }
         />
-        <Button icon={AddOutlinedIcon} disabled={!(nameIsValid() && domainIsValid())}>
+        <Button
+          icon={AddOutlinedIcon}
+          disabled={!(SITE.nameIsValid(name) && SITE.domainIsValid(domain))}
+        >
           Add a new site
         </Button>
       </form>
