@@ -63,9 +63,32 @@ const Loading: FC = () => (
 );
 
 const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+  const { setLoading } = useAuth();
+  const { mutate } = useSite();
   const [name, setName] = useState(site.name);
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({
+        url: `/api/sites/${site.id}`,
+        method: "PUT",
+        options: { body: JSON.stringify({ name }) },
+      });
+      if (!success) throw UNABLE_TO_UPDATE_SITE;
+      const { name: newName } = (await mutate({ ...site, name })) as Site;
+      setMsg({
+        type: "success",
+        message: <>Site name updated successfully. Redirecting to new URL&hellip;</>,
+      });
+      window.location.assign(`/app/site/${newName}/settings`);
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
   return (
-    <form className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <InputDetachedLabel
         label="Site name"
         icon={LabelOutlinedIcon}
