@@ -33,6 +33,6 @@ export async function deleteUserById(uid: string) {
 // For development only //
 //////////////////////////
 
-export async function importUsers(data: UserImportRecord[]) {
+export async function importUsers(...data: UserImportRecord[]) {
     return await authAdmin.importUsers(data);
 }

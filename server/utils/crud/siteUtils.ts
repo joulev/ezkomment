@@ -160,12 +160,12 @@ export async function deleteUserSitesById(uid: string) {
     }
 }
 
-export async function importSites(data: Site[]) {
-    return await firestoreAdmin.runTransaction(async t => {
-        for (const site of data) {
-            const { id, uid, name } = site;
-            t.create(SITES_COLLECTION.doc(id), site);
-            t.create(USERS_COLLECTION.doc(uid).collection("sites").doc(name), { id });
-        }
-    });
+export async function importSites(...data: Site[]) {
+    const batch = firestoreAdmin.batch();
+    for (const site of data) {
+        const { id, uid, name } = site;
+        batch.create(SITES_COLLECTION.doc(id), site);
+        batch.create(USERS_COLLECTION.doc(uid).collection("sites").doc(name), { id });
+    }
+    return await batch.commit();
 }

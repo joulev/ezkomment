@@ -1,5 +1,4 @@
 import { env } from "process";
-import { emulators } from "~/firebase.json";
 
 /**
  * Run `GENERATE_DATA=true yarn test:server:ci` to generate data.
@@ -7,9 +6,8 @@ import { emulators } from "~/firebase.json";
  * setup time.
  */
 if (env.GENERATE_DATA) {
-    const { generateTestData } = require("~/sample/server/generateTestEntities");
     console.log("Start generating data...");
-    generateTestData();
+    require("~/config/generateTestEntities").generateTestData();
 }
 
 beforeAll(async () => {
@@ -25,32 +23,3 @@ beforeAll(async () => {
         process.exit(1);
     }
 });
-
-beforeAll(async () => {
-    try {
-        console.log("Start importing data...");
-        /**
-         * Import functions to import data into the emulator.
-         */
-        const { importComments } = require("~/server/utils/crud/commentUtils");
-        const { importPages } = require("~/server/utils/crud/pageUtils");
-        const { importSites } = require("~/server/utils/crud/siteUtils");
-        const { importUsers } = require("~/server/utils/crud/userUtils");
-        /**
-         * Sample data
-         */
-        const sampleComments = require("~/sample/server/comments.json");
-        const samplePages = require("~/sample/server/pages.json");
-        const sampleSites = require("~/sample/server/sites.json");
-        const sampleUsers = require("~/sample/server/users.json");
-
-        await Promise.all([
-            importUsers(sampleUsers),
-            importSites(sampleSites),
-            importPages(samplePages),
-            importComments(sampleComments as any[]),
-        ]);
-    } catch (err) {
-        console.log("Error while setting up data. Maybe the data has been imported already?");
-    }
-}, 10000);

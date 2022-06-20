@@ -91,11 +91,11 @@ export async function deletePageCommentsById(pageId: string) {
     }
 }
 
-export async function importComments(data: Comment[]) {
-    return firestoreAdmin.runTransaction(async t => {
-        for (const comment of data) {
-            const { id } = comment;
-            t.create(COMMENTS_COLLECTION.doc(id), comment);
-        }
-    });
+export async function importComments(...data: Comment[]) {
+    const batch = firestoreAdmin.batch();
+    for (const comment of data) {
+        const { id } = comment;
+        batch.create(COMMENTS_COLLECTION.doc(id), comment);
+    }
+    await batch.commit();
 }

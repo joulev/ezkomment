@@ -8,11 +8,16 @@ import * as sampleUsers from "~/sample/server/users.json";
 import { nonExistingUid } from "~/sample/server/nonExistingIds.json";
 
 describe("Test user interaction", () => {
-    const existingUid = sampleUsers[0].uid;
+    const TEST_ID = 0;
+    const existingUid = sampleUsers[TEST_ID].uid;
 
-    /////////
-    // GET //
-    /////////
+    beforeAll(async () => {
+        await Promise.all([
+            UserUtils.importUsers(sampleUsers[TEST_ID]),
+            SiteUtils.importSites(sampleSites[TEST_ID]),
+            PageUtils.importPages(samplePages[TEST_ID]),
+        ]);
+    });
 
     it(`Should fail when trying to get a non-existing user`, async () => {
         expect.assertions(1);
@@ -42,12 +47,15 @@ describe("Test user interaction", () => {
 
     it(`Should be able to remove ALL information about user`, async () => {
         await SiteUtils.deleteUserSitesById(existingUid);
-        // I should change `toBeTruthy` to something else, but not now
         // ALL sites and pages should be removed
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(existingUid)).resolves.toEqual([]),
             expect(SiteUtils.getSiteById(sampleSites[0].id)).rejects.toBeTruthy(),
             expect(PageUtils.getPageById(samplePages[0].id)).rejects.toBeTruthy(),
         ]);
+    });
+
+    afterAll(async () => {
+        await UserUtils.deleteUserById(existingUid);
     });
 });
