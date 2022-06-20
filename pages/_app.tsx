@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   useNProgress();
   const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
-  const { asPath } = useRouter();
+  const router = useRouter();
   const getLayout = Component.getLayout ?? (page => page);
   return (
     <ErrorBoundary>
@@ -42,10 +42,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               id="wrapper"
               className={clsx(
                 "relative min-h-[100vh]",
-                asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
+                router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
               )}
             >
-              {getLayout(<Component {...pageProps} />, pageProps)}
+              {getLayout(<Component {...pageProps} />, pageProps, router)}
             </div>
           </MDXProvider>
         </BreakpointContext.Provider>
