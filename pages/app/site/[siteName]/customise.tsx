@@ -20,6 +20,7 @@ import useTheme from "~/client/hooks/theme";
 import generateCommentHTML from "~/client/lib/generateCommentHTML";
 
 import sitePages from "~/client/components/app/handleSite";
+import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import SideBySide from "~/client/components/sideBySide";
@@ -77,8 +78,12 @@ const Content: FC = () => {
 
   return (
     <>
-      <div className="lg:hidden py-9">
-        Please use a laptop or a device with a wider screen to use this feature.
+      <div className="lg:hidden flex flex-col gap-6 my-12 items-center">
+        <div className="w-48">
+          <BlankIllustration />
+        </div>
+        <div className="text-xl text-center">Oops! Your screen is too small.</div>
+        <div>Please use a laptop or a device with a wider screen to use this feature.</div>
       </div>
       <div
         className={clsx(
