@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
@@ -12,6 +13,7 @@ import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
 import { UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
+import { getUser } from "~/client/lib/firebase/auth";
 
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
@@ -63,7 +65,8 @@ const Loading: FC = () => (
 );
 
 const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
-  const { setLoading } = useAuth();
+  const router = useRouter();
+  const { setUser, setLoading } = useAuth();
   const { mutate } = useSite();
   const [name, setName] = useState(site.name);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
@@ -76,12 +79,10 @@ const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
         options: { body: JSON.stringify({ name }) },
       });
       if (!success) throw UNABLE_TO_UPDATE_SITE;
-      const { name: newName } = (await mutate({ ...site, name })) as Site;
-      setMsg({
-        type: "success",
-        message: <>Site name updated successfully. Redirecting to new URL&hellip;</>,
-      });
-      window.location.assign(`/app/site/${newName}/settings`);
+      router.replace(`/app/site/${name}/settings?switchingSiteName=1`);
+      const newUser = await getUser();
+      setUser(newUser);
+      mutate({ ...site, name });
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
