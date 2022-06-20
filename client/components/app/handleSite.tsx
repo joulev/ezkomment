@@ -1,7 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import { FC } from "react";
 
+import SiteContext from "~/client/context/site";
 import useAuth from "~/client/hooks/auth";
+import { useSiteInit } from "~/client/hooks/site";
 
 import AppLayout from "~/client/layouts/app";
 
@@ -10,6 +13,15 @@ import { NextPageWithLayout } from "~/types/client/utils.type";
 
 type Props = { siteName: string };
 type Param = Props;
+
+const SiteContextProvider: FC<{ siteId: string; Content: FC }> = ({ siteId, Content }) => {
+  const { site, mutate } = useSiteInit(siteId);
+  return (
+    <SiteContext.Provider value={{ site, mutate }}>
+      <Content />
+    </SiteContext.Provider>
+  );
+};
 
 const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePagesOptions) => {
   const Page: NextPageWithLayout<Props> = ({ siteName }) => {
@@ -23,7 +35,7 @@ const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePa
       router.push("/404", router.asPath);
       return null;
     }
-    return <Content siteId={site.id} />;
+    return <SiteContextProvider siteId={site.id} Content={Content} />;
   };
   Page.getLayout = (page, { siteName }) => (
     <AppLayout

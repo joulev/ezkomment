@@ -1,6 +1,5 @@
 // import clsx from "clsx";
 import { FC, useState } from "react";
-import useSWR from "swr";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
@@ -9,9 +8,9 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 // import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
-// import useBreakpoint from "~/client/hooks/breakpoint";
-import { internalSWRGenerator } from "~/client/lib/fetcher";
+import { useSite } from "~/client/hooks/site";
 
+// import useBreakpoint from "~/client/hooks/breakpoint";
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
 import BlankIllustration from "~/client/components/blankIllustration";
@@ -21,8 +20,6 @@ import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 // import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
-
-import { Site } from "~/types/server";
 
 const Loading: FC = () => (
   <>
@@ -78,12 +75,10 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
 );
 */
 
-const Content: FC<{ siteId: string }> = ({ siteId }) => {
+const Content: FC = () => {
   // const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
-  const { data: site } = useSWR(`/api/sites/${siteId}`, internalSWRGenerator<Site | null>(), {
-    fallbackData: null,
-  });
+  const { site } = useSite();
   if (!site) return <Loading />;
   return (
     <>

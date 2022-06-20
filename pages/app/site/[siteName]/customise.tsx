@@ -66,7 +66,7 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   </div>
 );
 
-const Content: FC<{ siteId: string }> = ({ siteId }) => {
+const Content: FC = () => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
 
