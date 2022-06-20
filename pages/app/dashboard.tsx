@@ -78,8 +78,8 @@ const SiteCard: FC<{ site?: Site }> = ({ site }) => (
             />
           </div>
           <div>
-            <div className="text-xl font-semibold mb-1">{site.name}</div>
-            <div className="text-sm text-muted">{site.domain}</div>
+            <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
+            <div className="text-sm text-muted truncate">{site.domain}</div>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-3">
