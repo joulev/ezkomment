@@ -39,6 +39,12 @@ const UNABLE_TO_UPDATE_SITE = new Error(
 UNABLE_TO_UPDATE_SITE.code = "ezkomment/client";
 export { UNABLE_TO_UPDATE_SITE };
 
+const UNABLE_TO_DELETE_SITE = new Error(
+    "Unable to delete site. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_DELETE_SITE.code = "ezkomment/client";
+export { UNABLE_TO_DELETE_SITE };
+
 const SITE_ALREADY_EXISTS = new Error(
     "Site already exists. Please try again with a different name."
 ) as NodeJS.ErrnoException;
