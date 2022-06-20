@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Head from "next/head";
-import { FC } from "react";
+import { useRouter } from "next/router";
+import { FC, useEffect } from "react";
 
 import useAuth from "~/client/hooks/auth";
 
@@ -12,6 +13,12 @@ import { AppProps } from "~/types/client/components.type";
 
 const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
   const { user } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (!router.query.loading) return;
+    router.push(router.asPath.split("?")[0], undefined, { shallow: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
   return (
     <>
       <Head>
@@ -20,7 +27,7 @@ const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...r
       </Head>
       <Navbar {...rest} />
       <main className={clsx("container", removePadding || "py-9")}>
-        {user
+        {user && !router.query.loading
           ? children
           : loadingScreen ?? <>You are accessing a protected page. Authenticating&hellip;</>}
       </main>

@@ -79,7 +79,7 @@ const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
         options: { body: JSON.stringify({ name }) },
       });
       if (!success) throw UNABLE_TO_UPDATE_SITE;
-      router.replace(`/app/site/${name}/settings?switchingSiteName=1`);
+      router.replace(`/app/site/${name}/settings?loading=1`);
       const newUser = await getUser();
       setUser(newUser);
       mutate({ ...site, name });
@@ -226,7 +226,7 @@ const DeleteSite: FC<{ site: Site }> = ({ site }) => {
     try {
       const { success } = await internalFetcher({ url: `/api/sites/${site.id}`, method: "DELETE" });
       if (!success) throw UNABLE_TO_DELETE_SITE;
-      router.replace("/app/dashboard?waitingAuth=true");
+      router.replace("/app/dashboard?loading=1");
       const newUser = await getUser();
       setUser(newUser);
     } catch (err: any) {
