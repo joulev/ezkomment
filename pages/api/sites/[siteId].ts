@@ -5,7 +5,7 @@ import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
 const handler = ncRouter()
     .get(authenticateWithJWT, getSite)
-    .put(authenticateWithJWT, sanitizeUpdateSiteRequest, updateSite)
+    .put(sanitizeUpdateSiteRequest, authenticateWithJWT, updateSite)
     .delete(authenticateWithJWT, deleteSite);
 
 export default handler;

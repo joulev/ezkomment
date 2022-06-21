@@ -3,6 +3,6 @@ import { authenticateWithJWT } from "~/server/middlewares/authenticateRequests";
 import { sanitizeCreatePageRequest } from "~/server/middlewares/sanitizeRequests/pages";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = ncRouter().post(authenticateWithJWT, sanitizeCreatePageRequest, createPage);
+const handler = ncRouter().post(sanitizeCreatePageRequest, authenticateWithJWT, createPage);
 
 export default handler;

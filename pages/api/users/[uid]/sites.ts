@@ -1,7 +1,7 @@
 import { listUserSites } from "~/server/handlers/userHandlers";
-import { authenticateUidWithJWT } from "~/server/middlewares/authenticateRequests";
+import { authenticatePathUidWithJWT } from "~/server/middlewares/authenticateRequests";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = ncRouter().get(authenticateUidWithJWT, listUserSites);
+const handler = ncRouter().get(authenticatePathUidWithJWT, listUserSites);
 
 export default handler;
