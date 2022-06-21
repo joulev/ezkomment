@@ -1,3 +1,8 @@
+import { FC } from "react";
+import { KeyedMutator } from "swr";
+
+import { Site } from "~/types/server";
+
 export type PageType = "overview" | "site" | "page" | "others";
 export type NavbarItems = {
     overview: "dashboard" | "new" | "account";
@@ -29,3 +34,16 @@ export type CurrentPage =
           siteName?: never;
           pageId?: never;
       };
+
+export type SitePagesOptions = {
+    title: (siteName: string) => string;
+    activeTab: NavbarItems["site"];
+    removePadding?: boolean;
+    Loading: FC;
+    Content: FC;
+};
+
+export type SiteContextProps = {
+    site: Site | undefined;
+    mutate: KeyedMutator<Site | undefined>;
+};

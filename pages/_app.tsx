@@ -1,5 +1,7 @@
 import { MDXProvider } from "@mdx-js/react";
+import clsx from "clsx";
 import { NextWebVitalsMetric } from "next/app";
+import { useRouter } from "next/router";
 
 import BreakpointContext from "~/client/context/breakpoint";
 import ModeContext from "~/client/context/mode";
@@ -16,9 +18,10 @@ import { AppPropsWithLayout } from "~/types/client/utils.type";
 import "~/client/styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  useNProgress();
+  // useNProgress(); // The routes are fast enough that this isn't necessary
   const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
+  const router = useRouter();
   const getLayout = Component.getLayout ?? (page => page);
   return (
     <ErrorBoundary>
@@ -35,8 +38,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               h6: props => <PostHeading {...props} level={6} />,
             }}
           >
-            <div id="wrapper" className="relative min-h-[100vh] pb-[250px] sm:pb-[165px]">
-              {getLayout(<Component {...pageProps} />, pageProps)}
+            <div
+              id="wrapper"
+              className={clsx(
+                "relative min-h-[100vh]",
+                router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
+              )}
+            >
+              {getLayout(<Component {...pageProps} />, pageProps, router)}
             </div>
           </MDXProvider>
         </BreakpointContext.Provider>

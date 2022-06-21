@@ -61,8 +61,14 @@
     .bg-card {
         @apply bg-white dark:bg-black;
     }
+    .fill-card {
+        @apply fill-white dark:fill-black;
+    }
     .border-card {
         @apply border-neutral-300 dark:border-neutral-700;
+    }
+    .stroke-card {
+        @apply stroke-neutral-300 dark:stroke-neutral-700;
     }
     .border-muted {
         @apply border-neutral-500; /* intended for hover, focus states of border */
@@ -74,7 +80,7 @@
         @apply divide-neutral-500;
     }
     .pulse {
-        @apply bg-neutral-300 dark:bg-neutral-700 animate-pulse;
+        @apply bg-neutral-300 dark:bg-neutral-700 rounded animate-pulse;
     }
     .logo-width {
         @apply w-[calc(397px/80*36)];

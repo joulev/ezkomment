@@ -86,6 +86,7 @@ export type IconAndLabelProps = IconAndLabel & {
 
 export type InputProps = (ComponentProps<"input"> & IconAndLabel) & {
     type: ComponentProps<"input">["type"]; // make `type` required.
+    isInvalid?: boolean;
     onUpdate?: (value: string) => void;
 };
 
@@ -96,6 +97,13 @@ export type InputDetachedLabelProps = InputProps & {
 
 export type SelectProps = (ComponentProps<"select"> & IconAndLabel) & {
     onUpdate?: (value: string) => void;
+};
+
+export type IconUploaderProps = {
+    label: string;
+    helpText: ReactNode;
+    file: File | null;
+    onUpdate?: (file: File | null) => void;
 };
 
 export type HomeButtonLinkProps = {

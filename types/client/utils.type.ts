@@ -1,12 +1,17 @@
 import { NextPage } from "next";
 import { AppProps } from "next/app";
+import { NextRouter } from "next/router";
 import { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
 
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-    getLayout?: (page: ReactElement, pageProps?: AppPropsWithLayout["pageProps"]) => ReactNode;
+    getLayout?: (
+        page: ReactElement,
+        pageProps: AppPropsWithLayout["pageProps"],
+        router: NextRouter
+    ) => ReactNode;
 };
 export type AppPropsWithLayout<P = {}> = AppProps<P> & {
     Component: NextPageWithLayout;
@@ -18,7 +23,7 @@ export type ModeContextType = {
     setMode: Dispatch<SetStateAction<Mode>>;
 };
 
-export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "unknown";
+export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "unknown";
 export type BreakpointContextType = Breakpoint;
 
 export type BuildInfo = { hash: string; timestamp: number };
@@ -58,3 +63,17 @@ export type ProjectLog = {
         remarks: string;
     }[];
 };
+
+export type FetchOptions = {
+    url: string;
+    options?: RequestInit;
+};
+
+export type FetchOptionsWithMethod = FetchOptions & {
+    method?: "GET" | "POST" | "PUT" | "DELETE";
+};
+
+export type ResponseMessage = {
+    type: "success" | "error";
+    message: ReactNode;
+} | null;

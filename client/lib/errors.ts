@@ -1,3 +1,8 @@
+const UNKNOWN_ERROR = new Error(
+    "Unknown error. Please contact the administrator."
+) as NodeJS.ErrnoException;
+export { UNKNOWN_ERROR };
+
 const NOT_AUTHENTICATED = new Error(
     "No authenticated users found to link account. Please log in first."
 ) as NodeJS.ErrnoException;
@@ -21,3 +26,27 @@ const UNABLE_TO_DELETE_ACCOUNT = new Error(
 ) as NodeJS.ErrnoException;
 UNABLE_TO_DELETE_ACCOUNT.code = "ezkomment/client";
 export { UNABLE_TO_DELETE_ACCOUNT };
+
+const UNABLE_TO_CREATE_SITE = new Error(
+    "Unable to create site. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_CREATE_SITE.code = "ezkomment/client";
+export { UNABLE_TO_CREATE_SITE };
+
+const UNABLE_TO_UPDATE_SITE = new Error(
+    "Unable to update site. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_UPDATE_SITE.code = "ezkomment/client";
+export { UNABLE_TO_UPDATE_SITE };
+
+const UNABLE_TO_DELETE_SITE = new Error(
+    "Unable to delete site. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_DELETE_SITE.code = "ezkomment/client";
+export { UNABLE_TO_DELETE_SITE };
+
+const SITE_ALREADY_EXISTS = new Error(
+    "Site already exists. Please try again with a different name."
+) as NodeJS.ErrnoException;
+SITE_ALREADY_EXISTS.code = "ezkomment/client";
+export { SITE_ALREADY_EXISTS };

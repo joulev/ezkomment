@@ -51,6 +51,7 @@ export type Site = {
 export type UpdateSiteBodyParams = {
     name?: string;
     iconURL?: string | null;
+    domain?: string;
 };
 
 export type CreateSiteBodyParams = {

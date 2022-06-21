@@ -1,7 +1,11 @@
-import { GithubAuthProvider, GoogleAuthProvider, User } from "firebase/auth";
+import { User as FirebaseUser, GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import { Dispatch, SetStateAction } from "react";
 
+import { Site } from "~/types/server";
+
 export type Provider = GithubAuthProvider | GoogleAuthProvider;
+
+export type User = FirebaseUser & { sites: Site[] };
 
 export type AppAuth = {
     user: User | null;

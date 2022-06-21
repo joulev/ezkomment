@@ -23,11 +23,12 @@ import { InputDetachedLabelProps, InputProps } from "~/types/client/components.t
  *
  * @note As a result, if you provide `onChange` directly, `onUpdate` will have no effect.
  */
-const Input: FC<InputProps> = ({ label, icon, onUpdate, type, className, ...rest }) => (
+const Input: FC<InputProps> = ({ label, icon, isInvalid, onUpdate, type, className, ...rest }) => (
   <label
     className={clsx(
       "group flex flex-row rounded border divide-x transition bg-card border-card divide-card",
       "focus-within:border-muted focus-within:divide-muted hover:border-muted hover:divide-muted",
+      isInvalid && "!border-red-500 !divide-red-500",
       className
     )}
   >
