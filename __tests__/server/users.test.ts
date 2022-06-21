@@ -15,7 +15,7 @@ describe("Test user utils", () => {
     /////////
 
     it(`Should fail when trying to get a non-existing user`, async () => {
-        await expect(UserUtils.getUserById(nonExistingUid)).rejects.toBeTruthy();
+        await expect(UserUtils.getUserById(nonExistingUid)).rejects.toMatchObject({ code: 404 });
     });
 
     ////////////
@@ -25,7 +25,7 @@ describe("Test user utils", () => {
     it(`Should be able to update user`, async () => {
         await expect(
             UserUtils.updateUserById(uid, { photoURL: "https://example.com" })
-        ).resolves.toBeTruthy();
+        ).resolves.not.toThrow();
     });
 
     it(`Should be able to delete user`, async () => {

@@ -2,7 +2,11 @@ import { NextApiRequest } from "next";
 
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import { deleteSiteIconById } from "~/server/utils/crud/imageUtils";
-import { deleteSitePagesById, listSitePagesById } from "~/server/utils/crud/pageUtils";
+import {
+    deleteSitePagesById,
+    listSiteBasicPagesById,
+    listSitePagesById,
+} from "~/server/utils/crud/pageUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
 import { CreateSiteBodyParams, CreateSitePathParams, UpdateSiteBodyParams } from "~/types/server";
@@ -11,7 +15,11 @@ import { ApiResponse } from "~/types/server/nextApi.type";
 export async function getSite(req: NextApiRequest, res: ApiResponse) {
     const { siteId } = extractFirstQueryValue(req);
     const data = await SiteUtils.getSiteById(siteId);
-    res.status(200).json({ message: "Got site information", data });
+    /**
+     * Get all information about pages here.
+     */
+    const pages = await listSiteBasicPagesById(siteId);
+    res.status(200).json({ message: "Got site information", data: { ...data, pages } });
 }
 
 export async function createSite(req: NextApiRequest, res: ApiResponse) {

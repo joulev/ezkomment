@@ -6,7 +6,12 @@ import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { deleteQuery } from "~/server/utils/firestoreUtils";
 
-import { CreateCommentRequest, Page, UpdateCommentBodyParams } from "~/types/server";
+import {
+    ApprovedStatus,
+    CreateCommentRequest,
+    Page,
+    UpdateCommentBodyParams,
+} from "~/types/server";
 
 /**
  * Creates a new comment for a particular page.
@@ -26,7 +31,7 @@ export async function createComment(data: CreateCommentRequest) {
             const newComment = {
                 id: commentId,
                 date: Timestamp.now(),
-                status: pageData.autoApprove ? "Approved" : "Pending",
+                status: pageData.autoApprove ? "Approved" : ("Pending" as ApprovedStatus),
                 ...data,
             };
             t.create(commentRef, newComment);

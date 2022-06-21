@@ -15,6 +15,9 @@ import { ApiResponse } from "~/types/server/nextApi.type";
 export async function getUser(req: NextApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     const user = await userUtils.getUserById(uid);
+    /**
+     * Get all information about site here.
+     */
     const sites = await listUserBasicSitesById(uid);
     res.status(200).json({ message: "Got user's data", data: { ...user, sites } });
 }

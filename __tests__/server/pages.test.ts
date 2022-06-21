@@ -1,4 +1,6 @@
+import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import * as PageUtils from "~/server/utils/crud/pageUtils";
+import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
 import { nonExistingPageId, nonExistingSiteId } from "~/sample/server/nonExistingIds.json";
@@ -7,8 +9,10 @@ describe("Test page utils", () => {
     const siteId = TestUtils.randomUUID();
     const [pageId1, pageId2, ...restPageIds] = Array.from({ length: 5 }, TestUtils.randomUUID);
     const pageName = "Eternal Knowledge";
-    const mainSite = TestUtils.createTestSite(TestUtils.randomUUID(), siteId);
+    const mainSite = TestUtils.createTestSite("_", siteId);
     const mainPage = TestUtils.createTestPage(siteId, pageId1, pageName);
+
+    const commentIds = Array.from({ length: 5 }, TestUtils.randomUUID);
 
     beforeAll(async () => {
         await TestUtils.importFirestoreEntities({
@@ -18,6 +22,7 @@ describe("Test page utils", () => {
                 TestUtils.createTestPage(siteId, pageId2),
                 ...restPageIds.map(id => TestUtils.createTestPage(siteId, id)),
             ],
+            comments: commentIds.map(id => TestUtils.createTestComment(pageId2, id)),
         });
     });
 
@@ -101,6 +106,11 @@ describe("Test page utils", () => {
         await Promise.all([
             expect(PageUtils.listSiteBasicPagesById(siteId)).resolves.toHaveLength(0),
             expect(PageUtils.listSitePagesById(siteId)).resolves.toHaveLength(0),
+            expect(CommentUtils.listPageCommentsById(pageId2)).resolves.toHaveLength(0),
         ]);
+    });
+
+    afterAll(async () => {
+        await SiteUtils.deleteSiteById(siteId);
     });
 });

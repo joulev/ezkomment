@@ -1,7 +1,7 @@
-/**
- * Removes some unnecessary properties of a user record.
- */
-import { UpdateRequest, UserRecord } from "firebase-admin/auth";
+import { UserRecord } from "firebase-admin/auth";
+import { User as FirebaseUser } from "firebase/auth";
+
+import { Site } from "./site.type";
 
 type PickedUserRecordProps =
     | "uid"
@@ -17,8 +17,10 @@ type PickedUserRecordProps =
  * The user, used in this app. As we will not use traditional password to authenticate users, some
  * properties is redudant.
  */
-export type AppUser = Pick<UserRecord, PickedUserRecordProps>;
+export type ServerUser = Pick<UserRecord, PickedUserRecordProps>;
 
 export type UpdateUserBodyParams = {
     displayName: string;
 };
+
+export type ClientUser = FirebaseUser & { sites: Site[] };

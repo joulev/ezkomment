@@ -23,7 +23,7 @@ describe("Test site utils", () => {
                 TestUtils.createTestSite(uid, siteId2),
                 ...restSiteIds.map(id => TestUtils.createTestSite(uid, id)),
             ],
-            pages: pageIds.map(id => TestUtils.createTestPage(siteId1, id)),
+            pages: pageIds.map(id => TestUtils.createTestPage(siteId2, id)),
             comments: commentIds.map(id => TestUtils.createTestComment(pageId, id)),
         });
     });
@@ -68,6 +68,7 @@ describe("Test site utils", () => {
     });
 
     it(`Should delete site correctly`, async () => {
+        // Note that this does not delete the site's pages and comments at the momment.
         await SiteUtils.deleteSiteById(siteId1);
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toEqual(
@@ -89,8 +90,8 @@ describe("Test site utils", () => {
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toHaveLength(0),
             expect(SiteUtils.listUserSitesById(uid)).resolves.toHaveLength(0),
-            expect(PageUtils.listSitePagesById(siteId1)).resolves.toHaveLength(0),
-            expect(PageUtils.listSiteBasicPagesById(siteId1)).resolves.toHaveLength(0),
+            expect(PageUtils.listSitePagesById(siteId2)).resolves.toHaveLength(0),
+            expect(PageUtils.listSiteBasicPagesById(siteId2)).resolves.toHaveLength(0),
             expect(CommentUtils.listPageCommentsById(pageId)).resolves.toHaveLength(0),
         ]);
     });
