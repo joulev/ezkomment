@@ -10,7 +10,8 @@ import { ApiResponse } from "~/types/server/nextApi.type";
 export async function getPage(req: NextApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
     const data = await PageUtils.getPageById(pageId);
-    res.status(200).json({ message: "Got page information", data });
+    const comments = await listPageCommentsById(pageId);
+    res.status(200).json({ message: "Got page information", data: { ...data, comments } });
 }
 
 export async function createPage(req: NextApiRequest, res: ApiResponse) {

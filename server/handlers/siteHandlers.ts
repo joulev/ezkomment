@@ -18,7 +18,7 @@ export async function getSite(req: NextApiRequest, res: ApiResponse) {
     /**
      * Get all information about pages here.
      */
-    const pages = await listSiteBasicPagesById(siteId);
+    const pages = await listSitePagesById(siteId);
     res.status(200).json({ message: "Got site information", data: { ...data, pages } });
 }
 

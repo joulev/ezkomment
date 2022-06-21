@@ -18,7 +18,7 @@ export async function getUser(req: NextApiRequest, res: ApiResponse) {
     /**
      * Get all information about site here.
      */
-    const sites = await listUserBasicSitesById(uid);
+    const sites = await listUserSitesById(uid);
     res.status(200).json({ message: "Got user's data", data: { ...user, sites } });
 }
 

@@ -115,7 +115,7 @@ function queryUserSitesById(uid: string) {
 
 export async function listUserSitesById(uid: string) {
     const siteSnapshots = await queryUserSitesById(uid).get();
-    return siteSnapshots.docs.map(doc => doc.data());
+    return siteSnapshots.docs.map(doc => doc.data()) as Site[];
 }
 
 /**

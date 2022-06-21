@@ -112,7 +112,7 @@ function querySitePagesById(siteId: string) {
 
 export async function listSitePagesById(siteId: string) {
     const pageSnapshots = await querySitePagesById(siteId).get();
-    return pageSnapshots.docs.map(doc => doc.data());
+    return pageSnapshots.docs.map(doc => doc.data()) as Page[];
 }
 
 export async function listSiteBasicPagesById(siteId: string) {
