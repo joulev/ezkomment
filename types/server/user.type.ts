@@ -16,6 +16,8 @@ type PickedUserRecordProps =
 /**
  * The user, used in this app. As we will not use traditional password to authenticate users, some
  * properties is redudant.
+ *
+ * I am thinking of renaming this into `User`
  */
 export type ServerUser = Pick<UserRecord, PickedUserRecordProps>;
 

@@ -1,5 +1,7 @@
 import { Timestamp } from "firebase-admin/firestore";
 
+import { Page } from "./page.type";
+
 export type Site = {
     // properties that can be updated safely.
 
@@ -65,3 +67,5 @@ export type SiteStatistics = {
 };
 
 export type CreateSiteRequest = CreateSiteBodyParams & { pageCount: number };
+
+export type ClientSite = Site & { pages: Page[] };

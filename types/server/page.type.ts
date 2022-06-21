@@ -1,3 +1,5 @@
+import { Comment } from "./comment.type";
+
 export type Page = {
     readonly id: string;
     name: string;
@@ -28,3 +30,5 @@ export type CreatePageBodyParams = {
 };
 
 export type CreatePageRequest = CreatePageBodyParams;
+
+export type ClientPage = Page & { comments: Comment[] };
