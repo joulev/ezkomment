@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 
 import SiteContext from "~/client/context/site";
 import useAuth from "~/client/hooks/auth";
