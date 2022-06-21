@@ -24,6 +24,7 @@ export type CreatePageBodyParams = {
     url: string;
     name: string;
     autoApprove: boolean; // default true
+    siteId: string;
 };
 
-export type CreatePageRequest = CreatePagePathParams & CreatePageBodyParams;
+export type CreatePageRequest = CreatePageBodyParams;

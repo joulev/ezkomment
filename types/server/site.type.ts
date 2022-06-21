@@ -44,10 +44,6 @@ export type Site = {
     uid: string;
 };
 
-export type CreateSitePathParams = {
-    uid: string;
-};
-
 /**
  * Basic properties required when update a site.
  */
@@ -59,7 +55,8 @@ export type UpdateSiteBodyParams = {
 export type CreateSiteBodyParams = {
     name: string;
     domain: string;
-    iconURL?: string | null;
+    iconURL: string | null;
+    uid: string;
 };
 
-export type CreateSiteRequest = CreateSitePathParams & CreateSiteBodyParams;
+export type CreateSiteRequest = CreateSiteBodyParams;

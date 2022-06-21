@@ -7,7 +7,7 @@ import { CreateSiteBodyParams, RawBody, UpdateSiteBodyParams } from "~/types/ser
 import { ApiMiddleware } from "~/types/server/nextApi.type";
 
 export const sanitizeCreateSiteRequest: ApiMiddleware = (req, _, next) => {
-    const { name, domain, iconURL }: RawBody<CreateSiteBodyParams> = req.body;
+    const { name, domain, iconURL, uid }: RawBody<CreateSiteBodyParams> = req.body;
     if (typeof name !== "string" || validator.isEmpty(name)) {
         throw new CustomApiError("'name' must be a non-empty string");
     }
@@ -21,7 +21,13 @@ export const sanitizeCreateSiteRequest: ApiMiddleware = (req, _, next) => {
     ) {
         throw new CustomApiError("'iconURL' must be either a valid url, undefined or null");
     }
-    req.body = { name, domain, iconURL: iconURL ?? null };
+    /**
+     * I will write regex to change this later.
+     */
+    if (typeof uid !== "string" || validator.isEmpty(uid)) {
+        throw new CustomApiError("'uid' must be a non empty-string");
+    }
+    req.body = { name, domain, iconURL: iconURL ?? null, uid };
     next();
 };
 

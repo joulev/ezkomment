@@ -9,7 +9,7 @@ import {
 } from "~/server/utils/crud/pageUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { CreateSiteBodyParams, CreateSitePathParams, UpdateSiteBodyParams } from "~/types/server";
+import { CreateSiteBodyParams, UpdateSiteBodyParams } from "~/types/server";
 import { ApiResponse } from "~/types/server/nextApi.type";
 
 export async function getSite(req: NextApiRequest, res: ApiResponse) {
@@ -23,9 +23,8 @@ export async function getSite(req: NextApiRequest, res: ApiResponse) {
 }
 
 export async function createSite(req: NextApiRequest, res: ApiResponse) {
-    const { uid } = extractFirstQueryValue(req) as CreateSitePathParams;
     const data: CreateSiteBodyParams = req.body;
-    const result = await SiteUtils.createSite({ uid, ...data });
+    const result = await SiteUtils.createSite(data);
     res.status(201).json({ message: "Created site", data: result });
 }
 

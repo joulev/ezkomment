@@ -7,7 +7,7 @@ import { CreatePageBodyParams, RawBody, UpdatePageBodyParams } from "~/types/ser
 import { ApiMiddleware } from "~/types/server/nextApi.type";
 
 export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
-    const { name, url, autoApprove }: RawBody<CreatePageBodyParams> = req.body;
+    const { name, url, autoApprove, siteId }: RawBody<CreatePageBodyParams> = req.body;
     if (typeof name !== "string" || validator.isEmpty(name)) {
         throw new CustomApiError("'name' must be a non-empty string");
     }
@@ -17,7 +17,13 @@ export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
     if (typeof autoApprove !== "boolean") {
         throw new CustomApiError("'autoApprove' must be a boolean");
     }
-    req.body = { name, url, autoApprove };
+    /**
+     * Change later
+     */
+    if (typeof siteId !== "string" || validator.isEmpty(siteId)) {
+        throw new CustomApiError("'siteId' must be a non-empty string");
+    }
+    req.body = { name, url, autoApprove, siteId };
     next();
 };
 

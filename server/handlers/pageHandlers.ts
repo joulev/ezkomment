@@ -4,7 +4,7 @@ import * as PageUtils from "~/server/utils/crud/pageUtils";
 import { deletePageCommentsById, listPageCommentsById } from "~/server/utils/crud/commentUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { CreatePageBodyParams, CreatePagePathParams, UpdatePageBodyParams } from "~/types/server";
+import { CreatePageBodyParams, UpdatePageBodyParams } from "~/types/server";
 import { ApiResponse } from "~/types/server/nextApi.type";
 
 export async function getPage(req: NextApiRequest, res: ApiResponse) {
@@ -14,9 +14,8 @@ export async function getPage(req: NextApiRequest, res: ApiResponse) {
 }
 
 export async function createPage(req: NextApiRequest, res: ApiResponse) {
-    const { siteId } = extractFirstQueryValue(req) as CreatePagePathParams;
     const data: CreatePageBodyParams = req.body;
-    const result = await PageUtils.createPage({ siteId, ...data });
+    const result = await PageUtils.createPage(data);
     res.status(201).json({ message: "Created new page", data: result });
 }
 
