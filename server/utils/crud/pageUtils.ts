@@ -88,10 +88,16 @@ export async function deletePageById(pageId: string) {
             if (!pageSnapshot.exists) {
                 throw new CustomApiError("Page does not exist", 404);
             }
-            const { name, siteId } = pageSnapshot.data() as Page;
+            const { name, siteId, totalCommentCount, pendingCommentCount } =
+                pageSnapshot.data() as Page;
             const siteRef = SITES_COLLECTION.doc(siteId);
-            // Decrease the number of page by 1
-            t.update(siteRef, { pageCount: FieldValue.increment(-1) });
+            // Decrease the number of page by 1, decrease the number of total comment count,
+            // and pending comment count
+            t.update(siteRef, {
+                pageCount: FieldValue.increment(-1),
+                totalCommentCount: FieldValue.increment(-totalCommentCount),
+                pendingCommentCount: FieldValue.increment(-pendingCommentCount),
+            });
             t.delete(siteRef.collection("pages").doc(name));
             t.delete(pageRef);
         });
