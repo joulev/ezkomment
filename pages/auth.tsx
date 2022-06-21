@@ -48,10 +48,18 @@ const Auth: NextPageWithLayout = () => {
             <h1 className="text-3xl mt-6 mb-12">Continue to ezkomment</h1>
             <div className="flex flex-col gap-6">
               {error && <Banner variant="error">{error}</Banner>}
-              <Button icon={GitHubIcon} onClick={handler(githubProvider)} disabled={auth.loading}>
+              <Button
+                icon={GitHubIcon}
+                onClick={handler(githubProvider)}
+                disabled={auth.loading || auth.user !== null}
+              >
                 Continue with GitHub
               </Button>
-              <Button icon={GoogleIcon} onClick={handler(googleProvider)} disabled={auth.loading}>
+              <Button
+                icon={GoogleIcon}
+                onClick={handler(googleProvider)}
+                disabled={auth.loading || auth.user !== null}
+              >
                 Continue with Google
               </Button>
             </div>
