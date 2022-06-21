@@ -5,17 +5,25 @@ import { PAGES_COLLECTION } from "~/server/firebase/firestoreCollections";
 import { nonExistingCommentId, nonExistingPageId } from "~/sample/server/nonExistingIds.json";
 
 describe("Test comment utils", () => {
+    const siteId = TestUtils.randomUUID();
     const pageId = TestUtils.randomUUID();
     const [commentId, ...restCommentIds] = Array.from({ length: 5 }, TestUtils.randomUUID);
-    const mainPage = TestUtils.createTestPage("_", pageId);
-    const mainComment = TestUtils.createTestComment(pageId, commentId);
+    const mainSite = TestUtils.createTestSite({
+        uid: "_",
+        id: siteId,
+        pageCount: 1,
+        totalCommentCount: 5,
+    });
+    const mainPage = TestUtils.createTestPage({ siteId, id: pageId, totalCommentCount: 5 });
+    const mainComment = TestUtils.createTestComment({ siteId, pageId, id: commentId });
 
     beforeAll(async () => {
         await TestUtils.importFirestoreEntities({
+            sites: [mainSite],
             pages: [mainPage],
             comments: [
                 mainComment,
-                ...restCommentIds.map(id => TestUtils.createTestComment(pageId, id)),
+                ...restCommentIds.map(id => TestUtils.createTestComment({ siteId, pageId, id })),
             ],
         });
     });

@@ -9,7 +9,11 @@ describe("Test site utils", () => {
     const uid = TestUtils.randomUUID();
     const [siteId1, siteId2, ...restSiteIds] = Array.from({ length: 5 }, TestUtils.randomUUID);
     const siteName = "Bad Apple";
-    const mainSite = TestUtils.createTestSite(uid, siteId1, siteName);
+    const mainSite = TestUtils.createTestSite({
+        uid,
+        id: siteId1,
+        name: siteName,
+    });
 
     const pageIds = Array.from({ length: 5 }, TestUtils.randomUUID);
     const commentIds = Array.from({ length: 5 }, TestUtils.randomUUID);
@@ -20,11 +24,13 @@ describe("Test site utils", () => {
         await TestUtils.importFirestoreEntities({
             sites: [
                 mainSite,
-                TestUtils.createTestSite(uid, siteId2),
-                ...restSiteIds.map(id => TestUtils.createTestSite(uid, id)),
+                TestUtils.createTestSite({ uid, id: siteId2, pageCount: 5, totalCommentCount: 5 }),
+                ...restSiteIds.map(id => TestUtils.createTestSite({ uid, id })),
             ],
-            pages: pageIds.map(id => TestUtils.createTestPage(siteId2, id)),
-            comments: commentIds.map(id => TestUtils.createTestComment(pageId, id)),
+            pages: pageIds.map(id => TestUtils.createTestPage({ siteId: siteId2, id })),
+            comments: commentIds.map(id =>
+                TestUtils.createTestComment({ siteId: siteId2, pageId, id })
+            ),
         });
     });
 
@@ -32,7 +38,6 @@ describe("Test site utils", () => {
         await expect(SiteUtils.getSiteById(siteId1)).resolves.toMatchObject({
             id: siteId1,
             name: siteName,
-            pageCount: 0,
         });
     });
 
@@ -48,6 +53,8 @@ describe("Test site utils", () => {
                 domain: "https://en.touhouwiki.net/wiki/Yukari_Yakumo",
                 iconURL: null,
                 pageCount: 0,
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 409 });
     });
@@ -71,7 +78,6 @@ describe("Test site utils", () => {
     });
 
     it(`Should delete site correctly`, async () => {
-        // Note that this does not delete the site's pages and comments at the momment.
         await SiteUtils.deleteSiteById(siteId1);
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toEqual(

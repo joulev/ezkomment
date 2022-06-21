@@ -10,7 +10,7 @@ import {
     USERS_COLLECTION,
 } from "~/server/firebase/firestoreCollections";
 
-import { Comment, Page, Site } from "~/types/server";
+import { Comment, OnlyRequired, Page, Site } from "~/types/server";
 
 export { randomUUID } from "crypto";
 
@@ -91,42 +91,44 @@ export function createTestUser(uid: string): UserImportRecord {
 
 /**
  * create site for testing.
+ * Oh my god, look at this unholy... I wish TypeScript has something like Haskell `@`
+ * user@(User uid id name ...)
  */
-export function createTestSite(uid: string, id: string, name: string = `Site ${id}`): Site {
-    return {
-        id,
-        name,
-        domain: `https://example${id}.com`,
-        iconURL: null,
-        uid,
-        pageCount: 0,
-        totalCommentCount: 0,
-        pendingCommentCount: 0,
-    };
+export function createTestSite({
+    uid,
+    id,
+    name = `Site ${id}`,
+    domain = `https://example${id}.com`,
+    iconURL = null,
+    pageCount = 0,
+    totalCommentCount = 0,
+    pendingCommentCount = 0,
+}: OnlyRequired<Site, "uid" | "id">): Site {
+    return { uid, id, name, domain, pageCount, iconURL, totalCommentCount, pendingCommentCount };
 }
 
-export function createTestPage(siteId: string, id: string, name: string = `Page ${id}`): Page {
-    return {
-        id,
-        name,
-        url: `https://example${siteId}.com/${id}`,
-        autoApprove: true,
-        totalCommentCount: 0,
-        pendingCommentCount: 0,
-        siteId,
-    };
+export function createTestPage({
+    id,
+    siteId,
+    name = `Page ${id}`,
+    autoApprove = true,
+    url = `https://example${siteId}.com/${id}`,
+    totalCommentCount = 0,
+    pendingCommentCount = 0,
+}: OnlyRequired<Page, "id" | "siteId">): Page {
+    return { id, name, url, autoApprove, totalCommentCount, pendingCommentCount, siteId };
 }
 
-export function createTestComment(pageId: string, commentId: string): Comment {
-    return {
-        id: commentId,
-        author: null,
-        text: "This is a test comment",
-        date: Timestamp.now(),
-        status: "Approved",
-        siteId: "_",
-        pageId,
-    };
+export function createTestComment({
+    id,
+    pageId,
+    siteId,
+    author = null,
+    text = "Naname nanajyuunana-do no narabi de nakunaku inanaku nanahan nanadai nannaku narabete naganagame",
+    date = Timestamp.now(),
+    status = "Approved",
+}: OnlyRequired<Comment, "id" | "pageId" | "siteId">): Comment {
+    return { id, author, text, date, status, siteId, pageId };
 }
 
 /**
@@ -155,18 +157,18 @@ export function generateTestData() {
         `${JSON.stringify(nonExistingIds, null, 2)}\n`
     );
 
-    const uids = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "u" + i);
-    const siteIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "s" + i);
-    const pageIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "p" + i);
-    const commentIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "c" + i);
+    // const uids = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "u" + i);
+    // const siteIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "s" + i);
+    // const pageIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "p" + i);
+    // const commentIds = Array.from({ length: NUMBER_OF_SAMPLES }, (_, i) => "c" + i);
 
-    const users = uids.map(createTestUser);
-    const sites = siteIds.map((id, i) => createTestSite(uids[i], id));
-    const pages = pageIds.map((id, i) => createTestPage(siteIds[i], id));
-    const comments = commentIds.map((id, i) => createTestComment(pageIds[i], id));
+    // const users = uids.map(createTestUser);
+    // const sites = siteIds.map((id, i) => createTestSite(uids[i], id));
+    // const pages = pageIds.map((id, i) => createTestPage(siteIds[i], id));
+    // const comments = commentIds.map((id, i) => createTestComment(pageIds[i], id));
 
-    writeFileSync("./sample/server/users.json", `${JSON.stringify(users, null, 2)}\n`);
-    writeFileSync("./sample/server/sites.json", `${JSON.stringify(sites, null, 2)}\n`);
-    writeFileSync("./sample/server/pages.json", `${JSON.stringify(pages, null, 2)}\n`);
-    writeFileSync("./sample/server/comments.json", `${JSON.stringify(comments, null, 2)}\n`);
+    // writeFileSync("./sample/server/users.json", `${JSON.stringify(users, null, 2)}\n`);
+    // writeFileSync("./sample/server/sites.json", `${JSON.stringify(sites, null, 2)}\n`);
+    // writeFileSync("./sample/server/pages.json", `${JSON.stringify(pages, null, 2)}\n`);
+    // writeFileSync("./sample/server/comments.json", `${JSON.stringify(comments, null, 2)}\n`);
 }

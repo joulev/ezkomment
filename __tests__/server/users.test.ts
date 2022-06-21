@@ -10,17 +10,9 @@ describe("Test user utils", () => {
         await TestUtils.importUsers(TestUtils.createTestUser(uid));
     });
 
-    /////////
-    // GET //
-    /////////
-
     it(`Should fail when trying to get a non-existing user`, async () => {
         await expect(UserUtils.getUserById(nonExistingUid)).rejects.toMatchObject({ code: 404 });
     });
-
-    ////////////
-    // UPDATE //
-    ////////////
 
     it(`Should be able to update user`, async () => {
         await expect(

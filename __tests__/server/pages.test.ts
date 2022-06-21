@@ -1,6 +1,5 @@
 import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import * as PageUtils from "~/server/utils/crud/pageUtils";
-import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
 import { nonExistingPageId, nonExistingSiteId } from "~/sample/server/nonExistingIds.json";
@@ -9,8 +8,13 @@ describe("Test page utils", () => {
     const siteId = TestUtils.randomUUID();
     const [pageId1, pageId2, ...restPageIds] = Array.from({ length: 5 }, TestUtils.randomUUID);
     const pageName = "Eternal Knowledge";
-    const mainSite = TestUtils.createTestSite("_", siteId);
-    const mainPage = TestUtils.createTestPage(siteId, pageId1, pageName);
+    const mainSite = TestUtils.createTestSite({
+        uid: "_",
+        id: siteId,
+        pageCount: 5,
+        totalCommentCount: 5,
+    });
+    const mainPage = TestUtils.createTestPage({ siteId, id: pageId1, name: pageName });
 
     const commentIds = Array.from({ length: 5 }, TestUtils.randomUUID);
 
@@ -19,10 +23,12 @@ describe("Test page utils", () => {
             sites: [mainSite], // do not forget to create the site
             pages: [
                 mainPage,
-                TestUtils.createTestPage(siteId, pageId2),
-                ...restPageIds.map(id => TestUtils.createTestPage(siteId, id)),
+                TestUtils.createTestPage({ siteId, id: pageId2, totalCommentCount: 5 }),
+                ...restPageIds.map(id => TestUtils.createTestPage({ siteId, id })),
             ],
-            comments: commentIds.map(id => TestUtils.createTestComment(pageId2, id)),
+            comments: commentIds.map(id =>
+                TestUtils.createTestComment({ siteId, pageId: pageId2, id })
+            ),
         });
     });
 
@@ -30,7 +36,6 @@ describe("Test page utils", () => {
         await expect(PageUtils.getPageById(pageId1)).resolves.toMatchObject({
             id: pageId1,
             name: pageName,
-            autoApprove: expect.any(Boolean),
         });
     });
 
@@ -45,6 +50,8 @@ describe("Test page utils", () => {
                 autoApprove: false,
                 name: pageName,
                 siteId,
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 409 });
     });
@@ -52,10 +59,12 @@ describe("Test page utils", () => {
     it(`Should fail when trying to create a new page with a non-existing site`, async () => {
         await expect(
             PageUtils.createPage({
-                url: "https://en.touhouwiki.net/wiki/Flandre_Scalet",
+                url: "https://en.touhouwiki.net/wiki/Flandre_Scarlet",
                 autoApprove: false,
                 name: "Necrofantasia",
                 siteId: nonExistingSiteId,
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 404 });
     });
@@ -67,6 +76,8 @@ describe("Test page utils", () => {
                 autoApprove: false,
                 name: "Scarlet Devil",
                 siteId,
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 409 });
     });
