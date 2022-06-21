@@ -24,7 +24,7 @@ export async function getSite(req: NextApiRequest, res: ApiResponse) {
 
 export async function createSite(req: NextApiRequest, res: ApiResponse) {
     const data: CreateSiteBodyParams = req.body;
-    const result = await SiteUtils.createSite(data);
+    const result = await SiteUtils.createSite({ ...data, pageCount: 0 });
     res.status(201).json({ message: "Created site", data: result });
 }
 

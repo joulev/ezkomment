@@ -32,6 +32,7 @@ describe("Test site utils", () => {
         await expect(SiteUtils.getSiteById(siteId1)).resolves.toMatchObject({
             id: siteId1,
             name: siteName,
+            pageCount: 0,
         });
     });
 
@@ -45,6 +46,8 @@ describe("Test site utils", () => {
                 uid,
                 name: siteName,
                 domain: "https://en.touhouwiki.net/wiki/Yukari_Yakumo",
+                iconURL: null,
+                pageCount: 0,
             })
         ).rejects.toMatchObject({ code: 409 });
     });

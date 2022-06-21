@@ -1,6 +1,6 @@
 import * as CommentUtils from "~/server/utils/crud/commentUtils";
-import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as TestUtils from "~/server/utils/testUtils";
+import { PAGES_COLLECTION } from "~/server/firebase/firestoreCollections";
 
 import { nonExistingCommentId, nonExistingPageId } from "~/sample/server/nonExistingIds.json";
 
@@ -59,9 +59,5 @@ describe("Test comment utils", () => {
     it(`Should be able to delete ALL comments of a page`, async () => {
         await CommentUtils.deletePageCommentsById(pageId);
         await expect(CommentUtils.listPageCommentsById(pageId)).resolves.toHaveLength(0);
-    });
-
-    afterAll(async () => {
-        await PageUtils.deletePageById(pageId);
     });
 });

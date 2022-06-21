@@ -4,6 +4,8 @@
  *
  * Using sub-collection makes look up fast.
  */
+import { FieldValue } from "firebase-admin/firestore";
+
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { PAGES_COLLECTION, SITES_COLLECTION } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
@@ -34,7 +36,6 @@ export async function createPage(data: CreatePageRequest) {
         const newPage = { id: pageId, ...data };
         return await firestoreAdmin.runTransaction(async t => {
             const siteRef = SITES_COLLECTION.doc(siteId);
-            const sitePageRef = siteRef.collection("pages").doc(name);
             const siteSnapshot = await siteRef.get();
             if (!siteSnapshot.exists) {
                 throw new CustomApiError("Site does not exist", 404);
@@ -43,14 +44,14 @@ export async function createPage(data: CreatePageRequest) {
             if (!url.includes(siteData.domain)) {
                 throw new CustomApiError("Site domain and page url do not match", 409);
             }
+            // Increment the pageCount of the site by 1
+            t.update(siteRef, { pageCount: FieldValue.increment(1) });
             /**
              * If a page with the same name already exists in the site, this operation will fail,
              * making the entire transaction fail as well.
              */
-            t.create(sitePageRef, { id: pageId });
+            t.create(siteRef.collection("pages").doc(name), { id: pageId });
             t.create(pageRef, newPage);
-            // statistic?
-            // t.update(siteRef, { pageCount: FieldValue.increment(1) });
             return newPage;
         });
     } catch (err) {
@@ -94,7 +95,10 @@ export async function deletePageById(pageId: string) {
                 throw new CustomApiError("Page does not exist", 404);
             }
             const { name, siteId } = pageSnapshot.data() as Page;
-            t.delete(SITES_COLLECTION.doc(siteId).collection("pages").doc(name));
+            const siteRef = SITES_COLLECTION.doc(siteId);
+            // Decrease the number of page by 1
+            t.update(siteRef, { pageCount: FieldValue.increment(-1) });
+            t.delete(siteRef.collection("pages").doc(name));
             t.delete(pageRef);
         });
     } catch (err) {
@@ -118,6 +122,10 @@ export async function listSiteBasicPagesById(siteId: string) {
 
 export async function deleteSitePagesById(siteId: string) {
     try {
+        /**
+         * I will not set pageCount of the site back to 0.
+         * As this function is only used when a site is completely deleted.
+         */
         const pageSnapshots = await querySitePagesById(siteId).get();
         if (pageSnapshots.empty) return;
         const pageDocs = pageSnapshots.docs;

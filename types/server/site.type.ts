@@ -24,14 +24,14 @@ export type Site = {
      * The domain of the site.
      *
      */
-    readonly domain: string;
+    domain: string;
 
     // Statistic, optional at the moment
 
     /**
      * The number of page in this site
      */
-    pageCount?: number;
+    pageCount: number;
     totalCommentCount?: number;
     needApproval?: number;
     lastCommentDate?: Timestamp;
@@ -59,4 +59,9 @@ export type CreateSiteBodyParams = {
     uid: string;
 };
 
-export type CreateSiteRequest = CreateSiteBodyParams;
+export type SiteStatistics = {
+    totalComment: number[];
+    newComment: number[];
+};
+
+export type CreateSiteRequest = CreateSiteBodyParams & { pageCount: number };

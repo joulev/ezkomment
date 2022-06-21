@@ -40,7 +40,7 @@ export async function createSite(data: CreateSiteRequest) {
         const { uid, name } = data;
         const siteRef = SITES_COLLECTION.doc();
         const siteId = siteRef.id;
-        const newSite = {
+        const newSite: Site = {
             id: siteId,
             ...data,
         };

@@ -109,8 +109,4 @@ describe("Test page utils", () => {
             expect(CommentUtils.listPageCommentsById(pageId2)).resolves.toHaveLength(0),
         ]);
     });
-
-    afterAll(async () => {
-        await SiteUtils.deleteSiteById(siteId);
-    });
 });
