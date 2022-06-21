@@ -2,11 +2,7 @@ import { NextApiRequest } from "next";
 
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import { deleteSiteIconById } from "~/server/utils/crud/imageUtils";
-import {
-    deleteSitePagesById,
-    listSiteBasicPagesById,
-    listSitePagesById,
-} from "~/server/utils/crud/pageUtils";
+import { deleteSitePagesById, listSitePagesById } from "~/server/utils/crud/pageUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
 import { CreateSiteBodyParams, SiteStatistics, UpdateSiteBodyParams } from "~/types/server";
@@ -36,12 +32,7 @@ export async function getSite(req: NextApiRequest, res: ApiResponse) {
 
 export async function createSite(req: NextApiRequest, res: ApiResponse) {
     const data: CreateSiteBodyParams = req.body;
-    const result = await SiteUtils.createSite({
-        ...data,
-        pageCount: 0,
-        totalCommentCount: 0,
-        pendingCommentCount: 0,
-    });
+    const result = await SiteUtils.createSite(data);
     res.status(201).json({ message: "Created site", data: result });
 }
 

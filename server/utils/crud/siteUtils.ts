@@ -5,7 +5,7 @@ import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 
-import { CreateSiteRequest, Site, UpdateSiteBodyParams } from "~/types/server";
+import { CreateSiteBodyParams, Site, UpdateSiteBodyParams } from "~/types/server";
 
 import { handleFirestoreError } from "../errors/handleFirestoreError";
 import { deleteRefArray } from "../firestoreUtils";
@@ -35,7 +35,7 @@ export async function getSiteById(siteId: string) {
  * @param data The data of the site to be created
  * @returns The id of the created site.
  */
-export async function createSite(data: CreateSiteRequest) {
+export async function createSite(data: CreateSiteBodyParams) {
     try {
         const { uid, name } = data;
         const siteRef = SITES_COLLECTION.doc();
@@ -43,6 +43,9 @@ export async function createSite(data: CreateSiteRequest) {
         const newSite: Site = {
             id: siteId,
             ...data,
+            pageCount: 0,
+            totalCommentCount: 0,
+            pendingCommentCount: 0,
         };
         return await firestoreAdmin.runTransaction(async t => {
             /**

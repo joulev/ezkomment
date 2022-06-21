@@ -10,7 +10,7 @@ function isApprovedStatus(status: string) {
 }
 
 export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
-    const { author, text }: RawBody<CreateCommentBodyParams> = req.body;
+    const { author, text, pageId }: RawBody<CreateCommentBodyParams> = req.body;
     if (typeof text !== "string" || validator.isEmpty(text)) {
         throw new CustomApiError("'text' must not be a non-empty string");
     }
@@ -23,7 +23,11 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
             "'author' must be a non-empty string, undefined or null. If undefined, 'author' will be casted to null."
         );
     }
-    req.body = { author: author ?? null, text };
+    // Subject to change
+    if (typeof pageId !== "string" || validator.isEmpty(pageId)) {
+        throw new CustomApiError("'pageId' must be a non-empty string");
+    }
+    req.body = { author: author ?? null, text, pageId };
     next();
 };
 

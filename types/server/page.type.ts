@@ -31,9 +31,4 @@ export type CreatePageBodyParams = {
     siteId: string;
 };
 
-export type CreatePageRequest = CreatePageBodyParams & {
-    totalCommentCount: number;
-    pendingCommentCount: number;
-};
-
 export type ClientPage = Page & { comments: Comment[] };

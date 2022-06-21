@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase-admin/firestore";
-
 import { Page } from "./page.type";
 
 export type Site = {
@@ -64,12 +62,6 @@ export type CreateSiteBodyParams = {
 export type SiteStatistics = {
     totalComment: number[];
     newComment: number[];
-};
-
-export type CreateSiteRequest = CreateSiteBodyParams & {
-    pageCount: number;
-    totalCommentCount: number;
-    pendingCommentCount: number;
 };
 
 export type ClientSite = Site & { pages: Page[] };

@@ -16,11 +16,7 @@ export async function getPage(req: NextApiRequest, res: ApiResponse) {
 
 export async function createPage(req: NextApiRequest, res: ApiResponse) {
     const data: CreatePageBodyParams = req.body;
-    const result = await PageUtils.createPage({
-        ...data,
-        totalCommentCount: 0,
-        pendingCommentCount: 0,
-    });
+    const result = await PageUtils.createPage(data);
     res.status(201).json({ message: "Created new page", data: result });
 }
 

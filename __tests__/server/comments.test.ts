@@ -1,6 +1,5 @@
 import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import * as TestUtils from "~/server/utils/testUtils";
-import { PAGES_COLLECTION } from "~/server/firebase/firestoreCollections";
 
 import { nonExistingCommentId, nonExistingPageId } from "~/sample/server/nonExistingIds.json";
 

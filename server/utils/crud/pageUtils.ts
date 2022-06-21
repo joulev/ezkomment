@@ -6,7 +6,7 @@ import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { deleteRefArray } from "~/server/utils/firestoreUtils";
 
-import { CreatePageRequest, Page, Site, UpdatePageBodyParams } from "~/types/server";
+import { CreatePageBodyParams, Page, Site, UpdatePageBodyParams } from "~/types/server";
 
 import { deletePageCommentsById } from "./commentUtils";
 
@@ -22,12 +22,17 @@ export async function getPageById(pageId: string) {
     }
 }
 
-export async function createPage(data: CreatePageRequest) {
+export async function createPage(data: CreatePageBodyParams) {
     try {
         const { siteId, url, name } = data;
         const pageRef = PAGES_COLLECTION.doc();
         const pageId = pageRef.id;
-        const newPage = { id: pageId, ...data };
+        const newPage: Page = {
+            id: pageId,
+            ...data,
+            totalCommentCount: 0,
+            pendingCommentCount: 0,
+        };
         return await firestoreAdmin.runTransaction(async t => {
             const siteRef = SITES_COLLECTION.doc(siteId);
             const siteSnapshot = await siteRef.get();

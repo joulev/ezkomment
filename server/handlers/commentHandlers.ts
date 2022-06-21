@@ -3,17 +3,12 @@ import { NextApiRequest } from "next";
 import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import {
-    CreateCommentBodyParams,
-    CreateCommentPathParams,
-    UpdateCommentBodyParams,
-} from "~/types/server";
+import { CreateCommentBodyParams, UpdateCommentBodyParams } from "~/types/server";
 import { ApiResponse } from "~/types/server/nextApi.type";
 
 export async function createComment(req: NextApiRequest, res: ApiResponse) {
-    const { pageId } = extractFirstQueryValue(req) as CreateCommentPathParams;
     const data: CreateCommentBodyParams = req.body;
-    const result = await CommentUtils.createComment({ pageId, ...data });
+    const result = await CommentUtils.createComment(data);
     res.status(201).json({ message: "Created new comment", data: result });
 }
 

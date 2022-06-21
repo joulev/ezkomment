@@ -13,7 +13,7 @@ import { deleteQuery } from "~/server/utils/firestoreUtils";
 import {
     ApprovedStatus,
     Comment,
-    CreateCommentRequest,
+    CreateCommentBodyParams,
     Page,
     UpdateCommentBodyParams,
 } from "~/types/server";
@@ -22,7 +22,7 @@ import {
  * Creates a new comment for a particular page.
  * @param data The data of the comment
  */
-export async function createComment(data: CreateCommentRequest) {
+export async function createComment(data: CreateCommentBodyParams) {
     try {
         const { pageId } = data;
         const commentRef = COMMENTS_COLLECTION.doc();
@@ -36,7 +36,7 @@ export async function createComment(data: CreateCommentRequest) {
             const pageData = pageSnapshot.data() as Page;
             const siteRef = SITES_COLLECTION.doc(pageData.siteId);
             // new comment content
-            const newComment = {
+            const newComment: Comment = {
                 id: commentId,
                 date: Timestamp.now(),
                 status: pageData.autoApprove ? "Approved" : ("Pending" as ApprovedStatus),

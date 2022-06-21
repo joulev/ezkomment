@@ -50,8 +50,6 @@ describe("Test page utils", () => {
                 autoApprove: false,
                 name: pageName,
                 siteId,
-                totalCommentCount: 0,
-                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 409 });
     });
@@ -63,8 +61,6 @@ describe("Test page utils", () => {
                 autoApprove: false,
                 name: "Necrofantasia",
                 siteId: nonExistingSiteId,
-                totalCommentCount: 0,
-                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 404 });
     });
@@ -76,8 +72,6 @@ describe("Test page utils", () => {
                 autoApprove: false,
                 name: "Scarlet Devil",
                 siteId,
-                totalCommentCount: 0,
-                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 409 });
     });

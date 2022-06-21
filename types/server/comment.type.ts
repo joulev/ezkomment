@@ -16,10 +16,6 @@ export type Comment = {
 
 export type ApprovedStatus = "Approved" | "Pending";
 
-export type CreateCommentPathParams = {
-    pageId: string;
-};
-
 /**
  * Only allow to update comment's status
  */
@@ -32,8 +28,7 @@ export type UpdateCommentBodyParams = {
  * We will get the comment status by querying the page containing the comment
  */
 export type CreateCommentBodyParams = {
+    pageId: string;
     author: string | null;
     text: string;
 };
-
-export type CreateCommentRequest = CreateCommentPathParams & CreateCommentBodyParams;

@@ -52,9 +52,6 @@ describe("Test site utils", () => {
                 name: siteName,
                 domain: "https://en.touhouwiki.net/wiki/Yukari_Yakumo",
                 iconURL: null,
-                pageCount: 0,
-                totalCommentCount: 0,
-                pendingCommentCount: 0,
             })
         ).rejects.toMatchObject({ code: 409 });
     });
