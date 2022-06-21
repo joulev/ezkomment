@@ -9,7 +9,7 @@ import {
 } from "~/server/utils/crud/pageUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { CreateSiteBodyParams, UpdateSiteBodyParams } from "~/types/server";
+import { CreateSiteBodyParams, SiteStatistics, UpdateSiteBodyParams } from "~/types/server";
 import { ApiResponse } from "~/types/server/nextApi.type";
 
 export async function getSite(req: NextApiRequest, res: ApiResponse) {
@@ -19,7 +19,19 @@ export async function getSite(req: NextApiRequest, res: ApiResponse) {
      * Get all information about pages here.
      */
     const pages = await listSitePagesById(siteId);
-    res.status(200).json({ message: "Got site information", data: { ...data, pages } });
+
+    // STATISTIC, NOT IMPLEMENTED AT THE MOMENT. THIS IS JUST A PLACEHOLDER
+    const zeroes = Array.from({ length: 30 }).map(_ => 0);
+    const statistic: SiteStatistics = {
+        totalComment: zeroes,
+        newComment: zeroes,
+    };
+    // END OF PLACEHOLDER
+
+    res.status(200).json({
+        message: "Got site information",
+        data: { ...data, pages, statistic },
+    });
 }
 
 export async function createSite(req: NextApiRequest, res: ApiResponse) {
