@@ -131,10 +131,26 @@ export async function listPageCommentsById(pageId: string) {
     return commentSnapshots.docs.map(doc => doc.data());
 }
 
-export async function deletePageCommentsById(pageId: string) {
+/**
+ * We will need to update the comment count of the page, if we delete all comments.
+ * But this may be redudant in some case, for example if we want to delete all pages of a site.
+ *
+ * @param pageId The page's id
+ * @param updatePage If true, the page will be updated. Default to false
+ */
+export async function deletePageCommentsById(pageId: string, updatePage: boolean = false) {
     try {
         const commentQuery = COMMENTS_COLLECTION.where("pageId", "==", pageId);
-        return await deleteQuery(commentQuery);
+        const promises: Promise<any>[] = [deleteQuery(commentQuery)];
+        if (updatePage) {
+            const updateCommentCount = {
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
+            };
+            // The update could fail here, if the page does not exist.
+            promises.push(PAGES_COLLECTION.doc(pageId).update(updateCommentCount));
+        }
+        return await Promise.all(promises);
     } catch (err) {
         handleFirestoreError(err);
     }
