@@ -34,6 +34,8 @@ export async function createComment(data: CreateCommentRequest) {
                 throw new CustomApiError("Page does not exist", 404);
             }
             const pageData = pageSnapshot.data() as Page;
+            const siteRef = SITES_COLLECTION.doc(pageData.siteId);
+            // new comment content
             const newComment = {
                 id: commentId,
                 date: Timestamp.now(),
@@ -41,13 +43,12 @@ export async function createComment(data: CreateCommentRequest) {
                 siteId: pageData.siteId, // I will save a reference to the site for easier update
                 ...data,
             };
+            // update information about total number of comment.
             const incrementByOne = FieldValue.increment(1);
-            // Update the number of pending comment
-            if (!pageData.autoApprove) {
-                t.update(pageRef, { totalCommentCount: incrementByOne });
-            }
-            // Update the number of total comment
-            t.update(pageRef, { totalCommentCount: incrementByOne });
+            const updateCommentCount: any = { totalCommentCount: incrementByOne };
+            if (!pageData.autoApprove) updateCommentCount.pendingCommentCount = incrementByOne;
+            t.update(siteRef, updateCommentCount);
+            t.update(pageRef, updateCommentCount);
             t.create(commentRef, newComment);
             return newComment;
         });
@@ -79,8 +80,10 @@ export async function updateCommentById(commentId: string, data: UpdateCommentBo
             }
             // We shall decrement the value of pendingCommentCount
             const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
+            const siteRef = PAGES_COLLECTION.doc(commentData.siteId);
             const decrementByOne = FieldValue.increment(-1);
             t.update(pageRef, { pendingCommentCount: decrementByOne });
+            t.update(siteRef, { pendingCommentCount: decrementByOne });
             t.update(commentRef, data);
         });
     } catch (err) {
@@ -103,13 +106,15 @@ export async function deleteCommentById(commentId: string) {
             }
             const commentData = commentSnapshot.data() as Comment;
             const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
+            const siteRef = SITES_COLLECTION.doc(commentData.siteId);
+
             const decrementByOne = FieldValue.increment(-1);
             // Should not use any here, but I am lazy right now
-            const updatePageContent: any = { totalCommentCount: decrementByOne };
-            if (commentData.status === "Pending") {
-                updatePageContent.pendingCommentCount = decrementByOne;
-            }
-            t.update(pageRef, updatePageContent);
+            const updateCommentCount: any = { totalCommentCount: decrementByOne };
+            if (commentData.status === "Pending")
+                updateCommentCount.pendingCommentCount = decrementByOne;
+            t.update(siteRef, updateCommentCount);
+            t.update(pageRef, updateCommentCount);
             t.delete(commentRef);
         });
     } catch (err) {
@@ -122,12 +127,8 @@ export async function deleteCommentById(commentId: string) {
 /////////////////////////
 
 export async function listPageCommentsById(pageId: string) {
-    try {
-        const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
-        return commentSnapshots.docs.map(doc => doc.data());
-    } catch (err) {
-        handleFirestoreError(err);
-    }
+    const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
+    return commentSnapshots.docs.map(doc => doc.data());
 }
 
 export async function deletePageCommentsById(pageId: string) {

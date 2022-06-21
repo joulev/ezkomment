@@ -1,9 +1,3 @@
-/**
- * To ensure the uniqueness of page's name (regarding other pages that share the same site), we can
- * use a sub-collection.
- *
- * Using sub-collection makes look up fast.
- */
 import { FieldValue } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";

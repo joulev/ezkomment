@@ -34,9 +34,8 @@ export type Site = {
      * The number of page in this site
      */
     pageCount: number;
-    totalCommentCount?: number;
-    needApproval?: number;
-    lastCommentDate?: Timestamp;
+    totalCommentCount: number;
+    pendingCommentCount: number;
 
     // Foreign key
 
@@ -66,6 +65,10 @@ export type SiteStatistics = {
     newComment: number[];
 };
 
-export type CreateSiteRequest = CreateSiteBodyParams & { pageCount: number };
+export type CreateSiteRequest = CreateSiteBodyParams & {
+    pageCount: number;
+    totalCommentCount: number;
+    pendingCommentCount: number;
+};
 
 export type ClientSite = Site & { pages: Page[] };

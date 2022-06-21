@@ -93,7 +93,16 @@ export function createTestUser(uid: string): UserImportRecord {
  * create site for testing.
  */
 export function createTestSite(uid: string, id: string, name: string = `Site ${id}`): Site {
-    return { id, name, domain: `https://example${id}.com`, iconURL: null, uid, pageCount: 0 };
+    return {
+        id,
+        name,
+        domain: `https://example${id}.com`,
+        iconURL: null,
+        uid,
+        pageCount: 0,
+        totalCommentCount: 0,
+        pendingCommentCount: 0,
+    };
 }
 
 export function createTestPage(siteId: string, id: string, name: string = `Page ${id}`): Page {
