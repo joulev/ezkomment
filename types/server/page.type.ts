@@ -6,6 +6,8 @@ export type Page = {
     url: string;
     autoApprove: boolean;
 
+    totalCommentCount: number;
+    pendingCommentCount: number;
     readonly siteId: string; // foreign key
 };
 
@@ -29,6 +31,9 @@ export type CreatePageBodyParams = {
     siteId: string;
 };
 
-export type CreatePageRequest = CreatePageBodyParams;
+export type CreatePageRequest = CreatePageBodyParams & {
+    totalCommentCount: number;
+    pendingCommentCount: number;
+};
 
 export type ClientPage = Page & { comments: Comment[] };

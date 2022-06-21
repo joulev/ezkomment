@@ -6,7 +6,7 @@ import { CreateCommentBodyParams, RawBody, UpdateCommentBodyParams } from "~/typ
 import { ApiMiddleware } from "~/types/server/nextApi.type";
 
 function isApprovedStatus(status: string) {
-    return status === "Approved" || status === "Pending";
+    return status === "Approved";
 }
 
 export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
@@ -30,7 +30,7 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
 export const sanitizeUpdateCommentRequest: ApiMiddleware = (req, _, next) => {
     let { status }: RawBody<UpdateCommentBodyParams> = req.body;
     if (typeof status !== "string" || !isApprovedStatus(status)) {
-        throw new CustomApiError("'status' must be either 'Approved' or 'Pending'");
+        throw new CustomApiError("'status' must be 'Approved'");
     }
     req.body = { status };
     next();

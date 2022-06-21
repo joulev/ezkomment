@@ -97,7 +97,15 @@ export function createTestSite(uid: string, id: string, name: string = `Site ${i
 }
 
 export function createTestPage(siteId: string, id: string, name: string = `Page ${id}`): Page {
-    return { id, name, url: `https://example${siteId}.com/${id}`, autoApprove: true, siteId };
+    return {
+        id,
+        name,
+        url: `https://example${siteId}.com/${id}`,
+        autoApprove: true,
+        totalCommentCount: 0,
+        pendingCommentCount: 0,
+        siteId,
+    };
 }
 
 export function createTestComment(pageId: string, commentId: string): Comment {
@@ -107,6 +115,7 @@ export function createTestComment(pageId: string, commentId: string): Comment {
         text: "This is a test comment",
         date: Timestamp.now(),
         status: "Approved",
+        siteId: "_",
         pageId,
     };
 }

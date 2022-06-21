@@ -10,6 +10,7 @@ export type Comment = {
     date: Timestamp;
     status: ApprovedStatus;
 
+    readonly siteId: string;
     readonly pageId: string;
 };
 
