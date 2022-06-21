@@ -120,14 +120,16 @@ export async function listSiteBasicPagesById(siteId: string) {
     return pageSnapshots.docs.map(doc => doc.data());
 }
 
-export async function deleteSitePagesById(siteId: string) {
+/**
+ * Deletes all pages of a site, including their comments as well. This method can also update the
+ * site, if required.
+ *
+ * @param siteId The site's id
+ * @param updateSite If true, the site will be updated. Default to false.
+ */
+export async function deleteSitePagesById(siteId: string, updateSite: boolean = false) {
     try {
-        /**
-         * I will not set pageCount of the site back to 0.
-         * As this function is only used when a site is completely deleted.
-         */
         const pageSnapshots = await querySitePagesById(siteId).get();
-        if (pageSnapshots.empty) return;
         const pageDocs = pageSnapshots.docs;
         const pageRefs = pageDocs.map(doc => doc.ref);
         const pageIds = pageDocs.map(doc => doc.id);
@@ -135,11 +137,20 @@ export async function deleteSitePagesById(siteId: string) {
             const { name } = doc.data() as Page;
             return SITES_COLLECTION.doc(siteId).collection("pages").doc(name);
         });
-        return await Promise.all([
+        const promises: Promise<any>[] = [
             deleteRefArray(pageRefs), // DELETE all pages
             deleteRefArray(pageNameRefs), // DELETE all page name refs
             ...pageIds.map(id => deletePageCommentsById(id)), // And their comments
-        ]);
+        ];
+        if (updateSite) {
+            const updateCommentCount = {
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
+            };
+            // The update could fail here, if the site does not exist.
+            promises.push(SITES_COLLECTION.doc(siteId).update(updateCommentCount));
+        }
+        return await Promise.all(promises);
     } catch (err) {
         handleFirestoreError(err);
     }
