@@ -1,6 +1,3 @@
-/**
- * We also need to ensure the uniqueness of site's name.
- */
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
@@ -32,15 +29,17 @@ export async function getSiteById(siteId: string) {
 /**
  * Creates a site.
  *
+ * @param uid The id of the owner of the site
  * @param data The data of the site to be created
  * @returns The id of the created site.
  */
-export async function createSite(data: CreateSiteBodyParams) {
+export async function createSite(uid: string, data: CreateSiteBodyParams) {
     try {
-        const { uid, name } = data;
+        const { name } = data;
         const siteRef = SITES_COLLECTION.doc();
         const siteId = siteRef.id;
         const newSite: Site = {
+            uid,
             id: siteId,
             ...data,
             pageCount: 0,
@@ -62,23 +61,24 @@ export async function createSite(data: CreateSiteBodyParams) {
 
 /**
  * Updates a site with the given id.
+ *
+ * @param uid The id of the owner of the site
  * @param siteId The site's id
  */
-export async function updateSiteById(siteId: string, data: UpdateSiteBodyParams) {
+export async function updateSiteById(uid: string, siteId: string, data: UpdateSiteBodyParams) {
     try {
         const siteRef = SITES_COLLECTION.doc(siteId);
         const newName = data.name;
         return await firestoreAdmin.runTransaction(async t => {
+            // Look up the site's name
+            const siteSnapshot = await t.get(siteRef);
+            const siteData = siteSnapshot.data() as Site;
+
+            if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
+            if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
+
             if (newName !== undefined) {
-                // Look up the site's name
-                const siteSnapshot = await t.get(siteRef);
-                if (!siteSnapshot.exists) {
-                    throw new CustomApiError("Site does not exist", 404);
-                }
-                const siteData = siteSnapshot.data() as Site;
                 const oldName = siteData.name;
-                const uid = siteData.uid;
-                // Update the name list
                 t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(oldName));
                 t.create(USERS_COLLECTION.doc(uid).collection("sites").doc(newName), {
                     id: siteId,
@@ -93,18 +93,21 @@ export async function updateSiteById(siteId: string, data: UpdateSiteBodyParams)
 
 /**
  * Deletes a site with the given id.
+ *
+ * @param uid The id of the owner of the site
  * @param siteId The site's id
  */
-export async function deleteSiteById(siteId: string) {
+export async function deleteSiteById(uid: string, siteId: string) {
     try {
         const siteRef = SITES_COLLECTION.doc(siteId);
         return await firestoreAdmin.runTransaction(async t => {
             const siteSnapshot = await t.get(siteRef);
-            if (!siteSnapshot.exists) {
-                throw new CustomApiError("Site does not exist", 404);
-            }
-            const { name, uid } = siteSnapshot.data() as Site;
-            t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(name));
+            const siteData = siteSnapshot.data() as Site;
+
+            if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
+            if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
+
+            t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(siteData.name));
             t.delete(siteRef);
         });
     } catch (err) {

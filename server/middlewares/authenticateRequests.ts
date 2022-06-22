@@ -2,7 +2,7 @@ import { verifyJWT, verifySessionCookie } from "~/server/utils/authUtils";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { ApiMiddleware } from "~/types/server/nextApi.type";
+import { ApiMiddleware, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
 
 /**
  * Middleware that checks whether the current user's uid and the targeted document's uid match.
@@ -47,5 +47,10 @@ export const authenticateWithJWT: ApiMiddleware = async (req, _, next) => {
 export const validateSessionCookie: ApiMiddleware = async (req, res, next) => {
     const sessionCookie = req.cookies.session;
     await verifySessionCookie(sessionCookie);
+    next();
+};
+
+export const attachUidWithJWT: ApiMiddleware<AuthenticatedApiRequest> = async (req, _, next) => {
+    req.user = await verifyJWT(req.headers.authorization);
     next();
 };

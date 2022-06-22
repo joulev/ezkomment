@@ -22,12 +22,19 @@ export async function getPageById(pageId: string) {
     }
 }
 
-export async function createPage(data: CreatePageBodyParams) {
+/**
+ * Creates a new page
+ *
+ * @param uid The id of the owner of the page
+ * @param data The data of the page
+ */
+export async function createPage(uid: string, data: CreatePageBodyParams) {
     try {
         const { siteId, url, name } = data;
         const pageRef = PAGES_COLLECTION.doc();
         const pageId = pageRef.id;
         const newPage: Page = {
+            uid,
             id: pageId,
             ...data,
             totalCommentCount: 0,
@@ -36,13 +43,13 @@ export async function createPage(data: CreatePageBodyParams) {
         return await firestoreAdmin.runTransaction(async t => {
             const siteRef = SITES_COLLECTION.doc(siteId);
             const siteSnapshot = await siteRef.get();
-            if (!siteSnapshot.exists) {
-                throw new CustomApiError("Site does not exist", 404);
-            }
             const siteData = siteSnapshot.data() as Site;
-            if (!url.includes(siteData.domain)) {
+
+            if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
+            if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
+            if (!url.includes(siteData.domain))
                 throw new CustomApiError("Site domain and page url do not match", 409);
-            }
+
             // Increment the pageCount of the site by 1
             t.update(siteRef, { pageCount: FieldValue.increment(1) });
             /**
@@ -58,7 +65,14 @@ export async function createPage(data: CreatePageBodyParams) {
     }
 }
 
-export async function updatePageById(pageId: string, data: UpdatePageBodyParams) {
+/**
+ * Updates a page with the given id.
+ *
+ * @param uid The id of the owner of the page
+ * @param pageId The id of the page
+ * @param data The data to update the page
+ */
+export async function updatePageById(uid: string, pageId: string, data: UpdatePageBodyParams) {
     try {
         const pageRef = PAGES_COLLECTION.doc(pageId);
         const newName = data.name;
@@ -66,10 +80,11 @@ export async function updatePageById(pageId: string, data: UpdatePageBodyParams)
             if (newName !== undefined) {
                 // We will need to look up to get the page's name
                 const pageSnapshot = await t.get(pageRef);
-                if (!pageSnapshot.exists) {
-                    throw new CustomApiError("Page does not exist", 404);
-                }
                 const pageData = pageSnapshot.data() as Page;
+
+                if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
+                if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
+
                 const oldName = pageData.name;
                 const siteId = pageData.siteId;
                 // Now update the name list
@@ -85,16 +100,17 @@ export async function updatePageById(pageId: string, data: UpdatePageBodyParams)
     }
 }
 
-export async function deletePageById(pageId: string) {
+export async function deletePageById(uid: string, pageId: string) {
     try {
         const pageRef = PAGES_COLLECTION.doc(pageId);
         return await firestoreAdmin.runTransaction(async t => {
             const pageSnapshot = await t.get(pageRef);
-            if (!pageSnapshot.exists) {
-                throw new CustomApiError("Page does not exist", 404);
-            }
-            const { name, siteId, totalCommentCount, pendingCommentCount } =
-                pageSnapshot.data() as Page;
+            const pageData = pageSnapshot.data() as Page;
+
+            if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
+            if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
+
+            const { name, siteId, totalCommentCount, pendingCommentCount } = pageData;
             const siteRef = SITES_COLLECTION.doc(siteId);
             // Decrease the number of page by 1, decrease the number of total comment count,
             // and pending comment count
