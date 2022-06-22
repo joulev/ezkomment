@@ -24,9 +24,8 @@ function setSitesInBatch(batch: WriteBatch, sites: Site[]) {
 
 function setPagesInBatch(batch: WriteBatch, pages: Page[]) {
     for (const page of pages) {
-        const { id, siteId, name } = page;
+        const { id } = page;
         batch.set(PAGES_COLLECTION.doc(id), page);
-        batch.set(SITES_COLLECTION.doc(siteId).collection("pages").doc(name), { id });
     }
 }
 
@@ -95,8 +94,8 @@ export function createTestUser(uid: string): UserImportRecord {
  * user@(User uid id name ...)
  */
 export function createTestSite({
-    uid,
     id,
+    uid,
     name = `Site ${id}`,
     domain = `https://example${id}.com`,
     iconURL = null,
@@ -109,14 +108,15 @@ export function createTestSite({
 
 export function createTestPage({
     id,
+    uid,
     siteId,
-    name = `Page ${id}`,
+    title = `Page ${id}`,
     autoApprove = true,
     url = `https://example${siteId}.com/${id}`,
     totalCommentCount = 0,
     pendingCommentCount = 0,
-}: OnlyRequired<Page, "id" | "siteId">): Page {
-    return { id, name, url, autoApprove, totalCommentCount, pendingCommentCount, siteId };
+}: OnlyRequired<Page, "id" | "siteId" | "uid">): Page {
+    return { id, title, url, autoApprove, totalCommentCount, pendingCommentCount, uid, siteId };
 }
 
 export function createTestComment({

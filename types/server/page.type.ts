@@ -2,7 +2,8 @@ import { Comment } from "./comment.type";
 
 export type Page = {
     readonly id: string;
-    name: string;
+
+    title: string;
     url: string;
     autoApprove: boolean;
 
@@ -15,13 +16,13 @@ export type Page = {
 
 export type UpdatePageBodyParams = {
     url?: string;
-    name?: string;
+    title?: string;
     autoApprove?: boolean;
 };
 
 export type CreatePageBodyParams = {
     url: string;
-    name: string;
+    title: string;
     autoApprove: boolean; // default true
     siteId: string;
 };

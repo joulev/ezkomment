@@ -27,7 +27,7 @@ describe("Test site utils", () => {
                 TestUtils.createTestSite({ uid, id: siteId2, pageCount: 5, totalCommentCount: 5 }),
                 ...restSiteIds.map(id => TestUtils.createTestSite({ uid, id })),
             ],
-            pages: pageIds.map(id => TestUtils.createTestPage({ siteId: siteId2, id })),
+            pages: pageIds.map(id => TestUtils.createTestPage({ uid, siteId: siteId2, id })),
             comments: commentIds.map(id =>
                 TestUtils.createTestComment({ siteId: siteId2, pageId, id })
             ),

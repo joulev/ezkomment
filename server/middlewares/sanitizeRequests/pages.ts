@@ -7,9 +7,9 @@ import { CreatePageBodyParams, RawBody, UpdatePageBodyParams } from "~/types/ser
 import { ApiMiddleware } from "~/types/server/nextApi.type";
 
 export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
-    const { name, url, autoApprove, siteId }: RawBody<CreatePageBodyParams> = req.body;
-    if (typeof name !== "string" || validator.isEmpty(name)) {
-        throw new CustomApiError("'name' must be a non-empty string");
+    const { title, url, autoApprove, siteId }: RawBody<CreatePageBodyParams> = req.body;
+    if (typeof title !== "string" || validator.isEmpty(title)) {
+        throw new CustomApiError("'title' must be a non-empty string");
     }
     if (typeof url !== "string" || !validator.isURL(url)) {
         throw new CustomApiError("'url' is invalid");
@@ -28,9 +28,9 @@ export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
 };
 
 export const sanitizeUpdatePageRequest: ApiMiddleware = (req, _, next) => {
-    const { name, url, autoApprove }: RawBody<UpdatePageBodyParams> = req.body;
-    if (name !== undefined && (typeof name !== "string" || validator.isEmpty(name))) {
-        throw new CustomApiError("'name' must be a non-empty string");
+    const { title, url, autoApprove }: RawBody<UpdatePageBodyParams> = req.body;
+    if (title !== undefined && (typeof title !== "string" || validator.isEmpty(title))) {
+        throw new CustomApiError("'title' must be a non-empty string");
     }
     if (url !== undefined && (typeof url !== "string" || !validator.isURL(url))) {
         throw new CustomApiError("'url' is invalid");
