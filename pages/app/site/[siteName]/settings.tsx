@@ -13,7 +13,6 @@ import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
 import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
-import { refreshUser } from "~/client/lib/firebase/auth";
 
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
@@ -80,7 +79,7 @@ const UpdateSiteName: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ 
       });
       if (!success) throw UNABLE_TO_UPDATE_SITE;
       router.replace(`/app/site/${name}/settings?loading=1`);
-      await refreshUser(auth);
+      await auth.mutate();
       mutate({ ...site, name });
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
@@ -125,7 +124,7 @@ const UpdateSiteDomain: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = (
         options: { body: JSON.stringify({ domain }) },
       });
       if (!success) throw UNABLE_TO_UPDATE_SITE;
-      await refreshUser(auth);
+      await auth.mutate();
       mutate({ ...site, domain });
       setMsg({ type: "success", message: "Domain updated successfully." });
     } catch (err: any) {
@@ -175,7 +174,7 @@ const UploadSiteIcon: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ 
       if (!success) throw UNABLE_TO_UPDATE_SITE;
       const iconURL =
         ((body as ApiResponseBody).data as Record<string, string> | undefined)?.iconURL ?? "";
-      await refreshUser(auth);
+      await auth.mutate();
       mutate({ ...site, iconURL });
       setMsg({ type: "success", message: "Site icon updated successfully." });
       setIcon(null);
@@ -231,7 +230,7 @@ const DeleteSite: FC<{ site: ClientSite }> = ({ site }) => {
       const { success } = await internalFetcher({ url: `/api/sites/${site.id}`, method: "DELETE" });
       if (!success) throw UNABLE_TO_DELETE_SITE;
       router.replace("/app/dashboard?loading=1");
-      await refreshUser(auth);
+      await auth.mutate();
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }

@@ -3,10 +3,10 @@ import { createContext } from "react";
 import { AppAuth } from "~/types/client/auth.type";
 
 const AuthContext = createContext<AppAuth>({
-    user: null,
-    setUser: () => {},
+    user: undefined,
+    mutate: async () => undefined,
     loading: true,
-    setLoading: () => {},
+    setLoading: () => undefined,
 });
 
 export default AuthContext;

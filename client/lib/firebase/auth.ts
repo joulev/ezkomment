@@ -14,7 +14,6 @@ import { internalFetcher } from "~/client/lib/fetcher";
 
 import { AppAuth, Provider } from "~/types/client/auth.type";
 import { ClientUser } from "~/types/server";
-import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 import firebaseApp from "./app";
 
@@ -55,18 +54,6 @@ export async function reauthenticate({ setLoading }: AppAuth, provider: Provider
     setLoading(false);
 }
 
-export async function getUser() {
-    if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
-    const fetchInfo = await internalFetcher({ url: `/api/users/${auth.currentUser.uid}` });
-    if (!fetchInfo.success) throw E.UNKNOWN_ERROR;
-    return (fetchInfo.body as ApiResponseBody).data as ClientUser;
-}
-
-export async function refreshUser({ setUser }: AppAuth) {
-    const user = await getUser();
-    setUser(user);
-}
-
 export async function updateDisplayName(appAuth: AppAuth, displayName: string) {
     appAuth.setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
@@ -76,7 +63,7 @@ export async function updateDisplayName(appAuth: AppAuth, displayName: string) {
         options: { body: JSON.stringify({ displayName }) },
     });
     if (!success) throw E.UNABLE_TO_UPDATE_NAME;
-    await refreshUser(appAuth);
+    await appAuth.mutate({ ...(appAuth.user as ClientUser), displayName });
     appAuth.setLoading(false);
 }
 
@@ -90,7 +77,7 @@ export async function updatePhoto(appAuth: AppAuth, photo: File) {
         false
     );
     if (!success) throw E.UNABLE_TO_UPDATE_PHOTO;
-    await refreshUser(appAuth);
+    await appAuth.mutate();
     appAuth.setLoading(false);
 }
 
@@ -102,6 +89,6 @@ export async function deleteAccount(appAuth: AppAuth) {
         url: `/api/users/${auth.currentUser.uid}`,
     });
     if (!success) throw E.UNABLE_TO_DELETE_ACCOUNT;
-    await refreshUser(appAuth);
+    await appAuth.mutate(undefined);
     appAuth.setLoading(false);
 }
