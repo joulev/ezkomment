@@ -7,8 +7,9 @@ import { CreateSiteBodyParams, SiteStatistics, UpdateSiteBodyParams } from "~/ty
 import { ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
 
 export async function getSite(req: AuthenticatedApiRequest, res: ApiResponse) {
+    const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
-    const data = await SiteUtils.getSiteById(siteId);
+    const data = await SiteUtils.getSiteById(uid, siteId);
 
     /**
      * Get all information about pages here.

@@ -6,8 +6,9 @@ import { CreatePageBodyParams, UpdatePageBodyParams } from "~/types/server";
 import { ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
 
 export async function getPage(req: AuthenticatedApiRequest, res: ApiResponse) {
+    const { uid } = req.user;
     const { pageId } = extractFirstQueryValue(req);
-    const data = await PageUtils.getPageById(pageId);
+    const data = await PageUtils.getPageById(uid, pageId);
     const comments = await listPageCommentsById(pageId);
     res.status(200).json({ message: "Got page information", data: { ...data, comments } });
 }

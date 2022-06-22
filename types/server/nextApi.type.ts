@@ -56,3 +56,5 @@ export type AuthenticatedApiRequest = NextApiRequest & {
     // We shall attach the uid into the request
     user: DecodedIdToken;
 };
+
+export type AuthenticatedApiRequestWithFormData = AuthenticatedApiRequest & ApiRequestWithFormData;

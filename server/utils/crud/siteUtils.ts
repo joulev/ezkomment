@@ -11,16 +11,19 @@ import { deleteSitePagesById } from "./pageUtils";
 /**
  * Get a site with the given id.
  *
+ * @param uid The id of the owner of this site
  * @param siteId The site's id
  * @returns The data of the site.
  */
-export async function getSiteById(siteId: string) {
+export async function getSiteById(uid: string, siteId: string) {
     try {
-        const result = await SITES_COLLECTION.doc(siteId).get();
-        if (!result.exists) {
-            throw new CustomApiError("Site does not exist", 404);
-        }
-        return result.data();
+        const siteSnapshot = await SITES_COLLECTION.doc(siteId).get();
+        const siteData = siteSnapshot.data() as Site;
+
+        if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
+        if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
+
+        return siteData;
     } catch (err) {
         handleFirestoreError(err);
     }

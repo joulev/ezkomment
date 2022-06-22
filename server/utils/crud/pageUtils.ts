@@ -10,20 +10,28 @@ import { CreatePageBodyParams, Page, Site, UpdatePageBodyParams } from "~/types/
 
 import { deletePageCommentsById } from "./commentUtils";
 
-export async function getPageById(pageId: string) {
+/**
+ * Gets the information of a page
+ *
+ * @param uid The id of the owner of the page
+ * @param pageId The id of the page
+ */
+export async function getPageById(uid: string, pageId: string) {
     try {
-        const result = await PAGES_COLLECTION.doc(pageId).get();
-        if (!result.exists) {
-            throw new CustomApiError("Page does not exist", 404);
-        }
-        return result.data() as Page;
+        const pageSnapshot = await PAGES_COLLECTION.doc(pageId).get();
+        const pageData = pageSnapshot.data() as Page;
+
+        if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
+        if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
+
+        return pageData;
     } catch (err) {
         handleFirestoreError(err);
     }
 }
 
 /**
- * Creates a new page
+ * Creates a new page.
  *
  * @param uid The id of the owner of the page
  * @param data The data of the page
