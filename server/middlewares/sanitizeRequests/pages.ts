@@ -1,4 +1,4 @@
-import validator from "validator";
+import { PAGE } from "~/misc/validate";
 
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { removeUndefinedProperties } from "~/server/utils/nextHandlerUtils";
@@ -8,10 +8,10 @@ import { ApiMiddleware } from "~/types/server/nextApi.type";
 
 export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
     const { name, url, autoApprove, siteId }: RawBody<CreatePageBodyParams> = req.body;
-    if (typeof name !== "string" || validator.isEmpty(name)) {
+    if (typeof name !== "string" || !PAGE.nameIsValid(name)) {
         throw new CustomApiError("'name' must be a non-empty string");
     }
-    if (typeof url !== "string" || !validator.isURL(url)) {
+    if (typeof url !== "string" || !PAGE.urlIsValid(url)) {
         throw new CustomApiError("'url' is invalid");
     }
     if (typeof autoApprove !== "boolean") {
@@ -20,7 +20,7 @@ export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
     /**
      * Change later
      */
-    if (typeof siteId !== "string" || validator.isEmpty(siteId)) {
+    if (typeof siteId !== "string" || !PAGE.siteIdIsValid(siteId)) {
         throw new CustomApiError("'siteId' must be a non-empty string");
     }
     req.body = { name, url, autoApprove, siteId };
@@ -29,10 +29,10 @@ export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
 
 export const sanitizeUpdatePageRequest: ApiMiddleware = (req, _, next) => {
     const { name, url, autoApprove }: RawBody<UpdatePageBodyParams> = req.body;
-    if (name !== undefined && (typeof name !== "string" || validator.isEmpty(name))) {
+    if (name !== undefined && (typeof name !== "string" || !PAGE.nameIsValid(name))) {
         throw new CustomApiError("'name' must be a non-empty string");
     }
-    if (url !== undefined && (typeof url !== "string" || !validator.isURL(url))) {
+    if (url !== undefined && (typeof url !== "string" || !PAGE.urlIsValid(url))) {
         throw new CustomApiError("'url' is invalid");
     }
     if (autoApprove !== undefined && typeof autoApprove !== "boolean") {

@@ -1,4 +1,4 @@
-import validator from "validator";
+import { COMMENT } from "~/misc/validate";
 
 import CustomApiError from "~/server/utils/errors/customApiError";
 
@@ -11,20 +11,20 @@ function isApprovedStatus(status: string) {
 
 export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
     const { author, text, pageId }: RawBody<CreateCommentBodyParams> = req.body;
-    if (typeof text !== "string" || validator.isEmpty(text)) {
+    if (typeof text !== "string" || !COMMENT.textIsValid(text)) {
         throw new CustomApiError("'text' must not be a non-empty string");
     }
     if (
         author !== undefined &&
         author !== null &&
-        (typeof author !== "string" || validator.isEmpty(author))
+        (typeof author !== "string" || !COMMENT.authorIsValid(author))
     ) {
         throw new CustomApiError(
             "'author' must be a non-empty string, undefined or null. If undefined, 'author' will be casted to null."
         );
     }
     // Subject to change
-    if (typeof pageId !== "string" || validator.isEmpty(pageId)) {
+    if (typeof pageId !== "string" || !COMMENT.pageIdIsValid(pageId)) {
         throw new CustomApiError("'pageId' must be a non-empty string");
     }
     req.body = { author: author ?? null, text, pageId };
