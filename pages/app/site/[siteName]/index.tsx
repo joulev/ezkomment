@@ -1,21 +1,22 @@
-// import clsx from "clsx";
+import clsx from "clsx";
+import { formatDistanceToNow, parseISO } from "date-fns";
 import { FC, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-// import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
+import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSite } from "~/client/hooks/site";
 
-// import useBreakpoint from "~/client/hooks/breakpoint";
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
 import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
-// import Input from "~/client/components/forms/input";
+import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 // import SiteGraph from "~/client/components/siteGraph";
@@ -64,7 +65,6 @@ const Loading: FC = () => (
   </>
 );
 
-/*
 const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, label, small }) => (
   <div>
     <div className={clsx("font-light tracking-tighter", small ? "text-3xl" : "text-4xl")}>
@@ -73,10 +73,9 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
     <div className={clsx("text-muted", small && "text-sm")}>{label}</div>
   </div>
 );
-*/
 
 const Content: FC = () => {
-  // const breakpoint = useBreakpoint();
+  const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
   const { site } = useSite();
   if (!site) return <Loading />;
@@ -121,75 +120,77 @@ const Content: FC = () => {
           </Button>
         </div>
       </div>
-      <div className="flex flex-col gap-6 my-12 items-center">
-        <div className="w-48">
-          <BlankIllustration />
-        </div>
-        <div className="text-xl text-center">
-          Create a new page to start collecting&nbsp;comments.
-        </div>
-        <div>
-          <Button
-            icon={AddOutlinedIcon}
-            onClick={() => setShowNewPageModal(true)}
-            className="inline-block"
-          >
-            Add a new page
-          </Button>
-        </div>
-      </div>
-      {/*
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-9">
-        <div className="lg:col-span-5">
-          <div className="grid grid-cols-3">
-            <Stats label="pages" value={0} />
-            <Stats label="comments" value={0} />
-            <Stats label="pending" value={0} />
+      {site.pages.length === 0 ? (
+        <div className="flex flex-col gap-6 my-12 items-center">
+          <div className="w-48">
+            <BlankIllustration />
           </div>
-          <h2>Last 30 days</h2>
-          <SiteGraph {...site.statistics} />
-        </div>
-        <div className="lg:col-span-7">
-          <h2>All pages</h2>
-          <div className="flex flex-row gap-6 mb-6">
-            <Input
-              type="text"
-              label={["xs", "sm"].includes(breakpoint) ? null : "Search"}
-              icon={SearchOutlinedIcon}
-              className="flex-grow"
-            />
+          <div className="text-xl text-center">
+            Create a new page to start collecting&nbsp;comments.
+          </div>
+          <div>
             <Button
-              icon={breakpoint === "xs" ? undefined : AddOutlinedIcon}
+              icon={AddOutlinedIcon}
               onClick={() => setShowNewPageModal(true)}
+              className="inline-block"
             >
-              {breakpoint === "xs" ? "New page" : "Add a new page"}
+              Add a new page
             </Button>
           </div>
-          <div className="flex flex-col gap-6">
-            {site.pages.map((page, i) => (
-              <A
-                notStyled
-                key={i}
-                className="p-6 bg-card border border-card hover:border-muted flex flex-col transition"
-                href={`/app/site/${site.name}/${page.id}`}
-              >
-                <div className="font-semibold text-lg mb-1.5">{page.name}</div>
-                <div className="text-muted text-sm mb-6">{page.url}</div>
-                <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
-                  <div className="grid grid-cols-2 sm:gap-12">
-                    <Stats small label="comments" value={page.commentCount} />
-                    <Stats small label="pending" value={page.needsApproval} />
-                  </div>
-                  <div className="text-sm">
-                    Last comment: {formatDistanceToNow(parseISO(page.lastCommentDate))} ago
-                  </div>
-                </div>
-              </A>
-            ))}
-            </div>
         </div>
-      </div>
-      */}
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-9">
+          <div className="lg:col-span-5">
+            <div className="grid grid-cols-3">
+              <Stats label="pages" value={site.pages.length} />
+              <Stats label="comments" value={site.totalCommentCount} />
+              <Stats label="pending" value={site.pendingCommentCount} />
+            </div>
+            <h2>Last 30 days</h2>
+            {/* <SiteGraph {...site.statistics} /> */}
+          </div>
+          <div className="lg:col-span-7">
+            <h2>All pages</h2>
+            <div className="flex flex-row gap-6 mb-6">
+              <Input
+                type="text"
+                label={["xs", "sm"].includes(breakpoint) ? null : "Search"}
+                icon={SearchOutlinedIcon}
+                className="flex-grow"
+              />
+              <Button
+                icon={breakpoint === "xs" ? undefined : AddOutlinedIcon}
+                onClick={() => setShowNewPageModal(true)}
+              >
+                {breakpoint === "xs" ? "New page" : "Add a new page"}
+              </Button>
+            </div>
+            <div className="flex flex-col gap-6">
+              {site.pages.map((page, i) => (
+                <A
+                  notStyled
+                  key={i}
+                  className="p-6 bg-card border border-card hover:border-muted flex flex-col transition"
+                  href={`/app/site/${site.name}/${page.id}`}
+                >
+                  <div className="font-semibold text-lg mb-1.5">{page.name}</div>
+                  <div className="text-muted text-sm mb-6">{page.url}</div>
+                  <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
+                    <div className="grid grid-cols-2 sm:gap-12">
+                      <Stats small label="comments" value={page.totalCommentCount} />
+                      <Stats small label="pending" value={page.pendingCommentCount} />
+                    </div>
+                    <div className="text-sm">
+                      {/* TODO */}
+                      Last comment: {formatDistanceToNow(parseISO("2022-01-01T00:00:00.000Z"))} ago
+                    </div>
+                  </div>
+                </A>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <Modal isVisible={showNewPageModal} onOutsideClick={() => setShowNewPageModal(false)}>
         <div className="p-6 max-w-lg">
           <h2>Add a new page</h2>
