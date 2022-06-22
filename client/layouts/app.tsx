@@ -26,9 +26,7 @@ const AppLayout: FC<AppProps> = ({ title, removePadding, loadingScreen, children
       </Head>
       <Navbar {...rest} />
       <main className={clsx("container", removePadding || "py-9")}>
-        {user && !router.query.loading
-          ? children
-          : loadingScreen ?? <>You are accessing a protected page. Authenticating&hellip;</>}
+        {user && !router.query.loading ? children : loadingScreen}
       </main>
       <Footer />
     </>

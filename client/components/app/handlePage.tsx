@@ -23,13 +23,13 @@ const pagePages = ({ title, activeTab, Loading, Content }: PagePagesOptions) => 
     const { site } = useSite();
     const router = useRouter();
 
-    if (!site || !router.isReady) return Loading ? <Loading /> : <div>Loading</div>;
+    if (!site || !router.isReady) return <Loading />;
     const page = site.pages.find(p => p.id === router.query.pageId);
     if (!page) {
       if (!router.query.loading || router.query.loading !== "1") {
         router.push("/404", router.asPath);
         return null;
-      } else return Loading ? <Loading /> : <div>Loading</div>;
+      } else return <Loading />;
     }
     return (
       <PageContextProvider pageId={page.id}>
@@ -42,13 +42,13 @@ const pagePages = ({ title, activeTab, Loading, Content }: PagePagesOptions) => 
     const { user } = useAuth();
     const router = useRouter();
 
-    if (!user || !router.isReady) return Loading ? <Loading /> : <div>Loading</div>;
+    if (!user || !router.isReady) return <Loading />;
     const site = user.sites.find(s => s.name === router.query.siteName);
     if (!site) {
       if (!router.query.loading || router.query.loading !== "1") {
         router.push("/404", router.asPath);
         return null;
-      } else return Loading ? <Loading /> : <div>Loading</div>;
+      } else return <Loading />;
     }
     return (
       <SiteContextProvider siteId={site.id}>
@@ -64,7 +64,7 @@ const pagePages = ({ title, activeTab, Loading, Content }: PagePagesOptions) => 
       activeTab={activeTab}
       siteName={(router.query.siteName as string | undefined) ?? ""}
       pageId={(router.query.pageId as string | undefined) ?? ""}
-      loadingScreen={Loading ? <Loading /> : <div>Loading</div>}
+      loadingScreen={<Loading />}
     >
       {page}
     </AppLayout>
