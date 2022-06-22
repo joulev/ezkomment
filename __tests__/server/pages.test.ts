@@ -83,9 +83,6 @@ describe("Test page utils", () => {
     it(`Should delete page correctly`, async () => {
         await PageUtils.deletePageById(uid, pageId1);
         await Promise.all([
-            expect(PageUtils.listSiteBasicPagesById(siteId)).resolves.toEqual(
-                expect.not.arrayContaining([pageId1])
-            ),
             expect(PageUtils.listSitePagesById(siteId)).resolves.toEqual(
                 expect.not.arrayContaining([mainPage])
             ),
@@ -95,7 +92,6 @@ describe("Test page utils", () => {
     it(`Should be able to delete ALL pages of a site`, async () => {
         await PageUtils.deleteSitePagesById(siteId);
         await Promise.all([
-            expect(PageUtils.listSiteBasicPagesById(siteId)).resolves.toHaveLength(0),
             expect(PageUtils.listSitePagesById(siteId)).resolves.toHaveLength(0),
             expect(CommentUtils.listPageCommentsById(pageId2)).resolves.toHaveLength(0),
         ]);

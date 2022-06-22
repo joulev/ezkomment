@@ -22,3 +22,16 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true
+
+  # Need to install firebase emulator, and how can we load env variable for testing?
+
+  # test-backend:
+  #   runs-on: ubuntu-lastest
+  #   steps:
+  #     - uses: action/checkout@v2
+  #     - uses: action/setup-node@v2
+  #       with:
+  #         node-version: "16"
+  #         cache: "yarn"
+  #     - run: yarn
+  #     - run: yarn emulate:test:server:ci
