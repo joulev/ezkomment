@@ -16,7 +16,9 @@ import Select from "~/client/components/forms/select";
 import AppLayout from "~/client/layouts/app";
 
 import { Breakpoint, NextPageWithLayout } from "~/types/client/utils.type";
-import { Site } from "~/types/server";
+import { ClientUser } from "~/types/server";
+
+type Site = ClientUser["sites"][number];
 
 const Loading: FC = () => (
   <>

@@ -6,12 +6,13 @@ import AuthContext from "~/client/context/auth";
 import firebaseApp from "~/client/lib/firebase/app";
 import { refreshUser } from "~/client/lib/firebase/auth";
 
-import { AppAuth, User } from "~/types/client/auth.type";
+import { AppAuth } from "~/types/client/auth.type";
+import { ClientUser } from "~/types/server";
 
 import { endProgress, startProgress } from "./nprogress";
 
 export function useAuthInit(): AppAuth {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<ClientUser | null>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     const auth = getAuth(firebaseApp);

@@ -27,7 +27,7 @@ import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 
 import { ResponseMessage as Msg } from "~/types/client/utils.type";
-import { Site } from "~/types/server";
+import { ClientSite } from "~/types/server";
 import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const LoadingSection: FC = () => (
@@ -64,7 +64,7 @@ const Loading: FC = () => (
   </div>
 );
 
-const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+const UpdateSiteName: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
   const router = useRouter();
   const auth = useAuth();
   const { mutate } = useSite();
@@ -108,7 +108,10 @@ const UpdateSiteName: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
   );
 };
 
-const UpdateSiteDomain: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+const UpdateSiteDomain: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({
+  site,
+  setMsg,
+}) => {
   const auth = useAuth();
   const { mutate } = useSite();
   const [domain, setDomain] = useState(site.domain);
@@ -154,7 +157,7 @@ const UpdateSiteDomain: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site
   );
 };
 
-const UploadSiteIcon: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+const UploadSiteIcon: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
   const auth = useAuth();
   const { mutate } = useSite();
   const [icon, setIcon] = useState<File | null>(null);
@@ -198,7 +201,7 @@ const UploadSiteIcon: FC<{ site: Site; setMsg: (msg: Msg) => void }> = ({ site, 
   );
 };
 
-const UpdateSite: FC<{ site: Site }> = ({ site }) => {
+const UpdateSite: FC<{ site: ClientSite }> = ({ site }) => {
   const [msg, setMsg] = useState<Msg>(null);
   return (
     <section>
@@ -213,7 +216,7 @@ const UpdateSite: FC<{ site: Site }> = ({ site }) => {
   );
 };
 
-const DeleteSite: FC<{ site: Site }> = ({ site }) => {
+const DeleteSite: FC<{ site: ClientSite }> = ({ site }) => {
   const router = useRouter();
   const auth = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);

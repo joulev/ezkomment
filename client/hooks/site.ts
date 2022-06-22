@@ -4,12 +4,12 @@ import useSWR from "swr";
 import SiteContext from "~/client/context/site";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 
-import { Site } from "~/types/server";
+import { ClientSite } from "~/types/server";
 
 export function useSiteInit(siteId: string) {
     const { data: site, mutate } = useSWR(
         `/api/sites/${siteId}`,
-        internalSWRGenerator<Site | undefined>()
+        internalSWRGenerator<ClientSite | undefined>()
     );
     return { site, mutate };
 }

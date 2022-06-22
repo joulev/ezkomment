@@ -1,5 +1,4 @@
 import {
-    User as FirebaseUser,
     GithubAuthProvider,
     GoogleAuthProvider,
     signOut as firebaseSignOut,
@@ -14,7 +13,7 @@ import * as E from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
 import { AppAuth, Provider } from "~/types/client/auth.type";
-import { Site } from "~/types/server";
+import { ClientUser } from "~/types/server";
 import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 import firebaseApp from "./app";
@@ -60,11 +59,7 @@ export async function getUser() {
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     const fetchInfo = await internalFetcher({ url: `/api/users/${auth.currentUser.uid}` });
     if (!fetchInfo.success) throw E.UNKNOWN_ERROR;
-    const user = (fetchInfo.body as ApiResponseBody).data as FirebaseUser;
-    const fetchSites = await internalFetcher({ url: `/api/users/${auth.currentUser.uid}/sites` });
-    if (!fetchSites.success) throw E.UNKNOWN_ERROR;
-    const sites = (fetchSites.body as ApiResponseBody).data as Site[];
-    return { ...user, sites };
+    return (fetchInfo.body as ApiResponseBody).data as ClientUser;
 }
 
 export async function refreshUser({ setUser }: AppAuth) {

@@ -33,8 +33,9 @@ import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
-import { Provider, User } from "~/types/client/auth.type";
+import { Provider } from "~/types/client/auth.type";
 import { ResponseMessage as Msg, NextPageWithLayout } from "~/types/client/utils.type";
+import { ClientUser } from "~/types/server";
 
 const ProfileSection: FC = () => {
   const auth = useAuth();
@@ -119,7 +120,7 @@ const ProfileSection: FC = () => {
 
 const LinkAccountSection: FC = () => {
   const auth = useAuth();
-  const { providerData } = auth.user as User;
+  const { providerData } = auth.user as ClientUser;
   const breakpoint = useBreakpoint();
   const [msg, setMsg] = useState<Msg>(null);
 
@@ -262,7 +263,7 @@ const DeleteAccountSection: FC = () => {
 };
 
 const Account: NextPageWithLayout = () => {
-  const user = useAuth().user as User;
+  const user = useAuth().user as ClientUser;
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
       <div>

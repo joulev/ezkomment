@@ -33,9 +33,9 @@ const New: NextPageWithLayout = () => {
     if (!user) throw E.NOT_AUTHENTICATED;
     if (user.sites.find(s => s.name === name)) throw E.SITE_ALREADY_EXISTS;
     const { success, status } = await internalFetcher({
-      url: `/api/users/${user.uid}/sites`,
+      url: "/api/sites",
       method: "POST",
-      options: { body: JSON.stringify({ name, domain }) },
+      options: { body: JSON.stringify({ uid: user.uid, name, domain }) },
     });
     if (status === 409) throw E.SITE_ALREADY_EXISTS;
     if (!success) throw E.UNABLE_TO_CREATE_SITE;
