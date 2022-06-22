@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { FC, useState } from "react";
+import { FC, FormEventHandler, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
@@ -9,18 +9,25 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
+import * as E from "~/client/lib/errors";
+import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSite } from "~/client/hooks/site";
+import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
+import AuthError from "~/client/components/auth/error";
 import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
+import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 // import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
+
+import { ResponseMessage as Msg } from "~/types/client/utils.type";
 
 const Loading: FC = () => (
   <>
@@ -73,6 +80,77 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
     <div className={clsx("text-muted", small && "text-sm")}>{label}</div>
   </div>
 );
+
+const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClose }) => {
+  const { user, mutate: mutateUser, setLoading } = useAuth();
+  const { site, mutate: mutateSite } = useSite();
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [msg, setMsg] = useState<Msg>(null);
+
+  const createNewPage = async (title: string, url: string) => {
+    if (!user) throw E.NOT_AUTHENTICATED;
+    if (!site) throw E.UNKNOWN_ERROR; // this should never happen
+    const { success, status } = await internalFetcher({
+      url: "/api/pages",
+      method: "POST",
+      options: { body: JSON.stringify({ siteId: site.id, name: title, url, autoApprove: true }) },
+    });
+    if (status === 409) throw E.UNKNOWN_ERROR; // should never happen either
+    if (!success) throw E.UNABLE_TO_CREATE_PAGE;
+    await mutateUser(); // we need to get new info about page count too
+    await mutateSite();
+    onClose(); // TODO redirect to the page dashboard
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      await createNewPage(title, url);
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
+
+  return (
+    <Modal isVisible={show} onOutsideClick={onClose}>
+      <div className="p-6 max-w-lg">
+        <h2>Add a new page</h2>
+        <p>
+          Please fill in these information. They won&apos;t be used for us to identify the pages,
+          however correct information would help you identify your pages from this site dashboard.
+        </p>
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+          {msg && <MsgBanner msg={msg} />}
+          <InputDetachedLabel
+            label="Page title"
+            icon={LabelOutlinedIcon}
+            type="text"
+            required
+            value={title}
+            onUpdate={setTitle}
+          />
+          <InputDetachedLabel
+            label="Page URL"
+            icon={WebOutlinedIcon}
+            type="url"
+            required
+            value={url}
+            onUpdate={setUrl}
+          />
+          <RightAligned className="gap-6">
+            <Button variant="tertiary" onClick={onClose} type="button">
+              Cancel
+            </Button>
+            <Button type="submit">Create</Button>
+          </RightAligned>
+        </form>
+      </div>
+    </Modal>
+  );
+};
 
 const Content: FC = () => {
   const breakpoint = useBreakpoint();
@@ -191,25 +269,7 @@ const Content: FC = () => {
           </div>
         </div>
       )}
-      <Modal isVisible={showNewPageModal} onOutsideClick={() => setShowNewPageModal(false)}>
-        <div className="p-6 max-w-lg">
-          <h2>Add a new page</h2>
-          <p>
-            Please fill in these information as they helps identify this page from other pages in
-            the same site.
-          </p>
-          <form className="flex flex-col gap-6">
-            <InputDetachedLabel label="Page title" icon={LabelOutlinedIcon} type="text" required />
-            <InputDetachedLabel label="Page URL" icon={WebOutlinedIcon} type="text" required />
-            <RightAligned className="gap-6">
-              <Button variant="tertiary" onClick={() => setShowNewPageModal(false)} type="button">
-                Cancel
-              </Button>
-              <Button>Create</Button>
-            </RightAligned>
-          </form>
-        </div>
-      </Modal>
+      <AddPageModal show={showNewPageModal} onClose={() => setShowNewPageModal(false)} />
     </>
   );
 };
