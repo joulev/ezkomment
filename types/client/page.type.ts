@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { KeyedMutator } from "swr";
 
-import { ClientSite } from "~/types/server";
+import { ClientPage, ClientSite } from "~/types/server";
 
 export type PageType = "overview" | "site" | "page" | "others";
 export type NavbarItems = {
@@ -46,4 +46,16 @@ export type SitePagesOptions = {
 export type SiteContextProps = {
     site: ClientSite | undefined;
     mutate: KeyedMutator<ClientSite | undefined>;
+};
+
+export type PagePagesOptions = {
+    title: (siteName: string) => string;
+    activeTab: NavbarItems["page"];
+    Loading?: FC;
+    Content: FC;
+};
+
+export type PageContextProps = {
+    page: ClientPage | undefined;
+    mutate: KeyedMutator<ClientPage | undefined>;
 };

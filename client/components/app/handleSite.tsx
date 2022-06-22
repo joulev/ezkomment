@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 import SiteContext from "~/client/context/site";
 import useAuth from "~/client/hooks/auth";
@@ -10,13 +10,9 @@ import AppLayout from "~/client/layouts/app";
 import { SitePagesOptions } from "~/types/client/page.type";
 import { NextPageWithLayout } from "~/types/client/utils.type";
 
-const SiteContextProvider: FC<{ siteId: string; Content: FC }> = ({ siteId, Content }) => {
+const SiteContextProvider: FC<{ siteId: string; children: ReactNode }> = ({ siteId, children }) => {
   const { site, mutate } = useSiteInit(siteId);
-  return (
-    <SiteContext.Provider value={{ site, mutate }}>
-      <Content />
-    </SiteContext.Provider>
-  );
+  return <SiteContext.Provider value={{ site, mutate }}>{children}</SiteContext.Provider>;
 };
 
 const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePagesOptions) => {
@@ -32,7 +28,11 @@ const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePa
         return null;
       } else return <Loading />;
     }
-    return <SiteContextProvider siteId={site.id} Content={Content} />;
+    return (
+      <SiteContextProvider siteId={site.id}>
+        <Content />
+      </SiteContextProvider>
+    );
   };
 
   Page.getLayout = (page, {}, router) => (
@@ -51,4 +51,4 @@ const sitePages = ({ title, activeTab, removePadding, Loading, Content }: SitePa
   return Page;
 };
 
-export default sitePages;
+export { sitePages as default, SiteContextProvider };
