@@ -10,7 +10,6 @@ import { githubProvider, googleProvider, signIn } from "~/client/lib/firebase/au
 
 import A from "~/client/components/anchor";
 import AuthError from "~/client/components/auth/error";
-import AuthProvider from "~/client/components/auth/provider";
 import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 
@@ -51,14 +50,14 @@ const Auth: NextPageWithLayout = () => {
               <Button
                 icon={GitHubIcon}
                 onClick={handler(githubProvider)}
-                disabled={auth.loading || auth.user !== null}
+                disabled={auth.loading || auth.user !== undefined}
               >
                 Continue with GitHub
               </Button>
               <Button
                 icon={GoogleIcon}
                 onClick={handler(googleProvider)}
-                disabled={auth.loading || auth.user !== null}
+                disabled={auth.loading || auth.user !== undefined}
               >
                 Continue with Google
               </Button>
@@ -69,7 +68,5 @@ const Auth: NextPageWithLayout = () => {
     </>
   );
 };
-
-Auth.getLayout = page => <AuthProvider>{page}</AuthProvider>;
 
 export default Auth;

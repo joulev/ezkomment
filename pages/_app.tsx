@@ -10,6 +10,7 @@ import useNProgress from "~/client/hooks/nprogress";
 import { useModeInit } from "~/client/hooks/theme";
 
 import A from "~/client/components/anchor";
+import AuthProvider from "~/client/components/auth/provider";
 import PostHeading from "~/client/components/postHeading";
 import { ErrorBoundary } from "~/client/layouts/errors";
 
@@ -38,15 +39,29 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               h6: props => <PostHeading {...props} level={6} />,
             }}
           >
-            <div
-              id="wrapper"
-              className={clsx(
-                "relative min-h-[100vh]",
-                router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
-              )}
-            >
-              {getLayout(<Component {...pageProps} />, pageProps, router)}
-            </div>
+            {router.pathname.startsWith("/auth") || router.pathname.startsWith("/app") ? (
+              <AuthProvider>
+                <div
+                  id="wrapper"
+                  className={clsx(
+                    "relative min-h-[100vh]",
+                    router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
+                  )}
+                >
+                  {getLayout(<Component {...pageProps} />, pageProps, router)}
+                </div>
+              </AuthProvider>
+            ) : (
+              <div
+                id="wrapper"
+                className={clsx(
+                  "relative min-h-[100vh]",
+                  router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
+                )}
+              >
+                {getLayout(<Component {...pageProps} />, pageProps, router)}
+              </div>
+            )}
           </MDXProvider>
         </BreakpointContext.Provider>
       </ModeContext.Provider>

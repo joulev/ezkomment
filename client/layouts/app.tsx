@@ -6,12 +6,11 @@ import { FC, useEffect } from "react";
 import useAuth from "~/client/hooks/auth";
 
 import Navbar from "~/client/components/app/navbar";
-import AuthProvider from "~/client/components/auth/provider";
 import Footer from "~/client/components/footer";
 
 import { AppProps } from "~/types/client/components.type";
 
-const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
+const AppLayout: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
@@ -35,11 +34,5 @@ const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...r
     </>
   );
 };
-
-const AppLayout: FC<AppProps> = props => (
-  <AuthProvider>
-    <App {...props} />
-  </AuthProvider>
-);
 
 export default AppLayout;

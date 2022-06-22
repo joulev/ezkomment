@@ -1,29 +1,34 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import useSWR from "swr";
 
 import AuthContext from "~/client/context/auth";
+import { internalSWRGenerator } from "~/client/lib/fetcher";
 import firebaseApp from "~/client/lib/firebase/app";
-import { refreshUser } from "~/client/lib/firebase/auth";
 
 import { AppAuth } from "~/types/client/auth.type";
 import { ClientUser } from "~/types/server";
 
 import { endProgress, startProgress } from "./nprogress";
 
+const auth = getAuth(firebaseApp);
+
 export function useAuthInit(): AppAuth {
-    const [user, setUser] = useState<ClientUser | null>(null);
+    const { data: user, mutate } = useSWR(
+        auth.currentUser ? `/api/users/${auth.currentUser.uid}` : null,
+        internalSWRGenerator<ClientUser | undefined>()
+    );
     const [loading, setLoading] = useState(true);
     const router = useRouter();
-    const auth = getAuth(firebaseApp);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
             if (firebaseUser) {
-                await refreshUser({ user, setUser, loading, setLoading });
+                await mutate();
                 if (router.pathname.startsWith("/auth")) router.push("/app/dashboard");
             } else {
-                setUser(null);
+                await mutate();
                 if (router.pathname.startsWith("/app")) router.push("/auth");
             }
             setLoading(false);
@@ -41,7 +46,7 @@ export function useAuthInit(): AppAuth {
         else endProgress();
     }, [loading]);
 
-    return { user, setUser, loading, setLoading };
+    return { user, mutate, loading, setLoading };
 }
 
 export default function useAuth() {
