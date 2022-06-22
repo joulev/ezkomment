@@ -50,3 +50,10 @@ export type FormDataFile = {
 export type ApiRequestWithFormData = NextApiRequest & {
     file?: FormDataFile;
 };
+
+export type AuthenticatedApiRequest = Omit<NextApiRequest, "body"> & {
+    body: {
+        uid: string;
+        [key: string]: any;
+    };
+};
