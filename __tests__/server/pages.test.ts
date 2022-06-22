@@ -5,11 +5,12 @@ import * as TestUtils from "~/server/utils/testUtils";
 import { nonExistingPageId, nonExistingSiteId } from "~/sample/server/nonExistingIds.json";
 
 describe("Test page utils", () => {
+    const uid = TestUtils.randomUUID();
     const siteId = TestUtils.randomUUID();
     const [pageId1, pageId2, ...restPageIds] = Array.from({ length: 5 }, TestUtils.randomUUID);
     const pageName = "Eternal Knowledge";
     const mainSite = TestUtils.createTestSite({
-        uid: "_",
+        uid,
         id: siteId,
         pageCount: 5,
         totalCommentCount: 5,
@@ -33,19 +34,21 @@ describe("Test page utils", () => {
     });
 
     it(`Should be able to get page's information`, async () => {
-        await expect(PageUtils.getPageById(pageId1)).resolves.toMatchObject({
+        await expect(PageUtils.getPageById(uid, pageId1)).resolves.toMatchObject({
             id: pageId1,
             name: pageName,
         });
     });
 
     it(`Should fail when trying to get a non-existing page`, async () => {
-        await expect(PageUtils.getPageById(nonExistingPageId)).rejects.toMatchObject({ code: 404 });
+        await expect(PageUtils.getPageById(uid, nonExistingPageId)).rejects.toMatchObject({
+            code: 404,
+        });
     });
 
     it(`Should fail when trying to create a new page with duplicated name`, async () => {
         await expect(
-            PageUtils.createPage({
+            PageUtils.createPage(uid, {
                 url: `${mainSite.domain}/Scarlet%2FSerenade`,
                 autoApprove: false,
                 name: pageName,
@@ -56,7 +59,7 @@ describe("Test page utils", () => {
 
     it(`Should fail when trying to create a new page with a non-existing site`, async () => {
         await expect(
-            PageUtils.createPage({
+            PageUtils.createPage(uid, {
                 url: "https://en.touhouwiki.net/wiki/Flandre_Scarlet",
                 autoApprove: false,
                 name: "Necrofantasia",
@@ -67,7 +70,7 @@ describe("Test page utils", () => {
 
     it(`Should fail when trying to create a new page with unmatched url`, async () => {
         await expect(
-            PageUtils.createPage({
+            PageUtils.createPage(uid, {
                 url: "https://EoSD.com/6",
                 autoApprove: false,
                 name: "Scarlet Devil",
@@ -78,24 +81,26 @@ describe("Test page utils", () => {
 
     it(`Should fail when trying to update a non-exsting page`, async () => {
         await expect(
-            PageUtils.updatePageById(nonExistingPageId, { autoApprove: false })
+            PageUtils.updatePageById(uid, nonExistingPageId, { autoApprove: false })
         ).rejects.toMatchObject({ code: 404 });
     });
 
     it(`Should fail when trying to update a page with duplicated name`, async () => {
-        await expect(PageUtils.updatePageById(pageId2, { name: pageName })).rejects.toMatchObject({
+        await expect(
+            PageUtils.updatePageById(uid, pageId2, { name: pageName })
+        ).rejects.toMatchObject({
             code: 409,
         });
     });
 
     it(`Should fail when trying to delete a non-existing page`, async () => {
-        await expect(PageUtils.deletePageById(nonExistingPageId)).rejects.toMatchObject({
+        await expect(PageUtils.deletePageById(uid, nonExistingPageId)).rejects.toMatchObject({
             code: 404,
         });
     });
 
     it(`Should delete page correctly`, async () => {
-        await PageUtils.deletePageById(pageId1);
+        await PageUtils.deletePageById(uid, pageId1);
         await Promise.all([
             expect(PageUtils.listSiteBasicPagesById(siteId)).resolves.toEqual(
                 expect.not.arrayContaining([pageId1])
