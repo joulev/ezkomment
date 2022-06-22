@@ -1,8 +1,14 @@
 import { createPage } from "~/server/handlers/pageHandlers";
-import { authenticateWithJWT } from "~/server/middlewares/authenticateRequests";
+import { attachIdTokenWithJWT } from "~/server/middlewares/authenticateRequests";
 import { sanitizeCreatePageRequest } from "~/server/middlewares/sanitizeRequests/pages";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 
-const handler = ncRouter().post(sanitizeCreatePageRequest, authenticateWithJWT, createPage);
+import { AuthenticatedApiRequest } from "~/types/server/nextApi.type";
+
+const handler = ncRouter<AuthenticatedApiRequest>().post(
+    sanitizeCreatePageRequest,
+    attachIdTokenWithJWT,
+    createPage
+);
 
 export default handler;

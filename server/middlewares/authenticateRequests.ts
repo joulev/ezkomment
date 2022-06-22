@@ -44,13 +44,17 @@ export const authenticateWithJWT: ApiMiddleware = async (req, _, next) => {
     next();
 };
 
-export const validateSessionCookie: ApiMiddleware = async (req, res, next) => {
+export const validateSessionCookie: ApiMiddleware = async (req, _, next) => {
     const sessionCookie = req.cookies.session;
     await verifySessionCookie(sessionCookie);
     next();
 };
 
-export const attachUidWithJWT: ApiMiddleware<AuthenticatedApiRequest> = async (req, _, next) => {
+export const attachIdTokenWithJWT: ApiMiddleware<AuthenticatedApiRequest> = async (
+    req,
+    _,
+    next
+) => {
     req.user = await verifyJWT(req.headers.authorization);
     next();
 };
