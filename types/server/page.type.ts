@@ -8,14 +8,9 @@ export type Page = {
 
     totalCommentCount: number;
     pendingCommentCount: number;
-    readonly siteId: string; // foreign key
-};
 
-export type CreatePagePathParams = {
-    /**
-     * The id of the site that contains this page.
-     */
-    siteId: string;
+    readonly uid: string; // foreign key
+    readonly siteId: string; // foreign key
 };
 
 export type UpdatePageBodyParams = {
