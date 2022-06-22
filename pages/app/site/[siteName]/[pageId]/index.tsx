@@ -19,6 +19,25 @@ import myPage from "~/sample/page.json";
 
 type Comment = { author: string; date: string; text: string };
 type CommentsProps = { comments: Comment[]; children?: ReactNode };
+
+const Loading: FC = () => (
+  <div className="mx-auto max-w-3xl">
+    <div className="mb-6 h-9 w-48 pulse" />
+    <div className="h-5 pulse" />
+    <hr />
+    <div className="mb-6 h-12 pulse" />
+    <div className="mb-6 h-7 w-48 pulse" />
+    <div className="h-5 pulse mb-6" />
+    <div className="flex flex-col gap-6">
+      {Array(10)
+        .fill(0)
+        .map((_, i) => (
+          <div className="h-24 pulse" key={i} />
+        ))}
+    </div>
+  </div>
+);
+
 const Comments: FC<CommentsProps> = ({ comments, children }) => (
   <div className={clsx("flex flex-col divide-y border rounded bg-card", "border-card divide-card")}>
     {comments.map((comment, index) => (
@@ -126,6 +145,7 @@ const PageOverview = pagePages({
   title: siteName => `Page comments | ${siteName}`,
   activeTab: "all",
   Content,
+  Loading,
 });
 
 export default PageOverview;
