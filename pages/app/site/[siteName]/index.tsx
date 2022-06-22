@@ -248,7 +248,7 @@ const Content: FC = () => {
                 <A
                   notStyled
                   key={i}
-                  className="p-6 bg-card border border-card hover:border-muted flex flex-col transition"
+                  className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
                   href={`/app/site/${site.name}/${page.id}`}
                 >
                   <div className="font-semibold text-lg mb-1.5">{page.name}</div>
