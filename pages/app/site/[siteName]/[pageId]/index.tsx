@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { formatDistanceToNowStrict, parseISO } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
+import { useRouter } from "next/router";
 import { FC, ReactNode, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
@@ -11,13 +12,13 @@ import { usePage } from "~/client/hooks/page";
 import A from "~/client/components/anchor";
 import pagePages from "~/client/components/app/handlePage";
 import Banner from "~/client/components/banner";
+import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 
-import myPage from "~/sample/page.json";
+import { ClientPage, Comment } from "~/types/server";
 
-type Comment = { author: string; date: string; text: string };
 type CommentsProps = { comments: Comment[]; children?: ReactNode };
 
 const Loading: FC = () => (
@@ -43,15 +44,15 @@ const Comments: FC<CommentsProps> = ({ comments, children }) => (
     {comments.map((comment, index) => (
       <div key={index} className="p-6 flex flex-col gap-3 relative">
         <div className="flex flex-col sm:flex-row gap-x-6">
-          <strong>{comment.author}</strong>
+          <strong>{comment.author ?? "Anonymous"}</strong>
           <time
             className={clsx(
               "text-muted sm:relative before:hidden sm:before:block",
               "before:absolute before:content-['•'] before:-left-3 before:-translate-x-1/2"
             )}
-            title={comment.date}
+            title={comment.date.toDate().toISOString()}
           >
-            {formatDistanceToNowStrict(parseISO(comment.date))} ago
+            {formatDistanceToNowStrict(comment.date.toDate())} ago
           </time>
         </div>
         <div>{comment.text}</div>
@@ -61,70 +62,102 @@ const Comments: FC<CommentsProps> = ({ comments, children }) => (
   </div>
 );
 
+const PendingComments: FC<{ page: ClientPage; handleDelete: () => void }> = ({
+  page,
+  handleDelete,
+}) => {
+  const router = useRouter();
+  const pendingComments = page.comments.filter(c => c.status === "Pending");
+  if (page.autoApprove)
+    return (
+      <p>
+        This page has auto-approval turned on, hence all new comments are automatically approved. Go
+        to <A href={`${router.asPath}/settings`}>settings</A> to configure this.
+      </p>
+    );
+
+  if (pendingComments.length === 0) return <p>There are no pending comments.</p>;
+
+  return (
+    <>
+      <p>These comments require your approval before appearing in public.</p>
+      <Comments comments={pendingComments}>
+        <div className="flex flex-row gap-3">
+          <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDelete} />
+          <Button icon={CheckOutlinedIcon} />
+        </div>
+      </Comments>
+    </>
+  );
+};
+
+const ApprovedComments: FC<{ page: ClientPage; handleDelete: () => void }> = ({
+  page,
+  handleDelete,
+}) => {
+  const approvedComments = page.comments.filter(c => c.status === "Approved");
+  if (approvedComments.length === 0)
+    return (
+      <div className="flex flex-col gap-6 my-12 items-center">
+        <div className="w-48">
+          <BlankIllustration />
+        </div>
+        <div className="text-xl text-center">Nothing has arrived yet. Check again soon.</div>
+      </div>
+    );
+  return (
+    <>
+      <p>
+        These comments are now live and visible to all visitors of the myPage. However you can still
+        delete any comments you want.
+      </p>
+      <Comments comments={approvedComments}>
+        <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDelete} />
+      </Comments>
+    </>
+  );
+};
+
 const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [warningDisabled, setWarningDisabled] = useState(false);
   const { page } = usePage();
 
   function handleDelete() {
-    console.log(page);
     if (!warningDisabled) {
       setShowDeleteModal(true);
       setWarningDisabled(true);
     }
   }
 
+  if (!page) return <Loading />;
+
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="mb-3">{myPage.name}</h1>
+      <h1 className="mb-3">{page.name}</h1>
       <div className="flex flex-row gap-3 text-muted">
         <WebOutlinedIcon />
         <A
-          href={myPage.url}
+          href={page.url}
           notStyled
           className="hover:text-neutral-900 dark:hover:text-neutral-100 transition whitespace-nowrap text-ellipsis overflow-hidden"
         >
-          {myPage.url}
+          {page.url}
         </A>
       </div>
       <hr />
-      <Banner variant="warning">
+      <Banner variant="warning" className="mb-9">
         Beware that if you remove a comment, <strong>that is irreversible</strong> and it will be
         gone forever.
       </Banner>
-      <h2>Pending comments</h2>
-      {myPage.autoApprove && (
-        <p>
-          This page has auto-approval turned on, hence all new comments are automatically approved.
-        </p>
-      )}
-      {myPage.pendingApprovalComments.length === 0 ? (
-        <p>No pending comments</p>
-      ) : (
-        <>
-          <p>These comments require your approval before appearing in public.</p>
-          <Comments comments={myPage.pendingApprovalComments}>
-            <div className="flex flex-row gap-3">
-              <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDelete} />
-              <Button icon={CheckOutlinedIcon} />
-            </div>
-          </Comments>
-        </>
-      )}
-      <h2>Approved comments</h2>
-      {myPage.approvedComments.length === 0 ? (
-        <p>No comments</p>
-      ) : (
-        <>
-          <p>
-            These comments are now live and visible to all visitors of the myPage. However you can
-            still delete any comments you want.
-          </p>
-          <Comments comments={myPage.approvedComments}>
-            <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDelete} />
-          </Comments>
-        </>
-      )}
+      <section className="mb-9">
+        <h2>Pending comments</h2>
+        <PendingComments page={page} handleDelete={handleDelete} />
+      </section>
+      <section>
+        <h2>Approved comments</h2>
+        <ApprovedComments page={page} handleDelete={handleDelete} />
+      </section>
       <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
         <div className="p-6 max-w-lg">
           <p>
