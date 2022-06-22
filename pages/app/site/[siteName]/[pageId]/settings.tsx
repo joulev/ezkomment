@@ -1,5 +1,4 @@
-import { GetServerSideProps } from "next";
-import { useState } from "react";
+import { FC, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -8,26 +7,51 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
+import { usePage } from "~/client/hooks/page";
+
 import A from "~/client/components/anchor";
+import pagePages from "~/client/components/app/handlePage";
 import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
-import AppLayout from "~/client/layouts/app";
 
-import { NextPageWithLayout } from "~/types/client/utils.type";
+const LoadingSection: FC = () => (
+  <section>
+    <div className="h-8 w-36 pulse mb-6" />
+    <div className="h-4 pulse mb-6" />
+    <div className="h-6 w-48 pulse mb-3" />
+    <div className="h-9 pulse mb-6" />
+    <div className="h-6 w-48 pulse mb-3" />
+    <div className="h-9 pulse mb-6" />
+    <RightAligned>
+      <div className="h-9 w-32 pulse" />
+    </RightAligned>
+  </section>
+);
 
-import page from "~/sample/page.json";
+const Loading: FC = () => (
+  <div className="mx-auto max-w-3xl">
+    <div className="mb-6 h-9 w-48 pulse" />
+    <div className="h-5 pulse" />
+    <hr />
+    <LoadingSection />
+    <hr />
+    <LoadingSection />
+    <hr />
+    <LoadingSection />
+    <hr />
+    <LoadingSection />
+  </div>
+);
 
-type Page = typeof page;
-type Props = { page: Page };
-
-const site = { name: "blog-app" };
-
-const PageSettings: NextPageWithLayout<Props> = ({ page }) => {
+const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { page } = usePage();
+
+  if (!page) return <Loading />;
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -85,7 +109,7 @@ const PageSettings: NextPageWithLayout<Props> = ({ page }) => {
         <strong>{page.autoApprove ? "enabled" : "disabled"}</strong>.
       </p>
       {page.autoApprove && (
-        <Banner variant="warning">
+        <Banner variant="warning" className="mb-6">
           Beware of the possibilities of spam and abuse if you enable this.
         </Banner>
       )}
@@ -129,18 +153,11 @@ const PageSettings: NextPageWithLayout<Props> = ({ page }) => {
   );
 };
 
-PageSettings.getLayout = pageContent => (
-  <AppLayout
-    title={`Page settings | ${site.name}`}
-    type="page"
-    activeTab="settings"
-    siteName={site.name}
-    pageId={page.id}
-  >
-    {pageContent}
-  </AppLayout>
-);
-
-export const getServerSideProps: GetServerSideProps<Props> = async () => ({ props: { page } });
+const PageSettings = pagePages({
+  title: siteName => `Page settings | ${siteName}`,
+  activeTab: "settings",
+  Content,
+  Loading,
+});
 
 export default PageSettings;
