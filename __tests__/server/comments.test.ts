@@ -4,16 +4,17 @@ import * as TestUtils from "~/server/utils/testUtils";
 import { nonExistingCommentId, nonExistingPageId } from "~/sample/server/nonExistingIds.json";
 
 describe("Test comment utils", () => {
+    const uid = TestUtils.randomUUID();
     const siteId = TestUtils.randomUUID();
     const pageId = TestUtils.randomUUID();
     const [commentId, ...restCommentIds] = Array.from({ length: 5 }, TestUtils.randomUUID);
     const mainSite = TestUtils.createTestSite({
-        uid: "_",
+        uid,
         id: siteId,
         pageCount: 1,
         totalCommentCount: 5,
     });
-    const mainPage = TestUtils.createTestPage({ siteId, id: pageId, totalCommentCount: 5 });
+    const mainPage = TestUtils.createTestPage({ uid, siteId, id: pageId, totalCommentCount: 5 });
     const mainComment = TestUtils.createTestComment({ siteId, pageId, id: commentId });
 
     beforeAll(async () => {

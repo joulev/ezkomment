@@ -32,29 +32,15 @@ export const authenticateBodyUidWithJWT: ApiMiddleware = async (req, _, next) =>
     next();
 };
 
-/**
- * For some endpoints, decode the token is good enough.
- */
-export const authenticateWithJWT: ApiMiddleware = async (req, _, next) => {
-    if (process.env.NODE_ENV === "development") {
-        next();
-        return;
-    }
-    await verifyJWT(req.headers.authorization);
-    next();
-};
-
 export const validateSessionCookie: ApiMiddleware = async (req, _, next) => {
     const sessionCookie = req.cookies.session;
     await verifySessionCookie(sessionCookie);
     next();
 };
 
-export const attachIdTokenWithJWT: ApiMiddleware<AuthenticatedApiRequest> = async (
-    req,
-    _,
-    next
-) => {
+type AuthenticatedApiMiddleware = ApiMiddleware<AuthenticatedApiRequest>;
+
+export const attachIdTokenWithJWT: AuthenticatedApiMiddleware = async (req, _, next) => {
     req.user = await verifyJWT(req.headers.authorization);
     next();
 };

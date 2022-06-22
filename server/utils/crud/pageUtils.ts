@@ -38,7 +38,7 @@ export async function getPageById(uid: string, pageId: string) {
  */
 export async function createPage(uid: string, data: CreatePageBodyParams) {
     try {
-        const { siteId, url, name } = data;
+        const { siteId, url } = data;
         const pageRef = PAGES_COLLECTION.doc();
         const pageId = pageRef.id;
         const newPage: Page = {
@@ -60,11 +60,6 @@ export async function createPage(uid: string, data: CreatePageBodyParams) {
 
             // Increment the pageCount of the site by 1
             t.update(siteRef, { pageCount: FieldValue.increment(1) });
-            /**
-             * If a page with the same name already exists in the site, this operation will fail,
-             * making the entire transaction fail as well.
-             */
-            t.create(siteRef.collection("pages").doc(name), { id: pageId });
             t.create(pageRef, newPage);
             return newPage;
         });
@@ -83,24 +78,13 @@ export async function createPage(uid: string, data: CreatePageBodyParams) {
 export async function updatePageById(uid: string, pageId: string, data: UpdatePageBodyParams) {
     try {
         const pageRef = PAGES_COLLECTION.doc(pageId);
-        const newName = data.name;
         return await firestoreAdmin.runTransaction(async t => {
-            if (newName !== undefined) {
-                // We will need to look up to get the page's name
-                const pageSnapshot = await t.get(pageRef);
-                const pageData = pageSnapshot.data() as Page;
+            const pageSnapshot = await t.get(pageRef);
+            const pageData = pageSnapshot.data() as Page;
 
-                if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
-                if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
+            if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
+            if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
 
-                const oldName = pageData.name;
-                const siteId = pageData.siteId;
-                // Now update the name list
-                t.delete(SITES_COLLECTION.doc(siteId).collection("pages").doc(oldName));
-                t.create(SITES_COLLECTION.doc(siteId).collection("pages").doc(newName), {
-                    id: pageId,
-                });
-            }
             t.update(pageRef, data);
         });
     } catch (err) {
@@ -118,7 +102,7 @@ export async function deletePageById(uid: string, pageId: string) {
             if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
             if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
 
-            const { name, siteId, totalCommentCount, pendingCommentCount } = pageData;
+            const { siteId, totalCommentCount, pendingCommentCount } = pageData;
             const siteRef = SITES_COLLECTION.doc(siteId);
             // Decrease the number of page by 1, decrease the number of total comment count,
             // and pending comment count
@@ -127,7 +111,6 @@ export async function deletePageById(uid: string, pageId: string) {
                 totalCommentCount: FieldValue.increment(-totalCommentCount),
                 pendingCommentCount: FieldValue.increment(-pendingCommentCount),
             });
-            t.delete(siteRef.collection("pages").doc(name));
             t.delete(pageRef);
         });
     } catch (err) {
@@ -162,13 +145,8 @@ export async function deleteSitePagesById(siteId: string, updateSite: boolean = 
         const pageDocs = pageSnapshots.docs;
         const pageRefs = pageDocs.map(doc => doc.ref);
         const pageIds = pageDocs.map(doc => doc.id);
-        const pageNameRefs = pageDocs.map(doc => {
-            const { name } = doc.data() as Page;
-            return SITES_COLLECTION.doc(siteId).collection("pages").doc(name);
-        });
         const promises: Promise<any>[] = [
             deleteRefArray(pageRefs), // DELETE all pages
-            deleteRefArray(pageNameRefs), // DELETE all page name refs
             ...pageIds.map(id => deletePageCommentsById(id)), // And their comments
         ];
         if (updateSite) {
