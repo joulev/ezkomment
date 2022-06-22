@@ -24,13 +24,11 @@ export function useAuthInit(): AppAuth {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
-            if (firebaseUser) {
-                await mutate();
-                if (router.pathname.startsWith("/auth")) router.push("/app/dashboard");
-            } else {
-                await mutate();
-                if (router.pathname.startsWith("/app")) router.push("/auth");
-            }
+            await mutate();
+            if (firebaseUser && window.location.pathname.startsWith("/auth"))
+                router.push("/app/dashboard");
+            else if (!firebaseUser && window.location.pathname.startsWith("/app"))
+                router.push("/auth");
             setLoading(false);
         });
         return () => unsubscribe();
