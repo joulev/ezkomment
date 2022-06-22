@@ -127,21 +127,17 @@ export async function listSitePagesById(siteId: string) {
     return pageSnapshots.docs.map(doc => doc.data()) as Page[];
 }
 
-export async function listSiteBasicPagesById(siteId: string) {
-    const pageSnapshots = await SITES_COLLECTION.doc(siteId).collection("pages").get();
-    return pageSnapshots.docs.map(doc => doc.data());
-}
-
 /**
  * Deletes all pages of a site, including their comments as well. This method can also update the
  * site, if required.
  *
  * @param siteId The site's id
- * @param updateSite If true, the site will be updated. Default to false.
+ * @param update If true, the site will be updated. Default to false.
  */
-export async function deleteSitePagesById(siteId: string, updateSite: boolean = false) {
+export async function deleteSitePagesById(siteId: string, update: boolean = false) {
     try {
         const pageSnapshots = await querySitePagesById(siteId).get();
+        if (pageSnapshots.empty) return;
         const pageDocs = pageSnapshots.docs;
         const pageRefs = pageDocs.map(doc => doc.ref);
         const pageIds = pageDocs.map(doc => doc.id);
@@ -149,13 +145,14 @@ export async function deleteSitePagesById(siteId: string, updateSite: boolean = 
             deleteRefArray(pageRefs), // DELETE all pages
             ...pageIds.map(id => deletePageCommentsById(id)), // And their comments
         ];
-        if (updateSite) {
-            const updateCommentCount = {
-                totalCommentCount: 0,
-                pendingCommentCount: 0,
+        if (update) {
+            const updateContent = {
+                pageCount: 0, // No page
+                totalCommentCount: 0, // No comment
+                pendingCommentCount: 0, // Hence no pending comment
             };
             // The update could fail here, if the site does not exist.
-            promises.push(SITES_COLLECTION.doc(siteId).update(updateCommentCount));
+            promises.push(SITES_COLLECTION.doc(siteId).update(updateContent));
         }
         return await Promise.all(promises);
     } catch (err) {
