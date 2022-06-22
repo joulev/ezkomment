@@ -51,7 +51,7 @@ export type SiteContextProps = {
 export type PagePagesOptions = {
     title: (siteName: string) => string;
     activeTab: NavbarItems["page"];
-    Loading?: FC;
+    Loading: FC;
     Content: FC;
 };
 
