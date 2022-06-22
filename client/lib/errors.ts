@@ -50,3 +50,9 @@ const SITE_ALREADY_EXISTS = new Error(
 ) as NodeJS.ErrnoException;
 SITE_ALREADY_EXISTS.code = "ezkomment/client";
 export { SITE_ALREADY_EXISTS };
+
+const UNABLE_TO_CREATE_PAGE = new Error(
+    "Unable to create page. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_CREATE_PAGE.code = "ezkomment/client";
+export { UNABLE_TO_CREATE_PAGE };
