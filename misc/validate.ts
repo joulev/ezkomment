@@ -10,7 +10,7 @@ import isSlug from "validator/lib/isSlug";
 import isURL from "validator/lib/isURL";
 
 export const USER = {
-    nameIsValid: (name: string) => name.length > 0,
+    displayNameIsValid: (name: string) => name.length > 0,
 };
 
 export const SITE = {
@@ -23,7 +23,7 @@ export const SITE = {
 };
 
 export const PAGE = {
-    nameIsValid: (title: string) => title.length > 0,
+    titleIsValid: (title: string) => title.length > 0,
     urlIsValid: (url: string) => isURL(url, { require_protocol: true }),
     // server-only
     siteIdIsValid: (siteId: string) => siteId.length > 0 && !siteId.includes(" "),

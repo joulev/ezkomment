@@ -2,9 +2,9 @@ import { COMMENT, PAGE, SITE, USER } from "~/misc/validate";
 
 describe("Test user validation", () => {
     it("Check nameIsValid", () => {
-        expect(USER.nameIsValid("")).toBe(false);
-        expect(USER.nameIsValid("a")).toBe(true);
-        expect(USER.nameIsValid("a b")).toBe(true);
+        expect(USER.displayNameIsValid("")).toBe(false);
+        expect(USER.displayNameIsValid("a")).toBe(true);
+        expect(USER.displayNameIsValid("a b")).toBe(true);
     });
 });
 
@@ -49,9 +49,9 @@ describe("Test site validation", () => {
 
 describe("Test page validation", () => {
     it("Check nameIsValid", () => {
-        expect(PAGE.nameIsValid("")).toBe(false);
-        expect(PAGE.nameIsValid("a")).toBe(true);
-        expect(PAGE.nameIsValid("a b")).toBe(true);
+        expect(PAGE.titleIsValid("")).toBe(false);
+        expect(PAGE.titleIsValid("a")).toBe(true);
+        expect(PAGE.titleIsValid("a b")).toBe(true);
     });
     it("Check urlIsValid", () => {
         expect(PAGE.urlIsValid("")).toBe(false);

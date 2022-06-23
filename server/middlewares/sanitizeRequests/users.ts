@@ -8,7 +8,7 @@ import { UpdateUserBodyParams } from "~/types/server/user.type";
 
 export const sanitizeUpdateUserRequest: ApiMiddleware = (req, _, next) => {
     const { displayName }: RawBody<UpdateUserBodyParams> = req.body;
-    if (typeof displayName !== "string" || !USER.nameIsValid(displayName)) {
+    if (typeof displayName !== "string" || !USER.displayNameIsValid(displayName)) {
         throw new CustomApiError("'displayName' must be a non-empty string");
     }
     req.body = { displayName };

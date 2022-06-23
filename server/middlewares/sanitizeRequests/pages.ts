@@ -8,7 +8,7 @@ import { ApiMiddleware } from "~/types/server/nextApi.type";
 
 export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
     const { title, url, autoApprove, siteId }: RawBody<CreatePageBodyParams> = req.body;
-    if (typeof title !== "string" || !PAGE.nameIsValid(title)) {
+    if (typeof title !== "string" || !PAGE.titleIsValid(title)) {
         throw new CustomApiError("'title' must be a non-empty string");
     }
     if (typeof url !== "string" || !PAGE.urlIsValid(url)) {
@@ -29,7 +29,7 @@ export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
 
 export const sanitizeUpdatePageRequest: ApiMiddleware = (req, _, next) => {
     const { title, url, autoApprove }: RawBody<UpdatePageBodyParams> = req.body;
-    if (title !== undefined && (typeof title !== "string" || !PAGE.nameIsValid(title))) {
+    if (title !== undefined && (typeof title !== "string" || !PAGE.titleIsValid(title))) {
         throw new CustomApiError("'title' must be a non-empty string");
     }
     if (url !== undefined && (typeof url !== "string" || !PAGE.urlIsValid(url))) {
