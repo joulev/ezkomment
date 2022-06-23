@@ -1,7 +1,7 @@
 import { COMMENT, PAGE, SITE, USER } from "~/misc/validate";
 
 describe("Test user validation", () => {
-    it("Check nameIsValid", () => {
+    it("Check displayNameIsValid", () => {
         expect(USER.displayNameIsValid("")).toBe(false);
         expect(USER.displayNameIsValid("a")).toBe(true);
         expect(USER.displayNameIsValid("a b")).toBe(true);
@@ -63,6 +63,10 @@ describe("Test page validation", () => {
         expect(PAGE.siteIdIsValid("")).toBe(false);
         expect(PAGE.siteIdIsValid("a")).toBe(true);
         expect(PAGE.siteIdIsValid("a b")).toBe(false);
+        expect(PAGE.siteIdIsValid("functor/applicative/monad")).toBe(false);
+        expect(PAGE.siteIdIsValid(".")).toBe(false);
+        expect(PAGE.siteIdIsValid("..")).toBe(false);
+        expect(PAGE.siteIdIsValid("__if-name-main__")).toBe(false);
     });
 });
 
@@ -81,5 +85,9 @@ describe("Test comment validation", () => {
         expect(COMMENT.pageIdIsValid("")).toBe(false);
         expect(COMMENT.pageIdIsValid("a")).toBe(true);
         expect(COMMENT.pageIdIsValid("a b")).toBe(false);
+        expect(COMMENT.pageIdIsValid("functor/applicative/monad")).toBe(false);
+        expect(COMMENT.pageIdIsValid(".")).toBe(false);
+        expect(COMMENT.pageIdIsValid("..")).toBe(false);
+        expect(COMMENT.pageIdIsValid("__if-name-main__")).toBe(false);
     });
 });

@@ -1,5 +1,6 @@
 import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import * as PageUtils from "~/server/utils/crud/pageUtils";
+import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
 import { nonExistingPageId, nonExistingSiteId } from "~/sample/server/nonExistingIds.json";
@@ -33,12 +34,9 @@ describe("Test page utils", () => {
         });
     });
 
-    it(`Should be able to get page's information`, async () => {
-        await expect(PageUtils.getPageById(uid, pageId1)).resolves.toMatchObject({
-            id: pageId1,
-            title: pageTitle,
-        });
-    });
+    ///////////////////
+    // SHOULD REJECT //
+    ///////////////////
 
     it(`Should fail when trying to get a non-existing page`, async () => {
         await expect(PageUtils.getPageById(uid, nonExistingPageId)).rejects.toMatchObject({
@@ -80,12 +78,35 @@ describe("Test page utils", () => {
         });
     });
 
+    ////////////////////
+    // SHOULD RESOLVE //
+    ////////////////////
+
+    it(`Should be able to get page's information`, async () => {
+        await expect(PageUtils.getPageById(uid, pageId1)).resolves.toMatchObject({
+            id: pageId1,
+            title: pageTitle,
+        });
+    });
+
+    it(`Should correctly increment pageCount when a page is created`, async () => {
+        await PageUtils.createPage(uid, {
+            siteId,
+            url: `${mainSite.domain}/Scarlet_Serenade`,
+            title: "Scarlet Serenade",
+            autoApprove: true,
+        });
+        const { pageCount } = await SiteUtils.getSiteById(uid, siteId);
+        expect(pageCount).toEqual(6);
+    });
+
     it(`Should delete page correctly`, async () => {
         await PageUtils.deletePageById(uid, pageId1);
         await Promise.all([
             expect(PageUtils.listSitePagesById(siteId)).resolves.toEqual(
                 expect.not.arrayContaining([mainPage])
             ),
+            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({ pageCount: 5 }),
         ]);
     });
 
@@ -95,5 +116,9 @@ describe("Test page utils", () => {
             expect(PageUtils.listSitePagesById(siteId)).resolves.toHaveLength(0),
             expect(CommentUtils.listPageCommentsById(pageId2)).resolves.toHaveLength(0),
         ]);
+    });
+
+    afterAll(async () => {
+        await SiteUtils.deleteUserSitesById(uid);
     });
 });
