@@ -132,6 +132,61 @@ const UpdateSiteInfo: FC = () => {
   );
 };
 
+// TODO: A toggle switch would be better for this?
+const UpdateAutoApprove: FC = () => {
+  const { setLoading } = useAuth();
+  const { site, mutate: mutateSite } = useSite();
+  const { page, mutate: mutatePage } = usePage();
+  const [msg, setMsg] = useState<Msg>(null);
+  if (!site || !page) return <div>Something&apos;s wrong</div>; // never happen
+
+  const updateAutoApprove = async (newAutoApprove: boolean) => {
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({
+        url: `/api/pages/${page.id}`,
+        method: "PUT",
+        options: { body: JSON.stringify({ autoApprove: newAutoApprove }) },
+      });
+      if (!success) throw UNABLE_TO_UPDATE_PAGE;
+      await mutateSite();
+      await mutatePage();
+      setMsg({ type: "success", message: "Page updated successfully" });
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
+
+  return (
+    <section>
+      <h2>Automatic approval</h2>
+      {msg && <MsgBanner msg={msg} />}
+      <p>
+        If you enable auto-approval, all comments posted to this page will automatically be approved
+        and visible to everyone.
+      </p>
+      <p>
+        You are currently having auto-approval{" "}
+        <strong>{page.autoApprove ? "enabled" : "disabled"}</strong>.
+      </p>
+      {page.autoApprove && (
+        <Banner variant="warning" className="mb-6">
+          Beware of the possibilities of spam and abuse if you enable this.
+        </Banner>
+      )}
+      <RightAligned>
+        <Button
+          icon={page.autoApprove ? ClearOutlinedIcon : CheckOutlinedIcon}
+          onClick={() => updateAutoApprove(!page.autoApprove)}
+        >
+          {page.autoApprove ? "Disable" : "Enable"} auto-approval
+        </Button>
+      </RightAligned>
+    </section>
+  );
+};
+
 const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { page } = usePage();
@@ -164,27 +219,7 @@ const Content: FC = () => {
         </p>
       </section>
       <hr />
-      <section>
-        <h2>Automatic approval</h2>
-        <p>
-          If you enable auto-approval, all comments posted to this page will automatically be
-          approved and visible to everyone.
-        </p>
-        <p>
-          You are currently having auto-approval{" "}
-          <strong>{page.autoApprove ? "enabled" : "disabled"}</strong>.
-        </p>
-        {page.autoApprove && (
-          <Banner variant="warning" className="mb-6">
-            Beware of the possibilities of spam and abuse if you enable this.
-          </Banner>
-        )}
-        <RightAligned>
-          <Button icon={page.autoApprove ? ClearOutlinedIcon : CheckOutlinedIcon}>
-            {page.autoApprove ? "Disable" : "Enable"} auto-approval
-          </Button>
-        </RightAligned>
-      </section>
+      <UpdateAutoApprove />
       <hr />
       <section>
         <h2>Page deletion</h2>
