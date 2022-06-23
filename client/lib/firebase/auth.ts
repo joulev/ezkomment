@@ -8,6 +8,7 @@ import {
     reauthenticateWithPopup,
     signInWithPopup,
 } from "firebase/auth";
+import Router from "next/router";
 
 import * as E from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
@@ -90,5 +91,6 @@ export async function deleteAccount(appAuth: AppAuth) {
     });
     if (!success) throw E.UNABLE_TO_DELETE_ACCOUNT;
     await appAuth.mutate(undefined);
+    Router.push("/auth");
     appAuth.setLoading(false);
 }
