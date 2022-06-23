@@ -17,7 +17,7 @@ const idIsValid = (id: string) => {
         id !== ".." &&
         !id.includes(" ") &&
         !id.includes("/") &&
-        /__.*__/.test(id)
+        !/__.*__/.test(id)
     );
 };
 
