@@ -112,7 +112,7 @@ const New: NextPageWithLayout = () => {
 };
 
 const Loading: FC = () => (
-  <div className="mx-auto max-w-lg">
+  <div className="mx-auto md:max-w-lg">
     <div className="pulse h-9 w-48 mb-6" />
     <div className="pulse h-4 mb-3" />
     <div className="pulse h-4 mb-6" />
