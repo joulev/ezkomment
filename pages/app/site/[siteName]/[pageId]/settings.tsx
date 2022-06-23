@@ -55,7 +55,7 @@ const Content: FC = () => {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="mb-3">{page.name}</h1>
+      <h1 className="mb-3">{page.title}</h1>
       <div className="flex flex-row gap-3 text-muted">
         <WebOutlinedIcon />
         <A
@@ -74,7 +74,7 @@ const Content: FC = () => {
           label="Page title"
           icon={LabelOutlinedIcon}
           type="text"
-          value={page.name}
+          value={page.title}
           onUpdate={() => {}}
           required
         />
