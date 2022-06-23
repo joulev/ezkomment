@@ -27,7 +27,7 @@ export const USER = {
 
 export const SITE = {
     nameIsValid: (name: string) => isSlug(name),
-    domainIsValid: (domain: string) => domain === "*" || isFQDN(domain, { allow_wildcard: true }),
+    domainIsValid: (domain: string) => domain === "*" || isFQDN(domain),
     // obsolete?
     iconURLIsValid: (iconURL: string) => isURL(iconURL, { require_protocol: true }),
     // server-only
