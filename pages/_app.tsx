@@ -6,11 +6,9 @@ import { useRouter } from "next/router";
 import BreakpointContext from "~/client/context/breakpoint";
 import ModeContext from "~/client/context/mode";
 import { useBreakpointInit } from "~/client/hooks/breakpoint";
-import useNProgress from "~/client/hooks/nprogress";
 import { useModeInit } from "~/client/hooks/theme";
 
 import A from "~/client/components/anchor";
-import AuthProvider from "~/client/components/auth/provider";
 import PostHeading from "~/client/components/postHeading";
 import { ErrorBoundary } from "~/client/layouts/errors";
 
@@ -18,8 +16,7 @@ import { AppPropsWithLayout } from "~/types/client/utils.type";
 
 import "~/client/styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  // useNProgress(); // The routes are fast enough that this isn't necessary
+export default function NextApp({ Component, pageProps }: AppPropsWithLayout) {
   const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
   const router = useRouter();
@@ -39,29 +36,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               h6: props => <PostHeading {...props} level={6} />,
             }}
           >
-            {router.pathname.startsWith("/auth") || router.pathname.startsWith("/app") ? (
-              <AuthProvider>
-                <div
-                  id="wrapper"
-                  className={clsx(
-                    "relative min-h-[100vh]",
-                    router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
-                  )}
-                >
-                  {getLayout(<Component {...pageProps} />, pageProps, router)}
-                </div>
-              </AuthProvider>
-            ) : (
-              <div
-                id="wrapper"
-                className={clsx(
-                  "relative min-h-[100vh]",
-                  router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
-                )}
-              >
-                {getLayout(<Component {...pageProps} />, pageProps, router)}
-              </div>
-            )}
+            <div
+              id="wrapper"
+              className={clsx(
+                "relative min-h-[100vh]",
+                router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
+              )}
+            >
+              {getLayout(<Component {...pageProps} />, pageProps, router)}
+            </div>
           </MDXProvider>
         </BreakpointContext.Provider>
       </ModeContext.Provider>
@@ -81,5 +64,3 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
   if (navigator.sendBeacon) navigator.sendBeacon(url, body);
   else fetch(url, { body, method: "POST", keepalive: true });
 }
-
-export default MyApp;
