@@ -9,29 +9,45 @@ import isFQDN from "validator/lib/isFQDN";
 import isSlug from "validator/lib/isSlug";
 import isURL from "validator/lib/isURL";
 
+const idIsValid = (id: string) => {
+    // Based on Firebase documentation
+    return (
+        id.length > 0 &&
+        id !== "." &&
+        id !== ".." &&
+        !id.includes(" ") &&
+        !id.includes("/") &&
+        /__.*__/.test(id)
+    );
+};
+
 export const USER = {
-    displayNameIsValid: (name: string) => name.length > 0,
+    displayNameIsValid: (displayName: string) => displayName.length > 0,
 };
 
 export const SITE = {
     nameIsValid: (name: string) => isSlug(name),
     domainIsValid: (domain: string) => domain === "*" || isFQDN(domain, { allow_wildcard: true }),
-    // server-only
-    uidIsValid: (uid: string) => uid.length > 0 && !uid.includes(" "),
     // obsolete?
     iconURLIsValid: (iconURL: string) => isURL(iconURL, { require_protocol: true }),
+    // server-only
+    /**
+     * Deprecated as now the uid is obtained from decoded id token.
+     * Will just leave it here at the moment, may be this is useful in some cases?
+     */
+    uidIsValid: idIsValid,
 };
 
 export const PAGE = {
     titleIsValid: (title: string) => title.length > 0,
     urlIsValid: (url: string) => isURL(url, { require_protocol: true }),
     // server-only
-    siteIdIsValid: (siteId: string) => siteId.length > 0 && !siteId.includes(" "),
+    siteIdIsValid: idIsValid,
 };
 
 export const COMMENT = {
     textIsValid: (content: string) => content.length > 0,
     authorIsValid: (author: string) => author.length > 0,
     // server-only
-    pageIdIsValid: (pageId: string) => pageId.length > 0 && !pageId.includes(" "),
+    pageIdIsValid: idIsValid,
 };
