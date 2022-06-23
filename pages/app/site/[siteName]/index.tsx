@@ -94,7 +94,7 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
     const { success, status } = await internalFetcher({
       url: "/api/pages",
       method: "POST",
-      options: { body: JSON.stringify({ siteId: site.id, name: title, url, autoApprove: true }) },
+      options: { body: JSON.stringify({ siteId: site.id, title, url, autoApprove: true }) },
     });
     if (status === 409) throw E.UNKNOWN_ERROR; // should never happen either
     if (!success) throw E.UNABLE_TO_CREATE_PAGE;
@@ -251,7 +251,7 @@ const Content: FC = () => {
                   className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
                   href={`/app/site/${site.name}/${page.id}`}
                 >
-                  <div className="font-semibold text-lg mb-1.5">{page.name}</div>
+                  <div className="font-semibold text-lg mb-1.5">{page.title}</div>
                   <div className="text-muted text-sm mb-6">{page.url}</div>
                   <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
                     <div className="grid grid-cols-2 sm:gap-12">
