@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
@@ -12,7 +13,7 @@ import { PAGE } from "~/misc/validate";
 import useAuth from "~/client/hooks/auth";
 import { usePage } from "~/client/hooks/page";
 import { useSite } from "~/client/hooks/site";
-import { UNABLE_TO_UPDATE_PAGE } from "~/client/lib/errors";
+import { UNABLE_TO_DELETE_PAGE, UNABLE_TO_UPDATE_PAGE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
@@ -21,7 +22,7 @@ import AuthError from "~/client/components/auth/error";
 import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
-import { InputDetachedLabel } from "~/client/components/forms/input";
+import Input, { InputDetachedLabel } from "~/client/components/forms/input";
 import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
@@ -187,12 +188,89 @@ const UpdateAutoApprove: FC = () => {
   );
 };
 
-const Content: FC = () => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+const DeletePage: FC = () => {
+  const router = useRouter();
+  const auth = useAuth();
+  const { site, mutate: mutateSite } = useSite();
   const { page } = usePage();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [promptText, setPromptText] = useState("");
+  const [msg, setMsg] = useState<Msg>(null);
+  const validPrompt = "delete this page";
+  if (!site || !page) return <div>Something&apos;s wrong</div>; // never happen
 
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!promptText || promptText !== validPrompt) return;
+    auth.setLoading(true);
+    try {
+      const { success } = await internalFetcher({ url: `/api/pages/${page.id}`, method: "DELETE" });
+      if (!success) throw UNABLE_TO_DELETE_PAGE;
+      router.replace(`/app/site/${site.name}?loading=1`);
+      await auth.mutate();
+      await mutateSite();
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    auth.setLoading(false);
+  };
+
+  return (
+    <section>
+      <h2>Page deletion</h2>
+      {msg && <MsgBanner msg={msg} />}
+      <p>
+        If you delete this page, all comments posted to this page will be deleted and the comment
+        embed site will stop working. The action is <strong>irreversible</strong>, therefore please
+        think twice before doing this.
+      </p>
+      <RightAligned>
+        <Button
+          variant="danger"
+          icon={DangerousOutlinedIcon}
+          onClick={() => setShowDeleteModal(true)}
+        >
+          Delete this page
+        </Button>
+      </RightAligned>
+      <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+        <div className="p-6 max-w-lg">
+          <h2>You are attempting a dangerous action.</h2>
+          <p>
+            Deleting a page is <strong>irreversible</strong>, and we cannot do anything to recover
+            any data related to the page. Please think twice before proceeding.
+          </p>
+          <p>
+            To continue, type <strong>{validPrompt}</strong> to the text box below.
+          </p>
+          {msg && <MsgBanner msg={msg} />}
+          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+            <Input
+              icon={LabelOutlinedIcon}
+              type="text"
+              required
+              isInvalid={promptText !== "" && promptText !== validPrompt}
+              value={promptText}
+              onUpdate={setPromptText}
+            />
+            <RightAligned className="gap-3">
+              <Button type="button" variant="tertiary" onClick={() => setShowDeleteModal(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="danger" disabled={promptText !== validPrompt}>
+                Delete
+              </Button>
+            </RightAligned>
+          </form>
+        </div>
+      </Modal>
+    </section>
+  );
+};
+
+const Content: FC = () => {
+  const { page } = usePage();
   if (!page) return <Loading />;
-
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="mb-3">{page.title}</h1>
@@ -221,38 +299,7 @@ const Content: FC = () => {
       <hr />
       <UpdateAutoApprove />
       <hr />
-      <section>
-        <h2>Page deletion</h2>
-        <p>
-          If you delete this page, all comments posted to this page will be deleted and the comment
-          embed site will stop working. The action is <strong>irreversible</strong>, therefore
-          please think twice before doing this.
-        </p>
-        <RightAligned>
-          <Button
-            variant="danger"
-            icon={DangerousOutlinedIcon}
-            onClick={() => setShowDeleteModal(true)}
-          >
-            Delete this page
-          </Button>
-        </RightAligned>
-        <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
-          <div className="p-6 max-w-lg">
-            <h2>You are attempting a dangerous action.</h2>
-            <p>
-              Deleting a page is <strong>irreversible</strong>, and we cannot do anything to recover
-              any data related to the page. Please think twice before proceeding.
-            </p>
-            <RightAligned className="gap-3">
-              <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
-                Cancel
-              </Button>
-              <Button variant="danger">Delete</Button>
-            </RightAligned>
-          </div>
-        </Modal>
-      </section>
+      <DeletePage />
     </div>
   );
 };

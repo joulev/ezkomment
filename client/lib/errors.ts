@@ -62,3 +62,9 @@ const UNABLE_TO_UPDATE_PAGE = new Error(
 ) as NodeJS.ErrnoException;
 UNABLE_TO_UPDATE_PAGE.code = "ezkomment/client";
 export { UNABLE_TO_UPDATE_PAGE };
+
+const UNABLE_TO_DELETE_PAGE = new Error(
+    "Unable to delete page. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_DELETE_PAGE.code = "ezkomment/client";
+export { UNABLE_TO_DELETE_PAGE };

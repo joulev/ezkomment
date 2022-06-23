@@ -262,7 +262,7 @@ const DeleteSite: FC<{ site: ClientSite }> = ({ site }) => {
             any data related to the site. Please think twice before proceeding.
           </p>
           <p>
-            To continue, type <strong>delete {site.name}</strong> to the text box below.
+            To continue, type <strong>{validPrompt}</strong> to the text box below.
           </p>
           {msg && <MsgBanner msg={msg} />}
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
