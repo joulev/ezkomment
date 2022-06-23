@@ -9,6 +9,8 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
+import { PAGE } from "~/misc/validate";
+
 import * as E from "~/client/lib/errors";
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
@@ -105,9 +107,12 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
+    if (!PAGE.titleIsValid(title) || !PAGE.urlIsValid(url)) return;
     setLoading(true);
     try {
       await createNewPage(title, url);
+      setTitle("");
+      setUrl("");
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
@@ -131,6 +136,7 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
             required
             value={title}
             onUpdate={setTitle}
+            isInvalid={!(title === "" && url === "") && !PAGE.titleIsValid(title)}
           />
           <InputDetachedLabel
             label="Page URL"
@@ -139,12 +145,15 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
             required
             value={url}
             onUpdate={setUrl}
+            isInvalid={!(title === "" && url === "") && !PAGE.urlIsValid(url)}
           />
           <RightAligned className="gap-6">
             <Button variant="tertiary" onClick={onClose} type="button">
               Cancel
             </Button>
-            <Button type="submit">Create</Button>
+            <Button type="submit" disabled={!PAGE.titleIsValid(title) || !PAGE.urlIsValid(url)}>
+              Create
+            </Button>
           </RightAligned>
         </form>
       </div>
