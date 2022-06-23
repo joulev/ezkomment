@@ -55,7 +55,7 @@ export async function createPage(uid: string, data: CreatePageBodyParams) {
 
             if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
             if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
-            if (!url.includes(siteData.domain))
+            if (!url.includes(siteData.domain) && siteData.domain !== "*")
                 throw new CustomApiError("Site domain and page url do not match", 409);
 
             // Increment the pageCount of the site by 1
