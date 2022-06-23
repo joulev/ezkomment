@@ -26,7 +26,7 @@ describe("Test site validation", () => {
         expect(SITE.domainIsValid("with-dash.com")).toBe(true);
         expect(SITE.domainIsValid("a.very.long.and.non.existent.domain.name")).toBe(true);
         expect(SITE.domainIsValid("https://with-protocol.com")).toBe(false);
-        expect(SITE.domainIsValid("*.with-wildcard.com")).toBe(true);
+        expect(SITE.domainIsValid("*.with-wildcard.com")).toBe(false);
         expect(SITE.domainIsValid("with-path.com/hello")).toBe(false);
     });
     it("Check uidIsValid", () => {
