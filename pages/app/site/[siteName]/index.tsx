@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -30,6 +31,7 @@ import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 
 import { ResponseMessage as Msg } from "~/types/client/utils.type";
+import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const Loading: FC = () => (
   <>
@@ -84,6 +86,7 @@ const Stats: FC<{ value: number; label: string; small?: boolean }> = ({ value, l
 );
 
 const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClose }) => {
+  const router = useRouter();
   const { user, mutate: mutateUser, setLoading } = useAuth();
   const { site, mutate: mutateSite } = useSite();
   const [title, setTitle] = useState("");
@@ -93,16 +96,17 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
   const createNewPage = async (title: string, url: string) => {
     if (!user) throw E.NOT_AUTHENTICATED;
     if (!site) throw E.UNKNOWN_ERROR; // this should never happen
-    const { success, status } = await internalFetcher({
+    const { success, status, body } = await internalFetcher({
       url: "/api/pages",
       method: "POST",
       options: { body: JSON.stringify({ siteId: site.id, title, url, autoApprove: true }) },
     });
     if (status === 409) throw E.PAGE_WRONG_SITE_DOMAIN;
     if (!success) throw E.UNABLE_TO_CREATE_PAGE;
+    const { id } = (body as ApiResponseBody).data as { id: string };
     await mutateUser(); // we need to get new info about page count too
     await mutateSite();
-    onClose(); // TODO redirect to the page dashboard
+    router.push(`/app/site/${site.name}/${id}`);
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
