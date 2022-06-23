@@ -10,7 +10,9 @@ import Footer from "~/client/components/footer";
 
 import { AppProps } from "~/types/client/components.type";
 
-const AppLayout: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
+import AuthProvider from "../components/auth/provider";
+
+const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
@@ -32,5 +34,11 @@ const AppLayout: FC<AppProps> = ({ title, removePadding, loadingScreen, children
     </>
   );
 };
+
+const AppLayout: FC<AppProps> = props => (
+  <AuthProvider>
+    <App {...props} />
+  </AuthProvider>
+);
 
 export default AppLayout;
