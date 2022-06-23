@@ -25,7 +25,12 @@ describe("Test comment utils", () => {
         totalCommentCount: 5,
         pendingCommentCount: 0,
     });
-    const mainComment = TestUtils.createTestComment({ siteId, pageId, id: commentId });
+    const mainComment = TestUtils.createTestComment({
+        siteId,
+        pageId,
+        id: commentId,
+        status: "Approved",
+    });
 
     beforeAll(async () => {
         await TestUtils.importFirestoreEntities({
@@ -47,23 +52,29 @@ describe("Test comment utils", () => {
             CommentUtils.createComment({
                 pageId: nonExistingPageId,
                 author: null,
-                text: "Suffer",
+                text: "Why Touhou is so hard??",
             })
         ).rejects.toMatchObject({ code: 404 });
     });
 
-    it(`Should fail when trying to update a non-existing comment`, async () => {
+    it(`Should fail when trying to update an approved comment`, async () => {
         await expect(
-            CommentUtils.updateCommentById(nonExistingCommentId, {
-                status: "Approved",
-            })
-        ).rejects.toMatchObject({ code: 404 });
+            CommentUtils.updateCommentById(commentId, { status: "Approved" })
+        ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to delte a non-existing comment`, async () => {
-        await expect(CommentUtils.deleteCommentById(nonExistingCommentId)).rejects.toMatchObject({
-            code: 404,
-        });
+    it(`Should fail when trying to access a non-existing comment`, async () => {
+        const notFound = { code: 404 };
+        await Promise.all([
+            expect(
+                CommentUtils.updateCommentById(nonExistingCommentId, {
+                    status: "Approved",
+                })
+            ).rejects.toMatchObject(notFound),
+            expect(CommentUtils.deleteCommentById(nonExistingCommentId)).rejects.toMatchObject(
+                notFound
+            ),
+        ]);
     });
 
     ////////////////////
@@ -100,7 +111,7 @@ describe("Test comment utils", () => {
         ]);
     });
 
-    it(`Should create and delete a new comment correctly when auto approve is disabled`, async () => {
+    it(`Should create, update and delete a new comment correctly when auto approve is disabled (the comment was approved)`, async () => {
         await PageUtils.updatePageById(uid, pageId, { autoApprove: false });
         const { status, id } = await CommentUtils.createComment({
             pageId,
@@ -118,6 +129,37 @@ describe("Test comment utils", () => {
                 pendingCommentCount: 1,
             }),
         ]);
+        await CommentUtils.updateCommentById(id, { status: "Approved" });
+        await Promise.all([
+            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+                totalCommentCount: 6,
+                pendingCommentCount: 0,
+            }),
+            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+                totalCommentCount: 6,
+                pendingCommentCount: 0,
+            }),
+        ]);
+        await CommentUtils.deleteCommentById(id);
+        await Promise.all([
+            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+                totalCommentCount: 5,
+                pendingCommentCount: 0,
+            }),
+            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+                totalCommentCount: 5,
+                pendingCommentCount: 0,
+            }),
+        ]);
+    });
+
+    it(`Should create and delete a new comment correctly when auto approve is disabled (the comment was not approved)`, async () => {
+        const { status, id } = await CommentUtils.createComment({
+            pageId,
+            author: null,
+            text: "Black Princess",
+        });
+        expect(status).toEqual("Pending");
         await CommentUtils.deleteCommentById(id);
         await Promise.all([
             expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({

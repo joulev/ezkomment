@@ -65,19 +65,18 @@ export async function createComment(data: CreateCommentBodyParams) {
  */
 export async function updateCommentById(commentId: string, data: UpdateCommentBodyParams) {
     try {
-        const { status } = data;
         const commentRef = COMMENTS_COLLECTION.doc(commentId);
         return await firestoreAdmin.runTransaction(async t => {
             const commentSnapshot = await commentRef.get();
             const commentData = commentSnapshot.data() as Comment;
 
             if (!commentSnapshot.exists) throw new CustomApiError("Comment does not exist", 404);
-            if (status === commentData.status)
+            if (commentData.status === "Approved")
                 throw new CustomApiError("Comment is already approved", 409);
             // Because of the sanitizer, the only legit status is "Approved"
             // We shall decrement the value of pendingCommentCount
             const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
-            const siteRef = PAGES_COLLECTION.doc(commentData.siteId);
+            const siteRef = SITES_COLLECTION.doc(commentData.siteId);
             const decrementByOne = FieldValue.increment(-1);
             t.update(pageRef, { pendingCommentCount: decrementByOne });
             t.update(siteRef, { pendingCommentCount: decrementByOne });

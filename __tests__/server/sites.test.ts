@@ -3,7 +3,7 @@ import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
-import { nonExistingSiteId } from "~/sample/server/nonExistingIds.json";
+import { nonExistingSiteId, nonExistingUid } from "~/sample/server/nonExistingIds.json";
 
 describe("Test site utils", () => {
     const uid = TestUtils.randomUUID();
@@ -37,12 +37,6 @@ describe("Test site utils", () => {
     // SHOULD REJECT //
     ///////////////////
 
-    it(`Should fail when trying to get a non-existing site`, async () => {
-        await expect(SiteUtils.getSiteById(uid, nonExistingSiteId)).rejects.toMatchObject({
-            code: 404,
-        });
-    });
-
     it(`Should fail when trying to create a new site with duplicated name`, async () => {
         await expect(
             SiteUtils.createSite(uid, {
@@ -56,21 +50,34 @@ describe("Test site utils", () => {
     it(`Should fail when trying to update a site with duplicated name`, async () => {
         await expect(
             SiteUtils.updateSiteById(uid, siteId2, { name: siteName })
-        ).rejects.toMatchObject({
-            code: 409,
-        });
+        ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to update a non-existing site`, async () => {
-        await expect(
-            SiteUtils.updateSiteById(uid, nonExistingSiteId, { name: siteName })
-        ).rejects.toMatchObject({ code: 404 });
+    it(`Should fail when trying to access a non-exisiting site`, async () => {
+        const notFound = { code: 404 };
+        await Promise.all([
+            expect(SiteUtils.getSiteById(uid, nonExistingSiteId)).rejects.toMatchObject(notFound),
+            expect(
+                SiteUtils.updateSiteById(uid, nonExistingSiteId, { name: "LoLK" })
+            ).rejects.toMatchObject(notFound),
+            expect(SiteUtils.deleteSiteById(uid, nonExistingSiteId)).rejects.toMatchObject(
+                notFound
+            ),
+        ]);
     });
 
-    it(`Should fail when trying to delete a non-exisiting site`, async () => {
-        await expect(SiteUtils.deleteSiteById(uid, nonExistingSiteId)).rejects.toMatchObject({
-            code: 404,
-        });
+    it(`Should fail when uid does not match`, async () => {
+        const forbidden = { code: 403 };
+
+        await Promise.all([
+            expect(SiteUtils.getSiteById(nonExistingUid, siteId1)).rejects.toMatchObject(forbidden),
+            expect(
+                SiteUtils.updateSiteById(nonExistingUid, siteId1, { name: "Imperishable Night" })
+            ).rejects.toMatchObject(forbidden),
+            expect(SiteUtils.deleteSiteById(nonExistingUid, siteId1)).rejects.toMatchObject(
+                forbidden
+            ),
+        ]);
     });
 
     ////////////////////

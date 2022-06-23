@@ -3,7 +3,11 @@ import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
-import { nonExistingPageId, nonExistingSiteId } from "~/sample/server/nonExistingIds.json";
+import {
+    nonExistingPageId,
+    nonExistingSiteId,
+    nonExistingUid,
+} from "~/sample/server/nonExistingIds.json";
 
 describe("Test page utils", () => {
     const uid = TestUtils.randomUUID();
@@ -38,18 +42,12 @@ describe("Test page utils", () => {
     // SHOULD REJECT //
     ///////////////////
 
-    it(`Should fail when trying to get a non-existing page`, async () => {
-        await expect(PageUtils.getPageById(uid, nonExistingPageId)).rejects.toMatchObject({
-            code: 404,
-        });
-    });
-
     it(`Should fail when trying to create a new page with a non-existing site`, async () => {
         await expect(
             PageUtils.createPage(uid, {
                 url: "https://en.touhouwiki.net/wiki/Flandre_Scarlet",
                 autoApprove: false,
-                title: "Necrofantasia",
+                title: "Who Killed U.N.Owen",
                 siteId: nonExistingSiteId,
             })
         ).rejects.toMatchObject({ code: 404 });
@@ -66,16 +64,32 @@ describe("Test page utils", () => {
         ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to update a non-exsting page`, async () => {
-        await expect(
-            PageUtils.updatePageById(uid, nonExistingPageId, { autoApprove: false })
-        ).rejects.toMatchObject({ code: 404 });
+    it(`Should fail when trying to access a non-existing page`, async () => {
+        const notFound = { code: 404 };
+        await Promise.all([
+            expect(PageUtils.getPageById(uid, nonExistingPageId)).rejects.toMatchObject(notFound),
+            expect(
+                PageUtils.updatePageById(uid, nonExistingPageId, {
+                    title: "Undefined Fantastic Object",
+                })
+            ).rejects.toMatchObject(notFound),
+            expect(PageUtils.deletePageById(uid, nonExistingPageId)).rejects.toMatchObject(
+                notFound
+            ),
+        ]);
     });
 
-    it(`Should fail when trying to delete a non-existing page`, async () => {
-        await expect(PageUtils.deletePageById(uid, nonExistingPageId)).rejects.toMatchObject({
-            code: 404,
-        });
+    it(`Should fail when uid does not match`, async () => {
+        const forbidden = { code: 403 };
+        await Promise.all([
+            expect(PageUtils.getPageById(nonExistingUid, pageId1)).rejects.toMatchObject(forbidden),
+            expect(
+                PageUtils.updatePageById(nonExistingUid, pageId1, { title: "UFO" })
+            ).rejects.toMatchObject(forbidden),
+            expect(PageUtils.deletePageById(nonExistingUid, pageId1)).rejects.toMatchObject(
+                forbidden
+            ),
+        ]);
     });
 
     ////////////////////
@@ -111,10 +125,15 @@ describe("Test page utils", () => {
     });
 
     it(`Should be able to delete ALL pages of a site`, async () => {
-        await PageUtils.deleteSitePagesById(siteId);
+        await PageUtils.deleteSitePagesById(siteId, true);
         await Promise.all([
             expect(PageUtils.listSitePagesById(siteId)).resolves.toHaveLength(0),
             expect(CommentUtils.listPageCommentsById(pageId2)).resolves.toHaveLength(0),
+            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+                pageCount: 0,
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
+            }),
         ]);
     });
 

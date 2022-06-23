@@ -4,25 +4,24 @@ on:
   push:
     branches:
       - main
-      - more-be-test-n-ci
   pull_request:
 
 jobs:
-  # frontend-lint-and-test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: "16"
-  #         cache: "yarn"
-  #     - run: yarn
-  #     # Since CD on Vercel already builds the site for us, we only need to run linting here
-  #     - run: yarn lint
-  #     - run: yarn test:client:ci
-  #     - uses: codecov/codecov-action@v2
-  #       with:
-  #         fail_ci_if_error: true
+  frontend-lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+      - run: yarn
+      # Since CD on Vercel already builds the site for us, we only need to run linting here
+      - run: yarn lint
+      - run: yarn test:client:ci
+      - uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
 
   backend-test:
     runs-on: ubuntu-latest
