@@ -51,6 +51,12 @@ const SITE_ALREADY_EXISTS = new Error(
 SITE_ALREADY_EXISTS.code = "ezkomment/client";
 export { SITE_ALREADY_EXISTS };
 
+const PAGE_WRONG_SITE_DOMAIN = new Error(
+    "Page URL domain and site domain do not match. Consider adding a new site or changing the site domain to wildcard (*) if you want to support several domains."
+) as NodeJS.ErrnoException;
+PAGE_WRONG_SITE_DOMAIN.code = "ezkomment/client";
+export { PAGE_WRONG_SITE_DOMAIN };
+
 const UNABLE_TO_CREATE_PAGE = new Error(
     "Unable to create page. Please try again later."
 ) as NodeJS.ErrnoException;

@@ -98,7 +98,7 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
       method: "POST",
       options: { body: JSON.stringify({ siteId: site.id, title, url, autoApprove: true }) },
     });
-    if (status === 409) throw E.UNKNOWN_ERROR; // should never happen either
+    if (status === 409) throw E.PAGE_WRONG_SITE_DOMAIN;
     if (!success) throw E.UNABLE_TO_CREATE_PAGE;
     await mutateUser(); // we need to get new info about page count too
     await mutateSite();
@@ -127,8 +127,8 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
           Please fill in these information. They won&apos;t be used for us to identify the pages,
           however correct information would help you identify your pages from this site dashboard.
         </p>
+        {msg && <MsgBanner msg={msg} />}
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-          {msg && <MsgBanner msg={msg} />}
           <InputDetachedLabel
             label="Page title"
             icon={LabelOutlinedIcon}
