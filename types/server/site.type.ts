@@ -63,4 +63,7 @@ export type SiteStatistics = {
     newComment: number[];
 };
 
-export type ClientSite = Site & { pages: Page[] };
+export type ClientSite = Site & {
+    pages: Page[];
+    statistic: SiteStatistics;
+};
