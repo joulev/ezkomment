@@ -2,7 +2,7 @@ import { verifyJWT, verifySessionCookie } from "~/server/utils/authUtils";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { ApiMiddleware } from "~/types/server/nextApi.type";
+import { ApiMiddleware, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
 
 /**
  * Middleware that checks whether the current user's uid and the targeted document's uid match.
@@ -32,20 +32,15 @@ export const authenticateBodyUidWithJWT: ApiMiddleware = async (req, _, next) =>
     next();
 };
 
-/**
- * For some endpoints, decode the token is good enough.
- */
-export const authenticateWithJWT: ApiMiddleware = async (req, _, next) => {
-    if (process.env.NODE_ENV === "development") {
-        next();
-        return;
-    }
-    await verifyJWT(req.headers.authorization);
+export const validateSessionCookie: ApiMiddleware = async (req, _, next) => {
+    const sessionCookie = req.cookies.session;
+    await verifySessionCookie(sessionCookie);
     next();
 };
 
-export const validateSessionCookie: ApiMiddleware = async (req, res, next) => {
-    const sessionCookie = req.cookies.session;
-    await verifySessionCookie(sessionCookie);
+type AuthenticatedApiMiddleware = ApiMiddleware<AuthenticatedApiRequest>;
+
+export const attachIdTokenWithJWT: AuthenticatedApiMiddleware = async (req, _, next) => {
+    req.user = await verifyJWT(req.headers.authorization);
     next();
 };

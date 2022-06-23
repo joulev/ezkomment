@@ -27,7 +27,7 @@ describe("Test site utils", () => {
                 TestUtils.createTestSite({ uid, id: siteId2, pageCount: 5, totalCommentCount: 5 }),
                 ...restSiteIds.map(id => TestUtils.createTestSite({ uid, id })),
             ],
-            pages: pageIds.map(id => TestUtils.createTestPage({ siteId: siteId2, id })),
+            pages: pageIds.map(id => TestUtils.createTestPage({ uid, siteId: siteId2, id })),
             comments: commentIds.map(id =>
                 TestUtils.createTestComment({ siteId: siteId2, pageId, id })
             ),
@@ -35,20 +35,21 @@ describe("Test site utils", () => {
     });
 
     it(`Should be able to get site's information`, async () => {
-        await expect(SiteUtils.getSiteById(siteId1)).resolves.toMatchObject({
+        await expect(SiteUtils.getSiteById(uid, siteId1)).resolves.toMatchObject({
             id: siteId1,
             name: siteName,
         });
     });
 
     it(`Should fail when trying to get a non-existing site`, async () => {
-        await expect(SiteUtils.getSiteById(nonExistingSiteId)).rejects.toMatchObject({ code: 404 });
+        await expect(SiteUtils.getSiteById(uid, nonExistingSiteId)).rejects.toMatchObject({
+            code: 404,
+        });
     });
 
     it(`Should fail when trying to create a new site with duplicated name`, async () => {
         await expect(
-            SiteUtils.createSite({
-                uid,
+            SiteUtils.createSite(uid, {
                 name: siteName,
                 domain: "https://en.touhouwiki.net/wiki/Yukari_Yakumo",
                 iconURL: null,
@@ -57,25 +58,27 @@ describe("Test site utils", () => {
     });
 
     it(`Should fail when trying to update a site with duplicated name`, async () => {
-        await expect(SiteUtils.updateSiteById(siteId2, { name: siteName })).rejects.toMatchObject({
+        await expect(
+            SiteUtils.updateSiteById(uid, siteId2, { name: siteName })
+        ).rejects.toMatchObject({
             code: 409,
         });
     });
 
     it(`Should fail when trying to update a non-existing site`, async () => {
         await expect(
-            SiteUtils.updateSiteById(nonExistingSiteId, { name: siteName })
+            SiteUtils.updateSiteById(uid, nonExistingSiteId, { name: siteName })
         ).rejects.toMatchObject({ code: 404 });
     });
 
     it(`Should fail when trying to delete a non-exisiting site`, async () => {
-        await expect(SiteUtils.deleteSiteById(nonExistingSiteId)).rejects.toMatchObject({
+        await expect(SiteUtils.deleteSiteById(uid, nonExistingSiteId)).rejects.toMatchObject({
             code: 404,
         });
     });
 
     it(`Should delete site correctly`, async () => {
-        await SiteUtils.deleteSiteById(siteId1);
+        await SiteUtils.deleteSiteById(uid, siteId1);
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toEqual(
                 expect.not.arrayContaining([siteId1])
@@ -97,7 +100,6 @@ describe("Test site utils", () => {
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toHaveLength(0),
             expect(SiteUtils.listUserSitesById(uid)).resolves.toHaveLength(0),
             expect(PageUtils.listSitePagesById(siteId2)).resolves.toHaveLength(0),
-            expect(PageUtils.listSiteBasicPagesById(siteId2)).resolves.toHaveLength(0),
             expect(CommentUtils.listPageCommentsById(pageId)).resolves.toHaveLength(0),
         ]);
     });

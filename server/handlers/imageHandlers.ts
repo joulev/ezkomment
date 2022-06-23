@@ -3,7 +3,11 @@ import { updateSiteById } from "~/server/utils/crud/siteUtils";
 import { updateUserById } from "~/server/utils/crud/userUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { ApiRequestWithFormData, ApiResponse } from "~/types/server/nextApi.type";
+import {
+    ApiRequestWithFormData,
+    ApiResponse,
+    AuthenticatedApiRequestWithFormData,
+} from "~/types/server/nextApi.type";
 
 export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
@@ -17,11 +21,12 @@ export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiRespo
     });
 }
 
-export async function uploadSiteIcon(req: ApiRequestWithFormData, res: ApiResponse) {
+export async function uploadSiteIcon(req: AuthenticatedApiRequestWithFormData, res: ApiResponse) {
+    const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
     const imgName = `sites/${siteId}`;
     const iconURL = getImagePublicUrl(imgName);
-    await updateSiteById(siteId, { iconURL });
+    await updateSiteById(uid, siteId, { iconURL });
     await uploadImage(imgName, req.file);
     res.status(201).json({
         message: "Uploaded site's icon",

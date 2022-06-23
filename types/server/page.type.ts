@@ -2,31 +2,27 @@ import { Comment } from "./comment.type";
 
 export type Page = {
     readonly id: string;
-    name: string;
+
+    title: string;
     url: string;
     autoApprove: boolean;
 
     totalCommentCount: number;
     pendingCommentCount: number;
-    readonly siteId: string; // foreign key
-};
 
-export type CreatePagePathParams = {
-    /**
-     * The id of the site that contains this page.
-     */
-    siteId: string;
+    readonly uid: string; // foreign key
+    readonly siteId: string; // foreign key
 };
 
 export type UpdatePageBodyParams = {
     url?: string;
-    name?: string;
+    title?: string;
     autoApprove?: boolean;
 };
 
 export type CreatePageBodyParams = {
     url: string;
-    name: string;
+    title: string;
     autoApprove: boolean; // default true
     siteId: string;
 };

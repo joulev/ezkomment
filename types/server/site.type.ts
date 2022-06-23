@@ -56,7 +56,6 @@ export type CreateSiteBodyParams = {
     name: string;
     domain: string;
     iconURL: string | null;
-    uid: string;
 };
 
 export type SiteStatistics = {

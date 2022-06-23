@@ -30,12 +30,11 @@ export async function createComment(data: CreateCommentBodyParams) {
         return await firestoreAdmin.runTransaction(async t => {
             const pageRef = PAGES_COLLECTION.doc(pageId);
             const pageSnapshot = await t.get(pageRef);
-            if (!pageSnapshot.exists) {
-                throw new CustomApiError("Page does not exist", 404);
-            }
             const pageData = pageSnapshot.data() as Page;
+
+            if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
+
             const siteRef = SITES_COLLECTION.doc(pageData.siteId);
-            // new comment content
             const newComment: Comment = {
                 id: commentId,
                 date: Timestamp.now(),
@@ -70,14 +69,12 @@ export async function updateCommentById(commentId: string, data: UpdateCommentBo
         const commentRef = COMMENTS_COLLECTION.doc(commentId);
         return await firestoreAdmin.runTransaction(async t => {
             const commentSnapshot = await commentRef.get();
-            if (!commentSnapshot.exists) {
-                throw new CustomApiError("Comment does not exist", 404);
-            }
             const commentData = commentSnapshot.data() as Comment;
-            // Because of the sanitizer, the only legit status is "Approved"
-            if (status === commentData.status) {
+
+            if (!commentSnapshot.exists) throw new CustomApiError("Comment does not exist", 404);
+            if (status === commentData.status)
                 throw new CustomApiError("Comment is already approved", 409);
-            }
+            // Because of the sanitizer, the only legit status is "Approved"
             // We shall decrement the value of pendingCommentCount
             const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
             const siteRef = PAGES_COLLECTION.doc(commentData.siteId);
@@ -101,10 +98,10 @@ export async function deleteCommentById(commentId: string) {
         const commentRef = COMMENTS_COLLECTION.doc(commentId);
         return await firestoreAdmin.runTransaction(async t => {
             const commentSnapshot = await commentRef.get();
-            if (!commentSnapshot.exists) {
-                throw new CustomApiError("Comment does not exist", 404);
-            }
             const commentData = commentSnapshot.data() as Comment;
+
+            if (!commentSnapshot.exists) throw new CustomApiError("Comment does not exist", 404);
+
             const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
             const siteRef = SITES_COLLECTION.doc(commentData.siteId);
 
@@ -136,19 +133,34 @@ export async function listPageCommentsById(pageId: string) {
  * But this may be redudant in some case, for example if we want to delete all pages of a site.
  *
  * @param pageId The page's id
- * @param updatePage If true, the page will be updated. Default to false
+ * @param update If true, the page and site will be updated. Default to false
  */
-export async function deletePageCommentsById(pageId: string, updatePage: boolean = false) {
+export async function deletePageCommentsById(pageId: string, update: boolean = false) {
     try {
         const commentQuery = COMMENTS_COLLECTION.where("pageId", "==", pageId);
         const promises: Promise<any>[] = [deleteQuery(commentQuery)];
-        if (updatePage) {
-            const updateCommentCount = {
-                totalCommentCount: 0,
-                pendingCommentCount: 0,
-            };
+        if (update) {
             // The update could fail here, if the page does not exist.
-            promises.push(PAGES_COLLECTION.doc(pageId).update(updateCommentCount));
+            promises.push(
+                firestoreAdmin.runTransaction(async t => {
+                    const pageRef = PAGES_COLLECTION.doc(pageId);
+                    const pageSnapshot = await t.get(pageRef);
+                    const pageData = pageSnapshot.data() as Page;
+
+                    if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
+
+                    const { siteId, totalCommentCount, pendingCommentCount } = pageData;
+                    const siteRef = SITES_COLLECTION.doc(siteId);
+
+                    const updateContent = {
+                        totalCommentCount: FieldValue.increment(-totalCommentCount),
+                        pendingCommentCount: FieldValue.increment(-pendingCommentCount),
+                    };
+
+                    t.update(siteRef, updateContent);
+                    t.update(pageRef, updateContent);
+                })
+            );
         }
         return await Promise.all(promises);
     } catch (err) {

@@ -1,3 +1,4 @@
+import { DecodedIdToken } from "firebase-admin/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**
@@ -50,3 +51,10 @@ export type FormDataFile = {
 export type ApiRequestWithFormData = NextApiRequest & {
     file?: FormDataFile;
 };
+
+export type AuthenticatedApiRequest = NextApiRequest & {
+    // We shall attach the uid into the request
+    user: DecodedIdToken;
+};
+
+export type AuthenticatedApiRequestWithFormData = AuthenticatedApiRequest & ApiRequestWithFormData;
