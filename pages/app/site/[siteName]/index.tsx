@@ -27,7 +27,7 @@ import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
-// import SiteGraph from "~/client/components/siteGraph";
+import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
 
 import { ResponseMessage as Msg } from "~/types/client/utils.type";
@@ -242,7 +242,7 @@ const Content: FC = () => {
               <Stats label="pending" value={site.pendingCommentCount} />
             </div>
             <h2>Last 30 days</h2>
-            {/* <SiteGraph {...site.statistics} /> */}
+            <SiteGraph {...site.statistic} />
           </div>
           <div className="lg:col-span-7">
             <h2>All pages</h2>
