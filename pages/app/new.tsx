@@ -34,7 +34,7 @@ const New: NextPageWithLayout = () => {
     const { success, status } = await internalFetcher({
       url: "/api/sites",
       method: "POST",
-      options: { body: JSON.stringify({ uid: user.uid, name, domain }) },
+      options: { body: JSON.stringify({ name, domain, iconURL: null }) },
     });
     if (status === 409) throw E.SITE_ALREADY_EXISTS;
     if (!success) throw E.UNABLE_TO_CREATE_SITE;
@@ -87,11 +87,12 @@ const New: NextPageWithLayout = () => {
           value={domain}
           onChange={event => setDomain(event.target.value)}
           isInvalid={(name.length > 0 || domain.length > 0) && !SITE.domainIsValid(domain)}
-          placeholder="https://example.com, https://mysite.example.com, &hellip;"
+          placeholder="example.com, mysite.example.com, &hellip;"
           helpText={
             <>
               The hostname of the website where you want to host the comments. It can be any domain
-              or subdomain with a valid protocol. Other websites{" "}
+              or subdomain with a valid protocol or a wildcard (<code>*</code>) to match all
+              domains. Other websites{" "}
               <A href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors">
                 will not be allowed to host the comments
               </A>
@@ -111,7 +112,7 @@ const New: NextPageWithLayout = () => {
 };
 
 const Loading: FC = () => (
-  <div className="mx-auto max-w-lg">
+  <div className="mx-auto md:max-w-lg">
     <div className="pulse h-9 w-48 mb-6" />
     <div className="pulse h-4 mb-3" />
     <div className="pulse h-4 mb-6" />

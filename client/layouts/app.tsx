@@ -6,11 +6,12 @@ import { FC, useEffect } from "react";
 import useAuth from "~/client/hooks/auth";
 
 import Navbar from "~/client/components/app/navbar";
+import AuthProvider from "~/client/components/auth/provider";
 import Footer from "~/client/components/footer";
 
 import { AppProps } from "~/types/client/components.type";
 
-const AppLayout: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
+const App: FC<AppProps> = ({ title, removePadding, loadingScreen, children, ...rest }) => {
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
@@ -26,13 +27,17 @@ const AppLayout: FC<AppProps> = ({ title, removePadding, loadingScreen, children
       </Head>
       <Navbar {...rest} />
       <main className={clsx("container", removePadding || "py-9")}>
-        {user && !router.query.loading
-          ? children
-          : loadingScreen ?? <>You are accessing a protected page. Authenticating&hellip;</>}
+        {user && !router.query.loading ? children : loadingScreen}
       </main>
       <Footer />
     </>
   );
 };
+
+const AppLayout: FC<AppProps> = props => (
+  <AuthProvider>
+    <App {...props} />
+  </AuthProvider>
+);
 
 export default AppLayout;

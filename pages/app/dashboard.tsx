@@ -81,13 +81,15 @@ const SiteCard: FC<{ site?: Site }> = ({ site }) => (
           </div>
           <div>
             <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
-            <div className="text-sm text-muted truncate">{site.domain}</div>
+            <div className="text-sm text-muted truncate">
+              {site.domain === "*" ? "All domains" : site.domain}
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-3">
-          <Stats label="pages" value={0} />
-          <Stats label="comments" value={0} />
-          <Stats label="pending" value={0} />
+          <Stats label="pages" value={site.pageCount} />
+          <Stats label="comments" value={site.totalCommentCount} />
+          <Stats label="pending" value={site.pendingCommentCount} />
         </div>
       </>
     ) : (

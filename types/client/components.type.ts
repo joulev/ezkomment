@@ -6,7 +6,7 @@ import { Author, BannerVariant, ButtonVariant, IconAndLabel, IconType } from "./
 export type AppProps = CurrentPage & {
     title: string;
     removePadding?: boolean;
-    loadingScreen?: ReactNode; // TODO: make this mandatory
+    loadingScreen: ReactNode;
     children: ReactNode;
 };
 
