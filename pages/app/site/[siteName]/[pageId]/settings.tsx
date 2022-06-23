@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, FormEventHandler, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -7,16 +7,26 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
+import { PAGE } from "~/misc/validate";
+
+import useAuth from "~/client/hooks/auth";
 import { usePage } from "~/client/hooks/page";
+import { useSite } from "~/client/hooks/site";
+import { UNABLE_TO_UPDATE_PAGE } from "~/client/lib/errors";
+import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import pagePages from "~/client/components/app/handlePage";
+import AuthError from "~/client/components/auth/error";
 import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import { InputDetachedLabel } from "~/client/components/forms/input";
+import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
+
+import { ResponseMessage as Msg } from "~/types/client/utils.type";
 
 const LoadingSection: FC = () => (
   <section>
@@ -47,6 +57,81 @@ const Loading: FC = () => (
   </div>
 );
 
+const UpdateSiteInfo: FC = () => {
+  const { setLoading } = useAuth();
+  const { site, mutate: mutateSite } = useSite();
+  const { page, mutate: mutatePage } = usePage();
+  const [msg, setMsg] = useState<Msg>(null);
+  const [title, setTitle] = useState(page!.title);
+  const [url, setUrl] = useState(page!.url);
+  if (!site || !page) return <div>Something&apos;s wrong</div>; // never happen
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (
+      !PAGE.titleIsValid(title) ||
+      !PAGE.urlIsValid(url) ||
+      (title === page.title && url === page.url)
+    )
+      return;
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({
+        url: `/api/pages/${page.id}`,
+        method: "PUT",
+        options: { body: JSON.stringify({ title, url }) },
+      });
+      if (!success) throw UNABLE_TO_UPDATE_PAGE;
+      await mutateSite();
+      await mutatePage();
+      setMsg({ type: "success", message: "Page updated successfully" });
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
+
+  return (
+    <section>
+      <h2>Page information</h2>
+      {msg && <MsgBanner msg={msg} />}
+      <p>Information here identifies the page in the site dashboard.</p>
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+        <InputDetachedLabel
+          label="Page title"
+          icon={LabelOutlinedIcon}
+          type="text"
+          value={title}
+          onUpdate={setTitle}
+          required
+          isInvalid={!PAGE.titleIsValid(title)}
+        />
+        <InputDetachedLabel
+          label="Page URL"
+          icon={WebOutlinedIcon}
+          type="text"
+          value={url}
+          onUpdate={setUrl}
+          required
+          isInvalid={!PAGE.urlIsValid(url)}
+        />
+        <RightAligned>
+          <Button
+            icon={SaveOutlinedIcon}
+            disabled={
+              !PAGE.titleIsValid(title) ||
+              !PAGE.urlIsValid(url) ||
+              (title === page.title && url === page.url)
+            }
+          >
+            Save
+          </Button>
+        </RightAligned>
+      </form>
+    </section>
+  );
+};
+
 const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { page } = usePage();
@@ -67,88 +152,72 @@ const Content: FC = () => {
         </A>
       </div>
       <hr />
-      <h2>Page information</h2>
-      <p>Information here identifies the page in the site dashboard.</p>
-      <form className="flex flex-col gap-6">
-        <InputDetachedLabel
-          label="Page title"
-          icon={LabelOutlinedIcon}
-          type="text"
-          value={page.title}
-          onUpdate={() => {}}
-          required
-        />
-        <InputDetachedLabel
-          label="Page URL"
-          icon={WebOutlinedIcon}
-          type="text"
-          value={page.url}
-          onUpdate={() => {}}
-          required
-        />
+      <UpdateSiteInfo />
+      <hr />
+      <section>
+        <h2>Page ID</h2>
+        <p>Your page ID is</p>
+        <CopiableCode content={page.id} className="mb-6" />
+        <p>
+          This ID can be used to interact with the ezkomment REST API.{" "}
+          <A href="https://google.com">See more information in the docs</A>.
+        </p>
+      </section>
+      <hr />
+      <section>
+        <h2>Automatic approval</h2>
+        <p>
+          If you enable auto-approval, all comments posted to this page will automatically be
+          approved and visible to everyone.
+        </p>
+        <p>
+          You are currently having auto-approval{" "}
+          <strong>{page.autoApprove ? "enabled" : "disabled"}</strong>.
+        </p>
+        {page.autoApprove && (
+          <Banner variant="warning" className="mb-6">
+            Beware of the possibilities of spam and abuse if you enable this.
+          </Banner>
+        )}
         <RightAligned>
-          <Button icon={SaveOutlinedIcon}>Save</Button>
+          <Button icon={page.autoApprove ? ClearOutlinedIcon : CheckOutlinedIcon}>
+            {page.autoApprove ? "Disable" : "Enable"} auto-approval
+          </Button>
         </RightAligned>
-      </form>
+      </section>
       <hr />
-      <h2>Page ID</h2>
-      <p>Your page ID is</p>
-      <CopiableCode content={page.id} className="mb-6" />
-      <p>
-        This ID can be used to interact with the ezkomment REST API.{" "}
-        <A href="https://google.com">See more information in the docs</A>.
-      </p>
-      <hr />
-      <h2>Automatic approval</h2>
-      <p>
-        If you enable auto-approval, all comments posted to this page will automatically be approved
-        and visible to everyone.
-      </p>
-      <p>
-        You are currently having auto-approval{" "}
-        <strong>{page.autoApprove ? "enabled" : "disabled"}</strong>.
-      </p>
-      {page.autoApprove && (
-        <Banner variant="warning" className="mb-6">
-          Beware of the possibilities of spam and abuse if you enable this.
-        </Banner>
-      )}
-      <RightAligned>
-        <Button icon={page.autoApprove ? ClearOutlinedIcon : CheckOutlinedIcon}>
-          {page.autoApprove ? "Disable" : "Enable"} auto-approval
-        </Button>
-      </RightAligned>
-      <hr />
-      <h2>Page deletion</h2>
-      <p>
-        If you delete this page, all comments posted to this page will be deleted and the comment
-        embed site will stop working. The action is <strong>irreversible</strong>, therefore please
-        think twice before doing this.
-      </p>
-      <RightAligned>
-        <Button
-          variant="danger"
-          icon={DangerousOutlinedIcon}
-          onClick={() => setShowDeleteModal(true)}
-        >
-          Delete this page
-        </Button>
-      </RightAligned>
-      <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
-        <div className="p-6 max-w-lg">
-          <h2>You are attempting a dangerous action.</h2>
-          <p>
-            Deleting a page is <strong>irreversible</strong>, and we cannot do anything to recover
-            any data related to the page. Please think twice before proceeding.
-          </p>
-          <RightAligned className="gap-3">
-            <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
-              Cancel
-            </Button>
-            <Button variant="danger">Delete</Button>
-          </RightAligned>
-        </div>
-      </Modal>
+      <section>
+        <h2>Page deletion</h2>
+        <p>
+          If you delete this page, all comments posted to this page will be deleted and the comment
+          embed site will stop working. The action is <strong>irreversible</strong>, therefore
+          please think twice before doing this.
+        </p>
+        <RightAligned>
+          <Button
+            variant="danger"
+            icon={DangerousOutlinedIcon}
+            onClick={() => setShowDeleteModal(true)}
+          >
+            Delete this page
+          </Button>
+        </RightAligned>
+        <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+          <div className="p-6 max-w-lg">
+            <h2>You are attempting a dangerous action.</h2>
+            <p>
+              Deleting a page is <strong>irreversible</strong>, and we cannot do anything to recover
+              any data related to the page. Please think twice before proceeding.
+            </p>
+            <RightAligned className="gap-3">
+              <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
+                Cancel
+              </Button>
+              <Button variant="danger">Delete</Button>
+            </RightAligned>
+          </div>
+        </Modal>
+      </section>
     </div>
   );
 };
