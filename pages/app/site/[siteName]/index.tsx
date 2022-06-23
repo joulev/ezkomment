@@ -184,13 +184,17 @@ const Content: FC = () => {
             <div className="mb-1.5 text-3xl">{site.name}</div>
             <div className="flex flex-row gap-3 text-muted">
               <WebOutlinedIcon />
-              <A
-                href={site.domain.startsWith("https://") ? site.domain : `https://${site.domain}`}
-                notStyled
-                className="hover:text-neutral-900 dark:hover:text-neutral-100 transition"
-              >
-                {site.domain}
-              </A>
+              {site.domain === "*" ? (
+                <span>All domains</span>
+              ) : (
+                <A
+                  href={site.domain}
+                  notStyled
+                  className="hover:text-neutral-900 dark:hover:text-neutral-100 transition"
+                >
+                  {site.domain}
+                </A>
+              )}
             </div>
           </div>
         </div>
