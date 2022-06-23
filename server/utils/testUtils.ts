@@ -40,24 +40,6 @@ export async function importUsers(...users: UserImportRecord[]) {
     return await authAdmin.importUsers(users);
 }
 
-export async function importSites(...sites: Site[]) {
-    const batch = firestoreAdmin.batch();
-    setSitesInBatch(batch, sites);
-    return await batch.commit();
-}
-
-export async function importPages(...pages: Page[]) {
-    const batch = firestoreAdmin.batch();
-    setPagesInBatch(batch, pages);
-    return await batch.commit();
-}
-
-export async function importComments(...comments: Comment[]) {
-    const batch = firestoreAdmin.batch();
-    setCommentsInBatch(batch, comments);
-    return await batch.commit();
-}
-
 type ImportData = {
     sites?: Site[];
     pages?: Page[];
@@ -133,6 +115,7 @@ export function createTestComment({
 
 /**
  * Creates test entities, write them into files.
+ * istanbul ignore next
  */
 export function generateTestData() {
     const NUMBER_OF_SAMPLES = 5;
