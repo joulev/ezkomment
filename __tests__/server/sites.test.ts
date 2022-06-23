@@ -17,7 +17,6 @@ describe("Test site utils", () => {
 
     const pageIds = Array.from({ length: 5 }, TestUtils.randomUUID);
     const commentIds = Array.from({ length: 5 }, TestUtils.randomUUID);
-
     const pageId = pageIds[0];
 
     beforeAll(async () => {
@@ -34,12 +33,9 @@ describe("Test site utils", () => {
         });
     });
 
-    it(`Should be able to get site's information`, async () => {
-        await expect(SiteUtils.getSiteById(uid, siteId1)).resolves.toMatchObject({
-            id: siteId1,
-            name: siteName,
-        });
-    });
+    ///////////////////
+    // SHOULD REJECT //
+    ///////////////////
 
     it(`Should fail when trying to get a non-existing site`, async () => {
         await expect(SiteUtils.getSiteById(uid, nonExistingSiteId)).rejects.toMatchObject({
@@ -74,6 +70,17 @@ describe("Test site utils", () => {
     it(`Should fail when trying to delete a non-exisiting site`, async () => {
         await expect(SiteUtils.deleteSiteById(uid, nonExistingSiteId)).rejects.toMatchObject({
             code: 404,
+        });
+    });
+
+    ////////////////////
+    // SHOULD RESOLVE //
+    ////////////////////
+
+    it(`Should be able to get site's information`, async () => {
+        await expect(SiteUtils.getSiteById(uid, siteId1)).resolves.toMatchObject({
+            id: siteId1,
+            name: siteName,
         });
     });
 

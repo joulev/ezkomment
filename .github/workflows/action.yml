@@ -4,10 +4,27 @@ on:
   push:
     branches:
       - main
+      - more-be-test-n-ci
   pull_request:
 
 jobs:
-  frontend-lint-and-test:
+  # frontend-lint-and-test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: "16"
+  #         cache: "yarn"
+  #     - run: yarn
+  #     # Since CD on Vercel already builds the site for us, we only need to run linting here
+  #     - run: yarn lint
+  #     - run: yarn test:client:ci
+  #     - uses: codecov/codecov-action@v2
+  #       with:
+  #         fail_ci_if_error: true
+
+  backend-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,22 +33,14 @@ jobs:
           node-version: "16"
           cache: "yarn"
       - run: yarn
-      # Since CD on Vercel already builds the site for us, we only need to run linting here
-      - run: yarn lint
-      - run: yarn test:client:ci
-      - uses: codecov/codecov-action@v2
-        with:
-          fail_ci_if_error: true
-
-  # Need to install firebase emulator, and how can we load env variable for testing?
-
-  # test-backend:
-  #   runs-on: ubuntu-lastest
-  #   steps:
-  #     - uses: action/checkout@v2
-  #     - uses: action/setup-node@v2
-  #       with:
-  #         node-version: "16"
-  #         cache: "yarn"
-  #     - run: yarn
-  #     - run: yarn emulate:test:server:ci
+      - env:
+          FIREBASE_AUTH_EMULATOR_HOST: ${{ secrets.FIREBASE_AUTH_EMULATOR_HOST }}
+          FIRESTORE_EMULATOR_HOST: ${{ secrets.FIRESTORE_EMULATOR_HOST }}
+          FIREBASE_STORAGE_EMULATOR_HOST: ${{ secrets.FIREBASE_STORAGE_EMULATOR_HOST }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+        run: yarn emulate:test:server:ci
