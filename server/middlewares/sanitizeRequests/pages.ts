@@ -23,7 +23,7 @@ export const sanitizeCreatePageRequest: ApiMiddleware = (req, _, next) => {
     if (typeof siteId !== "string" || !PAGE.siteIdIsValid(siteId)) {
         throw new CustomApiError("'siteId' must be a non-empty string");
     }
-    req.body = { name, url, autoApprove, siteId };
+    req.body = { title, url, autoApprove, siteId };
     next();
 };
 
@@ -38,6 +38,6 @@ export const sanitizeUpdatePageRequest: ApiMiddleware = (req, _, next) => {
     if (autoApprove !== undefined && typeof autoApprove !== "boolean") {
         throw new CustomApiError("'autoApprove' must be a boolean");
     }
-    req.body = removeUndefinedProperties({ name, url, autoApprove });
+    req.body = removeUndefinedProperties({ title, url, autoApprove });
     next();
 };
