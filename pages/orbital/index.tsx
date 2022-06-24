@@ -103,7 +103,7 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Lift-off poster"
               description="First design of the poster, submitted during the lift-off stage."
-              href="https://ezkdev.joulev.dev/images/orbital/liftoff-poster.png"
+              href="https://ezkomment.joulev.dev/images/orbital/liftoff-poster.png"
               icon={ImageOutlinedIcon}
               date="11 May 2022"
             />
@@ -129,7 +129,7 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Milestone 1 poster"
               description="Second version of the poster, submitted for Milestone 1."
-              href="https://ezkdev.joulev.dev/images/orbital/ms1-poster.png"
+              href="https://ezkomment.joulev.dev/images/orbital/ms1-poster.png"
               icon={ImageOutlinedIcon}
               date="26 May 2022"
             />
@@ -139,6 +139,32 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
               href="https://drive.google.com/file/d/1TE0dBZ3PkU9FSMSvTEMnb3dLs9U4CUyl/view"
               icon={OndemandVideoOutlinedIcon}
               date="27 May 2022"
+            />
+          </div>
+        </section>
+        <section>
+          <h2 className="text-center">Milestone 2</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SectionLink
+              title="README"
+              description="The README, describing all information we have about the project."
+              href="#"
+              icon={ArticleOutlinedIcon}
+              date="unknown"
+            />
+            <SectionLink
+              title="Milestone 2 poster"
+              description="Third version of the poster, submitted for Milestone 2."
+              href="https://ezkomment.joulev.dev/images/orbital/ms2-poster.png"
+              icon={ImageOutlinedIcon}
+              date="24 June 2022"
+            />
+            <SectionLink
+              title="Milestone 2 video"
+              description="Third version of the project video, submitted for Milestone 2."
+              href="#"
+              icon={OndemandVideoOutlinedIcon}
+              date="unknown"
             />
           </div>
         </section>
