@@ -5,6 +5,8 @@ import BlogLayout from "~/client/layouts/blog";
 
 import authors from "~/constants/authors";
 
+export const Internal = () => null;
+
 export async function getStaticProps() {
   const image = await getOgImage({ title: "Orbital 2022 Milestone 2 README", label: "orbital" });
   return { props: { image } };
@@ -29,7 +31,7 @@ export default function ({ image, children }) {
   );
 }
 
-> Look out to headings with an [updated] label: they are modified after Milestone 1.
+> The Milestone 2 README is written on top of [Milestone 1 README](/orbital/ms1-readme). If you do not want to read the whole thing again, look out to headings with an [updated] label: they are modified after Milestone 1.
 
 ## Team information
 
@@ -77,7 +79,7 @@ However, there still remain many problems. Firstly, these services do not allow 
 
 As a person making static sites myself, we would like a service which is fully customisable and contains all the features we think a commenting service should have. We decided to build this service in Orbital, leading to the project scope and aim described above.
 
-## Planned Features
+## Features
 
 ### Some Vocabulary Definitions
 
@@ -96,10 +98,6 @@ For example, assume that a user has two websites at `foo.com` and `bar.com`. `fo
 In its simplest form, the service should be able to produce a URL for each page so that users can embed them into their websites, with as few clicks required as possible. No matter how extensible the service may become, it is absolutely crucial that it can do the most basic form of its job and does it well.
 
 The embed is done by `<iframe>` &ndash; [it has been supported by all browsers](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#browser_compatibility) since basically the birth of the Internet, so as long as the user is using web technologies, the embed will work. We plan to render the HTML on the server before serving it (instead of performing data fetching on the client), and cache the HTML served as much as possible to optimise performance.
-
-A way to perform this optimisation may be to use [On-demand Revalidation](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation-beta), which has been supported by Next.js since version 12.1. Every time a comment is sent to the server, it triggers a revalidation for the page, hence the server only actually renders the page when the whole app is built or during the few occasions that someone submits a comment. The page that everyone receives is completely static, making it is very performant.
-
-Since the HTML is rendered on the server, it is (probably) possible that JavaScript is not needed for the page to function (although Next.js is a React framework, it can still function well with JavaScript disabled). Therefore, we will try to remove JavaScript entirely if possible, and the comment form submission is handled by the default HTML form submission handler. That can guarantee that the embedded frames are completely free of any potential trackers and third-party scripts, the problems which many people complain about Disqus and others. However, depending on how the page will look like when it is implemented, this might not be possible at all, therefore removing dependency on JavaScript is not among our top priorities. Even so, we plan to reduce the JavaScript sent to clients as much as possible for performance optimisation.
 
 #### User Stories
 
@@ -129,11 +127,11 @@ Users may find this not secure enough, as his teammate can always leak the URL t
 
 However, if a user _truly_, _really_ want to integrate an authentication system, he can always use [the API routes](#application-programming-interface). Instead of exposing those routes directly, he can hide it inside his own protected internal API. By doing so, he will also hide the randomised URL from everyone, thereby resolving the issue of leakage to outsiders.
 
-#### Sending Comments
+#### Sending Comments |updated|
 
-We think that although the comments are all public and authentication is not needed to post new one, there should still be a way to identify the commenter. It will be optional: we ask for the name and the email address of the commenter along with the required comment body.
+We think that although the comments are all public and authentication is not needed to post new one, there should still be a way to identify the commenter. It will be optional: we ask for the name of the commenter along with the required comment body.
 
-If these optional fields are filled, they will be shown to the ezkomment user, who may use those information to decide whether the comment should be approved (see [the section on Moderation](#moderation-features) below). If the name is provided, it will be displayed publicly instead of the placeholder "Anonymous". Emails are never exposed publicly.
+If the name is provided, it will be shown to the ezkomment user, who may use those information to decide whether the comment should be approved (see [the section on Moderation](#moderation-features) below). If the name is provided, it will be displayed publicly instead of the placeholder "Anonymous".
 
 #### Comment Formatting
 
@@ -143,22 +141,15 @@ Many users will probably not be happy with that, however they can always introdu
 
 Some users may find that they need custom Markdown features/plugins or use their own Markdown alternative. In that case, the API route will need to be used; we plan to send the comment body _verbatim_ without any formatting, so users can process that string in any ways they want. However, using this method, users need to be aware of and guard against [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting), since the comment body are not escaped. See the API section for more details.
 
-#### Replies to Comments
+#### Replies to Comments |updated|
 
-In a lot of occasions, the comments serve as questions to the post author. Therefore, the feature for authors to reply to comments is absolutely necessary, and we do plan to support that.
+In the previous iteration of the README, we specified that we did plan to support replies to comments in a number of occasions. However, after thinking more about this, We find that there are many reply-less discussions on the Internet that work well (one notable example is GitHub issues/PR), and implementing replies will take a lot of effort. Therefore, this feature has been dropped.
 
-For the public to reply to other users' comments, we are still undecided as in whether to allow this. The design for the comment section and the page dashboard will be a lot cleaner without this, and the JavaScript footprint will also be reduced significantly. However, that might make it hard to have a discussion in the comment section.
+#### Editing |updated|
 
-Even if we do allow everyone to reply to any comment, it is likely that we will only support one level deep (so Reddit-like threads are not supported).
+After thinking about this feature, we found that it is possible to implement it in a way that resolves the current issues. In a nutshell, after submitting, the user is issued a <abbr title="JSON web token">JWT</abbr>, which expires after 5 minutes. This token is used to identify the commenter, hence can be used to support editing. If during that 5 minutes, the comment has not been approved, the user can edit the comment.
 
-#### Editing
-
-We do not plan to support editing comments at the moment, since we are unable to find a solution to address the following issues at the same time to our satisfaction:
-
-- Comments should not be edited after a time frame (5 minutes)
-- What happens if a comment is edited after it is approved? (See [the moderation features section](#moderation-features) below)
-- How should pending comments be displayed?
-- How should this integrate with the API?
+However, we found it to introduce extra complexities to the app, and considering the current situation, we do not find it to have high priority. Therefore, we do not plan to implement this feature, but we will revisit the decision if we have more time.
 
 #### Pagination
 
@@ -176,13 +167,13 @@ Even after approval, site owner can still remove comments. Removed comments are 
 
 By default this feature is turned _off_ (i.e. auto-approve is turned _on_), since that is how most current [solutions](#existing-solutions) work. To ensure that the user knows of this feature, we will display a big "info" banner in the UI if the feature is turned off. Also, even when auto-approve is on, we will still allow deletion of "auto-approved" comments.
 
-#### User Stories
+#### User Stories |updated|
 
 In the page dashboard, there are two sections, one for pending comments and one for approved comments. If auto-approve is off, a typical workflow is as follows:
 
 - User checks the notifications of any pending comments.
 - User goes to the page dashboard of the said comment section.
-- There are two buttons, approve and disapprove (delete). User reads the name and email of the commenter (if any) and click the appropriate button. If the comment is approved, it will be displayed publicly, otherwise it is forever lost.
+- There are two buttons, approve and disapprove (delete). User reads the name of the commenter (if provided) and click the appropriate button. If the comment is approved, it will be displayed publicly, otherwise it is forever lost.
 - For approved comments, the deletion button is also visible for the user to use. Again, if the user clicks this, the comment is forever lost.
 
 #### Notifications
@@ -208,6 +199,8 @@ By UI design principles, all pages under the same website should share the same 
 If a user _really_ wants to hack the system and have different styling for each of his blog posts, he can always have two different ezkomment "sites". However, it will require many clicks and keystrokes, and the bad UX of that is intentional: we want to discourage users from doing so.
 
 #### Customise Everything
+
+<Internal>TODO</Internal>
 
 > This section may change significantly in later revisions of the README.
 
@@ -327,10 +320,10 @@ This opens the door to a marketplace-like feature for the application. However w
 
 Power users can also ignore the entire embed and customisation thing and use the <abbr title="application programming interface">API</abbr> to handle comments, for the ultimate&trade; customisation capability. The API is designed for the two purposes: fetching comments in a page and posting comments to it (for it to be sent to the pending queue).
 
-The currently planned URI for the API is
+We plan to make the API backward-compatible with version-based endpoints (if we ever make it to a version 2). Therefore, the current planned API endpoint is
 
 ```
-https://api.ezkomment.joulev.dev/comments/{siteName}/{pageId}
+https://ezkomment.joulev.dev/api/:version/comments/:siteId/:pageId
 ```
 
 This URI may be changed later revisions of README, depending on how the back-end API is implemented.
@@ -345,7 +338,7 @@ const comments = res.ok ? (await res.json()) : [];
 console.log(comments);
 ```
 
-The output is a JSON which include all comments and their metadatas (name, timestamp). Since the API is public, emails are not exposed.
+The output is a JSON which include all comments and their metadatas (name, timestamp).
 
 ```json
 // This may change when we actually implement it
@@ -371,11 +364,10 @@ The `POST` method can be used to post new comments. Depending on the page config
 
 ```js
 const name = document.getElementById("form_name").value;
-const email = document.getElementById("form_email").value;
 const content = document.getElementById("form_content").value;
 const res = await fetch("url", {
   method: "POST",
-  body: JSON.stringify({ name, email, content })
+  body: JSON.stringify({ name, content })
 });
 if (res.ok) showSuccessNotice();
 ```
