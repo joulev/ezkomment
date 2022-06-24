@@ -8,7 +8,7 @@ const customJestConfig = {
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: { "^~/(.*)$": "<rootDir>/$1" },
   testEnvironment: "jest-environment-jsdom",
-  transform: { "^.+\\.svg$": "<rootDir>/config/jestTransformer.js" },
+  transform: { "^.+\\.svg$": "<rootDir>/config/svgJestTransformer.js" },
 };
 
 module.exports = createJestConfig(customJestConfig);

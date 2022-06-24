@@ -1,0 +1,33 @@
+# Front end
+/client/                                @joulev
+/__tests__/client/                      @joulev
+/types/client/                          @joulev
+
+/config/monaco.ts                       @joulev
+/config/svgJestTransformer.js           @joulev
+/config/tailwindTheme.js                @joulev
+/public/                                @joulev
+/jest.client.config.js                  @joulev
+/next-env.d.ts                          @joulev
+/next.config.mjs                        @joulev
+/postcss.config.js                      @joulev
+/tailwind.config.js                     @joulev
+
+
+# Back end
+/server/                                @VietAnh1010
+/__tests__/server/                      @VietAnh1010
+/types/server/                          @VietAnh1010
+
+/config/custom-server-environment.js    @VietAnh1010
+/firebase-rules/                        @VietAnh1010
+/sample/                                @VietAnh1010
+/.firebaserc                            @VietAnh1010
+/firebase.json                          @VietAnh1010
+/jest.server.config.js                  @VietAnh1010
+
+
+# Pages directory
+/pages/                                 @joulev
+/pages/api/                             @VietAnh1010
+/pages/api/project-log/joulev.ts        @joulev
