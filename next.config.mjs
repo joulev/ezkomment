@@ -22,6 +22,12 @@ const nextConfig = {
       permanent: true,
     },
   ],
+  rewrites: async () => [
+    {
+      source: "/embed/:slug*",
+      destination: "/api/embed/:slug*",
+    },
+  ],
   webpack: (config, options) => {
     config.module.rules.push({
       test: /\.mdx?$/,
