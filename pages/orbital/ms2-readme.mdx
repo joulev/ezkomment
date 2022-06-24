@@ -276,20 +276,12 @@ We are still undecided as in whether to compile the time to more readable format
 
 ```js
 const timestamp = new Date("2022-01-01T00:00:00.000Z");
-console.log(time.toLocaleDateString()); // "01/01/2022"
+console.log(timestamp.toLocaleDateString()); // "01/01/2022"
 ```
 
 but since doing so will put an end to our "no-JavaScript" mission, we are still undecided about this matter.
 
-Also, there are unresolved issues about this feature.
-
-<Internal>What is the custom logic? This should be specified more clearly</Internal>
-<Internal>As we get rid of the reply feature, the first two issues does not exist anymore</Internal>
-
-- How should custom logic be handled?
-- etc.
-
-These are logic issues that can be handled on the server completely, but is not doable for the current spec of this feature. In fact, simple bare HTML may not be sufficient for this problem, and we may need to let users write in more complex languages, such as [EJS](https://ejs.co) or [JSX](https://reactjs.org/docs/introducing-jsx.html). For example, with JSX, users can do
+Also, there are unresolved issues about this feature. For example, how to allow users to control the styling of conditionally rendered elements, such as the edit button or the label of the submit button. These are logic issues that can be handled on the server completely, but is not doable for the current spec of this feature. In fact, simple bare HTML may not be sufficient for this problem, and we may need to let users write in more complex languages, such as [EJS](https://ejs.co) or [JSX](https://reactjs.org/docs/introducing-jsx.html). For example, with JSX, users can do
 
 ```jsx
 const convertTime = time => new Date(time).toLocaleDateString();
@@ -322,8 +314,6 @@ This opens the door to a marketplace-like feature for the application. However w
 Power users can also ignore the entire embed and customisation thing and use the <abbr title="application programming interface">API</abbr> to handle comments, for the ultimate&trade; customisation capability. The API is designed for the two purposes: fetching comments in a page and posting comments to it (for it to be sent to the pending queue).
 
 We plan to make the API backward-compatible with version-based endpoints (if we ever make it to a version 2). Therefore, the current planned API endpoint is
-
-<Internal>Should this be siteName?</Internal>
 
 ```
 https://ezkomment.joulev.dev/api/:version/comments/:siteId/:pageId
@@ -430,8 +420,6 @@ We will only support authentication with third-party OAuth providers (currently 
   - `/app/site/:siteName/:pageId/settings`: Settings for the page with ID `pageId`
 
 #### Back-end API Endpoint Structure
-
-<Internal>TODO? Or I think this is actually enough.</Internal>
 
 - `/users/:uid`: The endpoint to get, update and delete user using their ID
   - `users/:uid/photo`: The endpoint to upload user's photo
