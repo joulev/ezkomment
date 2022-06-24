@@ -198,7 +198,7 @@ By UI design principles, all pages under the same website should share the same 
 
 If a user _really_ wants to hack the system and have different styling for each of his blog posts, he can always have two different ezkomment "sites". However, it will require many clicks and keystrokes, and the bad UX of that is intentional: we want to discourage users from doing so.
 
-#### Customise Everything
+#### Customise Everything |updated|
 
 <Internal>TODO</Internal>
 
@@ -281,14 +281,15 @@ console.log(time.toLocaleDateString()); // "01/01/2022"
 
 but since doing so will put an end to our "no-JavaScript" mission, we are still undecided about this matter.
 
-Also, there are still many unresolved issues about this feature.
+Also, there are unresolved issues about this feature.
 
-- How should it handle replies to comments?
-- How should the "Reply" button for top-level comments be displayed?
+<Internal>What is the custom logic? This should be specified more clearly</Internal>
+<Internal>As we get rid of the reply feature, the first two issues does not exist anymore</Internal>
+
 - How should custom logic be handled?
 - etc.
 
-These are logic issues that can be handled on the server completely, but is not doable for the current spec of this feature. In fact, we think that simple bare HTML may not be sufficient for this problem, and we may need to let users write in more complex languages, such as [EJS](https://ejs.co) or [JSX](https://reactjs.org/docs/introducing-jsx.html). For example, with JSX, users can do
+These are logic issues that can be handled on the server completely, but is not doable for the current spec of this feature. In fact, simple bare HTML may not be sufficient for this problem, and we may need to let users write in more complex languages, such as [EJS](https://ejs.co) or [JSX](https://reactjs.org/docs/introducing-jsx.html). For example, with JSX, users can do
 
 ```jsx
 const convertTime = time => new Date(time).toLocaleDateString();
@@ -314,7 +315,7 @@ Since the customisation process involves text files, we can also pack them toget
 
 Therefore, on the long term, we think it may be good to support exporting current customisation configuration to a theme file that can be saved and shared; as well as importing user-uploaded theme files.
 
-This opens the door to a marketplace-like feature for the application. However we do not plan to implement it at the moment, since the application design is complex enough (just look at the length of this document and it is just Milestone 2). We may consider it when the core features of the app is complete.
+This opens the door to a marketplace-like feature for the application. However we do not plan to implement it at the moment, since the application design is complex enough. We may consider it when the core features of the app is complete.
 
 ### Application Programming Interface
 
@@ -322,11 +323,13 @@ Power users can also ignore the entire embed and customisation thing and use the
 
 We plan to make the API backward-compatible with version-based endpoints (if we ever make it to a version 2). Therefore, the current planned API endpoint is
 
+<Internal>Should this be siteName?</Internal>
+
 ```
 https://ezkomment.joulev.dev/api/:version/comments/:siteId/:pageId
 ```
 
-This URI may be changed later revisions of README, depending on how the back-end API is implemented.
+This URI may be changed later revisions of README.
 
 #### Fetching Comments for a Page
 
@@ -380,7 +383,9 @@ Requests with invalid body are ignored. Currently we do not plan any extra optio
 
 #### Technology Stack
 
-The front-end is built using [Next.js](https://nextjs.org), which is a popular React framework. Especially after version 12 was released last year, it is the most popular React-based framework right now in the medium and is almost as popular as Vue and Angular ([source](https://www.npmtrends.com/@angular/core-vs-create-react-app-vs-gatsby-vs-next-vs-vue-vs-svelte)). After trying it out, we found it to be very powerful and have excellent <abbr title="developer experience">DX</abbr>. While Next.js is a primarily front-end based framework, its serverless API routes are well enough for our use case for a back-end, therefore we decided that the entirety of the app will be implemented in Next.js.
+The front-end is built using [Next.js](https://nextjs.org), which is a popular React framework. Especially after version 12 was released last year, it is the most popular React-based framework right now in the medium and is almost as popular as Vue and Angular ([source](https://www.npmtrends.com/@angular/core-vs-create-react-app-vs-gatsby-vs-next-vs-vue-vs-svelte)). After trying it out, we found it to be very powerful and have excellent <abbr title="developer experience">DX</abbr>.
+
+While Next.js is a primarily front-end based framework, its serverless API routes are well enough for our use case for a back-end, therefore we decided that the entirety of the app will be implemented in Next.js.
 
 [Vercel](https://vercel.com) is used for hosting, because you simply cannot say Next.js without Vercel. While the front-end is very performant with image optimisations working exceptionally well, the back-end is also very fast, and we have seen no cold-boot time at all. Moreover, Vercel offers insights into app performance, which helps us a lot in improving the app.
 
@@ -389,7 +394,7 @@ The front-end is built using [Next.js](https://nextjs.org), which is a popular R
   caption="Vercel Analytics page for the ezkomment application, 24 June 2022 at 11:50am (SGT)"
 />
 
-We decided to use TypeScript for the entire project for easier management. After using TypeScript for the first time, we simply cannot imagine how we would use pure JavaScript for any serious projects ever again.
+We decided to use TypeScript for the entire project for easier management. After using TypeScript, we simply cannot imagine how we would use pure JavaScript for any serious projects ever again. Typescript's type system ensure correctness and provide [IntelliSense](https://code.visualstudio.com/docs/editor/intellisense) when using Visual Studio Code, which is absolutely vital for our development speed.
 
 On the back-end side, [Firebase Admin SDK](https://firebase.google.com/docs/admin/setup) is used. It is relatively easy to use, and we think it is a good choice for the project. Naturally, we use Cloud Firestore as the database and Firebase Storage for storage. However, we do not implement the whole authentication system with Firebase Admin, instead we outsource most of it to the [Firebase Client Library](https://firebase.google.com/docs/auth) to have the best security.
 
@@ -424,15 +429,15 @@ We will only support authentication with third-party OAuth providers (currently 
   - `/app/site/:siteName/:pageId`: The dashboard for page with ID `pageId`
   - `/app/site/:siteName/:pageId/settings`: Settings for the page with ID `pageId`
 
-#### Back-end API Route Structure
+#### Back-end API Endpoint Structure
 
-<Internal>TODO? Or I think this is actually enough</Internal>
+<Internal>TODO? Or I think this is actually enough.</Internal>
 
-- `/users/:uid`: The route to get, update and delete user information, given the user ID
-- `/sites/:id`: The route to get, create, update and delete sites, given the site ID
-- `/pages/:id`: The route to get, create, update and delete pages, given the pages ID
-
-The Route Structure will be further improved as we progress. Nested routes will be used to show the hierarchy relation between the entities.
+- `/users/:uid`: The endpoint to get, update and delete user using their ID
+  - `users/:uid/photo`: The endpoint to upload user's photo
+- `/sites/:siteId`: The endpoint to get, create, update and delete site, using its ID
+  - `site/:siteId/icon`: The endpoint to upload site's icon.
+- `/pages/:pageId`: The endpoint to get, create, update and delete page, using its ID
 
 ### User Interface Design
 
@@ -540,10 +545,10 @@ Even so, we still organise the repository in such a way that clearly differentia
 ├── config                # Configuration files (if any)
 ├── constants             # Some misc constants
 ├── docs                  # Documentation for users, rendered to /docs
-├── firebase-rules
+├── firebase-rules        # Rules for Firebase products (required to start the Firebase Emulator)
 ├── misc                  # Used in both front-end and back-end
 ├── pages                 # All pages, mandatory by Next.js
-│   ├── api               # API routes, mandatory name, for back-end
+│   ├── api               # API endpoints, mandatory name, for back-end
 │   └── ...others         # All other pages are for front-end
 ├── public                # Static files, mandatory by Next.js
 ├── sample                # Testing mock data (if any)
@@ -581,6 +586,8 @@ The contribution process is described in slightly more details in the [CONTRIBUT
 #### Continuous Integration and Continuous Deployment |updated|
 
 Thankfully, Vercel automatically takes care of the deployment process for every commit in the repository. Therefore, the front-end section has always had CD since it was first deployed.
+
+As we decided to mitigate from Express.js to Next.js for back-end implementation, the back-end section also has CD.
 
 CI pipelines are done by [GitHub Actions](https://github.com/features/actions), and currently it involves running ESLint and unit tests for the whole application.
 
