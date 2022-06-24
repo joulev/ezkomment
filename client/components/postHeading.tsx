@@ -7,7 +7,7 @@ import A from "~/client/components/anchor";
 import { PostHeadingProps } from "~/types/client/components.type";
 
 const UpdatedLabel: FC = () => (
-  <span className="bg-indigo-500 text-white px-1.5 py-0.5 rounded text-sm font-normal inline-block relative ml-3 bottom-1">
+  <span className="bg-indigo-500 text-white px-1.5 py-0.5 rounded text-sm font-normal inline-block relative ml-3 bottom-0.5">
     updated
   </span>
 );
