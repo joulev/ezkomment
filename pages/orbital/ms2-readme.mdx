@@ -33,12 +33,12 @@ export default function ({ image, children }) {
 
 > The Milestone 2 README is written on top of [Milestone 1 README](/orbital/ms1-readme). If you do not want to read the whole thing again, look out to headings with an [updated] label: they are modified after Milestone 1.
 
-## Team information
+## Team Information
 
 - **Application/team name:** ezkomment
 - **Proposed level of achievement:** Artemis
 
-## Project scope
+## Project Scope
 
 **ezkomment aims to produce a <abbr title="Product-as-a-Service">PaaS</abbr> to provide easy comments handling and moderation for the web.**
 
@@ -314,7 +314,7 @@ Since the customisation process involves text files, we can also pack them toget
 
 Therefore, on the long term, we think it may be good to support exporting current customisation configuration to a theme file that can be saved and shared; as well as importing user-uploaded theme files.
 
-This opens the door to a marketplace-like feature for the application. However we do not plan to implement it at the moment, since the application design is complex enough (just look at the length of this document and it is just Milestone 1). We may consider it when the core features of the app is complete.
+This opens the door to a marketplace-like feature for the application. However we do not plan to implement it at the moment, since the application design is complex enough (just look at the length of this document and it is just Milestone 2). We may consider it when the core features of the app is complete.
 
 ### Application Programming Interface
 
@@ -374,49 +374,59 @@ if (res.ok) showSuccessNotice();
 
 Requests with invalid body are ignored. Currently we do not plan any extra options for this method.
 
-## Application Design
+## Application Design and Implementation
 
-### How the App Works, In a Nutshell
+### How the App Works, In a Nutshell |updated|
 
 #### Technology Stack
 
-The front-end is built using [Next.js](https://nextjs.org), which is a popular React framework. Especially after version 12 was released last year, it is the most popular React-based framework right now in the medium and is almost as popular as Vue and Angular ([source](https://www.npmtrends.com/@angular/core-vs-create-react-app-vs-gatsby-vs-next-vs-vue-vs-svelte)). After trying it out, we found it to be very powerful and have excellent <abbr title="developer experience">DX</abbr>, therefore we decided that, for the front-end section at least, the app will be implemented in Next.js.
+The front-end is built using [Next.js](https://nextjs.org), which is a popular React framework. Especially after version 12 was released last year, it is the most popular React-based framework right now in the medium and is almost as popular as Vue and Angular ([source](https://www.npmtrends.com/@angular/core-vs-create-react-app-vs-gatsby-vs-next-vs-vue-vs-svelte)). After trying it out, we found it to be very powerful and have excellent <abbr title="developer experience">DX</abbr>. While Next.js is a primarily frontend-based framework, its serverless API routes are well enough for our use case for a backend, therefore we decided that the entirety of the app will be implemented in Next.js.
 
-We will host the front-end in [Vercel](https://vercel.com). Since Next.js is made by Vercel, it is literally the best platform to host Next.js apps. We also notice that Vercel can build our front-end app significantly faster than other services, such as Netlify.
+[Vercel](https://vercel.com) is used for hosting, because you simply cannot say Next.js without Vercel. While the frontend is very performant with image optimisations working exceptionally well, the backend is also very fast, and we have seen no cold-boot time at all. Moreover, Vercel offers insights into app performance, which helps us a lot in improving the app.
 
-The back-end is currently written with [Express.js](https://expressjs.com). Currently, we are planning to deploy our back-end API using [Firebase Hosting](https://firebase.google.com/docs/hosting) &ndash; however, we are still considering other options for suitable hosting cost and deployment process.
+<BlogImage
+  src="/images/markdown/vercel-analytics-20220624.png"
+  caption="Vercel Analytics page for the ezkomment application, 24 June 2022 at 11:50am (SGT)"
+/>
 
-Since Next.js also offers API routes to act as a back-end, it can also be used for back-end development. However, currently we do not plan to mitigate our back-end to Next.js.
+We decided to use TypeScript for the entire project for easier management. After using TypeScript for the first time, we simply cannot imagine how we would use pure JavaScript for any serious projects ever again.
 
-We decided to use TypeScript for the entire project for easier management.
+On the backend side, [Firebase Admin SDK](https://firebase.google.com/docs/admin/setup) is used. It is relatively easy to use, and we think it is a good choice for the project. Naturally, we use Cloud Firestore as the database and Firebase Storage for storage. However, we do not implement the whole authentication system with Firebase Admin, instead we outsource most of it to the [Firebase Client Library](https://firebase.google.com/docs/auth) to have the best security.
+
+On frontend, we use [Tailwind CSS](https://tailwindcss.com) for styling. Compared to the CSS/Sass mess, we prefer the HTML mess. Also, since Tailwind CSS has a very low bundle size on production compared to, say, Bootstrap, it helped make the app very performant (in the analytics screenshot above, you can see <abbr title="first contentful paint">FCP</abbr> and <abbr title="largest contentful paint">LCP</abbr> scores are very good).
+
+For data fetching on the client side, we decided to use [SWR](https://swr.vercel.app) instead of the normally used [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [Axios](https://npmjs.com/axios). The first reason is that SWR is like a part of the Vercel family, and integrates very well with Next.js. Another reason is that it has a pretty clever revalidation technique that makes the user experience on the frontend very good.
 
 #### Communication between Front-end and Back-end
 
 As usual for web applications, the communication between two ends of the app is done by RESTful API routes. The data format is JSON whenever possible.
 
-#### Authentication
+To authenticate, we retrieve the user's ID token from the Firebase client library. This ID token is sent in the request header to identify the user.
 
-Currently authentication is done with Firebase. We have implemented a client-based authentication system successfully as of pull request [#57](https://github.com/joulev/ezkomment/pull/57), and the app can be accessed at [https://ezkdev.joulev.dev](https://ezkdev.joulev.dev).
+#### Authentication Providers
 
 We will only support authentication with third-party OAuth providers (currently GitHub and Google), since we think password-based authentication is unnecessarily complex and is now a thing of the past. Passwordless "email link" authentication was also planned, but [we no longer plan to support it](https://github.com/joulev/ezkomment/discussions/59).
 
 #### Front-end Page Structure
 
-- `/`: The landing page for the whole app, with introduction and core features showcase
-- `/orbital`: Everything related to Orbital 2022, including all versions of the poster, video and README
-- `/docs`: The documentation pages for the application
-- `/auth`: The unified page for all authentication-based actions
-- `/app`: The main application pages
+- [`/`](/): The landing page for the whole app, with introduction and core features showcase
+- [`/orbital`](/orbital): Everything related to Orbital 2022, including all versions of the poster, video and README
+- [`/docs`](/docs): The documentation pages for the application
+- [`/auth`](/auth): The unified page for all authentication-based actions
+- [`/app`](/app): The main application pages
+
   - `/app/dashboard`: The dashboard, listing all sites
   - `/app/new`: Adding a new site
   - `/app/account`: Account settings
-  - `/app/site/{siteName}`: The dashboard for site with name `siteName`
-  - `/app/site/{siteName}/customise`: The page to customise all comment sections for the site
-  - `/app/site/{siteName}/settings`: Settings for the site with name `{siteName}`
-  - `/app/site/{siteName}/{pageId}`: The dashboard for page with ID `{pageId}`
-  - `/app/site/{siteName}/{pageId}/settings`: Settings for the page with ID `{pageId}`
+  - `/app/site/:siteName`: The dashboard for site with name `siteName`
+  - `/app/site/:siteName/customise`: The page to customise all comment sections for the site
+  - `/app/site/:siteName/settings`: Settings for the site with name `siteName`
+  - `/app/site/:siteName/:pageId`: The dashboard for page with ID `pageId`
+  - `/app/site/:siteName/:pageId/settings`: Settings for the page with ID `pageId`
 
 #### Back-end API Route Structure
+
+<Internal>TODO? Or I think this is actually enough</Internal>
 
 - `/users/:uid`: The route to get, update and delete user information, given the user ID
 - `/sites/:id`: The route to get, create, update and delete sites, given the site ID
@@ -426,27 +436,58 @@ The Route Structure will be further improved as we progress. Nested routes will 
 
 ### User Interface Design
 
-The front-end is styled with [Tailwind CSS](https://tailwindcss.com). We found it to speed up the styling process even more than we ever expected.
-
-The overall design is heavily inspired by Vercel. [@joulev](https://github.com/joulev) is very impressed by the UI design of the Vercel website, and decided to implement that himself.
-
-Dark mode is fully supported.
-
-#### Logo
+The overall design is heavily inspired by Vercel. [@joulev](https://github.com/joulev) is very impressed by the UI design of the Vercel website, and decided to implement that himself. Of course, dark mode is fully supported.
 
 The logo was drawn with Figma. SVG versions can be found in [the repository](https://github.com/joulev/ezkomment/tree/main/public/images).
 
-#### Colour
+We decided to use the default [Tailwind CSS colour scheme](https://tailwindcss.com/docs/customizing-colors), since it is sufficient for our need. `indigo` variant is the primary colour, with `indigo-500` (#6366f1) is the main colour and features in the logo. The background/foreground colours are based on the `neutral` scheme. Other accent colours are `red` (for danger actions), `emerald` (for success status), `amber` (for warnings) and `sky` (for information banners).
 
-We decided to use the default [Tailwind CSS colour scheme](https://tailwindcss.com/docs/customizing-colors), since it is sufficient for our need. `indigo` variant is the primary colour, with `indigo-500` (#6366f1) is the main colour and features in the logo.
+We also use the default [Tailwind CSS spacing scale](https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale), and pick all spacing entries whose values are divisible by 3. Hence, most spaces in the application is a multiplier of 0.75rem.
 
-The background/foreground colours are based on the `neutral` scheme.
+### User Experience |updated|
 
-Other accent colours are `red` (for danger actions), `emerald` (for success status), `amber` (for warnings) and `sky` (for information banners).
+We take a _lot_ of effort to improve user experience in this site.
 
-#### Spacing
+We do not have an existing "user base" to ask for opinions, like how UX designers typically do. A/B Testing and similar approaches are also out of the question for this project. However, Dung is fairly critical of the user experience of every app he has ever used, hence he criticises this app to the best of his abilities, then improves the app based on that "self-feedback".
 
-We use the default [Tailwind CSS spacing scale](https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale), and pick all spacing entries whose values are divisible by 3. Hence, most spaces in the application is a multiplier of 0.75rem.
+We also asked for feedback from Zhu Hanming, the UI/UX workshop tutor, and improved the app accordingly.
+
+As expected, Firebase is much slower compared to a self-hosted system, so the authentication section is relatively slow compared to a typical company website and we cannot really do anything against it. However, for the sections where we can improve, we have pretty much done everything we can.
+
+Some steps we have taken:
+
+#### Everything Is Static
+
+All pages are statically generated and cached to the CDN around the world. Yes, _including protected pages_ (although the generated pages only have loading screens and no sensitive information). Not only does this massively improve load time, [Next.js's prefetch strategy](https://nextjs.org/docs/routing/introduction#linking-between-pages) makes the router super fast too, and navigating between pages feels instant.
+
+#### Everything Is Responsive
+
+Needless to say, responsive design is absolutely crucial for a modern web application. We take that seriously and always test our application on all viewports, from super small iPhone SE's to ultra-wide screen sizes.
+
+#### Strategies for Fetching and Storing Data
+
+The backend is designed in such a way that it is possible to only fetch the data that the frontend needs. That optimises the speed of the HTTP connections between the frontend and the backend.
+
+In the frontend, we use SWR and the React Context API to store the fetched data. This has a lot of advantages:
+
+- The React Context makes it possible to reuse data across different pages, therefore if you navigate from `/app/site/mysite` to `/app/site/mysite/settings`, you will not see a loading screen.
+- SWR's nice revalidation strategy makes the frontend data always up-to-date without the user even knowing.
+
+We try to reduce the loading screens as much as possible (no one wants to see spinners). Right now, you will likely only see the loading screen when you are not yet authenticated or when you visit a site/page for the first time. All other data fetching is done in the background.
+
+#### Handling Router When Changing Site Name
+
+Since the site name is used in the URL
+
+```
+https://ezkomment.joulev.dev/app/site/:siteName
+```
+
+whenever a user changes the site name in the settings, we need to update the URL. Normally this is not easy, since the fast revalidation by SWR makes the page redirect to a 404 page before the redirect even has a chance to happen. You can solve it by manually updating the URL with `window.location`, but since it does not use the Next.js router, it is slower and the website feels 1990s again.
+
+Therefore, we had a look at how some popular applications handle this. Vercel changes the URL without even giving the impression that the page has been reloaded, and that is what we aim for. At the end, we use a temporary URL query to handle this (similar to how Vercel does it) and remove that URL query when it is no longer necessary. At the end, it works and although you will see a loading screen again (since you are visiting the new site again), the overall user experience is enhanced by a lot.
+
+Interested people can see how we implemented it in [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/client/components/app/handleSite.tsx#L25-L30), [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/client/layouts/app.tsx#L17-L21) and [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/pages/app/site/%5BsiteName%5D/settings.tsx#L81).
 
 ### Search Engine Optimisations
 
