@@ -3,34 +3,17 @@ import { deleteSiteIconById } from "~/server/utils/crud/imageUtils";
 import { deleteSitePagesById, listSitePagesById } from "~/server/utils/crud/pageUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { CreateSiteBodyParams, SiteStatistics, UpdateSiteBodyParams } from "~/types/server";
+import { ClientSite, CreateSiteBodyParams, Site, UpdateSiteBodyParams } from "~/types/server";
 import { ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
 
-export async function getSite(req: AuthenticatedApiRequest, res: ApiResponse) {
+export async function getSite(req: AuthenticatedApiRequest, res: ApiResponse<ClientSite>) {
     const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
-    const data = await SiteUtils.getSiteById(uid, siteId);
-
-    /**
-     * Get all information about pages here.
-     */
-    const pages = await listSitePagesById(siteId);
-
-    // STATISTIC, NOT IMPLEMENTED AT THE MOMENT. THIS IS JUST A PLACEHOLDER
-    const zeroes = Array.from({ length: 30 }).map(_ => 0);
-    const statistic: SiteStatistics = {
-        totalComment: zeroes,
-        newComment: zeroes,
-    };
-    // END OF PLACEHOLDER
-
-    res.status(200).json({
-        message: "Got site information",
-        data: { ...data, pages, statistic },
-    });
+    const data = await SiteUtils.getClientSiteById(uid, siteId);
+    res.status(200).json({ message: "Got site information", data });
 }
 
-export async function createSite(req: AuthenticatedApiRequest, res: ApiResponse) {
+export async function createSite(req: AuthenticatedApiRequest, res: ApiResponse<Site>) {
     const { uid } = req.user;
     const data: CreateSiteBodyParams = req.body;
     const result = await SiteUtils.createSite(uid, data);

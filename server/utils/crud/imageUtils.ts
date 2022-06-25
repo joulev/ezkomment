@@ -27,6 +27,14 @@ export async function uploadImage(imgName: string, file?: FormDataFile) {
     }
 }
 
+export async function uploadUserPhotoById(uid: string, file?: FormDataFile) {
+    return await uploadImage(`users/${uid}`, file);
+}
+
+export async function uploadSiteIconById(siteId: string, file?: FormDataFile) {
+    return await uploadImage(`sites/${siteId}`, file);
+}
+
 export async function deleteImage(imgName: string) {
     const blob = bucketAdmin.file(imgName);
     const [{ statusCode, body, statusMessage }] = await blob.delete({ ignoreNotFound: true });

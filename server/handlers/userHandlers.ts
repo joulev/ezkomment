@@ -3,13 +3,10 @@ import { NextApiRequest } from "next";
 
 import * as userUtils from "~/server/utils/crud/userUtils";
 import { deleteUserPhotoById } from "~/server/utils/crud/imageUtils";
-import {
-    deleteUserSitesById,
-    listUserBasicSitesById,
-    listUserSitesById,
-} from "~/server/utils/crud/siteUtils";
+import { deleteUserSitesById, listUserSitesById } from "~/server/utils/crud/siteUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
+import { ClientUser } from "~/types/server";
 import { ApiResponse } from "~/types/server/nextApi.type";
 
 export async function getUser(req: NextApiRequest, res: ApiResponse) {

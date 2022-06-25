@@ -103,6 +103,11 @@ describe("Test page utils", () => {
         });
     });
 
+    it(`Should be able to get page's information and its comments`, async () => {
+        const clientPage = await PageUtils.getClientPageById(uid, pageId2);
+        expect(clientPage.comments).toHaveLength(5);
+    });
+
     it(`Should correctly increment pageCount when a page is created`, async () => {
         await PageUtils.createPage(uid, {
             siteId,
