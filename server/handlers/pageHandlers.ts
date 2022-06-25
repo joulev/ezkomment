@@ -2,18 +2,17 @@ import * as PageUtils from "~/server/utils/crud/pageUtils";
 import { deletePageCommentsById, listPageCommentsById } from "~/server/utils/crud/commentUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { CreatePageBodyParams, UpdatePageBodyParams } from "~/types/server";
+import { ClientPage, CreatePageBodyParams, Page, UpdatePageBodyParams } from "~/types/server";
 import { ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
 
-export async function getPage(req: AuthenticatedApiRequest, res: ApiResponse) {
+export async function getPage(req: AuthenticatedApiRequest, res: ApiResponse<ClientPage>) {
     const { uid } = req.user;
     const { pageId } = extractFirstQueryValue(req);
-    const data = await PageUtils.getPageById(uid, pageId);
-    const comments = await listPageCommentsById(pageId);
-    res.status(200).json({ message: "Got page information", data: { ...data, comments } });
+    const data = await PageUtils.getClientPageById(uid, pageId);
+    res.status(200).json({ message: "Got page information", data });
 }
 
-export async function createPage(req: AuthenticatedApiRequest, res: ApiResponse) {
+export async function createPage(req: AuthenticatedApiRequest, res: ApiResponse<Page>) {
     const { uid } = req.user;
     const data: CreatePageBodyParams = req.body;
     const result = await PageUtils.createPage(uid, data);

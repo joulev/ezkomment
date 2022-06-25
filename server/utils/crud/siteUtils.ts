@@ -1,12 +1,41 @@
+import { DocumentReference, Transaction } from "firebase-admin/firestore";
+
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
-import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
+import {
+    PAGES_COLLECTION,
+    SITES_COLLECTION,
+    USERS_COLLECTION,
+} from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
+import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
+import { deleteRefArray } from "~/server/utils/firestoreUtils";
 
-import { CreateSiteBodyParams, Site, UpdateSiteBodyParams } from "~/types/server";
+import {
+    ClientSite,
+    CreateSiteBodyParams,
+    Page,
+    Site,
+    SiteStatistics,
+    UpdateSiteBodyParams,
+} from "~/types/server";
 
-import { handleFirestoreError } from "../errors/handleFirestoreError";
-import { deleteRefArray } from "../firestoreUtils";
 import { deleteSitePagesById } from "./pageUtils";
+
+export async function getSiteOrThrowInTransaction(
+    t: Transaction,
+    uid: string,
+    ref: DocumentReference
+) {
+    const siteSnapshot = await t.get(ref);
+    const siteData = siteSnapshot.data() as Site;
+    if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
+    if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
+    return siteData;
+}
+
+function queryUserSitesById(uid: string) {
+    return SITES_COLLECTION.where("uid", "==", uid);
+}
 
 /**
  * Get a site with the given id.
@@ -16,17 +45,27 @@ import { deleteSitePagesById } from "./pageUtils";
  * @returns The data of the site.
  */
 export async function getSiteById(uid: string, siteId: string) {
-    try {
-        const siteSnapshot = await SITES_COLLECTION.doc(siteId).get();
-        const siteData = siteSnapshot.data() as Site;
-
-        if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
-        if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
-
+    const siteRef = SITES_COLLECTION.doc(siteId);
+    return await firestoreAdmin.runTransaction(async t => {
+        const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
         return siteData;
-    } catch (err) {
-        handleFirestoreError(err);
-    }
+    });
+}
+
+export async function getClientSiteById(uid: string, siteId: string) {
+    const siteRef = SITES_COLLECTION.doc(siteId);
+    return await firestoreAdmin.runTransaction(async t => {
+        const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
+        const { docs } = await t.get(PAGES_COLLECTION.where("siteId", "==", siteId));
+        const pages = docs.map(doc => doc.data()) as Page[];
+        const tempStat = Array.from({ length: 30 }).map(_ => 0);
+        const statistic: SiteStatistics = {
+            totalComment: tempStat,
+            newComment: tempStat,
+        };
+        const clientSiteData: ClientSite = { ...siteData, pages, statistic };
+        return clientSiteData;
+    });
 }
 
 /**
@@ -74,18 +113,12 @@ export async function updateSiteById(uid: string, siteId: string, data: UpdateSi
         const newName = data.name;
         return await firestoreAdmin.runTransaction(async t => {
             // Look up the site's name
-            const siteSnapshot = await t.get(siteRef);
-            const siteData = siteSnapshot.data() as Site;
-
-            if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
-            if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
-
+            const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
             if (newName !== undefined) {
                 const oldName = siteData.name;
-                t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(oldName));
-                t.create(USERS_COLLECTION.doc(uid).collection("sites").doc(newName), {
-                    id: siteId,
-                });
+                const userSitesCollection = USERS_COLLECTION.doc(uid).collection("sites");
+                t.delete(userSitesCollection.doc(oldName));
+                t.create(userSitesCollection.doc(newName), { id: siteId });
             }
             t.update(siteRef, data);
         });
@@ -104,22 +137,13 @@ export async function deleteSiteById(uid: string, siteId: string) {
     try {
         const siteRef = SITES_COLLECTION.doc(siteId);
         return await firestoreAdmin.runTransaction(async t => {
-            const siteSnapshot = await t.get(siteRef);
-            const siteData = siteSnapshot.data() as Site;
-
-            if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
-            if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
-
+            const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
             t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(siteData.name));
             t.delete(siteRef);
         });
     } catch (err) {
         handleFirestoreError(err);
     }
-}
-
-function queryUserSitesById(uid: string) {
-    return SITES_COLLECTION.where("uid", "==", uid);
 }
 
 export async function listUserSitesById(uid: string) {

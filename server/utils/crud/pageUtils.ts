@@ -1,14 +1,41 @@
-import { FieldValue } from "firebase-admin/firestore";
+import { DocumentReference, FieldValue, Transaction } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
-import { PAGES_COLLECTION, SITES_COLLECTION } from "~/server/firebase/firestoreCollections";
+import {
+    COMMENTS_COLLECTION,
+    PAGES_COLLECTION,
+    SITES_COLLECTION,
+} from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { deleteRefArray } from "~/server/utils/firestoreUtils";
 
-import { CreatePageBodyParams, Page, Site, UpdatePageBodyParams } from "~/types/server";
+import {
+    ClientPage,
+    Comment,
+    CreatePageBodyParams,
+    Page,
+    UpdatePageBodyParams,
+} from "~/types/server";
 
 import { deletePageCommentsById } from "./commentUtils";
+import { getSiteOrThrowInTransaction } from "./siteUtils";
+
+export async function getPageOrThrowInTransaction(
+    t: Transaction,
+    uid: string,
+    ref: DocumentReference
+) {
+    const pageSnapshot = await t.get(ref);
+    const pageData = pageSnapshot.data() as Page;
+    if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
+    if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
+    return pageData;
+}
+
+function querySitePagesById(siteId: string) {
+    return PAGES_COLLECTION.where("siteId", "==", siteId);
+}
 
 /**
  * Gets the information of a page
@@ -17,17 +44,22 @@ import { deletePageCommentsById } from "./commentUtils";
  * @param pageId The id of the page
  */
 export async function getPageById(uid: string, pageId: string) {
-    try {
-        const pageSnapshot = await PAGES_COLLECTION.doc(pageId).get();
-        const pageData = pageSnapshot.data() as Page;
-
-        if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
-        if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
-
+    const pageRef = PAGES_COLLECTION.doc(pageId);
+    return await firestoreAdmin.runTransaction(async t => {
+        const pageData = await getPageOrThrowInTransaction(t, uid, pageRef);
         return pageData;
-    } catch (err) {
-        handleFirestoreError(err);
-    }
+    });
+}
+
+export async function getClientPageById(uid: string, pageId: string) {
+    const pageRef = PAGES_COLLECTION.doc(pageId);
+    return await firestoreAdmin.runTransaction(async t => {
+        const pageData = await getPageOrThrowInTransaction(t, uid, pageRef);
+        const { docs } = await t.get(COMMENTS_COLLECTION.where("pageId", "==", pageId));
+        const comments = docs.map(doc => doc.data()) as Comment[];
+        const clientPageData: ClientPage = { ...pageData, comments };
+        return clientPageData;
+    });
 }
 
 /**
@@ -50,11 +82,8 @@ export async function createPage(uid: string, data: CreatePageBodyParams) {
         };
         return await firestoreAdmin.runTransaction(async t => {
             const siteRef = SITES_COLLECTION.doc(siteId);
-            const siteSnapshot = await siteRef.get();
-            const siteData = siteSnapshot.data() as Site;
+            const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
 
-            if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
-            if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
             if (!url.includes(siteData.domain) && siteData.domain !== "*")
                 throw new CustomApiError("Site domain and page url do not match", 409);
 
@@ -79,12 +108,7 @@ export async function updatePageById(uid: string, pageId: string, data: UpdatePa
     try {
         const pageRef = PAGES_COLLECTION.doc(pageId);
         return await firestoreAdmin.runTransaction(async t => {
-            const pageSnapshot = await t.get(pageRef);
-            const pageData = pageSnapshot.data() as Page;
-
-            if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
-            if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
-
+            await getPageOrThrowInTransaction(t, uid, pageRef);
             t.update(pageRef, data);
         });
     } catch (err) {
@@ -96,12 +120,7 @@ export async function deletePageById(uid: string, pageId: string) {
     try {
         const pageRef = PAGES_COLLECTION.doc(pageId);
         return await firestoreAdmin.runTransaction(async t => {
-            const pageSnapshot = await t.get(pageRef);
-            const pageData = pageSnapshot.data() as Page;
-
-            if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
-            if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
-
+            const pageData = await getPageOrThrowInTransaction(t, uid, pageRef);
             const { siteId, totalCommentCount, pendingCommentCount } = pageData;
             const siteRef = SITES_COLLECTION.doc(siteId);
             // Decrease the number of page by 1, decrease the number of total comment count,
@@ -116,10 +135,6 @@ export async function deletePageById(uid: string, pageId: string) {
     } catch (err) {
         handleFirestoreError(err);
     }
-}
-
-function querySitePagesById(siteId: string) {
-    return PAGES_COLLECTION.where("siteId", "==", siteId);
 }
 
 export async function listSitePagesById(siteId: string) {

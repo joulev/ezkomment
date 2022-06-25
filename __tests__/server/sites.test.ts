@@ -85,10 +85,12 @@ describe("Test site utils", () => {
     ////////////////////
 
     it(`Should be able to get site's information`, async () => {
-        await expect(SiteUtils.getSiteById(uid, siteId1)).resolves.toMatchObject({
-            id: siteId1,
-            name: siteName,
-        });
+        await expect(SiteUtils.getSiteById(uid, siteId1)).resolves.toMatchObject(mainSite);
+    });
+
+    it(`Should be able to get site's information and its pages`, async () => {
+        const clientSite = await SiteUtils.getClientSiteById(uid, siteId2);
+        expect(clientSite.pages).toHaveLength(5);
     });
 
     it(`Should delete site correctly`, async () => {

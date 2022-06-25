@@ -19,12 +19,12 @@ export type ErrorInfo = {
     message: string;
 };
 
-export type ApiResponseBody = {
+export type ApiResponseBody<T = any> = {
     message: string;
-    data?: Record<string, any> | Record<string, any>[];
+    data?: T;
 };
 
-export type ApiResponse = NextApiResponse<ApiResponseBody | ApiError>;
+export type ApiResponse<T = any> = NextApiResponse<ApiResponseBody<T> | ApiError>;
 
 export type FormDataFile = {
     /**
