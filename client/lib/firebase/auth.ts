@@ -90,7 +90,7 @@ export async function deleteAccount(appAuth: AppAuth) {
         url: `/api/users/${auth.currentUser.uid}`,
     });
     if (!success) throw E.UNABLE_TO_DELETE_ACCOUNT;
-    await appAuth.mutate(undefined);
+    await auth.currentUser.reload();
     Router.push("/auth");
     appAuth.setLoading(false);
 }
