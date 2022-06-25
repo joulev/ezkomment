@@ -266,7 +266,7 @@ with the following comments:
 ]
 ```
 
-the HTML sent to the browser would be the following:
+Then, after the HTML is sent to the browser and the necessary scripts (automatically added) are loaded, the resulting HTML is
 
 ```html
 <!DOCTYPE html>
@@ -311,7 +311,7 @@ the HTML sent to the browser would be the following:
 </html>
 ```
 
-We would then add some additional JavaScript to support the following:
+We need the said additional JavaScript to support the following:
 
 - Data fetching: We need a data fetching strategy close to how [SWR](https://swr.vercel.app) works, so that the UX is enhanced.
 - Data parsing and populating: We are not doing React here, so we need to manipulate the HTML with pure, vanilla JavaScript.
