@@ -5,8 +5,6 @@ import BlogLayout from "~/client/layouts/blog";
 
 import authors from "~/constants/authors";
 
-export const Internal = () => null;
-
 export async function getStaticProps() {
   const image = await getOgImage({ title: "Orbital 2022 Milestone 2 README", label: "orbital" });
   return { props: { image } };
@@ -200,114 +198,222 @@ If a user _really_ wants to hack the system and have different styling for each 
 
 #### Customise Everything |updated|
 
-<Internal>TODO</Internal>
-
-> This section may change significantly in later revisions of the README.
+> The specification of this feature is still [under discussion and consideration](https://github.com/joulev/ezkomment/discussions/145). Therefore, it might be modified in the next Milestone README. However, we expect it to be quite stable by now and it should not change as much as from Milestone 1 until now.
 
 We plan to allow users to customise the app by the whole code of the HTML sent to clients, even from the `<!DOCTYPE html>` tag. In that, users can decide how and where to put stylesheets in, how to add custom JavaScript libraries, everything.
 
-In details, we will give the user two HTML files to edit, `index.html` for the overall HTML content and `comment.html` for each individual comment. In `index.html`, there is a special placeholder `<COMMENT>` which works as a placeholder for the comments. In `<comment.html>` there are placeholder "HTML tags" for the commenter name and comment body.
+In essence, the user will be allowed to modify a HTML file, in its entirety, from the usual opening `<!DOCTYPE html>` to the closing `</html>` tag. Of course, the user is also allowed to add any scripts and styles he wants, just like how we typically developed the web from the HTML-CSS-JS days.
 
-For example, with the following `index.html`
+However, the users need to add the `data-ezk` attribute to a number of elements. This attribute is used to identify each part of the comment section, so that the app can populate it with appropriate information, or handle form submission correctly.
+
+Currently planned `data-ezk` attribute values:
+
+- `comments`: The wrapper of the comments. Whatever HTML inside this wrapper is treated as _one comment_. Therefore, if a page has 10 comments, the `innerHTML` is replicated 10 times inside this wrapper. That may sound confusing, see example below.
+- `comment-author`: The author of the comment. When the comment section is populated with data, the element with this `data-ezk` value is populated with the author's name (`element.textContent = authorName`).
+- `comment-content`: The content of the comment. When the comment section is populated with data, the element with this `data-ezk` value is populated with the content of the comment (already compiled from Markdown to XSS-safe HTML).
+- `comment-date`: The date of the comment. When the comment section is populated with data, the element with this `data-ezk` value is populated with the date of the comment (`element.textContent = date`). The date format is not yet decided, but we will enforce one universal format for everyone. If the user wants to change the format he can always use custom JavaScript to do it.
+- `form`: The form to submit a new comment. When submitted, this form will send a request to the back-end to submit the comment. **Required to have descendants with the `data-ezk` value `form-author` and `form-content`.**
+- `form-author`: The author field of the form. When the form is submitted, the value of this field is used as the author name of the comment.
+- `form-content`: The content field of the form. When the form is submitted, the value of this field is used as the content of the comment. Support Markdown.
+
+An example: Assume the following is the user-provided HTML:
 
 ```html
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
-  <!-- (i) include spreadsheets, js libraries, etc -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- custom CSS, JS, etc. -->
+  </head>
   <body>
-  <COMMENT>
-  <!-- (ii) include submission form, etc -->
+    <div class="container">
+      <div data-ezk="comments">
+        <div class="comment">
+          <div class="metadata">
+            <div class="author" data-ezk="comment-author"></div>
+            <div class="time" data-ezk="comment-date"></div>
+          </div>
+          <div class="text" data-ezk="comment-content"></div>
+        </div>
+      </div>
+      <form data-ezk="form">
+        <input placeholder="Display name" name="name" required data-ezk="form-author" />
+        <textarea placeholder="Content" name="content" required data-ezk="form-content"></textarea>
+        <div class="form-bottom">
+          <span>Styling with Markdown is supported</span>
+          <button type="submit">Post</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
 ```
 
-and the following `comment.html`
-
-```html
-<!-- comment.html -->
-<div class="comment">
-  <div class="comment__name"><NAME></div>
-  <div class="comment__body"><CONTENT></div>
-  <div class="comment__time"><TIME></div>
-</div>
-```
-
-then with the following (approved) comments (in JSON format)
+with the following comments:
 
 ```json
 [
   {
-    "name": "John Doe",
-    "content": "Hello world",
-    "time": "2022-01-01T00:00:00.000Z"
+    "author": "John Doe",
+    "content": "This is a comment",
+    "date": "2018-01-01"
   },
   {
-    "name": "Jane Doe",
-    "content": "Bye world",
-    "time": "2022-01-01T00:00:00.000Z"
+    "author": "Jane Doe",
+    "content": "This is another comment *with markdown*",
+    "date": "2018-01-02"
   }
 ]
 ```
 
-then the compiled HTML sent to clients is
+the HTML sent to the browser would be the following:
 
 ```html
 <!DOCTYPE html>
-<html>
-  <!-- (i) include spreadsheets, js libraries, etc -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- custom CSS, JS, etc. -->
+  </head>
   <body>
-    <div class="comment">
-      <div class="comment__name">John Doe</div>
-      <div class="comment__body">Hello world</div>
-      <div class="comment__time">2022-01-01T00:00:00.000Z</div>
+    <div class="container">
+      <div data-ezk="comments">
+        <div class="comment">
+          <div class="metadata">
+            <div class="author" data-ezk="comment-author">John Doe</div>
+            <div class="time" data-ezk="comment-date">2018-01-01</div>
+          </div>
+          <div class="text" data-ezk="comment-content">
+            <p>This is a comment</p>
+          </div>
+        </div>
+        <div class="comment">
+          <div class="metadata">
+            <div class="author" data-ezk="comment-author">Jane Doe</div>
+            <div class="time" data-ezk="comment-date">2018-01-02</div>
+          </div>
+          <div class="text" data-ezk="comment-content">
+            <p>This is another comment <em>with markdown</em></p>
+          </div>
+        </div>
+      </div>
+      <form data-ezk="form">
+        <input placeholder="Display name" name="name" required data-ezk="form-author" />
+        <textarea placeholder="Content" name="content" required data-ezk="form-content"></textarea>
+        <div class="form-bottom">
+          <span>Styling with Markdown is supported</span>
+          <button type="submit">Post</button>
+        </div>
+      </form>
     </div>
-    <div class="comment">
-      <div class="comment__name">Jane Doe</div>
-      <div class="comment__body">Bye world</div>
-      <div class="comment__time">2022-01-01T00:00:00.000Z</div>
-    </div>
-    <!-- (ii) include submission form, etc -->
+    <!-- and additional JavaScript added by ezkomment -->
   </body>
 </html>
 ```
 
-We are still undecided as in whether to compile the time to more readable formats from the server, or send the code to convert the timestamp as JavaScript to client. Since it is just the time, the JavaScript should be tiny enough; it may even be simply
+We would then add some additional JavaScript to support the following:
+
+- Data fetching: We need a data fetching strategy close to how [SWR](https://swr.vercel.app) works, so that the UX is enhanced.
+- Data parsing and populating: We are not doing React here, so we need to manipulate the HTML with pure, vanilla JavaScript.
+- Send a message to the `<iframe>` parent about the document height, so that the `<iframe>` can be rendered correctly (we will not going into details, but you can [see more related info](https://stackoverflow.com/a/42308842)).
+
+As of 25 June, this is the entirety of that additional JavaScript.
 
 ```js
-const timestamp = new Date("2022-01-01T00:00:00.000Z");
-console.log(timestamp.toLocaleDateString()); // "01/01/2022"
+const apiURL = "/api/temp"; // change this URL according to site ID and page ID
+let hasFocus = false;
+let isVisible = false;
+let blockValidate = false;
+let COMMENTDIVCONTENT = "";
+
+function handler() {
+  validate();
+  blockValidate = true;
+  setTimeout(() => (blockValidate = false), 1000);
+}
+
+function initialise() {
+  document.addEventListener("visibilitychange", () => {
+    isVisible = document.visibilityState === "visible";
+    if (hasFocus && isVisible && !blockValidate) handler();
+  });
+  window.addEventListener("focus", () => {
+    hasFocus = true;
+    if (hasFocus && isVisible && !blockValidate) handler();
+  });
+  /** @see {@link https://stackoverflow.com/a/42308842} */
+  window.addEventListener("message", event => {
+    if (event.data === "FrameHeight") {
+      const height = Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      );
+      event.source.postMessage({ EzkFrameHeight: height }, "*");
+    }
+  });
+  document.querySelector("[data-ezk=form]").addEventListener("submit", onFormSubmit);
+}
+
+async function validate() {
+  const comments = await fetch(apiURL).then(res => res.json());
+  const commentsDiv = document.querySelector("[data-ezk=comments]");
+  if (COMMENTDIVCONTENT === "") COMMENTDIVCONTENT = commentsDiv.innerHTML;
+  commentsDiv.innerHTML = "";
+  comments.forEach(({ author, text, date }) => {
+    const commentDocument = new DOMParser().parseFromString(COMMENTDIVCONTENT, "text/html");
+    const name = commentDocument.querySelector("[data-ezk='comment-author']");
+    const content = commentDocument.querySelector("[data-ezk='comment-content']");
+    const time = commentDocument.querySelector("[data-ezk='comment-date']");
+    if (name) name.textContent = author;
+    if (content) content.innerHTML = text; // already rendered safely on server side
+    if (time) time.textContent = date;
+    commentsDiv.innerHTML += commentDocument.body.innerHTML;
+  });
+}
+
+async function onFormSubmit(event) {
+  event.preventDefault();
+  const authorField = document.querySelector("[data-ezk='form-author']");
+  const commentField = document.querySelector("[data-ezk='form-content']");
+  const comment = { author: authorField.value, text: commentField.value };
+  authorField.value = "";
+  commentField.value = "";
+  await fetch(apiURL, {
+    method: "POST",
+    body: JSON.stringify(comment),
+    headers: { "Content-Type": "application/json" },
+  });
+  await validate();
+}
+
+window.addEventListener("load", () => {
+  initialise();
+  validate();
+});
 ```
 
-but since doing so will put an end to our "no-JavaScript" mission, we are still undecided about this matter.
+This script will probably need some work to ensure it does not clash with any possible user-provided scripts, to capture errors, etc. But that is how it basically works.
 
-Also, there are unresolved issues about this feature. For example, how to allow users to control the styling of conditionally rendered elements, such as the edit button or the label of the submit button. These are logic issues that can be handled on the server completely, but is not doable for the current spec of this feature. In fact, simple bare HTML may not be sufficient for this problem, and we may need to let users write in more complex languages, such as [EJS](https://ejs.co) or [JSX](https://reactjs.org/docs/introducing-jsx.html). For example, with JSX, users can do
+With this, we believe the user already has a very good control of how the whole thing looks and works. In fact, he can add custom scripts to render a customised Markdown editor, he can even add scripts to mine cryptocurrency in his users' browsers etc (not that we support it).
 
-```jsx
-const convertTime = time => new Date(time).toLocaleDateString();
+#### Dark Mode |updated|
 
-module.exports = (
-  <section>
-    {comments.map(({ name, content, time }, index) => (
-      <div key={index} className="comment">
-        <div className="comment__name">{name.toUpperCase()}</div>
-        <div className="comment__body">{content}</div>
-        <div className="comment__time">{convertTime(time)}</div>
-      </div>
-    ))}
-  </section>
-);
+The embed URL will have a query parameter `isDark`. If it is used, the comment is delivered in dark mode. The `<html>` element would have a class `.dark`, and of course the user can control how their comment section looks in dark mode by modifying his `<style>` accordingly.
+
+```html
+<!-- /embed/:siteId/:pageId -->
+<html>
+  <!-- everything -->
+</html>
+
+<!-- /embed/:siteId/:pageId?isDark=1 -->
+<html class="dark">
+  <!-- everything -->
+</html>
 ```
-
-Due to the complexity of the issue, this will be decided when we implement it.
-
-#### Export and Import Customisation Files
-
-Since the customisation process involves text files, we can also pack them together and use it as a "theme" file. Users can then share these theme files between each other to have a good-looking design for their comment sections.
-
-Therefore, on the long term, we think it may be good to support exporting current customisation configuration to a theme file that can be saved and shared; as well as importing user-uploaded theme files.
-
-This opens the door to a marketplace-like feature for the application. However we do not plan to implement it at the moment, since the application design is complex enough. We may consider it when the core features of the app is complete.
 
 ### Application Programming Interface
 
@@ -611,7 +717,7 @@ This is the plan we specified in the Milestone 1 README:
 - By 27 June (Milestone 2): make the comment sections _commentable_, with updated statistics metrics in the site dashboard.
 - Also by 27 June: find resolution for all known issues in the app design mentioned above.
 
-As you can see, we have completed the first four items in the list. The fifth item is not yet implemented at all, and the while we have resolved most issues in the app design, there are still outstanding problems, especially in the design for the customisation feature.
+As you can see, we have completed the first four items and the last item in the list. The fifth item is not yet implemented at all. So we did not meet the deadline.
 
 That said, we have almost fully implemented all application pages in the process, from `/app/dashboard` to `/app/site/:siteName/:pageId/settings`. They are now fully functional and we do not expect to spend much time on them from now onwards. One can say we have laid out the foundation of the application, and with the most critical infrastructure now completed, adding more features to it should not take too much time. Therefore, despite the fact that we could not finish all planned items in time, we are optimistic that the application will be completed as planned.
 
@@ -638,10 +744,4 @@ However, in the first half of June, we had quite a few problems with miscommunic
 
 Although at the end we were not too much behind schedule, from 18 June to 24 June both members had to work for many hours per day to bring the massive delay of 11 days down to how it is currently.
 
-Thankfully, the workload for the next phase [turns out to not be that packed](#going-forwards-to-milestone-3-25-july), thus this delay did not cause too much damage to the whole project. That said, we are determined to resolve any issues and questions early, so this problem will not appear again.
-
-## Conclusion
-
-The above describes the design and planning of the appplication we are planning to build for Orbital 2022. Please note that while the design is quite detailed and has covered all core features that we plan, there are still many issues with the design for which we have not yet found a resolution, and most of these issues are also mentioned above.
-
-As we move along the implementation process, we expect some of the planned features above to change, as it may become too complicated, too bug-prone, too unnecessary to support, among other reasons. Therefore, while the design above describes how we currently intend the app to be, it may be changed considerably in later versions of the README.
+Thankfully, the workload for the next phase [turns out to not be that packed](#going-forwards-to-milestone-3-25-july), thus this delay did not cause too much damage to the whole project. That said, we are determined to resolve any issues and questions early, so that this problem will not appear again.
