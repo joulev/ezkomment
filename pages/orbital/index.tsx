@@ -148,9 +148,9 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="README"
               description="The README, describing all information we have about the project."
-              href="#"
+              href="/orbital/ms2-readme"
               icon={ArticleOutlinedIcon}
-              date="unknown"
+              date="25 June 2022"
             />
             <SectionLink
               title="Milestone 2 poster"
