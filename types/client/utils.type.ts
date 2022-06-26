@@ -77,3 +77,9 @@ export type ResponseMessage = {
     type: "success" | "error";
     message: ReactNode;
 } | null;
+
+export type PreviewComment = {
+    author?: string;
+    date: string;
+    content: string;
+};

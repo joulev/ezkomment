@@ -5,19 +5,21 @@
  */
 import Editor from "@monaco-editor/react";
 import clsx from "clsx";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 
 import monacoOptions from "~/config/monaco";
 
 import useBreakpoint from "~/client/hooks/breakpoint";
 import useTheme from "~/client/hooks/theme";
-import generateCommentHTML from "~/client/lib/generateCommentHTML";
+import { generatePreviewHTML } from "~/client/lib/generateCommentHTML";
 
 import sitePages from "~/client/components/app/handleSite";
 import BlankIllustration from "~/client/components/blankIllustration";
@@ -25,19 +27,16 @@ import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import SideBySide from "~/client/components/sideBySide";
 import IconLabel from "~/client/components/utils/iconAndLabel";
+import RightAligned from "~/client/components/utils/rightAligned";
 
-import { IconAndLabel } from "~/types/client/utils.type";
+import { IconAndLabel, PreviewComment } from "~/types/client/utils.type";
 
-import { all, comment, styles } from "~/constants/sampleCommentCode";
+import html from "~/constants/sampleCommentCode";
 
 type ButtonGroupProps = {
   buttons: (IconAndLabel & { onClick: () => void })[];
   active: number;
 };
-type EditorTab = "all" | "comment" | "styles";
-
-const editorTabs: EditorTab[] = ["all", "comment", "styles"];
-const sampleCode: Record<EditorTab, string> = { all, comment, styles };
 
 const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   <div
@@ -67,14 +66,109 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   </div>
 );
 
+const AddComment: FC<{
+  comments: PreviewComment[];
+  setComments: (_: PreviewComment[]) => void;
+}> = ({ comments, setComments }) => {
+  const [author, setAuthor] = useState("");
+  const [date, setDate] = useState("");
+  const [content, setContent] = useState("");
+  return (
+    <div>
+      <h2 className="pt-6">Test comments</h2>
+      <p>Here you can add comments for it to be rendered on the right.</p>
+      <form
+        className="flex flex-col gap-6 mb-6"
+        onSubmit={event => {
+          event.preventDefault();
+          setComments([...comments, { author: author === "" ? undefined : author, date, content }]);
+          setAuthor("");
+          setDate("");
+          setContent("");
+        }}
+      >
+        <Input
+          value={author}
+          onUpdate={setAuthor}
+          type="text"
+          icon={PersonOutlinedIcon}
+          placeholder="Author"
+        />
+        <Input
+          value={date}
+          onUpdate={setDate}
+          type="text"
+          icon={ScheduleOutlinedIcon}
+          placeholder="Date"
+        />
+        <textarea
+          value={content}
+          onChange={event => setContent(event.currentTarget.value)}
+          placeholder="Content"
+          className="bg-card border-card rounded border focus:ring-0 hover:border-muted focus:border-muted placeholder:text-muted"
+        ></textarea>
+        <RightAligned>
+          <Button>Add comment</Button>
+        </RightAligned>
+      </form>
+      {comments.map(({ author, date, content }, index) => (
+        <div key={index} className="py-6 border-t border-card flex flex-col gap-3">
+          <div>
+            <strong>Author:</strong> {author ?? <span className="text-muted">(not given)</span>}
+          </div>
+          <div>
+            <strong>Date:</strong> {date}
+          </div>
+          <div>
+            <div className="mb-1.5">
+              <strong>Content:</strong>
+            </div>
+            <pre className="bg-card rounded border border-card p-3 w-full text-sm overflow-x-auto no-scrollbar">
+              {content}
+            </pre>
+          </div>
+          <div className="flex flex-row justify-end">
+            <Button
+              onClick={() => setComments(comments.filter((_, i) => i !== index))}
+              variant="tertiary"
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const Content: FC = () => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
 
   const [active, setActive] = useState(0);
-  const [code, setCode] = useState(sampleCode);
+  const [code, setCode] = useState<string | undefined>(html);
+  const [comments, setComments] = useState<PreviewComment[]>([
+    {
+      author: "John Doe",
+      content: "This is a comment",
+      date: "2018-01-01",
+    },
+    {
+      content:
+        "This is another comment *with markdown*. How about _italic_ too? And I also have `code` and\n\n* lists\n* of\n* items",
+      date: "2018-01-02",
+    },
+  ]);
   const [previewBg, setPreviewBg] = useState("#ffffff");
   const [previewIsDark, setPreviewIsDark] = useState(false);
+  const [previewHTML, setPreviewHTML] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const html = await generatePreviewHTML(code ?? "", comments, previewIsDark);
+      setPreviewHTML(html);
+    })();
+  }, [comments, code, previewIsDark]);
 
   return (
     <>
@@ -93,9 +187,8 @@ const Content: FC = () => {
       >
         <ButtonGroup
           buttons={[
-            { label: "All", onClick: () => setActive(0) },
-            { label: "Comment", onClick: () => setActive(1) },
-            { label: "Styles", onClick: () => setActive(2) },
+            { label: "Code", onClick: () => setActive(0) },
+            { label: "Comments", onClick: () => setActive(1) },
           ]}
           active={active}
         />
@@ -122,11 +215,11 @@ const Content: FC = () => {
         />
         <Input
           type="color"
-          label="Preview"
+          label="Preview Bg"
           icon={ColourOutlinedIcon}
           value={previewBg}
           onUpdate={setPreviewBg}
-          className="w-44"
+          className="w-48"
         />
         <div className="flex-grow" />
         <Button icon={SaveOutlinedIcon} variant="tertiary">
@@ -137,31 +230,25 @@ const Content: FC = () => {
       <div className="hidden lg:block mb-9">
         <SideBySide
           left={
-            <Editor
-              height="90vh"
-              language={active === 2 ? "css" : "html"}
-              value={code[editorTabs[active]]}
-              theme={currentTheme === "light" ? "light" : "vs-dark"}
-              onChange={newCode => setCode({ ...code, [editorTabs[active]]: newCode })}
-              options={monacoOptions}
-            />
+            active === 0 ? (
+              <Editor
+                height="90vh"
+                language="html"
+                value={code}
+                theme={currentTheme === "light" ? "light" : "vs-dark"}
+                onChange={setCode}
+                options={monacoOptions}
+              />
+            ) : (
+              <AddComment comments={comments} setComments={setComments} />
+            )
           }
           right={
             <div
-              className="p-6 rounded border border-card h-full"
+              className="p-6 rounded border border-card h-full min-h-[90vh]"
               style={{ backgroundColor: previewBg }}
             >
-              <iframe
-                srcDoc={generateCommentHTML(
-                  code.all,
-                  code.comment,
-                  code.styles,
-                  undefined,
-                  previewIsDark
-                )}
-                sandbox="" // this doesn't make any sense. Why not just sandbox (as boolean)?
-                className="w-full h-full"
-              />
+              <iframe srcDoc={previewHTML} className="w-full h-full" />
             </div>
           }
         />
