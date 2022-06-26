@@ -58,11 +58,11 @@
     <script>
       // https://stackoverflow.com/a/42308842
       function setIframeHeight(iframe) {
-        iframe.contentWindow.postMessage("FrameHeight", "*");
+        iframe.contentWindow.postMessage("EzkFrameHeight", "*");
       }
-      window.addEventListener('message', function (event) {
-        if (event.data.hasOwnProperty("FrameHeight"))
-          document.getElementById("embedded-comments").style.height = event.data.FrameHeight + "px";
+      window.addEventListener("message", event => {
+        if (event.data.hasOwnProperty("EzkFrameHeight"))
+          document.getElementById("embedded-comments").style.height = event.data.EzkFrameHeight + "px";
       });
     </script>
   </head>
@@ -118,7 +118,7 @@
       </article>
       <section>
         <h2>Comments</h2>
-        <iframe id="embedded-comments" src="https://ezkdev.joulev.dev/embed/siteId/pageId" onload="setIframeHeight(this)">
+        <iframe id="embedded-comments" src="/embed/siteId/pageId" onload="setIframeHeight(this)">
       </section>
     </main>
   </body>

@@ -1,14 +1,12 @@
 import { NextApiHandler } from "next";
 
-import generateCommentHTML from "~/client/lib/generateCommentHTML";
+import { generateCommentHTML } from "~/client/lib/generateCommentHTML";
 
-import * as code from "~/constants/sampleCommentCode";
-
-import page from "~/sample/page.json";
+import html from "~/constants/sampleCommentCode";
 
 const handler: NextApiHandler = (_, res) => {
-    const html = generateCommentHTML(code.all, code.comment, code.styles, page.approvedComments);
-    res.send(html);
+    const generatedHTML = generateCommentHTML(html, "/api/test");
+    res.send(generatedHTML);
 };
 
 export default handler;
