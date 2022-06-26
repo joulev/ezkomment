@@ -80,7 +80,7 @@ const New: NextPageWithLayout = () => {
           }
         />
         <InputDetachedLabel
-          label="Site domain with protocol"
+          label="Site domain"
           type="text"
           icon={WebOutlinedIcon}
           required
