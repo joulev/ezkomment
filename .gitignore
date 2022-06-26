@@ -52,3 +52,7 @@ service-account.json
 firestore-debug.log
 ui-debug.log
 firebase-debug.log
+
+# Browser library compilation
+
+public/v1/js
