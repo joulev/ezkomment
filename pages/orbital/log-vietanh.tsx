@@ -14,6 +14,10 @@ import { NextPageWithLayout } from "~/types/client/utils.type";
 
 import authors from "~/constants/authors";
 
+/**
+ * `data` will now be an array of events.
+ * The total hours spent will be calculated automatically.
+ */
 import data from "./log-vietanh.json";
 
 type Props = {
@@ -37,7 +41,7 @@ const ProjectLogVietAnh: NextPageWithLayout<Props> = ({ data }) => (
     <div>
       <div className="border rounded border-card bg-card p-6 max-w-fit mx-auto">
         <div className="text-lg text-muted">Total hours spent</div>
-        <div className="text-3xl text-center">{data.TotalHrs}</div>
+        <div className="text-3xl text-center">{data.reduce((acc, { Hrs }) => acc + Hrs, 0)}</div>
       </div>
     </div>
     <div className="overflow-x-scroll -my-3">
@@ -46,7 +50,7 @@ const ProjectLogVietAnh: NextPageWithLayout<Props> = ({ data }) => (
         <div className="col-span-8 font-bold p-3">Content</div>
         <div className="col-span-1 font-bold p-3">Hrs</div>
         <div className="col-span-12 font-bold p-3 pr-0">Remarks</div>
-        {data.Events.map(({ Date, Content, Hrs, Remark }, index) => (
+        {data.map(({ Date, Content, Hrs, Remark }, index) => (
           <Fragment key={index}>
             <div className="col-span-3 p-3 border-t border-card pl-0">{Date}</div>
             <div className="col-span-8 p-3 border-t border-card">{Content}</div>

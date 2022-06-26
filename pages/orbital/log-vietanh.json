@@ -1,116 +1,283 @@
-{
-  "TotalHrs": 105,
-  "Events": [
-    {
-      "Date": "12/03 - 14/03",
-      "Content": "Brainstorm for ideas and finalise idea",
-      "Hrs": 16,
-      "Remark": [
-        "F2F meeting with teammate",
-        "Decided the app features",
-        "Finalised proporsal for Orbital submission"
-      ]
-    },
-    {
-      "Date": "15/04 - 3/5",
-      "Content": "Learn the basics of backend development",
-      "Hrs": 30,
-      "Remark": [
-        "I initially started with Spring Framework, but later switched and considered Django and Express",
-        "Express was choosen because Express app can be written using Typescript, which has a better type system than Python"
-      ]
-    },
-    {
-      "Date": "06/05 - 09/05",
-      "Content": "Produce Lift-Off poster and video",
-      "Hrs": 3,
-      "Remark": ["Checked and provided suggestions for the poster and video"]
-    },
-    {
-      "Date": "09/05 - 14/05",
-      "Content": "Learn and set up nessessary tools and configurations for developments",
-      "Hrs": 8,
-      "Remark": [
-        "Installed WSL, Node.js and Typescript on my local PC",
-        "Fixed bugs related to npm on WSL 2",
-        "Learned and set up suitable configurations for Node.js runtime environment",
-        "Learned Firebase local emumerator and hosting"
-      ]
-    },
-    {
-      "Date": "09/05 - 14/05",
-      "Content": "Install dependencies for back-end development",
-      "Hrs": 6,
-      "Remark": [
-        "Installed Express and Firebase to prepare for development",
-        "Developed simple Express app"
-      ]
-    },
-    {
-      "Date": "12/05",
-      "Content": "Read mentors' introduction slides and apply for mentor",
-      "Hrs": 3,
-      "Remark": ["N/A"]
-    },
-    {
-      "Date": "15/05 - 19/05",
-      "Content": "Create new branch and add basic files",
-      "Hrs": 1,
-      "Remark": ["Created new branch for back-end development", "Created basic repo stucture"]
-    },
-    {
-      "Date": "20/05",
-      "Content": "Learn Firebase Admin SDK",
-      "Hrs": 6,
-      "Remark": [
-        "Learned to do authentication on server side with Firebase using JWT or session cookie and manage users",
-        "Learned to design data models and do complex query with Firestore"
-      ]
-    },
-    {
-      "Date": "21/05 - 23/05",
-      "Content": "Implement and test /users/* routes to handle users",
-      "Hrs": 4,
-      "Remark": [
-        "Added route to get, update and delete user",
-        "Tested the behaviour of the API using Postman"
-      ]
-    },
-    {
-      "Date": "23/05 - 24/05",
-      "Content": "Implement /sites/* and /pages/* to handle sites and pages",
-      "Hrs": 6,
-      "Remark": ["Created models to represent the relation between entities"]
-    },
-    {
-      "Date": "24/05",
-      "Content": "Learn CORS",
-      "Hrs": 2,
-      "Remark": ["Learned about CORS and experienced with browsers"]
-    },
-    {
-      "Date": "24/05 - 25/05",
-      "Content": "Continue with /sites/* and pages/* routes",
-      "Hrs": 6,
-      "Remark": ["N/A"]
-    },
-    {
-      "Date": "26/05",
-      "Content": "Learn Nest.js for back-end development in Typescript",
-      "Hrs": 6,
-      "Remark": [
-        "Nest.js uses classes and decorators extensively, making the code look similar to Spring project",
-        "Decided to stick with Express at the momment"
-      ]
-    },
-    {
-      "Date": "27/05 - 28/05",
-      "Content": "Modify /users/* routes and look for packages that offer serve similar purpose as Validator in Nest.js",
-      "Hrs": 8,
-      "Remark": [
-        "class-validator can be used for classes, but not for interfaces",
-        "Considered express-validator"
-      ]
-    }
-  ]
-}
+[
+  {
+    "Date": "12/03 - 14/03",
+    "Content": "Brainstorm for ideas and finalise idea",
+    "Hrs": 16,
+    "Remark": [
+      "F2F meeting with teammate",
+      "Decided the app features",
+      "Finalised proporsal for Orbital submission"
+    ]
+  },
+  {
+    "Date": "15/04 - 3/5",
+    "Content": "Learn the basics of backend development",
+    "Hrs": 30,
+    "Remark": [
+      "I initially started with Spring Framework, but later switched and considered Django and Express",
+      "Express was choosen because Express app can be written using Typescript, which has a better type system than Python"
+    ]
+  },
+  {
+    "Date": "06/05 - 09/05",
+    "Content": "Produce Lift-Off poster and video",
+    "Hrs": 3,
+    "Remark": ["Checked and provided suggestions for the poster and video"]
+  },
+  {
+    "Date": "09/05 - 14/05",
+    "Content": "Learn and set up nessessary tools and configurations for developments",
+    "Hrs": 8,
+    "Remark": [
+      "Installed WSL, Node.js and Typescript on my local PC",
+      "Fixed bugs related to npm on WSL 2",
+      "Learned and set up suitable configurations for Node.js runtime environment",
+      "Learned Firebase local emumerator and hosting"
+    ]
+  },
+  {
+    "Date": "09/05 - 14/05",
+    "Content": "Install dependencies for back-end development",
+    "Hrs": 6,
+    "Remark": [
+      "Installed Express and Firebase to prepare for development",
+      "Developed simple Express app"
+    ]
+  },
+  {
+    "Date": "12/05",
+    "Content": "Read mentors' introduction slides and apply for mentor",
+    "Hrs": 3,
+    "Remark": ["N/A"]
+  },
+  {
+    "Date": "15/05 - 19/05",
+    "Content": "Create new branch and add basic files",
+    "Hrs": 1,
+    "Remark": ["Created new branch for back-end development", "Created basic repo stucture"]
+  },
+  {
+    "Date": "20/05",
+    "Content": "Learn Firebase Admin SDK",
+    "Hrs": 6,
+    "Remark": [
+      "Learned to do authentication on server side with Firebase using JWT or session cookie and manage users",
+      "Learned to design data models and do complex query with Firestore"
+    ]
+  },
+  {
+    "Date": "21/05 - 23/05",
+    "Content": "Implement and test /users/* routes to handle users",
+    "Hrs": 4,
+    "Remark": [
+      "Added route to get, update and delete user",
+      "Tested the behaviour of the API using Postman"
+    ]
+  },
+  {
+    "Date": "23/05 - 24/05",
+    "Content": "Implement /sites/* and /pages/* to handle sites and pages",
+    "Hrs": 6,
+    "Remark": ["Created models to represent the relation between entities"]
+  },
+  {
+    "Date": "24/05",
+    "Content": "Learn CORS",
+    "Hrs": 2,
+    "Remark": ["Learned about CORS and experienced with browers"]
+  },
+  {
+    "Date": "24/05 - 25/05",
+    "Content": "Continue with /sites/* and pages/* routes",
+    "Hrs": 6,
+    "Remark": ["N/A"]
+  },
+  {
+    "Date": "26/05",
+    "Content": "Learn Nest.js for back-end development in Typescript",
+    "Hrs": 6,
+    "Remark": [
+      "Nest.js uses classes and decorators extensively, making the code looks similar to Spring project",
+      "Decided to stick with Express at the momment"
+    ]
+  },
+  {
+    "Date": "27/05 - 28/05",
+    "Content": "Modify /users/* routes and look for packages that offer serve similar purpose as Validator in Nest.js",
+    "Hrs": 8,
+    "Remark": [
+      "[class-validator](https://github.com/typestack/class-validator) can be used for classes, but not for interfaces",
+      "Considered [express-validator](https://github.com/express-validator/express-validator)"
+    ]
+  },
+  {
+    "Date": "01/06",
+    "Content": "Looking for platform to deploy the back-end",
+    "Hrs": 3,
+    "Remark": [
+      "Vercel seems to be the most suitable platform for deployment",
+      "Considered to migrate the back-end to Next.js"
+    ]
+  },
+  {
+    "Date": "02/06",
+    "Content": "Migrate from Express to Next.js",
+    "Hrs": 7,
+    "Remark": [
+      "Migrated backend to Next.js for easer deplopment",
+      "Serverless function of Next.js works fine for the application"
+    ]
+  },
+  {
+    "Date": "04/06 - 05/06",
+    "Content": "Peer review for Milestone 1",
+    "Hrs": 3,
+    "Remark": ["N/A"]
+  },
+  {
+    "Date": "06/06",
+    "Content": "Migrate from Express to Next.js (cont)",
+    "Hrs": 3,
+    "Remark": ["N/A"]
+  },
+  {
+    "Date": "08/06",
+    "Content": "[next-connect](https://github.com/hoangvvo/next-connect) is wonderful for serverless environment",
+    "Hrs": 3,
+    "Remark": [
+      "Note: My commit messages were terrible",
+      "Used `next-connect` to write API endpoints, the code looks so elegant"
+    ]
+  },
+  {
+    "Date": "09/06",
+    "Content": "Redesign repo structure, complete basic intergation",
+    "Hrs": 5,
+    "Remark": ["Demolished monorepo structure for Next.js"]
+  },
+  {
+    "Date": "10/06",
+    "Content": "Write API specification and validators",
+    "Hrs": 4,
+    "Remark": ["Wrote API specifications", "Started implementing validators to sanitize requests"]
+  },
+  {
+    "Date": "11/06",
+    "Content": "Redesigned API endpoints",
+    "Hrs": 5,
+    "Remark": [
+      "Discussed API specifications and implementation details",
+      "Changed the data models on Firestore as multiple nested collections are terrible"
+    ]
+  },
+  {
+    "Date": "12/06",
+    "Content": "Implement endpoints to upload images",
+    "Hrs": 5,
+    "Remark": [
+      "Tried `formidable` and `multer` to parse form data",
+      "Learned Firebase Storage",
+      "Resolved problem when parsing form data by turning off `bodyParser` in Next config"
+    ]
+  },
+  {
+    "Date": "13/06",
+    "Content": "Get URL of uploaded images",
+    "Hrs": 4,
+    "Remark": [
+      "Firebase Admin SDK does not have getDownloadUrl, the workarounds are not reliable",
+      "Public URL was used, although it's not very secure"
+    ]
+  },
+  {
+    "Date": "17/06",
+    "Content": "Add JWT authentications, transactions for CRUD and error handlers",
+    "Hrs": 9,
+    "Remark": [
+      "Note: Terrible communication delayed our process ... ",
+      "Authentication problem was solved trivially by attaching middlewares to verify JWT before the handling requests",
+      "Added transactions for CRUD to ensure the consistency of logic (for example: user's sites must not have duplicated names)",
+      "Wrote proper error handlers for meaningful status codes and messages"
+    ]
+  },
+  {
+    "Date": "18/06",
+    "Content": "Read Jest and Firebase Emulator documentations for unit testing",
+    "Hrs": 7,
+    "Remark": [
+      "Setting up Firebase Emulator was troublesome - I had to install JRE",
+      "And I kept connecting to the real databases when trying out the Emulator for unit tests. I wrote setup file (after env) to prevent this, but it did not work correctly"
+    ]
+  },
+  {
+    "Date": "19/06",
+    "Content": "Start writing unit tests",
+    "Hrs": 7,
+    "Remark": [
+      "Wrote scripts to generate test data",
+      "Wrote setup file (before env) to prevent the unit tests from connecting to the real databases, but it did not work correctly (again)",
+      "Wrote unit tests for users and sites. Now I know how useful dependencies injection is"
+    ]
+  },
+  {
+    "Date": "20/06",
+    "Content": "Add cases for unit tests",
+    "Hrs": 4,
+    "Remark": [
+      "Fixed setup files",
+      "Used `beforeAll` hook to setup test data, for easier modification (if my implementation changes in the future)",
+      "Added test cases to increase coverage"
+    ]
+  },
+  {
+    "Date": "21/06",
+    "Content": "Add statistic for sites",
+    "Hrs": 9,
+    "Remark": [
+      "Added page count for sites",
+      "Added comment count for both sites and pages",
+      "Added new test cases for sites and pages statistic",
+      "Added Firebase Emulator for unit testing",
+      "Added test cases for newly implemented features"
+    ]
+  },
+  {
+    "Date": "22/06",
+    "Content": "Fix issue, and unit tests for CI",
+    "Hrs": 4,
+    "Remark": [
+      "Demolished setup files, use custom testing environment (much more consistent)",
+      "Changed implementation, now allow pages to have duplicated names"
+    ]
+  },
+  {
+    "Date": "23/06",
+    "Content": "Fix security problem and add CI for backend",
+    "Hrs": 9,
+    "Remark": [
+      "Enforced that the decoded uid and the documents' uids must match before executing CRUD actions",
+      "I kept making typos in my action.yml files (fixed by a bunch of force-pushes)",
+      "Added even more test to increase the coverage of tests and used Promise.all to decrease the test time"
+    ]
+  },
+  {
+    "Date": "25/06",
+    "Content": "Prepare for Milestone 2",
+    "Hrs": 4,
+    "Remark": [
+      "Discussed specifications for customisation section",
+      "Wrote and reviewed README",
+      "Brainstormed for MS2 video"
+    ]
+  },
+  {
+    "Date": "26/06",
+    "Content": "Optimize GET endpoints",
+    "Hrs": 3,
+    "Remark": [
+      "Optimized GET endpoints, as I realized only 1 transaction is required",
+      "Looking back, I should have broken down my commits into smaller ones. I did too much in one commit",
+      "Question: Some of my commits are not shown on GitHub?"
+    ]
+  }
+]
