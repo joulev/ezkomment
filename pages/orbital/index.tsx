@@ -181,7 +181,7 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
               title={<>Nguyen Viet Anh&apos;s Project&nbsp;Log</>}
               href="/orbital/log-vietanh"
               icon={ArticleOutlinedIcon}
-              date="29 May 2022"
+              date="26 June 2022"
             />
           </div>
         </section>
