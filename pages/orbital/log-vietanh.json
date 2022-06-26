@@ -152,19 +152,19 @@
   {
     "Date": "09/06",
     "Content": "Redesign repo structure, complete basic intergation",
-    "Hrs": 5,
+    "Hrs": 4,
     "Remark": ["Demolished monorepo structure for Next.js"]
   },
   {
     "Date": "10/06",
     "Content": "Write API specification and validators",
-    "Hrs": 4,
+    "Hrs": 3,
     "Remark": ["Wrote API specifications", "Started implementing validators to sanitize requests"]
   },
   {
     "Date": "11/06",
     "Content": "Redesigned API endpoints",
-    "Hrs": 5,
+    "Hrs": 4,
     "Remark": [
       "Discussed API specifications and implementation details",
       "Changed the data models on Firestore as multiple nested collections are terrible"
@@ -177,7 +177,7 @@
     "Remark": [
       "Tried `formidable` and `multer` to parse form data",
       "Learned Firebase Storage",
-      "Resolved problem when parsing form data by turning off `bodyParser` in Next config"
+      "Resolved problem when parsing form data by turning off `bodyParser` in Next config (I was fortunate enough to find this on StackOverflow)"
     ]
   },
   {
@@ -185,7 +185,7 @@
     "Content": "Get URL of uploaded images",
     "Hrs": 4,
     "Remark": [
-      "Firebase Admin SDK does not have getDownloadUrl, the workarounds are not reliable",
+      "Firebase Admin SDK does not have `getDownloadUrl()`, the workarounds are not reliable (read https://github.com/googleapis/nodejs-storage/issues/697 for more information)",
       "Public URL was used, although it's not very secure"
     ]
   },
@@ -212,7 +212,7 @@
   {
     "Date": "19/06",
     "Content": "Start writing unit tests",
-    "Hrs": 7,
+    "Hrs": 6,
     "Remark": [
       "Wrote scripts to generate test data",
       "Wrote setup file (before env) to prevent the unit tests from connecting to the real databases, but it did not work correctly (again)",
@@ -222,7 +222,7 @@
   {
     "Date": "20/06",
     "Content": "Add cases for unit tests",
-    "Hrs": 4,
+    "Hrs": 3,
     "Remark": [
       "Fixed setup files",
       "Used `beforeAll` hook to setup test data, for easier modification (if my implementation changes in the future)",
@@ -244,9 +244,9 @@
   {
     "Date": "22/06",
     "Content": "Fix issue, and unit tests for CI",
-    "Hrs": 4,
+    "Hrs": 3,
     "Remark": [
-      "Demolished setup files, use custom testing environment (much more consistent)",
+      "Demolished setup files, use custom testing environment (much more consistent, very nice)",
       "Changed implementation, now allow pages to have duplicated names"
     ]
   },
@@ -257,13 +257,13 @@
     "Remark": [
       "Enforced that the decoded uid and the documents' uids must match before executing CRUD actions",
       "I kept making typos in my action.yml files (fixed by a bunch of force-pushes)",
-      "Added even more test to increase the coverage of tests and used Promise.all to decrease the test time"
+      "Added even more tests to increase the coverage and used Promise.all to decrease the test time"
     ]
   },
   {
     "Date": "25/06",
     "Content": "Prepare for Milestone 2",
-    "Hrs": 4,
+    "Hrs": 2,
     "Remark": [
       "Discussed specifications for customisation section",
       "Wrote and reviewed README",
