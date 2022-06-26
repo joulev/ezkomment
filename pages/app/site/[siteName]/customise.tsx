@@ -19,7 +19,7 @@ import monacoOptions from "~/config/monaco";
 
 import useBreakpoint from "~/client/hooks/breakpoint";
 import useTheme from "~/client/hooks/theme";
-import { generatePreviewHTML } from "~/client/lib/generateCommentHTML";
+import generatePreviewHTML from "~/client/lib/generatePreviewHTML";
 
 import sitePages from "~/client/components/app/handleSite";
 import BlankIllustration from "~/client/components/blankIllustration";

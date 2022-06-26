@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 
-import { generateCommentHTML } from "~/client/lib/generateCommentHTML";
+import generateCommentHTML from "~/client/lib/generateCommentHTML";
 
 import html from "~/constants/sampleCommentCode";
 
