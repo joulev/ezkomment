@@ -27,7 +27,7 @@
     "clsx": "^1.1.1",
     "cookie": "^0.5.0",
     "date-fns": "^2.28.0",
-    "firebase": "^9.8.3",
+    "firebase": "^9.8.4",
     "firebase-admin": "^11.0.0",
     "framer-motion": "^6.3.11",
     "jsdom": "^20.0.0",
