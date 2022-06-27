@@ -162,9 +162,9 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Milestone 2 video"
               description="Third version of the project video, submitted for Milestone 2."
-              href="#"
+              href="https://drive.google.com/file/d/1gyDeqEbk3Mu6ZZqLgoa06pH4UgrewekD/view"
               icon={OndemandVideoOutlinedIcon}
-              date="unknown"
+              date="27 June 2022"
             />
           </div>
         </section>
