@@ -114,10 +114,10 @@ const Illustration: FC = () => {
           x="0"
           y="0"
           mask="url(#buttonMask)"
-          {...motionProps(0.6)}
+          {...motionProps(0.15)}
         />
       </svg>
-      <motion.div className="absolute right-0 -top-18 text-red-500" {...motionProps(0.75)}>
+      <motion.div className="absolute right-0 -top-18 text-red-500" {...motionProps(0.3)}>
         <IconLabel
           icon={DeleteOutlineOutlinedIcon}
           label={
@@ -129,7 +129,7 @@ const Illustration: FC = () => {
       </motion.div>
       <motion.svg
         className="absolute right-0 -top-11 h-[52px] w-[80px] sm:w-[92px] md:w-[80px] lg:w-[92px] text-red-500"
-        {...motionProps(0.75)}
+        {...motionProps(0.3)}
       >
         <defs>
           <marker id="head1" orient="auto" markerWidth="6" markerHeight="6" refX="4" refY="3">
@@ -140,7 +140,7 @@ const Illustration: FC = () => {
       </motion.svg>
       <motion.div
         className="absolute right-0 -bottom-18 text-emerald-500"
-        {...motionProps(0.9)}
+        {...motionProps(0.45)}
         ref={textRef}
       >
         <IconLabel
@@ -154,7 +154,7 @@ const Illustration: FC = () => {
       </motion.div>
       <motion.svg
         className="absolute right-0 -bottom-11 w-[40px] sm:w-[46px] md:w-[40px] lg:w-[46px] text-emerald-500"
-        {...motionProps(0.9)}
+        {...motionProps(0.45)}
         ref={svgRef}
       >
         <defs>

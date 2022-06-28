@@ -33,8 +33,8 @@ const CodeWindow: FC = () => {
     if (!el.current || !canType) return;
     typed.current = new Typed(el.current, {
       strings: [str],
-      typeSpeed: 600 / str.length,
-      startDelay: 600,
+      typeSpeed: 750 / str.length,
+      startDelay: 500,
       contentType: "null",
       onComplete: () => setIsVisible(true),
       onDestroy: () => setIsVisible(false),
@@ -86,7 +86,7 @@ const BrowserWindow: FC = () => {
             className="row-span-2 grid grid-rows-3 gap-1.5"
             variants={{
               hidden: { opacity: 0, transition: { duration: 0.15 } },
-              visible: { opacity: 1, transition: { duration: 0.15 } },
+              visible: { opacity: 1, transition: { duration: 0.15, delay: 0.15 } },
             }}
             initial="hidden"
             animate={animation}
