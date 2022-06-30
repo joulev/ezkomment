@@ -12,8 +12,8 @@
     "test:client:ci": "jest --ci --coverage --config=jest.client.config.js",
     "test:server": "jest --watch --coverage --config=jest.server.config.js",
     "test:server:ci": "jest --ci --coverage --config=jest.server.config.js",
-    "emulate:test:server": "firebase emulators:exec 'yarn test:server'",
-    "emulate:test:server:ci": "firebase emulators:exec 'yarn test:server:ci'"
+    "emulate:test:server": "firebase emulators:exec 'yarn test:server' --project test-proj",
+    "emulate:test:server:ci": "firebase emulators:exec 'yarn test:server:ci' --project test-proj"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
