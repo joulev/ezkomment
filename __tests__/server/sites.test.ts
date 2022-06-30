@@ -37,7 +37,7 @@ describe("Test site utils", () => {
     // SHOULD REJECT //
     ///////////////////
 
-    it(`Should fail when trying to create a new site with duplicated name`, async () => {
+    it("Should fail when trying to create a new site with duplicated name", async () => {
         await expect(
             SiteUtils.createSite(uid, {
                 name: siteName,
@@ -47,13 +47,13 @@ describe("Test site utils", () => {
         ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to update a site with duplicated name`, async () => {
+    it("Should fail when trying to update a site with duplicated name", async () => {
         await expect(
             SiteUtils.updateSiteById(uid, siteId2, { name: siteName })
         ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to access a non-exisiting site`, async () => {
+    it("Should fail when trying to access a non-exisiting site", async () => {
         const notFound = { code: 404 };
         await Promise.all([
             expect(SiteUtils.getSiteById(uid, nonExistingSiteId)).rejects.toMatchObject(notFound),
@@ -66,7 +66,7 @@ describe("Test site utils", () => {
         ]);
     });
 
-    it(`Should fail when uid does not match`, async () => {
+    it("Should fail when uid does not match", async () => {
         const forbidden = { code: 403 };
 
         await Promise.all([
@@ -84,16 +84,16 @@ describe("Test site utils", () => {
     // SHOULD RESOLVE //
     ////////////////////
 
-    it(`Should be able to get site's information`, async () => {
+    it("Should be able to get site's information", async () => {
         await expect(SiteUtils.getSiteById(uid, siteId1)).resolves.toMatchObject(mainSite);
     });
 
-    it(`Should be able to get site's information and its pages`, async () => {
+    it("Should be able to get site's information and its pages", async () => {
         const clientSite = await SiteUtils.getClientSiteById(uid, siteId2);
         expect(clientSite.pages).toHaveLength(5);
     });
 
-    it(`Should delete site correctly`, async () => {
+    it("Should delete site correctly", async () => {
         await SiteUtils.deleteSiteById(uid, siteId1);
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toEqual(
@@ -105,7 +105,7 @@ describe("Test site utils", () => {
         ]);
     });
 
-    it(`Should be able to delete ALL sites of a user`, async () => {
+    it("Should be able to delete ALL sites of a user", async () => {
         await SiteUtils.deleteUserSitesById(uid);
         /**
          * All site must be deleted,

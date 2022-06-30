@@ -47,7 +47,7 @@ describe("Test comment utils", () => {
     // SHOULD REJECT //
     ///////////////////
 
-    it(`Should fail when trying to create a comment with a non-existing page`, async () => {
+    it("Should fail when trying to create a comment with a non-existing page", async () => {
         await expect(
             CommentUtils.createComment({
                 pageId: nonExistingPageId,
@@ -57,13 +57,13 @@ describe("Test comment utils", () => {
         ).rejects.toMatchObject({ code: 404 });
     });
 
-    it(`Should fail when trying to update an approved comment`, async () => {
+    it("Should fail when trying to update an approved comment", async () => {
         await expect(
             CommentUtils.updateCommentById(commentId, { status: "Approved" })
         ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to access a non-existing comment`, async () => {
+    it("Should fail when trying to access a non-existing comment", async () => {
         const notFound = { code: 404 };
         await Promise.all([
             expect(
@@ -81,7 +81,7 @@ describe("Test comment utils", () => {
     // SHOULD RESOLVE //
     ////////////////////
 
-    it(`Should create and delete a new comment correctly when auto approve is enabled`, async () => {
+    it("Should create and delete a new comment correctly when auto approve is enabled", async () => {
         const { status, id } = await CommentUtils.createComment({
             pageId,
             author: null,
@@ -111,7 +111,7 @@ describe("Test comment utils", () => {
         ]);
     });
 
-    it(`Should create, update and delete a new comment correctly when auto approve is disabled (the comment was approved)`, async () => {
+    it("Should create, update and delete a new comment correctly when auto approve is disabled (the comment was approved)", async () => {
         await PageUtils.updatePageById(uid, pageId, { autoApprove: false });
         const { status, id } = await CommentUtils.createComment({
             pageId,
@@ -153,7 +153,7 @@ describe("Test comment utils", () => {
         ]);
     });
 
-    it(`Should create and delete a new comment correctly when auto approve is disabled (the comment was not approved)`, async () => {
+    it("Should create and delete a new comment correctly when auto approve is disabled (the comment was not approved)", async () => {
         const { status, id } = await CommentUtils.createComment({
             pageId,
             author: null,
@@ -173,7 +173,7 @@ describe("Test comment utils", () => {
         ]);
     });
 
-    it(`Should be able to delete ALL comments of a page`, async () => {
+    it("Should be able to delete ALL comments of a page", async () => {
         await CommentUtils.deletePageCommentsById(pageId);
         await expect(CommentUtils.listPageCommentsById(pageId)).resolves.toHaveLength(0);
     });
