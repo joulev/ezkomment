@@ -11,11 +11,12 @@ export default function generateCommentHTML(
     const dom = new JSDOM(html);
     const document = dom.window.document;
     const script = document.createElement("script");
+    // All config will be expose here, which is ... bad. How to resolve this?
     script.textContent = `
         import ezkomment from "/v1/js/${
             process.env.NODE_ENV === "production" ? "ezkomment.min.js" : "ezkomment.js"
         }";
-        ezkomment(${config});
+        ezkomment(${JSON.stringify(config)});
     `;
     script.setAttribute("type", "module");
     document.head.appendChild(script);
