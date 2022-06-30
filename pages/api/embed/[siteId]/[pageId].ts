@@ -11,17 +11,14 @@ import { EmbedConfigurations } from "~/types/server/nextApi.type";
 
 import html from "~/constants/sampleCommentCode";
 
-const handler = ncRouter().get((req, res) => {
-    /**
-     * I don't need siteId at the momment.
-     */
+const handler = ncRouter().get(async (req, res) => {
     const { siteId, pageId } = extractFirstQueryValue(req);
     /**
-     * Fetch pageId to get basic metadata? And to checkwhether the page exists or not.
-     * If page does not exist then we throw an error. Status code 404.
+     * Check whether the page exists or not.
+     * If page does not exist then we throw an error with status code 404.
+     * If the ids do not match then we throw an error with status code 403.
      */
-    checkExist(siteId, pageId);
-
+    await checkExist(siteId, pageId);
     /**
      * If the page exists, we will start rendering the comment section.
      * Question: What information do I need to render the section?
