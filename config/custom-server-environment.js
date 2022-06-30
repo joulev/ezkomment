@@ -7,11 +7,10 @@ class CustomServerEnvironment extends NodeEnvironment {
 
     async setup() {
         try {
-            console.log("Check for emulator...");
             await fetch("http://localhost:4400/emulators", { method: "GET" });
             await super.setup();
         } catch (err) {
-            console.log("Emulator is not running at the moment?");
+            console.error("Emulator is not running at the moment?");
             process.exit(1);
         }
         const {
@@ -24,7 +23,7 @@ class CustomServerEnvironment extends NodeEnvironment {
             !FIRESTORE_EMULATOR_HOST ||
             !FIREBASE_STORAGE_EMULATOR_HOST
         ) {
-            console.log("Missing configuration to connect to the emulator");
+            console.error("Missing configuration to connect to the emulator");
             process.exit(1);
         }
     }

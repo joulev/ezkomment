@@ -13,8 +13,12 @@ const serviceAccount = {
 const firebaseAdmin = admin.apps.length
     ? admin.app()
     : initializeApp({
-          credential: cert(serviceAccount),
-          storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+          credential:
+              process.env.NODE_ENV === "test"
+                  ? admin.credential.applicationDefault()
+                  : cert(serviceAccount),
+          storageBucket:
+              process.env.NODE_ENV === "test" ? "test_bucket" : process.env.FIREBASE_STORAGE_BUCKET,
       });
 
 const firestoreAdmin = getFirestore(firebaseAdmin);
