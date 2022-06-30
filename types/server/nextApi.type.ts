@@ -6,7 +6,7 @@ import { NextApiRequest, NextApiResponse } from "next";
  */
 export type ApiMiddleware<
     U extends NextApiRequest = NextApiRequest,
-    V extends ApiResponse = ApiResponse
+    V extends NextApiResponse = NextApiResponse
 > = (req: U, res: V, next: () => Promise<unknown> | unknown) => unknown | Promise<unknown>;
 
 export type ApiError = {
@@ -62,7 +62,11 @@ export type AuthenticatedApiRequestWithFormData = AuthenticatedApiRequest & ApiR
 /**
  * I will probably move this to another file.
  */
-export type embedURLs = {
+export type EmbedConfigurations = {
+    /**
+     * This is required to know which page will the comment belong to.
+     */
+    pageId: string;
     getURL: string;
     postURL: string;
 };
