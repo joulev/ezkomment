@@ -1,10 +1,10 @@
 // We will pass the URL to fetch comments and post comments as keyword argument.
 
-const ezkomment = ({ getURL, postURL }) => {
+const ezkomment = ({ pageId, getURL, postURL }) => {
     let hasFocus = false;
     let isVisible = false;
     let blockValidate = false;
-    let COMMENTDIVCONTENT = "";
+    let commentDivContent = "";
 
     function handler() {
         validate();
@@ -41,13 +41,13 @@ const ezkomment = ({ getURL, postURL }) => {
     async function validate() {
         const comments = await fetch(getURL).then(res => res.json());
         const commentsDiv = document.querySelector("[data-ezk=comments]");
-        if (COMMENTDIVCONTENT === "") COMMENTDIVCONTENT = commentsDiv.innerHTML;
+        if (commentDivContent === "") commentDivContent = commentsDiv.innerHTML;
         commentsDiv.innerHTML =
             comments.length > 0
                 ? ""
                 : "<div>There are no comments yet. Be the first to join the conversation.</div>";
         comments.forEach(({ author, text, date }) => {
-            const commentDocument = new DOMParser().parseFromString(COMMENTDIVCONTENT, "text/html");
+            const commentDocument = new DOMParser().parseFromString(commentDivContent, "text/html");
             const authorEl = commentDocument.querySelector("[data-ezk='comment-author']");
             const contentEl = commentDocument.querySelector("[data-ezk='comment-content']");
             const dateEl = commentDocument.querySelector("[data-ezk='comment-date']");
@@ -63,7 +63,7 @@ const ezkomment = ({ getURL, postURL }) => {
         event.preventDefault();
         const authorField = document.querySelector("[data-ezk='form-author']");
         const commentField = document.querySelector("[data-ezk='form-content']");
-        const comment = { author: authorField.value, text: commentField.value };
+        const comment = { author: authorField.value, text: commentField.value, pageId };
         authorField.value = "";
         commentField.value = "";
         await fetch(postURL, {
@@ -71,6 +71,7 @@ const ezkomment = ({ getURL, postURL }) => {
             body: JSON.stringify(comment),
             headers: { "Content-Type": "application/json" },
         });
+        // This is too expensive.
         await validate();
     }
 
