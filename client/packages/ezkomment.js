@@ -1,4 +1,6 @@
-const ezkomment = apiURL => {
+// We will pass the URL to fetch comments and post comments as keyword argument.
+
+const ezkomment = ({ getURL, postURL }) => {
     let hasFocus = false;
     let isVisible = false;
     let blockValidate = false;
@@ -37,7 +39,7 @@ const ezkomment = apiURL => {
     }
 
     async function validate() {
-        const comments = await fetch(apiURL).then(res => res.json());
+        const comments = await fetch(getURL).then(res => res.json());
         const commentsDiv = document.querySelector("[data-ezk=comments]");
         if (COMMENTDIVCONTENT === "") COMMENTDIVCONTENT = commentsDiv.innerHTML;
         commentsDiv.innerHTML =
@@ -64,7 +66,7 @@ const ezkomment = apiURL => {
         const comment = { author: authorField.value, text: commentField.value };
         authorField.value = "";
         commentField.value = "";
-        await fetch(apiURL, {
+        await fetch(postURL, {
             method: "POST",
             body: JSON.stringify(comment),
             headers: { "Content-Type": "application/json" },
