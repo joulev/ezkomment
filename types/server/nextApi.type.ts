@@ -58,3 +58,11 @@ export type AuthenticatedApiRequest = NextApiRequest & {
 };
 
 export type AuthenticatedApiRequestWithFormData = AuthenticatedApiRequest & ApiRequestWithFormData;
+
+/**
+ * I will probably move this to another file.
+ */
+export type embedURLs = {
+    getURL: string;
+    postURL: string;
+};

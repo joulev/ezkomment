@@ -1,6 +1,8 @@
 import { JSDOM } from "jsdom";
 
-export default function generateCommentHTML(html: string, apiURL: string, isDark?: boolean) {
+import { embedURLs } from "~/types/server/nextApi.type";
+
+export default function generateCommentHTML(html: string, apiURL: embedURLs, isDark?: boolean) {
     if (typeof window !== "undefined") throw new Error("This function should be ran on the server");
     const dom = new JSDOM(html);
     const document = dom.window.document;
