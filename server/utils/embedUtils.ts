@@ -1,3 +1,9 @@
+import rehypePresetMinify from "rehype-preset-minify";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
+
 import { Page } from "~/types/server";
 
 import { PAGES_COLLECTION } from "../firebase/firestoreCollections";
@@ -13,4 +19,13 @@ export async function checkExist(siteId: string, pageId: string) {
     if (pageData.siteId !== siteId) {
         throw new CustomApiError("Ids do not match", 403);
     }
+}
+
+export async function md2html(md: string) {
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkRehype)
+        .use(rehypePresetMinify)
+        .use(rehypeStringify);
+    return String(await processor.process(md));
 }

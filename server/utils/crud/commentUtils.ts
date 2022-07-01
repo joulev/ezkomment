@@ -124,7 +124,7 @@ export async function deleteCommentById(commentId: string) {
 
 export async function listPageCommentsById(pageId: string) {
     const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
-    return commentSnapshots.docs.map(doc => doc.data());
+    return commentSnapshots.docs.map(doc => doc.data()) as Comment[];
 }
 
 /**

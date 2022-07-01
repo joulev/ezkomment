@@ -3,7 +3,7 @@ import { ncRouter } from "~/server/utils/nextHandlerUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
 /**
- * I will move this into `~/server`. Not now
+ * I will move this into `~/server`.
  */
 import generateCommentHTML from "~/client/lib/generateCommentHTML";
 
@@ -25,7 +25,7 @@ const handler = ncRouter().get(async (req, res) => {
      */
     const config: EmbedConfigurations = {
         pageId,
-        getURL: `/api/pages/${pageId}/comments`,
+        getURL: `/api/pages/${pageId}/comments`, // I need to render comments fetched from this route
         postURL: `/api/comments`,
     };
     const generatedHTML = generateCommentHTML(html, config);
