@@ -59,9 +59,10 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
              * With the current implementation, date is a Timestamp object, and will be render
              * as `[object Object]`
              *
-             * I think I will process the data on the server
+             * I think I will process the data on the server.
+             * Format is
              */
-            if (dateEl) dateEl.textContent = date;
+            if (dateEl) dateEl.textContent = new Date(date).toLocaleString("en-GB");
             commentsDiv.innerHTML += commentDocument.body.innerHTML;
         });
         sendFrameHeight();

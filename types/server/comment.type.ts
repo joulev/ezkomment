@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase-admin/firestore";
-
 export type Comment = {
     readonly id: string;
     /**
@@ -7,7 +5,12 @@ export type Comment = {
      */
     readonly author: string | null;
     text: string;
-    date: Timestamp;
+    /**
+     * We will need to sort comments.
+     * Storing the data as Timestamp is not good, as when we read the document we get
+     * { _seconds: number, _nanoseconds: number }
+     */
+    date: number;
     status: ApprovedStatus;
 
     readonly siteId: string;

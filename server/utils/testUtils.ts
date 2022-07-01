@@ -107,7 +107,7 @@ export function createTestComment({
     siteId,
     author = null,
     text = "Naname nanajyuunana-do no narabi de nakunaku inanaku nanahan nanadai nannaku narabete naganagame",
-    date = Timestamp.now(),
+    date = Timestamp.now().toMillis(),
     status = "Approved",
 }: OnlyRequired<Comment, "id" | "pageId" | "siteId">): Comment {
     return { id, author, text, date, status, siteId, pageId };
