@@ -1,5 +1,8 @@
+import { Timestamp } from "firebase-admin/firestore";
+
 import * as PageUtils from "~/server/utils/crud/pageUtils";
 import { deletePageCommentsById, listPageCommentsById } from "~/server/utils/crud/commentUtils";
+import { md2html } from "~/server/utils/embedUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
 import { ClientPage, CreatePageBodyParams, Page, UpdatePageBodyParams } from "~/types/server";
@@ -37,6 +40,15 @@ export async function deletePage(req: AuthenticatedApiRequest, res: ApiResponse)
 
 export async function listPageComments(req: AuthenticatedApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
-    const data = await listPageCommentsById(pageId);
+    const rawData = await listPageCommentsById(pageId);
+    /**
+     * This list of comments must be complied to html
+     */
+    const data = await Promise.all(
+        rawData.map(async comment => {
+            comment.text = await md2html(comment.text);
+            return comment;
+        })
+    );
     res.status(200).json({ message: "Listed all comments", data });
 }

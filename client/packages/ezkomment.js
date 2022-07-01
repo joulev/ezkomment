@@ -79,7 +79,6 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
             body: JSON.stringify(comment),
             headers: { "Content-Type": "application/json" },
         });
-        // This is too expensive.
         await validate();
     }
 
