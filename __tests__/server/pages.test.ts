@@ -42,7 +42,7 @@ describe("Test page utils", () => {
     // SHOULD REJECT //
     ///////////////////
 
-    it(`Should fail when trying to create a new page with a non-existing site`, async () => {
+    it("Should fail when trying to create a new page with a non-existing site", async () => {
         await expect(
             PageUtils.createPage(uid, {
                 url: "https://en.touhouwiki.net/wiki/Flandre_Scarlet",
@@ -53,7 +53,7 @@ describe("Test page utils", () => {
         ).rejects.toMatchObject({ code: 404 });
     });
 
-    it(`Should fail when trying to create a new page with unmatched url`, async () => {
+    it("Should fail when trying to create a new page with unmatched url", async () => {
         await expect(
             PageUtils.createPage(uid, {
                 url: "https://EoSD.com/6",
@@ -64,7 +64,7 @@ describe("Test page utils", () => {
         ).rejects.toMatchObject({ code: 409 });
     });
 
-    it(`Should fail when trying to access a non-existing page`, async () => {
+    it("Should fail when trying to access a non-existing page", async () => {
         const notFound = { code: 404 };
         await Promise.all([
             expect(PageUtils.getPageById(uid, nonExistingPageId)).rejects.toMatchObject(notFound),
@@ -79,7 +79,7 @@ describe("Test page utils", () => {
         ]);
     });
 
-    it(`Should fail when uid does not match`, async () => {
+    it("Should fail when uid does not match", async () => {
         const forbidden = { code: 403 };
         await Promise.all([
             expect(PageUtils.getPageById(nonExistingUid, pageId1)).rejects.toMatchObject(forbidden),
@@ -96,19 +96,19 @@ describe("Test page utils", () => {
     // SHOULD RESOLVE //
     ////////////////////
 
-    it(`Should be able to get page's information`, async () => {
+    it("Should be able to get page's information", async () => {
         await expect(PageUtils.getPageById(uid, pageId1)).resolves.toMatchObject({
             id: pageId1,
             title: pageTitle,
         });
     });
 
-    it(`Should be able to get page's information and its comments`, async () => {
+    it("Should be able to get page's information and its comments", async () => {
         const clientPage = await PageUtils.getClientPageById(uid, pageId2);
         expect(clientPage.comments).toHaveLength(5);
     });
 
-    it(`Should correctly increment pageCount when a page is created`, async () => {
+    it("Should correctly increment pageCount when a page is created", async () => {
         await PageUtils.createPage(uid, {
             siteId,
             url: `${mainSite.domain}/Scarlet_Serenade`,
@@ -119,7 +119,7 @@ describe("Test page utils", () => {
         expect(pageCount).toEqual(6);
     });
 
-    it(`Should delete page correctly`, async () => {
+    it("Should delete page correctly", async () => {
         await PageUtils.deletePageById(uid, pageId1);
         await Promise.all([
             expect(PageUtils.listSitePagesById(siteId)).resolves.toEqual(
@@ -129,7 +129,7 @@ describe("Test page utils", () => {
         ]);
     });
 
-    it(`Should be able to delete ALL pages of a site`, async () => {
+    it("Should be able to delete ALL pages of a site", async () => {
         await PageUtils.deleteSitePagesById(siteId, true);
         await Promise.all([
             expect(PageUtils.listSitePagesById(siteId)).resolves.toHaveLength(0),

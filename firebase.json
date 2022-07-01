@@ -1,24 +1,15 @@
 {
   "firestore": {
-    "rules": "firebase-rules/firestore.rules",
-    "indexes": "firebase-rules/firestore.indexes.json"
+    "rules": "config/jest/firebase/firestore.rules",
+    "indexes": "config/jest/firebase/firestore.indexes.json"
   },
   "storage": {
-    "rules": "firebase-rules/storage.rules"
+    "rules": "config/jest/firebase/storage.rules"
   },
   "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "firestore": {
-      "port": 8080
-    },
-    "storage": {
-      "port": 9199
-    },
-    "ui": {
-      "enabled": true,
-      "port": 4000
-    }
+    "auth": { "port": 9099 },
+    "firestore": { "port": 8080 },
+    "storage": { "port": 9199 },
+    "ui": { "enabled": true, "port": 4000 }
   }
 }
