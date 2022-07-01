@@ -4,22 +4,20 @@ import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 
-const serviceAccount = {
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
-};
-
 const firebaseAdmin = admin.apps.length
     ? admin.app()
-    : initializeApp({
-          credential:
-              process.env.NODE_ENV === "test"
-                  ? admin.credential.applicationDefault()
-                  : cert(serviceAccount),
-          storageBucket:
-              process.env.NODE_ENV === "test" ? "test_bucket" : process.env.FIREBASE_STORAGE_BUCKET,
-      });
+    : initializeApp(
+          process.env.NODE_ENV === "test"
+              ? { projectId: "demo-proj", storageBucket: "demo-proj.appspot.com" }
+              : {
+                    credential: cert({
+                        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+                        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                        privateKey: process.env.FIREBASE_PRIVATE_KEY,
+                    }),
+                    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+                }
+      );
 
 const firestoreAdmin = getFirestore(firebaseAdmin);
 const authAdmin = getAuth(firebaseAdmin);
