@@ -37,7 +37,7 @@ export async function createComment(data: CreateCommentBodyParams) {
             const siteRef = SITES_COLLECTION.doc(pageData.siteId);
             const newComment: Comment = {
                 id: commentId,
-                date: Timestamp.now(),
+                date: Timestamp.now().toMillis(),
                 status: pageData.autoApprove ? "Approved" : ("Pending" as ApprovedStatus),
                 siteId: pageData.siteId, // I will save a reference to the site for easier update
                 ...data,
@@ -49,6 +49,7 @@ export async function createComment(data: CreateCommentBodyParams) {
             t.update(siteRef, updateCommentCount);
             t.update(pageRef, updateCommentCount);
             t.create(commentRef, newComment);
+            console.dir(newComment, { depth: null });
             return newComment;
         });
     } catch (err) {
@@ -124,7 +125,8 @@ export async function deleteCommentById(commentId: string) {
 
 export async function listPageCommentsById(pageId: string) {
     const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
-    return commentSnapshots.docs.map(doc => doc.data()) as Comment[];
+    const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
+    return data.sort((c1, c2) => c2.date - c1.date);
 }
 
 /**

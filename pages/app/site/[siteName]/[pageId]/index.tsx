@@ -50,9 +50,9 @@ const Comments: FC<CommentsProps> = ({ comments, children }) => (
               "text-muted sm:relative before:hidden sm:before:block",
               "before:absolute before:content-['•'] before:-left-3 before:-translate-x-1/2"
             )}
-            title={comment.date.toDate().toISOString()}
+            title={new Date(comment.date).toISOString()}
           >
-            {formatDistanceToNowStrict(comment.date.toDate())} ago
+            {formatDistanceToNowStrict(new Date(comment.date))} ago
           </time>
         </div>
         <div>{comment.text}</div>

@@ -56,7 +56,12 @@ export async function getClientPageById(uid: string, pageId: string) {
     return await firestoreAdmin.runTransaction(async t => {
         const pageData = await getPageOrThrowInTransaction(t, uid, pageRef);
         const { docs } = await t.get(COMMENTS_COLLECTION.where("pageId", "==", pageId));
-        const comments = docs.map(doc => doc.data()) as Comment[];
+        /**
+         * Should the user see the raw comment?
+         */
+        const comments = (docs.map(doc => doc.data()) as Comment[]).sort(
+            (c1, c2) => c2.date - c1.date
+        );
         const clientPageData: ClientPage = { ...pageData, comments };
         return clientPageData;
     });
