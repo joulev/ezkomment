@@ -39,7 +39,9 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
     }
 
     async function validate() {
-        const comments = await fetch(getURL).then(res => res.json());
+        const response = await fetch(getURL).then(res => res.json());
+        console.dir(response, { depth: null });
+        const comments = response.data;
         const commentsDiv = document.querySelector("[data-ezk=comments]");
         if (commentDivContent === "") commentDivContent = commentsDiv.innerHTML;
         commentsDiv.innerHTML =
@@ -53,6 +55,12 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
             const dateEl = commentDocument.querySelector("[data-ezk='comment-date']");
             if (authorEl) authorEl.textContent = author && author.length > 0 ? author : "Anonymous";
             if (contentEl) contentEl.innerHTML = text; // already rendered safely on server side
+            /**
+             * With the current implementation, date is a Timestamp object, and will be render
+             * as `[object Object]`
+             *
+             * I think I will process the data on the server
+             */
             if (dateEl) dateEl.textContent = date;
             commentsDiv.innerHTML += commentDocument.body.innerHTML;
         });
