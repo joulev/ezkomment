@@ -49,7 +49,6 @@ export async function createComment(data: CreateCommentBodyParams) {
             t.update(siteRef, updateCommentCount);
             t.update(pageRef, updateCommentCount);
             t.create(commentRef, newComment);
-            console.dir(newComment, { depth: null });
             return newComment;
         });
     } catch (err) {

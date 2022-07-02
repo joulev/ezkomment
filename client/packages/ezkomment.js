@@ -4,7 +4,7 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
     let hasFocus = false;
     let isVisible = false;
     let blockValidate = false;
-    let commentDivContent = "";
+    let COMMENTDIVCONTENT = "";
 
     function handler() {
         validate();
@@ -39,17 +39,15 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
     }
 
     async function validate() {
-        const response = await fetch(getURL).then(res => res.json());
-        console.dir(response, { depth: null });
-        const comments = response.data;
+        const { data: comments } = await fetch(getURL).then(res => res.json());
         const commentsDiv = document.querySelector("[data-ezk=comments]");
-        if (commentDivContent === "") commentDivContent = commentsDiv.innerHTML;
+        if (COMMENTDIVCONTENT === "") COMMENTDIVCONTENT = commentsDiv.innerHTML;
         commentsDiv.innerHTML =
             comments.length > 0
                 ? ""
                 : "<div>There are no comments yet. Be the first to join the conversation.</div>";
         comments.forEach(({ author, text, date }) => {
-            const commentDocument = new DOMParser().parseFromString(commentDivContent, "text/html");
+            const commentDocument = new DOMParser().parseFromString(COMMENTDIVCONTENT, "text/html");
             const authorEl = commentDocument.querySelector("[data-ezk='comment-author']");
             const contentEl = commentDocument.querySelector("[data-ezk='comment-content']");
             const dateEl = commentDocument.querySelector("[data-ezk='comment-date']");
