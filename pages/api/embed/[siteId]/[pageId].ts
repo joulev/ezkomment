@@ -1,11 +1,6 @@
-import { checkExist } from "~/server/utils/embedUtils";
+import { checkExist, generateCommentHTML } from "~/server/utils/embedUtils";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
-
-/**
- * I will move this into `~/server`.
- */
-import generateCommentHTML from "~/client/lib/generateCommentHTML";
 
 import { EmbedConfigurations } from "~/types/server/nextApi.type";
 
@@ -21,11 +16,10 @@ const handler = ncRouter().get(async (req, res) => {
     await checkExist(siteId, pageId);
     /**
      * If the page exists, we will start rendering the comment section.
-     * Question: What information do I need to render the section?
      */
     const config: EmbedConfigurations = {
         pageId,
-        getURL: `/api/pages/${pageId}/comments`, // I need to render comments fetched from this route
+        getURL: `/api/pages/${pageId}/comments`,
         postURL: `/api/comments`,
     };
     const generatedHTML = generateCommentHTML(html, config);

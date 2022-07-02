@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase-admin/firestore";
-
 import * as PageUtils from "~/server/utils/crud/pageUtils";
 import { deletePageCommentsById, listPageCommentsById } from "~/server/utils/crud/commentUtils";
 import { md2html } from "~/server/utils/embedUtils";
@@ -11,8 +9,11 @@ import { ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.typ
 export async function getPage(req: AuthenticatedApiRequest, res: ApiResponse<ClientPage>) {
     const { uid } = req.user;
     const { pageId } = extractFirstQueryValue(req);
-    const data = await PageUtils.getClientPageById(uid, pageId);
-    res.status(200).json({ message: "Got page information", data });
+    const { comments: rawComments, ...rest } = await PageUtils.getClientPageById(uid, pageId);
+    const comments = await Promise.all(
+        rawComments.map(async ({ text, ...rest }) => ({ text: await md2html(text), ...rest }))
+    );
+    res.status(200).json({ message: "Got page information", data: { comments, ...rest } });
 }
 
 export async function createPage(req: AuthenticatedApiRequest, res: ApiResponse<Page>) {
@@ -45,10 +46,7 @@ export async function listPageComments(req: AuthenticatedApiRequest, res: ApiRes
      * This list of comments must be complied to html
      */
     const data = await Promise.all(
-        rawData.map(async comment => {
-            comment.text = await md2html(comment.text);
-            return comment;
-        })
+        rawData.map(async ({ text, ...rest }) => ({ text: await md2html(text), ...rest }))
     );
     res.status(200).json({ message: "Listed all comments", data });
 }
