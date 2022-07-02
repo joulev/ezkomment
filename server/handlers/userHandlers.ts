@@ -2,7 +2,7 @@ import { UpdateRequest } from "firebase-admin/auth";
 import { NextApiRequest } from "next";
 
 import * as userUtils from "~/server/utils/crud/userUtils";
-import { deleteUserPhotoById } from "~/server/utils/crud/imageUtils";
+import { deleteUserPhoto } from "~/server/utils/crud/imageUtils";
 import { deleteUserSitesById, listUserSitesById } from "~/server/utils/crud/siteUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
@@ -31,7 +31,7 @@ export async function deleteUser(req: NextApiRequest, res: ApiResponse) {
     await userUtils.deleteUserById(uid);
     // If the user exists, then
     await Promise.all([
-        deleteUserPhotoById(uid), // delete photo
+        deleteUserPhoto(uid), // delete photo
         deleteUserSitesById(uid), // delete ALL sites
     ]);
     res.status(200).json({ message: "Deleted user" });

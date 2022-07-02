@@ -1,8 +1,4 @@
-import {
-    getImagePublicUrl,
-    uploadSiteIconById,
-    uploadUserPhotoById,
-} from "~/server/utils/crud/imageUtils";
+import { UploadSiteIconUtil, UploadUserPhotoUtil } from "~/server/utils/crud/imageUtils";
 import { updateSiteById } from "~/server/utils/crud/siteUtils";
 import { updateUserById } from "~/server/utils/crud/userUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
@@ -15,10 +11,10 @@ import {
 
 export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
-    const imgName = `users/${uid}`;
-    const photoURL = getImagePublicUrl(imgName);
+    const util = new UploadUserPhotoUtil();
+    const photoURL = util.getUserPhotoUrl(uid);
     await updateUserById(uid, { photoURL });
-    await uploadUserPhotoById(uid, req.file);
+    await util.uploadUserPhoto(uid, req.file);
     res.status(201).json({
         message: "Uploaded user's photo",
         data: { photoURL },
@@ -28,10 +24,10 @@ export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiRespo
 export async function uploadSiteIcon(req: AuthenticatedApiRequestWithFormData, res: ApiResponse) {
     const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
-    const imgName = `sites/${siteId}`;
-    const iconURL = getImagePublicUrl(imgName);
+    const util = new UploadSiteIconUtil();
+    const iconURL = util.getSiteIconUrl(siteId);
     await updateSiteById(uid, siteId, { iconURL });
-    await uploadSiteIconById(siteId, req.file);
+    await util.uploadSiteIcon(siteId, req.file);
     res.status(201).json({
         message: "Uploaded site's icon",
         data: { iconURL },

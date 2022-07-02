@@ -1,5 +1,5 @@
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
-import { deleteSiteIconById } from "~/server/utils/crud/imageUtils";
+import { deleteSiteIcon } from "~/server/utils/crud/imageUtils";
 import { deleteSitePagesById, listSitePagesById } from "~/server/utils/crud/pageUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
@@ -33,7 +33,7 @@ export async function deleteSite(req: AuthenticatedApiRequest, res: ApiResponse)
     const { siteId } = extractFirstQueryValue(req);
     await SiteUtils.deleteSiteById(uid, siteId);
     await Promise.all([
-        deleteSiteIconById(siteId), // delete icon
+        deleteSiteIcon(siteId), // delete icon
         deleteSitePagesById(siteId), // delete ALL pages
     ]);
     res.status(200).json({ message: "Deleted site" });

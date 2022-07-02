@@ -1,41 +1,75 @@
+import { randomUUID } from "crypto";
+
 import { bucketAdmin } from "~/server/firebase/firebaseAdmin";
 import CustomApiError from "~/server/utils/errors/customApiError";
 
 import { FormDataFile } from "~/types/server/nextApi.type";
 
-export function getImagePublicUrl(imgName: string) {
-    const url = bucketAdmin.file(imgName).publicUrl();
-    if (process.env.NODE_ENV === "development") {
-        console.log("url: " + url);
+class UploadImageUtil {
+    private readonly uuid: string;
+    private static readonly bucket: string = process.env.FIREBASE_STORAGE_BUCKET as string;
+
+    protected constructor() {
+        this.uuid = randomUUID();
     }
-    return url;
-}
 
-export async function uploadImage(imgName: string, file?: FormDataFile) {
-    if (!file) {
-        throw new CustomApiError("No file to upload", 400);
+    protected getImageUrl(imgName: string) {
+        const url = `https://firebasestorage.googleapis.com/v0/b/${
+            UploadImageUtil.bucket
+        }/o/${encodeURIComponent(imgName)}?alt=media&token=${this.uuid}`;
+        if (process.env.NODE_ENV === "development") console.log("url: " + url);
+        return url;
     }
-    const { mimetype, buffer } = file;
-    const blob = bucketAdmin.file(imgName);
-    await blob.save(buffer, { contentType: mimetype });
-    const [metadata] = await blob.makePublic();
-    if (process.env.NODE_ENV === "development") {
-        console.log("uploaded image!");
-        console.log("minetype: " + mimetype);
-        console.log("metadata: ");
-        console.dir(metadata, { depth: null });
+
+    protected async uploadImage(imgName: string, file?: FormDataFile) {
+        if (!file) {
+            throw new CustomApiError("No file to upload", 400);
+        }
+        const { mimetype, buffer } = file;
+        const blob = bucketAdmin.file(imgName);
+        await blob.save(buffer, { contentType: mimetype });
+        await blob.setMetadata({
+            metadata: {
+                firebaseStorageDownloadTokens: this.uuid,
+            },
+        });
+        // const [metadata] = await blob.makePublic();
+        if (process.env.NODE_ENV === "development") {
+            console.log("uploaded image!");
+            console.log("minetype: " + mimetype);
+        }
     }
 }
 
-export async function uploadUserPhotoById(uid: string, file?: FormDataFile) {
-    return await uploadImage(`users/${uid}`, file);
+export class UploadUserPhotoUtil extends UploadImageUtil {
+    constructor() {
+        super();
+    }
+
+    getUserPhotoUrl(uid: string) {
+        return this.getImageUrl(`users/${uid}`);
+    }
+
+    async uploadUserPhoto(uid: string, file?: FormDataFile) {
+        return await this.uploadImage(`users/${uid}`, file);
+    }
 }
 
-export async function uploadSiteIconById(siteId: string, file?: FormDataFile) {
-    return await uploadImage(`sites/${siteId}`, file);
+export class UploadSiteIconUtil extends UploadImageUtil {
+    constructor() {
+        super();
+    }
+
+    getSiteIconUrl(siteId: string) {
+        return this.getImageUrl(`sites/${siteId}`);
+    }
+
+    async uploadSiteIcon(siteId: string, file?: FormDataFile) {
+        return await this.uploadImage(`sites/${siteId}`, file);
+    }
 }
 
-export async function deleteImage(imgName: string) {
+async function deleteImage(imgName: string) {
     const blob = bucketAdmin.file(imgName);
     const [{ statusCode, body, statusMessage }] = await blob.delete({ ignoreNotFound: true });
     if (process.env.NODE_ENV === "development") {
@@ -47,10 +81,10 @@ export async function deleteImage(imgName: string) {
     }
 }
 
-export async function deleteUserPhotoById(uid: string) {
-    return await deleteImage(`users/${uid}`);
+export async function deleteSiteIcon(siteId: string) {
+    return await deleteImage(`sites/${siteId}`);
 }
 
-export async function deleteSiteIconById(siteId: string) {
-    return await deleteImage(`sites/${siteId}`);
+export async function deleteUserPhoto(uid: string) {
+    return await deleteImage(`users/${uid}`);
 }
