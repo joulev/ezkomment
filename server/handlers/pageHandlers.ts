@@ -1,6 +1,6 @@
 import * as PageUtils from "~/server/utils/crud/pageUtils";
 import { deletePageCommentsById, listPageCommentsById } from "~/server/utils/crud/commentUtils";
-import { md2html } from "~/server/utils/embedUtils";
+import { compileComments2html } from "~/server/utils/embedUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
 import { ClientPage, CreatePageBodyParams, Page, UpdatePageBodyParams } from "~/types/server";
@@ -10,9 +10,7 @@ export async function getPage(req: AuthenticatedApiRequest, res: ApiResponse<Cli
     const { uid } = req.user;
     const { pageId } = extractFirstQueryValue(req);
     const { comments: rawComments, ...rest } = await PageUtils.getClientPageById(uid, pageId);
-    const comments = await Promise.all(
-        rawComments.map(async ({ text, ...rest }) => ({ text: await md2html(text), ...rest }))
-    );
+    const comments = await compileComments2html(rawComments);
     res.status(200).json({ message: "Got page information", data: { comments, ...rest } });
 }
 
@@ -41,12 +39,9 @@ export async function deletePage(req: AuthenticatedApiRequest, res: ApiResponse)
 
 export async function listPageComments(req: AuthenticatedApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
-    const rawData = await listPageCommentsById(pageId);
+    const data = await listPageCommentsById(pageId).then(compileComments2html);
     /**
      * This list of comments must be complied to html
      */
-    const data = await Promise.all(
-        rawData.map(async ({ text, ...rest }) => ({ text: await md2html(text), ...rest }))
-    );
     res.status(200).json({ message: "Listed all comments", data });
 }

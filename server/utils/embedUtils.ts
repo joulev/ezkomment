@@ -5,7 +5,7 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
-import { Page } from "~/types/server";
+import { Comment, Page } from "~/types/server";
 import { EmbedConfigurations } from "~/types/server/nextApi.type";
 
 import { PAGES_COLLECTION } from "../firebase/firestoreCollections";
@@ -30,6 +30,17 @@ export async function md2html(md: string) {
         .use(rehypePresetMinify)
         .use(rehypeStringify);
     return String(await processor.process(md));
+}
+
+export async function compileComments2html(comments: Comment[]) {
+    return await Promise.all(
+        comments.map(async ({ text, ...rest }) => {
+            return {
+                text: await md2html(text),
+                ...rest,
+            };
+        })
+    );
 }
 
 export function generateCommentHTML(html: string, config: EmbedConfigurations, isDark?: boolean) {
