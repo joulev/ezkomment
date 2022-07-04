@@ -33,7 +33,7 @@ export async function logError(err: unknown) {
  * @returns A mapping of keys and values
  */
 export function extractFirstQueryValue(req: NextApiRequest) {
-    const values: Record<string, string> = {};
+    const values: Record<string, any> = {};
     for (const [k, v] of Object.entries(req.query)) {
         values[k] = Array.isArray(v) ? v[0] : v;
     }
