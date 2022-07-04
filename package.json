@@ -35,7 +35,7 @@
     "json5": "^2.2.1",
     "monaco-editor": "^0.33.0",
     "multer": "^1.4.5-lts.1",
-    "next": "^12.1.6",
+    "next": "^12.2.0",
     "next-connect": "^0.12.2",
     "next-seo": "^5.4.0",
     "nprogress": "^0.2.0",
