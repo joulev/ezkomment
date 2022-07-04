@@ -1,7 +1,7 @@
 import * as UserUtils from "~/server/utils/crud/userUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
-import { nonExistingUid } from "~/sample/server/nonExistingIds.json";
+const { nonExistingUid } = nonExistingId;
 
 describe("Test user utils", () => {
     const uid = TestUtils.randomUUID();

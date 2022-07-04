@@ -26,6 +26,13 @@ class CustomServerEnvironment extends NodeEnvironment {
             console.error("Missing configuration to connect to the emulator");
             process.exit(1);
         }
+
+        this.global.nonExistingId = {
+            nonExistingUid: "u5",
+            nonExistingSiteId: "s5",
+            nonExistingPageId: "p5",
+            nonExistingCommentId: "c5",
+        };
     }
 }
 

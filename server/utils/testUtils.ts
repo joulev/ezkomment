@@ -116,6 +116,7 @@ export function createTestComment({
 /**
  * Creates test entities, write them into files.
  * istanbul ignore next
+ * @deprecated Update the custom server environment instead
  */
 export function generateTestData() {
     const NUMBER_OF_SAMPLES = 5;
