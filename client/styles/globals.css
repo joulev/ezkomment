@@ -113,6 +113,9 @@
     .post {
         @apply print:text-[10pt] print:text-black print:text-justify;
     }
+    .post p:last-child {
+        @apply mb-0;
+    }
     .post h1 {
         @apply mb-12 print:text-[24pt];
     }

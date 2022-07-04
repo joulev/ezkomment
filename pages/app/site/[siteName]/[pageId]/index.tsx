@@ -55,7 +55,7 @@ const Comments: FC<CommentsProps> = ({ comments, children }) => (
             {formatDistanceToNowStrict(new Date(comment.date))} ago
           </time>
         </div>
-        <div>{comment.text}</div>
+        <div dangerouslySetInnerHTML={{ __html: comment.text }} className="post" />
         {children && <div className="absolute right-3 top-3">{children}</div>}
       </div>
     ))}
