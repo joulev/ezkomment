@@ -35,7 +35,7 @@ const CopiableCode: FC<CopiableCodeProps> = ({ content, className }) => {
       }}
     >
       <div className="px-3 py-1.5 flex-1 overflow-x-scroll no-scrollbar">
-        <code className="whitespace-nowrap">{content}</code>
+        <code className="whitespace-nowrap text-sm">{content}</code>
       </div>
       <button
         className={clsx(

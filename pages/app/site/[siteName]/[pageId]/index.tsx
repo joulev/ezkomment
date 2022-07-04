@@ -14,6 +14,7 @@ import pagePages from "~/client/components/app/handlePage";
 import Banner from "~/client/components/banner";
 import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
+import CopiableCode from "~/client/components/copiableCode";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 
@@ -146,6 +147,18 @@ const Content: FC = () => {
         </A>
       </div>
       <hr />
+      <section>
+        <h2>Your comment section is live!</h2>
+        <p>It is available at</p>
+        <CopiableCode
+          content={`https://ezkomment.joulev.dev/embed/${page.siteId}/${page.id}`}
+          className="mb-6"
+        />
+        <p>
+          You can now use it to <A href="https://google.com">embed to your webpage</A>.
+        </p>
+      </section>
+      <hr />
       <Banner variant="warning" className="mb-9">
         Beware that if you remove a comment, <strong>that is irreversible</strong> and it will be
         gone forever.
@@ -154,6 +167,7 @@ const Content: FC = () => {
         <h2>Pending comments</h2>
         <PendingComments page={page} handleDelete={handleDelete} />
       </section>
+      <hr />
       <section>
         <h2>Approved comments</h2>
         <ApprovedComments page={page} handleDelete={handleDelete} />
