@@ -52,14 +52,8 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
             const contentEl = commentDocument.querySelector("[data-ezk='comment-content']");
             const dateEl = commentDocument.querySelector("[data-ezk='comment-date']");
             if (authorEl) authorEl.textContent = author && author.length > 0 ? author : "Anonymous";
-            if (contentEl) contentEl.innerHTML = text; // already rendered safely on server side
-            /**
-             * With the current implementation, date is a Timestamp object, and will be render
-             * as `[object Object]`
-             *
-             * I think I will process the data on the server.
-             * Format is
-             */
+            if (contentEl)
+                contentEl.innerHTML = text && text.length > 0 ? text : "(no comment body)"; // already rendered safely on server side
             if (dateEl) dateEl.textContent = new Date(date).toLocaleString("en-GB");
             commentsDiv.innerHTML += commentDocument.body.innerHTML;
         });

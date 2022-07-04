@@ -1,5 +1,7 @@
 import { JSDOM } from "jsdom";
 import rehypePresetMinify from "rehype-preset-minify";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -26,20 +28,17 @@ export async function checkExist(siteId: string, pageId: string) {
 export async function md2html(md: string) {
     const processor = unified()
         .use(remarkParse)
-        .use(remarkRehype)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
+        .use(rehypeSanitize)
         .use(rehypePresetMinify)
         .use(rehypeStringify);
     return String(await processor.process(md));
 }
 
-export async function compileComments2html(comments: Comment[]) {
-    return await Promise.all(
-        comments.map(async ({ text, ...rest }) => {
-            return {
-                text: await md2html(text),
-                ...rest,
-            };
-        })
+export function compileComments2html(comments: Comment[]) {
+    return Promise.all(
+        comments.map(async ({ text, ...rest }) => ({ text: await md2html(text), ...rest }))
     );
 }
 
