@@ -109,7 +109,7 @@ const ApprovedComments: FC<{ page: ClientPage; handleDelete: () => void }> = ({
   return (
     <>
       <p>
-        These comments are now live and visible to all visitors of the myPage. However you can still
+        These comments are now live and visible to all visitors of the page. However you can still
         delete any comments you want.
       </p>
       <Comments comments={approvedComments}>
