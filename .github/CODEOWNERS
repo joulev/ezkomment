@@ -4,7 +4,7 @@
 /types/client/                          @joulev
 
 /config/monaco.ts                       @joulev
-/config/svgJestTransformer.js           @joulev
+/config/jest/svgMock.js                 @joulev
 /config/tailwindTheme.js                @joulev
 /public/                                @joulev
 /jest.client.config.js                  @joulev
@@ -19,10 +19,8 @@
 /__tests__/server/                      @VietAnh1010
 /types/server/                          @VietAnh1010
 
-/config/custom-server-environment.js    @VietAnh1010
-/firebase-rules/                        @VietAnh1010
-/sample/                                @VietAnh1010
-/.firebaserc                            @VietAnh1010
+/config/jest/serverEnv.js               @VietAnh1010
+/config/jest/firebase/                  @VietAnh1010
 /firebase.json                          @VietAnh1010
 /jest.server.config.js                  @VietAnh1010
 
