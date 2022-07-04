@@ -30,5 +30,5 @@ $ yarn test:ci  # run all unit tests
 
 - [Production deployment](https://ezkomment.joulev.dev)
 - [Development deployment](https://ezkdev.joulev.dev)
-- [(not working) Demo](https://ezkdev.joulev.dev/sample/index.html)
+- [Demo](https://ezkdev.joulev.dev/sample/index.html)
 - [ezkomment is a NUS Orbital 2022 project](https://ezkdev.joulev.dev/orbital)
