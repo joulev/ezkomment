@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
@@ -17,7 +16,6 @@ const scrollThreshold = 300;
 
 const PublicNavbar: FC = () => {
   const breakpoint = useBreakpoint();
-  const router = useRouter();
 
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => setScrollY(window.scrollY);
@@ -40,11 +38,7 @@ const PublicNavbar: FC = () => {
           "container flex flex-row justify-between items-center transition-all overflow-hidden"
         )}
       >
-        <A
-          className="logo-width"
-          href={router.pathname === "/" ? undefined : "/"}
-          onClick={() => router.pathname === "/" && window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
+        <A className="logo-width" href="/">
           <Image src={logoText} alt="logo" layout="responsive" />
         </A>
         <Button

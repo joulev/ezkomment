@@ -1,7 +1,5 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import mockRouter from "next-router-mock";
 import { FC, ReactNode } from "react";
 
 import BreakpointContext from "~/client/context/breakpoint";
@@ -9,9 +7,6 @@ import { useBreakpointInit } from "~/client/hooks/breakpoint";
 import setupMediaViewport from "~/client/lib/tests/setupMediaViewport";
 
 import Nav from "~/client/components/navbar";
-
-jest.mock("next/router", () => require("next-router-mock"));
-jest.mock("next/dist/client/router", () => require("next-router-mock"));
 
 jest.mock(
   "next/image",
@@ -21,37 +16,6 @@ jest.mock(
       return <img src={src} alt={alt} />;
     }
 );
-
-describe("Test home navbar behaviour when clicking on the button", () => {
-  it("Scroll to top if at /", async () => {
-    window.scrollTo = jest.fn();
-    mockRouter.setCurrentUrl("/");
-    const user = userEvent.setup();
-
-    expect(() => render(<Nav />)).not.toThrow();
-
-    const logo = document.getElementsByClassName("logo-width")[0];
-    expect(logo).toBeInTheDocument();
-
-    expect(logo).not.toHaveAttribute("href");
-    await user.click(logo);
-    expect(window.scrollTo).toHaveBeenCalled();
-  });
-
-  it("Navigate to / if not at /", async () => {
-    mockRouter.setCurrentUrl("/something");
-    const user = userEvent.setup();
-
-    expect(() => render(<Nav />)).not.toThrow();
-
-    const logo = document.getElementsByClassName("logo-width")[0];
-    expect(logo).toBeInTheDocument();
-
-    expect(logo).toHaveAttribute("href", "/");
-    await user.click(logo);
-    expect(mockRouter.pathname).toBe("/");
-  });
-});
 
 describe("Test home navbar display on different positions", () => {
   it("Should not be displayed if and only if scrollTop is too small", () => {

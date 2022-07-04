@@ -37,8 +37,6 @@ const Component: FC<Props> = ({ authors, wordCount }) => (
   </BlogLayout>
 );
 
-jest.mock("next/router", () => require("next-router-mock"));
-
 describe("Blog layout component", () => {
   it("Render", () => {
     render(<Component />);
