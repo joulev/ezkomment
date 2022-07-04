@@ -1,5 +1,5 @@
 declare module globalThis {
-    const nonExistingId: {
+    const nonExistingIds: {
         nonExistingUid: string;
         nonExistingSiteId: string;
         nonExistingPageId: string;

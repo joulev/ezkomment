@@ -3,7 +3,7 @@ import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
-const { nonExistingCommentId, nonExistingPageId } = nonExistingId;
+const { nonExistingCommentId, nonExistingPageId } = nonExistingIds;
 
 describe("Test comment utils", () => {
     const uid = TestUtils.randomUUID();
