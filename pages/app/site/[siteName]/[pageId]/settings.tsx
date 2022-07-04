@@ -19,7 +19,6 @@ import { internalFetcher } from "~/client/lib/fetcher";
 import A from "~/client/components/anchor";
 import pagePages from "~/client/components/app/handlePage";
 import AuthError from "~/client/components/auth/error";
-import Banner from "~/client/components/banner";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import Input, { InputDetachedLabel } from "~/client/components/forms/input";
@@ -167,15 +166,10 @@ const UpdateAutoApprove: FC = () => {
         If you enable auto-approval, all comments posted to this page will automatically be approved
         and visible to everyone.
       </p>
-      <p>
-        You are currently having auto-approval{" "}
-        <strong>{page.autoApprove ? "enabled" : "disabled"}</strong>.
-      </p>
-      {page.autoApprove && (
-        <Banner variant="warning" className="mb-6">
-          Beware of the possibilities of spam and abuse if you enable this.
-        </Banner>
-      )}
+      <div className="mb-6 flex flex-row gap-6">
+        <span className="text-muted">Auto-approval status:</span>
+        <strong>{page.autoApprove ? "Enabled" : "Disabled"}</strong>
+      </div>
       <RightAligned>
         <Button
           icon={page.autoApprove ? ClearOutlinedIcon : CheckOutlinedIcon}

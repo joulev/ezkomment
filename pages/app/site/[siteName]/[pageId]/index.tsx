@@ -11,7 +11,6 @@ import { usePage } from "~/client/hooks/page";
 
 import A from "~/client/components/anchor";
 import pagePages from "~/client/components/app/handlePage";
-import Banner from "~/client/components/banner";
 import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
@@ -110,7 +109,7 @@ const ApprovedComments: FC<{ page: ClientPage; handleDelete: () => void }> = ({
     <>
       <p>
         These comments are now live and visible to all visitors of the page. However you can still
-        delete any comments you want.
+        delete any comments you want. Do note that deleted comments are irrecoverable.
       </p>
       <Comments comments={approvedComments}>
         <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDelete} />
@@ -159,10 +158,6 @@ const Content: FC = () => {
         </p>
       </section>
       <hr />
-      <Banner variant="warning" className="mb-9">
-        Beware that if you remove a comment, <strong>that is irreversible</strong> and it will be
-        gone forever.
-      </Banner>
       <section className="mb-9">
         <h2>Pending comments</h2>
         <PendingComments page={page} handleDelete={handleDelete} />
