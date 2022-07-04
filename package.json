@@ -73,7 +73,7 @@
     "@types/prismjs": "^1.26.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "^18.0.5",
-    "@types/validator": "^13.7.3",
+    "@types/validator": "^13.7.4",
     "autoprefixer": "^10.4.7",
     "eslint": "^8.18.0",
     "eslint-config-next": "^12.1.6",
