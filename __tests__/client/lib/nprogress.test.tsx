@@ -1,25 +1,16 @@
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Link from "next/link";
 import { FC } from "react";
 
-import useNProgress, { endProgress, startProgress } from "~/client/hooks/nprogress";
+import { endProgress, startProgress } from "~/client/lib/nprogress";
 
-jest.mock("next/dist/client/router", () => require("next-router-mock"));
-
-const Component: FC = () => {
-  useNProgress();
-  return (
-    <div>
-      <Link href="/">
-        <a>Link</a>
-      </Link>
-      <button onClick={startProgress}>Start</button>
-      <button onClick={endProgress}>End</button>
-    </div>
-  );
-};
+const Component: FC = () => (
+  <div>
+    <button onClick={startProgress}>Start</button>
+    <button onClick={endProgress}>End</button>
+  </div>
+);
 
 describe("Test `nprogress` hooks", () => {
   beforeEach(() => {
@@ -28,16 +19,6 @@ describe("Test `nprogress` hooks", () => {
 
   afterEach(() => {
     document.body.innerHTML = "";
-  });
-
-  it("Interaction with `next/link`", async () => {
-    const progressContainer = () => document.getElementById("nprogress");
-    const user = userEvent.setup();
-
-    expect(progressContainer()).toBeNull();
-    await user.click(screen.getByText("Link"));
-    expect(progressContainer()).not.toBeNull();
-    waitFor(() => expect(progressContainer()).toBeNull());
   });
 
   it("Interaction with `startProgress` and `endProgress` triggers", async () => {

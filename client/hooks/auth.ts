@@ -6,11 +6,10 @@ import useSWR from "swr";
 import AuthContext from "~/client/context/auth";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 import firebaseApp from "~/client/lib/firebase/app";
+import { endProgress, startProgress } from "~/client/lib/nprogress";
 
 import { AppAuth } from "~/types/client/auth.type";
 import { ClientUser } from "~/types/server";
-
-import { endProgress, startProgress } from "./nprogress";
 
 const auth = getAuth(firebaseApp);
 
