@@ -1,5 +1,6 @@
 import rehypeSlug from "rehype-slug";
 import remarkPrism from "remark-prism";
+import remarkToc from "remark-toc";
 
 /**
  * @type {import("next").NextConfig}
@@ -38,7 +39,7 @@ const nextConfig = {
           /** @type {import("@mdx-js/loader").Options} */
           options: {
             rehypePlugins: [rehypeSlug],
-            remarkPlugins: [remarkPrism],
+            remarkPlugins: [remarkPrism, remarkToc],
             providerImportSource: "@mdx-js/react",
           },
         },

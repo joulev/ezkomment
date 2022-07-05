@@ -16,7 +16,7 @@ const PostHeading: FC<PostHeadingProps & { level: number }> = ({ level, id, chil
   const HeadingTag: keyof JSX.IntrinsicElements = `h${level as 1 | 2 | 3 | 4 | 5 | 6}`;
   return (
     <HeadingTag id={id} className="relative group">
-      {typeof children === "string" && children.endsWith(" |updated|") ? (
+      {typeof children === "string" && children.endsWith(" (updated)") ? (
         <>
           {children.substring(0, children.length - 10)}
           <UpdatedLabel />

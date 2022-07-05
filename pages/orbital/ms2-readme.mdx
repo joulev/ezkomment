@@ -31,6 +31,8 @@ export default function ({ image, children }) {
 
 > The Milestone 2 README is written on top of [Milestone 1 README](/orbital/ms1-readme). Probably you do not want to read the whole thing again, so look out for headings with an "updated" label: they are modified after Milestone 1.
 
+## Table of Contents
+
 ## Team Information
 
 - **Application/team name:** ezkomment
@@ -125,7 +127,7 @@ Users may find this not secure enough, as their teammates can always leak the UR
 
 However, if a user _truly_, _really_ want to integrate an authentication system, he can always use [the API routes](#application-programming-interface). Instead of exposing those routes directly, he can hide them inside his own protected internal API. By doing so, he will also hide the randomised URL from everyone, thereby resolving the issue of leakage to outsiders.
 
-#### Sending Comments |updated|
+#### Sending Comments (updated)
 
 We think that although the comments are all public and authentication is not needed to post new ones, there should still be a way to identify the commenter. It will be optional: we ask for the name of the commenter along with the required comment body.
 
@@ -139,11 +141,11 @@ Many users will probably not be happy with that, however, they can always introd
 
 Some users may find that they need custom Markdown features/plugins or use their own Markdown alternative. In that case, the API route will need to be used; we plan to send the comment body _verbatim_ without any formatting, so users can process that string in any way they want. However, using this method, users need to be aware of and guard against [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting), since the comment body is not escaped. See the API section for more details.
 
-#### Replies to Comments |updated|
+#### Replies to Comments (updated)
 
 In the previous iteration of the README, we specified that we did plan to support replies to comments on a number of occasions. However, after thinking more about this, We find that there are many reply-less discussions on the Internet that work well (one notable example is GitHub issues/PR), and implementing replies will take a lot of effort. Therefore, this feature has been dropped.
 
-#### Editing |updated|
+#### Editing (updated)
 
 After thinking about this feature, we found that it is possible to implement it in a way that resolves the current issues. In a nutshell, after submitting, the user is issued a <abbr title="JSON web token">JWT</abbr>, which expires after 5 minutes. This token is used to identify the commenter, hence can be used to support editing. If during that 5 minutes, the comment has not been approved, the user can edit the comment.
 
@@ -165,7 +167,7 @@ Even after approval, the site owner can still remove comments. Removed comments 
 
 By default, this feature is turned _off_ (i.e. auto-approve is turned _on_), since that is how most current [solutions](#existing-solutions) work. To ensure that the user knows of this feature, we will display a big "info" banner in the UI if the feature is turned off. Also, even when auto-approve is on, we will still allow the deletion of "auto-approved" comments.
 
-#### User Stories |updated|
+#### User Stories (updated)
 
 In the page dashboard, there are two sections, one for pending comments and one for approved comments. If auto-approve is off, a typical workflow is as follows:
 
@@ -196,7 +198,7 @@ By UI design principles, all pages under the same website should share the same 
 
 If a user _really_ wants to hack the system and have different styling for each of his blog posts, he can always have two different ezkomment "sites". However, it will require many clicks and keystrokes, and the bad UX of that is intentional: we want to discourage users from doing so.
 
-#### Customise Everything |updated|
+#### Customise Everything (updated)
 
 > The specification of this feature is still [under discussion and consideration](https://github.com/joulev/ezkomment/discussions/145). Therefore, it might be modified in the next Milestone README. However, we expect it to be quite stable by now and it should not change as much as from Milestone 1 until now.
 
@@ -399,7 +401,7 @@ This script will probably need some work to ensure it does not clash with any po
 
 With this, we believe the user already has very good control of how the whole thing looks and works. In fact, he can add custom scripts to render a customised Markdown editor, he can even add scripts to mine cryptocurrency in his users' browsers etc (not that we support it).
 
-#### Dark Mode |updated|
+#### Dark Mode (updated)
 
 The embed URL will have a query parameter `isDark`. If it is used, the comment is delivered in dark mode. The `<html>` element would have a class `.dark`, and of course, the user can control how their comment section looks in dark mode by modifying his `<style>` accordingly.
 
@@ -475,7 +477,7 @@ Requests with invalid body are ignored. Currently we do not plan any extra optio
 
 ## Application Design and Implementation
 
-### How the App Works, In a Nutshell |updated|
+### How the App Works, In a Nutshell (updated)
 
 #### Technology Stack
 
@@ -543,7 +545,7 @@ We decided to use the default [Tailwind CSS colour scheme](https://tailwindcss.c
 
 We also use the default [Tailwind CSS spacing scale](https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale), and pick all spacing entries whose values are divisible by 3. Hence, most spaces in the application are a multiplier of 0.75rem.
 
-### User Experience |updated|
+### User Experience (updated)
 
 We take a _lot_ of effort to improve the user experience on this site.
 
@@ -597,7 +599,7 @@ In pull request [#66](https://github.com/joulev/ezkomment/pull/66), we have adde
 
 Although we have not enabled the site to be crawled for search engines as of now, the tags are now effective when sharing the pages over social media.
 
-### Lighthouse Audit |updated|
+### Lighthouse Audit (updated)
 
 [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) is a popular tool for evaluating the performance of a website. We conduct Lighthouse score checks frequently and also use Vercel analytics to monitor, from there we can make suitable improvements to improve the whole application.
 
@@ -613,7 +615,7 @@ As of right now, the website has a very good score for these metrics. Aside from
   caption="Lighthouse scores for desktop, test done at 2:53pm 24 June 2022 (SGT)"
 />
 
-### Security |updated|
+### Security (updated)
 
 Authentication workflow is mainly done by the Firebase client library. With it being one of the most popular libraries of its type, with about 1.3 million downloads per week, I think it is safe to say this step is as secure as we can possibly get. Especially compared to self-made authentication patterns which may fall to many well-known attacks, such as [Cross-Site Request Forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery) attacks if cookie-based authentication is used.
 
@@ -623,7 +625,7 @@ That said, security issues may still show up, a notable example being issue [#13
 
 ### Software Engineering Practices
 
-#### Repository Structure |updated|
+#### Repository Structure (updated)
 
 Since the back-end has been decided to be based on Next.js' API routes, we have ditched the monorepo system. Now everything is developed in a single JavaScript package.
 
@@ -677,7 +679,7 @@ Therefore, for smaller commits, typically about less than 50 lines changed (excl
 
 The contribution process is described in slightly more detail in the [CONTRIBUTING file](https://github.com/joulev/ezkomment/blob/main/CONTRIBUTING.md).
 
-#### Continuous Integration and Continuous Deployment |updated|
+#### Continuous Integration and Continuous Deployment (updated)
 
 Thankfully, Vercel automatically takes care of the deployment process for every commit in the repository. Therefore, the front-end section has always had CD since it was first deployed.
 
@@ -685,7 +687,7 @@ As we decided to mitigate from Express.js to Next.js for back-end implementation
 
 CI pipelines are done by [GitHub Actions](https://github.com/features/actions), and currently it involves running ESLint and unit tests for the whole application.
 
-#### Testing |updated|
+#### Testing (updated)
 
 Testing is done by [Jest](https://jestjs.io) whenever possible, due to its simplicity, ease of use, high speed and good developer experience. Test results are then uploaded to [Codecov](https://about.codecov.io).
 
@@ -693,7 +695,7 @@ Back-end tests also involve running [Firebase emulator](https://firebase.google.
 
 As of 24 June 2022, the code coverage stands at 94%, which we think is acceptable.
 
-## Timeline |updated|
+## Timeline (updated)
 
 ### Currently Already Implemented Features
 
@@ -730,7 +732,7 @@ That said, we have almost fully implemented all application pages in the process
 - From 20 July onwards: polish the system, add minor features such as search bar/filtering
 - Incrementally from now onwards (also past Milestone 3): populate the public documentation at `/docs` with actual documentation for users on how to use the app
 
-## Problems Encountered |updated|
+## Problems Encountered (updated)
 
 In the technical aspect, the project progresses fairly smoothly (to a surprising extent). In fact, we have not actually asked our mentor for any technical assistance since we have been able to resolve all issues by ourselves.
 
