@@ -27,7 +27,7 @@ class CustomServerEnvironment extends NodeEnvironment {
             process.exit(1);
         }
 
-        this.global.nonExistingIds = {
+        this.global.testOnly.nonExistingIds = {
             nonExistingUid: "u5",
             nonExistingSiteId: "s5",
             nonExistingPageId: "p5",
