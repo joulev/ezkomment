@@ -1,0 +1,26 @@
+\documentclass[11pt]{article}
+\usepackage[html,shiftHeadings=-1,fencedCode,tightLists=false]{markdown}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\setmonofont[Scale=0.8]{Menlo}
+\definecolor{primary}{HTML}{6366F1}
+\usepackage[colorlinks=true,allcolors=primary]{hyperref}
+\markdownSetup{
+  renderers = {
+    link = {\href{#2}{#1}},
+    image = {\includegraphics[width=\linewidth]{#2}},
+  },
+}
+\title{\includegraphics[height=1cm]{ezkomment.pdf}\\[1cm]\bfseries Insert title here}
+\author{Insert author name here \and\ author name here}
+\date{Insert date here}
+\begin{document}
+\maketitle
+\tableofcontents
+\setlength\parindent{0pt}
+\setlength\parskip{1em}
+\begin{markdown}
+Insert document content here
+\end{markdown}
+\end{document}

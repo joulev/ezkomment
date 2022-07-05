@@ -2,10 +2,11 @@
   "editor.rulers": [100],
   "editor.wordWrapColumn": 100,
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[mdx][markdown]": {
     "editor.wordWrap": "wordWrapColumn"
   },
-  "[javascript][typescript][css][html][typescriptreact][json][jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[latex]": {
+    "editor.formatOnSave": false
   }
 }

@@ -54,5 +54,10 @@ ui-debug.log
 firebase-debug.log
 
 # Browser library compilation
-
 public/v1/js
+
+# LaTeX
+/others/latex/*
+!others/latex/README.md
+!others/latex/main.tex
+!others/latex/ezkomment.pdf

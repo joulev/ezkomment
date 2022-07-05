@@ -6,6 +6,7 @@
 /config/monaco.ts                       @joulev
 /config/jest/svgMock.js                 @joulev
 /config/tailwindTheme.js                @joulev
+/others/latex/                          @joulev
 /public/                                @joulev
 /jest.client.config.js                  @joulev
 /next-env.d.ts                          @joulev
