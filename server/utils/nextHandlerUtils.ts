@@ -33,11 +33,17 @@ export async function logError(err: unknown) {
  * @returns A mapping of keys and values
  */
 export function extractFirstQueryValue(req: NextApiRequest) {
-    const values: Record<string, any> = {};
-    for (const [k, v] of Object.entries(req.query)) {
-        values[k] = Array.isArray(v) ? v[0] : v;
-    }
-    return values;
+    const handler = {
+        get: (target: NextApiRequest["query"], prop: string): string => {
+            const value: string | string[] | undefined = target[prop];
+            if (value === undefined) throw new Error("Failure! You look up an undefined property?");
+            return Array.isArray(value) ? value[0] : value;
+        },
+    };
+    /**
+     * Cast to `Record<string, string>` as `get` only return string
+     */
+    return new Proxy(req.query, handler) as Record<string, string>;
 }
 
 export function removeUndefinedProperties(obj: Record<string, any>) {
