@@ -109,6 +109,10 @@
         -ms-transform: rotate(3deg) translate(0px, -4px);
         transform: rotate(3deg) translate(0px, -4px);
     }
+    /* Trianglify */
+    .trianglify path {
+        @apply fill-neutral-100 dark:fill-neutral-900 stroke-neutral-200 dark:stroke-neutral-800;
+    }
     /* Docs */
     .post {
         @apply print:text-[10pt] print:text-black print:text-justify;

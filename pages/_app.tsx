@@ -40,7 +40,9 @@ export default function NextApp({ Component, pageProps }: AppPropsWithLayout) {
               id="wrapper"
               className={clsx(
                 "relative min-h-[100vh]",
-                router.asPath.startsWith("/docs") || "pb-[250px] sm:pb-[165px]"
+                !router.asPath.startsWith("/docs") &&
+                  !router.asPath.startsWith("/auth") &&
+                  "pb-[250px] sm:pb-[165px]"
               )}
             >
               {getLayout(<Component {...pageProps} />, pageProps, router)}
