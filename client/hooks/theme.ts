@@ -17,6 +17,14 @@ function modeIsDark(mode: Mode) {
         : window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
+function checkMode(mode: Mode) {
+    if (modeIsDark(mode)) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+
+    document.documentElement.classList.add("changing-mode");
+    setTimeout(() => document.documentElement.classList.remove("changing-mode"), 100);
+}
+
 /**
  * Initialise the mode global state.
  */
@@ -28,17 +36,17 @@ function useModeInit() {
         const storedMode = localStorage.getItem("mode");
         if (storedMode) setMode(storedMode as Mode);
         setHaveSetMode(true);
+
+        window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", () => checkMode(mode));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         localStorage.setItem("mode", mode);
         if (!haveSetMode) return;
-
-        if (modeIsDark(mode)) document.documentElement.classList.add("dark");
-        else document.documentElement.classList.remove("dark");
-
-        document.documentElement.classList.add("changing-mode");
-        setTimeout(() => document.documentElement.classList.remove("changing-mode"), 100);
+        checkMode(mode);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mode]);
 
@@ -65,7 +73,14 @@ const useMode = () => useContext(ModeContext);
 const useTheme = () => {
     const [theme, setTheme] = useState<"light" | "dark">("light");
     const mode = useMode().mode;
-    useEffect(() => setTheme(modeIsDark(mode) ? "dark" : "light"), [mode]);
+    const mutate = (mode: Mode) => setTheme(modeIsDark(mode) ? "dark" : "light");
+    useEffect(() => mutate(mode), [mode]);
+    useEffect(() => {
+        window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", () => mutate(mode));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return theme;
 };
 
