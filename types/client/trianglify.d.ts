@@ -1,6 +1,6 @@
 // Correct as of trianglify@4.1.1. Will I submit this to DefinitelyTyped/DefinitelyTyped? Probably not
 
-declare module "trianglify" {
+declare module "@victorioberra/trianglify-browser" {
     type BuiltInPalettes =
         | "YlGn"
         | "YlGnBu"

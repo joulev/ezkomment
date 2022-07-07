@@ -1,7 +1,7 @@
+import trianglify from "@victorioberra/trianglify-browser";
 import Head from "next/head";
 import Image from "next/image";
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
-import trianglify from "trianglify";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
