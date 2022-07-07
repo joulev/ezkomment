@@ -62,7 +62,7 @@ const Auth: NextPageWithLayout = () => {
         <meta name="robots" content="noindex" />
       </Head>
       <main className="h-screen grid place-items-center relative">
-        <svg className="absolute inset-0 -z-10 trianglify" ref={svgRef} />
+        <svg className="absolute inset-0 w-full h-full -z-10 trianglify" ref={svgRef} />
         <div className="w-full h-full px-6 py-12 sm:py-6 sm:w-96 sm:h-auto mx-auto bg-card sm:border sm:border-card sm:rounded">
           <div className="text-center">
             <A href="/" notStyled>
