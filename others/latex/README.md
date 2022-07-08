@@ -13,17 +13,7 @@ The whole building process is meant to be done manually. I could have automated 
 1. Skim through this list. Continue if you want to, otherwise ping @joulev.
 1. Install LaTeX. If you don't want to, stop reading and ping @joulev. Warning: It is a few GBs and will take from 30 mins to 6 hours depending on your Internet connection.
 1. Copy the Markdown content of the necessary MDX file (not the whole file; remove the JSX at the top)
-1. Change all `<BlogImage>` components to normal Markdown images. Take note of the path too. And since TS' absolute paths don't work here... be prepared for the `../` hell.
-
-   ```diff
-   - <BlogImage
-   -   src="/images/markdown/orbital-proposal-nusmods.png"
-   -   caption="NUSMods screenshot as of 14 March 2022, with Disqus loaded."
-   - />
-   + ![](../../public/images/markdown/orbital-proposal-nusmods.png)
-   ```
-
 1. Edit the `\title`, `\author` and `\date` accordingly.
-1. Run `lualatex main.tex`. If the log tells you to run again, do it (to get the ToC links correct).
+1. Run `lualatex main.tex` **twice**.
 1. Use `main.pdf` however you like.
 1. Revert any changes you made to `main.tex`.

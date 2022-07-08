@@ -2,16 +2,25 @@
 \usepackage[html,shiftHeadings=-1,fencedCode,tightLists=false]{markdown}
 \usepackage[margin=1in]{geometry}
 \usepackage{xcolor}
+\definecolor{primary}{HTML}{6366F1}
+\definecolor{grey}{HTML}{A3A3A3}
 \usepackage{fontspec}
 \setmonofont[Scale=0.8]{Menlo}
-\definecolor{primary}{HTML}{6366F1}
+\usepackage[font={small,sf,color=grey},labelfont=bf]{caption}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
 \usepackage[colorlinks=true,allcolors=primary]{hyperref}
+
 \markdownSetup{
   renderers = {
     link = {\href{#2}{#1}},
-    image = {\includegraphics[width=\linewidth]{#2}},
+    image = {\begin{figure}[htbp]
+      \tcbincludegraphics[boxsep=0pt,boxrule=0.5pt,left=0pt,right=0pt,top=0pt,bottom=0pt,colframe=grey]{../../public#2}
+      \caption{#1}
+    \end{figure}},
   },
 }
+
 \title{\includegraphics[height=1cm]{ezkomment.pdf}\\[1cm]\bfseries Insert title here}
 \author{Insert author name here \and\ author name here}
 \date{Insert date here}
