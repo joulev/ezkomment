@@ -1,4 +1,3 @@
-import trianglify from "@victorioberra/trianglify-browser";
 import Head from "next/head";
 import Image from "next/image";
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
@@ -23,19 +22,22 @@ import logo from "~/public/images/logo.svg";
 function useTrianglify() {
   const svgEl = useRef<SVGSVGElement>(null);
   useEffect(() => {
-    if (!svgEl.current) return;
-    const pattern = trianglify({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      cellSize: 60,
-      variance: 0.75,
-      fill: false,
-      strokeWidth: 1,
-      seed: new Date().toString(),
-      xColors: ["red"], // any colour is fine, we will restyle this with CSS anyway
-      yColors: ["red"], // any colour is fine, we will restyle this with CSS anyway
-    });
-    pattern.toSVG(svgEl.current);
+    (async () => {
+      if (!svgEl.current) return;
+      const trianglify = (await import("@victorioberra/trianglify-browser")).default;
+      const pattern = trianglify({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        cellSize: 60,
+        variance: 0.75,
+        fill: false,
+        strokeWidth: 1,
+        seed: new Date().toString(),
+        xColors: ["red"], // any colour is fine, we will restyle this with CSS anyway
+        yColors: ["red"], // any colour is fine, we will restyle this with CSS anyway
+      });
+      pattern.toSVG(svgEl.current);
+    })();
   }, [svgEl]);
   return svgEl;
 }
