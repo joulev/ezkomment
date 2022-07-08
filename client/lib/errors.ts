@@ -75,6 +75,12 @@ const UNABLE_TO_DELETE_PAGE = new Error(
 UNABLE_TO_DELETE_PAGE.code = "ezkomment/client";
 export { UNABLE_TO_DELETE_PAGE };
 
+const UNABLE_TO_APPROVE_COMMENT = new Error(
+    "Unable to approve comment. Please try again later."
+) as NodeJS.ErrnoException;
+UNABLE_TO_APPROVE_COMMENT.code = "ezkomment/client";
+export { UNABLE_TO_APPROVE_COMMENT };
+
 const UNABLE_TO_DELETE_COMMENT = new Error(
     "Unable to delete comment. Please try again later."
 ) as NodeJS.ErrnoException;

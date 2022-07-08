@@ -9,7 +9,7 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 import useAuth from "~/client/hooks/auth";
 import { usePage } from "~/client/hooks/page";
-import { UNABLE_TO_DELETE_COMMENT } from "~/client/lib/errors";
+import { UNABLE_TO_APPROVE_COMMENT, UNABLE_TO_DELETE_COMMENT } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
@@ -49,6 +49,7 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
 }) => {
   const { setLoading } = useAuth();
   const { mutate } = usePage();
+
   const handleDelete = async () => {
     setLoading(true);
     try {
@@ -58,12 +59,28 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
       });
       if (!success) throw UNABLE_TO_DELETE_COMMENT;
       await mutate();
-      setMsg({ type: "success", message: "Comment deleted successfully." });
     } catch (err: any) {
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
   };
+
+  const handleApprove = async () => {
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({
+        url: `/api/comments/${comment.id}`,
+        method: "PUT",
+        options: { body: JSON.stringify({ status: "Approved" }) },
+      });
+      if (!success) throw UNABLE_TO_APPROVE_COMMENT;
+      await mutate();
+    } catch (err: any) {
+      setMsg({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="p-6 flex flex-col gap-3 relative">
       <div className="flex flex-col sm:flex-row gap-x-6">
@@ -85,6 +102,9 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
       )}
       <div className="absolute right-3 top-3 flex flex-row gap-3">
         <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDelete} />
+        {comment.status === "Pending" && (
+          <Button icon={CheckOutlinedIcon} onClick={handleApprove} />
+        )}
       </div>
     </div>
   );
