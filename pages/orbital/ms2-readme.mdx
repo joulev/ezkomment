@@ -1,6 +1,5 @@
 import getOgImage from "~/client/lib/getOgImage";
 
-import BlogImage from "~/client/components/blogImage";
 import BlogLayout from "~/client/layouts/blog";
 
 import authors from "~/constants/authors";
@@ -68,10 +67,7 @@ There is also [fastfeedback.io](https://fastfeedback.io). Its main goal is not t
 
 However, there still remain many problems. Firstly, these services do not allow custom design for the entire section. Their own design is nice, but it is not customisable enough to be consistent with the main site design. For example, we do not think Disqus' design below can go along with NUSMods' design well. Some of the consistencies that anyone can notice with the naked eye without inspecting the source, written by a person who has not even taken an official course in digital and UI/UX design:
 
-<BlogImage
-  src="/images/markdown/orbital-proposal-nusmods.png"
-  caption="NUSMods screenshot as of 14 March 2022, with Disqus loaded."
-/>
+![NUSMods screenshot as of 14 March 2022, with Disqus loaded.](/images/markdown/orbital-proposal-nusmods.png)
 
 - Fonts: NUSMods uses the standard system font stack (Segoe UI on Windows, San Francisco on macOS, etc.), while Disqus uses Helvetica Neue.
 - Colours: While Disqus allows customisation of the primary colour (with the `--publisher-color` CSS variable), other colours do not have the same privilege. A naked eye can tell the body text colour of NUSMods and Disqus are completely different (NUSMods' is "greyer"). A source inspection shows NUSMods' body colour is #60707a, while Disqus uses all sorts of grey shades: #2a2e2e, #687a86, #657c7a, etc. Furthermore, the dropdown by Disqus does not follow `--publisher-color` at all, and still uses normal blue (#2e9fff).
@@ -489,10 +485,7 @@ While Next.js is a primarily front-end-based framework, its serverless API route
 
 [Vercel](https://vercel.com) is used for hosting, because you simply cannot say Next.js without Vercel. While the front-end is very performant with image optimisations working exceptionally well, the back-end is also very fast, and we have seen no cold-boot time at all. Moreover, Vercel offers insights into app performance, which helps us a lot in improving the app.
 
-<BlogImage
-  src="/images/markdown/vercel-analytics-20220624.png"
-  caption="Vercel Analytics page for the ezkomment application, 24 June 2022 at 11:50am (SGT)"
-/>
+![Vercel Analytics page for the ezkomment application, 24 June 2022 at 11:50am (SGT)](/images/markdown/vercel-analytics-20220624.png)
 
 We decided to use TypeScript for the entire project for easier management. After using TypeScript, we simply cannot imagine how we would use pure JavaScript for any serious projects ever again. Typescript's type system ensures correctness and provides [IntelliSense](https://code.visualstudio.com/docs/editor/intellisense) when using Visual Studio Code, which is absolutely vital for our development speed.
 
@@ -612,10 +605,7 @@ As of right now, the website has a very good score for these metrics. Aside from
 - Best Practices: 100
 - SEO: 91
 
-<BlogImage
-  src="/images/markdown/lighthouse-desktop-20220624.png"
-  caption="Lighthouse scores for desktop, test done at 2:53pm 24 June 2022 (SGT)"
-/>
+![Lighthouse scores for desktop, test done at 2:53pm 24 June 2022 (SGT)](/images/markdown/lighthouse-desktop-20220624.png)
 
 ### Security (updated)
 

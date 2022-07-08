@@ -9,6 +9,7 @@ import { useBreakpointInit } from "~/client/hooks/breakpoint";
 import { useModeInit } from "~/client/hooks/theme";
 
 import A from "~/client/components/anchor";
+import BlogImage from "~/client/components/blogImage";
 import PostHeading from "~/client/components/postHeading";
 import { ErrorBoundary } from "~/client/layouts/errors";
 
@@ -34,6 +35,7 @@ export default function NextApp({ Component, pageProps }: AppPropsWithLayout) {
               h4: props => <PostHeading {...props} level={4} />,
               h5: props => <PostHeading {...props} level={5} />,
               h6: props => <PostHeading {...props} level={6} />,
+              img: ({ src, alt }) => <BlogImage src={src ?? ""} caption={alt ?? "no caption"} />,
             }}
           >
             <div

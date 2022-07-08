@@ -54,7 +54,7 @@ const BlogLayout: FC<BlogLayoutProps> = ({
     <>
       <Seo {...seo} />
       <PublicNavbar />
-      <header className="bg-card border-b border-card py-24 print:hidden">
+      <header className="bg-card border-b border-card py-24">
         <div className="container">
           <A className="block logo-width" href="/">
             <Image src={logo} alt="logo" />
@@ -77,7 +77,6 @@ const BlogLayout: FC<BlogLayoutProps> = ({
       </header>
       <main className="container">
         <article className={clsx("my-18 post blog", container || "max-w-prose mx-auto")}>
-          <h1 className="hidden print:block">{title}</h1>
           {children}
         </article>
       </main>

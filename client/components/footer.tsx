@@ -37,10 +37,7 @@ const FooterNavLink: FC<{ href: string; title: string }> = ({ href, title }) => 
 
 const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) => (
   <footer
-    className={clsx(
-      "bg-card border-t border-card py-6 absolute bottom-0 inset-x-0 print:hidden",
-      className
-    )}
+    className={clsx("bg-card border-t border-card py-6 absolute bottom-0 inset-x-0", className)}
   >
     <div
       className={clsx(

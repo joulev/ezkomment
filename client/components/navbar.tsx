@@ -28,7 +28,7 @@ const PublicNavbar: FC = () => {
   return (
     <nav
       className={clsx(
-        "fixed z-40 top-0 inset-x-0 bg-card border-card print:hidden",
+        "fixed z-40 top-0 inset-x-0 bg-card border-card",
         scrollY > scrollThreshold && "border-b"
       )}
     >
