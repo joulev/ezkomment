@@ -80,7 +80,15 @@ const PendingComments: FC<{ page: ClientPage; handleDelete: () => void }> = ({
       </p>
     );
 
-  if (pendingComments.length === 0) return <p>There are no pending comments.</p>;
+  if (pendingComments.length === 0)
+    return (
+      <div className="flex flex-col gap-6 my-12 items-center">
+        <div className="w-48">
+          <BlankIllustration />
+        </div>
+        <div className="text-xl text-center">Nothing here yet. Check again soon.</div>
+      </div>
+    );
 
   return (
     <>
@@ -106,7 +114,7 @@ const ApprovedComments: FC<{ page: ClientPage; handleDelete: () => void }> = ({
         <div className="w-48">
           <BlankIllustration />
         </div>
-        <div className="text-xl text-center">Nothing has arrived yet. Check again soon.</div>
+        <div className="text-xl text-center">Nothing here yet. Check again soon.</div>
       </div>
     );
   return (
