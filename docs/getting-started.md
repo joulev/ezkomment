@@ -1,110 +1,61 @@
-# Getting Started
+# Getting started
 
-Welcome to the Next.js documentation!
+## Introduction
 
-If you're new to Next.js, we recommend starting with the [learn course](https://nextjs.org/learn/basics/create-nextjs-app).
+Welcome to ezkomment!
 
-The interactive course with quizzes will guide you through everything you need to know to use Next.js.
+ezkomment is a product-as-a-service intended to provide an easy interface for you to embed a comment section to any websites.
 
-If you have questions about anything related to Next.js, you're always welcome to ask our community on [GitHub Discussions](https://github.com/vercel/next.js/discussions).
+This guide will help you set up your account, create your first site and finally get your comment section up, running and accessible by anyone from anywhere in the world.
 
-#### System Requirements
+## Create a new account
 
-- [Node.js 12.22.0](https://nodejs.org/) or later
-- MacOS, Windows (including WSL), and Linux are supported
+You can sign up for an ezkomment account if you already have [a GitHub account](https://github.com) or [a Google account](https://google.com). The whole process will be passwordless, as you will be directed to sign in with these third-party provider instead. If you do not yet have an account with any of these providers, please create an account there first. We [do not intend to support email-based authentication](https://github.com/joulev/ezkomment/discussions/59) in the future, and if you would like to log in by a different provider instead, [please open an issue](https://github.com/joulev/ezkomment/issues/new).
 
-## Automatic Setup
+If you already have either a GitHub account or a Google account, you can continue in respective sections.
 
-We recommend creating a new Next.js app using `create-next-app`, which sets up everything automatically for you. To create a project, run:
+### Sign up with GitHub
 
-```bash
-npx create-next-app@latest
-# or
-yarn create next-app
-# or
-pnpm create next-app
-```
+- Navigate to [the authentication page](https://ezkomment.joulev.dev/auth).
 
-If you want to start with a TypeScript project you can use the `--typescript` flag:
+- Click on "Continue with GitHub".
 
-```bash
-npx create-next-app@latest --typescript
-# or
-yarn create next-app --typescript
-# or
-pnpm create next-app -- --typescript
-```
+- There will be a pop-up for the auth provider to continue. If your browser blocks that pop-up, please allow it and try again, otherwise go to next step.
 
-After the installation is complete:
+- In the pop-up, if GitHub prompts you for sign in credentials, that means you are not yet authenticated with GitHub, so please sign in first. Otherwise go to next step.
 
-- Run `npm run dev` or `yarn dev` or `pnpm dev` to start the development server on `http://localhost:3000`
-- Visit `http://localhost:3000` to view your application
-- Edit `pages/index.js` and see the updated result in your browser
+- Click "Authorize".
 
-For more information on how to use `create-next-app`, you can review the [`create-next-app` documentation](https://nextjs.org/docs/api-reference/create-next-app).
+- The pop-up should close automatically and you will be redirected to the ezkomment dashboard. You have successfully created your ezkomment account.
 
-## Manual Setup
+### Sign up with Google
 
-Install `next`, `react` and `react-dom` in your project:
+- Navigate to [the authentication page](https://ezkomment.joulev.dev/auth).
 
-```bash
-npm install next react react-dom
-# or
-yarn add next react react-dom
-# or
-pnpm add next react react-dom
-```
+- Click on "Continue with Google".
 
-Open `package.json` and add the following `scripts`:
+- There will be a pop-up for the auth provider to continue. If your browser blocks that pop-up, please allow it and try again, otherwise go to next step.
 
-```json
-{
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "content": "A very super long content line to show whether overflow-x-auto works inside pre code blocks and hello world blah some other text"
-}
-```
+- In the pop-up, if Google prompts you for sign in credentials, that means you are not yet authenticated with Google, so please sign in first. Otherwise go to next step.
 
-These scripts refer to the different stages of developing an application:
+- If you are presented with a list of accounts, that means you have several Google accounts already authenticated at the same time, so click on the account with which you want to sign in to ezkomment.
 
-- `dev` - Runs [`next dev`](/docs/api-reference/cli.md#development) to start Next.js in development mode
-- `build` - Runs [`next build`](/docs/api-reference/cli.md#build) to build the application for production usage
-- `start` - Runs [`next start`](/docs/api-reference/cli.md#production) to start a Next.js production server
-- `lint` - Runs [`next lint`](/docs/api-reference/cli.md#lint) to set up Next.js' built-in ESLint configuration
+- The pop-up should close automatically and you will be redirected to the ezkomment dashboard. You have successfully created your ezkomment account.
 
-Create two directories `pages` and `public` at the root of your application:
+## Create a new site
 
-- `pages` - Associated with a route based on their file name. For example `pages/about.js` is mapped to `/about`
-- `public` - Stores static assets such as images, fonts, etc. Files inside `public` directory can then be referenced by your code starting from the base URL (`/`).
+- Visit [the user dashboard](https://ezkomment.joulev.dev/app/dashboard). It will be where all of your sites are listed.
 
-Next.js is built around the concept of [pages](https://nextjs.org/docs/basic-features/pages). A page is a [React Component](https://reactjs.org/docs/components-and-props.html) exported from a `.js`, `.jsx`, `.ts`, or `.tsx` file in the `pages` directory. You can even add [dynamic route](/docs/routing/dynamic-routes) parameters with the filename.
+- The dashboard should not look too exciting yet, since you have not created anything. Go ahead and click on "Add a new site". Alternatively, you can click on "New site" on the navigation bar.
 
-Inside the `pages` directory add the `index.js` file to get started. This is the page that is rendered when the user visits the root of your application
+- Input the site name. The site name must be a valid URL slug (since it will feature in the site dashboard URL). If you know what a URL slug is, input whatever you like, otherwise let's continue by inputting `blog` for now (you can change this later).
 
-Populate `pages/index.js` with the following contents:
+- Input the site domain. If you already have a website deployed to the Internet, you can input the domain (including the subdomain if you want). Otherwise let's continue by inputting `*` (one single asterisk) for now (once again, you can change this later).
 
-```jsx
-function HomePage() {
-  return <div>Welcome to Next.js!</div>;
-}
-export default HomePage;
-```
+- Click on "Add a new site".
 
-After the set up is complete:
+- You will be redirected to your _site dashboard_. You have successfully created a new ezkomment site!
 
-- Run `npm run dev` or `yarn dev` or `pnpm dev` to start the development server on `http://localhost:3000`
-- Visit `http://localhost:3000` to view your application
-- Edit `pages/index.js` and see the updated result in your browser
+## Create a new page
 
-So far, we get:
-
-- Automatic compilation and [bundling](https://nextjs.org/docs/advanced-features/compiler)
-- [React Fast Refresh](https://nextjs.org/blog/next-9-4#fast-refresh)
-- [Static generation and server-side rendering](https://nextjs.org/docs/basic-features/data-fetching/overview) of [`pages/`](https://nextjs.org/docs/basic-features/pages)
-- [Static file serving](https://nextjs.org/docs/basic-features/static-file-serving) through `public/` which is mapped to the base URL (`/`)
-
-In addition, any Next.js application is ready for production from the start. Read more in our [Deployment documentation](https://nextjs.org/docs/deployment).
+blah blah
