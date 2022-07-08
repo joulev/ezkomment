@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/router";
-import { FC, createContext, useContext, useState } from "react";
+import { FC, createContext, useContext, useEffect, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -42,6 +42,19 @@ const Loading: FC = () => (
     </div>
   </div>
 );
+
+const DateToNow: FC<{ date: Date }> = ({ date }) => {
+  const formatDate = (date: Date) =>
+    new Date().valueOf() - date.valueOf() < 1000 * 60
+      ? "A few seconds"
+      : formatDistanceToNowStrict(date);
+  const [distance, setDistance] = useState(formatDate(date));
+  useEffect(() => {
+    const interval = setInterval(() => setDistance(formatDate(date)), 15);
+    return () => clearInterval(interval);
+  }, [date]);
+  return <>{distance} ago</>;
+};
 
 const WarningContext = createContext<{
   warningDisabled: boolean;
@@ -104,7 +117,7 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
           )}
           title={new Date(comment.date).toISOString()}
         >
-          {formatDistanceToNowStrict(new Date(comment.date))} ago
+          <DateToNow date={new Date(comment.date)} />
         </time>
       </div>
       {comment.text.length > 0 ? (
