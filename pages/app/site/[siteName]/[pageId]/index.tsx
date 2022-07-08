@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/router";
-import { FC, useState } from "react";
+import { FC, createContext, useContext, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -43,14 +43,26 @@ const Loading: FC = () => (
   </div>
 );
 
+const WarningContext = createContext<{
+  warningDisabled: boolean;
+  setShowDeleteModal: (val: boolean) => void;
+  setWarningDisabled: (val: boolean) => void;
+}>({ warningDisabled: false, setShowDeleteModal: () => {}, setWarningDisabled: () => {} });
+
 const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = ({
   comment,
   setMsg,
 }) => {
   const { setLoading } = useAuth();
   const { mutate } = usePage();
+  const warning = useContext(WarningContext);
 
   const handleDelete = async () => {
+    if (!warning.warningDisabled) {
+      warning.setWarningDisabled(true);
+      warning.setShowDeleteModal(true);
+      return;
+    }
     setLoading(true);
     try {
       const { success } = await internalFetcher({
@@ -181,64 +193,57 @@ const Content: FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [warningDisabled, setWarningDisabled] = useState(false);
   const { page } = usePage();
-
-  function handleDelete() {
-    if (!warningDisabled) {
-      setShowDeleteModal(true);
-      setWarningDisabled(true);
-    }
-  }
-
   if (!page) return <Loading />;
-
   return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="mb-3">{page.title}</h1>
-      <div className="flex flex-row gap-3 text-muted">
-        <WebOutlinedIcon />
-        <A
-          href={page.url}
-          notStyled
-          className="hover:text-neutral-900 dark:hover:text-neutral-100 transition whitespace-nowrap text-ellipsis overflow-hidden"
-        >
-          {page.url}
-        </A>
-      </div>
-      <hr />
-      <section>
-        <h2>Your comment section is live!</h2>
-        <p>It is available at</p>
-        <CopiableCode
-          content={`https://ezkomment.joulev.dev/embed/${page.siteId}/${page.id}`}
-          className="mb-6"
-        />
-        <p>
-          You can now use it to <A href="https://google.com">embed to your webpage</A>.
-        </p>
-      </section>
-      <hr />
-      <section className="mb-9">
-        <h2>Pending comments</h2>
-        <PendingComments />
-      </section>
-      <hr />
-      <section>
-        <h2>Approved comments</h2>
-        <ApprovedComments />
-      </section>
-      <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
-        <div className="p-6 max-w-lg">
-          <p>
-            Since deleted comments are irrecoverable, please be cautious when clicking the buttons
-            to delete the comments here, whether already approved or not.
-          </p>
-          <p>This warning will be silenced for the rest of this session.</p>
-          <RightAligned>
-            <Button onClick={() => setShowDeleteModal(false)}>I understand</Button>
-          </RightAligned>
+    <WarningContext.Provider value={{ warningDisabled, setShowDeleteModal, setWarningDisabled }}>
+      <div className="mx-auto max-w-3xl">
+        <h1 className="mb-3">{page.title}</h1>
+        <div className="flex flex-row gap-3 text-muted">
+          <WebOutlinedIcon />
+          <A
+            href={page.url}
+            notStyled
+            className="hover:text-neutral-900 dark:hover:text-neutral-100 transition whitespace-nowrap text-ellipsis overflow-hidden"
+          >
+            {page.url}
+          </A>
         </div>
-      </Modal>
-    </div>
+        <hr />
+        <section>
+          <h2>Your comment section is live!</h2>
+          <p>It is available at</p>
+          <CopiableCode
+            content={`https://ezkomment.joulev.dev/embed/${page.siteId}/${page.id}`}
+            className="mb-6"
+          />
+          <p>
+            You can now use it to <A href="https://google.com">embed to your webpage</A>.
+          </p>
+        </section>
+        <hr />
+        <section className="mb-9">
+          <h2>Pending comments</h2>
+          <PendingComments />
+        </section>
+        <hr />
+        <section>
+          <h2>Approved comments</h2>
+          <ApprovedComments />
+        </section>
+        <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+          <div className="p-6 max-w-lg">
+            <p>
+              Since deleted comments are irrecoverable, please be cautious when clicking the buttons
+              to delete the comments here, whether already approved or not.
+            </p>
+            <p>This warning will be silenced for the rest of this session.</p>
+            <RightAligned>
+              <Button onClick={() => setShowDeleteModal(false)}>I understand</Button>
+            </RightAligned>
+          </div>
+        </Modal>
+      </div>
+    </WarningContext.Provider>
   );
 };
 
