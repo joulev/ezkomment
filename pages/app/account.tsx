@@ -71,8 +71,8 @@ const ProfileSection: FC = () => {
     <section>
       <h2>Profile</h2>
       <p>
-        An up-to-date information here will help others identify you in comments, as well as help us
-        help you with technical details and issues.
+        This display name helps us identify you. It is recommended to use your actual name as your
+        display name (although that is not required).
       </p>
       {!auth.user!.displayName && (
         <Banner variant="warning" className="mb-6">
