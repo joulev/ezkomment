@@ -100,12 +100,14 @@ const AddComment: FC<{
           type="text"
           icon={ScheduleOutlinedIcon}
           placeholder="Date"
+          required
         />
         <textarea
           value={content}
           onChange={event => setContent(event.currentTarget.value)}
           placeholder="Content"
           className="bg-card border-card rounded border focus:ring-0 hover:border-muted focus:border-muted placeholder:text-muted"
+          required
         ></textarea>
         <RightAligned>
           <Button>Add comment</Button>
