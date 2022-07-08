@@ -1,16 +1,3 @@
 {
     "getting-started": "Getting started",
-    "basic-features": {
-        sectionTitle: "Basic features",
-        pages: {
-            pages: "Pages",
-            // "other-post": "Other post's title", ...
-        },
-    },
-    // "other-folder": {
-    //     sectionTitle: "Other folder",
-    //     pages: {
-    //         "other-post": "Other post's title",
-    //     },
-    // },
 }
