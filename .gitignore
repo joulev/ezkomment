@@ -60,4 +60,4 @@ public/v1/js
 /others/latex/*
 !others/latex/README.md
 !others/latex/main.tex
-!others/latex/ezkomment.pdf
+!others/latex/ezkomment.tex
