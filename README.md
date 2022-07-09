@@ -16,12 +16,10 @@
 ## Development
 
 ```sh
-$ yarn          # install dependencies
+$ yarn install  # install dependencies
 $ yarn dev      # start a development server at localhost:3000
 $ yarn build    # build the app in production mode
 $ yarn start    # start the app (after yarn build) in production mode
-$ yarn test     # run unit tests in dev mode (only run changed tests)
-$ yarn test:ci  # run all unit tests
 ```
 
 [See the development guide](CONTRIBUTING.md).
@@ -30,5 +28,5 @@ $ yarn test:ci  # run all unit tests
 
 - [Production deployment](https://ezkomment.joulev.dev)
 - [Development deployment](https://ezkdev.joulev.dev)
-- [Demo](https://ezkdev.joulev.dev/sample/index.html)
-- [ezkomment is a NUS Orbital 2022 project](https://ezkdev.joulev.dev/orbital)
+- [Demo](https://ezkomment.joulev.dev/sample/index.html)
+- [ezkomment is a NUS Orbital 2022 project](https://ezkomment.joulev.dev/orbital)
