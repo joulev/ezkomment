@@ -58,9 +58,8 @@ const DateToNow: FC<{ date: Date }> = ({ date }) => {
 
 const WarningContext = createContext<{
   warningDisabled: boolean;
-  setShowDeleteModal: (val: boolean) => void;
   setWarningDisabled: (val: boolean) => void;
-}>({ warningDisabled: false, setShowDeleteModal: () => {}, setWarningDisabled: () => {} });
+}>({ warningDisabled: false, setWarningDisabled: () => {} });
 
 const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = ({
   comment,
@@ -68,14 +67,10 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
 }) => {
   const { setLoading } = useAuth();
   const { mutate } = usePage();
-  const warning = useContext(WarningContext);
+  const { warningDisabled, setWarningDisabled } = useContext(WarningContext);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleDelete = async () => {
-    if (!warning.warningDisabled) {
-      warning.setWarningDisabled(true);
-      warning.setShowDeleteModal(true);
-      return;
-    }
     setLoading(true);
     try {
       const { success } = await internalFetcher({
@@ -88,6 +83,15 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
       setMsg({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
+  };
+
+  const handleDeleteButton = () => {
+    if (!warningDisabled) {
+      setWarningDisabled(true);
+      setShowDeleteModal(true);
+      return;
+    }
+    handleDelete();
   };
 
   const handleApprove = async () => {
@@ -126,11 +130,34 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
         <div className="text-muted">(no comment body)</div>
       )}
       <div className="absolute right-3 top-3 flex flex-row gap-3">
-        <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDelete} />
+        <Button icon={ClearOutlinedIcon} variant="tertiary" onClick={handleDeleteButton} />
         {comment.status === "Pending" && (
           <Button icon={CheckOutlinedIcon} onClick={handleApprove} />
         )}
       </div>
+      <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
+        <div className="p-6 max-w-lg">
+          <p>
+            Since deleted comments are irrecoverable, please be cautious when clicking the buttons
+            to delete the comments here, whether already approved or not.
+          </p>
+          <p>This warning will be silenced for the rest of this session.</p>
+          <RightAligned className="gap-3">
+            <Button onClick={() => setShowDeleteModal(false)} variant="tertiary">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                handleDelete();
+                setShowDeleteModal(false);
+              }}
+              variant="danger"
+            >
+              Delete
+            </Button>
+          </RightAligned>
+        </div>
+      </Modal>
     </div>
   );
 };
@@ -203,12 +230,11 @@ const ApprovedComments: FC = () => {
 };
 
 const Content: FC = () => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [warningDisabled, setWarningDisabled] = useState(false);
   const { page } = usePage();
   if (!page) return <Loading />;
   return (
-    <WarningContext.Provider value={{ warningDisabled, setShowDeleteModal, setWarningDisabled }}>
+    <WarningContext.Provider value={{ warningDisabled, setWarningDisabled }}>
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-3">{page.title}</h1>
         <div className="flex flex-row gap-3 text-muted">
@@ -243,18 +269,6 @@ const Content: FC = () => {
           <h2>Approved comments</h2>
           <ApprovedComments />
         </section>
-        <Modal isVisible={showDeleteModal} onOutsideClick={() => setShowDeleteModal(false)}>
-          <div className="p-6 max-w-lg">
-            <p>
-              Since deleted comments are irrecoverable, please be cautious when clicking the buttons
-              to delete the comments here, whether already approved or not.
-            </p>
-            <p>This warning will be silenced for the rest of this session.</p>
-            <RightAligned>
-              <Button onClick={() => setShowDeleteModal(false)}>I understand</Button>
-            </RightAligned>
-          </div>
-        </Modal>
       </div>
     </WarningContext.Provider>
   );
