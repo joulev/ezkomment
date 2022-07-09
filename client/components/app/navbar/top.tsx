@@ -137,7 +137,16 @@ const TopNav: FC<CurrentPage> = props => {
         <div className="flex-grow" />
         <TopNavButton
           onClick={handleNotif}
-          icon={NotificationsOutlinedIcon}
+          icon={() => (
+            <span
+              className={clsx(
+                "relative after:absolute after:-top-0.5 after:-right-0.5",
+                "after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
+              )}
+            >
+              <NotificationsOutlinedIcon />
+            </span>
+          )}
           title="Notifications"
         />
         <TopNavButton onClick={handleLogout} icon={LogoutOutlinedIcon} title="Sign out" />
@@ -171,7 +180,19 @@ const TopNav: FC<CurrentPage> = props => {
             onClick={() => setExpanded(!expanded)}
           />
           <TopNavMobileBreadcrumb {...props} />
-          <TopNavButton onClick={handleNotif} icon={NotificationsOutlinedIcon} />
+          <TopNavButton
+            onClick={handleNotif}
+            icon={() => (
+              <span
+                className={clsx(
+                  "relative after:absolute after:-top-0.5 after:-right-0.5",
+                  "after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
+                )}
+              >
+                <NotificationsOutlinedIcon />
+              </span>
+            )}
+          />
         </nav>
         <nav
           className={clsx(

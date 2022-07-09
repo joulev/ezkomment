@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { NextRouter } from "next/router";
-import { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
+import { Dispatch, FC, ReactElement, ReactNode, SetStateAction } from "react";
 
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
@@ -28,7 +28,7 @@ export type BreakpointContextType = Breakpoint;
 
 export type BuildInfo = { hash: string; timestamp: number };
 
-export type IconType = OverridableComponent<SvgIconTypeMap> & { muiName: string };
+export type IconType = (OverridableComponent<SvgIconTypeMap> & { muiName: string }) | FC;
 export type IconAndLabel =
     | { label: ReactNode; icon?: IconType }
     | { icon: IconType; label?: ReactNode };
