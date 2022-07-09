@@ -55,8 +55,8 @@ const Notifications: FC<{ show: boolean; onClose: () => void }> = ({ show, onClo
   >
     <div
       className={clsx(
-        "fixed inset-y-0 right-0 w-full sm:max-w-md bg-neutral-100 dark:bg-neutral-900 border-l border-card p-6 transition duration-300",
-        "overflow-y-auto no-scrollbar",
+        "fixed inset-y-0 right-0 w-full sm:max-w-md bg-neutral-100 dark:bg-neutral-900",
+        "sm:border-l sm:border-card p-6 transition duration-300 overflow-y-auto no-scrollbar",
         show ? "translate-x-0" : "translate-x-6"
       )}
       onClick={e => e.stopPropagation()}
