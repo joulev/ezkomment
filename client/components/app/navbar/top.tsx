@@ -14,6 +14,7 @@ import useAuth from "~/client/hooks/auth";
 import { signOut } from "~/client/lib/firebase/auth";
 
 import A from "~/client/components/anchor";
+import Notifications from "~/client/components/app/notification";
 import ModeSwitcher from "~/client/components/modeSwitcher";
 
 import { CurrentPage } from "~/types/client/page.type";
@@ -121,12 +122,13 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
 
 const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
+  const [showNotif, setShowNotif] = useState(false);
   const router = useRouter();
   useEffect(() => setExpanded(false), [router.asPath]);
 
   const auth = useAuth();
   const handleLogout: MouseEventHandler<HTMLButtonElement> = () => signOut(auth);
-  const handleNotif: MouseEventHandler<HTMLButtonElement> = () => console.log("notif");
+  const handleNotif: MouseEventHandler<HTMLButtonElement> = () => setShowNotif(true);
 
   return (
     <div className="container px-5 sm:px-6">
@@ -192,6 +194,7 @@ const TopNav: FC<CurrentPage> = props => {
           </div>
         </nav>
       </div>
+      <Notifications show={showNotif} onClose={() => setShowNotif(false)} />
     </div>
   );
 };
