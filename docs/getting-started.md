@@ -58,4 +58,82 @@ If you already have either a GitHub account or a Google account, you can continu
 
 ## Create a new page
 
-blah blah
+- Following previous steps you should already be in the site dashboard of your newly-created ezkomment site. If for some reasons that is not the case, visit [the user dashboard](https://ezkomment.joulev.dev/app/dashboard) and click on the site that you have just created.
+
+- The page is not very exciting for now, since you have no pages yet, no one can comment anything. Go ahead and click on "Add a new page". A modal will appear.
+
+- Input the page title. It is intended for you to identify different pages under the same site, so for now name it whatever you like.
+
+- Input the page URL &ndash; once again, it is intended for identification purposes only. If you provided the site domain as `*` when creating the site, you can input any valid URL here, otherwise make sure your URL is based on the site domain.
+
+- Click on "Create".
+
+- The modal will disappear, and you will be redirected to your _page dashboard_. You have successfully created a new ezkomment page.
+
+## Try out the comment section
+
+As soon as you finish the previous step, a comment section for that page is up online. You can view a URL in the page dashboard, which is in this form
+
+```
+https://ezkomment.joulev.dev/embed/⟨siteId⟩/⟨pageId⟩
+```
+
+where `siteId` and `pageId` are the internal unique identification string for the site and page, respectively
+
+Click "Copy" and paste it to the URL bar of a browser. You should see something like this
+
+![Screenshot of the embed page](/images/docs/getting-started/embed-page.png)
+
+You can now type in a comment and it will show up automatically. Notice that Markdown is supported here.
+
+![Screenshot of the embed page after a comment has been posted](/images/docs/getting-started/embed-page-post-comment.png)
+
+Navigate back to the page dashboard, under "Approved comments", you can see that comment already showing up.
+
+![Screenshot of the page dashboard](/images/docs/getting-started/approved-section-post-comment.png)
+
+Congratulations, your comment section is now up and ready!
+
+## Embed this comment section to your page
+
+All what you need to do now is to embed this comment section to your website.
+
+```html
+<iframe src="https://ezkomment.joulev.dev/embed/⟨siteId⟩/⟨pageId⟩"></iframe>
+```
+
+You may notice that right now the `<iframe>` is having a predefined height. You _can_ change this height with CSS of course, but it is hard to know the true height of the comment section so that you can style it truly accurately. Luckily, ezkomment embed pages provide a simple API for this: when the page is embeded and whenever the number of comments change, it will automatically [post a message](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to your main page. The message has the following format:
+
+```json
+{
+  "EzkFrameHeight": 123 // number
+}
+```
+
+where `EzkFrameHeight` is the height of the `<iframe>` document. You can make use of this with JavaScript, for example
+
+```html
+<iframe id="embedded-comments" src="https://ezkomment.joulev.dev/embed/⟨siteId⟩/⟨pageId⟩"></iframe>
+<script>
+  window.addEventListener("message", event => {
+    if (event.data.hasOwnProperty("EzkFrameHeight"))
+      document.getElementById("embedded-comments").style.height = event.data.EzkFrameHeight + "px";
+  });
+</script>
+```
+
+Now you can visit your page and see your comment section there. It should look something like this:
+
+![Screenshot of sample demo page](/images/docs/getting-started/sample-embed.png)
+
+Congratulations &ndash; your comment section is now live, and if you deploy your website now, everyone can come in and post a comment!
+
+By the way, the above screenshot is from [the official ezkomment demo page](https://ezkomment.joulev.dev/sample/index.html). Do check it out, along with [the source code (plain HTML)](https://github.com/joulev/ezkomment/blob/prod/public/sample/index.html) to learn more if you would like.
+
+## Moving forward
+
+Now that you have launched your first comment section, we recommend reading the following sections to know what to do next.
+
+- [Section 1](#)
+- [Section 2](#)
+- [Section 3](#)

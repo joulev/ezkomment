@@ -56,10 +56,6 @@
       }
     </style>
     <script>
-      // https://stackoverflow.com/a/42308842
-      function setIframeHeight(iframe) {
-        iframe.contentWindow.postMessage("EzkFrameHeight", "*");
-      }
       window.addEventListener("message", event => {
         if (event.data.hasOwnProperty("EzkFrameHeight"))
           document.getElementById("embedded-comments").style.height = event.data.EzkFrameHeight + "px";
@@ -118,7 +114,7 @@
       </article>
       <section>
         <h2>Comments</h2>
-        <iframe id="embedded-comments" src="/embed/mzI4sqdplraledcuJg5Z/8AnFTLqw7EnbzUVpjZYS" onload="setIframeHeight(this)">
+        <iframe id="embedded-comments" src="/embed/mzI4sqdplraledcuJg5Z/8AnFTLqw7EnbzUVpjZYS">
       </section>
     </main>
   </body>
