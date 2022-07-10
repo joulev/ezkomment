@@ -106,7 +106,7 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
     const { id } = (body as ApiResponseBody).data as { id: string };
     await mutateUser(); // we need to get new info about page count too
     await mutateSite();
-    router.push(`/app/site/${site.name}/${id}`);
+    router.push(`/app/site/${site.name}/${id}?confetti=1`);
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {

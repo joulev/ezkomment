@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
+import JSConfetti from "js-confetti";
 import { useRouter } from "next/router";
-import { FC, createContext, useContext, useEffect, useState } from "react";
+import { FC, createContext, useContext, useEffect, useRef, useState } from "react";
 
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -229,9 +230,28 @@ const ApprovedComments: FC = () => {
   );
 };
 
+function useConfetti() {
+  const { page } = usePage();
+  const { query, pathname, replace } = useRouter();
+  const confettiRef = useRef<JSConfetti>();
+  useEffect(() => {
+    confettiRef.current = new JSConfetti();
+  }, []);
+  useEffect(() => {
+    const confettiColours = ["#6366f1", "#10b981", "#ef4444", "#3b82f6", "#eab308"];
+    if (!confettiRef.current || !page) return;
+    if (query.confetti === "1") {
+      confettiRef.current.addConfetti({ confettiColors: confettiColours });
+      delete query.confetti;
+      replace({ pathname, query }, undefined, { shallow: true });
+    }
+  }, [page, query, pathname, replace, confettiRef]);
+}
+
 const Content: FC = () => {
   const [warningDisabled, setWarningDisabled] = useState(false);
   const { page } = usePage();
+  useConfetti();
   if (!page) return <Loading />;
   return (
     <WarningContext.Provider value={{ warningDisabled, setWarningDisabled }}>
