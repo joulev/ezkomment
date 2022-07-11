@@ -15,6 +15,7 @@ import {
     Comment,
     CreatePageBodyParams,
     Page,
+    UpdateCommentBodyParams,
     UpdatePageBodyParams,
 } from "~/types/server";
 
@@ -119,7 +120,9 @@ export async function updatePageById(uid: string, pageId: string, data: UpdatePa
             );
             const commentDocs = commentSnapshots.docs;
             const commentRefs = commentDocs.map(doc => doc.ref);
-            commentRefs.forEach(ref => t.update(ref, { srtatus: "Approved" }));
+            commentRefs.forEach(ref =>
+                t.update(ref, { status: "Approved" } as UpdateCommentBodyParams)
+            );
         });
     }
 
