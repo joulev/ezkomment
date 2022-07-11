@@ -144,6 +144,14 @@ export async function listSitePagesById(siteId: string) {
     return pageSnapshots.docs.map(doc => doc.data()) as Page[];
 }
 
+export async function listPageApprovedComments(pageId: string) {
+    const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId)
+        .where("status", "==", "Approved")
+        .get();
+    const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
+    return data.sort((c1, c2) => c2.date - c1.date);
+}
+
 /**
  * Deletes all pages of a site, including their comments as well. This method can also update the
  * site, if required.

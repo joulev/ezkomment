@@ -4,7 +4,7 @@ import { compileComments2html } from "~/server/utils/embedUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
 import { ClientPage, CreatePageBodyParams, Page, UpdatePageBodyParams } from "~/types/server";
-import { ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
+import { ApiRequest, ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.type";
 
 export async function getPage(req: AuthenticatedApiRequest, res: ApiResponse<ClientPage>) {
     const { uid } = req.user;
@@ -37,11 +37,17 @@ export async function deletePage(req: AuthenticatedApiRequest, res: ApiResponse)
     res.status(200).json({ message: "Deleted page" });
 }
 
-export async function listPageComments(req: AuthenticatedApiRequest, res: ApiResponse) {
+// export async function listPageComments(req: ApiRequest, res: ApiResponse) {
+//     const { pageId } = extractFirstQueryValue(req);
+//     const data = await listPageCommentsById(pageId).then(compileComments2html);
+//     /**
+//      * This list of comments must be complied to html
+//      */
+//     res.status(200).json({ message: "Listed all comments", data });
+// }
+
+export async function listPageApprovedComments(req: ApiRequest, res: ApiResponse) {
     const { pageId } = extractFirstQueryValue(req);
-    const data = await listPageCommentsById(pageId).then(compileComments2html);
-    /**
-     * This list of comments must be complied to html
-     */
-    res.status(200).json({ message: "Listed all comments", data });
+    const data = await PageUtils.listPageApprovedComments(pageId).then(compileComments2html);
+    res.status(200).json({ message: "Listed all approved comments", data });
 }
