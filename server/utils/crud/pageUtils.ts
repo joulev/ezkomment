@@ -130,11 +130,22 @@ export async function updatePageById(uid: string, pageId: string, data: UpdatePa
         const pageRef = PAGES_COLLECTION.doc(pageId);
         const { autoApprove } = data;
         return await firestoreAdmin.runTransaction(async t => {
-            await getPageOrThrowInTransaction(t, uid, pageRef);
+            const { siteId, pendingCommentCount } = await getPageOrThrowInTransaction(
+                t,
+                uid,
+                pageRef
+            );
             /**
              * We need to approve all pending comments when auto approved is turned to true
+             * Update the statistic as well
              */
-            if (autoApprove) approveAllPendingComments(pageId);
+            if (autoApprove) {
+                approveAllPendingComments(pageId);
+                t.update(pageRef, { pendingCommentCount: 0 });
+                t.update(SITES_COLLECTION.doc(siteId), {
+                    pendingCommentCount: FieldValue.increment(-pendingCommentCount),
+                });
+            }
             t.update(pageRef, data);
         });
     } catch (err) {
