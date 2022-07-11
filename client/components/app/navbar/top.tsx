@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { FC, MouseEventHandler, ReactNode, useEffect, useState } from "react";
+import { FC, MouseEventHandler, ReactNode, useContext, useEffect, useState } from "react";
 
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -14,8 +14,8 @@ import useAuth from "~/client/hooks/auth";
 import { signOut } from "~/client/lib/firebase/auth";
 
 import A from "~/client/components/anchor";
-import Notifications from "~/client/components/app/notification";
 import ModeSwitcher from "~/client/components/modeSwitcher";
+import { NotificationShowSetter } from "~/client/layouts/app";
 
 import { CurrentPage } from "~/types/client/page.type";
 import { IconType } from "~/types/client/utils.type";
@@ -122,8 +122,8 @@ const TopNavMobileBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => 
 
 const TopNav: FC<CurrentPage> = props => {
   const [expanded, setExpanded] = useState(false);
-  const [showNotif, setShowNotif] = useState(false);
   const router = useRouter();
+  const setShowNotif = useContext(NotificationShowSetter);
   useEffect(() => setExpanded(false), [router.asPath]);
 
   const auth = useAuth();
@@ -215,7 +215,6 @@ const TopNav: FC<CurrentPage> = props => {
           </div>
         </nav>
       </div>
-      <Notifications show={showNotif} onClose={() => setShowNotif(false)} />
     </div>
   );
 };
