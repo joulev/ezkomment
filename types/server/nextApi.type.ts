@@ -48,11 +48,13 @@ export type FormDataFile = {
     buffer: Buffer;
 };
 
-export type ApiRequestWithFormData = NextApiRequest & {
+export type ApiRequest = NextApiRequest;
+
+export type ApiRequestWithFormData = ApiRequest & {
     file?: FormDataFile;
 };
 
-export type AuthenticatedApiRequest = NextApiRequest & {
+export type AuthenticatedApiRequest = ApiRequest & {
     // We shall attach the uid into the request
     user: DecodedIdToken;
 };
