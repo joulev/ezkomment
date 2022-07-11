@@ -115,6 +115,57 @@ describe("Test page utils", () => {
         expect(pageCount).toEqual(6);
     });
 
+    it("Should correctly approve pending comments when auto approve is toggled", async () => {
+        await PageUtils.updatePageById(uid, pageId1, { autoApprove: false });
+        await Promise.all([
+            CommentUtils.createComment({
+                pageId: pageId1,
+                author: null,
+                text: "Flame of Nuclear",
+            }),
+            CommentUtils.createComment({
+                pageId: pageId1,
+                author: null,
+                text: "Okawai koto",
+            }),
+        ]);
+        let clientPage = await PageUtils.getClientPageById(uid, pageId1);
+        expect(clientPage.comments).toHaveLength(2);
+        expect(clientPage).toMatchObject({
+            totalCommentCount: 2,
+            pendingCommentCount: 2,
+        });
+        await expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            totalCommentCount: 7,
+            pendingCommentCount: 2,
+        });
+        await PageUtils.updatePageById(uid, pageId1, { autoApprove: true });
+        clientPage = await PageUtils.getClientPageById(uid, pageId1);
+        expect(clientPage.comments).toHaveLength(2);
+        expect(clientPage).toMatchObject({
+            totalCommentCount: 2,
+            pendingCommentCount: 0,
+        });
+        await expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            totalCommentCount: 7,
+            pendingCommentCount: 0,
+        });
+        /**
+         * Delete comments
+         */
+        await CommentUtils.deletePageCommentsById(pageId1, true);
+        clientPage = await PageUtils.getClientPageById(uid, pageId1);
+        expect(clientPage.comments).toHaveLength(0);
+        expect(clientPage).toMatchObject({
+            totalCommentCount: 0,
+            pendingCommentCount: 0,
+        });
+        await expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            totalCommentCount: 5,
+            pendingCommentCount: 0,
+        });
+    });
+
     it("Should delete page correctly", async () => {
         await PageUtils.deletePageById(uid, pageId1);
         await Promise.all([
