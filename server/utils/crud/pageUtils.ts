@@ -107,10 +107,31 @@ export async function createPage(uid: string, data: CreatePageBodyParams) {
  * @param data The data to update the page
  */
 export async function updatePageById(uid: string, pageId: string, data: UpdatePageBodyParams) {
+    /**
+     * Approve all pending comments of a page when auto approve is turned on
+     *
+     * @param pageId The id of the page
+     */
+    async function approveAllPendingComments(pageId: string) {
+        return await firestoreAdmin.runTransaction(async t => {
+            const commentSnapshots = await t.get(
+                COMMENTS_COLLECTION.where("pageId", "==", pageId).where("status", "==", "Pending")
+            );
+            const commentDocs = commentSnapshots.docs;
+            const commentRefs = commentDocs.map(doc => doc.ref);
+            commentRefs.forEach(ref => t.update(ref, { srtatus: "Approved" }));
+        });
+    }
+
     try {
         const pageRef = PAGES_COLLECTION.doc(pageId);
+        const { autoApprove } = data;
         return await firestoreAdmin.runTransaction(async t => {
             await getPageOrThrowInTransaction(t, uid, pageRef);
+            /**
+             * We need to approve all pending comments when auto approved is turned to true
+             */
+            if (autoApprove) approveAllPendingComments(pageId);
             t.update(pageRef, data);
         });
     } catch (err) {
@@ -144,6 +165,12 @@ export async function listSitePagesById(siteId: string) {
     return pageSnapshots.docs.map(doc => doc.data()) as Page[];
 }
 
+/**
+ * Lists all approved comments of a page
+ *
+ * @param pageId The id of the page
+ * @returns An array of comments
+ */
 export async function listPageApprovedComments(pageId: string) {
     const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId)
         .where("status", "==", "Approved")
