@@ -24,7 +24,7 @@ const Page: FC = () => (
   </Document>
 );
 
-const screens = theme.screens as { [key: string]: string };
+const screens = theme!.screens as { [key: string]: string };
 const breakpoints = Object.entries(screens).map(([breakpoint, width]) => ({
   breakpoint,
   width: parseInt(width),
@@ -37,11 +37,11 @@ describe("`breakpoint` integration test", () => {
     expect(screen.getByTestId("breakpoint")).toHaveTextContent("xs");
     document.body.innerHTML = "";
 
-    breakpoints.forEach(({ breakpoint, width }) => {
+    for (const { breakpoint, width } of breakpoints) {
       setupMediaViewport(width);
       render(<Page />);
       expect(screen.getByTestId("breakpoint")).toHaveTextContent(breakpoint);
       document.body.innerHTML = "";
-    });
+    }
   });
 });

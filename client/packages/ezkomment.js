@@ -46,7 +46,7 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
             comments.length > 0
                 ? ""
                 : "<div>There are no comments yet. Be the first to join the conversation.</div>";
-        comments.forEach(({ author, text, date }) => {
+        for (const { author, text, date } of comments) {
             const commentDocument = new DOMParser().parseFromString(COMMENTDIVCONTENT, "text/html");
             const authorEl = commentDocument.querySelector("[data-ezk='comment-author']");
             const contentEl = commentDocument.querySelector("[data-ezk='comment-content']");
@@ -56,7 +56,7 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
                 contentEl.innerHTML = text && text.length > 0 ? text : "(no comment body)"; // already rendered safely on server side
             if (dateEl) dateEl.textContent = new Date(date).toLocaleString("en-GB");
             commentsDiv.innerHTML += commentDocument.body.innerHTML;
-        });
+        }
         sendFrameHeight();
     }
 

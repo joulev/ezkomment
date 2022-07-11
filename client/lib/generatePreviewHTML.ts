@@ -31,15 +31,15 @@ export default async function generatePreviewHTML(
             ? ""
             : "<div>There are no comments yet. Be the first to join the conversation.</div>";
 
-    for (let i = 0; i < commentHTML.length; i++) {
+    for (const comment of commentHTML) {
         const commentDom = new DOMParser().parseFromString(commentFrameHTML, "text/html");
         const commentDoc = commentDom.documentElement;
         const author = commentDoc.querySelector("[data-ezk='comment-author']");
         const date = commentDoc.querySelector("[data-ezk='comment-date']");
         const content = commentDoc.querySelector("[data-ezk='comment-content']");
-        if (author) author.textContent = commentHTML[i].author ?? "Anonymous";
-        if (date) date.textContent = commentHTML[i].date;
-        if (content) content.innerHTML = commentHTML[i].content;
+        if (author) author.textContent = comment.author ?? "Anonymous";
+        if (date) date.textContent = comment.date;
+        if (content) content.innerHTML = comment.content;
         commentWrapper.appendChild(commentDom.body.firstChild as ChildNode);
     }
 
