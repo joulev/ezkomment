@@ -224,9 +224,6 @@ const Content: FC = () => {
           className="w-48"
         />
         <div className="flex-grow" />
-        <Button icon={SaveOutlinedIcon} variant="tertiary">
-          Save
-        </Button>
         <Button icon={DoneOutlinedIcon}>Deploy</Button>
       </div>
       <div className="hidden lg:block mb-9">
