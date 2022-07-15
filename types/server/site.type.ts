@@ -63,6 +63,14 @@ export type SiteStatistics = {
     newComment: number[];
 };
 
+export type SiteCustomisation = {
+    customisation: string;
+};
+
+export type UpdateSiteCustomisationBodyParams = {
+    customisation: string;
+};
+
 export type ClientSite = Site & {
     pages: Page[];
     statistic: SiteStatistics;
