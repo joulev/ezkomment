@@ -4,12 +4,11 @@
  */
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION } from "~/server/firebase/firestoreCollections";
+import CustomApiError from "~/server/utils/errors/customApiError";
+import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
+import { getSiteInTransaction } from "~/server/utils/firestoreUtils";
 
 import { SiteCustomisation, UpdateSiteCustomisationBodyParams } from "~/types/server";
-
-import CustomApiError from "../errors/customApiError";
-import { handleFirestoreError } from "../errors/handleFirestoreError";
-import { getSiteOrThrowInTransaction } from "./siteUtils";
 
 /**
  * The id associated with the customisation document.
@@ -22,7 +21,7 @@ export async function getSiteCustomisation(uid: string, siteId: string) {
         /**
          * Check whether the decoded uid match the site's uid.
          */
-        await getSiteOrThrowInTransaction(t, uid, siteRef);
+        await getSiteInTransaction(t, siteRef, uid);
         const customisationSnapshot = await t.get(
             siteRef.collection("customisation").doc(CUSTOMISATION_ID)
         );
@@ -40,7 +39,7 @@ export async function updateSiteCustomisation(
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin
         .runTransaction(async t => {
-            await getSiteOrThrowInTransaction(t, uid, siteRef);
+            await getSiteInTransaction(t, siteRef, uid);
             t.update(siteRef.collection("customisation").doc(CUSTOMISATION_ID), data);
         })
         .catch(handleFirestoreError); // In case the update fails. But it should not fail.

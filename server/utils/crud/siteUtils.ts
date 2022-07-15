@@ -1,14 +1,11 @@
-import { DocumentReference, Transaction } from "firebase-admin/firestore";
-
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
     PAGES_COLLECTION,
     SITES_COLLECTION,
     USERS_COLLECTION,
 } from "~/server/firebase/firestoreCollections";
-import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
-import { deleteRefArray } from "~/server/utils/firestoreUtils";
+import { deleteRefArray, getSiteInTransaction } from "~/server/utils/firestoreUtils";
 
 import {
     ClientSite,
@@ -20,18 +17,6 @@ import {
 } from "~/types/server";
 
 import { deleteSitePagesById } from "./pageUtils";
-
-export async function getSiteOrThrowInTransaction(
-    t: Transaction,
-    uid: string,
-    ref: DocumentReference
-) {
-    const siteSnapshot = await t.get(ref);
-    const siteData = siteSnapshot.data() as Site;
-    if (!siteSnapshot.exists) throw new CustomApiError("Site does not exist", 404);
-    if (uid !== siteData.uid) throw new CustomApiError("Forbidden", 403);
-    return siteData;
-}
 
 function queryUserSitesById(uid: string) {
     return SITES_COLLECTION.where("uid", "==", uid);
@@ -47,7 +32,7 @@ function queryUserSitesById(uid: string) {
 export async function getSiteById(uid: string, siteId: string) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
-        const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
+        const siteData = await getSiteInTransaction(t, siteRef, uid);
         return siteData;
     });
 }
@@ -55,7 +40,7 @@ export async function getSiteById(uid: string, siteId: string) {
 export async function getClientSiteById(uid: string, siteId: string) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
-        const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
+        const siteData = await getSiteInTransaction(t, siteRef, uid);
         const { docs } = await t.get(PAGES_COLLECTION.where("siteId", "==", siteId));
         const pages = docs.map(doc => doc.data()) as Page[];
         const tempStat = Array.from({ length: 30 }).map(_ => 0);
@@ -113,7 +98,7 @@ export async function updateSiteById(uid: string, siteId: string, data: UpdateSi
         const newName = data.name;
         return await firestoreAdmin.runTransaction(async t => {
             // Look up the site's name
-            const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
+            const siteData = await getSiteInTransaction(t, siteRef, uid);
             if (newName !== undefined) {
                 const oldName = siteData.name;
                 const userSitesCollection = USERS_COLLECTION.doc(uid).collection("sites");
@@ -137,7 +122,7 @@ export async function deleteSiteById(uid: string, siteId: string) {
     try {
         const siteRef = SITES_COLLECTION.doc(siteId);
         return await firestoreAdmin.runTransaction(async t => {
-            const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
+            const siteData = await getSiteInTransaction(t, siteRef, uid);
             t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(siteData.name));
             t.delete(siteRef);
         });

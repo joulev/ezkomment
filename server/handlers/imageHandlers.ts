@@ -11,7 +11,7 @@ import {
 
 export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
-    const util = new UploadUserPhotoUtil();
+    const util = UploadUserPhotoUtil.instance();
     const photoURL = util.getUserPhotoUrl(uid);
     await updateUserById(uid, { photoURL });
     await util.uploadUserPhoto(uid, req.file);
@@ -24,7 +24,7 @@ export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiRespo
 export async function uploadSiteIcon(req: AuthenticatedApiRequestWithFormData, res: ApiResponse) {
     const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
-    const util = new UploadSiteIconUtil();
+    const util = UploadSiteIconUtil.instance();
     const iconURL = util.getSiteIconUrl(siteId);
     await updateSiteById(uid, siteId, { iconURL });
     await util.uploadSiteIcon(siteId, req.file);

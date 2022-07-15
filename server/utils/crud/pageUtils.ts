@@ -1,4 +1,4 @@
-import { DocumentReference, FieldValue, Transaction } from "firebase-admin/firestore";
+import { FieldValue } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
@@ -8,7 +8,11 @@ import {
 } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
-import { deleteRefArray } from "~/server/utils/firestoreUtils";
+import {
+    deleteRefArray,
+    getPageInTransaction,
+    getSiteInTransaction,
+} from "~/server/utils/firestoreUtils";
 
 import {
     ClientPage,
@@ -20,19 +24,6 @@ import {
 } from "~/types/server";
 
 import { deletePageCommentsById } from "./commentUtils";
-import { getSiteOrThrowInTransaction } from "./siteUtils";
-
-export async function getPageOrThrowInTransaction(
-    t: Transaction,
-    uid: string,
-    ref: DocumentReference
-) {
-    const pageSnapshot = await t.get(ref);
-    const pageData = pageSnapshot.data() as Page;
-    if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
-    if (uid !== pageData.uid) throw new CustomApiError("Forbidden", 403);
-    return pageData;
-}
 
 function querySitePagesById(siteId: string) {
     return PAGES_COLLECTION.where("siteId", "==", siteId);
@@ -47,7 +38,7 @@ function querySitePagesById(siteId: string) {
 export async function getPageById(uid: string, pageId: string) {
     const pageRef = PAGES_COLLECTION.doc(pageId);
     return await firestoreAdmin.runTransaction(async t => {
-        const pageData = await getPageOrThrowInTransaction(t, uid, pageRef);
+        const pageData = await getPageInTransaction(t, pageRef, uid);
         return pageData;
     });
 }
@@ -55,7 +46,7 @@ export async function getPageById(uid: string, pageId: string) {
 export async function getClientPageById(uid: string, pageId: string) {
     const pageRef = PAGES_COLLECTION.doc(pageId);
     return await firestoreAdmin.runTransaction(async t => {
-        const pageData = await getPageOrThrowInTransaction(t, uid, pageRef);
+        const pageData = await getPageInTransaction(t, pageRef, uid);
         const { docs } = await t.get(COMMENTS_COLLECTION.where("pageId", "==", pageId));
         const comments = docs
             .map(doc => doc.data())
@@ -85,7 +76,7 @@ export async function createPage(uid: string, data: CreatePageBodyParams) {
         };
         return await firestoreAdmin.runTransaction(async t => {
             const siteRef = SITES_COLLECTION.doc(siteId);
-            const siteData = await getSiteOrThrowInTransaction(t, uid, siteRef);
+            const siteData = await getSiteInTransaction(t, siteRef, uid);
 
             if (!url.includes(siteData.domain) && siteData.domain !== "*")
                 throw new CustomApiError("Site domain and page url do not match", 409);
@@ -130,11 +121,7 @@ export async function updatePageById(uid: string, pageId: string, data: UpdatePa
         const pageRef = PAGES_COLLECTION.doc(pageId);
         const { autoApprove } = data;
         return await firestoreAdmin.runTransaction(async t => {
-            const { siteId, pendingCommentCount } = await getPageOrThrowInTransaction(
-                t,
-                uid,
-                pageRef
-            );
+            const { siteId, pendingCommentCount } = await getPageInTransaction(t, pageRef, uid);
             /**
              * We need to approve all pending comments when auto approved is turned to true
              * Update the statistic as well
@@ -157,7 +144,7 @@ export async function deletePageById(uid: string, pageId: string) {
     try {
         const pageRef = PAGES_COLLECTION.doc(pageId);
         return await firestoreAdmin.runTransaction(async t => {
-            const pageData = await getPageOrThrowInTransaction(t, uid, pageRef);
+            const pageData = await getPageInTransaction(t, pageRef, uid);
             const { siteId, totalCommentCount, pendingCommentCount } = pageData;
             const siteRef = SITES_COLLECTION.doc(siteId);
             // Decrease the number of page by 1, decrease the number of total comment count,
