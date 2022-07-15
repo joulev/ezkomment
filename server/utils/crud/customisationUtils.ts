@@ -43,5 +43,5 @@ export async function updateSiteCustomisation(
             await getSiteOrThrowInTransaction(t, uid, siteRef);
             t.update(siteRef.collection("customisation").doc(CUSTOMISATION_ID), data);
         })
-        .catch(handleFirestoreError);
+        .catch(handleFirestoreError); // In case the update fails. But it should not fail.
 }
