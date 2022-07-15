@@ -5,7 +5,7 @@ import CustomApiError from "~/server/utils/errors/customApiError";
 
 import { FormDataFile } from "~/types/server/nextApi.type";
 
-class UploadImageUtil {
+abstract class UploadImageUtil {
     private readonly uuid: string;
     private static readonly bucket: string = process.env.FIREBASE_STORAGE_BUCKET as string;
 
@@ -46,6 +46,10 @@ export class UploadUserPhotoUtil extends UploadImageUtil {
         super();
     }
 
+    static instance() {
+        return new UploadUserPhotoUtil();
+    }
+
     getUserPhotoUrl(uid: string) {
         return this.getImageUrl(`users/${uid}`);
     }
@@ -58,6 +62,10 @@ export class UploadUserPhotoUtil extends UploadImageUtil {
 export class UploadSiteIconUtil extends UploadImageUtil {
     constructor() {
         super();
+    }
+
+    static instance() {
+        return new UploadSiteIconUtil();
     }
 
     getSiteIconUrl(siteId: string) {
