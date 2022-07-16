@@ -120,16 +120,22 @@
     .post h1 {
         @apply mb-12;
     }
-    .post h2 {
+    .post.blog h2 {
         @apply text-3xl font-semibold mt-12 mb-9 scroll-mt-27 md:scroll-mt-12;
     }
-    .post h3 {
+    .post h2,
+    .post.blog h3 {
         @apply text-2xl font-semibold mt-12 mb-9 scroll-mt-27 md:scroll-mt-12;
     }
-    .post h4 {
-        @apply text-xl font-light mt-9 mb-6 scroll-mt-24 md:scroll-mt-9;
+    .post h3,
+    .post.blog h4 {
+        @apply text-xl font-semibold mt-12 mb-9 scroll-mt-27 md:scroll-mt-12;
     }
-    .post.blog :where(h2, h3, h4) {
+    .post h4,
+    .post.blog h5 {
+        @apply text-lg font-light mt-9 mb-6 scroll-mt-24 md:scroll-mt-9;
+    }
+    .post.blog :where(h2, h3, h4, h5) {
         @apply scroll-mt-27;
     }
     .post :not(pre) > code {
@@ -146,9 +152,9 @@
         @apply list-decimal ml-9;
     }
     .post :where(ul, ol) li {
-        @apply mb-3;
+        @apply mb-6;
     }
-    .post :where(ul, ol) li:last-child {
+    .post :where(ul, ol) li p {
         @apply mb-6;
     }
     .post blockquote {

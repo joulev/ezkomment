@@ -82,15 +82,15 @@ where `siteId` and `pageId` are the internal unique identification string for th
 
 Click **Copy** and paste it to the URL bar of a browser. You should see something like this
 
-![Screenshot of the embed page](/images/docs/getting-started/embed-page.png)
+![Screenshot of the embed page](/images/docs/tutorial/getting-started/embed-page.png)
 
 You can now type in a comment and it will show up automatically. Notice that Markdown is supported here.
 
-![Screenshot of the embed page after a comment has been posted](/images/docs/getting-started/embed-page-post-comment.png)
+![Screenshot of the embed page after a comment has been posted](/images/docs/tutorial/getting-started/embed-page-post-comment.png)
 
 Navigate back to the page dashboard, under **Approved comments**, you can see that comment already showing up.
 
-![Screenshot of the page dashboard](/images/docs/getting-started/approved-section-post-comment.png)
+![Screenshot of the page dashboard](/images/docs/tutorial/getting-started/approved-section-post-comment.png)
 
 Congratulations, your comment section is now up and ready!
 
@@ -124,7 +124,7 @@ where `EzkFrameHeight` is the height of the `<iframe>` document. You can make us
 
 Now you can visit your page and see your comment section there. It should look something like this:
 
-![Screenshot of sample demo page](/images/docs/getting-started/sample-embed.png)
+![Screenshot of sample demo page](/images/docs/tutorial/getting-started/sample-embed.png)
 
 Congratulations &ndash; your comment section is now live, and if you deploy your website now, everyone can come in and post a comment!
 
