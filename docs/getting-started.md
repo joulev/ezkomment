@@ -18,13 +18,13 @@ If you already have either a GitHub account or a Google account, you can continu
 
 - Navigate to [the authentication page](https://ezkomment.joulev.dev/auth).
 
-- Click on "Continue with GitHub".
+- Click on **Continue with GitHub**.
 
 - There will be a pop-up for the auth provider to continue. If your browser blocks that pop-up, please allow it and try again, otherwise go to next step.
 
 - In the pop-up, if GitHub prompts you for sign in credentials, that means you are not yet authenticated with GitHub, so please sign in first. Otherwise go to next step.
 
-- Click "Authorize".
+- Click **Authorize**.
 
 - The pop-up should close automatically and you will be redirected to the ezkomment dashboard. You have successfully created your ezkomment account.
 
@@ -32,7 +32,7 @@ If you already have either a GitHub account or a Google account, you can continu
 
 - Navigate to [the authentication page](https://ezkomment.joulev.dev/auth).
 
-- Click on "Continue with Google".
+- Click on **Continue with Google**.
 
 - There will be a pop-up for the auth provider to continue. If your browser blocks that pop-up, please allow it and try again, otherwise go to next step.
 
@@ -46,13 +46,13 @@ If you already have either a GitHub account or a Google account, you can continu
 
 - Visit [the user dashboard](https://ezkomment.joulev.dev/app/dashboard). It will be where all of your sites are listed.
 
-- The dashboard should not look too exciting yet, since you have not created anything. Go ahead and click on "Add a new site". Alternatively, you can click on "New site" on the navigation bar.
+- The dashboard should not look too exciting yet, since you have not created anything. Go ahead and click on **Add a new site**. Alternatively, you can click on **New site** on the navigation bar.
 
-- Input the site name. The site name must be a valid URL slug (since it will feature in the site dashboard URL). If you know what a URL slug is, input whatever you like, otherwise let's continue by inputting `blog` for now (you can change this later).
+- Under **Site name**, input the site name. The site name must be a valid URL slug (since it will feature in the site dashboard URL). If you know what a URL slug is, input whatever you like, otherwise let's continue by inputting `blog` for now (you can change this later).
 
-- Input the site domain. If you already have a website deployed to the Internet, you can input the domain (including the subdomain if you want). Otherwise let's continue by inputting `*` (one single asterisk) for now (once again, you can change this later).
+- Under **Site domain**, input the site domain. If you already have a website deployed to the Internet, you can input the domain (including the subdomain if you want). Otherwise let's continue by inputting `*` (one single asterisk) for now (once again, you can change this later).
 
-- Click on "Add a new site".
+- Click on **Add a new site**.
 
 - You will be redirected to your _site dashboard_. You have successfully created a new ezkomment site!
 
@@ -60,13 +60,13 @@ If you already have either a GitHub account or a Google account, you can continu
 
 - Following previous steps you should already be in the site dashboard of your newly-created ezkomment site. If for some reasons that is not the case, visit [the user dashboard](https://ezkomment.joulev.dev/app/dashboard) and click on the site that you have just created.
 
-- The page is not very exciting for now, since you have no pages yet, no one can comment anything. Go ahead and click on "Add a new page". A modal will appear.
+- The page is not very exciting for now, since you have no pages yet, no one can comment anything. Go ahead and click on **Add a new page**. A modal will appear.
 
-- Input the page title. It is intended for you to identify different pages under the same site, so for now name it whatever you like.
+- Under **Page title**, input the page title. It is intended for you to identify different pages under the same site, so for now name it whatever you like.
 
-- Input the page URL &ndash; once again, it is intended for identification purposes only. If you provided the site domain as `*` when creating the site, you can input any valid URL here, otherwise make sure your URL is based on the site domain.
+- Under **Page URL**, input the page URL &ndash; once again, it is intended for identification purposes only. If you provided the site domain as `*` when creating the site, you can input any valid URL here, otherwise make sure your URL is based on the site domain.
 
-- Click on "Create".
+- Click on **Create**.
 
 - The modal will disappear, and you will be redirected to your _page dashboard_. You have successfully created a new ezkomment page.
 
@@ -80,7 +80,7 @@ https://ezkomment.joulev.dev/embed/⟨siteId⟩/⟨pageId⟩
 
 where `siteId` and `pageId` are the internal unique identification string for the site and page, respectively
 
-Click "Copy" and paste it to the URL bar of a browser. You should see something like this
+Click **Copy** and paste it to the URL bar of a browser. You should see something like this
 
 ![Screenshot of the embed page](/images/docs/getting-started/embed-page.png)
 
@@ -88,7 +88,7 @@ You can now type in a comment and it will show up automatically. Notice that Mar
 
 ![Screenshot of the embed page after a comment has been posted](/images/docs/getting-started/embed-page-post-comment.png)
 
-Navigate back to the page dashboard, under "Approved comments", you can see that comment already showing up.
+Navigate back to the page dashboard, under **Approved comments**, you can see that comment already showing up.
 
 ![Screenshot of the page dashboard](/images/docs/getting-started/approved-section-post-comment.png)
 

@@ -60,11 +60,13 @@ export async function getFileData(fileName: string[]): Promise<DocsData> {
             filePath
         )}&page=1&per_page=1`
     );
+    const ghData = (await ghFetch.json()) as any[];
     return {
         title: typeof data === "string" ? data : `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
         content: readFileSync(fillFilePath, "utf8").trim(),
-        lastModified: ghFetch.ok
-            ? ((await ghFetch.json())[0].commit.committer.date as string)
-            : "unknown",
+        lastModified:
+            ghFetch.ok && ghData.length > 0
+                ? (ghData[0].commit.committer.date as string)
+                : "unknown",
     };
 }
