@@ -83,7 +83,7 @@ describe("Test the documentation utility functions", () => {
 
     it("Handle case where fetching from GitHub API fails", async () => {
         /** @ts-ignore */
-        global.fetch = jest.fn(async () => ({ ok: false }));
+        global.fetch = jest.fn(async () => ({ ok: false, json: async () => [] }));
         const data = await getFileData(["getting-started"]);
         expect(data.lastModified).toBe("unknown");
     });
