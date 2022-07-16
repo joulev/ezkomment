@@ -1,5 +1,10 @@
 {
-    "getting-started": "Getting started",
+    tutorial: {
+        sectionTitle: "Tutorial",
+        pages: {
+            "getting-started": "Getting started",
+        },
+    },
     authentication: {
         sectionTitle: "Authentication",
         pages: {
