@@ -1,3 +1,12 @@
 {
     "getting-started": "Getting started",
+    authentication: {
+        sectionTitle: "Authentication",
+        pages: {
+            "authentication-flow": "Authentication flow",
+            "update-information": "Update information",
+            "link-and-unlink-providers": "Link and unlink providers",
+            "delete-account": "Delete account",
+        },
+    },
 }
