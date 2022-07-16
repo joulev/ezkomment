@@ -8,13 +8,16 @@ const DocsSidebarLink: FC<{ href: string; children: ReactNode }> = ({ href, chil
   const router = useRouter();
   return (
     <A
-      href={href}
+      href={router.asPath === href ? undefined : href}
       notStyled
       className={clsx(
-        "block mb-6 transition-all",
+        "block mb-1.5 py-1 px-3 transition-all rounded",
         router.asPath === href
-          ? "text-primary font-semibold"
-          : "text-muted hover:text-neutral-900 dark:hover:text-neutral-100"
+          ? "text-primary font-semibold bg-indigo-100 dark:bg-indigo-900 dark:bg-opacity-50"
+          : clsx(
+              "text-muted hover:text-neutral-700 hover:bg-neutral-100",
+              "dark:hover:text-neutral-300 dark:hover:bg-neutral-900"
+            )
       )}
     >
       {children}
