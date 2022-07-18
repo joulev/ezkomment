@@ -164,3 +164,25 @@ export async function deleteUserSitesById(uid: string) {
         handleFirestoreError(err);
     }
 }
+
+///////////////
+// STATISTIC //
+///////////////
+
+/**
+ * Gets statistic about the number of comments of the site during the last 30 days
+ */
+export async function getSiteStatistic(uid: string, siteId: string) {
+    const siteRef = SITES_COLLECTION.doc(siteId);
+    return await firestoreAdmin.runTransaction(async t => {
+        // Security
+        await getSiteInTransaction(t, siteRef, uid);
+        // Then we get the statistic
+        // I am stuck with this ... how should I store and then, read the relevant data?
+        const statistic: SiteStatistics = {
+            totalComment: [],
+            newComment: [],
+        };
+        return statistic;
+    });
+}
