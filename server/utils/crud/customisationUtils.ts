@@ -4,30 +4,26 @@
  */
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION } from "~/server/firebase/firestoreCollections";
-import CustomApiError from "~/server/utils/errors/customApiError";
-import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { getSiteInTransaction } from "~/server/utils/firestoreUtils";
 
 import { SiteCustomisation, UpdateSiteCustomisationBodyParams } from "~/types/server";
+
+import html from "~/constants/sampleCommentCode";
 
 /**
  * The id associated with the customisation document.
  */
 const CUSTOMISATION_ID = "CUSTOMISATION_ID";
 
-export async function getSiteCustomisation(uid: string, siteId: string) {
+export async function getSiteCustomisation(siteId: string): Promise<SiteCustomisation> {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
-        /**
-         * Check whether the decoded uid match the site's uid.
-         */
-        await getSiteInTransaction(t, siteRef, uid);
         const customisationSnapshot = await t.get(
             siteRef.collection("customisation").doc(CUSTOMISATION_ID)
         );
-        if (!customisationSnapshot.exists)
-            throw new CustomApiError("Customisation does not exist", 404);
-        return customisationSnapshot.data() as SiteCustomisation;
+        return customisationSnapshot.exists
+            ? (customisationSnapshot.data() as SiteCustomisation)
+            : { customisation: html };
     });
 }
 
@@ -37,10 +33,10 @@ export async function updateSiteCustomisation(
     data: UpdateSiteCustomisationBodyParams
 ) {
     const siteRef = SITES_COLLECTION.doc(siteId);
-    return await firestoreAdmin
-        .runTransaction(async t => {
-            await getSiteInTransaction(t, siteRef, uid);
-            t.update(siteRef.collection("customisation").doc(CUSTOMISATION_ID), data);
-        })
-        .catch(handleFirestoreError); // In case the update fails. But it should not fail.
+    return await firestoreAdmin.runTransaction(async t => {
+        await getSiteInTransaction(t, siteRef, uid);
+        // Completely replace the customisation. If the document does not exists, it will
+        // be created.
+        t.set(siteRef.collection("customisation").doc(CUSTOMISATION_ID), data);
+    });
 }
