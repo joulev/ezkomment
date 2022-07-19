@@ -298,6 +298,12 @@ const ContentWrapper: FC = () => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (!msg) return;
+    const timeoutRef = setTimeout(() => setMsg(null), 3000);
+    return () => clearTimeout(timeoutRef);
+  }, [msg]);
+
   if (["xs", "sm", "md"].includes(breakpoint))
     return (
       <div className="flex flex-col gap-6 my-12 items-center">
