@@ -40,7 +40,10 @@ export async function updateSiteCustomisation(
     return await firestoreAdmin
         .runTransaction(async t => {
             await getSiteInTransaction(t, siteRef, uid);
-            t.update(siteRef.collection("customisation").doc(CUSTOMISATION_ID), data);
+            t.set(siteRef.collection("customisation").doc(CUSTOMISATION_ID), data);
         })
         .catch(handleFirestoreError); // In case the update fails. But it should not fail.
 }
+
+// I must delete the customisation when delete a site as well.
+// This must be implemented, sighhhh

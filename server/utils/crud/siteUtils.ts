@@ -126,7 +126,7 @@ export async function deleteSiteById(uid: string, siteId: string) {
         return await firestoreAdmin.runTransaction(async t => {
             const siteData = await getSiteInTransaction(t, siteRef, uid);
             t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(siteData.name));
-            await firestoreAdmin.recursiveDelete(siteRef);
+            t.delete(siteRef);
         });
     } catch (err) {
         handleFirestoreError(err);
