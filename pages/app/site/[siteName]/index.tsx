@@ -30,6 +30,7 @@ import Modal from "~/client/components/modal";
 import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
 
+import { Page } from "~/types/server";
 import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const Loading: FC = () => (
@@ -115,8 +116,6 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
     try {
       await createNewPage(title, url);
       setToast({ type: "success", message: "Page created successfully!" });
-      setTitle("");
-      setUrl("");
     } catch (err: any) {
       setToast({ type: "error", message: <AuthError err={err} /> });
     }
@@ -164,11 +163,18 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
   );
 };
 
+function searchPages(pages: Page[], search: string) {
+  if (search === "") return pages;
+  return pages.filter(page => page.title.toLowerCase().includes(search.toLowerCase()));
+}
+
 const Content: FC = () => {
   const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
+  const [search, setSearch] = useState("");
   const { site } = useSite();
   if (!site) return <Loading />;
+  const pages = searchPages(site.pages, search);
   return (
     <>
       <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
@@ -251,6 +257,8 @@ const Content: FC = () => {
                 label={["xs", "sm"].includes(breakpoint) ? null : "Search"}
                 icon={SearchOutlinedIcon}
                 className="flex-grow"
+                value={search}
+                onUpdate={setSearch}
               />
               <Button
                 icon={breakpoint === "xs" ? undefined : AddOutlinedIcon}
@@ -259,29 +267,41 @@ const Content: FC = () => {
                 {breakpoint === "xs" ? "New page" : "Add a new page"}
               </Button>
             </div>
-            <div className="flex flex-col gap-6">
-              {site.pages.map((page, i) => (
-                <A
-                  notStyled
-                  key={i}
-                  className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
-                  href={`/app/site/${site.name}/${page.id}`}
-                >
-                  <div className="font-semibold text-lg mb-1.5">{page.title}</div>
-                  <div className="text-muted text-sm mb-6">{page.url}</div>
-                  <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
-                    <div className="grid grid-cols-2 sm:gap-12">
-                      <Stats small label="comments" value={page.totalCommentCount} />
-                      <Stats small label="pending" value={page.pendingCommentCount} />
+            {pages.length === 0 ? (
+              <div className="flex flex-col gap-6 my-12 items-center">
+                <div className="w-48">
+                  <BlankIllustration />
+                </div>
+                <div className="text-xl text-center">No pages found</div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-6">
+                {pages.map((page, i) => (
+                  <A
+                    notStyled
+                    key={i}
+                    className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
+                    href={`/app/site/${site.name}/${page.id}`}
+                  >
+                    <div className="font-semibold text-lg mb-1.5">{page.title}</div>
+                    <div className="text-muted text-sm mb-6">{page.url}</div>
+                    <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
+                      <div className="grid grid-cols-2 sm:gap-12">
+                        <Stats small label="comments" value={page.totalCommentCount} />
+                        <Stats small label="pending" value={page.pendingCommentCount} />
+                      </div>
+                      <div className="text-sm">
+                        {/* TODO */}
+                        Last comment: {formatDistanceToNow(
+                          parseISO("2022-01-01T00:00:00.000Z")
+                        )}{" "}
+                        ago
+                      </div>
                     </div>
-                    <div className="text-sm">
-                      {/* TODO */}
-                      Last comment: {formatDistanceToNow(parseISO("2022-01-01T00:00:00.000Z"))} ago
-                    </div>
-                  </div>
-                </A>
-              ))}
-            </div>
+                  </A>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
