@@ -76,8 +76,7 @@ const ProfileSection: FC = () => {
       </p>
       {!auth.user!.displayName && (
         <Banner variant="warning" className="mb-6">
-          You currently do not have a display name. In your replies to comments, you will simply be
-          identified as <i>Author</i>. It is recommended to have a display name.
+          You currently do not have a display name. It is recommended to have one.
         </Banner>
       )}
       <form className="flex flex-col gap-6 mb-12" onSubmit={handleDisplayNameSubmit}>
@@ -87,7 +86,6 @@ const ProfileSection: FC = () => {
           icon={PersonOutlinedIcon}
           type="text"
           value={displayName}
-          helpText="Your name is displayed in your replies to comments."
           onUpdate={setDisplayName}
           required
         />
@@ -103,7 +101,7 @@ const ProfileSection: FC = () => {
       <form className="flex flex-col gap-6" onSubmit={handlePhotoSubmit}>
         <IconUpload
           label="Profile photo"
-          helpText="Your profile picture is displayed on your replies to comments. It is also used as your general profile picture in this site."
+          helpText="The photo that identifies you on this application."
           file={image}
           onUpdate={setImage}
         />
@@ -288,7 +286,9 @@ const Account: NextPageWithLayout = () => {
           </p>
           <p>You can only perform this action once a day.</p>
           <RightAligned>
-            <Button icon={DnsOutlinedIcon}>Request data</Button>
+            <Button icon={DnsOutlinedIcon} disabled>
+              Request data
+            </Button>
           </RightAligned>
         </section>
         <hr />

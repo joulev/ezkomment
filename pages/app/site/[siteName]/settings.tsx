@@ -311,7 +311,9 @@ const Content: FC = () => {
             action once a day.
           </p>
           <RightAligned>
-            <Button icon={DnsOutlinedIcon}>Request data</Button>
+            <Button icon={DnsOutlinedIcon} disabled>
+              Request data
+            </Button>
           </RightAligned>
         </section>
         <hr />

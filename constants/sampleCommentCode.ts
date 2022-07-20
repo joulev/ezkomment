@@ -145,13 +145,12 @@ const html = `<!DOCTYPE html>
       <textarea
         data-ezk="form-content"
         class="form__content"
-        placeholder="Comment here. Markdown is supported."
+        placeholder="Comment here. Basic Markdown syntaxes are supported."
         name="content"
         required
       ></textarea>
       <div class="form__info">
-        The comment section is moderated. Your comment will be displayed after it is approved by the
-        site admin.
+        The comment section may be moderated, so your comment may not appear immediately.
       </div>
       <div class="form__submit-button"><button type="submit">Post</button></div>
     </form>
