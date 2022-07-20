@@ -9,8 +9,7 @@ import { NavData } from "~/types/client/docs.type";
 jest.mock("next/router", () => require("next-router-mock"));
 
 const navData: NavData = {
-  "hello-world": "Hello, world",
-  "a-route-with-subpages": {
+  directory: {
     sectionTitle: "A route with subpages",
     pages: {
       "a-subpage": "A subpage",
@@ -22,17 +21,16 @@ const navData: NavData = {
 describe("Documentation navigation pane tests", () => {
   it("Render links", () => {
     render(<Nav navData={navData} />);
-    expect(screen.getByText("Hello, world")).toHaveAttribute("href", "/docs/hello-world");
     expect(screen.getByText("Another subpage")).toHaveAttribute(
       "href",
-      "/docs/a-route-with-subpages/another-subpage"
+      "/docs/directory/another-subpage"
     );
   });
 
   it("Highlight current page", () => {
-    mockRouter.setCurrentUrl("/docs/a-route-with-subpages/a-subpage");
+    mockRouter.setCurrentUrl("/docs/directory/a-subpage");
     render(<Nav navData={navData} />);
-    expect(screen.getByText("Hello, world")).toHaveClass("text-muted");
     expect(screen.getByText("A subpage")).toHaveClass("text-primary");
+    expect(screen.getByText("Another subpage")).toHaveClass("text-muted");
   });
 });
