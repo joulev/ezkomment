@@ -30,6 +30,7 @@ const nextConfig = {
     },
   ],
   webpack: (config, options) => {
+    if (options.isServer) import("./scripts/cacheDocs.mjs");
     config.module.rules.push({
       test: /\.mdx?$/,
       use: [
