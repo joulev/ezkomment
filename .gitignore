@@ -61,3 +61,6 @@ public/v1/js
 !others/latex/README.md
 !others/latex/main.tex
 !others/latex/ezkomment.pdf
+
+# Documentation JSON
+/docs/cache.json
