@@ -6,11 +6,14 @@
 import Editor from "@monaco-editor/react";
 import clsx from "clsx";
 import { FC, useEffect, useState } from "react";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import useSWR from "swr";
 
+import CloseFullscreenOutlinedIcon from "@mui/icons-material/CloseFullscreenOutlined";
 import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import FullscreenOutlinedIcon from "@mui/icons-material/FullscreenOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
@@ -166,6 +169,7 @@ type ContentProps = {
 const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
+  const fullscreenHandle = useFullScreenHandle();
 
   const [active, setActive] = useState(0);
   const [code, setCode] = useState<string | undefined>(initialHTML);
@@ -183,11 +187,15 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
   }, [comments, code, previewIsDark]);
 
   return (
-    <>
+    <FullScreen
+      handle={fullscreenHandle}
+      className={clsx(fullscreenHandle.active && "px-3", "bg-neutral-100 dark:bg-neutral-900")}
+    >
       <div
         className={clsx(
           "hidden lg:flex flex-row gap-6 items-center",
-          "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-[49px] z-10"
+          "py-3 bg-neutral-100 dark:bg-neutral-900",
+          fullscreenHandle.active || "sticky z-10 top-[49px]"
         )}
       >
         <ButtonGroup
@@ -228,6 +236,11 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
         />
         <div className="flex-grow" />
         <Button
+          onClick={fullscreenHandle.active ? fullscreenHandle.exit : fullscreenHandle.enter}
+          variant="tertiary"
+          icon={fullscreenHandle.active ? CloseFullscreenOutlinedIcon : FullscreenOutlinedIcon}
+        />
+        <Button
           icon={DoneOutlinedIcon}
           disabled={initialHTML === code || !code}
           onClick={() => submit(code)}
@@ -240,7 +253,7 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
           left={
             active === 0 ? (
               <Editor
-                height="90vh"
+                height={fullscreenHandle.active ? "100vh" : "90vh"}
                 language="html"
                 value={code}
                 theme={currentTheme === "light" ? "light" : "vs-dark"}
@@ -248,7 +261,9 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
                 options={monacoOptions}
               />
             ) : (
-              <AddComment comments={comments} setComments={setComments} />
+              <div className={clsx(fullscreenHandle.active && "h-screen overflow-y-auto")}>
+                <AddComment comments={comments} setComments={setComments} />
+              </div>
             )
           }
           right={
@@ -261,7 +276,7 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
           }
         />
       </div>
-    </>
+    </FullScreen>
   );
 };
 
