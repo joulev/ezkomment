@@ -9,23 +9,23 @@ import { SITE } from "~/misc/validate";
 
 import * as E from "~/client/lib/errors";
 import useAuth from "~/client/hooks/auth";
+import { useSetToast } from "~/client/hooks/toast";
 import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import AuthError from "~/client/components/auth/error";
 import Button from "~/client/components/buttons";
 import { InputDetachedLabel } from "~/client/components/forms/input";
-import MsgBanner from "~/client/components/messageBanner";
 import AppLayout from "~/client/layouts/app";
 
-import { ResponseMessage as Msg, NextPageWithLayout } from "~/types/client/utils.type";
+import { NextPageWithLayout } from "~/types/client/utils.type";
 
 const New: NextPageWithLayout = () => {
   const { user, mutate, setLoading } = useAuth();
   const router = useRouter();
+  const setToast = useSetToast();
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
-  const [msg, setMsg] = useState<Msg>(null);
 
   const createNewSite = async (name: string, domain: string) => {
     setLoading(true);
@@ -48,8 +48,9 @@ const New: NextPageWithLayout = () => {
     if (!SITE.nameIsValid(name) || !SITE.domainIsValid(domain)) return;
     try {
       await createNewSite(name, domain);
+      setToast({ type: "success", message: "Site created successfully!" });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
       setLoading(false);
     }
   };
@@ -61,7 +62,6 @@ const New: NextPageWithLayout = () => {
         A new site let you host comments for all webpages under any domain or subdomain.{" "}
         <A href="https://google.com">Should I create a new site or page?</A>
       </p>
-      {msg && <MsgBanner msg={msg} />}
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <InputDetachedLabel
           label="Site name"

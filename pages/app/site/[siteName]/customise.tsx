@@ -21,6 +21,7 @@ import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSite } from "~/client/hooks/site";
 import useTheme from "~/client/hooks/theme";
+import { useSetToast } from "~/client/hooks/toast";
 import { internalFetcher, internalSWRGenerator } from "~/client/lib/fetcher";
 import generatePreviewHTML from "~/client/lib/generatePreviewHTML";
 
@@ -32,7 +33,7 @@ import SideBySide from "~/client/components/sideBySide";
 import IconLabel from "~/client/components/utils/iconAndLabel";
 import RightAligned from "~/client/components/utils/rightAligned";
 
-import { IconAndLabel, ResponseMessage as Msg, PreviewComment } from "~/types/client/utils.type";
+import { IconAndLabel, PreviewComment } from "~/types/client/utils.type";
 import { SiteCustomisation } from "~/types/server";
 
 const initialPreviewComments: PreviewComment[] = [
@@ -161,9 +162,8 @@ const AddComment: FC<AddCommentProps> = ({ comments, setComments }) => {
 type ContentProps = {
   initialHTML: string;
   submit: (html: string | undefined) => Promise<void>;
-  msg: Msg;
 };
-const Content: FC<ContentProps> = ({ initialHTML, submit, msg }) => {
+const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
 
@@ -227,10 +227,6 @@ const Content: FC<ContentProps> = ({ initialHTML, submit, msg }) => {
           className="w-48"
         />
         <div className="flex-grow" />
-        {msg && msg.type === "success" && (
-          <div className="text-sm text-emerald-500">{msg.message}</div>
-        )}
-        {msg && msg.type === "error" && <div className="text-sm text-red-500">{msg.message}</div>}
         <Button
           icon={DoneOutlinedIcon}
           disabled={initialHTML === code || !code}
@@ -273,11 +269,11 @@ const ContentWrapper: FC = () => {
   const breakpoint = useBreakpoint();
   const { setLoading } = useAuth();
   const { site } = useSite();
+  const setToast = useSetToast();
   const { data, mutate } = useSWR(
     site ? `/api/sites/${site.id}/customisation` : null,
     internalSWRGenerator<SiteCustomisation>()
   );
-  const [msg, setMsg] = useState<Msg>(null);
 
   const handleSubmit = async (html: string | undefined) => {
     if (!site || !html) return;
@@ -290,19 +286,13 @@ const ContentWrapper: FC = () => {
       });
       if (!success) throw new Error("Failed to update customised HTML");
       await mutate({ customisation: html });
-      setMsg({ type: "success", message: "Deployed successfully" });
+      setToast({ type: "success", message: "Deployed successfully!" });
     } catch (err) {
       console.error(err);
-      setMsg({ type: "error", message: "Deployment failed" });
+      setToast({ type: "error", message: "Deployment failed." });
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    if (!msg) return;
-    const timeoutRef = setTimeout(() => setMsg(null), 3000);
-    return () => clearTimeout(timeoutRef);
-  }, [msg]);
 
   if (["xs", "sm", "md"].includes(breakpoint))
     return (
@@ -317,7 +307,7 @@ const ContentWrapper: FC = () => {
 
   if (!data || !site) return <Loading />;
 
-  return <Content initialHTML={data.customisation} submit={handleSubmit} msg={msg} />;
+  return <Content initialHTML={data.customisation} submit={handleSubmit} />;
 };
 
 const Loading: FC = () => (

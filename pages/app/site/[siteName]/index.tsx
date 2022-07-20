@@ -16,6 +16,7 @@ import * as E from "~/client/lib/errors";
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSite } from "~/client/hooks/site";
+import { useSetToast } from "~/client/hooks/toast";
 import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
@@ -25,12 +26,10 @@ import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
-import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
 
-import { ResponseMessage as Msg } from "~/types/client/utils.type";
 import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const Loading: FC = () => (
@@ -89,9 +88,9 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
   const router = useRouter();
   const { user, mutate: mutateUser, setLoading } = useAuth();
   const { site, mutate: mutateSite } = useSite();
+  const setToast = useSetToast();
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [msg, setMsg] = useState<Msg>(null);
 
   const createNewPage = async (title: string, url: string) => {
     if (!user) throw E.NOT_AUTHENTICATED;
@@ -115,10 +114,11 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
     setLoading(true);
     try {
       await createNewPage(title, url);
+      setToast({ type: "success", message: "Page created successfully!" });
       setTitle("");
       setUrl("");
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
   };
@@ -131,7 +131,6 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
           Please fill in these information. They won&apos;t be used for us to identify the pages,
           however correct information would help you identify your pages from this site dashboard.
         </p>
-        {msg && <MsgBanner msg={msg} />}
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <InputDetachedLabel
             label="Page title"

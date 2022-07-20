@@ -10,6 +10,7 @@ import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 
 import useAuth from "~/client/hooks/auth";
 import { usePage } from "~/client/hooks/page";
+import { useSetToast } from "~/client/hooks/toast";
 import { UNABLE_TO_APPROVE_COMMENT, UNABLE_TO_DELETE_COMMENT } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
@@ -19,11 +20,9 @@ import AuthError from "~/client/components/auth/error";
 import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
-import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 
-import { ResponseMessage as Msg } from "~/types/client/utils.type";
 import { Comment } from "~/types/server";
 
 const Loading: FC = () => (
@@ -62,12 +61,10 @@ const WarningContext = createContext<{
   setWarningDisabled: (val: boolean) => void;
 }>({ warningDisabled: false, setWarningDisabled: () => {} });
 
-const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = ({
-  comment,
-  setMsg,
-}) => {
+const CommentComponent: FC<{ comment: Comment }> = ({ comment }) => {
   const { setLoading } = useAuth();
   const { mutate } = usePage();
+  const setToast = useSetToast();
   const { warningDisabled, setWarningDisabled } = useContext(WarningContext);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -80,8 +77,9 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
       });
       if (!success) throw UNABLE_TO_DELETE_COMMENT;
       await mutate();
+      setToast({ type: "success", message: "Comment deleted successfully." });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
   };
@@ -105,8 +103,9 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
       });
       if (!success) throw UNABLE_TO_APPROVE_COMMENT;
       await mutate();
+      setToast({ type: "success", message: "Comment approved successfully." });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
   };
@@ -166,9 +165,10 @@ const CommentComponent: FC<{ comment: Comment; setMsg: (msg: Msg) => void }> = (
 const PendingComments: FC = () => {
   const { page } = usePage();
   const router = useRouter();
-  const [msg, setMsg] = useState<Msg>(null);
   if (!page) return null;
+
   const pendingComments = page.comments.filter(c => c.status === "Pending");
+
   if (page.autoApprove)
     return (
       <p>
@@ -189,11 +189,10 @@ const PendingComments: FC = () => {
 
   return (
     <>
-      {msg && <MsgBanner msg={msg} />}
       <p>These comments require your approval before appearing in public.</p>
       <div className="flex flex-col divide-y border rounded bg-card border-card divide-card">
         {pendingComments.map((comment, index) => (
-          <CommentComponent key={index} comment={comment} setMsg={setMsg} />
+          <CommentComponent key={index} comment={comment} />
         ))}
       </div>
     </>
@@ -202,9 +201,10 @@ const PendingComments: FC = () => {
 
 const ApprovedComments: FC = () => {
   const { page } = usePage();
-  const [msg, setMsg] = useState<Msg>(null);
   if (!page) return null;
+
   const approvedComments = page.comments.filter(c => c.status === "Approved");
+
   if (approvedComments.length === 0)
     return (
       <div className="flex flex-col gap-6 my-12 items-center">
@@ -216,14 +216,13 @@ const ApprovedComments: FC = () => {
     );
   return (
     <>
-      {msg && <MsgBanner msg={msg} />}
       <p>
         These comments are now live and visible to all visitors of the page. However you can still
         delete any comments you want. Do note that deleted comments are irrecoverable.
       </p>
       <div className="flex flex-col divide-y border rounded bg-card border-card divide-card">
         {approvedComments.map((comment, index) => (
-          <CommentComponent key={index} comment={comment} setMsg={setMsg} />
+          <CommentComponent key={index} comment={comment} />
         ))}
       </div>
     </>
