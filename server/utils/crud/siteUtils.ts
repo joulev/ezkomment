@@ -98,7 +98,7 @@ export async function updateSiteById(uid: string, siteId: string, data: UpdateSi
     try {
         const siteRef = SITES_COLLECTION.doc(siteId);
         const newName = data.name;
-        return await firestoreAdmin.runTransaction(async t => {
+        await firestoreAdmin.runTransaction(async t => {
             // Look up the site's name
             const siteData = await getSiteInTransaction(t, siteRef, uid);
             if (newName !== undefined) {
@@ -123,11 +123,11 @@ export async function updateSiteById(uid: string, siteId: string, data: UpdateSi
 export async function deleteSiteById(uid: string, siteId: string) {
     try {
         const siteRef = SITES_COLLECTION.doc(siteId);
-        return await firestoreAdmin.runTransaction(async t => {
+        await firestoreAdmin.runTransaction(async t => {
             const siteData = await getSiteInTransaction(t, siteRef, uid);
             t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(siteData.name));
-            t.delete(siteRef);
         });
+        await firestoreAdmin.recursiveDelete(siteRef);
     } catch (err) {
         handleFirestoreError(err);
     }
