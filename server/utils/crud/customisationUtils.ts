@@ -13,7 +13,7 @@ import { SiteCustomisation, UpdateSiteCustomisationBodyParams } from "~/types/se
 /**
  * The id associated with the customisation document.
  */
-const CUSTOMISATION_ID = "CUSTOMISATION_ID";
+const CUSTOMISATION_ID = "CUSTOMISATION";
 
 export async function getSiteCustomisation(uid: string, siteId: string) {
     const siteRef = SITES_COLLECTION.doc(siteId);

@@ -29,27 +29,27 @@ export async function deleteRefArray(refs: DocumentReference[]) {
     return await batch.commit();
 }
 
-export async function getInTransaction<T = any>(t: Transaction, ref: DocumentReference) {
+export async function getDocumentInTransaction<T = any>(t: Transaction, ref: DocumentReference) {
     const snapshot = await t.get(ref);
     const data = snapshot.data() as T;
     if (!snapshot.exists) throw new CustomApiError("Document does not exist", 404);
     return data;
 }
 
-export async function getInTransactionWithUid<T = any>(
+export async function getDocumentInTransactionWithUid<T = any>(
     t: Transaction,
     ref: DocumentReference,
     uid: string
 ) {
-    const data: T = await getInTransaction<T>(t, ref);
+    const data: T = await getDocumentInTransaction<T>(t, ref);
     if ((data as any).uid !== uid) throw new CustomApiError("Forbidden, uids do not match", 403);
     return data;
 }
 
 export async function getSiteInTransaction(t: Transaction, ref: DocumentReference, uid: string) {
-    return await getInTransactionWithUid<Site>(t, ref, uid);
+    return await getDocumentInTransactionWithUid<Site>(t, ref, uid);
 }
 
 export async function getPageInTransaction(t: Transaction, ref: DocumentReference, uid: string) {
-    return await getInTransactionWithUid<Page>(t, ref, uid);
+    return await getDocumentInTransactionWithUid<Page>(t, ref, uid);
 }

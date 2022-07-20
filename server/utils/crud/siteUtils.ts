@@ -1,3 +1,8 @@
+///////////////
+// STATISTIC //
+///////////////
+import date from "date-fns";
+
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
     PAGES_COLLECTION,
@@ -124,7 +129,7 @@ export async function deleteSiteById(uid: string, siteId: string) {
         return await firestoreAdmin.runTransaction(async t => {
             const siteData = await getSiteInTransaction(t, siteRef, uid);
             t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(siteData.name));
-            t.delete(siteRef);
+            await firestoreAdmin.recursiveDelete(siteRef);
         });
     } catch (err) {
         handleFirestoreError(err);
@@ -165,10 +170,6 @@ export async function deleteUserSitesById(uid: string) {
     }
 }
 
-///////////////
-// STATISTIC //
-///////////////
-
 /**
  * Gets statistic about the number of comments of the site during the last 30 days
  */
@@ -177,12 +178,15 @@ export async function getSiteStatistic(uid: string, siteId: string) {
     return await firestoreAdmin.runTransaction(async t => {
         // Security
         await getSiteInTransaction(t, siteRef, uid);
-        // Then we get the statistic
-        // I am stuck with this ... how should I store and then, read the relevant data?
-        const statistic: SiteStatistics = {
-            totalComment: [],
-            newComment: [],
-        };
-        return statistic;
+        const statisticDocs = (
+            await t.get(
+                siteRef
+                    .collection("statistic")
+                    .doc("LAST_30_DAYS")
+                    .collection("last-30-days")
+                    .orderBy("date")
+            )
+        ).docs;
+        return statisticDocs.map(doc => doc.data());
     });
 }

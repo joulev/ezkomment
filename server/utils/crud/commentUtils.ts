@@ -8,7 +8,7 @@ import {
 } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
-import { deleteQuery } from "~/server/utils/firestoreUtils";
+import { deleteQuery, getDocumentInTransaction } from "~/server/utils/firestoreUtils";
 
 import {
     ApprovedStatus,
@@ -27,13 +27,9 @@ export async function createComment(data: CreateCommentBodyParams) {
         const { pageId } = data;
         const commentRef = COMMENTS_COLLECTION.doc();
         const commentId = commentRef.id;
+        const pageRef = PAGES_COLLECTION.doc(pageId);
         return await firestoreAdmin.runTransaction(async t => {
-            const pageRef = PAGES_COLLECTION.doc(pageId);
-            const pageSnapshot = await t.get(pageRef);
-            const pageData = pageSnapshot.data() as Page;
-
-            if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
-
+            const pageData = await getDocumentInTransaction<Page>(t, pageRef);
             const siteRef = SITES_COLLECTION.doc(pageData.siteId);
             const newComment: Comment = {
                 id: commentId,
@@ -46,6 +42,33 @@ export async function createComment(data: CreateCommentBodyParams) {
             const incrementByOne = FieldValue.increment(1);
             const updateCommentCount: any = { totalCommentCount: incrementByOne };
             if (!pageData.autoApprove) updateCommentCount.pendingCommentCount = incrementByOne;
+
+            // update information about total the number of comment during this day
+            const siteLast30DaysStatisticRef = siteRef.collection("statistic").doc("LAST_30_DAYS");
+            const siteLast30DaysStatisticData = (
+                await t.get(siteLast30DaysStatisticRef)
+            ).data() ?? {
+                date: null,
+                totalComment: 0,
+                newComment: 0,
+            };
+            const dateToday = new Date().toLocaleDateString("en-CA");
+            const siteTodayStatisticRef = siteLast30DaysStatisticRef
+                .collection("last-30-days")
+                .doc(dateToday);
+
+            const todayStatistic = {
+                date: dateToday,
+                totalComment: siteLast30DaysStatisticData.totalComment + 1,
+                newComment:
+                    siteLast30DaysStatisticData.date === dateToday
+                        ? siteLast30DaysStatisticData.newComment + 1
+                        : 1,
+            };
+            t.set(siteTodayStatisticRef, todayStatistic, { merge: true });
+            t.set(siteLast30DaysStatisticRef, todayStatistic, { merge: true });
+
+            // update
             t.update(siteRef, updateCommentCount);
             t.update(pageRef, updateCommentCount);
             t.create(commentRef, newComment);
@@ -67,10 +90,7 @@ export async function updateCommentById(commentId: string, data: UpdateCommentBo
     try {
         const commentRef = COMMENTS_COLLECTION.doc(commentId);
         return await firestoreAdmin.runTransaction(async t => {
-            const commentSnapshot = await commentRef.get();
-            const commentData = commentSnapshot.data() as Comment;
-
-            if (!commentSnapshot.exists) throw new CustomApiError("Comment does not exist", 404);
+            const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
             if (commentData.status === "Approved")
                 throw new CustomApiError("Comment is already approved", 409);
             // Because of the sanitizer, the only legit status is "Approved"
@@ -96,14 +116,9 @@ export async function deleteCommentById(commentId: string) {
     try {
         const commentRef = COMMENTS_COLLECTION.doc(commentId);
         return await firestoreAdmin.runTransaction(async t => {
-            const commentSnapshot = await commentRef.get();
-            const commentData = commentSnapshot.data() as Comment;
-
-            if (!commentSnapshot.exists) throw new CustomApiError("Comment does not exist", 404);
-
+            const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
             const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
             const siteRef = SITES_COLLECTION.doc(commentData.siteId);
-
             const decrementByOne = FieldValue.increment(-1);
             // Should not use any here, but I am lazy right now
             const updateCommentCount: any = { totalCommentCount: decrementByOne };
