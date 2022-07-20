@@ -22,13 +22,7 @@ export const navData = JSON5Parse<NavData>(readFileSync(join(docsDir, "nav.json5
  * ```
  */
 export const filePaths = Object.entries(navData)
-    .map(([topLevelName, data]) =>
-        typeof data === "string"
-            ? topLevelName
-            : Object.entries(data.pages).map(
-                  ([secondLevelName, _]) => `${topLevelName}/${secondLevelName}`
-              )
-    )
+    .map(([dir, data]) => Object.entries(data.pages).map(([name, _]) => `${dir}/${name}`))
     .flat(1)
     .map(path => path.split("/"));
 
@@ -62,7 +56,7 @@ export async function getFileData(fileName: string[]): Promise<DocsData> {
     );
     const ghData = (await ghFetch.json()) as any[];
     return {
-        title: typeof data === "string" ? data : `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
+        title: `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
         content: readFileSync(fillFilePath, "utf8").trim(),
         lastModified:
             ghFetch.ok && ghData.length > 0
