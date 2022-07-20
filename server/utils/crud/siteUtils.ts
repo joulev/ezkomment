@@ -1,7 +1,4 @@
-///////////////
-// STATISTIC //
-///////////////
-import date from "date-fns";
+import { add } from "date-fns";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
@@ -187,6 +184,30 @@ export async function getSiteStatistic(uid: string, siteId: string) {
                     .orderBy("date")
             )
         ).docs;
-        return statisticDocs.map(doc => doc.data());
+        const todayDate = new Date();
+        const _30DaysAgo = add(todayDate, { days: -30 }).toLocaleDateString("en-CA");
+        // We will need to remove all redudant information
+        const toRemove = statisticDocs.filter(doc => _30DaysAgo.localeCompare(doc.data().date) > 0);
+        deleteRefArray(toRemove.map(doc => doc.ref));
+
+        const statisticData = statisticDocs
+            .filter(doc => _30DaysAgo.localeCompare(doc.data().date) <= 0)
+            .map(doc => doc.data()) as any[];
+        const totalComment: number[] = [];
+        const newComment: number[] = [];
+
+        for (let i = 30; i > 0; i--) {
+            const iDaysAgo = add(todayDate, { days: -i }).toLocaleDateString("en-CA");
+            if (statisticData[0]?.date === iDaysAgo) {
+                const data = statisticData.shift();
+                totalComment.push(data.totalComment);
+                newComment.push(data.newComment);
+            } else {
+                totalComment.push(-1); // Hmm, this implementation does not seem to work very well?
+                newComment.push(0);
+            }
+        }
+        const statistic: SiteStatistics = { totalComment, newComment };
+        return statistic;
     });
 }
