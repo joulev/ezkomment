@@ -10,7 +10,12 @@ jest.mock("fs", () => ({
     readFileSync: jest.fn((fileName: string) =>
         fileName.endsWith("json5")
             ? JSON.stringify({
-                  "getting-started": "Getting started",
+                  tutorial: {
+                      sectionTitle: "Tutorial",
+                      pages: {
+                          "getting-started": "Getting started",
+                      },
+                  },
                   "basic-features": {
                       sectionTitle: "Basic features",
                       pages: {
@@ -27,7 +32,12 @@ describe("Test the documentation utility functions", () => {
     it("Should return the correct nav data", () => {
         expect(fs.readFileSync).toHaveBeenCalledWith(join(process.cwd(), "docs/nav.json5"), "utf8");
         expect(navData).toEqual({
-            "getting-started": "Getting started",
+            tutorial: {
+                sectionTitle: "Tutorial",
+                pages: {
+                    "getting-started": "Getting started",
+                },
+            },
             "basic-features": {
                 sectionTitle: "Basic features",
                 pages: {
@@ -40,7 +50,7 @@ describe("Test the documentation utility functions", () => {
 
     it("filePaths should be correct", () => {
         expect(filePaths).toEqual([
-            ["getting-started"],
+            ["tutorial", "getting-started"],
             ["basic-features", "custom-pages"],
             ["basic-features", "custom-renderer"],
         ]);
@@ -54,7 +64,7 @@ describe("Test the documentation utility functions", () => {
             const path = params.get("path");
             let date = "some dates";
             switch (path) {
-                case "docs/getting-started.md":
+                case "docs/tutorial/getting-started.md":
                     date = "2020-01-01T00:00:00Z";
                     break;
                 case "docs/basic-features/custom-pages.md":
@@ -66,9 +76,9 @@ describe("Test the documentation utility functions", () => {
             return { json: async () => [{ commit: { committer: { date } } }], ok: true };
         });
 
-        const data = await getFileData(["getting-started"]);
+        const data = await getFileData(["tutorial", "getting-started"]);
         expect(data).toEqual({
-            title: "Getting started",
+            title: "Tutorial: Getting started",
             content: "The content of the file",
             lastModified: "2020-01-01T00:00:00Z",
         });
@@ -84,7 +94,7 @@ describe("Test the documentation utility functions", () => {
     it("Handle case where fetching from GitHub API fails", async () => {
         /** @ts-ignore */
         global.fetch = jest.fn(async () => ({ ok: false, json: async () => [] }));
-        const data = await getFileData(["getting-started"]);
+        const data = await getFileData(["tutorial", "getting-started"]);
         expect(data.lastModified).toBe("unknown");
     });
 });

@@ -12,5 +12,5 @@ export type SectionData = {
 };
 
 export type NavData = {
-    [key: string]: string | SectionData;
+    [key: string]: SectionData;
 };
