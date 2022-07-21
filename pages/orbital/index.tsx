@@ -169,6 +169,32 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
           </div>
         </section>
         <section>
+          <h2 className="text-center">Milestone 3</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SectionLink
+              title="README"
+              description="The README, describing all information we have about the project."
+              href="/orbital/ms3-readme"
+              icon={ArticleOutlinedIcon}
+              date="not finalised"
+            />
+            <SectionLink
+              title="Milestone 3 poster"
+              description="Fourth version of the poster, submitted for Milestone 3."
+              href="#" // "https://ezkomment.joulev.dev/images/orbital/ms3-poster.png"
+              icon={ImageOutlinedIcon}
+              date="not published"
+            />
+            <SectionLink
+              title="Milestone 3 video"
+              description="Fourth version of the project video, submitted for Milestone 3."
+              href="#" // "https://drive.google.com/file/d/1gyDeqEbk3Mu6ZZqLgoa06pH4UgrewekD/view"
+              icon={OndemandVideoOutlinedIcon}
+              date="not published"
+            />
+          </div>
+        </section>
+        <section>
           <h2 className="text-center">Project Log</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <SectionLink
