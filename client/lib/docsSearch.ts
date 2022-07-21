@@ -16,6 +16,8 @@ type DocCache = {
 /**
  * Doing what the function name dictates.
  *
+ * @note Is there a more declarative way to do this?
+ *
  * @param content The content of the file to search in
  * @param posArray In form of [[start1, end1], [start2, end2] ...]
  * @returns An array of objects that describes the preview display
@@ -53,6 +55,10 @@ function getHighlightedPreview(content: string, posArray: [number, number][]) {
         });
     }
 
+    if (!preview[0].highlight && previewStartPos > 0) preview[0].text = "…" + preview[0].text;
+    if (!preview[preview.length - 1].highlight && previewEndPos < content.length - 1)
+        preview[preview.length - 1].text += "…";
+
     return preview;
 }
 
@@ -63,7 +69,7 @@ function getHighlightedPreview(content: string, posArray: [number, number][]) {
  * @param words The words to query
  * @returns Information about the search result
  */
-export function findMatchInDocContent({ content, source, title }: DocCache, words: string[]) {
+function findMatchInDocContent({ content, source, title }: DocCache, words: string[]) {
     const matches = words
         .map<[number, number][]>(word =>
             Array.from(content.matchAll(new RegExp(escapeStringRegexp(word), "gi"))).map(a => [
@@ -80,4 +86,11 @@ export function findMatchInDocContent({ content, source, title }: DocCache, word
         matchCount: matches.length,
         preview: matches.length > 0 ? getHighlightedPreview(content, matchesMerged) : [],
     };
+}
+
+export default function docsSearch(docs: DocCache[], words: string[]) {
+    return docs
+        .map(doc => findMatchInDocContent(doc, words))
+        .filter(({ matchCount }) => matchCount > 0)
+        .sort((a, b) => b.matchCount - a.matchCount);
 }
