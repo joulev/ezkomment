@@ -83,3 +83,13 @@ export type PreviewComment = {
     date: string;
     content: string;
 };
+
+export type DocsSearchData = {
+    source: string;
+    title: string;
+    matchCount: number;
+    preview: {
+        text: string;
+        highlight: boolean;
+    }[];
+}[];

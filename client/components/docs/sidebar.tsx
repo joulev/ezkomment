@@ -16,6 +16,7 @@ import { NavData } from "~/types/client/docs.type";
 import logoText from "~/public/images/logo-text.svg";
 
 import DocsNav from "./navbar";
+import DocsSearchResults from "./searchResults";
 
 function useScreenHeight() {
   const [screenHeight, setScreenHeight] = useState(0);
@@ -43,9 +44,21 @@ function useNavbarCollapse() {
   };
 }
 
+function useSearch() {
+  const [search, setSearch] = useState("");
+  const [internalSearch, setInternalSearch] = useState("");
+  useEffect(() => {
+    if (search === "") return setInternalSearch("");
+    const timeoutRef = setTimeout(() => setInternalSearch(search), 300);
+    return () => clearTimeout(timeoutRef);
+  }, [search]);
+  return { search, setSearch, internalSearch };
+}
+
 const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
   const { navbarCollapsed, toggleNavbarCollapse } = useNavbarCollapse();
   const screenHeight = useScreenHeight();
+  const { search, setSearch, internalSearch } = useSearch();
   return (
     <aside
       className={clsx(
@@ -85,10 +98,19 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
             {navbarCollapsed ? <MenuOutlinedIcon /> : <ClearOutlinedIcon />}
           </button>
         </div>
-        <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
+        <Input
+          icon={SearchOutlinedIcon}
+          type="text"
+          placeholder="Search"
+          value={search}
+          onUpdate={setSearch}
+        />
         <div className="flex-grow min-h-0 overflow-y-auto">
-          {/* <DocsNav navData={navData} /> */}
-          Hello world
+          {search ? (
+            <DocsSearchResults query={internalSearch} loading={internalSearch !== search} />
+          ) : (
+            <DocsNav navData={navData} />
+          )}
         </div>
         <footer className="flex flex-row justify-between items-center">
           {process.env.NODE_ENV === "development" ? (
