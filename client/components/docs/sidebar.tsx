@@ -86,7 +86,10 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
           </button>
         </div>
         <Input icon={SearchOutlinedIcon} type="text" placeholder="Search" />
-        <DocsNav navData={navData} />
+        <div className="flex-grow min-h-0 overflow-y-auto">
+          {/* <DocsNav navData={navData} /> */}
+          Hello world
+        </div>
         <footer className="flex flex-row justify-between items-center">
           {process.env.NODE_ENV === "development" ? (
             <span className="text-muted">Dev build</span>
