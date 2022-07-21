@@ -104,5 +104,6 @@ export default function docsSearch(
     return docs
         .map(doc => findMatchInDocContent(doc, words, config))
         .filter(({ matchCount, wordsNotMatched }) => matchCount > 0 && wordsNotMatched === 0)
+        .map(({ wordsNotMatched, ...rest }) => rest)
         .sort((a, b) => b.matchCount - a.matchCount);
 }
