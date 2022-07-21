@@ -34,9 +34,9 @@ describe("Test customisation utils", () => {
             customisation: "Some customisation",
         };
         await CustomisationUtils.updateSiteCustomisation(uid, siteId, newCustomisation);
-        await expect(CustomisationUtils.getSiteCustomisation(siteId)).resolves.toMatchObject({
-            newCustomisation,
-        });
+        await expect(CustomisationUtils.getSiteCustomisation(siteId)).resolves.toMatchObject(
+            newCustomisation
+        );
     });
 
     it("Should delete customisation when delete site", async () => {
