@@ -2,6 +2,8 @@ import escapeStringRegexp from "escape-string-regexp";
 // Something like is-even. May look useless, but I'm not reinventing the wheel.
 import mergeRanges from "merge-ranges";
 
+import { DocsSearchData } from "~/types/client/utils.type";
+
 const config = {
     previewLength: 100,
     leftMargin: 20,
@@ -88,7 +90,7 @@ function findMatchInDocContent({ content, source, title }: DocCache, words: stri
     };
 }
 
-export default function docsSearch(docs: DocCache[], words: string[]) {
+export default function docsSearch(docs: DocCache[], words: string[]): DocsSearchData {
     return docs
         .map(doc => findMatchInDocContent(doc, words))
         .filter(({ matchCount }) => matchCount > 0)
