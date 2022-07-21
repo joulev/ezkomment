@@ -88,6 +88,7 @@ export type DocsSearchData = {
     source: string;
     title: string;
     matchCount: number;
+    wordsNotMatched: number;
     preview: {
         text: string;
         highlight: boolean;
