@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "emulate:dev": "__EMULATE__=true firebase emulators:exec 'yarn dev' --project demo-proj --ui",
     "test:client": "jest --watch --coverage --config=jest.client.config.js",
     "test:client:ci": "jest --ci --coverage --config=jest.client.config.js",
     "emulate": "firebase emulators:start --project demo-proj",

@@ -1,7 +1,6 @@
-import { add } from "date-fns";
-
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
+    COMMENTS_COLLECTION,
     PAGES_COLLECTION,
     SITES_COLLECTION,
     USERS_COLLECTION,
@@ -11,6 +10,7 @@ import { deleteRefArray, getSiteInTransaction } from "~/server/utils/firestoreUt
 
 import {
     ClientSite,
+    Comment,
     CreateSiteBodyParams,
     Page,
     Site,
@@ -167,47 +167,8 @@ export async function deleteUserSitesById(uid: string) {
     }
 }
 
-/**
- * Gets statistic about the number of comments of the site during the last 30 days
- */
-export async function getSiteStatistic(uid: string, siteId: string) {
-    const siteRef = SITES_COLLECTION.doc(siteId);
-    return await firestoreAdmin.runTransaction(async t => {
-        // Security
-        await getSiteInTransaction(t, siteRef, uid);
-        const statisticDocs = (
-            await t.get(
-                siteRef
-                    .collection("statistic")
-                    .doc("LAST_30_DAYS")
-                    .collection("last-30-days")
-                    .orderBy("date")
-            )
-        ).docs;
-        const todayDate = new Date();
-        const _30DaysAgo = add(todayDate, { days: -30 }).toLocaleDateString("en-CA");
-        // We will need to remove all redudant information
-        const toRemove = statisticDocs.filter(doc => _30DaysAgo.localeCompare(doc.data().date) > 0);
-        deleteRefArray(toRemove.map(doc => doc.ref));
-
-        const statisticData = statisticDocs
-            .filter(doc => _30DaysAgo.localeCompare(doc.data().date) <= 0)
-            .map(doc => doc.data()) as any[];
-        const totalComment: number[] = [];
-        const newComment: number[] = [];
-
-        for (let i = 30; i > 0; i--) {
-            const iDaysAgo = add(todayDate, { days: -i }).toLocaleDateString("en-CA");
-            if (statisticData[0]?.date === iDaysAgo) {
-                const data = statisticData.shift();
-                totalComment.push(data.totalComment);
-                newComment.push(data.newComment);
-            } else {
-                totalComment.push(-1); // Hmm, this implementation does not seem to work very well?
-                newComment.push(0);
-            }
-        }
-        const statistic: SiteStatistics = { totalComment, newComment };
-        return statistic;
-    });
+export async function listSiteComments(siteId: string) {
+    const commentSnapshots = await COMMENTS_COLLECTION.where("siteId", "==", siteId).get();
+    const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
+    return data.sort((c1, c2) => c2.date - c1.date);
 }

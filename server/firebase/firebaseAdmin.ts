@@ -7,7 +7,7 @@ import { getStorage } from "firebase-admin/storage";
 const firebaseAdmin = admin.apps.length
     ? admin.app()
     : initializeApp(
-          process.env.NODE_ENV === "test"
+          process.env.NODE_ENV === "test" || process.env.__EMULATE__
               ? { projectId: "demo-proj", storageBucket: "demo-proj.appspot.com" }
               : {
                     credential: cert({

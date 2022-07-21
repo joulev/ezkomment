@@ -18,6 +18,42 @@ import {
     UpdateCommentBodyParams,
 } from "~/types/server";
 
+// type CommentCountStatistic = {
+//     date: string | null;
+//     totalCommentCount: number;
+//     newCommentCount: number;
+// };
+
+/**
+ * update information about total the number of comment during this day
+ */
+// const siteLast30DaysStatisticRef = siteRef.collection("statistic").doc("LAST_30_DAYS");
+// const siteLast30DaysStatisticData = (
+//     await t.get(siteLast30DaysStatisticRef)
+// ).data() ?? {
+//     date: null,
+//     totalComment: 0,
+//     newComment: 0,
+// };
+// const dateToday = new Date().toLocaleDateString("en-CA");
+// const siteTodayStatisticRef = siteLast30DaysStatisticRef
+//     .collection("last-30-days")
+//     .doc(dateToday);
+
+// const todayStatistic = {
+//     date: dateToday,
+//     totalComment: siteLast30DaysStatisticData.totalComment + 1,
+//     newComment:
+//         siteLast30DaysStatisticData.date === dateToday
+//             ? siteLast30DaysStatisticData.newComment + 1
+//             : 1,
+// };
+// t.set(siteTodayStatisticRef, todayStatistic, { merge: true });
+// t.set(siteLast30DaysStatisticRef, todayStatistic, { merge: true });
+/**
+ * Need to be fixed. Broken at the moment
+ */
+
 /**
  * Creates a new comment for a particular page.
  * @param data The data of the comment
@@ -42,31 +78,6 @@ export async function createComment(data: CreateCommentBodyParams) {
             const incrementByOne = FieldValue.increment(1);
             const updateCommentCount: any = { totalCommentCount: incrementByOne };
             if (!pageData.autoApprove) updateCommentCount.pendingCommentCount = incrementByOne;
-
-            // update information about total the number of comment during this day
-            const siteLast30DaysStatisticRef = siteRef.collection("statistic").doc("LAST_30_DAYS");
-            const siteLast30DaysStatisticData = (
-                await t.get(siteLast30DaysStatisticRef)
-            ).data() ?? {
-                date: null,
-                totalComment: 0,
-                newComment: 0,
-            };
-            const dateToday = new Date().toLocaleDateString("en-CA");
-            const siteTodayStatisticRef = siteLast30DaysStatisticRef
-                .collection("last-30-days")
-                .doc(dateToday);
-
-            const todayStatistic = {
-                date: dateToday,
-                totalComment: siteLast30DaysStatisticData.totalComment + 1,
-                newComment:
-                    siteLast30DaysStatisticData.date === dateToday
-                        ? siteLast30DaysStatisticData.newComment + 1
-                        : 1,
-            };
-            t.set(siteTodayStatisticRef, todayStatistic, { merge: true });
-            t.set(siteLast30DaysStatisticRef, todayStatistic, { merge: true });
 
             // update
             t.update(siteRef, updateCommentCount);
