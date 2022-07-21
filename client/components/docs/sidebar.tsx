@@ -17,11 +17,8 @@ import logoText from "~/public/images/logo-text.svg";
 
 import DocsNav from "./navbar";
 
-const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
-  const [navbarCollapsed, setNavbarCollapsed] = useState(true);
+function useScreenHeight() {
   const [screenHeight, setScreenHeight] = useState(0);
-  const router = useRouter();
-
   useEffect(() => {
     const handleScreenHeight = () => setScreenHeight(window.innerHeight);
 
@@ -33,8 +30,22 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
       window.removeEventListener("scroll", handleScreenHeight);
     };
   }, []);
+  return screenHeight;
+}
 
+function useNavbarCollapse() {
+  const [navbarCollapsed, setNavbarCollapsed] = useState(true);
+  const router = useRouter();
   useEffect(() => setNavbarCollapsed(true), [router.asPath]);
+  return {
+    navbarCollapsed,
+    toggleNavbarCollapse: () => setNavbarCollapsed(!navbarCollapsed),
+  };
+}
+
+const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
+  const { navbarCollapsed, toggleNavbarCollapse } = useNavbarCollapse();
+  const screenHeight = useScreenHeight();
   return (
     <aside
       className={clsx(
@@ -69,7 +80,7 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
               "lg:hidden text-neutral-600 dark:text-neutral-400 rounded p-1 transition leading-none",
               "hover:text-neutral-900 dark:hover:text-neutral-100"
             )}
-            onClick={() => setNavbarCollapsed(!navbarCollapsed)}
+            onClick={toggleNavbarCollapse}
           >
             {navbarCollapsed ? <MenuOutlinedIcon /> : <ClearOutlinedIcon />}
           </button>
