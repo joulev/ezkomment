@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "cache-docs": "node scripts/cacheDocs.mjs",
+    "cache-docs": "node client/scripts/cacheDocs.mjs",
     "dev-ezk-package": "mkdir -p public/v1/js && cp client/packages/ezkomment.js public/v1/js",
     "build-ezk-package": "mkdir -p public/v1/js && uglifyjs --compress --mangle --output public/v1/js/ezkomment.min.js -- client/packages/ezkomment.js",
     "dev": "yarn dev-ezk-package && yarn cache-docs && next dev",
