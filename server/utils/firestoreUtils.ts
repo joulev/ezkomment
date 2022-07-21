@@ -36,13 +36,13 @@ export async function getDocumentInTransaction<T = any>(t: Transaction, ref: Doc
     return data;
 }
 
-export async function getDocumentInTransactionWithUid<T = any>(
+export async function getDocumentInTransactionWithUid<T extends { uid: string } = any>(
     t: Transaction,
     ref: DocumentReference,
     uid: string
 ) {
     const data: T = await getDocumentInTransaction<T>(t, ref);
-    if ((data as any).uid !== uid) throw new CustomApiError("Forbidden, uids do not match", 403);
+    if (data.uid !== uid) throw new CustomApiError("Forbidden, uids do not match", 403);
     return data;
 }
 
