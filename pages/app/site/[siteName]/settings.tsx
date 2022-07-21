@@ -11,6 +11,7 @@ import { SITE } from "~/misc/validate";
 
 import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
+import { useSetToast } from "~/client/hooks/toast";
 import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
@@ -21,11 +22,9 @@ import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import IconUpload from "~/client/components/forms/iconUpload";
 import Input, { InputDetachedLabel } from "~/client/components/forms/input";
-import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 
-import { ResponseMessage as Msg } from "~/types/client/utils.type";
 import { ClientSite } from "~/types/server";
 import { ApiResponseBody } from "~/types/server/nextApi.type";
 
@@ -63,10 +62,11 @@ const Loading: FC = () => (
   </div>
 );
 
-const UpdateSiteName: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+const UpdateSiteName: FC<{ site: ClientSite }> = ({ site }) => {
   const router = useRouter();
   const auth = useAuth();
   const { mutate } = useSite();
+  const setToast = useSetToast();
   const [name, setName] = useState(site.name);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
@@ -81,8 +81,9 @@ const UpdateSiteName: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ 
       router.replace(`/app/site/${name}/settings?loading=1`);
       await auth.mutate();
       mutate({ ...site, name });
+      setToast({ type: "success", message: "Site name updated successfully." });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     auth.setLoading(false);
   };
@@ -107,12 +108,10 @@ const UpdateSiteName: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ 
   );
 };
 
-const UpdateSiteDomain: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({
-  site,
-  setMsg,
-}) => {
+const UpdateSiteDomain: FC<{ site: ClientSite }> = ({ site }) => {
   const auth = useAuth();
   const { mutate } = useSite();
+  const setToast = useSetToast();
   const [domain, setDomain] = useState(site.domain);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
@@ -126,9 +125,9 @@ const UpdateSiteDomain: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = (
       if (!success) throw UNABLE_TO_UPDATE_SITE;
       await auth.mutate();
       mutate({ ...site, domain });
-      setMsg({ type: "success", message: "Domain updated successfully." });
+      setToast({ type: "success", message: "Domain updated successfully." });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     auth.setLoading(false);
   };
@@ -156,9 +155,10 @@ const UpdateSiteDomain: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = (
   );
 };
 
-const UploadSiteIcon: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ site, setMsg }) => {
+const UploadSiteIcon: FC<{ site: ClientSite }> = ({ site }) => {
   const auth = useAuth();
   const { mutate } = useSite();
+  const setToast = useSetToast();
   const [icon, setIcon] = useState<File | null>(null);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
@@ -176,10 +176,10 @@ const UploadSiteIcon: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ 
         ((body as ApiResponseBody).data as Record<string, string> | undefined)?.iconURL ?? "";
       await auth.mutate();
       mutate({ ...site, iconURL });
-      setMsg({ type: "success", message: "Site icon updated successfully." });
+      setToast({ type: "success", message: "Site icon updated successfully." });
       setIcon(null);
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     auth.setLoading(false);
   };
@@ -200,27 +200,23 @@ const UploadSiteIcon: FC<{ site: ClientSite; setMsg: (msg: Msg) => void }> = ({ 
   );
 };
 
-const UpdateSite: FC<{ site: ClientSite }> = ({ site }) => {
-  const [msg, setMsg] = useState<Msg>(null);
-  return (
-    <section>
-      <h2>Basic information</h2>
-      {msg && <MsgBanner msg={msg} />}
-      <div className="flex flex-col gap-12">
-        <UpdateSiteName site={site} setMsg={setMsg} />
-        <UpdateSiteDomain site={site} setMsg={setMsg} />
-        <UploadSiteIcon site={site} setMsg={setMsg} />
-      </div>
-    </section>
-  );
-};
+const UpdateSite: FC<{ site: ClientSite }> = ({ site }) => (
+  <section>
+    <h2>Basic information</h2>
+    <div className="flex flex-col gap-12">
+      <UpdateSiteName site={site} />
+      <UpdateSiteDomain site={site} />
+      <UploadSiteIcon site={site} />
+    </div>
+  </section>
+);
 
 const DeleteSite: FC<{ site: ClientSite }> = ({ site }) => {
   const router = useRouter();
   const auth = useAuth();
+  const setToast = useSetToast();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [promptText, setPromptText] = useState("");
-  const [msg, setMsg] = useState<Msg>(null);
   const validPrompt = `delete ${site.name}`;
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
@@ -231,15 +227,15 @@ const DeleteSite: FC<{ site: ClientSite }> = ({ site }) => {
       if (!success) throw UNABLE_TO_DELETE_SITE;
       router.replace("/app/dashboard?loading=1");
       await auth.mutate();
+      setToast({ type: "success", message: "Site deleted successfully." });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     auth.setLoading(false);
   };
   return (
     <section>
       <h2>Delete site</h2>
-      {msg && <MsgBanner msg={msg} />}
       <p>
         This is an <strong>irreversible</strong> action. All site data, including all comments and
         pages, will be completely erased and there is no way to recover it. All embed and API
@@ -264,7 +260,6 @@ const DeleteSite: FC<{ site: ClientSite }> = ({ site }) => {
           <p>
             To continue, type <strong>{validPrompt}</strong> to the text box below.
           </p>
-          {msg && <MsgBanner msg={msg} />}
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <Input
               icon={LabelOutlinedIcon}
@@ -316,7 +311,9 @@ const Content: FC = () => {
             action once a day.
           </p>
           <RightAligned>
-            <Button icon={DnsOutlinedIcon}>Request data</Button>
+            <Button icon={DnsOutlinedIcon} disabled>
+              Request data
+            </Button>
           </RightAligned>
         </section>
         <hr />

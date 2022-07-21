@@ -13,6 +13,7 @@ import { PAGE } from "~/misc/validate";
 import useAuth from "~/client/hooks/auth";
 import { usePage } from "~/client/hooks/page";
 import { useSite } from "~/client/hooks/site";
+import { useSetToast } from "~/client/hooks/toast";
 import { UNABLE_TO_DELETE_PAGE, UNABLE_TO_UPDATE_PAGE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
@@ -22,11 +23,8 @@ import AuthError from "~/client/components/auth/error";
 import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import Input, { InputDetachedLabel } from "~/client/components/forms/input";
-import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
-
-import { ResponseMessage as Msg } from "~/types/client/utils.type";
 
 const LoadingSection: FC = () => (
   <section>
@@ -61,7 +59,7 @@ const UpdateSiteInfo: FC = () => {
   const { setLoading } = useAuth();
   const { site, mutate: mutateSite } = useSite();
   const { page, mutate: mutatePage } = usePage();
-  const [msg, setMsg] = useState<Msg>(null);
+  const setToast = useSetToast();
   const [title, setTitle] = useState(page!.title);
   const [url, setUrl] = useState(page!.url);
   if (!site || !page) return <div>Something&apos;s wrong</div>; // never happen
@@ -84,9 +82,9 @@ const UpdateSiteInfo: FC = () => {
       if (!success) throw UNABLE_TO_UPDATE_PAGE;
       await mutateSite();
       await mutatePage();
-      setMsg({ type: "success", message: "Page updated successfully" });
+      setToast({ type: "success", message: "Page updated successfully" });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
   };
@@ -94,7 +92,6 @@ const UpdateSiteInfo: FC = () => {
   return (
     <section>
       <h2>Page information</h2>
-      {msg && <MsgBanner msg={msg} />}
       <p>Information here identifies the page in the site dashboard.</p>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <InputDetachedLabel
@@ -137,7 +134,7 @@ const UpdateAutoApprove: FC = () => {
   const { setLoading } = useAuth();
   const { site, mutate: mutateSite } = useSite();
   const { page, mutate: mutatePage } = usePage();
-  const [msg, setMsg] = useState<Msg>(null);
+  const setToast = useSetToast();
   if (!site || !page) return <div>Something&apos;s wrong</div>; // never happen
 
   const updateAutoApprove = async (newAutoApprove: boolean) => {
@@ -151,9 +148,9 @@ const UpdateAutoApprove: FC = () => {
       if (!success) throw UNABLE_TO_UPDATE_PAGE;
       await mutateSite();
       await mutatePage();
-      setMsg({ type: "success", message: "Page updated successfully" });
+      setToast({ type: "success", message: "Page updated successfully" });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
   };
@@ -161,7 +158,6 @@ const UpdateAutoApprove: FC = () => {
   return (
     <section>
       <h2>Automatic approval</h2>
-      {msg && <MsgBanner msg={msg} />}
       <p>
         If you enable auto-approval, all comments posted to this page will automatically be approved
         and visible to everyone.
@@ -187,9 +183,9 @@ const DeletePage: FC = () => {
   const auth = useAuth();
   const { site, mutate: mutateSite } = useSite();
   const { page } = usePage();
+  const setToast = useSetToast();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [promptText, setPromptText] = useState("");
-  const [msg, setMsg] = useState<Msg>(null);
   const validPrompt = "delete this page";
   if (!site || !page) return <div>Something&apos;s wrong</div>; // never happen
 
@@ -203,8 +199,9 @@ const DeletePage: FC = () => {
       router.replace(`/app/site/${site.name}?loading=1`);
       await auth.mutate();
       await mutateSite();
+      setToast({ type: "success", message: "Page deleted successfully" });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     auth.setLoading(false);
   };
@@ -212,7 +209,6 @@ const DeletePage: FC = () => {
   return (
     <section>
       <h2>Page deletion</h2>
-      {msg && <MsgBanner msg={msg} />}
       <p>
         If you delete this page, all comments posted to this page will be deleted and the comment
         embed site will stop working. The action is <strong>irreversible</strong>, therefore please
@@ -237,7 +233,6 @@ const DeletePage: FC = () => {
           <p>
             To continue, type <strong>{validPrompt}</strong> to the text box below.
           </p>
-          {msg && <MsgBanner msg={msg} />}
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <Input
               icon={LabelOutlinedIcon}

@@ -10,6 +10,7 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
+import { useSetToast } from "~/client/hooks/toast";
 import { NOT_AUTHENTICATED } from "~/client/lib/errors";
 import {
   deleteAccount,
@@ -28,28 +29,27 @@ import Button from "~/client/components/buttons";
 import CopiableCode from "~/client/components/copiableCode";
 import IconUpload from "~/client/components/forms/iconUpload";
 import { InputDetachedLabel } from "~/client/components/forms/input";
-import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import RightAligned from "~/client/components/utils/rightAligned";
 import AppLayout from "~/client/layouts/app";
 
 import { Provider } from "~/types/client/auth.type";
-import { ResponseMessage as Msg, NextPageWithLayout } from "~/types/client/utils.type";
+import { NextPageWithLayout } from "~/types/client/utils.type";
 import { ClientUser } from "~/types/server";
 
 const ProfileSection: FC = () => {
   const auth = useAuth();
   const [displayName, setDisplayName] = useState(auth.user?.displayName ?? "");
   const [image, setImage] = useState<File | null>(null);
-  const [msg, setMsg] = useState<Msg>(null);
+  const setToast = useSetToast();
 
   const handleDisplayNameSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
     try {
       await updateDisplayName(auth, displayName);
-      setMsg({ type: "success", message: "Display name updated successfully." });
+      setToast({ type: "success", message: "Display name updated successfully." });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
     }
   };
@@ -59,10 +59,10 @@ const ProfileSection: FC = () => {
     if (!image) return;
     try {
       await updatePhoto(auth, image);
-      setMsg({ type: "success", message: "Photo updated successfully." });
+      setToast({ type: "success", message: "Photo updated successfully." });
       setImage(null);
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
     }
   };
@@ -76,11 +76,9 @@ const ProfileSection: FC = () => {
       </p>
       {!auth.user!.displayName && (
         <Banner variant="warning" className="mb-6">
-          You currently do not have a display name. In your replies to comments, you will simply be
-          identified as <i>Author</i>. It is recommended to have a display name.
+          You currently do not have a display name. It is recommended to have one.
         </Banner>
       )}
-      {msg && <MsgBanner msg={msg} />}
       <form className="flex flex-col gap-6 mb-12" onSubmit={handleDisplayNameSubmit}>
         <InputDetachedLabel
           label="Display name"
@@ -88,7 +86,6 @@ const ProfileSection: FC = () => {
           icon={PersonOutlinedIcon}
           type="text"
           value={displayName}
-          helpText="Your name is displayed in your replies to comments."
           onUpdate={setDisplayName}
           required
         />
@@ -104,7 +101,7 @@ const ProfileSection: FC = () => {
       <form className="flex flex-col gap-6" onSubmit={handlePhotoSubmit}>
         <IconUpload
           label="Profile photo"
-          helpText="Your profile picture is displayed on your replies to comments. It is also used as your general profile picture in this site."
+          helpText="The photo that identifies you on this application."
           file={image}
           onUpdate={setImage}
         />
@@ -122,16 +119,16 @@ const LinkAccountSection: FC = () => {
   const auth = useAuth();
   const { providerData } = auth.user as ClientUser;
   const breakpoint = useBreakpoint();
-  const [msg, setMsg] = useState<Msg>(null);
+  const setToast = useSetToast();
 
   const handler =
     (func: typeof link, provider: Provider, str: string) => async (event: MouseEvent) => {
       event.preventDefault();
       try {
         await func(auth, provider);
-        setMsg({ type: "success", message: `Successfully ${str}.` });
+        setToast({ type: "success", message: `Successfully ${str}.` });
       } catch (err: any) {
-        setMsg({ type: "error", message: <AuthError err={err} /> });
+        setToast({ type: "error", message: <AuthError err={err} /> });
         auth.setLoading(false);
       }
     };
@@ -139,7 +136,6 @@ const LinkAccountSection: FC = () => {
   return (
     <section>
       <h2>Link accounts</h2>
-      {msg && <MsgBanner msg={msg} />}
       <p>
         Your account is currently linked with the following services, and you can use these to sign
         in to your account. You must link your account with at least one service.
@@ -193,7 +189,7 @@ const LinkAccountSection: FC = () => {
 const DeleteAccountSection: FC = () => {
   const auth = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [msg, setMsg] = useState<Msg>(null);
+  const setToast = useSetToast();
 
   const handleReauthenticate = async (event: MouseEvent) => {
     event.preventDefault();
@@ -205,7 +201,7 @@ const DeleteAccountSection: FC = () => {
       );
       setShowDeleteModal(true);
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
     }
   };
@@ -216,7 +212,7 @@ const DeleteAccountSection: FC = () => {
       await deleteAccount(auth);
     } catch (err: any) {
       setShowDeleteModal(false);
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
       auth.setLoading(false);
     }
   };
@@ -224,7 +220,6 @@ const DeleteAccountSection: FC = () => {
   return (
     <section>
       <h2>Delete account</h2>
-      {msg && <MsgBanner msg={msg} />}
       <p>
         This is an <strong>irreversible</strong> action. All of your data will be completely erased
         and there is no way to recover it. Proceed with caution.
@@ -291,7 +286,9 @@ const Account: NextPageWithLayout = () => {
           </p>
           <p>You can only perform this action once a day.</p>
           <RightAligned>
-            <Button icon={DnsOutlinedIcon}>Request data</Button>
+            <Button icon={DnsOutlinedIcon} disabled>
+              Request data
+            </Button>
           </RightAligned>
         </section>
         <hr />

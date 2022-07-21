@@ -16,6 +16,7 @@ import * as E from "~/client/lib/errors";
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSite } from "~/client/hooks/site";
+import { useSetToast } from "~/client/hooks/toast";
 import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
@@ -25,12 +26,11 @@ import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
-import MsgBanner from "~/client/components/messageBanner";
 import Modal from "~/client/components/modal";
 import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
 
-import { ResponseMessage as Msg } from "~/types/client/utils.type";
+import { Page } from "~/types/server";
 import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const Loading: FC = () => (
@@ -89,9 +89,9 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
   const router = useRouter();
   const { user, mutate: mutateUser, setLoading } = useAuth();
   const { site, mutate: mutateSite } = useSite();
+  const setToast = useSetToast();
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [msg, setMsg] = useState<Msg>(null);
 
   const createNewPage = async (title: string, url: string) => {
     if (!user) throw E.NOT_AUTHENTICATED;
@@ -115,10 +115,9 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
     setLoading(true);
     try {
       await createNewPage(title, url);
-      setTitle("");
-      setUrl("");
+      setToast({ type: "success", message: "Page created successfully!" });
     } catch (err: any) {
-      setMsg({ type: "error", message: <AuthError err={err} /> });
+      setToast({ type: "error", message: <AuthError err={err} /> });
     }
     setLoading(false);
   };
@@ -131,7 +130,6 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
           Please fill in these information. They won&apos;t be used for us to identify the pages,
           however correct information would help you identify your pages from this site dashboard.
         </p>
-        {msg && <MsgBanner msg={msg} />}
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <InputDetachedLabel
             label="Page title"
@@ -165,11 +163,18 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
   );
 };
 
+function searchPages(pages: Page[], search: string) {
+  if (search === "") return pages;
+  return pages.filter(page => page.title.toLowerCase().includes(search.toLowerCase()));
+}
+
 const Content: FC = () => {
   const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
+  const [search, setSearch] = useState("");
   const { site } = useSite();
   if (!site) return <Loading />;
+  const pages = searchPages(site.pages, search);
   return (
     <>
       <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
@@ -252,6 +257,8 @@ const Content: FC = () => {
                 label={["xs", "sm"].includes(breakpoint) ? null : "Search"}
                 icon={SearchOutlinedIcon}
                 className="flex-grow"
+                value={search}
+                onUpdate={setSearch}
               />
               <Button
                 icon={breakpoint === "xs" ? undefined : AddOutlinedIcon}
@@ -260,29 +267,41 @@ const Content: FC = () => {
                 {breakpoint === "xs" ? "New page" : "Add a new page"}
               </Button>
             </div>
-            <div className="flex flex-col gap-6">
-              {site.pages.map((page, i) => (
-                <A
-                  notStyled
-                  key={i}
-                  className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
-                  href={`/app/site/${site.name}/${page.id}`}
-                >
-                  <div className="font-semibold text-lg mb-1.5">{page.title}</div>
-                  <div className="text-muted text-sm mb-6">{page.url}</div>
-                  <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
-                    <div className="grid grid-cols-2 sm:gap-12">
-                      <Stats small label="comments" value={page.totalCommentCount} />
-                      <Stats small label="pending" value={page.pendingCommentCount} />
+            {pages.length === 0 ? (
+              <div className="flex flex-col gap-6 my-12 items-center">
+                <div className="w-48">
+                  <BlankIllustration />
+                </div>
+                <div className="text-xl text-center">No pages found</div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-6">
+                {pages.map((page, i) => (
+                  <A
+                    notStyled
+                    key={i}
+                    className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
+                    href={`/app/site/${site.name}/${page.id}`}
+                  >
+                    <div className="font-semibold text-lg mb-1.5">{page.title}</div>
+                    <div className="text-muted text-sm mb-6">{page.url}</div>
+                    <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
+                      <div className="grid grid-cols-2 sm:gap-12">
+                        <Stats small label="comments" value={page.totalCommentCount} />
+                        <Stats small label="pending" value={page.pendingCommentCount} />
+                      </div>
+                      <div className="text-sm">
+                        {/* TODO */}
+                        Last comment: {formatDistanceToNow(
+                          parseISO("2022-01-01T00:00:00.000Z")
+                        )}{" "}
+                        ago
+                      </div>
                     </div>
-                    <div className="text-sm">
-                      {/* TODO */}
-                      Last comment: {formatDistanceToNow(parseISO("2022-01-01T00:00:00.000Z"))} ago
-                    </div>
-                  </div>
-                </A>
-              ))}
-            </div>
+                  </A>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

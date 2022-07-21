@@ -6,19 +6,26 @@
 import Editor from "@monaco-editor/react";
 import clsx from "clsx";
 import { FC, useEffect, useState } from "react";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import useSWR from "swr";
 
+import CloseFullscreenOutlinedIcon from "@mui/icons-material/CloseFullscreenOutlined";
 import ColourOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import FullscreenOutlinedIcon from "@mui/icons-material/FullscreenOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 
 import monacoOptions from "~/config/monaco";
 
+import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
+import { useSite } from "~/client/hooks/site";
 import useTheme from "~/client/hooks/theme";
+import { useSetToast } from "~/client/hooks/toast";
+import { internalFetcher, internalSWRGenerator } from "~/client/lib/fetcher";
 import generatePreviewHTML from "~/client/lib/generatePreviewHTML";
 
 import sitePages from "~/client/components/app/handleSite";
@@ -30,14 +37,25 @@ import IconLabel from "~/client/components/utils/iconAndLabel";
 import RightAligned from "~/client/components/utils/rightAligned";
 
 import { IconAndLabel, PreviewComment } from "~/types/client/utils.type";
+import { SiteCustomisation } from "~/types/server";
 
-import html from "~/constants/sampleCommentCode";
+const initialPreviewComments: PreviewComment[] = [
+  {
+    author: "John Doe",
+    content: "This is a comment",
+    date: "2018-01-01",
+  },
+  {
+    content:
+      "This is another comment *with markdown*. How about _italic_ too? And I also have `code` and\n\n* lists\n* of\n* items",
+    date: "2018-01-02",
+  },
+];
 
 type ButtonGroupProps = {
   buttons: (IconAndLabel & { onClick: () => void })[];
   active: number;
 };
-
 const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   <div
     className={clsx(
@@ -66,10 +84,11 @@ const ButtonGroup: FC<ButtonGroupProps> = ({ buttons, active }) => (
   </div>
 );
 
-const AddComment: FC<{
+type AddCommentProps = {
   comments: PreviewComment[];
   setComments: (_: PreviewComment[]) => void;
-}> = ({ comments, setComments }) => {
+};
+const AddComment: FC<AddCommentProps> = ({ comments, setComments }) => {
   const [author, setAuthor] = useState("");
   const [date, setDate] = useState("");
   const [content, setContent] = useState("");
@@ -143,24 +162,19 @@ const AddComment: FC<{
   );
 };
 
-const Content: FC = () => {
+type ContentProps = {
+  initialHTML: string;
+  submit: (html: string | undefined) => Promise<void>;
+};
+const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
   const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
+  const fullscreenHandle = useFullScreenHandle();
 
   const [active, setActive] = useState(0);
-  const [code, setCode] = useState<string | undefined>(html);
-  const [comments, setComments] = useState<PreviewComment[]>([
-    {
-      author: "John Doe",
-      content: "This is a comment",
-      date: "2018-01-01",
-    },
-    {
-      content:
-        "This is another comment *with markdown*. How about _italic_ too? And I also have `code` and\n\n* lists\n* of\n* items",
-      date: "2018-01-02",
-    },
-  ]);
+  const [code, setCode] = useState<string | undefined>(initialHTML);
+
+  const [comments, setComments] = useState(initialPreviewComments);
   const [previewBg, setPreviewBg] = useState("#ffffff");
   const [previewIsDark, setPreviewIsDark] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
@@ -173,18 +187,15 @@ const Content: FC = () => {
   }, [comments, code, previewIsDark]);
 
   return (
-    <>
-      <div className="lg:hidden flex flex-col gap-6 my-12 items-center">
-        <div className="w-48">
-          <BlankIllustration />
-        </div>
-        <div className="text-xl text-center">Oops! Your screen is too small.</div>
-        <div>Please use a laptop or a device with a wider screen to use this feature.</div>
-      </div>
+    <FullScreen
+      handle={fullscreenHandle}
+      className={clsx(fullscreenHandle.active && "px-3", "bg-neutral-100 dark:bg-neutral-900")}
+    >
       <div
         className={clsx(
           "hidden lg:flex flex-row gap-6 items-center",
-          "py-3 bg-neutral-100 dark:bg-neutral-900 sticky top-[49px] z-10"
+          "py-3 bg-neutral-100 dark:bg-neutral-900",
+          fullscreenHandle.active || "sticky z-10 top-[49px]"
         )}
       >
         <ButtonGroup
@@ -224,14 +235,25 @@ const Content: FC = () => {
           className="w-48"
         />
         <div className="flex-grow" />
-        <Button icon={DoneOutlinedIcon}>Deploy</Button>
+        <Button
+          onClick={fullscreenHandle.active ? fullscreenHandle.exit : fullscreenHandle.enter}
+          variant="tertiary"
+          icon={fullscreenHandle.active ? CloseFullscreenOutlinedIcon : FullscreenOutlinedIcon}
+        />
+        <Button
+          icon={DoneOutlinedIcon}
+          disabled={initialHTML === code || !code}
+          onClick={() => submit(code)}
+        >
+          Deploy
+        </Button>
       </div>
       <div className="hidden lg:block mb-9">
         <SideBySide
           left={
             active === 0 ? (
               <Editor
-                height="90vh"
+                height={fullscreenHandle.active ? "100vh" : "90vh"}
                 language="html"
                 value={code}
                 theme={currentTheme === "light" ? "light" : "vs-dark"}
@@ -239,7 +261,9 @@ const Content: FC = () => {
                 options={monacoOptions}
               />
             ) : (
-              <AddComment comments={comments} setComments={setComments} />
+              <div className={clsx(fullscreenHandle.active && "h-screen overflow-y-auto")}>
+                <AddComment comments={comments} setComments={setComments} />
+              </div>
             )
           }
           right={
@@ -252,8 +276,53 @@ const Content: FC = () => {
           }
         />
       </div>
-    </>
+    </FullScreen>
   );
+};
+
+const ContentWrapper: FC = () => {
+  const breakpoint = useBreakpoint();
+  const { setLoading } = useAuth();
+  const { site } = useSite();
+  const setToast = useSetToast();
+  const { data, mutate } = useSWR(
+    site ? `/api/sites/${site.id}/customisation` : null,
+    internalSWRGenerator<SiteCustomisation>()
+  );
+
+  const handleSubmit = async (html: string | undefined) => {
+    if (!site || !html) return;
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({
+        url: `/api/sites/${site.id}/customisation`,
+        method: "PUT",
+        options: { body: JSON.stringify({ customisation: html }) },
+      });
+      if (!success) throw new Error("Failed to update customised HTML");
+      await mutate({ customisation: html });
+      setToast({ type: "success", message: "Deployed successfully!" });
+    } catch (err) {
+      console.error(err);
+      setToast({ type: "error", message: "Deployment failed." });
+    }
+    setLoading(false);
+  };
+
+  if (["xs", "sm", "md"].includes(breakpoint))
+    return (
+      <div className="flex flex-col gap-6 my-12 items-center">
+        <div className="w-48">
+          <BlankIllustration />
+        </div>
+        <div className="text-xl text-center">Oops! Your screen is too small.</div>
+        <div>Please use a laptop or a device with a wider screen to use this feature.</div>
+      </div>
+    );
+
+  if (!data || !site) return <Loading />;
+
+  return <Content initialHTML={data.customisation} submit={handleSubmit} />;
 };
 
 const Loading: FC = () => (
@@ -290,7 +359,7 @@ const SiteCustomise = sitePages({
   activeTab: "customise",
   removePadding: true,
   Loading,
-  Content,
+  Content: ContentWrapper,
 });
 
 export default SiteCustomise;

@@ -1,10 +1,9 @@
+import { getSiteCustomisation } from "~/server/utils/crud/customisationUtils";
 import { checkExist, generateCommentHTML } from "~/server/utils/embedUtils";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
 import { EmbedConfigurations } from "~/types/server/nextApi.type";
-
-import html from "~/constants/sampleCommentCode";
 
 const handler = ncRouter().get(async (req, res) => {
     const { siteId, pageId } = extractFirstQueryValue(req);
@@ -22,7 +21,8 @@ const handler = ncRouter().get(async (req, res) => {
         getURL: `/api/pages/${pageId}/comments`,
         postURL: `/api/comments`,
     };
-    const generatedHTML = generateCommentHTML(html, config);
+    const { customisation } = await getSiteCustomisation(siteId);
+    const generatedHTML = generateCommentHTML(customisation, config);
     res.status(200).send(generatedHTML);
 });
 

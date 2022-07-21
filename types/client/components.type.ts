@@ -1,7 +1,7 @@
 import { ComponentProps, MouseEventHandler, ReactNode } from "react";
 
 import { CurrentPage } from "./page.type";
-import { Author, BannerVariant, ButtonVariant, IconAndLabel, IconType } from "./utils.type";
+import { Author, BannerVariant, ButtonVariant, IconAndLabel, IconType, Toast } from "./utils.type";
 
 export type AppProps = CurrentPage & {
     title: string;
@@ -129,4 +129,9 @@ export type HomeSectionProps = {
 export type HomeWindowProps = {
     title?: ReactNode;
     children: ReactNode;
+};
+
+export type ToastProps = {
+    toast: Toast;
+    onClose: () => void;
 };

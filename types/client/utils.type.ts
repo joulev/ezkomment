@@ -73,13 +73,20 @@ export type FetchOptionsWithMethod = FetchOptions & {
     method?: "GET" | "POST" | "PUT" | "DELETE";
 };
 
-export type ResponseMessage = {
-    type: "success" | "error";
-    message: ReactNode;
-} | null;
-
 export type PreviewComment = {
     author?: string;
     date: string;
     content: string;
+};
+
+export type Toast = {
+    type: "success" | "error";
+    message: ReactNode;
+} | null;
+
+export type SetToastContextType = Dispatch<SetStateAction<Toast>>;
+
+export type ToastInit = {
+    toast: Toast;
+    setToast: SetToastContextType;
 };
