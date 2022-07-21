@@ -97,6 +97,17 @@ describe("Test searching on several documentation files", () => {
         expect(result.length).toBe(1);
         expect(result[0].source).toBe("/path/hello-world");
     });
+    it("Should ignore files with not all words matched", () => {
+        const docs = [
+            {
+                source: "/path/hello-world",
+                title: "Hello World",
+                content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            },
+        ];
+        const result = docsSearch(docs, ["ipsum", "konnichiha"]);
+        expect(result.length).toBe(0);
+    });
     it("Should sort files by matchCount in descending order", () => {
         const docs = [
             {
