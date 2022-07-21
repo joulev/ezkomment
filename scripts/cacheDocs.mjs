@@ -9,11 +9,14 @@ const mdProcessor = remark().use(strip);
 const navData = JSON5.parse(readFileSync(process.cwd() + "/docs/nav.json5", "utf8"));
 
 /** @param {string} md */
-const md2plain = async md =>
-    String(await mdProcessor.process(md))
-        .replace(/\n\n/g, " ")
-        .replace(/\\/g, "")
-        .replace(/\n$/, "");
+const md2plain = async md => {
+    const mdWithHeadingColons = md.replace(/(#{2,6}.*)\n\n/g, "$1:\n\n");
+    return String(await mdProcessor.process(mdWithHeadingColons))
+        .replace(/.*\n\n/, "") // remove h1
+        .replace(/\n\n/g, " ") // make everything to one line
+        .replace(/\\/g, "") // strip-markdown adds backslashes. Why?
+        .replace(/\n$/, ""); // remove eof new line
+};
 
 (async () => {
     const cacheObj = await Promise.all(
