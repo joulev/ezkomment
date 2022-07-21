@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "mkdir -p public/v1/js && cp client/packages/ezkomment.js public/v1/js && next dev",
-    "prebuild": "mkdir -p public/v1/js && uglifyjs --compress --mangle --output public/v1/js/ezkomment.min.js -- client/packages/ezkomment.js",
+    "cache-docs": "node scripts/cacheDocs.mjs",
+    "dev-ezk-package": "mkdir -p public/v1/js && cp client/packages/ezkomment.js public/v1/js",
+    "build-ezk-package": "mkdir -p public/v1/js && uglifyjs --compress --mangle --output public/v1/js/ezkomment.min.js -- client/packages/ezkomment.js",
+    "dev": "yarn dev-ezk-package && yarn cache-docs && next dev",
+    "prebuild": "yarn build-ezk-package && yarn cache-docs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
