@@ -90,3 +90,13 @@ export type ToastInit = {
     toast: Toast;
     setToast: SetToastContextType;
 };
+
+export type DocsSearchData = {
+    source: string;
+    title: string;
+    matchCount: number;
+    preview: {
+        text: string;
+        highlight: boolean;
+    }[];
+}[];
