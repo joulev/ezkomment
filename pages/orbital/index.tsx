@@ -181,7 +181,7 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Milestone 3 poster"
               description="Fourth version of the poster, submitted for Milestone 3."
-              href="#" // "https://ezkomment.joulev.dev/images/orbital/ms3-poster.png"
+              href="https://ezkomment.joulev.dev/images/orbital/ms3-poster.png"
               icon={ImageOutlinedIcon}
               date="not published"
             />
