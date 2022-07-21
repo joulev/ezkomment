@@ -76,20 +76,19 @@ function findMatchInDocContent(
     words: string[],
     config: Config
 ) {
-    const matches = words
-        .map<[number, number][]>(word =>
-            Array.from(content.matchAll(new RegExp(escapeStringRegexp(word), "gi"))).map(a => [
-                a?.index ?? 0,
-                (a?.index ?? 0) + a[0].length,
-            ])
-        )
-        .flat()
-        .sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const matchesRaw = words.map<[number, number][]>(word =>
+        Array.from(content.matchAll(new RegExp(escapeStringRegexp(word), "gi"))).map(a => [
+            a?.index ?? 0,
+            (a?.index ?? 0) + a[0].length,
+        ])
+    );
+    const matches = matchesRaw.flat().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
     const matchesMerged = mergeRanges(matches);
     return {
         source,
         title,
         matchCount: matches.length,
+        wordsNotMatched: matchesRaw.filter(word => word.length === 0).length,
         preview: matches.length > 0 ? getHighlightedPreview(content, matchesMerged, config) : [],
     };
 }
@@ -104,6 +103,6 @@ export default function docsSearch(
 ): DocsSearchData {
     return docs
         .map(doc => findMatchInDocContent(doc, words, config))
-        .filter(({ matchCount }) => matchCount > 0)
+        .filter(({ matchCount, wordsNotMatched }) => matchCount > 0 && wordsNotMatched === 0)
         .sort((a, b) => b.matchCount - a.matchCount);
 }
