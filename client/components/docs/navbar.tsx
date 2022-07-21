@@ -5,7 +5,7 @@ import { NavData } from "~/types/client/docs.type";
 import SidebarLink from "./sidebarlink";
 
 const DocsNav: FC<{ navData: NavData }> = ({ navData }) => (
-  <nav className="flex-grow min-h-0 overflow-y-auto">
+  <nav>
     {Object.entries(navData).map(([topLevel, data], i) => (
       <Fragment key={i}>
         <h2 className="text-sm uppercase tracking-widest font-normal mt-6 mb-3">
