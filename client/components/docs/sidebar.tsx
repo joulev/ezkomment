@@ -82,7 +82,7 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
               "relative block h-9 logo-width",
               "after:absolute after:content-['docs'] after:left-full after:top-1.5 after:ml-1.5",
               "after:text-primary after:uppercase after:text-sm",
-              "after:bg-indigo-100 dark:after:bg-indigo-900 dark:after:bg-opacity-50",
+              "after:bg-indigo-100 dark:after:bg-indigo-800 dark:after:bg-opacity-50",
               "after:px-1.5 after:py-0.5 after:rounded"
             )}
           >
