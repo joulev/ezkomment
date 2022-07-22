@@ -23,7 +23,7 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
     if (typeof pageId !== "string" || !COMMENT.pageIdIsValid(pageId)) {
         throw new CustomApiError("'pageId' must be a non-empty string");
     }
-    req.body = { author: author && (author as string).length > 0 ? author : null, text, pageId };
+    req.body = { author: author || null, text, pageId };
     next();
 };
 
