@@ -28,9 +28,7 @@ export default function ({ image, children }) {
   );
 }
 
-> The Milestone 2 README is written on top of [Milestone 1 README](/orbital/ms1-readme). Probably you do not want to read the whole thing again, so look out for headings with an "updated" label: they are modified after Milestone 1.
-
-> You can also [view this document as PDF](ms2-readme.pdf).
+> You can also [view this document as PDF](ms3-readme.pdf).
 
 ## Table of Contents
 
@@ -95,7 +93,7 @@ For example, assume that a user has two websites at `foo.com` and `bar.com`. `fo
 
 In its simplest form, the service should be able to produce a URL for each page so that users can embed them into their websites, with as few clicks required as possible. No matter how extensible the service may become, it is absolutely crucial that it can do the most basic form of its job and does it well.
 
-The embed is done by `<iframe>` &ndash; [it has been supported by all browsers](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#browser_compatibility) since basically the birth of the Internet, so as long as the user is using web technologies, the embed will work. We plan to render the HTML on the server before serving it (instead of performing data fetching on the client), and cache the HTML served as much as possible to optimise performance.
+The embed is done by `<iframe>` &ndash; [it has been supported by all browsers](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#browser_compatibility) since basically the birth of the Internet, so as long as the user is using web technologies, the embed will work. We plan to render the HTML on the server before serving it.
 
 #### User Stories
 
@@ -109,7 +107,7 @@ From the goal of this feature, we plan the typical user workflow for this featur
 
 #### Programmatically Creating New Pages
 
-Power users may want the process to be automated, e.g. whenever a new page is added in their <abbr title="content management system">CMS</abbr>. For creating new pages, we do plan to support this. However it is not among our core features, and we will discuss more on this in later versions of this README.
+Power users may want the process to be automated, e.g. whenever a new page is added in their <abbr title="content management system">CMS</abbr>. For creating new pages, the feature indeed has use cases. However it is not among our core features, and we will only consider implementing it after Orbital has ended, school work is done and we have time to do so.
 
 However, we do not plan to support programmatically creating new sites. Since a new site typically means a new website or web application, we do not think this feature is practical. We expect that users have to create new sites by visiting the web application (or reverse-engineer the app to find a way to do this).
 
@@ -125,7 +123,7 @@ Users may find this not secure enough, as their teammates can always leak the UR
 
 However, if a user _truly_, _really_ want to integrate an authentication system, he can always use [the API routes](#application-programming-interface). Instead of exposing those routes directly, he can hide them inside his own protected internal API. By doing so, he will also hide the randomised URL from everyone, thereby resolving the issue of leakage to outsiders.
 
-#### Sending Comments (updated)
+#### Sending Comments
 
 We think that although the comments are all public and authentication is not needed to post new ones, there should still be a way to identify the commenter. It will be optional: we ask for the name of the commenter along with the required comment body.
 
@@ -139,11 +137,11 @@ Many users will probably not be happy with that, however, they can always introd
 
 Some users may find that they need custom Markdown features/plugins or use their own Markdown alternative. In that case, the API route will need to be used; we plan to send the comment body _verbatim_ without any formatting, so users can process that string in any way they want. However, using this method, users need to be aware of and guard against [XSS attacks](https://en.wikipedia.org/wiki/Cross-site_scripting), since the comment body is not escaped. See the API section for more details.
 
-#### Replies to Comments (updated)
+#### Replies to Comments
 
 In the previous iteration of the README, we specified that we did plan to support replies to comments on a number of occasions. However, after thinking more about this, We find that there are many reply-less discussions on the Internet that work well (one notable example is GitHub issues/PR), and implementing replies will take a lot of effort. Therefore, this feature has been dropped.
 
-#### Editing (updated)
+#### Editing
 
 After thinking about this feature, we found that it is possible to implement it in a way that resolves the current issues. In a nutshell, after submitting, the user is issued a <abbr title="JSON web token">JWT</abbr>, which expires after 5 minutes. This token is used to identify the commenter, hence can be used to support editing. If during that 5 minutes, the comment has not been approved, the user can edit the comment.
 
@@ -163,9 +161,9 @@ If this feature is turned on, whenever a new comment is posted, it does not show
 
 Even after approval, the site owner can still remove comments. Removed comments are gone forever and not recoverable, therefore we will add a big warning to the UI to prevent the user from doing so by accident.
 
-By default, this feature is turned _off_ (i.e. auto-approve is turned _on_), since that is how most current [solutions](#existing-solutions) work. To ensure that the user knows of this feature, we will display a big "info" banner in the UI if the feature is turned off. Also, even when auto-approve is on, we will still allow the deletion of "auto-approved" comments.
+By default, this feature is turned _off_ (i.e. auto-approve is turned _on_), since that is how most [current solutions](#existing-solutions) work. To ensure that the user knows of this feature, we will display a big "info" banner in the UI if the feature is turned off. Also, even when auto-approve is on, we will still allow the deletion of "auto-approved" comments.
 
-#### User Stories (updated)
+#### User Stories
 
 In the page dashboard, there are two sections, one for pending comments and one for approved comments. If auto-approve is off, a typical workflow is as follows:
 
@@ -196,222 +194,40 @@ By UI design principles, all pages under the same website should share the same 
 
 If a user _really_ wants to hack the system and have different styling for each of his blog posts, he can always have two different ezkomment "sites". However, it will require many clicks and keystrokes, and the bad UX of that is intentional: we want to discourage users from doing so.
 
-#### Customise Everything (updated)
-
-> The specification of this feature is still [under discussion and consideration](https://github.com/joulev/ezkomment/discussions/145). Therefore, it might be modified in the next Milestone README. However, we expect it to be quite stable by now and it should not change as much as from Milestone 1 until now.
+#### Customise Everything
 
 We plan to allow users to customise the app by the whole code of the HTML sent to clients, even from the `<!DOCTYPE html>` tag. In that, users can decide how and where to put stylesheets in, how to add custom JavaScript libraries, everything.
 
 In essence, the user will be allowed to modify a HTML file, in its entirety, from the usual opening `<!DOCTYPE html>` to the closing `</html>` tag. Of course, the user is also allowed to add any scripts and styles he wants, just like how we typically developed the web from the HTML-CSS-JS days.
 
-However, the users need to add the `data-ezk` attribute to a number of elements. This attribute is used to identify each part of the comment section, so that the app can populate it with the appropriate information, or handle form submission correctly.
+However, the users need to add the `data-ezk` attribute to a number of elements. This attribute is used to identify each part of the comment section, so that the app can populate it with the appropriate information, or handle form submission correctly. Interested readers can read more about it in [Milestone 2 README](/orbital/ms2-readme#customise-everything) (it has been removed from this README version) or in the [public documentation](/docs) (but it has not been completed yet).
 
-Currently planned `data-ezk` attribute values:
-
-- `comments`: The wrapper of the comments. Whatever HTML inside this wrapper is treated as _one comment_. Therefore, if a page has 10 comments, the `innerHTML` is replicated 10 times inside this wrapper. That may sound confusing, see the example below.
-- `comment-author`: The author of the comment. When the comment section is populated with data, the element with this `data-ezk` value is populated with the author's name (`element.textContent = authorName`).
-- `comment-content`: The content of the comment. When the comment section is populated with data, the element with this `data-ezk` value is populated with the content of the comment (already compiled from Markdown to XSS-safe HTML).
-- `comment-date`: The date of the comment. When the comment section is populated with data, the element with this `data-ezk` value is populated with the date of the comment (`element.textContent = date`). The date format is not yet decided, but we will enforce one universal format for everyone. If the user wants to change the format he can always use custom JavaScript to do it.
-- `form`: The form to submit a new comment. When submitted, this form will send a request to the back-end to submit the comment. **Required to have descendants with the `data-ezk` value `form-author` and `form-content`.**
-- `form-author`: The author field of the form. When the form is submitted, the value of this field is used as the author name of the comment.
-- `form-content`: The content field of the form. When the form is submitted, the value of this field is used as the content of the comment. Support Markdown.
-
-An example: Assume the following is the user-provided HTML:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- custom CSS, JS, etc. -->
-  </head>
-  <body>
-    <div class="container">
-      <div data-ezk="comments">
-        <div class="comment">
-          <div class="metadata">
-            <div class="author" data-ezk="comment-author"></div>
-            <div class="time" data-ezk="comment-date"></div>
-          </div>
-          <div class="text" data-ezk="comment-content"></div>
-        </div>
-      </div>
-      <form data-ezk="form">
-        <input placeholder="Display name" name="name" required data-ezk="form-author" />
-        <textarea placeholder="Content" name="content" required data-ezk="form-content"></textarea>
-        <div class="form-bottom">
-          <span>Styling with Markdown is supported</span>
-          <button type="submit">Post</button>
-        </div>
-      </form>
-    </div>
-  </body>
-</html>
-```
-
-with the following comments:
-
-```json
-[
-  {
-    "author": "John Doe",
-    "content": "This is a comment",
-    "date": "2018-01-01"
-  },
-  {
-    "author": "Jane Doe",
-    "content": "This is another comment *with markdown*",
-    "date": "2018-01-02"
-  }
-]
-```
-
-Then, after the HTML is sent to the browser and the necessary scripts (automatically added) are loaded, the resulting HTML is
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- custom CSS, JS, etc. -->
-  </head>
-  <body>
-    <div class="container">
-      <div data-ezk="comments">
-        <div class="comment">
-          <div class="metadata">
-            <div class="author" data-ezk="comment-author">John Doe</div>
-            <div class="time" data-ezk="comment-date">2018-01-01</div>
-          </div>
-          <div class="text" data-ezk="comment-content">
-            <p>This is a comment</p>
-          </div>
-        </div>
-        <div class="comment">
-          <div class="metadata">
-            <div class="author" data-ezk="comment-author">Jane Doe</div>
-            <div class="time" data-ezk="comment-date">2018-01-02</div>
-          </div>
-          <div class="text" data-ezk="comment-content">
-            <p>This is another comment <em>with markdown</em></p>
-          </div>
-        </div>
-      </div>
-      <form data-ezk="form">
-        <input placeholder="Display name" name="name" required data-ezk="form-author" />
-        <textarea placeholder="Content" name="content" required data-ezk="form-content"></textarea>
-        <div class="form-bottom">
-          <span>Styling with Markdown is supported</span>
-          <button type="submit">Post</button>
-        </div>
-      </form>
-    </div>
-    <!-- and additional JavaScript added by ezkomment -->
-  </body>
-</html>
-```
-
-We need the said additional JavaScript to support the following:
+Then, each time the comment section is rendered, the server will simply take the HTML and send it. This is pure server-side rendering. However, before sending, the server will insert an additional JavaScript module to the HTML, for the following purposes:
 
 - Data fetching: We need a data fetching strategy close to how [SWR](https://swr.vercel.app) works so that the UX is enhanced.
+
 - Data parsing and populating: We are not doing React here, so we need to manipulate the HTML with pure, vanilla JavaScript.
+
 - Send a message to the `<iframe>` parent about the document height, so that the `<iframe>` can be rendered correctly (we will not go into details, but you can [see more related info](https://stackoverflow.com/a/42308842)).
 
-As of 25 June, this is the entirety of that additional JavaScript.
-
-```js
-const apiURL = "/api/temp"; // change this URL according to site ID and page ID
-let hasFocus = false;
-let isVisible = false;
-let blockValidate = false;
-let COMMENTDIVCONTENT = "";
-
-function handler() {
-  validate();
-  blockValidate = true;
-  setTimeout(() => (blockValidate = false), 1000);
-}
-
-function initialise() {
-  document.addEventListener("visibilitychange", () => {
-    isVisible = document.visibilityState === "visible";
-    if (hasFocus && isVisible && !blockValidate) handler();
-  });
-  window.addEventListener("focus", () => {
-    hasFocus = true;
-    if (hasFocus && isVisible && !blockValidate) handler();
-  });
-  /** @see {@link https://stackoverflow.com/a/42308842} */
-  window.addEventListener("message", event => {
-    if (event.data === "FrameHeight") {
-      const height = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      );
-      event.source.postMessage({ EzkFrameHeight: height }, "*");
-    }
-  });
-  document.querySelector("[data-ezk=form]").addEventListener("submit", onFormSubmit);
-}
-
-async function validate() {
-  const comments = await fetch(apiURL).then(res => res.json());
-  const commentsDiv = document.querySelector("[data-ezk=comments]");
-  if (COMMENTDIVCONTENT === "") COMMENTDIVCONTENT = commentsDiv.innerHTML;
-  commentsDiv.innerHTML = "";
-  comments.forEach(({ author, text, date }) => {
-    const commentDocument = new DOMParser().parseFromString(COMMENTDIVCONTENT, "text/html");
-    const name = commentDocument.querySelector("[data-ezk='comment-author']");
-    const content = commentDocument.querySelector("[data-ezk='comment-content']");
-    const time = commentDocument.querySelector("[data-ezk='comment-date']");
-    if (name) name.textContent = author;
-    if (content) content.innerHTML = text; // already rendered safely on server side
-    if (time) time.textContent = date;
-    commentsDiv.innerHTML += commentDocument.body.innerHTML;
-  });
-}
-
-async function onFormSubmit(event) {
-  event.preventDefault();
-  const authorField = document.querySelector("[data-ezk='form-author']");
-  const commentField = document.querySelector("[data-ezk='form-content']");
-  const comment = { author: authorField.value, text: commentField.value };
-  authorField.value = "";
-  commentField.value = "";
-  await fetch(apiURL, {
-    method: "POST",
-    body: JSON.stringify(comment),
-    headers: { "Content-Type": "application/json" },
-  });
-  await validate();
-}
-
-window.addEventListener("load", () => {
-  initialise();
-  validate();
-});
-```
-
-This script will probably need some work to ensure it does not clash with any possible user-provided scripts, to capture errors, etc. But that is how it basically works.
+Once again, we will not go deeper here, but interested readers can read [the JavaScript file](https://github.com/joulev/ezkomment/blob/main/client/packages/ezkomment.js) to see in more details.
+The file is minified and compressed, also due to the nature of it being an ECMAScript module, naming clash with other custom JavaScript is not a problem.
 
 With this, we believe the user already has very good control of how the whole thing looks and works. In fact, he can add custom scripts to render a customised Markdown editor, he can even add scripts to mine cryptocurrency in his users' browsers etc (not that we support it).
 
-#### Dark Mode (updated)
+#### Dark Mode
 
-The embed URL will have a query parameter `isDark`. If it is used, the comment is delivered in dark mode. The `<html>` element would have a class `.dark`, and of course, the user can control how their comment section looks in dark mode by modifying his `<style>` accordingly.
+The embed URL has an optional query parameter `dark`. If it is used with the value of `1`, the comment is delivered in dark mode. The `<html>` element would have a class `.dark`, and of course, the user can control how their comment section looks in dark mode by modifying his `<style>` accordingly.
 
 ```html
 <!-- /embed/:siteId/:pageId -->
 <html>
-  <!-- everything -->
+  ...
 </html>
 
-<!-- /embed/:siteId/:pageId?isDark=1 -->
+<!-- /embed/:siteId/:pageId?dark=1 -->
 <html class="dark">
-  <!-- everything -->
+  ...
 </html>
 ```
 
@@ -475,11 +291,11 @@ Requests with invalid body are ignored. Currently we do not plan any extra optio
 
 ## Application Design and Implementation
 
-### How the App Works, In a Nutshell (updated)
+### How the App Works, In a Nutshell
 
 #### Technology Stack
 
-The front-end is built using [Next.js](https://nextjs.org), which is a popular React framework. Especially after version 12 was released last year, it is the most popular React-based framework right now in the medium and is almost as popular as Vue and Angular ([source](https://www.npmtrends.com/@angular/core-vs-create-react-app-vs-gatsby-vs-next-vs-vue-vs-svelte)). After trying it out, we found it to be very powerful and have excellent <abbr title="developer experience">DX</abbr>.
+The front-end is built using [Next.js](https://nextjs.org), which is a popular React framework. Especially after version 12 was released last year, it is the most popular React-based framework right now in the medium and is almost as popular as Vue and Angular ([source](https://www.npmtrends.com/@angular/core-vs-create-react-app-vs-gatsby-vs-next-vs-vue-vs-svelte)). After trying it out, we found it to be very powerful and have excellent developer experience.
 
 While Next.js is a primarily front-end-based framework, its serverless API routes are well enough for our use case for a back-end, therefore we decided that the entirety of the app will be implemented in Next.js.
 
@@ -525,9 +341,13 @@ We will only support authentication with third-party OAuth providers (currently 
 #### Back-end API Endpoint Structure
 
 - `/users/:uid`: The endpoint to get, update and delete user using their ID
+
   - `users/:uid/photo`: The endpoint to upload user's photo
+
 - `/sites/:siteId`: The endpoint to get, create, update and delete site, using its ID
+
   - `site/:siteId/icon`: The endpoint to upload site's icon.
+
 - `/pages/:pageId`: The endpoint to get, create, update and delete page, using its ID
 
 ### User Interface Design
@@ -540,7 +360,7 @@ We decided to use the default [Tailwind CSS colour scheme](https://tailwindcss.c
 
 We also use the default [Tailwind CSS spacing scale](https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale), and pick all spacing entries whose values are divisible by 3. Hence, most spaces in the application are a multiplier of 0.75rem.
 
-### User Experience (updated)
+### User Experience
 
 We take a _lot_ of effort to improve the user experience on this site.
 
@@ -583,7 +403,7 @@ whenever a user changes the site name in the settings, we need to update the URL
 
 Therefore, we had a look at how some popular applications handle this. Vercel changes the URL without even giving the impression that the page has been reloaded, and that is what we aim for. In the end, we use a temporary URL query to handle this (similar to how Vercel does it) and remove that URL query when it is no longer necessary. It works and although you will see a loading screen again (since you are visiting the new site again), the overall user experience is enhanced a lot.
 
-Interested people can see how we implemented it in [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/client/components/app/handleSite.tsx#L25-L30), [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/client/layouts/app.tsx#L17-L21) and [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/pages/app/site/%5BsiteName%5D/settings.tsx#L81).
+Interested readers can see how we implemented it in [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/client/components/app/handleSite.tsx#L25-L30), [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/client/layouts/app.tsx#L17-L21) and [here](https://github.com/joulev/ezkomment/blob/8230c05212fcb97542dab43ad54f7fa96a54a538/pages/app/site/%5BsiteName%5D/settings.tsx#L81).
 
 ### Search Engine Optimisations
 
@@ -594,20 +414,20 @@ In pull request [#66](https://github.com/joulev/ezkomment/pull/66), we have adde
 
 Although we have not enabled the site to be crawled for search engines as of now, the tags are now effective when sharing the pages over social media.
 
-### Lighthouse Audit (updated)
+### Lighthouse Audit
 
 [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) is a popular tool for evaluating the performance of a website. We conduct Lighthouse score checks frequently and also use Vercel analytics to monitor, from there we can make suitable improvements to improve the whole application.
 
-As of right now, the website has a very good score for these metrics. Aside from the photo above of real-time Vercel analytics, the following are the Lighthouse scores as of 24 June 2022:
+As of right now, the website has a very good score for these metrics. Aside from the photo above of real-time Vercel analytics, the following are the Lighthouse scores as of 22 July 2022 (updated):
 
 - Performance: 100 for desktop, 99 for mobile
-- Accessibility: 95
+- Accessibility: 86
 - Best Practices: 100
 - SEO: 91
 
 ![Lighthouse scores for desktop, test done at 2:53pm 24 June 2022 (SGT)](/images/markdown/lighthouse-desktop-20220624.png)
 
-### Security (updated)
+### Security
 
 Authentication workflow is mainly done by the Firebase client library. With it being one of the most popular libraries of its type, with about 1.3 million downloads per week, I think it is safe to say this step is as secure as we can possibly get. Especially compared to self-made authentication patterns which may fall to many well-known attacks, such as [Cross-Site Request Forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery) attacks if cookie-based authentication is used.
 
@@ -617,7 +437,7 @@ That said, security issues may still show up, a notable example being issue [#13
 
 ### Software Engineering Practices
 
-#### Repository Structure (updated)
+#### Repository Structure
 
 Since the back-end has been decided to be based on Next.js' API routes, we have ditched the monorepo system. Now everything is developed in a single JavaScript package.
 
@@ -629,21 +449,18 @@ Even so, we still organise the repository in such a way that clearly differentia
 │   ├── client
 │   ├── misc
 │   └── server
-├── client                # front-end source code
+├── client                # Front-end source code
 ├── config                # Configuration files (if any)
 ├── constants             # Some misc constants
 ├── docs                  # Documentation for users, rendered to /docs
-├── firebase-rules        # Rules for Firebase products (required to start the Firebase Emulator)
 ├── misc                  # Used in both front-end and back-end
+├── others                # Other non-JS files
 ├── pages                 # All pages, mandatory by Next.js
 │   ├── api               # API endpoints, mandatory name, for back-end
-│   └── ...others         # All other pages are for front-end
+│   ├── ...others         # All other pages are for front-end
 ├── public                # Static files, mandatory by Next.js
-├── sample                # Testing mock data (if any)
-├── server                # back-end source code
+├── server                # Back-end source code
 └── types                 # TypeScript typings
-    ├── client
-    └── server
 ```
 
 #### Contributions and Feature Branching
@@ -671,7 +488,7 @@ Therefore, for smaller commits, typically about less than 50 lines changed (excl
 
 The contribution process is described in slightly more detail in the [CONTRIBUTING file](https://github.com/joulev/ezkomment/blob/main/CONTRIBUTING.md).
 
-#### Continuous Integration and Continuous Deployment (updated)
+#### Continuous Integration and Continuous Deployment
 
 Thankfully, Vercel automatically takes care of the deployment process for every commit in the repository. Therefore, the front-end section has always had CD since it was first deployed.
 
@@ -679,52 +496,59 @@ As we decided to mitigate from Express.js to Next.js for back-end implementation
 
 CI pipelines are done by [GitHub Actions](https://github.com/features/actions), and currently it involves running ESLint and unit tests for the whole application.
 
-#### Testing (updated)
+#### Testing
 
-Testing is done by [Jest](https://jestjs.io) whenever possible, due to its simplicity, ease of use, high speed and good developer experience. Test results are then uploaded to [Codecov](https://about.codecov.io).
+Testing is done by [Jest](https://jestjs.io) whenever possible, due to its simplicity, ease of use, high speed and good developer experience. Test results are then uploaded to [Codecov](https://about.codecov.io). The tests involve unit tests on all non-trivial components, hooks and modules, as well as integration tests that test how all of them interact with each other.
 
-Back-end tests also involve running [Firebase emulator](https://firebase.google.com/docs/emulator).
+Back-end tests also involve running [Firebase emulator](https://firebase.google.com/docs/emulator). It involves unit tests on all server utility functions and integration tests on how they interact with each other and the emulator.
 
-As of 24 June 2022, the code coverage stands at 94%, which we think is acceptable.
+As of 22 July 2022, the code coverage stands at 96%, which we think is acceptable.
 
-## Timeline (updated)
+In Milestone 2 feedback, some people also suggested user acceptance testing. Unfortunately, we do not really have an existing user base to test the "beta" version yet &ndash; so this is not trivial to solve. I think the feedbacks we receive each milestone are the closest we can get to user acceptance testing, within the scope of Orbital. Therefore, if you are reading this, please test the application as aggressively as you can, and if you find any bugs, please report them to us. That would be very appreciated.
+
+## Timeline
 
 ### Currently Already Implemented Features
 
-- [MS1] The main interfaces of the front-end app
-- [MS1] Public pages of the front-end
-- [MS1] The front-end has been deployed
-- [MS1] Firebase (client-based) authentication for the front-end app
-- [MS2] Integrate some back-end routes to support authentication
-- [MS2] Create-Read-Update-Delete for sites
-- [MS2] Create-Read-Update-Delete for pages
-- [MS2] Basic demo for how a comment section looks like in a plain HTML page
+We have implemented three out of the four main features:
 
-### Looking Back to Milestone 1
+- [Users can get commentable comment sections now.](#zero-configuration-html-embed-for-comments)
+- [Comments can now be moderated.](#moderation-features)
+- [Comment sections can be customised.](#customisation)
 
-This is the plan we specified in the Milestone 1 README:
+The public API development is in progress. Other than these four, a _lot_ of minor features have been developed to assist the users use the four core features. This is a list of some notable examples, with some description of what they do:
 
-- By 3 June: set up a basic deployable and usable back-end with cookie-based authentication features, as well as deploy it
-- By 7 June: finish integrating authentication between front-end and back-end
-- By 14 June: implement site management features (users can add new sites, can edit existing sites, can delete existing sites)
-- By 20 June: implement page management features (users can add new pages to sites, can edit and delete existing pages, have a embeddable `<iframe>` to use with placeholder comments)
-- By 27 June (Milestone 2): make the comment sections _commentable_, with updated statistics metrics in the site dashboard.
-- Also by 27 June: find resolutions for all known issues in the app design mentioned above.
+- Dark mode is fully supported. Both on the app and in embed pages.
+- Authentication: The authentication system, based on third-party providers, is completed.
+- Auth state as well as other states are managed and data fetching is handled by a common system.
+- Toasts to handle user feedbacks (success confirmation, error messages, etc.).
+- Redesigned landing page, with illustrations and animations.
+- A system to serve and handle Orbital materials (except videos) is completed. You can visit [Orbital 2022&nbsp;@&nbsp;ezkomment](/orbital) to see more.
 
-As you can see, we have completed the first four items and the last item on the list. The fifth item is not yet implemented at all. So we did not meet the deadline.
+  - By popular request, PDF versions of the Orbital README are also available.
 
-That said, we have almost fully implemented all application pages in the process, from `/app/dashboard` to `/app/site/:siteName/:pageId/settings`. They are now fully functional and we do not expect to spend much time on them from now onwards. One can say we have laid out the foundation of the application, and with the most critical infrastructure now completed, adding more features to it should not take too much time. Therefore, although we could not finish all planned items in time, we are optimistic that the application will be completed as planned.
+- A system to handle public documentation is finalised, with documentation files divided to several sections and a working search engine.
 
-### Going Forwards to Milestone 3 (25 July)
+### Going Forwards
 
-- By 30 June: front-end design the default styling for the comment section; back-end implement the routes needed to serve the comment HTML
-- By 7 July: implement the moderation features
-- By 17 July: implement the customisation features
-- By 20 July: implement the public API (this is entirely the back-end, and I actually think we can get this done within a day since the tools are already there)
-- From 20 July onwards: polish the system, add minor features such as search bar/filtering
-- Incrementally from now onwards (also past Milestone 3): populate the public documentation at `/docs` with actual documentation for users on how to use the app
+Currently in-progress features are
 
-## Problems Encountered (updated)
+- The public API
+- Actual content for the public documentation
+- Site statistics (the graph you see in the site dashboard)
+- Notifications
+
+After they are finished, the application can be considered to be complete, and suitable for a v1.0.0 release if semver is used. We reckon it will be done before the start of the new academic year on 10 August 2022. After that I think we will only be fixing bugs and thinking of new minor features.
+
+We have not yet decided whether to continue this project after Splashdown (24 August 2022). It is likely we will no longer actively develop the application, however we may add some commits here and there to improve it when we have time. In the above sections, there are still several features waiting to be implemented "if we have time", so we may consider them. One thing is certain, though: the application will stay online at https://ezkomment.joulev.dev for as long as we can financially sustain it, therefore, you are more than welcome to use the app as if it is an actual commercial product.
+
+## Problems Encountered
+
+### From Milestone 2 to Milestone 3
+
+None. We do not encounter much problems, either technical or not, in the development process.
+
+### From Milestone 1 to Milestone 2
 
 In the technical aspect, the project progresses fairly smoothly (to a surprising extent). In fact, we have not actually asked our mentor for any technical assistance since we have been able to resolve all issues by ourselves.
 
@@ -738,4 +562,4 @@ However, in the first half of June, we had quite a few problems with miscommunic
 
 Although in the end, we were not too much behind schedule, from 18 June to 24 June both members had to work for many hours per day to bring the massive delay of 11 days down to how it is currently.
 
-Thankfully, the workload for the next phase [turns out to not be that packed](#going-forwards-to-milestone-3-25-july), thus this delay did not cause too much damage to the whole project. That said, we are determined to resolve any issues and questions early so that this problem will not appear again.
+Thankfully, the workload for the next phase after that turns out to not be that packed, thus this delay did not cause too much damage to the whole project. That said, we are determined to resolve any issues and questions early so that this problem will not appear again.
