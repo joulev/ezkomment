@@ -49,6 +49,7 @@ import {
 
 /**
  * Creates a new comment for a particular page.
+ *
  * @param data The data of the comment
  */
 export async function createComment(data: CreateCommentBodyParams) {
@@ -80,11 +81,10 @@ export async function createComment(data: CreateCommentBodyParams) {
 }
 
 /**
- * Updates a comment (current, only approved status can be updated).
+ * Updates a comment (only approved status can be updated).
  *
  * @param commentId The comment's id
  * @param data The new data
- * @returns The result of the updating action.
  */
 export async function updateComment(commentId: string, data: UpdateCommentBodyParams) {
     const commentRef = COMMENTS_COLLECTION.doc(commentId);
@@ -104,8 +104,8 @@ export async function updateComment(commentId: string, data: UpdateCommentBodyPa
 }
 
 /**
- * Delete a particular comment
- * @param pageId The page's id
+ * Deletes a comment.
+ *
  * @param commentId The comment's id
  */
 export async function deleteComment(commentId: string) {

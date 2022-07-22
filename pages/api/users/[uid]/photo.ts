@@ -13,10 +13,6 @@ export const config: PageConfig = {
     },
 };
 
-const handler = ncRouter<ApiRequestWithFormData>().put(
-    authenticatePathUidWithJWT,
-    parseUserPhoto,
-    uploadUserPhoto
-);
+const handler = ncRouter().put(authenticatePathUidWithJWT, parseUserPhoto, uploadUserPhoto);
 
 export default handler;
