@@ -13,7 +13,7 @@ export async function createComment(req: ApiRequest, res: ApiResponse) {
 export async function updateComment(req: ApiRequest, res: ApiResponse) {
     const { commentId } = extractFirstQueryValue(req);
     const data: UpdateCommentBodyParams = req.body;
-    await CommentUtils.updateCommentById(commentId, data);
+    await CommentUtils.updateComment(commentId, data);
     res.status(200).json({ message: "Updated comment" });
 }
 

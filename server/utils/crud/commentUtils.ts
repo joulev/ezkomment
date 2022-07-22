@@ -8,7 +8,7 @@ import {
 } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
-import { deleteQuery, getDocumentInTransaction } from "~/server/utils/firestoreUtils";
+import { getDocumentInTransaction } from "~/server/utils/firestoreUtils";
 
 import {
     ApprovedStatus,
@@ -139,50 +139,6 @@ export async function deleteComment(commentId: string) {
             t.update(pageRef, updateCommentCount);
             t.delete(commentRef);
         });
-    } catch (err) {
-        handleFirestoreError(err);
-    }
-}
-
-/////////////////////////
-// Interact with pages //
-/////////////////////////
-
-export async function listPageCommentsById(pageId: string) {
-    const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
-    const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
-    return data.sort((c1, c2) => c2.date - c1.date);
-}
-
-/**
- * We will need to update the comment count of the page, if we delete all comments.
- * But this may be redudant in some case, for example if we want to delete all pages of a site.
- *
- * @param pageId The page's id
- * @param update If true, the page and site will be updated. Default to false
- */
-export async function deletePageCommentsById(pageId: string, update: boolean = false) {
-    try {
-        const commentQuery = COMMENTS_COLLECTION.where("pageId", "==", pageId);
-        const promises: Promise<any>[] = [deleteQuery(commentQuery)];
-        if (update) {
-            // The update could fail here, if the page does not exist.
-            promises.push(
-                firestoreAdmin.runTransaction(async t => {
-                    const pageRef = PAGES_COLLECTION.doc(pageId);
-                    const pageData = await getDocumentInTransaction<Page>(t, pageRef);
-                    const { siteId, totalCommentCount, pendingCommentCount } = pageData;
-                    const siteRef = SITES_COLLECTION.doc(siteId);
-                    const updateContent = {
-                        totalCommentCount: FieldValue.increment(-totalCommentCount),
-                        pendingCommentCount: FieldValue.increment(-pendingCommentCount),
-                    };
-                    t.update(siteRef, updateContent);
-                    t.update(pageRef, updateContent);
-                })
-            );
-        }
-        await Promise.all(promises);
     } catch (err) {
         handleFirestoreError(err);
     }

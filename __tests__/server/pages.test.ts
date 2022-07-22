@@ -40,7 +40,7 @@ describe("Test page utils", () => {
 
     it("Should fail when trying to create a new page with a non-existing site", async () => {
         await expect(
-            PageUtils.createPage(uid, {
+            PageUtils.createPageWithUid(uid, {
                 url: "https://en.touhouwiki.net/wiki/Flandre_Scarlet",
                 autoApprove: false,
                 title: "Who Killed U.N.Owen",
@@ -51,7 +51,7 @@ describe("Test page utils", () => {
 
     it("Should fail when trying to create a new page with unmatched url", async () => {
         await expect(
-            PageUtils.createPage(uid, {
+            PageUtils.createPageWithUid(uid, {
                 url: "https://EoSD.com/6",
                 autoApprove: false,
                 title: "Scarlet Devil",
@@ -63,13 +63,15 @@ describe("Test page utils", () => {
     it("Should fail when trying to access a non-existing page", async () => {
         const notFound = { code: 404 };
         await Promise.all([
-            expect(PageUtils.getPageById(uid, nonExistingPageId)).rejects.toMatchObject(notFound),
+            expect(PageUtils.getPageWithUid(uid, nonExistingPageId)).rejects.toMatchObject(
+                notFound
+            ),
             expect(
-                PageUtils.updatePageById(uid, nonExistingPageId, {
+                PageUtils.updatePageWithUid(uid, nonExistingPageId, {
                     title: "Undefined Fantastic Object",
                 })
             ).rejects.toMatchObject(notFound),
-            expect(PageUtils.deletePageById(uid, nonExistingPageId)).rejects.toMatchObject(
+            expect(PageUtils.deletePageWithUid(uid, nonExistingPageId)).rejects.toMatchObject(
                 notFound
             ),
         ]);
@@ -78,11 +80,13 @@ describe("Test page utils", () => {
     it("Should fail when uid does not match", async () => {
         const forbidden = { code: 403 };
         await Promise.all([
-            expect(PageUtils.getPageById(nonExistingUid, pageId1)).rejects.toMatchObject(forbidden),
+            expect(PageUtils.getPageWithUid(nonExistingUid, pageId1)).rejects.toMatchObject(
+                forbidden
+            ),
             expect(
-                PageUtils.updatePageById(nonExistingUid, pageId1, { title: "UFO" })
+                PageUtils.updatePageWithUid(nonExistingUid, pageId1, { title: "UFO" })
             ).rejects.toMatchObject(forbidden),
-            expect(PageUtils.deletePageById(nonExistingUid, pageId1)).rejects.toMatchObject(
+            expect(PageUtils.deletePageWithUid(nonExistingUid, pageId1)).rejects.toMatchObject(
                 forbidden
             ),
         ]);
@@ -93,19 +97,19 @@ describe("Test page utils", () => {
     ////////////////////
 
     it("Should be able to get page's information", async () => {
-        await expect(PageUtils.getPageById(uid, pageId1)).resolves.toMatchObject({
+        await expect(PageUtils.getPageWithUid(uid, pageId1)).resolves.toMatchObject({
             id: pageId1,
             title: pageTitle,
         });
     });
 
     it("Should be able to get page's information and its comments", async () => {
-        const clientPage = await PageUtils.getClientPageById(uid, pageId2);
+        const clientPage = await PageUtils.getClientPageWithUid(uid, pageId2);
         expect(clientPage.comments).toHaveLength(5);
     });
 
     it("Should correctly increment pageCount when a page is created", async () => {
-        await PageUtils.createPage(uid, {
+        await PageUtils.createPageWithUid(uid, {
             siteId,
             url: `${mainSite.domain}/Scarlet_Serenade`,
             title: "Scarlet Serenade",
@@ -116,7 +120,7 @@ describe("Test page utils", () => {
     });
 
     it("Should correctly approve pending comments when auto approve is toggled", async () => {
-        await PageUtils.updatePageById(uid, pageId1, { autoApprove: false });
+        await PageUtils.updatePageWithUid(uid, pageId1, { autoApprove: false });
         await Promise.all([
             CommentUtils.createComment({
                 pageId: pageId1,
@@ -129,7 +133,7 @@ describe("Test page utils", () => {
                 text: "Okawai koto",
             }),
         ]);
-        let clientPage = await PageUtils.getClientPageById(uid, pageId1);
+        let clientPage = await PageUtils.getClientPageWithUid(uid, pageId1);
         expect(clientPage.comments).toHaveLength(2);
         expect(clientPage).toMatchObject({
             totalCommentCount: 2,
@@ -139,8 +143,8 @@ describe("Test page utils", () => {
             totalCommentCount: 7,
             pendingCommentCount: 2,
         });
-        await PageUtils.updatePageById(uid, pageId1, { autoApprove: true });
-        clientPage = await PageUtils.getClientPageById(uid, pageId1);
+        await PageUtils.updatePageWithUid(uid, pageId1, { autoApprove: true });
+        clientPage = await PageUtils.getClientPageWithUid(uid, pageId1);
         expect(clientPage.comments).toHaveLength(2);
         expect(clientPage).toMatchObject({
             totalCommentCount: 2,
@@ -153,8 +157,8 @@ describe("Test page utils", () => {
         /**
          * Delete comments
          */
-        await CommentUtils.deletePageCommentsById(pageId1, true);
-        clientPage = await PageUtils.getClientPageById(uid, pageId1);
+        await PageUtils.deletePageComment(pageId1, true);
+        clientPage = await PageUtils.getClientPageWithUid(uid, pageId1);
         expect(clientPage.comments).toHaveLength(0);
         expect(clientPage).toMatchObject({
             totalCommentCount: 0,
@@ -167,7 +171,7 @@ describe("Test page utils", () => {
     });
 
     it("Should delete page correctly", async () => {
-        await PageUtils.deletePageById(uid, pageId1);
+        await PageUtils.deletePageWithUid(uid, pageId1);
         await Promise.all([
             expect(PageUtils.listSitePagesById(siteId)).resolves.toEqual(
                 expect.not.arrayContaining([mainPage])
@@ -180,7 +184,7 @@ describe("Test page utils", () => {
         await PageUtils.deleteSitePagesById(siteId, true);
         await Promise.all([
             expect(PageUtils.listSitePagesById(siteId)).resolves.toHaveLength(0),
-            expect(CommentUtils.listPageCommentsById(pageId2)).resolves.toHaveLength(0),
+            expect(PageUtils.listPageComment(pageId2)).resolves.toHaveLength(0),
             expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
                 pageCount: 0,
                 totalCommentCount: 0,

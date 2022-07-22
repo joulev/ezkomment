@@ -89,7 +89,7 @@ describe("Test comment utils", () => {
         });
         expect(status).toEqual("Approved");
         await Promise.all([
-            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+            expect(PageUtils.getPageWithUid(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 6,
                 pendingCommentCount: 0,
             }),
@@ -100,7 +100,7 @@ describe("Test comment utils", () => {
         ]);
         await CommentUtils.deleteComment(id);
         await Promise.all([
-            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+            expect(PageUtils.getPageWithUid(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
@@ -112,7 +112,7 @@ describe("Test comment utils", () => {
     });
 
     it("Should create, update and delete a new comment correctly when auto approve is disabled (the comment was approved)", async () => {
-        await PageUtils.updatePageById(uid, pageId, { autoApprove: false });
+        await PageUtils.updatePageWithUid(uid, pageId, { autoApprove: false });
         const { status, id } = await CommentUtils.createComment({
             pageId,
             author: null,
@@ -120,7 +120,7 @@ describe("Test comment utils", () => {
         });
         expect(status).toEqual("Pending");
         await Promise.all([
-            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+            expect(PageUtils.getPageWithUid(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 6,
                 pendingCommentCount: 1,
             }),
@@ -131,7 +131,7 @@ describe("Test comment utils", () => {
         ]);
         await CommentUtils.updateComment(id, { status: "Approved" });
         await Promise.all([
-            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+            expect(PageUtils.getPageWithUid(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 6,
                 pendingCommentCount: 0,
             }),
@@ -142,7 +142,7 @@ describe("Test comment utils", () => {
         ]);
         await CommentUtils.deleteComment(id);
         await Promise.all([
-            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+            expect(PageUtils.getPageWithUid(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
@@ -162,7 +162,7 @@ describe("Test comment utils", () => {
         expect(status).toEqual("Pending");
         await CommentUtils.deleteComment(id);
         await Promise.all([
-            expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
+            expect(PageUtils.getPageWithUid(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
@@ -174,8 +174,8 @@ describe("Test comment utils", () => {
     });
 
     it("Should be able to delete ALL comments of a page", async () => {
-        await CommentUtils.deletePageCommentsById(pageId);
-        await expect(CommentUtils.listPageCommentsById(pageId)).resolves.toHaveLength(0);
+        await PageUtils.deletePageComment(pageId);
+        await expect(PageUtils.listPageComment(pageId)).resolves.toHaveLength(0);
     });
 
     afterAll(async () => {

@@ -116,7 +116,7 @@ describe("Test site utils", () => {
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toHaveLength(0),
             expect(SiteUtils.listUserSitesById(uid)).resolves.toHaveLength(0),
             expect(PageUtils.listSitePagesById(siteId2)).resolves.toHaveLength(0),
-            expect(CommentUtils.listPageCommentsById(pageId)).resolves.toHaveLength(0),
+            expect(PageUtils.listPageComment(pageId)).resolves.toHaveLength(0),
         ]);
     });
 });
