@@ -1,5 +1,5 @@
 import { UploadSiteIconUtil, UploadUserPhotoUtil } from "~/server/utils/crud/imageUtils";
-import { updateSiteById } from "~/server/utils/crud/siteUtils";
+import { updateSiteWithUid } from "~/server/utils/crud/siteUtils";
 import { updateUserById } from "~/server/utils/crud/userUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
@@ -26,7 +26,7 @@ export async function uploadSiteIcon(req: AuthenticatedApiRequestWithFormData, r
     const { siteId } = extractFirstQueryValue(req);
     const util = UploadSiteIconUtil.instance();
     const iconURL = util.getSiteIconUrl(siteId);
-    await updateSiteById(uid, siteId, { iconURL });
+    await updateSiteWithUid(uid, siteId, { iconURL });
     await util.uploadSiteIcon(siteId, req.file);
     res.status(201).json({
         message: "Uploaded site's icon",

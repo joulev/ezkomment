@@ -40,7 +40,7 @@ describe("Test customisation utils", () => {
     });
 
     it("Should delete customisation when delete site", async () => {
-        await SiteUtils.deleteSiteById(uid, siteId);
+        await SiteUtils.deleteSiteWithUid(uid, siteId);
         const siteCustomisationRef = SITES_COLLECTION.doc(siteId)
             .collection("customisation")
             .doc("CUSTOMISATION");

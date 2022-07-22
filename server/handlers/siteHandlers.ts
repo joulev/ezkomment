@@ -8,14 +8,14 @@ import { ApiResponse, AuthenticatedApiRequest } from "~/types/server/nextApi.typ
 export async function getSite(req: AuthenticatedApiRequest, res: ApiResponse<ClientSite>) {
     const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
-    const data = await SiteUtils.getClientSiteById(uid, siteId);
+    const data = await SiteUtils.getClientSiteWithUid(uid, siteId);
     res.status(200).json({ message: "Got site information", data });
 }
 
-export async function createSite(req: AuthenticatedApiRequest, res: ApiResponse<Site>) {
+export async function createSiteWithUid(req: AuthenticatedApiRequest, res: ApiResponse<Site>) {
     const { uid } = req.user;
     const data: CreateSiteBodyParams = req.body;
-    const result = await SiteUtils.createSite(uid, data);
+    const result = await SiteUtils.createSiteWithUid(uid, data);
     res.status(201).json({ message: "Created site", data: result });
 }
 
@@ -23,14 +23,14 @@ export async function updateSite(req: AuthenticatedApiRequest, res: ApiResponse)
     const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
     const data: UpdateSiteBodyParams = req.body;
-    await SiteUtils.updateSiteById(uid, siteId, data);
+    await SiteUtils.updateSiteWithUid(uid, siteId, data);
     res.status(200).json({ message: "Updated site" });
 }
 
 export async function deleteSite(req: AuthenticatedApiRequest, res: ApiResponse) {
     const { uid } = req.user;
     const { siteId } = extractFirstQueryValue(req);
-    await SiteUtils.deleteSiteById(uid, siteId);
+    await SiteUtils.deleteSiteWithUid(uid, siteId);
     await Promise.all([
         deleteSiteIcon(siteId), // delete icon
         SiteUtils.deleteSitePages(siteId), // delete ALL pages

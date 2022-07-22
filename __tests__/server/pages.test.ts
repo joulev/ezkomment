@@ -124,7 +124,7 @@ describe("Test page utils", () => {
             title: "Scarlet Serenade",
             autoApprove: true,
         });
-        const { pageCount } = await SiteUtils.getSiteById(uid, siteId);
+        const { pageCount } = await SiteUtils.getSiteWithUid(uid, siteId);
         expect(pageCount).toEqual(6);
     });
 
@@ -148,7 +148,7 @@ describe("Test page utils", () => {
             totalCommentCount: 2,
             pendingCommentCount: 2,
         });
-        await expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+        await expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
             totalCommentCount: 7,
             pendingCommentCount: 2,
         });
@@ -159,7 +159,7 @@ describe("Test page utils", () => {
             totalCommentCount: 2,
             pendingCommentCount: 0,
         });
-        await expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+        await expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
             totalCommentCount: 7,
             pendingCommentCount: 0,
         });
@@ -173,7 +173,7 @@ describe("Test page utils", () => {
             totalCommentCount: 0,
             pendingCommentCount: 0,
         });
-        await expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+        await expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
             totalCommentCount: 5,
             pendingCommentCount: 0,
         });
@@ -185,7 +185,7 @@ describe("Test page utils", () => {
             expect(SiteUtils.listSitePages(siteId)).resolves.toEqual(
                 expect.not.arrayContaining([mainPage])
             ),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({ pageCount: 5 }),
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({ pageCount: 5 }),
         ]);
     });
 
@@ -194,7 +194,7 @@ describe("Test page utils", () => {
         await Promise.all([
             expect(SiteUtils.listSitePages(siteId)).resolves.toHaveLength(0),
             expect(PageUtils.listPageComments(pageId2)).resolves.toHaveLength(0),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
                 pageCount: 0,
                 totalCommentCount: 0,
                 pendingCommentCount: 0,

@@ -93,7 +93,7 @@ describe("Test comment utils", () => {
                 totalCommentCount: 6,
                 pendingCommentCount: 0,
             }),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
                 totalCommentCount: 6,
                 pendingCommentCount: 0,
             }),
@@ -104,7 +104,7 @@ describe("Test comment utils", () => {
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
@@ -124,7 +124,7 @@ describe("Test comment utils", () => {
                 totalCommentCount: 6,
                 pendingCommentCount: 1,
             }),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
                 totalCommentCount: 6,
                 pendingCommentCount: 1,
             }),
@@ -135,7 +135,7 @@ describe("Test comment utils", () => {
                 totalCommentCount: 6,
                 pendingCommentCount: 0,
             }),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
                 totalCommentCount: 6,
                 pendingCommentCount: 0,
             }),
@@ -146,7 +146,7 @@ describe("Test comment utils", () => {
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
@@ -166,7 +166,7 @@ describe("Test comment utils", () => {
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
-            expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
+            expect(SiteUtils.getSiteWithUid(uid, siteId)).resolves.toMatchObject({
                 totalCommentCount: 5,
                 pendingCommentCount: 0,
             }),
