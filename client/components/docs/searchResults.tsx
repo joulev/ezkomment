@@ -53,7 +53,7 @@ const DocsSearchResults: FC<{ loading: boolean; query: string }> = ({ loading, q
           notStyled
           key={source}
           href={`/docs/${source}`}
-          className="flex flex-col gap-3 rounded lg:hover:bg-neutral-100 dark:lg:hover:bg-neutral-900 transition py-3 lg:px-3"
+          className="flex flex-col gap-3 rounded lg:hover:bg-neutral-200 dark:lg:hover:bg-neutral-800 transition py-3 lg:px-3"
         >
           <h3 className="font-semibold">{title}</h3>
           <div className="text-sm">

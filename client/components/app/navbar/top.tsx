@@ -32,7 +32,7 @@ const TopNavButton: FC<TopNavItemProps> = ({ href, onClick, icon: Icon, title })
   const classes = clsx(
     "text-neutral-600 dark:text-neutral-400 rounded p-1.5 transition leading-none",
     "hover:text-neutral-900 dark:hover:text-neutral-100", // styling for mobile
-    "sm:hover:bg-indigo-100 sm:dark:hover:bg-indigo-900 sm:dark:hover:bg-opacity-50 sm:hover:text-primary" // styling for desktop
+    "sm:hover:bg-indigo-100 sm:dark:hover:bg-indigo-800 sm:dark:hover:bg-opacity-50 sm:hover:text-primary" // styling for desktop
   );
   return href ? (
     <A href="/app/dashboard" notStyled className={classes} title={title}>
