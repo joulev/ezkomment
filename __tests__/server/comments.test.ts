@@ -59,7 +59,7 @@ describe("Test comment utils", () => {
 
     it("Should fail when trying to update an approved comment", async () => {
         await expect(
-            CommentUtils.updateCommentById(commentId, { status: "Approved" })
+            CommentUtils.updateComment(commentId, { status: "Approved" })
         ).rejects.toMatchObject({ code: 409 });
     });
 
@@ -67,11 +67,11 @@ describe("Test comment utils", () => {
         const notFound = { code: 404 };
         await Promise.all([
             expect(
-                CommentUtils.updateCommentById(nonExistingCommentId, {
+                CommentUtils.updateComment(nonExistingCommentId, {
                     status: "Approved",
                 })
             ).rejects.toMatchObject(notFound),
-            expect(CommentUtils.deleteCommentById(nonExistingCommentId)).rejects.toMatchObject(
+            expect(CommentUtils.deleteComment(nonExistingCommentId)).rejects.toMatchObject(
                 notFound
             ),
         ]);
@@ -98,7 +98,7 @@ describe("Test comment utils", () => {
                 pendingCommentCount: 0,
             }),
         ]);
-        await CommentUtils.deleteCommentById(id);
+        await CommentUtils.deleteComment(id);
         await Promise.all([
             expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 5,
@@ -129,7 +129,7 @@ describe("Test comment utils", () => {
                 pendingCommentCount: 1,
             }),
         ]);
-        await CommentUtils.updateCommentById(id, { status: "Approved" });
+        await CommentUtils.updateComment(id, { status: "Approved" });
         await Promise.all([
             expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 6,
@@ -140,7 +140,7 @@ describe("Test comment utils", () => {
                 pendingCommentCount: 0,
             }),
         ]);
-        await CommentUtils.deleteCommentById(id);
+        await CommentUtils.deleteComment(id);
         await Promise.all([
             expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 5,
@@ -160,7 +160,7 @@ describe("Test comment utils", () => {
             text: "Black Princess",
         });
         expect(status).toEqual("Pending");
-        await CommentUtils.deleteCommentById(id);
+        await CommentUtils.deleteComment(id);
         await Promise.all([
             expect(PageUtils.getPageById(uid, pageId)).resolves.toMatchObject({
                 totalCommentCount: 5,

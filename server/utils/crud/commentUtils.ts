@@ -97,10 +97,10 @@ export async function createComment(data: CreateCommentBodyParams) {
  * @param data The new data
  * @returns The result of the updating action.
  */
-export async function updateCommentById(commentId: string, data: UpdateCommentBodyParams) {
+export async function updateComment(commentId: string, data: UpdateCommentBodyParams) {
     try {
         const commentRef = COMMENTS_COLLECTION.doc(commentId);
-        return await firestoreAdmin.runTransaction(async t => {
+        await firestoreAdmin.runTransaction(async t => {
             const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
             if (commentData.status === "Approved")
                 throw new CustomApiError("Comment is already approved", 409);
@@ -123,10 +123,10 @@ export async function updateCommentById(commentId: string, data: UpdateCommentBo
  * @param pageId The page's id
  * @param commentId The comment's id
  */
-export async function deleteCommentById(commentId: string) {
+export async function deleteComment(commentId: string) {
     try {
         const commentRef = COMMENTS_COLLECTION.doc(commentId);
-        return await firestoreAdmin.runTransaction(async t => {
+        await firestoreAdmin.runTransaction(async t => {
             const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
             const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
             const siteRef = SITES_COLLECTION.doc(commentData.siteId);
@@ -170,25 +170,19 @@ export async function deletePageCommentsById(pageId: string, update: boolean = f
             promises.push(
                 firestoreAdmin.runTransaction(async t => {
                     const pageRef = PAGES_COLLECTION.doc(pageId);
-                    const pageSnapshot = await t.get(pageRef);
-                    const pageData = pageSnapshot.data() as Page;
-
-                    if (!pageSnapshot.exists) throw new CustomApiError("Page does not exist", 404);
-
+                    const pageData = await getDocumentInTransaction<Page>(t, pageRef);
                     const { siteId, totalCommentCount, pendingCommentCount } = pageData;
                     const siteRef = SITES_COLLECTION.doc(siteId);
-
                     const updateContent = {
                         totalCommentCount: FieldValue.increment(-totalCommentCount),
                         pendingCommentCount: FieldValue.increment(-pendingCommentCount),
                     };
-
                     t.update(siteRef, updateContent);
                     t.update(pageRef, updateContent);
                 })
             );
         }
-        return await Promise.all(promises);
+        await Promise.all(promises);
     } catch (err) {
         handleFirestoreError(err);
     }
