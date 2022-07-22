@@ -33,7 +33,6 @@ abstract class UploadImageUtil {
                 firebaseStorageDownloadTokens: this.uuid,
             },
         });
-        // const [metadata] = await blob.makePublic();
         if (process.env.NODE_ENV === "development") {
             console.log("uploaded image!");
             console.log("minetype: " + mimetype);

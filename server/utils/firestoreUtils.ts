@@ -40,11 +40,3 @@ export async function getDocumentInTransactionWithUid<T extends { uid: string } 
     if (data.uid !== uid) throw new CustomApiError("Forbidden, uids do not match", 403);
     return data;
 }
-
-export async function getSiteInTransaction(t: Transaction, ref: DocumentReference, uid: string) {
-    return await getDocumentInTransactionWithUid<Site>(t, ref, uid);
-}
-
-export async function getPageInTransaction(t: Transaction, ref: DocumentReference, uid: string) {
-    return await getDocumentInTransactionWithUid<Page>(t, ref, uid);
-}

@@ -3,9 +3,9 @@ import { Timestamp } from "firebase-admin/firestore";
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION } from "~/server/firebase/firestoreCollections";
 
-import { SiteStatistics } from "~/types/server";
+import { Site, SiteStatistics } from "~/types/server";
 
-import { getSiteInTransaction } from "../firestoreUtils";
+import { getDocumentInTransactionWithUid } from "../firestoreUtils";
 import { listSiteComments } from "./siteUtils";
 
 const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -14,7 +14,9 @@ export async function getSiteStatistic(uid: string, siteId: string) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
         // Security
-        if (process.env.NODE_ENV !== "development") await getSiteInTransaction(t, siteRef, uid);
+        if (process.env.NODE_ENV !== "development") {
+            await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
+        }
         const siteComments = await listSiteComments(siteId);
         const currentTimestamp = Timestamp.now().toMillis();
         const totalComment: number[] = Array.from({ length: 30 }, _ => 0);

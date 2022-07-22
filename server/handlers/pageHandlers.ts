@@ -39,9 +39,6 @@ export async function deletePage(req: AuthenticatedApiRequest, res: ApiResponse)
 // export async function listPageComments(req: ApiRequest, res: ApiResponse) {
 //     const { pageId } = extractFirstQueryValue(req);
 //     const data = await listPageCommentsById(pageId).then(compileComments2html);
-//     /**
-//      * This list of comments must be complied to html
-//      */
 //     res.status(200).json({ message: "Listed all comments", data });
 // }
 

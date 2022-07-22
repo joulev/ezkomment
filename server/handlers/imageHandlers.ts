@@ -15,10 +15,7 @@ export async function uploadUserPhoto(req: ApiRequestWithFormData, res: ApiRespo
     const photoURL = util.getUserPhotoUrl(uid);
     await updateUserById(uid, { photoURL });
     await util.uploadUserPhoto(uid, req.file);
-    res.status(201).json({
-        message: "Uploaded user's photo",
-        data: { photoURL },
-    });
+    res.status(201).json({ message: "Uploaded user's photo", data: { photoURL } });
 }
 
 export async function uploadSiteIcon(req: AuthenticatedApiRequestWithFormData, res: ApiResponse) {
@@ -28,8 +25,5 @@ export async function uploadSiteIcon(req: AuthenticatedApiRequestWithFormData, r
     const iconURL = util.getSiteIconUrl(siteId);
     await updateSiteWithUid(uid, siteId, { iconURL });
     await util.uploadSiteIcon(siteId, req.file);
-    res.status(201).json({
-        message: "Uploaded site's icon",
-        data: { iconURL },
-    });
+    res.status(201).json({ message: "Uploaded site's icon", data: { iconURL } });
 }

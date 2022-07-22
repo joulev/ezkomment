@@ -1,4 +1,4 @@
-import { verifyJWT, verifySessionCookie } from "~/server/utils/authUtils";
+import { verifyJWT } from "~/server/utils/authUtils";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
@@ -14,8 +14,9 @@ export const authenticatePathUidWithJWT: ApiMiddleware = async (req, _, next) =>
     }
     const { uid } = extractFirstQueryValue(req);
     const decodedClaim = await verifyJWT(req.headers.authorization);
-    if (decodedClaim.uid !== uid)
+    if (decodedClaim.uid !== uid) {
         throw new CustomApiError("Decoded uid does not match path uid", 403);
+    }
     next();
 };
 
@@ -29,12 +30,6 @@ export const authenticateBodyUidWithJWT: ApiMiddleware = async (req, _, next) =>
     if (decodedClaim.uid !== uid) {
         throw new CustomApiError("Decoded uid does not match body uid", 403);
     }
-    next();
-};
-
-export const validateSessionCookie: ApiMiddleware = async (req, _, next) => {
-    const sessionCookie = req.cookies.session;
-    await verifySessionCookie(sessionCookie);
     next();
 };
 

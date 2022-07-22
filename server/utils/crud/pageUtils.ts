@@ -11,8 +11,7 @@ import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError
 import {
     deleteQuery,
     getDocumentInTransaction,
-    getPageInTransaction,
-    getSiteInTransaction,
+    getDocumentInTransactionWithUid,
 } from "~/server/utils/firestoreUtils";
 
 import {
@@ -20,6 +19,7 @@ import {
     Comment,
     CreatePageBodyParams,
     Page,
+    Site,
     UpdateCommentBodyParams,
     UpdatePageBodyParams,
 } from "~/types/server";
@@ -33,7 +33,7 @@ import {
 export async function getPageWithUid(uid: string, pageId: string) {
     const pageRef = PAGES_COLLECTION.doc(pageId);
     return await firestoreAdmin.runTransaction(async t => {
-        const pageData = await getPageInTransaction(t, pageRef, uid);
+        const pageData = await getDocumentInTransactionWithUid<Page>(t, pageRef, uid);
         return pageData;
     });
 }
@@ -41,7 +41,7 @@ export async function getPageWithUid(uid: string, pageId: string) {
 export async function getClientPageWithUid(uid: string, pageId: string) {
     const pageRef = PAGES_COLLECTION.doc(pageId);
     return await firestoreAdmin.runTransaction(async t => {
-        const pageData = await getPageInTransaction(t, pageRef, uid);
+        const pageData = await getDocumentInTransactionWithUid<Page>(t, pageRef, uid);
         const { docs } = await t.get(COMMENTS_COLLECTION.where("pageId", "==", pageId));
         const comments = docs
             .map(doc => doc.data())
@@ -70,11 +70,10 @@ export async function createPageWithUid(uid: string, data: CreatePageBodyParams)
     };
     return await firestoreAdmin.runTransaction(async t => {
         const siteRef = SITES_COLLECTION.doc(siteId);
-        const siteData = await getSiteInTransaction(t, siteRef, uid);
-
-        if (!url.includes(siteData.domain) && siteData.domain !== "*")
+        const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
+        if (!url.includes(siteData.domain) && siteData.domain !== "*") {
             throw new CustomApiError("Site domain and page url do not match", 409);
-
+        }
         // Increment the pageCount of the site by 1
         t.update(siteRef, { pageCount: FieldValue.increment(1) });
         t.create(pageRef, newPage);
@@ -110,7 +109,11 @@ export async function updatePageWithUid(uid: string, pageId: string, data: Updat
     const pageRef = PAGES_COLLECTION.doc(pageId);
     const { autoApprove } = data;
     return await firestoreAdmin.runTransaction(async t => {
-        const { siteId, pendingCommentCount } = await getPageInTransaction(t, pageRef, uid);
+        const { siteId, pendingCommentCount } = await getDocumentInTransactionWithUid<Page>(
+            t,
+            pageRef,
+            uid
+        );
         /**
          * We need to approve all pending comments when auto approved is turned to true
          * Update the statistic as well
@@ -129,7 +132,7 @@ export async function updatePageWithUid(uid: string, pageId: string, data: Updat
 export async function deletePageWithUid(uid: string, pageId: string) {
     const pageRef = PAGES_COLLECTION.doc(pageId);
     return await firestoreAdmin.runTransaction(async t => {
-        const pageData = await getPageInTransaction(t, pageRef, uid);
+        const pageData = await getDocumentInTransactionWithUid<Page>(t, pageRef, uid);
         const { siteId, totalCommentCount, pendingCommentCount } = pageData;
         const siteRef = SITES_COLLECTION.doc(siteId);
         // Decrease the number of page by 1, decrease the number of total comment count,
@@ -180,18 +183,20 @@ export async function deletePageComments(pageId: string, update: boolean = false
     const commentQuery = COMMENTS_COLLECTION.where("pageId", "==", pageId);
     const promises: Promise<unknown>[] = [deleteQuery(commentQuery)];
     if (update) {
-        const updatePromise = firestoreAdmin.runTransaction(async t => {
-            const pageRef = PAGES_COLLECTION.doc(pageId);
-            const pageData = await getDocumentInTransaction<Page>(t, pageRef);
-            const { siteId, totalCommentCount, pendingCommentCount } = pageData;
-            const siteRef = SITES_COLLECTION.doc(siteId);
-            const updateContent = {
-                totalCommentCount: FieldValue.increment(-totalCommentCount),
-                pendingCommentCount: FieldValue.increment(-pendingCommentCount),
-            };
-            t.update(siteRef, updateContent);
-            t.update(pageRef, updateContent);
-        });
+        const updatePromise = firestoreAdmin
+            .runTransaction(async t => {
+                const pageRef = PAGES_COLLECTION.doc(pageId);
+                const pageData = await getDocumentInTransaction<Page>(t, pageRef);
+                const { siteId, totalCommentCount, pendingCommentCount } = pageData;
+                const siteRef = SITES_COLLECTION.doc(siteId);
+                const updateContent = {
+                    totalCommentCount: FieldValue.increment(-totalCommentCount),
+                    pendingCommentCount: FieldValue.increment(-pendingCommentCount),
+                };
+                t.update(siteRef, updateContent);
+                t.update(pageRef, updateContent);
+            })
+            .catch(handleFirestoreError);
         promises.push(updatePromise);
     }
     await Promise.all(promises);

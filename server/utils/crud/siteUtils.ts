@@ -6,7 +6,7 @@ import {
     USERS_COLLECTION,
 } from "~/server/firebase/firestoreCollections";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
-import { deleteRefArray, getSiteInTransaction } from "~/server/utils/firestoreUtils";
+import { deleteRefArray, getDocumentInTransactionWithUid } from "~/server/utils/firestoreUtils";
 
 import {
     ClientSite,
@@ -30,7 +30,7 @@ import { deletePageComments } from "./pageUtils";
 export async function getSiteWithUid(uid: string, siteId: string) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
-        const siteData = await getSiteInTransaction(t, siteRef, uid);
+        const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
         return siteData;
     });
 }
@@ -45,7 +45,7 @@ export async function getSiteWithUid(uid: string, siteId: string) {
 export async function getClientSiteWithUid(uid: string, siteId: string) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
-        const siteData = await getSiteInTransaction(t, siteRef, uid);
+        const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
         const { docs } = await t.get(PAGES_COLLECTION.where("siteId", "==", siteId));
         const pages = docs.map(doc => doc.data()) as Page[];
         const tempStat = Array.from({ length: 30 }).map(_ => 0);
@@ -101,7 +101,7 @@ export async function updateSiteWithUid(uid: string, siteId: string, data: Updat
     await firestoreAdmin
         .runTransaction(async t => {
             // Look up the site's name
-            const siteData = await getSiteInTransaction(t, siteRef, uid);
+            const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
             if (newName !== undefined) {
                 const oldName = siteData.name;
                 const userSitesCollection = USERS_COLLECTION.doc(uid).collection("sites");
@@ -122,7 +122,7 @@ export async function updateSiteWithUid(uid: string, siteId: string, data: Updat
 export async function deleteSiteWithUid(uid: string, siteId: string) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     await firestoreAdmin.runTransaction(async t => {
-        const siteData = await getSiteInTransaction(t, siteRef, uid);
+        const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
         t.delete(USERS_COLLECTION.doc(uid).collection("sites").doc(siteData.name));
     });
     await firestoreAdmin.recursiveDelete(siteRef);
@@ -175,39 +175,4 @@ export async function deleteSitePages(siteId: string, update: boolean = false) {
         promises.push(updatePromise);
     }
     await Promise.all(promises);
-}
-
-/////////////////
-// TO BE MOVED //
-/////////////////
-
-export async function listUserSitesById(uid: string) {
-    const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
-    return siteSnapshots.docs.map(doc => doc.data()) as Site[];
-}
-
-export async function listUserBasicSitesById(uid: string) {
-    const siteSnapshots = await USERS_COLLECTION.doc(uid).collection("sites").get();
-    return siteSnapshots.docs.map(doc => doc.data());
-}
-
-export async function deleteUserSitesById(uid: string) {
-    try {
-        const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
-        if (siteSnapshots.empty) return;
-        const siteDocs = siteSnapshots.docs;
-        const siteRefs = siteDocs.map(doc => doc.ref);
-        const siteIds = siteDocs.map(doc => doc.id);
-        const siteNameRefs = siteDocs.map(doc => {
-            const { name } = doc.data() as Site;
-            return USERS_COLLECTION.doc(uid).collection("sites").doc(name);
-        });
-        return await Promise.all([
-            deleteRefArray(siteRefs), // Delete all sites
-            deleteRefArray(siteNameRefs), // Delete all site name refs
-            ...siteIds.map(id => deleteSitePages(id)), // And all pages of these sites
-        ]);
-    } catch (err) {
-        handleFirestoreError(err);
-    }
 }

@@ -1,6 +1,6 @@
-import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
+import * as UserUtils from "~/server/utils/crud/userUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
 const { nonExistingSiteId, nonExistingUid } = testOnly.nonExistingIds;
@@ -100,27 +100,28 @@ describe("Test site utils", () => {
     it("Should delete site correctly", async () => {
         await SiteUtils.deleteSiteWithUid(uid, siteId1);
         await Promise.all([
-            expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toEqual(
+            expect(UserUtils.listUserSiteNames(uid)).resolves.toEqual(
                 expect.not.arrayContaining([siteId1])
             ),
-            expect(SiteUtils.listUserSitesById(uid)).resolves.toEqual(
+            expect(UserUtils.listUserSites(uid)).resolves.toEqual(
                 expect.not.arrayContaining([mainSite])
             ),
         ]);
     });
 
     it("Should be able to delete ALL sites of a user", async () => {
-        await SiteUtils.deleteUserSitesById(uid);
+        await UserUtils.deleteUserSites(uid);
         /**
          * All site must be deleted,
          * and their pages,
          * and the pages' comments.
          */
         await Promise.all([
-            expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toHaveLength(0),
-            expect(SiteUtils.listUserSitesById(uid)).resolves.toHaveLength(0),
+            expect(UserUtils.listUserSiteNames(uid)).resolves.toHaveLength(0),
+            expect(UserUtils.listUserSites(uid)).resolves.toHaveLength(0),
             expect(SiteUtils.listSitePages(siteId2)).resolves.toHaveLength(0),
             expect(PageUtils.listPageComments(pageId)).resolves.toHaveLength(0),
+            expect(SiteUtils.listSiteComments(siteId2)).resolves.toHaveLength(0),
         ]);
     });
 });

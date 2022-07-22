@@ -7,7 +7,6 @@ import {
     SITES_COLLECTION,
 } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
-import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import { getDocumentInTransaction } from "~/server/utils/firestoreUtils";
 
 import {
@@ -17,12 +16,6 @@ import {
     Page,
     UpdateCommentBodyParams,
 } from "~/types/server";
-
-// type CommentCountStatistic = {
-//     date: string | null;
-//     totalCommentCount: number;
-//     newCommentCount: number;
-// };
 
 /**
  * update information about total the number of comment during this day
@@ -59,35 +52,31 @@ import {
  * @param data The data of the comment
  */
 export async function createComment(data: CreateCommentBodyParams) {
-    try {
-        const { pageId } = data;
-        const commentRef = COMMENTS_COLLECTION.doc();
-        const commentId = commentRef.id;
-        const pageRef = PAGES_COLLECTION.doc(pageId);
-        return await firestoreAdmin.runTransaction(async t => {
-            const pageData = await getDocumentInTransaction<Page>(t, pageRef);
-            const siteRef = SITES_COLLECTION.doc(pageData.siteId);
-            const newComment: Comment = {
-                id: commentId,
-                date: Timestamp.now().toMillis(),
-                status: pageData.autoApprove ? "Approved" : ("Pending" as ApprovedStatus),
-                siteId: pageData.siteId, // I will save a reference to the site for easier update
-                ...data,
-            };
-            // update information about total number of comment.
-            const incrementByOne = FieldValue.increment(1);
-            const updateCommentCount: any = { totalCommentCount: incrementByOne };
-            if (!pageData.autoApprove) updateCommentCount.pendingCommentCount = incrementByOne;
+    const { pageId } = data;
+    const commentRef = COMMENTS_COLLECTION.doc();
+    const commentId = commentRef.id;
+    const pageRef = PAGES_COLLECTION.doc(pageId);
+    return await firestoreAdmin.runTransaction(async t => {
+        const pageData = await getDocumentInTransaction<Page>(t, pageRef);
+        const siteRef = SITES_COLLECTION.doc(pageData.siteId);
+        const newComment: Comment = {
+            id: commentId,
+            date: Timestamp.now().toMillis(),
+            status: pageData.autoApprove ? "Approved" : ("Pending" as ApprovedStatus),
+            siteId: pageData.siteId, // I will save a reference to the site for easier update
+            ...data,
+        };
+        // update information about total number of comment.
+        const incrementByOne = FieldValue.increment(1);
+        const updateCommentCount: any = { totalCommentCount: incrementByOne };
+        if (!pageData.autoApprove) updateCommentCount.pendingCommentCount = incrementByOne;
 
-            // update
-            t.update(siteRef, updateCommentCount);
-            t.update(pageRef, updateCommentCount);
-            t.create(commentRef, newComment);
-            return newComment;
-        });
-    } catch (err) {
-        handleFirestoreError(err);
-    }
+        // update
+        t.update(siteRef, updateCommentCount);
+        t.update(pageRef, updateCommentCount);
+        t.create(commentRef, newComment);
+        return newComment;
+    });
 }
 
 /**
@@ -98,24 +87,20 @@ export async function createComment(data: CreateCommentBodyParams) {
  * @returns The result of the updating action.
  */
 export async function updateComment(commentId: string, data: UpdateCommentBodyParams) {
-    try {
-        const commentRef = COMMENTS_COLLECTION.doc(commentId);
-        await firestoreAdmin.runTransaction(async t => {
-            const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
-            if (commentData.status === "Approved")
-                throw new CustomApiError("Comment is already approved", 409);
-            // Because of the sanitizer, the only legit status is "Approved"
-            // We shall decrement the value of pendingCommentCount
-            const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
-            const siteRef = SITES_COLLECTION.doc(commentData.siteId);
-            const decrementByOne = FieldValue.increment(-1);
-            t.update(pageRef, { pendingCommentCount: decrementByOne });
-            t.update(siteRef, { pendingCommentCount: decrementByOne });
-            t.update(commentRef, data);
-        });
-    } catch (err) {
-        handleFirestoreError(err);
-    }
+    const commentRef = COMMENTS_COLLECTION.doc(commentId);
+    await firestoreAdmin.runTransaction(async t => {
+        const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
+        if (commentData.status === "Approved")
+            throw new CustomApiError("Comment is already approved", 409);
+        // Because of the sanitizer, the only legit status is "Approved"
+        // We shall decrement the value of pendingCommentCount
+        const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
+        const siteRef = SITES_COLLECTION.doc(commentData.siteId);
+        const decrementByOne = FieldValue.increment(-1);
+        t.update(pageRef, { pendingCommentCount: decrementByOne });
+        t.update(siteRef, { pendingCommentCount: decrementByOne });
+        t.update(commentRef, data);
+    });
 }
 
 /**
@@ -124,22 +109,18 @@ export async function updateComment(commentId: string, data: UpdateCommentBodyPa
  * @param commentId The comment's id
  */
 export async function deleteComment(commentId: string) {
-    try {
-        const commentRef = COMMENTS_COLLECTION.doc(commentId);
-        await firestoreAdmin.runTransaction(async t => {
-            const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
-            const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
-            const siteRef = SITES_COLLECTION.doc(commentData.siteId);
-            const decrementByOne = FieldValue.increment(-1);
-            // Should not use any here, but I am lazy right now
-            const updateCommentCount: any = { totalCommentCount: decrementByOne };
-            if (commentData.status === "Pending")
-                updateCommentCount.pendingCommentCount = decrementByOne;
-            t.update(siteRef, updateCommentCount);
-            t.update(pageRef, updateCommentCount);
-            t.delete(commentRef);
-        });
-    } catch (err) {
-        handleFirestoreError(err);
-    }
+    const commentRef = COMMENTS_COLLECTION.doc(commentId);
+    await firestoreAdmin.runTransaction(async t => {
+        const commentData = await getDocumentInTransaction<Comment>(t, commentRef);
+        const pageRef = PAGES_COLLECTION.doc(commentData.pageId);
+        const siteRef = SITES_COLLECTION.doc(commentData.siteId);
+        const decrementByOne = FieldValue.increment(-1);
+        // Should not use any here, but I am lazy right now
+        const updateCommentCount: any = { totalCommentCount: decrementByOne };
+        if (commentData.status === "Pending")
+            updateCommentCount.pendingCommentCount = decrementByOne;
+        t.update(siteRef, updateCommentCount);
+        t.update(pageRef, updateCommentCount);
+        t.delete(commentRef);
+    });
 }

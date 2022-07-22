@@ -51,7 +51,6 @@ export async function importFirestoreEntities({
     pages = [],
     comments = [],
 }: ImportData) {
-    if (sites.length + pages.length + comments.length === 0) return;
     const batch = firestoreAdmin.batch();
     setSitesInBatch(batch, sites);
     setPagesInBatch(batch, pages);

@@ -25,7 +25,7 @@ export async function checkExist(siteId: string, pageId: string) {
     }
 }
 
-export async function md2html(md: string) {
+async function md2html(md: string) {
     const processor = unified()
         .use(remarkParse)
         .use(remarkRehype, { allowDangerousHtml: true })
@@ -42,7 +42,7 @@ export function compileComments2html(comments: Comment[]) {
     );
 }
 
-export function generateCommentHTML(html: string, config: EmbedConfigurations, isDark?: boolean) {
+export function generateCommentHTML(html: string, config: EmbedConfigurations, dark?: boolean) {
     if (typeof window !== "undefined")
         throw new CustomApiError("This function should be ran on the server", 403);
     const dom = new JSDOM(html);
@@ -56,6 +56,6 @@ export function generateCommentHTML(html: string, config: EmbedConfigurations, i
     `;
     script.setAttribute("type", "module");
     document.head.appendChild(script);
-    if (isDark) document.documentElement.classList.add("dark");
+    if (dark) document.documentElement.classList.add("dark");
     return dom.serialize();
 }

@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 
-import { ApiError, ApiResponse } from "~/types/server/nextApi.type";
+import { ApiError, ApiRequest, ApiResponse } from "~/types/server/nextApi.type";
 
 import CustomApiError from "./errors/customApiError";
 
@@ -32,9 +31,9 @@ export async function logError(err: unknown) {
  * @param req The request
  * @returns A mapping of keys and values
  */
-export function extractFirstQueryValue(req: NextApiRequest) {
+export function extractFirstQueryValue(req: ApiRequest) {
     const handler = {
-        get: (target: NextApiRequest["query"], prop: string): string => {
+        get: (target: ApiRequest["query"], prop: string): string => {
             const value: string | string[] | undefined = target[prop];
             if (value === undefined) throw new Error("Failure! You look up an undefined property?");
             return Array.isArray(value) ? value[0] : value;
@@ -61,10 +60,7 @@ export function removeUndefinedProperties(obj: Record<string, any>) {
  *
  * @return An instance of `next-connect`.
  */
-export function ncRouter<
-    U extends NextApiRequest = NextApiRequest,
-    V extends NextApiResponse = NextApiResponse
->() {
+export function ncRouter<U extends ApiRequest = ApiRequest, V extends ApiResponse = ApiResponse>() {
     return nc<U, V>({
         // handle uncaught errors.
         onError: async (err, _, res) => {

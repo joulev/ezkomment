@@ -1,6 +1,7 @@
 import * as CommentUtils from "~/server/utils/crud/commentUtils";
 import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
+import * as UserUtils from "~/server/utils/crud/userUtils";
 import * as TestUtils from "~/server/utils/testUtils";
 
 const { nonExistingPageId, nonExistingSiteId, nonExistingUid } = testOnly.nonExistingIds;
@@ -203,6 +204,6 @@ describe("Test page utils", () => {
     });
 
     afterAll(async () => {
-        await SiteUtils.deleteUserSitesById(uid);
+        await UserUtils.deleteUserSites(uid);
     });
 });
