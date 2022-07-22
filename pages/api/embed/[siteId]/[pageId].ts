@@ -6,6 +6,7 @@ import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 import { EmbedConfigurations } from "~/types/server/nextApi.type";
 
 const handler = ncRouter().get(async (req, res) => {
+    const { dark } = req.query;
     const { siteId, pageId } = extractFirstQueryValue(req);
     /**
      * Check whether the page exists or not.
@@ -22,7 +23,7 @@ const handler = ncRouter().get(async (req, res) => {
         postURL: `/api/comments`,
     };
     const { customisation } = await getSiteCustomisation(siteId);
-    const generatedHTML = generateCommentHTML(customisation, config);
+    const generatedHTML = generateCommentHTML(customisation, config, dark === "1");
     res.status(200).send(generatedHTML);
 });
 
