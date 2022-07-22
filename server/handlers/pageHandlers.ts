@@ -32,7 +32,7 @@ export async function deletePage(req: AuthenticatedApiRequest, res: ApiResponse)
     const { uid } = req.user;
     const { pageId } = extractFirstQueryValue(req);
     await PageUtils.deletePageWithUid(uid, pageId);
-    await PageUtils.deletePageComment(pageId);
+    await PageUtils.deletePageComments(pageId);
     res.status(200).json({ message: "Deleted page" });
 }
 

@@ -13,14 +13,15 @@ import { Page, Site } from "~/types/server";
 
 export async function deleteQuery(query: Query<DocumentData>) {
     const snapshot = await query.get();
-    if (snapshot.empty) return [];
+    if (snapshot.empty) return;
     await deleteRefArray(snapshot.docs.map(doc => doc.ref));
 }
 
 export async function deleteRefArray(refs: DocumentReference[]) {
+    if (!refs.length) return;
     const batch = firestoreAdmin.batch();
     refs.forEach(ref => batch.delete(ref));
-    return await batch.commit();
+    await batch.commit();
 }
 
 export async function getDocumentInTransaction<T = any>(t: Transaction, ref: DocumentReference) {

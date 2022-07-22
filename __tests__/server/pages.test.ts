@@ -105,7 +105,16 @@ describe("Test page utils", () => {
 
     it("Should be able to get page's information and its comments", async () => {
         const clientPage = await PageUtils.getClientPageWithUid(uid, pageId2);
+        expect(clientPage).toMatchObject({
+            id: pageId2,
+            totalCommentCount: 5,
+            pendingCommentCount: 0,
+        });
         expect(clientPage.comments).toHaveLength(5);
+    });
+
+    it("Should be able to list all approved comments of a page", async () => {
+        await expect(PageUtils.listPageApprovedComments(pageId2)).resolves.toHaveLength(5);
     });
 
     it("Should correctly increment pageCount when a page is created", async () => {
@@ -157,7 +166,7 @@ describe("Test page utils", () => {
         /**
          * Delete comments
          */
-        await PageUtils.deletePageComment(pageId1, true);
+        await PageUtils.deletePageComments(pageId1, true);
         clientPage = await PageUtils.getClientPageWithUid(uid, pageId1);
         expect(clientPage.comments).toHaveLength(0);
         expect(clientPage).toMatchObject({
@@ -173,7 +182,7 @@ describe("Test page utils", () => {
     it("Should delete page correctly", async () => {
         await PageUtils.deletePageWithUid(uid, pageId1);
         await Promise.all([
-            expect(PageUtils.listSitePagesById(siteId)).resolves.toEqual(
+            expect(SiteUtils.listSitePages(siteId)).resolves.toEqual(
                 expect.not.arrayContaining([mainPage])
             ),
             expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({ pageCount: 5 }),
@@ -181,10 +190,10 @@ describe("Test page utils", () => {
     });
 
     it("Should be able to delete ALL pages of a site", async () => {
-        await PageUtils.deleteSitePagesById(siteId, true);
+        await SiteUtils.deleteSitePages(siteId, true);
         await Promise.all([
-            expect(PageUtils.listSitePagesById(siteId)).resolves.toHaveLength(0),
-            expect(PageUtils.listPageComment(pageId2)).resolves.toHaveLength(0),
+            expect(SiteUtils.listSitePages(siteId)).resolves.toHaveLength(0),
+            expect(PageUtils.listPageComments(pageId2)).resolves.toHaveLength(0),
             expect(SiteUtils.getSiteById(uid, siteId)).resolves.toMatchObject({
                 pageCount: 0,
                 totalCommentCount: 0,

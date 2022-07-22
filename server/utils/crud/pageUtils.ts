@@ -10,7 +10,6 @@ import CustomApiError from "~/server/utils/errors/customApiError";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
 import {
     deleteQuery,
-    deleteRefArray,
     getDocumentInTransaction,
     getPageInTransaction,
     getSiteInTransaction,
@@ -24,10 +23,6 @@ import {
     UpdateCommentBodyParams,
     UpdatePageBodyParams,
 } from "~/types/server";
-
-function querySitePagesById(siteId: string) {
-    return PAGES_COLLECTION.where("siteId", "==", siteId);
-}
 
 /**
  * Gets the information of a page
@@ -148,51 +143,13 @@ export async function deletePageWithUid(uid: string, pageId: string) {
     });
 }
 
-export async function listSitePagesById(siteId: string) {
-    const pageSnapshots = await querySitePagesById(siteId).get();
-    return pageSnapshots.docs.map(doc => doc.data()) as Page[];
-}
-
-/**
- * Deletes all pages of a site, including their comments as well. This method can also update the
- * site, if required.
- *
- * @param siteId The site's id
- * @param update If true, the site will be updated. Default to false.
- */
-export async function deleteSitePagesById(siteId: string, update: boolean = false) {
-    try {
-        const pageSnapshots = await querySitePagesById(siteId).get();
-        if (pageSnapshots.empty) return;
-        const pageDocs = pageSnapshots.docs;
-        const pageRefs = pageDocs.map(doc => doc.ref);
-        const pageIds = pageDocs.map(doc => doc.id);
-        const promises: Promise<any>[] = [
-            deleteRefArray(pageRefs), // DELETE all pages
-            ...pageIds.map(id => deletePageComment(id)), // And their comments
-        ];
-        if (update) {
-            const updateContent = {
-                pageCount: 0, // No page
-                totalCommentCount: 0, // No comment
-                pendingCommentCount: 0, // Hence no pending comment
-            };
-            // The update could fail here, if the site does not exist.
-            promises.push(SITES_COLLECTION.doc(siteId).update(updateContent));
-        }
-        return await Promise.all(promises);
-    } catch (err) {
-        handleFirestoreError(err);
-    }
-}
-
 /**
  * Lists all comments of a page.
  *
  * @param pageId The page's id
  * @returns An array of comments, sorted with lastest first.
  */
-export async function listPageComment(pageId: string) {
+export async function listPageComments(pageId: string) {
     const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId).get();
     const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
     return data.sort((c1, c2) => c2.date - c1.date);
@@ -219,11 +176,10 @@ export async function listPageApprovedComments(pageId: string) {
  * @param pageId The page's id
  * @param update If true, the page and site will be updated. Default to false.
  */
-export async function deletePageComment(pageId: string, update: boolean = false) {
+export async function deletePageComments(pageId: string, update: boolean = false) {
     const commentQuery = COMMENTS_COLLECTION.where("pageId", "==", pageId);
-    const promises: Promise<any>[] = [deleteQuery(commentQuery)];
+    const promises: Promise<unknown>[] = [deleteQuery(commentQuery)];
     if (update) {
-        // The update could fail here, if the page does not exist.
         const updatePromise = firestoreAdmin.runTransaction(async t => {
             const pageRef = PAGES_COLLECTION.doc(pageId);
             const pageData = await getDocumentInTransaction<Page>(t, pageRef);

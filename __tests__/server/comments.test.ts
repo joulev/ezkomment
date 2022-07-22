@@ -174,8 +174,8 @@ describe("Test comment utils", () => {
     });
 
     it("Should be able to delete ALL comments of a page", async () => {
-        await PageUtils.deletePageComment(pageId);
-        await expect(PageUtils.listPageComment(pageId)).resolves.toHaveLength(0);
+        await PageUtils.deletePageComments(pageId);
+        await expect(PageUtils.listPageComments(pageId)).resolves.toHaveLength(0);
     });
 
     afterAll(async () => {

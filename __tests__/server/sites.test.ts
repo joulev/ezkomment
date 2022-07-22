@@ -115,8 +115,8 @@ describe("Test site utils", () => {
         await Promise.all([
             expect(SiteUtils.listUserBasicSitesById(uid)).resolves.toHaveLength(0),
             expect(SiteUtils.listUserSitesById(uid)).resolves.toHaveLength(0),
-            expect(PageUtils.listSitePagesById(siteId2)).resolves.toHaveLength(0),
-            expect(PageUtils.listPageComment(pageId)).resolves.toHaveLength(0),
+            expect(SiteUtils.listSitePages(siteId2)).resolves.toHaveLength(0),
+            expect(PageUtils.listPageComments(pageId)).resolves.toHaveLength(0),
         ]);
     });
 });

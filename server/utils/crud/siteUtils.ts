@@ -18,7 +18,7 @@ import {
     UpdateSiteBodyParams,
 } from "~/types/server";
 
-import { deleteSitePagesById } from "./pageUtils";
+import { deletePageComments } from "./pageUtils";
 
 function queryUserSitesById(uid: string) {
     return SITES_COLLECTION.where("uid", "==", uid);
@@ -160,15 +160,50 @@ export async function deleteUserSitesById(uid: string) {
         return await Promise.all([
             deleteRefArray(siteRefs), // Delete all sites
             deleteRefArray(siteNameRefs), // Delete all site name refs
-            ...siteIds.map(id => deleteSitePagesById(id)), // And all pages of these sites
+            ...siteIds.map(id => deleteSitePages(id)), // And all pages of these sites
         ]);
     } catch (err) {
         handleFirestoreError(err);
     }
 }
 
+export async function listSitePages(siteId: string) {
+    const pageSnapshots = await PAGES_COLLECTION.where("siteId", "==", siteId).get();
+    return pageSnapshots.docs.map(doc => doc.data()) as Page[];
+}
+
 export async function listSiteComments(siteId: string) {
     const commentSnapshots = await COMMENTS_COLLECTION.where("siteId", "==", siteId).get();
     const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
     return data.sort((c1, c2) => c2.date - c1.date);
+}
+
+/**
+ * Deletes all pages of a site, including their comments as well. This method can also update the
+ * site, if required.
+ *
+ * @param siteId The site's id
+ * @param update If true, the site will be updated. Default to false.
+ */
+export async function deleteSitePages(siteId: string, update: boolean = false) {
+    const pageSnapshots = await PAGES_COLLECTION.where("siteId", "==", siteId).get();
+    const pageDocs = pageSnapshots.docs;
+    const pageRefs = pageDocs.map(doc => doc.ref);
+    const pageIds = pageDocs.map(doc => doc.id);
+    const promises: Promise<unknown>[] = [
+        deleteRefArray(pageRefs), // DELETE all pages
+        ...pageIds.map(id => deletePageComments(id)), // And their comments
+    ];
+    if (update) {
+        // The update could fail here, if the site does not exist
+        const updatePromise = SITES_COLLECTION.doc(siteId)
+            .update({
+                pageCount: 0,
+                totalCommentCount: 0,
+                pendingCommentCount: 0,
+            })
+            .catch(handleFirestoreError);
+        promises.push(updatePromise);
+    }
+    await Promise.all(promises);
 }
