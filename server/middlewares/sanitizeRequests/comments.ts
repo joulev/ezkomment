@@ -16,7 +16,7 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
     }
     if (author !== undefined && author !== null && typeof author !== "string") {
         throw new CustomApiError(
-            "'author' must be a non-empty string, undefined or null. If undefined, 'author' will be casted to null."
+            "'author' must be a string, undefined or null. If falsy, 'author' will be casted to null."
         );
     }
     // Subject to change
