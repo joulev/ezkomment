@@ -12,7 +12,7 @@ export async function getSite(req: AuthenticatedApiRequest, res: ApiResponse<Cli
     res.status(200).json({ message: "Got site information", data });
 }
 
-export async function createSiteWithUid(req: AuthenticatedApiRequest, res: ApiResponse<Site>) {
+export async function createSite(req: AuthenticatedApiRequest, res: ApiResponse<Site>) {
     const { uid } = req.user;
     const data: CreateSiteBodyParams = req.body;
     const result = await SiteUtils.createSiteWithUid(uid, data);

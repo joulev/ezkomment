@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 
-import { ApiError, ApiRequest, ApiResponse } from "~/types/server/nextApi.type";
+import { ApiError, ApiRequest } from "~/types/server/nextApi.type";
 
 import CustomApiError from "./errors/customApiError";
 
@@ -60,7 +61,10 @@ export function removeUndefinedProperties(obj: Record<string, any>) {
  *
  * @return An instance of `next-connect`.
  */
-export function ncRouter<U extends ApiRequest = ApiRequest, V extends ApiResponse = ApiResponse>() {
+export function ncRouter<
+    U extends NextApiRequest = NextApiRequest,
+    V extends NextApiResponse = NextApiResponse
+>() {
     return nc<U, V>({
         // handle uncaught errors.
         onError: async (err, _, res) => {

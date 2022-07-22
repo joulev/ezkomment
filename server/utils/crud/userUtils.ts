@@ -6,7 +6,6 @@ import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreC
 import { Site } from "~/types/server";
 
 import { handleUserError } from "../errors/handleAuthError";
-import { handleFirestoreError } from "../errors/handleFirestoreError";
 import { deleteRefArray } from "../firestoreUtils";
 import { deleteSitePages } from "./siteUtils";
 
