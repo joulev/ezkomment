@@ -121,7 +121,7 @@ export async function updatePageWithUid(uid: string, pageId: string, data: Updat
          * Update the statistic as well
          */
         if (autoApprove) {
-            approveAllPendingComments(pageId);
+            await approveAllPendingComments(pageId);
             t.update(pageRef, { pendingCommentCount: 0 });
             t.update(SITES_COLLECTION.doc(siteId), {
                 pendingCommentCount: FieldValue.increment(-pendingCommentCount),
