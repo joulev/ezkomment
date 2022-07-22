@@ -47,7 +47,6 @@ export const PAGE = {
 
 export const COMMENT = {
     textIsValid: (content: string) => content.length > 0,
-    authorIsValid: (author: string) => author.length > 0,
     // server-only
     pageIdIsValid: idIsValid,
 };

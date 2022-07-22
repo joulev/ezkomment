@@ -14,11 +14,7 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
     if (typeof text !== "string" || !COMMENT.textIsValid(text)) {
         throw new CustomApiError("'text' must not be a non-empty string");
     }
-    if (
-        author !== undefined &&
-        author !== null &&
-        (typeof author !== "string" || !COMMENT.authorIsValid(author))
-    ) {
+    if (author !== undefined && author !== null && typeof author !== "string") {
         throw new CustomApiError(
             "'author' must be a non-empty string, undefined or null. If undefined, 'author' will be casted to null."
         );
@@ -27,7 +23,7 @@ export const sanitizeCreateCommentRequest: ApiMiddleware = (req, _, next) => {
     if (typeof pageId !== "string" || !COMMENT.pageIdIsValid(pageId)) {
         throw new CustomApiError("'pageId' must be a non-empty string");
     }
-    req.body = { author: author ?? null, text, pageId };
+    req.body = { author: author && (author as string).length > 0 ? author : null, text, pageId };
     next();
 };
 
