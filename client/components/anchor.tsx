@@ -31,6 +31,15 @@ const A = forwardRef<HTMLAnchorElement, HyperlinkProps>(
         </a>
       );
     }
+    if (href === "/docs") {
+      return (
+        <Link href={{ pathname: "/docs/[...slug]", query: { slug: ["getting-started"] } }}>
+          <a className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
+            {children}
+          </a>
+        </Link>
+      );
+    }
     if (href[0] === "/") {
       return (
         <Link href={href}>
