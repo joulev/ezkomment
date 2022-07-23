@@ -3,7 +3,7 @@
  * terrible. However I have to sacrifice beauty for ease of use here: the config bar needs to
  * stay visible the whole time, and it shouldn't take lots of space.
  */
-import Editor from "@monaco-editor/react";
+import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import clsx from "clsx";
 import { FC, useEffect, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
@@ -18,7 +18,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 
-import monacoOptions from "~/config/monaco";
+import { darkTheme, lightTheme, modifiedHTML, options } from "~/config/monaco";
 
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
@@ -162,12 +162,37 @@ const AddComment: FC<AddCommentProps> = ({ comments, setComments }) => {
   );
 };
 
+type EditorProps = {
+  height: string;
+  value: string | undefined;
+  onChange: (value: string | undefined) => void;
+};
+const Editor: FC<EditorProps> = ({ height, value, onChange }) => {
+  const currentTheme = useTheme();
+  function editorWillMount(monaco: Monaco) {
+    monaco.editor.defineTheme("ezk-light", lightTheme);
+    monaco.editor.defineTheme("ezk-dark", darkTheme);
+    monaco.languages.register({ id: "ezk-html" });
+    monaco.languages.setMonarchTokensProvider("ezk-html", modifiedHTML);
+  }
+  return (
+    <MonacoEditor
+      height={height}
+      language="ezk-html"
+      value={value}
+      theme={currentTheme === "light" ? "ezk-light" : "ezk-dark"}
+      onChange={onChange}
+      options={options}
+      beforeMount={editorWillMount}
+    />
+  );
+};
+
 type ContentProps = {
   initialHTML: string;
   submit: (html: string | undefined) => Promise<void>;
 };
 const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
-  const currentTheme = useTheme();
   const breakpoint = useBreakpoint();
   const fullscreenHandle = useFullScreenHandle();
 
@@ -254,11 +279,8 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
             active === 0 ? (
               <Editor
                 height={fullscreenHandle.active ? "100vh" : "90vh"}
-                language="html"
                 value={code}
-                theme={currentTheme === "light" ? "light" : "vs-dark"}
                 onChange={setCode}
-                options={monacoOptions}
               />
             ) : (
               <div className={clsx(fullscreenHandle.active && "h-screen overflow-y-auto")}>
