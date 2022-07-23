@@ -48,12 +48,7 @@ export async function getClientSiteWithUid(uid: string, siteId: string) {
         const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
         const { docs } = await t.get(PAGES_COLLECTION.where("siteId", "==", siteId));
         const pages = docs.map(doc => doc.data()) as Page[];
-        const tempStat = Array.from({ length: 30 }).map(_ => 0);
-        const statistic: SiteStatistics = {
-            totalComment: tempStat,
-            newComment: tempStat,
-        };
-        const clientSiteData: ClientSite = { ...siteData, pages, statistic };
+        const clientSiteData: ClientSite = { ...siteData, pages };
         return clientSiteData;
     });
 }

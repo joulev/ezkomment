@@ -73,5 +73,4 @@ export type UpdateSiteCustomisationBodyParams = {
 
 export type ClientSite = Site & {
     pages: Page[];
-    statistic: SiteStatistics;
 };

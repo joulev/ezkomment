@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
+import useSWR from "swr";
 
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
@@ -17,7 +18,7 @@ import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSite } from "~/client/hooks/site";
 import { useSetToast } from "~/client/hooks/toast";
-import { internalFetcher } from "~/client/lib/fetcher";
+import { internalFetcher, internalSWRGenerator } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import sitePages from "~/client/components/app/handleSite";
@@ -30,7 +31,7 @@ import Modal from "~/client/components/modal";
 import SiteGraph from "~/client/components/siteGraph";
 import RightAligned from "~/client/components/utils/rightAligned";
 
-import { Page } from "~/types/server";
+import { Page, SiteStatistics } from "~/types/server";
 import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const Loading: FC = () => (
@@ -173,6 +174,10 @@ const Content: FC = () => {
   const [showNewPageModal, setShowNewPageModal] = useState(false);
   const [search, setSearch] = useState("");
   const { site } = useSite();
+  const { data: statistics } = useSWR(
+    site ? `/api/sites/${site.id}/statistic` : null,
+    internalSWRGenerator<SiteStatistics>()
+  );
   if (!site) return <Loading />;
   const pages = searchPages(site.pages, search);
   return (
@@ -247,7 +252,16 @@ const Content: FC = () => {
               <Stats label="pending" value={site.pendingCommentCount} />
             </div>
             <h2>Last 30 days</h2>
-            <SiteGraph {...site.statistic} />
+            {statistics ? (
+              <SiteGraph
+                totalComment={[...statistics.totalComment].reverse()}
+                newComment={[...statistics.newComment].reverse()}
+              />
+            ) : (
+              <div className="aspect-h-8 aspect-w-12 md:aspect-h-6 lg:aspect-h-8 rounded border border-card bg-card">
+                <div className="grid place-items-center h-full">Loading statistics&hellip;</div>
+              </div>
+            )}
           </div>
           <div className="lg:col-span-7">
             <h2>All pages</h2>
