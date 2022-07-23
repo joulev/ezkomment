@@ -11,39 +11,40 @@ import { listSiteComments } from "./siteUtils";
 const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
 
 export async function getSiteStatistic(uid: string, siteId: string) {
+    const toUTCMidnight = (timestamp: number) => timestamp - (timestamp % MILLIS_PER_DAY);
+
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
-        // Security
         if (process.env.NODE_ENV !== "development") {
             await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
         }
         const siteComments = await listSiteComments(siteId);
-        const currentTimestamp = Timestamp.now().toMillis();
+        const curTimestamp = toUTCMidnight(Timestamp.now().toMillis());
         const totalComment: number[] = Array.from({ length: 30 }, _ => 0);
         const newComment: number[] = Array.from({ length: 30 }, _ => 0);
+        const finalIndex = siteComments.length - 1;
 
-        let totalCount = 0;
-        let newCount = 0;
+        let oldCount = 0; // previous value of curCount
+        let curCount: number; // how many comments have we traversed through
         let daysAgo = 29;
 
-        for (let i = siteComments.length - 1; i >= 0; i--) {
+        for (let i = finalIndex; i >= 0; i--) {
             const { date } = siteComments[i];
-            // convert to integer
-            const commentDaysAgo = Math.round((currentTimestamp - date) / MILLIS_PER_DAY);
+            const commentDaysAgo = ((curTimestamp - toUTCMidnight(date)) / MILLIS_PER_DAY) | 0;
             if (commentDaysAgo < daysAgo) {
-                newComment[daysAgo] = newCount;
-                newCount = 0;
+                curCount = finalIndex - i;
+                newComment[daysAgo] = curCount - oldCount;
                 while (daysAgo > commentDaysAgo) {
-                    totalComment[daysAgo] = totalCount;
+                    totalComment[daysAgo] = curCount;
                     daysAgo--;
                 }
-                // after this loop, daysAgo should be equal to commentDaysAgo
+                oldCount = curCount;
             }
-            totalCount++;
-            newCount++;
         }
-        newComment[daysAgo] = newCount;
-        for (; daysAgo >= 0; daysAgo--) totalComment[daysAgo] = totalCount;
+        curCount = siteComments.length;
+        newComment[daysAgo] = curCount - oldCount;
+        for (; daysAgo >= 0; daysAgo--) totalComment[daysAgo] = curCount;
+
         const statistic: SiteStatistics = { totalComment, newComment };
         return statistic;
     });
