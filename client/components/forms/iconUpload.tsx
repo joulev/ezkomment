@@ -26,11 +26,7 @@ const IconUpload: FC<IconUploaderProps> = ({ label, helpText, file, onUpdate }) 
         <label className="cursor-pointer block w-18 md:w-24 overflow-hidden">
           {imageSrc ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={imageSrc ?? "/images/default-photo.svg"}
-              alt="Photo"
-              className="w-18 h-18 md:w-24 md:h-24 rounded-full"
-            />
+            <img src={imageSrc} alt="Photo" className="w-18 h-18 md:w-24 md:h-24 rounded-full" />
           ) : (
             <div
               className={clsx(

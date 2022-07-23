@@ -76,11 +76,6 @@ describe("Test comment validation", () => {
         expect(COMMENT.textIsValid("a")).toBe(true);
         expect(COMMENT.textIsValid("a b")).toBe(true);
     });
-    it("Check authorIsValid", () => {
-        expect(COMMENT.authorIsValid("")).toBe(false);
-        expect(COMMENT.authorIsValid("a")).toBe(true);
-        expect(COMMENT.authorIsValid("a b")).toBe(true);
-    });
     it("Check pageIdIsValid", () => {
         expect(COMMENT.pageIdIsValid("")).toBe(false);
         expect(COMMENT.pageIdIsValid("a")).toBe(true);
