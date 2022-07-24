@@ -47,3 +47,9 @@ export async function listPageApprovedComments(req: ApiRequest, res: ApiResponse
     const data = await PageUtils.listPageApprovedComments(pageId).then(compileComments2html);
     res.status(200).json({ message: "Listed all approved comments", data });
 }
+
+export async function listPageApprovedCommentsRaw(req: ApiRequest, res: ApiResponse) {
+    const { pageId } = extractFirstQueryValue(req);
+    const data = await PageUtils.listPageApprovedComments(pageId);
+    res.status(200).json({ message: "Listed all approved comments", data });
+}

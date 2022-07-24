@@ -1,12 +1,21 @@
-import {
-    publicCreateComment,
-    publicListPageApprovedComments,
-} from "~/server/handlers/publicApiHandlers";
-import { sanitizePublicCreateCommentRequest } from "~/server/middlewares/sanitizeRequests/publicApi";
+import { createComment } from "~/server/handlers/commentHandlers";
+import { listPageApprovedCommentsRaw } from "~/server/handlers/pageHandlers";
+import { checkSitePageExists } from "~/server/middlewares/checkSitePageExists";
+import { sanitizeCreateCommentRequest } from "~/server/middlewares/sanitizeRequests/comments";
 import { ncRouter } from "~/server/utils/nextHandlerUtils";
+import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
+
+import { ApiMiddleware } from "~/types/server/nextApi.type";
+
+const addPageIdToBody: ApiMiddleware = (req, _, next) => {
+    const { pageId } = extractFirstQueryValue(req);
+    req.body.pageId = pageId;
+    next();
+};
 
 const handler = ncRouter()
-    .get(publicListPageApprovedComments)
-    .post(sanitizePublicCreateCommentRequest, publicCreateComment);
+    .use(checkSitePageExists)
+    .get(listPageApprovedCommentsRaw)
+    .post(addPageIdToBody, sanitizeCreateCommentRequest, createComment);
 
 export default handler;
