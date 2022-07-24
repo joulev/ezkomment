@@ -3,8 +3,6 @@ import { DocumentData, DocumentReference, Query, Transaction } from "firebase-ad
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import CustomApiError from "~/server/utils/errors/customApiError";
 
-import { Page, Site } from "~/types/server";
-
 /**
  * Deletes all documents returned from a query.
  *
@@ -37,6 +35,6 @@ export async function getDocumentInTransactionWithUid<T extends { uid: string } 
     uid: string
 ) {
     const data: T = await getDocumentInTransaction<T>(t, ref);
-    if (data.uid !== uid) throw new CustomApiError("Forbidden, uids do not match", 403);
+    if (data.uid !== uid) throw new CustomApiError("Forbidden, ids do not match", 403);
     return data;
 }
