@@ -35,3 +35,8 @@ export type CreateCommentBodyParams = {
     author: string | null;
     text: string;
 };
+
+export type PublicCreateCommentBodyParams = {
+    author: string | null;
+    text: string;
+};
