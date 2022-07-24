@@ -147,12 +147,6 @@ After thinking about this feature, we found that it is possible to implement it 
 
 However, we found it to introduce extra complexities to the app, and considering the current situation, we do not find it to have high priority. Therefore, we do not plan to implement this feature, but we will revisit the decision if we have more time.
 
-#### Pagination
-
-We will not support pagination, again for the reason of optimising client-side JavaScript. We consider that the majority of comment sections will only have up to 10 comments, so pagination is not necessary for them. Hence, supporting paginations is like writing complicated JavaScript workarounds to support dinosaur browsers such as Internet Explorer: increasing the page load by a large amount just to support a small number of use cases.
-
-However, in the API route, we do plan to support pagination, since client-side JavaScript no longer makes sense in this context. See the API section for more details.
-
 ### Moderation Features
 
 When a comment section is public, if it is on a popular website (e.g. in a newspaper), undoubtedly there will be spam and hate speech. To mitigate this issue, we plan to support moderation features, where the site owner acts as a moderator to decide which comment to keep and which to remove.
@@ -235,59 +229,58 @@ The embed URL has an optional query parameter `dark`. If it is used with the val
 
 Power users can also ignore the entire embed and customisation thing and use the <abbr title="application programming interface">API</abbr> to handle comments, for the ultimate&trade; customisation capability. The API is designed for two purposes: fetching comments on a page and posting comments to it (for it to be sent to the pending queue).
 
-We plan to make the API backwards compatible with version-based endpoints (if we ever make it to version 2). Therefore, the currently planned API endpoint is
+The API is backwards-compatible with version-based endpoints (if we ever make it to version 2). The endpoint is
 
 ```
-https://ezkomment.joulev.dev/api/:version/comments/:siteId/:pageId
+https://ezkomment.joulev.dev/api/v1/comments/:siteId/:pageId
 ```
-
-This URI may be changed in later revisions of README.
 
 #### Fetching Comments for a Page
 
 The `GET` method can be used to fetch all or part of all comments for a particular page.
 
 ```js
-const res = await fetch("url");
-const comments = res.ok ? (await res.json()) : [];
+const res = await fetch("https://ezkomment.joulev.dev/api/v1/comments/siteId/pageId");
+const json = await res.json();
+const comments = res.ok ? json.data : [];
 console.log(comments);
 ```
 
 The output is a JSON which includes all comments and their metadata (name, timestamp).
 
 ```json
-// This may change when we actually implement it
-{
-  "siteName": "somesitename",
-  "pageId": "somepageid",
-  "commentCount": 12,
-  "comments": [
-    // { name, content, time }...
-  ]
-}
+[
+  {
+    "author": "Author name or 'null'",
+    "date": 0, // Milliseconds since Unix epoch
+    "text": "Raw *Markdown* content",
+    "id": "commentId",
+    "pageId": "pageId",
+    "siteId": "siteId"
+  }
+  // ...
+]
 ```
 
 The comment content is sent back as-is, i.e. there are absolutely no transformation processes happening in between. Although attackers can use this to attack XSS-vulnerable websites, we are determined not to escape anything in the content string, so that _truly_ power users can transform it with whatever library and/or method they want, completely and absolutely freely. It is the job of the user not to fall to XSS attacks (for example, just do not blindly pass the string to `eval()` or put it to `dangerouslySetInnerHTML`).
 
-Extra options can be passed to the URL as queries. Invalid queries and queries with invalid values are ignored. For now, the following options are planned:
-
-- `limit` and `page` as numbers, for **pagination**. For example `url?limit=10&page=2` means the API will return the 11th to the 20th comment, sorted by newest first.
+Currently no additional queries/options are supported.
 
 #### Posting New Comments to the Pending Queue
 
 The `POST` method can be used to post new comments. Depending on the page configuration, it may go to the pending queue or get straight to the approved comment list.
 
 ```js
-const name = document.getElementById("form_name").value;
-const content = document.getElementById("form_content").value;
-const res = await fetch("url", {
+const author = document.getElementById("form_author").value;
+const text = document.getElementById("form_comment_body").value;
+const res = await fetch("https://ezkomment.joulev.dev/api/v1/comments/siteId/pageId", {
   method: "POST",
-  body: JSON.stringify({ name, content })
+  body: JSON.stringify({ author, text })
 });
 if (res.ok) showSuccessNotice();
 ```
 
-Requests with invalid body are ignored. Currently we do not plan any extra options for this method.
+Error will be returned for requests with invalid body. Currently we do not plan any extra options for this method.
 
 ## Application Design and Implementation
 
@@ -510,13 +503,14 @@ In Milestone 2 feedback, some people also suggested user acceptance testing. Unf
 
 ### Currently Already Implemented Features
 
-We have implemented three out of the four main features:
+We have implemented all four main features:
 
 - [Users can get commentable comment sections now.](#zero-configuration-html-embed-for-comments)
 - [Comments can now be moderated.](#moderation-features)
 - [Comment sections can be customised.](#customisation)
+- [Public API is supported.](#application-programming-interface)
 
-The public API development is in progress. Other than these four, a _lot_ of minor features have been developed to assist the users use the four core features. This is a list of some notable examples, with some description of what they do:
+Other than these, a _lot_ of minor features have been developed to assist the users. This is a list of some notable examples, with some description of what they do:
 
 - Dark mode is fully supported. Both on the app and in embed pages.
 - Authentication: The authentication system, based on third-party providers, is completed.
@@ -533,14 +527,13 @@ The public API development is in progress. Other than these four, a _lot_ of min
 
 Currently in-progress features are
 
-- The public API
 - Actual content for the public documentation
 - Notifications
 - Export buttons
 
 After they are finished, the application can be considered to be complete, and suitable for a v1.0.0 release if semver is used. We reckon it will be done before the start of the new academic year on 10 August 2022. After that I think we will only be fixing bugs and thinking of new minor features.
 
-We have not yet decided whether to continue this project after Splashdown (24 August 2022). It is likely we will no longer actively develop the application, however we may add some commits here and there to improve it when we have time. In the above sections, there are still several features waiting to be implemented "if we have time", so we may consider them. One thing is certain, though: the application will stay online at https://ezkomment.joulev.dev for as long as we can financially sustain it, therefore, you are more than welcome to use the app as if it is an actual commercial product.
+We have not yet decided whether to continue this project after Splashdown (24 August 2022). It is likely we will no longer actively develop the application, however we may add some commits here and there to improve it when we have time. In the above sections, there are still several features waiting to be implemented "if we have time", so we may consider them. One thing is certain, though: the application will stay online at [https://ezkomment.joulev.dev](https://ezkomment.joulev.dev) for as long as we can financially sustain it, therefore, you are more than welcome to use the app as if it is an actual commercial product.
 
 ## Problems Encountered
 
