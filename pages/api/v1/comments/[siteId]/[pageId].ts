@@ -1,3 +1,5 @@
+import cors from "cors";
+
 import { createComment } from "~/server/handlers/commentHandlers";
 import { listPageApprovedCommentsRaw } from "~/server/handlers/pageHandlers";
 import { checkSitePageExists } from "~/server/middlewares/checkSitePageExists";
@@ -14,6 +16,7 @@ const addPageIdToBody: ApiMiddleware = (req, _, next) => {
 };
 
 const handler = ncRouter()
+    .use(cors({ origin: "*" }))
     .use(checkSitePageExists)
     .get(listPageApprovedCommentsRaw)
     .post(addPageIdToBody, sanitizeCreateCommentRequest, createComment);
