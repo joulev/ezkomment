@@ -56,7 +56,7 @@ export async function getFileData(fileName: string[]): Promise<DocsData> {
     );
     const ghData = (await ghFetch.json()) as any[];
     return {
-        title: `${data.sectionTitle}: ${data.pages[fileName[1]]}`,
+        title: data.pages[fileName[1]],
         content: readFileSync(fillFilePath, "utf8").trim(),
         lastModified:
             ghFetch.ok && ghData.length > 0

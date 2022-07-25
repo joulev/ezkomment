@@ -24,7 +24,7 @@ const md2plain = async md => {
             .map(([dir, data]) =>
                 Object.entries(data.pages).map(([name, pageTitle]) => ({
                     path: `${dir}/${name}`,
-                    title: `${data.sectionTitle}: ${pageTitle}`,
+                    title: `${data.sectionTitle} – ${pageTitle}`,
                 }))
             )
             .flat(1)
