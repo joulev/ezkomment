@@ -78,14 +78,14 @@ describe("Test the documentation utility functions", () => {
 
         const data = await getFileData(["tutorial", "getting-started"]);
         expect(data).toEqual({
-            title: "Tutorial: Getting started",
+            title: "Getting started",
             content: "The content of the file",
             lastModified: "2020-01-01T00:00:00Z",
         });
 
         const data2 = await getFileData(["basic-features", "custom-pages"]);
         expect(data2).toEqual({
-            title: "Basic features: Custom pages",
+            title: "Custom pages",
             content: "The content of the file",
             lastModified: "2020-01-02T00:00:00Z",
         });
