@@ -142,11 +142,11 @@
   },
   {
     "Date": "08/06",
-    "Content": "[next-connect](https://github.com/hoangvvo/next-connect) is wonderful for serverless environment",
+    "Content": "Used `next-connect` to write API endpoints, the code looks so elegant",
     "Hrs": 3,
     "Remark": [
       "Note: My commit messages were terrible",
-      "Used `next-connect` to write API endpoints, the code looks so elegant"
+      "[next-connect](https://github.com/hoangvvo/next-connect) is wonderful for serverless environment"
     ]
   },
   {
@@ -278,6 +278,98 @@
       "Optimized GET endpoints, as I realized only 1 transaction is required",
       "Looking back, I should have broken down my commits into smaller ones. I did too much in one commit",
       "Question: Some of my commits are not shown on GitHub?"
+    ]
+  },
+  {
+    "Date": "27/06",
+    "Content": "Updated project log for MS2",
+    "Hrs": 1,
+    "Remark": ["N/A"]
+  },
+  {
+    "Date": "01/07",
+    "Content": "Improved unit tests with Firebase Emulator",
+    "Hrs": 1,
+    "Remark": [
+      "Used demo project id to initialize Firebase Admin for testing",
+      "Got rid of redudant `env.test.local` on local machine and GitHub secrets"
+    ]
+  },
+  {
+    "Date": "02/07",
+    "Content": "Implement embed endpoint",
+    "Hrs": 4,
+    "Remark": ["Also fixed issue #127 (get download URL for images from Firebase Storage)"]
+  },
+  {
+    "Date": "03/07 - 04/07",
+    "Content": "Peer review for Milestone 2",
+    "Hrs": 2,
+    "Remark": ["Everyone included `Machine Learning` in their README :)"]
+  },
+  {
+    "Date": "05/07 - 10/07",
+    "Content": "Do some minor modification to the code",
+    "Hrs": 3,
+    "Remark": ["Did not do anything significant during these few days"]
+  },
+  {
+    "Date": "11/07",
+    "Content": "Fix auto-approve feature",
+    "Hrs": 2,
+    "Remark": ["Also added unit tests for this feature", "`codecov` kept falling"]
+  },
+  {
+    "Date": "14/07 - 18/07",
+    "Content": "Implement customisation feature",
+    "Hrs": 4,
+    "Remark": [
+      "Some commits were repeated on repo' history?",
+      "This feature is quite easy to implement"
+    ]
+  },
+  {
+    "Date": "20/07",
+    "Content": "Implement endpoint to get site statistic during the last 30 days",
+    "Hrs": 5,
+    "Remark": [
+      "This features is much more difficult to implement",
+      "I tried to use a counter for this feature, but the implementation was terrible",
+      "Discovered a bug when implementing this feature - I forgot to delete subcollections"
+    ]
+  },
+  {
+    "Date": "21/07",
+    "Content": "Continue with site statistic",
+    "Hrs": 3,
+    "Remark": [
+      "The final implementation is not very efficient - but it works with O(n) complexity",
+      "Also fixed the bug discovered yesterday and add more unit tests to cover it"
+    ]
+  },
+  {
+    "Date": "22/07",
+    "Content": "Refactor code",
+    "Hrs": 4,
+    "Remark": [
+      "My code looked like spaghetti after implementing new features",
+      "Cleaned up to keep my eye sane"
+    ]
+  },
+  {
+    "Date": "23/07",
+    "Content": "Minor optimization for getting site statistic",
+    "Hrs": 1,
+    "Remark": ["Should be at least 2 times faster"]
+  },
+  {
+    "Date": "24/07",
+    "Content": "Implement the public API",
+    "Hrs": 3,
+    "Remark": [
+      "To the best performance, I had to repeat code (which is not a good practice)",
+      "After fixing the code to make it less repetitive, performance is decreased",
+      "I will find a way to improve it later"
     ]
   }
 ]
