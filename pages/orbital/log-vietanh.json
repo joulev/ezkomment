@@ -367,8 +367,8 @@
     "Content": "Implement the public API",
     "Hrs": 3,
     "Remark": [
-      "To the best performance, I had to repeat code (which is not a good practice)",
-      "After fixing the code to make it less repetitive, performance is decreased",
+      "For the best performance, I had to repeat code (which is not a good practice)",
+      "Fixing the code to make it less repetitive made performance decreased",
       "I will find a way to improve it later"
     ]
   }
