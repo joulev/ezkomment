@@ -75,7 +75,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const image = await getOgImage({ title: "Project Log for Nguyen Viet Anh", label: "orbital" });
   return {
     props: {
-      lastUpdated: new Date("2022-06-26").toISOString(),
+      lastUpdated: new Date("2022-07-25").toISOString(),
       seo: {
         title: "Project Log for Nguyen Viet Anh | ezkomment",
         description: "Project Log for Nguyen Viet Anh during the 2022 NUS Orbital Program",
