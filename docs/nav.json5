@@ -26,4 +26,11 @@
             "delete-page": "Delete page",
         },
     },
+    comments: {
+        sectionTitle: "Comments",
+        pages: {
+            "the-comment-section": "The comment section",
+            embed: "Embed the comment section",
+        },
+    },
 }

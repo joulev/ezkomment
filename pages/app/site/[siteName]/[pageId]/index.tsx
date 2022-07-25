@@ -275,7 +275,7 @@ const Content: FC = () => {
             className="mb-6"
           />
           <p>
-            You can now use it to <A href="https://google.com">embed to your webpage</A>.
+            You can now use it to <A href="/docs/comments/embed">embed to your webpage</A>.
           </p>
         </section>
         <hr />
