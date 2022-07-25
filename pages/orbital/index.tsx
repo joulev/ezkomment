@@ -176,14 +176,14 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
               description="The README, describing all information we have about the project."
               href="/orbital/ms3-readme"
               icon={ArticleOutlinedIcon}
-              date="not finalised"
+              date="25 July 2022"
             />
             <SectionLink
               title="Milestone 3 poster"
               description="Fourth version of the poster, submitted for Milestone 3."
               href="https://ezkomment.joulev.dev/images/orbital/ms3-poster.png"
               icon={ImageOutlinedIcon}
-              date="not published"
+              date="24 July 2022"
             />
             <SectionLink
               title="Milestone 3 video"
