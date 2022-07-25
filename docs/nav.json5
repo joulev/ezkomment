@@ -14,4 +14,11 @@
             "delete-account": "Delete account",
         },
     },
+    comments: {
+        sectionTitle: "Comments",
+        pages: {
+            "sites-and-pages": "Sites and pages",
+            "create-new-sites": "Create new sites",
+        },
+    },
 }

@@ -15,7 +15,7 @@ describe("Anchor component", () => {
           <A id="internal" href="/">
             internal
           </A>
-          <A id="external" href="https://google.com">
+          <A id="external" href="https://example.com">
             external
           </A>
         </>
@@ -34,7 +34,7 @@ describe("Anchor component", () => {
     expect(document.getElementById("internal")).not.toHaveAttribute("target");
 
     expect(screen.queryByText("external")).toBeInTheDocument();
-    expect(document.getElementById("external")).toHaveAttribute("href", "https://google.com");
+    expect(document.getElementById("external")).toHaveAttribute("href", "https://example.com");
     expect(document.getElementById("external")).toHaveAttribute("target", "_blank");
   });
 

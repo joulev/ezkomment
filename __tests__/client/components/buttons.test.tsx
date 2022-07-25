@@ -31,7 +31,7 @@ describe("Button component", () => {
       render(
         <>
           <Button id="no-href">No href</Button>
-          <Button id="href" href="https://google.com">
+          <Button id="href" href="https://example.com">
             Have href
           </Button>
         </>
@@ -42,7 +42,7 @@ describe("Button component", () => {
     expect(document.getElementById("no-href")).not.toHaveAttribute("href");
 
     expect(screen.getByText("Have href")).toBeInTheDocument();
-    expect(document.getElementById("href")).toHaveAttribute("href", "https://google.com");
+    expect(document.getElementById("href")).toHaveAttribute("href", "https://example.com");
     expect(document.getElementById("href")).toHaveAttribute("target", "_blank");
   });
 
