@@ -1,4 +1,4 @@
-# Create new sites
+# Create a new site
 
 You can visit [the dashboard](/app/dashboard), then click on either the **Create a new site** button or the item **New site** on the navigation bar to start creating a new site. You will be presented with a form with two fields, _site name_ and _site domain_.
 
