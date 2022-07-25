@@ -24,7 +24,7 @@ You can view the GitHub/Google accounts currently linked to your ezkomment accou
 
 ## Link a new account
 
-You can link a new account by clicking on one of the buttons under **Link accounts** > **Link new account**. After clicking, there will be a popup where the whole authentication flow is handled by the third-party provider, similar to [how you sign up/sign in](/docs/authentication/authentication-flow.md#sign-up-and-sign-in).
+You can link a new account by clicking on one of the buttons under **Link accounts** > **Link new account**. After clicking, there will be a popup where the whole authentication flow is handled by the third-party provider, similar to [how you sign up/sign in](/docs/authentication/authentication-flow#sign-up-and-sign-in).
 
 ![In this screenshot, it is possible to link a new Google account to the ezkomment account](/images/docs/authentication/link-and-unlink-providers/link-new-account.png)
 

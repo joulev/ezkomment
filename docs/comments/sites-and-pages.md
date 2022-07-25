@@ -6,7 +6,7 @@ Each page corresponds to a comment section. The page may be a blog post, an anno
 
 Each site is a collection of pages that share the following properties:
 
-- Domain/subdomain ([unless you specifically set the site domain to `*`](/docs/comments/create-new-sites.md#site-domain))
+- Domain/subdomain ([unless you specifically set the site domain to `*`](/docs/comments/create-new-sites#site-domain))
 - Design of comment section ([see more](https://google.com))
 
 For example, assume that you have two web applications at `foo.com` and `bar.com`. Normally you would want to create two sites, one for `foo.com` and one for `bar.com`; for each site you would want to create a page for every comment section you need to have.
