@@ -14,10 +14,10 @@
             "delete-account": "Delete account",
         },
     },
-    comments: {
-        sectionTitle: "Comments",
+    "sites-and-pages": {
+        sectionTitle: "Sites and pages",
         pages: {
-            "sites-and-pages": "Sites and pages",
+            introduction: "Sites and pages",
             "create-new-site": "Create a new site",
             "update-site-information": "Update site information",
             "delete-site": "Delete site",

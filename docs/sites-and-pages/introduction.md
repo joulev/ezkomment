@@ -11,7 +11,7 @@ Each site is a collection of pages that share the following properties:
 
 For example, assume that you have two web applications at `foo.com` and `bar.com`. Normally you would want to create two sites, one for `foo.com` and one for `bar.com`; for each site you would want to create a page for every comment section you need to have.
 
-![A visual illustration of the difference between sites and pages](/images/docs/comments/sites-and-pages/sites-and-pages.png)
+![A visual illustration of the difference between sites and pages](/images/docs/sites-and-pages/introduction/sites-and-pages.png)
 
 ## Should I create a new site or a new page?
 
