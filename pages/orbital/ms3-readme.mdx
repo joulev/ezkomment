@@ -275,7 +275,7 @@ const author = document.getElementById("form_author").value;
 const text = document.getElementById("form_comment_body").value;
 const res = await fetch("https://ezkomment.joulev.dev/api/v1/comments/siteId/pageId", {
   method: "POST",
-  body: JSON.stringify({ author, text })
+  body: JSON.stringify({ author, text }),
 });
 if (res.ok) showSuccessNotice();
 ```
@@ -507,7 +507,15 @@ CI pipelines are done by [GitHub Actions](https://github.com/features/actions), 
 
 Testing is done by [Jest](https://jestjs.io) whenever possible, due to its simplicity, ease of use, high speed and good developer experience. Test results are then uploaded to [Codecov](https://about.codecov.io). The tests involve unit tests on all non-trivial components, hooks and modules, as well as integration tests that test how all of them interact with each other.
 
+For example, to test dark mode and everything related to it, we write tests to test the application under various browser conditions (`window.matchMedia()`) and integration with the browser's local storage for theme persistence.
+
+Another example is the testing of the data fetching process, in which we assert that the parameters passed to SWR will always work under various conditions, ranging from authentication state, failure cases, etc. Since SWR by itself is a well-tested library, this will guarantee the communication between front-end and back-end is reliable.
+
 Back-end tests also involve running [Firebase emulator](https://firebase.google.com/docs/emulator). It involves unit tests on all server utility functions and integration tests on how they interact with each other and the emulator.
+
+Due to the nature of the back-end being a REST API, it is possible to test it with Postman. Hence other than Jest, we also conduct regular manual tests with Postman.
+
+We will not go into more details on individual tests here, since we consider this document to be long enough already and many readers may not be keen on more technical aspects, especially in a field they may not have much interest in.
 
 As of 22 July 2022, the code coverage stands at 96%, which we think is acceptable.
 
