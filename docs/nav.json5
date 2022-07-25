@@ -21,6 +21,9 @@
             "create-new-site": "Create a new site",
             "update-site-information": "Update site information",
             "delete-site": "Delete site",
+            "create-new-page": "Create a new page",
+            "update-page-information": "Update page information",
+            "delete-page": "Delete page",
         },
     },
 }
