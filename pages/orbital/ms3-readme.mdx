@@ -513,7 +513,7 @@ Another example is the testing of the data fetching process, in which we assert 
 
 Back-end tests also involve running [Firebase emulator](https://firebase.google.com/docs/emulator). It involves unit tests on all server utility functions and integration tests on how they interact with each other and the emulator.
 
-For example, to ensure that statistic is updated correctly whenever a new comment is posted, we write tests for the `createComment` utility under different configurations (auto-approve is enable/disable).
+For example, to ensure that statistic is updated correctly whenever a new comment is posted, we write tests for the `createComment` utility under different configurations (auto-approve is enabled/disabled).
 
 Integration testing help us to detect and fix potential bugs early. For instance, we detected that the subcollections was not deleted correctly when we delete a site, and fixed it by using `recursiveDelete` instead of simple `delete`.
 
