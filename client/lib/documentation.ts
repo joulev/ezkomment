@@ -12,14 +12,7 @@ const docsDir = join(process.cwd(), "docs");
 export const navData = JSON5Parse<NavData>(readFileSync(join(docsDir, "nav.json5"), "utf8"));
 
 /**
- * @example
- * ```
- * [
- *   ["getting-started"], // note that .md is omitted
- *   ["basic-features", "pages"],
- *   // ...
- * ]
- * ```
+ * Array of Next.js slugs (string[])
  */
 export const filePaths = Object.entries(navData)
     .map(([dir, data]) => Object.entries(data.pages).map(([name, _]) => `${dir}/${name}`))

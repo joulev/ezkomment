@@ -33,7 +33,9 @@ const A = forwardRef<HTMLAnchorElement, HyperlinkProps>(
     }
     if (href === "/docs") {
       return (
-        <Link href={{ pathname: "/docs/[...slug]", query: { slug: ["getting-started"] } }}>
+        <Link
+          href={{ pathname: "/docs/[...slug]", query: { slug: ["tutorial", "getting-started"] } }}
+        >
           <a className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
             {children}
           </a>
