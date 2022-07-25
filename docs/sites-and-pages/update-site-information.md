@@ -14,6 +14,6 @@ You can always update all information associated to an ezkomment site.
 
 Do note the following:
 
-- [The restrictions on site name](/docs/comments/create-new-sites#site-name) still apply.
+- [The restrictions on site name](/docs/sites-and-pages/create-new-site#site-name) still apply.
 
-- If you change the site domain to anything other than `*`, the comment section [will no longer be embeddable to your old domain](/docs/comments/create-new-sites#site-domain).
+- If you change the site domain to anything other than `*`, the comment section [will no longer be embeddable to your old domain](/docs/sites-and-pages/create-new-site#site-domain).

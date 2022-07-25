@@ -60,7 +60,7 @@ const New: NextPageWithLayout = () => {
       <h1>Add a new site</h1>
       <p>
         A new site let you host comments for all webpages under any domain or subdomain.{" "}
-        <A href="/docs/comments/sites-and-pages#should-i-create-a-new-site-or-a-new-page">
+        <A href="/docs/sites-and-pages/introduction#should-i-create-a-new-site-or-a-new-page">
           Should I create a new site or page?
         </A>
       </p>
@@ -95,7 +95,7 @@ const New: NextPageWithLayout = () => {
               The hostname of the website where you want to host the comments. It can be any domain
               or subdomain with a valid protocol or a wildcard (<code>*</code>) to match all
               domains. Other websites will not be allowed to host the comments.{" "}
-              <A href="/docs/comments/create-new-sites#site-domain">Read more</A>.
+              <A href="/docs/sites-and-pages/create-new-site#site-domain">Read more</A>.
             </>
           }
         />
