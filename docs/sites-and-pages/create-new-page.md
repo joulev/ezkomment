@@ -10,7 +10,7 @@
 
   We recommend the page title to be the title of your webpage, and the page URL to be the URL of your webpage (of course). However you are free to name it however you want.
 
-  To promote good practice, the page URL must be under the site domain. If you want to bypass this restriction, change the site domain to [`*`](/docs/comments/create-new-site#site-domain).
+  To promote good practice, the page URL must be under the site domain. If you want to bypass this restriction, change the site domain to [`*`](/docs/sites-and-pages/create-new-site#site-domain).
 
 - Click on **Create**.
 
