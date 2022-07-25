@@ -1,3 +1,4 @@
+// @ts-check
 import { readFileSync, writeFileSync } from "fs";
 import JSON5 from "json5";
 import { remark } from "remark";
@@ -5,7 +6,7 @@ import strip from "strip-markdown";
 
 const mdProcessor = remark().use(strip);
 
-/** @type {import("../types/client/docs.type").NavData} */
+/** @type {import("../../types/client/docs.type").NavData} */
 const navData = JSON5.parse(readFileSync(process.cwd() + "/docs/nav.json5", "utf8"));
 
 /** @param {string} md */
@@ -24,7 +25,11 @@ const md2plain = async md => {
             .map(([dir, data]) =>
                 Object.entries(data.pages).map(([name, pageTitle]) => ({
                     path: `${dir}/${name}`,
-                    title: `${data.sectionTitle} – ${pageTitle}`,
+                    // bit too specific here
+                    title:
+                        data.sectionTitle === pageTitle
+                            ? pageTitle
+                            : `${data.sectionTitle} – ${pageTitle}`,
                 }))
             )
             .flat(1)
