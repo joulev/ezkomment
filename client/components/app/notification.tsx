@@ -37,7 +37,7 @@ const notifications: AppNotification[] = [
   },
   {
     type: "other",
-    href: "/docs/getting-started",
+    href: "/docs/tutorial/getting-started",
     heading: "Welcome to ezkomment!",
     content: "Welcome to ezkomment! Read our Getting started guide to familiarise yourself.",
     timestamp: new Date("2022-07-06").valueOf(),
