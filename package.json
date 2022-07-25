@@ -31,7 +31,7 @@
     "cookie": "^0.5.0",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
-    "firebase": "^9.9.0",
+    "firebase": "^9.9.1",
     "firebase-admin": "^11.0.0",
     "framer-motion": "^6.5.1",
     "js-confetti": "^0.10.2",
