@@ -34,18 +34,20 @@ export async function signOut({ setLoading }: AppAuth) {
     setLoading(false);
 }
 
-export async function link({ setLoading }: AppAuth, provider: Provider) {
-    setLoading(true);
+export async function link(appAuth: AppAuth, provider: Provider) {
+    appAuth.setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     await linkWithPopup(auth.currentUser, provider);
-    setLoading(false);
+    await appAuth.mutate();
+    appAuth.setLoading(false);
 }
 
-export async function unlink({ setLoading }: AppAuth, provider: Provider) {
-    setLoading(true);
+export async function unlink(appAuth: AppAuth, provider: Provider) {
+    appAuth.setLoading(true);
     if (!auth.currentUser) throw E.NOT_AUTHENTICATED;
     await firebaseUnlink(auth.currentUser, provider.providerId);
-    setLoading(false);
+    await appAuth.mutate();
+    appAuth.setLoading(false);
 }
 
 export async function reauthenticate({ setLoading }: AppAuth, provider: Provider) {
