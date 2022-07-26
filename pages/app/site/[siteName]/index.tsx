@@ -202,7 +202,7 @@ const Content: FC = () => {
                 <span>All domains</span>
               ) : (
                 <A
-                  href={site.domain}
+                  href={`https://${site.domain}`}
                   notStyled
                   className="hover:text-neutral-900 dark:hover:text-neutral-100 transition"
                 >
