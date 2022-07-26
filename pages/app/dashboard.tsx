@@ -147,13 +147,22 @@ function searchSites(sites: Site[], search: string) {
   return sites.filter(site => site.name.toLowerCase().includes(search.toLowerCase()));
 }
 
+function sortSites(sites: Site[], sort: "pages" | "comments" | "pending") {
+  if (sort === "pages") return sites.sort((a, b) => b.pageCount - a.pageCount);
+  if (sort === "comments") return sites.sort((a, b) => b.totalCommentCount - a.totalCommentCount);
+  if (sort === "pending")
+    return sites.sort((a, b) => b.pendingCommentCount - a.pendingCommentCount);
+  return sites;
+}
+
 const Dashboard: NextPageWithLayout = () => {
   const { user } = useAuth();
   const breakpoint = useBreakpoint();
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<"pages" | "comments" | "pending">("pages");
   if (!user) return <Loading />;
   if (user.sites.length === 0) return <EmptyState />;
-  const sites = searchSites(user.sites, search);
+  const sites = sortSites(searchSites(user.sites, search), sort);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -168,12 +177,12 @@ const Dashboard: NextPageWithLayout = () => {
           <Select
             icon={SortOutlinedIcon}
             label={["xs", "md", "unknown"].includes(breakpoint) ? undefined : "Sort by"}
-            value="all"
+            value={sort}
             className="flex-grow"
-            onUpdate={() => {}} // to silence the readOnly warning for now
+            onUpdate={setSort as any}
           >
-            <option value="active">Active</option>
-            <option value="all">Comments</option>
+            <option value="pages">Pages</option>
+            <option value="comments">Comments</option>
             <option value="pending">Pending</option>
           </Select>
           <Button
