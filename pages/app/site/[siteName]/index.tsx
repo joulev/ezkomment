@@ -149,6 +149,7 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
             value={url}
             onUpdate={setUrl}
             isInvalid={!(title === "" && url === "") && !PAGE.urlIsValid(url)}
+            placeholder="https://example.com/page"
           />
           <RightAligned className="gap-6">
             <Button variant="tertiary" onClick={onClose} type="button">
