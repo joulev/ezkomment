@@ -19,6 +19,10 @@ const Seo: FC<SeoProps> = ({ title, description, image, url }) => (
       cardType: "summary_large_image",
       handle: "@joulev_3",
     }}
+    additionalLinkTags={[
+      { rel: "icon", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "152x152" },
+    ]}
   />
 );
 
