@@ -62,6 +62,11 @@ const Notifications: FC<{ show: boolean; onClose: () => void }> = ({ show, onClo
       onClick={e => e.stopPropagation()}
     >
       <h2>Notifications</h2>
+      <p className="text-red-500">
+        Hi everyone, the notifications are not working yet, so you cannot clear these notifications
+        or get new ones. Track the development{" "}
+        <A href="https://github.com/joulev/ezkomment/issues/212">here</A>.
+      </p>
       <p>
         {notifications.filter(n => !n.haveRead).length} unread &mdash; <A>Mark all as read</A>
       </p>
