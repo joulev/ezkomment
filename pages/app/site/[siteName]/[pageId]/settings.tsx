@@ -1,8 +1,7 @@
+import clsx from "clsx";
 import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
 
-import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import WebOutlinedIcon from "@mui/icons-material/LanguageOutlined";
@@ -129,7 +128,6 @@ const UpdateSiteInfo: FC = () => {
   );
 };
 
-// TODO: A toggle switch would be better for this?
 const UpdateAutoApprove: FC = () => {
   const { setLoading } = useAuth();
   const { site, mutate: mutateSite } = useSite();
@@ -162,18 +160,25 @@ const UpdateAutoApprove: FC = () => {
         If you enable auto-approval, all comments posted to this page will automatically be approved
         and visible to everyone.
       </p>
-      <div className="mb-6 flex flex-row gap-6">
-        <span className="text-muted">Auto-approval status:</span>
-        <strong>{page.autoApprove ? "Enabled" : "Disabled"}</strong>
-      </div>
-      <RightAligned>
-        <Button
-          icon={page.autoApprove ? ClearOutlinedIcon : CheckOutlinedIcon}
+      <div className="mb-6 flex flex-row justify-between">
+        <div>
+          <span className="text-muted">Auto-approval status:</span>
+          <strong className="ml-6">{page.autoApprove ? "Enabled" : "Disabled"}</strong>
+        </div>
+        <button
           onClick={() => updateAutoApprove(!page.autoApprove)}
-        >
-          {page.autoApprove ? "Disable" : "Enable"} auto-approval
-        </Button>
-      </RightAligned>
+          className={clsx(
+            "inline-block w-14 h-8 rounded-full relative transition",
+            page.autoApprove ? "bg-indigo-500" : "bg-neutral-300 dark:bg-neutral-700",
+            "after:absolute after:h-6 after:w-6 after:rounded-full after:bg-white after:top-1 after:transition-all",
+            page.autoApprove ? "after:left-7" : "after:left-1"
+          )}
+          // should I add aria labels throughout the whole app? that would probably take a lot of time
+          role="switch"
+          aria-checked={page.autoApprove}
+          aria-label="Switch auto-approval state"
+        />
+      </div>
     </section>
   );
 };
