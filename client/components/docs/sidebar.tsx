@@ -105,7 +105,7 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
           value={search}
           onUpdate={setSearch}
         />
-        <div className="flex-grow min-h-0 overflow-y-auto">
+        <div className="flex-grow min-h-0 overflow-y-auto no-scrollbar">
           {search ? (
             <DocsSearchResults query={internalSearch} loading={internalSearch !== search} />
           ) : (

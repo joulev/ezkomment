@@ -283,7 +283,9 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
                 onChange={setCode}
               />
             ) : (
-              <div className={clsx(fullscreenHandle.active && "h-screen overflow-y-auto")}>
+              <div
+                className={clsx(fullscreenHandle.active && "h-screen overflow-y-auto no-scrollbar")}
+              >
                 <AddComment comments={comments} setComments={setComments} />
               </div>
             )
