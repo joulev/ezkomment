@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/router";
 import { FC, FormEventHandler, useState } from "react";
 import useSWR from "swr";
@@ -291,30 +291,31 @@ const Content: FC = () => {
               </div>
             ) : (
               <div className="flex flex-col gap-6">
-                {pages.map((page, i) => (
-                  <A
-                    notStyled
-                    key={i}
-                    className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
-                    href={`/app/site/${site.name}/${page.id}`}
-                  >
-                    <div className="font-semibold text-lg mb-1.5">{page.title}</div>
-                    <div className="text-muted text-sm mb-6">{page.url}</div>
-                    <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
-                      <div className="grid grid-cols-2 sm:gap-12">
-                        <Stats small label="comments" value={page.totalCommentCount} />
-                        <Stats small label="pending" value={page.pendingCommentCount} />
+                {pages
+                  .sort((a, b) => b.lastUpdated - a.lastUpdated)
+                  .map((page, i) => (
+                    <A
+                      notStyled
+                      key={i}
+                      className="p-6 bg-card rounded border border-card hover:border-muted flex flex-col transition"
+                      href={`/app/site/${site.name}/${page.id}`}
+                    >
+                      <div className="font-semibold text-lg mb-1.5">{page.title}</div>
+                      <div className="text-muted text-sm mb-6">{page.url}</div>
+                      <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-y-6">
+                        <div className="grid grid-cols-2 sm:gap-12">
+                          <Stats small label="comments" value={page.totalCommentCount} />
+                          <Stats small label="pending" value={page.pendingCommentCount} />
+                        </div>
+                        <div className="text-sm text-muted">
+                          Updated{" "}
+                          {formatDistanceToNowStrict(new Date(page.lastUpdated), {
+                            addSuffix: true,
+                          })}
+                        </div>
                       </div>
-                      <div className="text-sm">
-                        {/* TODO */}
-                        Last comment: {formatDistanceToNow(
-                          parseISO("2022-01-01T00:00:00.000Z")
-                        )}{" "}
-                        ago
-                      </div>
-                    </div>
-                  </A>
-                ))}
+                    </A>
+                  ))}
               </div>
             )}
           </div>

@@ -102,7 +102,7 @@ const SiteCard: FC<{ site?: Site }> = ({ site }) => (
             <div className="w-12 h-12 rounded-full pulse" />
           </div>
           <div>
-            <div className="h-6 w-36 pulse mb-1" />
+            <div className="h-5 w-36 pulse mb-3" />
             <div className="h-4 w-32 pulse" />
           </div>
         </div>
@@ -147,11 +147,12 @@ function searchSites(sites: Site[], search: string) {
   return sites.filter(site => site.name.toLowerCase().includes(search.toLowerCase()));
 }
 
-function sortSites(sites: Site[], sort: "pages" | "comments" | "pending") {
+function sortSites(sites: Site[], sort: "pages" | "comments" | "pending" | "updated") {
   if (sort === "pages") return sites.sort((a, b) => b.pageCount - a.pageCount);
   if (sort === "comments") return sites.sort((a, b) => b.totalCommentCount - a.totalCommentCount);
   if (sort === "pending")
     return sites.sort((a, b) => b.pendingCommentCount - a.pendingCommentCount);
+  if (sort === "updated") return sites.sort((a, b) => b.lastUpdated - a.lastUpdated);
   return sites;
 }
 
@@ -159,7 +160,7 @@ const Dashboard: NextPageWithLayout = () => {
   const { user } = useAuth();
   const breakpoint = useBreakpoint();
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState<"pages" | "comments" | "pending">("pages");
+  const [sort, setSort] = useState<"pages" | "comments" | "pending" | "updated">("pages");
   if (!user) return <Loading />;
   if (user.sites.length === 0) return <EmptyState />;
   const sites = sortSites(searchSites(user.sites, search), sort);
@@ -184,6 +185,7 @@ const Dashboard: NextPageWithLayout = () => {
             <option value="pages">Pages</option>
             <option value="comments">Comments</option>
             <option value="pending">Pending</option>
+            <option value="updated">Last updated</option>
           </Select>
           <Button
             className="w-1/3 min-w-fit flex flex-row items-center justify-center gap-1"
