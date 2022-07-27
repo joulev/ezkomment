@@ -83,8 +83,19 @@ export function createTestSite({
     pageCount = 0,
     totalCommentCount = 0,
     pendingCommentCount = 0,
+    lastUpdated = Timestamp.now().toMillis(),
 }: OnlyRequired<Site, "uid" | "id">): Site {
-    return { uid, id, name, domain, pageCount, iconURL, totalCommentCount, pendingCommentCount };
+    return {
+        uid,
+        id,
+        name,
+        domain,
+        pageCount,
+        iconURL,
+        totalCommentCount,
+        pendingCommentCount,
+        lastUpdated,
+    };
 }
 
 export function createTestPage({
@@ -96,8 +107,19 @@ export function createTestPage({
     url = `https://example${siteId}.com/${id}`,
     totalCommentCount = 0,
     pendingCommentCount = 0,
+    lastUpdated = Timestamp.now().toMillis(),
 }: OnlyRequired<Page, "id" | "siteId" | "uid">): Page {
-    return { id, title, url, autoApprove, totalCommentCount, pendingCommentCount, uid, siteId };
+    return {
+        id,
+        title,
+        url,
+        autoApprove,
+        totalCommentCount,
+        pendingCommentCount,
+        uid,
+        siteId,
+        lastUpdated,
+    };
 }
 
 export function createTestComment({

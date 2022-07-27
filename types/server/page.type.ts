@@ -9,6 +9,7 @@ export type Page = {
 
     totalCommentCount: number;
     pendingCommentCount: number;
+    lastUpdated: number;
 
     readonly uid: string; // foreign key
     readonly siteId: string; // foreign key
