@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase-admin/firestore";
+
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
     COMMENTS_COLLECTION,
@@ -14,7 +16,6 @@ import {
     CreateSiteBodyParams,
     Page,
     Site,
-    SiteStatistics,
     UpdateSiteBodyParams,
 } from "~/types/server";
 
@@ -71,6 +72,7 @@ export async function createSiteWithUid(uid: string, data: CreateSiteBodyParams)
         pageCount: 0,
         totalCommentCount: 0,
         pendingCommentCount: 0,
+        lastUpdated: Timestamp.now().toMillis(),
     };
     return await firestoreAdmin
         .runTransaction(async t => {
@@ -103,7 +105,7 @@ export async function updateSiteWithUid(uid: string, siteId: string, data: Updat
                 t.delete(userSitesCollection.doc(oldName));
                 t.create(userSitesCollection.doc(newName), { id: siteId });
             }
-            t.update(siteRef, data);
+            t.update(siteRef, { ...data, lastUpdated: Timestamp.now().toMillis() });
         })
         .catch(handleFirestoreError);
 }

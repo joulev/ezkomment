@@ -1,7 +1,10 @@
 import { Page } from "./page.type";
 
 export type Site = {
-    // properties that can be updated safely.
+    /**
+     * The auto generated id of the site.
+     */
+    readonly id: string;
 
     /**
      * The display name of the site.
@@ -13,34 +16,22 @@ export type Site = {
      */
     iconURL: string | null;
 
-    // Readonly properties.
-
-    /**
-     * The auto generated id of the site.
-     */
-    readonly id: string;
-
     /**
      * The domain of the site.
-     *
      */
     domain: string;
 
-    // Statistic, optional at the moment
-
-    /**
-     * The number of page in this site
-     */
     pageCount: number;
     totalCommentCount: number;
     pendingCommentCount: number;
+    lastUpdated: number;
 
     // Foreign key
 
     /**
      *  The uid of the owner of this site.
      */
-    uid: string;
+    readonly uid: string;
 };
 
 /**

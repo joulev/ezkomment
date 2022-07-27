@@ -1,4 +1,4 @@
-import { FieldValue } from "firebase-admin/firestore";
+import { FieldValue, Timestamp } from "firebase-admin/firestore";
 
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
@@ -67,6 +67,7 @@ export async function createPageWithUid(uid: string, data: CreatePageBodyParams)
         ...data,
         totalCommentCount: 0,
         pendingCommentCount: 0,
+        lastUpdated: Timestamp.now().toMillis(),
     };
     return await firestoreAdmin.runTransaction(async t => {
         const siteRef = SITES_COLLECTION.doc(siteId);
@@ -125,7 +126,7 @@ export async function updatePageWithUid(uid: string, pageId: string, data: Updat
                 pendingCommentCount: FieldValue.increment(-pendingCommentCount),
             });
         }
-        t.update(pageRef, data);
+        t.update(pageRef, { ...data, lastUpdated: Timestamp.now().toMillis() });
     });
 }
 
