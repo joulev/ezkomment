@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 
 import AuthContext from "~/client/context/auth";
-import { internalSWRGenerator } from "~/client/lib/fetcher";
+import { internalFetcher, internalSWRGenerator } from "~/client/lib/fetcher";
 import firebaseApp from "~/client/lib/firebase/app";
 import { endProgress, startProgress } from "~/client/lib/nprogress";
 
@@ -12,6 +12,15 @@ import { AppAuth } from "~/types/client/auth.type";
 import { ClientUser } from "~/types/server";
 
 const auth = getAuth(firebaseApp);
+
+async function sendVerifyRequest(uid: string) {
+    const res = await internalFetcher({
+        url: `/api/users/${uid}/verify-email`,
+        method: "PUT",
+    });
+    if (process.env.NODE_ENV === "development")
+        console.log("Requested email verification successfully. Response = ", res);
+}
 
 export function useAuthInit(): AppAuth {
     const { data: user, mutate } = useSWR(
@@ -23,6 +32,8 @@ export function useAuthInit(): AppAuth {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
+            // Do not use `await` for `sendVerifyRequest()`
+            if (firebaseUser && !firebaseUser.emailVerified) sendVerifyRequest(firebaseUser.uid);
             await mutate();
             if (firebaseUser && window.location.pathname.startsWith("/auth"))
                 router.push("/app/dashboard");
