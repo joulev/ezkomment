@@ -9,6 +9,7 @@ const html = `<!DOCTYPE html>
         --border-color: #ccc;
         --muted-color: #888;
         --bg-color: #eee;
+        --indigo: #6366f1;
       }
       .dark {
         --body-color: #eee;
@@ -66,6 +67,13 @@ const html = `<!DOCTYPE html>
         list-style-type: decimal;
         list-style-position: inside;
         margin-left: 1.5rem;
+      }
+      .comment__content a {
+        color: var(--indigo);
+      }
+      .comment__content a:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
       }
       form {
         display: flex;

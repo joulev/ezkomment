@@ -20,7 +20,8 @@
     ::selection {
         @apply bg-indigo-500 text-white [text-shadow:none];
     }
-    .a {
+    .a,
+    .post a {
         @apply text-primary hover:text-indigo-700 dark:hover:text-indigo-300
             hover:underline transition underline-offset-4 cursor-pointer;
     }
