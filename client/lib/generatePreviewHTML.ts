@@ -1,8 +1,3 @@
-import rehypeStringify from "rehype-stringify";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import { unified } from "unified";
-
 import { PreviewComment } from "~/types/client/utils.type";
 
 export default async function generatePreviewHTML(
@@ -11,12 +6,12 @@ export default async function generatePreviewHTML(
     isDark?: boolean
 ) {
     if (typeof window === "undefined") throw new Error("This should be run on client side");
-    const remark = unified().use(remarkParse).use(remarkRehype).use(rehypeStringify);
+    const md2html = await import("~/misc/markdown").then(m => m.default);
     const commentHTML = await Promise.all(
         comments.map(async ({ author, content, date }) => ({
             author,
             date,
-            content: String(await remark.process(content)),
+            content: await md2html(content),
         }))
     );
 

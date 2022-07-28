@@ -1,11 +1,6 @@
 import { JSDOM } from "jsdom";
-import rehypePresetMinify from "rehype-preset-minify";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
-import rehypeStringify from "rehype-stringify";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import { unified } from "unified";
+
+import md2html from "~/misc/markdown";
 
 import { Comment, Page } from "~/types/server";
 import { EmbedConfigurations } from "~/types/server/nextApi.type";
@@ -23,17 +18,6 @@ export async function checkExist(siteId: string, pageId: string) {
     if (pageData.siteId !== siteId) {
         throw new CustomApiError("Ids do not match", 403);
     }
-}
-
-async function md2html(md: string) {
-    const processor = unified()
-        .use(remarkParse)
-        .use(remarkRehype, { allowDangerousHtml: true })
-        .use(rehypeRaw)
-        .use(rehypeSanitize)
-        .use(rehypePresetMinify)
-        .use(rehypeStringify);
-    return String(await processor.process(md));
 }
 
 export function compileComments2html(comments: Comment[]) {
