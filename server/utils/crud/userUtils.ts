@@ -1,9 +1,10 @@
 import { UpdateRequest } from "firebase-admin/auth";
+import { Timestamp } from "firebase-admin/firestore";
 
 import { authAdmin, firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
 
-import { Site } from "~/types/server";
+import { Site, WelcomeMessageNotification } from "~/types/server";
 
 import { handleUserError } from "../errors/handleAuthError";
 import { deleteRefArray } from "../firestoreUtils";
@@ -46,4 +47,24 @@ export async function deleteUserSites(uid: string) {
         ...siteRefs.map(ref => firestoreAdmin.recursiveDelete(ref)),
         ...siteIds.map(id => deleteSitePages(id)), // And all pages of these sites
     ]);
+}
+
+///////////
+// EXTRA //
+///////////
+
+export async function initializeUser(uid: string) {
+    const userRef = USERS_COLLECTION.doc(uid);
+    await firestoreAdmin.runTransaction(async t => {
+        // I should add some simple data to the user record. Just to mark the user as "created"
+        // If this function is called on the same user again, it should fail
+        t.create(userRef, { uid });
+        // First, we need to generate a notification for this user
+        const welcomeMessage: WelcomeMessageNotification = {
+            type: "WelcomeMessage",
+            href: "/docs/getting-started",
+            timestamp: Timestamp.now().toMillis(),
+        };
+        t.create(userRef.collection("notification").doc("WELCOME_MESSAGE"), welcomeMessage);
+    });
 }
