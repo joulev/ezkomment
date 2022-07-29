@@ -3,6 +3,7 @@ import {
     GoogleAuthProvider,
     signOut as firebaseSignOut,
     unlink as firebaseUnlink,
+    getAdditionalUserInfo,
     getAuth,
     linkWithPopup,
     reauthenticateWithPopup,
@@ -22,9 +23,23 @@ const auth = getAuth(firebaseApp);
 export const githubProvider = new GithubAuthProvider();
 export const googleProvider = new GoogleAuthProvider();
 
+export async function initialiseUser(uid: string) {
+    const res = await internalFetcher({
+        url: `/api/users/${uid}/verify-email`,
+        method: "PUT",
+    });
+    if (process.env.NODE_ENV === "development")
+        console.log("Requested email verification successfully. Response = ", res);
+}
+
 export async function signIn({ setLoading }: AppAuth, provider: Provider) {
     setLoading(true);
-    await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+    const additionalInfo = getAdditionalUserInfo(result);
+    // This shouldn't happen...
+    if (!additionalInfo) throw E.DID_YOU_JUST_HACK_THE_SYSTEM;
+    // TODO: Add await when notifications are involved
+    if (additionalInfo.isNewUser) initialiseUser(result.user.uid);
     setLoading(false);
 }
 

@@ -3,6 +3,11 @@ const UNKNOWN_ERROR = new Error(
 ) as NodeJS.ErrnoException;
 export { UNKNOWN_ERROR };
 
+const DID_YOU_JUST_HACK_THE_SYSTEM = new Error(
+    "We got an error we expect to never happen. Did you just hack us? Please report this bug to us."
+) as NodeJS.ErrnoException;
+export { DID_YOU_JUST_HACK_THE_SYSTEM };
+
 const NOT_AUTHENTICATED = new Error(
     "No authenticated users found to link account. Please log in first."
 ) as NodeJS.ErrnoException;
