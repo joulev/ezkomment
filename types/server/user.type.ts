@@ -26,3 +26,25 @@ export type UpdateUserBodyParams = {
 };
 
 export type ClientUser = FirebaseUser & { sites: Site[] };
+
+/**
+ * If only we have proper ADT
+ */
+export type NotificationTypes = "NewComment" | "WelcomeMessage";
+
+export type NewCommentNotification = {
+    type: "NewComment";
+    href: string;
+    siteName: string;
+    pageTitle: string;
+    authors: string[];
+    timestamp: number;
+};
+
+export type WelcomeMessageNotification = {
+    type: "WelcomeMessage";
+    href: string;
+    timestamp: number;
+};
+
+export type Notification = NewCommentNotification | WelcomeMessageNotification;
