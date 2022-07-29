@@ -4,7 +4,7 @@ import * as UserUtils from "~/server/utils/crud/userUtils";
 import { deleteUserPhoto } from "~/server/utils/crud/imageUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { ClientUser } from "~/types/server";
+import { ClientUser, Notification } from "~/types/server";
 import { ApiRequest, ApiResponse } from "~/types/server/nextApi.type";
 
 export async function getUser(req: ApiRequest, res: ApiResponse) {
@@ -35,9 +35,9 @@ export async function deleteUser(req: ApiRequest, res: ApiResponse) {
     res.status(200).json({ message: "Deleted user" });
 }
 
-/////////////////////////
-// Interact with sites //
-/////////////////////////
+///////////
+// SITES //
+///////////
 
 export async function listUserSites(req: ApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
@@ -45,12 +45,28 @@ export async function listUserSites(req: ApiRequest, res: ApiResponse) {
     res.status(200).json({ message: "Got user's sites", data });
 }
 
+///////////////////
+// NOTIFICATIONS //
+///////////////////
+
+export async function listUserNotifications(req: ApiRequest, res: ApiResponse<Notification[]>) {
+    const { uid } = extractFirstQueryValue(req);
+    const data = await UserUtils.listUserNotifications(uid);
+    res.status(200).json({ message: "Got user's notifications", data });
+}
+
 ///////////
-// Extra //
+// EXTRA //
 ///////////
 
 export async function verifyUserEmail(req: ApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     await UserUtils.updateUserById(uid, { emailVerified: true });
     res.status(200).json({ message: "Verified user's email" });
+}
+
+export async function initializeUser(req: ApiRequest, res: ApiResponse) {
+    const { uid } = extractFirstQueryValue(req);
+    await UserUtils.initializeUser(uid);
+    res.status(200).json({ message: "Initialized user" });
 }

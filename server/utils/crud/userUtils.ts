@@ -4,7 +4,7 @@ import { Timestamp } from "firebase-admin/firestore";
 import { authAdmin, firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
 
-import { Site, WelcomeMessageNotification } from "~/types/server";
+import { Notification, Site, WelcomeMessageNotification } from "~/types/server";
 
 import { handleUserError } from "../errors/handleAuthError";
 import { deleteRefArray } from "../firestoreUtils";
@@ -22,6 +22,10 @@ export async function updateUserById(uid: string, data: UpdateRequest) {
 export async function deleteUserById(uid: string) {
     await authAdmin.deleteUser(uid).catch(handleUserError);
 }
+
+///////////
+// SITES //
+///////////
 
 export async function listUserSites(uid: string) {
     const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
@@ -49,16 +53,15 @@ export async function deleteUserSites(uid: string) {
     ]);
 }
 
-///////////
-// EXTRA //
-///////////
+//////////////////
+// NOTIFICATION //
+//////////////////
 
 export async function initializeUser(uid: string) {
     const userRef = USERS_COLLECTION.doc(uid);
     await firestoreAdmin.runTransaction(async t => {
         // I should add some simple data to the user record. Just to mark the user as "created"
         // If this function is called on the same user again, it should fail
-        t.create(userRef, { uid });
         // First, we need to generate a notification for this user
         const welcomeMessage: WelcomeMessageNotification = {
             type: "WelcomeMessage",
@@ -67,4 +70,10 @@ export async function initializeUser(uid: string) {
         };
         t.create(userRef.collection("notification").doc("WELCOME_MESSAGE"), welcomeMessage);
     });
+}
+
+export async function listUserNotifications(uid: string) {
+    const notificationSnapshots = await USERS_COLLECTION.doc(uid).collection("notification").get();
+    const data = notificationSnapshots.docs.map(doc => doc.data()) as Notification[];
+    return data.sort((c1, c2) => c2.timestamp - c1.timestamp);
 }
