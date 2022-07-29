@@ -67,6 +67,8 @@ export default function NextApp({ Component, pageProps }: AppPropsWithLayout) {
  * @see {@link https://www.axiom.co/docs/integrations/vercel}
  */
 export function reportWebVitals(metric: NextWebVitalsMetric) {
+  if (window && window.localStorage.getItem("privacy-consent") === "declined") return;
+
   const url = process.env.NEXT_PUBLIC_AXIOM_INGEST_ENDPOINT;
   if (!url) return;
 
