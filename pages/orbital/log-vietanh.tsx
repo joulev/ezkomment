@@ -3,6 +3,8 @@ import { parseISO } from "date-fns";
 import { GetStaticProps } from "next";
 import { Fragment } from "react";
 
+import md2html from "~/misc/markdown";
+
 import getOgImage from "~/client/lib/getOgImage";
 
 import A from "~/client/components/anchor";
@@ -56,11 +58,13 @@ const ProjectLogVietAnh: NextPageWithLayout<Props> = ({ data }) => (
             <div className="col-span-8 p-3 border-t border-card">{Content}</div>
             <div className="col-span-1 p-3 border-t border-card">{Hrs}</div>
             <div className="col-span-12 p-3 border-t border-card pr-0">
-              <ul className="!ml-6">
+              <ul className="!ml-6 post">
                 {Remark.map((str, i, arr) => (
-                  <li key={i} className={clsx(i === arr.length - 1 && "!mb-0")}>
-                    {str}
-                  </li>
+                  <li
+                    key={i}
+                    className={clsx(i === arr.length - 1 && "!mb-0")}
+                    dangerouslySetInnerHTML={{ __html: str }}
+                  />
                 ))}
               </ul>
             </div>
@@ -82,7 +86,12 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         url: "https://ezkomment.joulev.dev/orbital/log-vietanh",
         image,
       },
-      data,
+      data: await Promise.all(
+        data.map(async ({ Remark, ...rest }) => ({
+          ...rest,
+          Remark: await Promise.all(Remark.map(async str => await md2html(str))),
+        }))
+      ),
     },
   };
 };

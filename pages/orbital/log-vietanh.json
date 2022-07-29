@@ -185,7 +185,7 @@
     "Content": "Get URL of uploaded images",
     "Hrs": 4,
     "Remark": [
-      "Firebase Admin SDK does not have `getDownloadUrl()`, the workarounds are not reliable (read https://github.com/googleapis/nodejs-storage/issues/697 for more information)",
+      "Firebase Admin SDK does not have `getDownloadUrl()`, the workarounds are not reliable ([more info](https://github.com/googleapis/nodejs-storage/issues/697))",
       "Public URL was used, although it's not very secure"
     ]
   },
