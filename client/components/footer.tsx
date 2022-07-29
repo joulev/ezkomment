@@ -6,6 +6,8 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
+import version from "~/client/lib/version";
+
 import A from "~/client/components/anchor";
 import ModeSwitcher from "~/client/components/modeSwitcher";
 
@@ -55,21 +57,8 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
           <FooterNavLink href="/docs" title="Docs" />
           <FooterNavLink href="/orbital" title="Orbital" />
         </div>
-        <div className="text-sm text-muted" data-testid="git info">
-          {process.env.NODE_ENV === "development" ? (
-            "Development build"
-          ) : (
-            <>
-              Revision{" "}
-              <A
-                href={`https://github.com/joulev/ezkomment/commit/${process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}`}
-                className="font-mono"
-                data-testid="git hash"
-              >
-                {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.substring(0, 7) ?? "unknown"}
-              </A>
-            </>
-          )}
+        <div className="text-sm text-muted">
+          ezkomment <A href={version.href}>{version.version}</A>
         </div>
       </div>
       <hr className="my-6 border-card sm:hidden" />

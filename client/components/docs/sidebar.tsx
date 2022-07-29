@@ -7,6 +7,8 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
+import version from "~/client/lib/version";
+
 import A from "~/client/components/anchor";
 import Input from "~/client/components/forms/input";
 import ModeSwitcher from "~/client/components/modeSwitcher";
@@ -113,16 +115,9 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
           )}
         </div>
         <footer className="flex flex-row justify-between items-center">
-          {process.env.NODE_ENV === "development" ? (
-            <span className="text-muted">Dev build</span>
-          ) : (
-            <A
-              href={`https://github.com/joulev/ezkomment/commit/${process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}`}
-              className="font-mono"
-            >
-              {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.substring(0, 7) ?? "unknown"}
-            </A>
-          )}
+          <A className="text-sm" href={version.href}>
+            {version.version}
+          </A>
           <ModeSwitcher />
         </footer>
       </div>
