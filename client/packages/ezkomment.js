@@ -1,6 +1,10 @@
-// We will pass the URL to fetch comments and post comments as keyword argument.
+/* eslint-disable import/no-anonymous-default-export */
+// @ts-check
+// @ts-ignore
+import { format } from "https://unpkg.com/timeago.js?module";
 
-const ezkomment = ({ pageId, getURL, postURL }) => {
+/** @param {{ pageId: string, getURL: string, postURL: string }} props */
+export default function ({ pageId, getURL, postURL }) {
     let hasFocus = false;
     let isVisible = false;
     let blockValidate = false;
@@ -35,12 +39,16 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
         window.addEventListener("message", event => {
             if (event.data.hasOwnProperty("EzkFrameHeight")) sendFrameHeight();
         });
-        document.querySelector("[data-ezk=form]").addEventListener("submit", onFormSubmit);
+        const formEl = document.querySelector("[data-ezk=form]");
+        if (!formEl) throw new Error("ezkomment error: no 'data-ezk=form' element found");
+        formEl.addEventListener("submit", onFormSubmit);
     }
 
     async function validate() {
+        /** @type {{ data: { author: string, text: string, date: number }[] }} */
         const { data: comments } = await fetch(getURL).then(res => res.json());
         const commentsDiv = document.querySelector("[data-ezk=comments]");
+        if (!commentsDiv) throw new Error("ezkomment error: no 'data-ezk=comments' element found");
         if (COMMENTDIVCONTENT === "") COMMENTDIVCONTENT = commentsDiv.innerHTML;
         commentsDiv.innerHTML =
             comments.length > 0
@@ -54,16 +62,24 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
             if (authorEl) authorEl.textContent = author && author.length > 0 ? author : "Anonymous";
             if (contentEl)
                 contentEl.innerHTML = text && text.length > 0 ? text : "(no comment body)"; // already rendered safely on server side
-            if (dateEl) dateEl.textContent = new Date(date).toLocaleString("en-GB");
+            if (dateEl) dateEl.textContent = format(date);
             commentsDiv.innerHTML += commentDocument.body.innerHTML;
         }
         sendFrameHeight();
     }
 
+    /** @param {Event} event */
     async function onFormSubmit(event) {
         event.preventDefault();
+        /** @type {HTMLInputElement | null} */
         const authorField = document.querySelector("[data-ezk='form-author']");
+        if (!authorField)
+            throw new Error("ezkomment error: no 'data-ezk=form-author' element found");
+        /** @type {HTMLInputElement | null} */
         const commentField = document.querySelector("[data-ezk='form-content']");
+        if (!commentField)
+            throw new Error("ezkomment error: no 'data-ezk=form-content' element found");
+
         const comment = { author: authorField.value, text: commentField.value, pageId };
         authorField.value = "";
         commentField.value = "";
@@ -79,6 +95,4 @@ const ezkomment = ({ pageId, getURL, postURL }) => {
         initialise();
         validate();
     });
-};
-
-export default ezkomment;
+}
