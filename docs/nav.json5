@@ -41,4 +41,11 @@
             "approve-and-delete-comments": "Approve and delete comments",
         },
     },
+    customisation: {
+        sectionTitle: "Customisation",
+        pages: {
+            introduction: "Customisation",
+            "customise-site-template": "Customise site template",
+        },
+    },
 }
