@@ -48,4 +48,10 @@
             "customise-site-template": "Customise site template",
         },
     },
+    "rest-api": {
+        sectionTitle: "REST API",
+        pages: {
+            introduction: "The REST API",
+        },
+    },
 }
