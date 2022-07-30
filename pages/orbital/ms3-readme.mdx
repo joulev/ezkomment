@@ -519,7 +519,42 @@ Integration testing help us to detect and fix potential bugs early. For instance
 
 Due to the nature of the back-end being a REST API, it is possible to test it with Postman. Hence other than Jest, we also conduct manual tests with Postman.
 
-We will not go into more details on individual tests here, since we consider this document to be long enough already and many readers may not be keen on more technical aspects, especially in a field they may not have much interest in.
+We will not go into more details on individual tests here, since we consider this document to be long enough already and many readers may not be keen on more technical aspects, especially in a field they may not have much interest in. However, interested readers may be interested in the test results &ndash; here is an overview of the test results of commit [`8f9b437`](https://github.com/joulev/ezkomment/commit/8f9b4376827c4c71900ec8a0d2a91daa8024e511) (v1.0.0-rc.1.1) (which can also be viewed in more details in [the GitHub Actions log](https://github.com/joulev/ezkomment/actions/runs/2754401326)):
+
+```
+$ jest --ci --coverage --config=jest.client.config.js
+info  - Loaded env from /home/runner/work/ezkomment/ezkomment/.env.test
+PASS __tests__/client/lib/docsSearch.test.ts
+PASS __tests__/client/hooks/theme.test.tsx
+PASS __tests__/client/lib/fetcher.test.ts
+PASS __tests__/misc/validate.test.ts
+PASS __tests__/client/lib/documentation.test.ts
+PASS __tests__/client/lib/getOgImage.test.ts
+PASS __tests__/client/components/siteGraph.test.tsx
+PASS __tests__/client/components/buttons.test.tsx
+PASS __tests__/client/components/navbar.test.tsx
+PASS __tests__/client/components/anchor.test.tsx
+PASS __tests__/client/layouts/blog.test.tsx
+PASS __tests__/client/components/input.test.tsx
+PASS __tests__/client/hooks/breakpoint.test.tsx
+PASS __tests__/client/components/footer.test.tsx
+PASS __tests__/client/lib/nprogress.test.tsx
+PASS __tests__/client/components/select.test.tsx
+PASS __tests__/client/components/modal.test.tsx
+PASS __tests__/client/lib/prism.test.ts
+PASS __tests__/client/components/docs.test.tsx
+PASS __tests__/client/components/copiableCode.test.tsx
+PASS __tests__/client/components/banner.test.tsx
+PASS __tests__/client/lib/tests/setupMediaViewport.test.ts
+
+$ jest --ci --coverage --config=jest.server.config.js
+info  - Loaded env from /home/runner/work/ezkomment/ezkomment/.env.test
+PASS __tests__/server/pages.test.ts (5.951 s)
+PASS __tests__/server/comments.test.ts
+PASS __tests__/server/sites.test.ts
+PASS __tests__/server/customisation.test.ts
+PASS __tests__/server/users.test.ts
+```
 
 As of 22 July 2022, the code coverage stands at 96%, which we think is acceptable.
 
