@@ -33,4 +33,12 @@
             embed: "Embed the comment section",
         },
     },
+    moderation: {
+        sectionTitle: "Moderation",
+        pages: {
+            introduction: "Moderation",
+            "auto-approval-configuration": "Auto-approval configuration",
+            "approve-and-delete-comments": "Approve and delete comments",
+        },
+    },
 }
