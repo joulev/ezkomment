@@ -140,7 +140,8 @@
         @apply scroll-mt-27;
     }
     .post :not(pre) > code {
-        @apply text-sm px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded break-all;
+        @apply leading-5 px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded break-all;
+        font-size: 0.875em; /* NOT rem */
     }
     .post pre {
         @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card overflow-x-auto
