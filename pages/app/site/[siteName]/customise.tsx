@@ -191,8 +191,15 @@ const Editor: FC<EditorProps> = ({ height, value, onChange }) => {
 type ContentProps = {
   initialHTML: string;
   submit: (html: string | undefined) => Promise<void>;
+  siteId: string;
 };
-const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
+type SavedConfig = {
+  previewBg: string;
+  previewIsDark: boolean;
+  comments: PreviewComment[];
+  code: string | undefined;
+};
+const Content: FC<ContentProps> = ({ initialHTML, submit, siteId }) => {
   const breakpoint = useBreakpoint();
   const fullscreenHandle = useFullScreenHandle();
 
@@ -203,6 +210,20 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
   const [previewBg, setPreviewBg] = useState("#ffffff");
   const [previewIsDark, setPreviewIsDark] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
+  const [loadedFromLocalStorage, setLoadedFromLocalStorage] = useState(false);
+
+  useEffect(() => {
+    const configRaw = window.localStorage.getItem(`customise-config-${siteId}`);
+    if (configRaw) {
+      const config: SavedConfig = JSON.parse(configRaw);
+      setPreviewBg(config.previewBg);
+      setPreviewIsDark(config.previewIsDark);
+      setComments(config.comments);
+      setCode(config.code);
+    }
+    setLoadedFromLocalStorage(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -210,6 +231,12 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
       setPreviewHTML(html);
     })();
   }, [comments, code, previewIsDark]);
+
+  useEffect(() => {
+    if (!loadedFromLocalStorage) return;
+    const config: SavedConfig = { previewBg, previewIsDark, comments, code };
+    window.localStorage.setItem(`customise-config-${siteId}`, JSON.stringify(config));
+  }, [previewBg, previewIsDark, comments, code, loadedFromLocalStorage, siteId]);
 
   return (
     <FullScreen
@@ -268,7 +295,9 @@ const Content: FC<ContentProps> = ({ initialHTML, submit }) => {
         <Button
           icon={DoneOutlinedIcon}
           disabled={initialHTML === code || !code}
-          onClick={() => submit(code)}
+          onClick={() =>
+            submit(code).then(() => window.localStorage.removeItem(`customise-config-${siteId}`))
+          }
         >
           Deploy
         </Button>
@@ -346,7 +375,7 @@ const ContentWrapper: FC = () => {
 
   if (!data || !site) return <Loading />;
 
-  return <Content initialHTML={data.customisation} submit={handleSubmit} />;
+  return <Content initialHTML={data.customisation} submit={handleSubmit} siteId={site.id} />;
 };
 
 const Loading: FC = () => (
