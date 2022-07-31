@@ -1,0 +1,43 @@
+/**
+ * @license
+ *
+ * Font Family: Chubbo
+ * Designed by: Rafał Buchner
+ * URL: https://www.fontshare.com/fonts/chubbo
+ * © 2022 Indian Type Foundry
+ *
+ * Font Style:
+ * Chubbo Variable(Variable font)
+ *
+*/
+@font-face {
+    font-family: "Chubbo";
+    src: url("/fonts/chubbo/Chubbo-Variable.woff2") format("woff2"),
+        url("/fonts/chubbo/Chubbo-Variable.woff") format("woff"),
+        url("/fonts/chubbo/Chubbo-Variable.ttf") format("truetype");
+    font-weight: 200 700;
+    font-display: swap;
+    font-style: normal;
+}
+
+/**
+ * @license
+ *
+ * Font Family: Supreme
+ * Designed by: Jérémie Hornus, Ilya Naumoff
+ * URL: https://www.fontshare.com/fonts/supreme
+ * © 2022 Indian Type Foundry
+ *
+ * Font Style:
+ * Supreme Variable(Variable font)
+ *
+*/
+@font-face {
+    font-family: "Supreme";
+    src: url("/fonts/supreme/Supreme-Variable.woff2") format("woff2"),
+        url("/fonts/supreme/Supreme-Variable.woff") format("woff"),
+        url("/fonts/supreme/Supreme-Variable.ttf") format("truetype");
+    font-weight: 100 800;
+    font-display: swap;
+    font-style: normal;
+}
