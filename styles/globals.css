@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 @import "./fonts.css";
+@import "easymde/dist/easymde.min.css";
+
+.editor-toolbar,
+.CodeMirror {
+    border-radius: 0px !important;
+    border-color: #ddd;
+}
