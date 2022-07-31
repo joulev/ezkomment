@@ -16,6 +16,7 @@ const addPageIdToBody: ApiMiddleware = (req, _, next) => {
 };
 
 const handler = ncRouter()
+    .options(cors({ origin: "*" }))
     .use(cors({ origin: "*" }))
     .use(checkSitePageExists)
     .get(listPageApprovedCommentsRaw)
