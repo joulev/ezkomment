@@ -1,0 +1,68 @@
+# Keep this in sync with main
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+.next
+/out/
+
+# production
+# /build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# jest coverage
+coverage
+
+# generated og:image
+public/images/og
+
+# Firebase service account. We are not actually using the file but it's good to keep it locally so
+# we can look up other firebase-admin fields when needed
+service-account.json
+
+# Firebase Emulator log files
+firestore-debug.log
+ui-debug.log
+firebase-debug.log
+
+# Browser library compilation
+public/v1/js
+
+# LaTeX
+/others/latex/*
+!others/latex/README.md
+!others/latex/main.tex
+!others/latex/ezkomment.tex
+
+# Documentation JSON
+/docs/cache.json
