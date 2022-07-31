@@ -287,7 +287,7 @@ const Content: FC = () => {
         <CopiableCode content={page.id} className="mb-6" />
         <p>
           This ID can be used to interact with the ezkomment REST API.{" "}
-          <A href="https://google.com">See more information in the docs</A>.
+          <A href="/docs/rest-api/introduction">See more information in the docs</A>.
         </p>
       </section>
       <hr />

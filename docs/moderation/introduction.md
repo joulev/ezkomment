@@ -10,7 +10,7 @@ When a new comment arrives, whether or not it is immediately visible to the publ
 
 - Auto-approval _disabled_: All coming comments are marked as "pending". You, as the page admin, have to go to the ezkomment page dashboard to read and approve those comments manually, one-by-one. Only after being approved would the comments be visible to everyone visiting your page. You may also choose to [delete any comments](#deleting-comments) if you want to.
 
-  With auto-approval disabled, when a user inputs a new comment, it will _not_ be shown automatically. This may cause confusion, therefore we recommend updating the help text in the comment section (see [Customisation](https://google.com)) to clarify this.
+  With auto-approval disabled, when a user inputs a new comment, it will _not_ be shown automatically. This may cause confusion, therefore we recommend updating the help text in the comment section (see [Customisation](/docs/customisation/introduction)) to clarify this.
 
 You can [approve comments](/docs/moderation/approve-and-delete-comments#approve-comments) in the page dashboard and [update the auto-approval configuration](/docs/moderation/auto-approval-configuration) in the page settings.
 

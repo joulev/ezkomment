@@ -300,7 +300,7 @@ const Content: FC = () => {
           <CopiableCode content={site.id} className="mb-6" />
           <p>
             You can use this to implement your own comment frontend based on the REST API provided
-            by ezkomment. <A href="https://google.com">See more in the documentation</A>.
+            by ezkomment. <A href="/docs/rest-api/introduction">See more in the documentation</A>.
           </p>
         </section>
         <hr />

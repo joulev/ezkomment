@@ -12,4 +12,4 @@ You can update the auto-approval configuration at any time for any ezkomment pag
 
   ![Automatic approval section under page settings](/images/docs/moderation/auto-approval-configuration/auto-approval-settings.png)
 
-Note that, with auto-approval disabled, when a user inputs a new comment, it will _not_ be shown automatically. This may cause confusion, therefore we recommend updating the help text in the comment section (see [Customisation](https://google.com)) to clarify this.
+Note that, with auto-approval disabled, when a user inputs a new comment, it will _not_ be shown automatically. This may cause confusion, therefore we recommend updating the help text in the comment section (see [Customisation](/docs/customisation/introduction)) to clarify this.

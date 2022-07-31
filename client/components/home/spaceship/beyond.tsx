@@ -15,7 +15,7 @@ const BeyondTheBoundary: FC = () => (
       </span>
     </div>
     <div>
-      <ButtonLink className="from-green-500 to-cyan-500" href="https://google.com">
+      <ButtonLink className="from-green-500 to-cyan-500" href="/docs/rest-api/introduction">
         Read the API specs
       </ButtonLink>
     </div>

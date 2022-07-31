@@ -185,7 +185,7 @@ const EasyModeration: FC = () => (
         </span>
       </>
     }
-    button={{ href: "https://google.com", children: "See how it works" }}
+    button={{ href: "/docs/moderation/introduction", children: "See how it works" }}
     illustration={{ className: "flex flex-col gap-12", parts: [<Illustration key="1" />] }}
   />
 );
