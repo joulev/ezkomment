@@ -1,6 +1,6 @@
 # ezkomment REST API
 
-If you feel that [customising with templates](/docs/customisation/introduction) is not enough for your use case, or you do not want to use plain HTML, or you want to integrate directly to your existing frontend, you can use the ezkomment REST API to fetch and post comments directly for any ezkomment pages.
+If you feel that [customising with templates](/docs/customisation/introduction) is not enough for your use case, or you do not want to use plain HTML, or you want to integrate directly to your existing frontend, or you want to use custom Markdown flavours, you can use the ezkomment REST API to fetch and post comments directly for any ezkomment pages.
 
 This documentation is for the API endpoints of version 1.x.x, under the following path
 
@@ -57,9 +57,11 @@ interface Response {
 }
 ```
 
+Note that the comment content is served raw without any post-processing or sanitising, therefore when you render it please take XSS protection into account.
+
 ### POST `/comments/:siteId/:pageId`
 
-Post a new comment for a particular page.
+Post a new comment for a particular page. Depending on [the auto-approve config](/docs/moderation/introduction) of the page, the comment may be visible in the comment section immediately, or it may require you to manually approve it in the ezkomment dashboard.
 
 #### Body
 
