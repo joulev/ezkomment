@@ -35,7 +35,7 @@ const Comments: FC = () => {
   const [text, setText] = useState("");
   const onChange = useCallback((value: string) => setText(value), []);
   const options = useMemo<Options>(
-    () => ({ spellChecker: false, status: false, minHeight: "72px" }),
+    () => ({ spellChecker: false, status: false, minHeight: "72px", placeholder: "Your comment" }),
     []
   );
   const submit: FormEventHandler<HTMLFormElement> = async event => {
@@ -70,12 +70,7 @@ const Comments: FC = () => {
           ))}
         <hr className="border-['#ddd']" />
         <form className="flex flex-col gap-6" onSubmit={submit}>
-          <SimpleMDE
-            placeholder="Your comment"
-            value={text}
-            onChange={onChange}
-            options={options}
-          />
+          <SimpleMDE value={text} onChange={onChange} options={options} />
           <div className="flex flex-row gap-6">
             <input
               type="text"
