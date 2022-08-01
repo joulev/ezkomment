@@ -21,7 +21,7 @@
     "emulate:test:server:ci": "firebase emulators:exec 'yarn test:server:ci' --project demo-proj"
   },
   "dependencies": {
-    "@emotion/react": "^11.9.3",
+    "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.9.3",
     "@mdx-js/loader": "^2.1.2",
     "@mdx-js/react": "^2.1.2",
