@@ -163,11 +163,10 @@ const AddComment: FC<AddCommentProps> = ({ comments, setComments }) => {
 };
 
 type EditorProps = {
-  height: string;
   value: string | undefined;
   onChange: (value: string | undefined) => void;
 };
-const Editor: FC<EditorProps> = ({ height, value, onChange }) => {
+const Editor: FC<EditorProps> = ({ value, onChange }) => {
   const currentTheme = useTheme();
   function editorWillMount(monaco: Monaco) {
     monaco.editor.defineTheme("ezk-light", lightTheme);
@@ -177,7 +176,6 @@ const Editor: FC<EditorProps> = ({ height, value, onChange }) => {
   }
   return (
     <MonacoEditor
-      height={height}
       language="ezk-html"
       value={value}
       theme={currentTheme === "light" ? "ezk-light" : "ezk-dark"}
@@ -306,14 +304,14 @@ const Content: FC<ContentProps> = ({ initialHTML, submit, siteId }) => {
         <SideBySide
           left={
             active === 0 ? (
-              <Editor
-                height={fullscreenHandle.active ? "100vh" : "90vh"}
-                value={code}
-                onChange={setCode}
-              />
+              <div className={clsx(fullscreenHandle.active ? "h-screen pb-18" : "h-[90vh]")}>
+                <Editor value={code} onChange={setCode} />
+              </div>
             ) : (
               <div
-                className={clsx(fullscreenHandle.active && "h-screen overflow-y-auto no-scrollbar")}
+                className={clsx(
+                  fullscreenHandle.active && "h-screen pb-18 overflow-y-auto no-scrollbar"
+                )}
               >
                 <AddComment comments={comments} setComments={setComments} />
               </div>
@@ -321,7 +319,10 @@ const Content: FC<ContentProps> = ({ initialHTML, submit, siteId }) => {
           }
           right={
             <div
-              className="p-6 rounded border border-card h-full min-h-[90vh]"
+              className={clsx(
+                "p-6 rounded border border-card",
+                fullscreenHandle.active ? "h-screen pb-24" : "h-full"
+              )}
               style={{ backgroundColor: previewBg }}
             >
               <iframe srcDoc={previewHTML} className="w-full h-full" />
