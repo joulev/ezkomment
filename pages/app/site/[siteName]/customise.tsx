@@ -5,7 +5,7 @@
  */
 import MonacoEditor, { Monaco } from "@monaco-editor/react";
 import clsx from "clsx";
-import { FC, useEffect, useState } from "react";
+import { FC, startTransition, useEffect, useState } from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import useSWR from "swr";
 
@@ -181,7 +181,7 @@ const Editor: FC<EditorProps> = ({ height, value, onChange }) => {
       language="ezk-html"
       value={value}
       theme={currentTheme === "light" ? "ezk-light" : "ezk-dark"}
-      onChange={onChange}
+      onChange={val => startTransition(() => onChange(val))}
       options={options}
       beforeMount={editorWillMount}
     />
