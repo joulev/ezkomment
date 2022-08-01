@@ -41,7 +41,7 @@ module.exports = {
     "^~/client/(layouts|components)/(.*)$",
     "^~/types/(.*)$",
     "^~/client/styles/(.*)$",
-    "^~/(public|constants)/(.*)$",
+    "^~/(public|constants|templates)/(.*)$",
     "^~/sample/(.*)$",
     // Relative import
     "^[./]",

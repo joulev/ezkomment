@@ -63,7 +63,7 @@ For example, with the following comments
 ]
 ```
 
-then the following section (part of the [default template](https://github.com/joulev/ezkomment/blob/prod/constants/sampleCommentCode.ts))
+then the following section (part of the [default template](https://github.com/joulev/ezkomment/blob/prod/templates/default.html))
 
 ```html
 <main data-ezk="comments">

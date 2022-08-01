@@ -45,6 +45,7 @@ const nextConfig = {
         },
       ],
     });
+    config.module.rules.push({ test: /\.html$/, type: "asset/source" });
     return config;
   },
 };

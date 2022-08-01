@@ -8,6 +8,7 @@
 /config/tailwindTheme.js                @joulev
 /others/latex/                          @joulev
 /public/                                @joulev
+/templates/                             @joulev
 /jest.client.config.js                  @joulev
 /next-env.d.ts                          @joulev
 /next.config.mjs                        @joulev

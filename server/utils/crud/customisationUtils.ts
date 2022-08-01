@@ -8,7 +8,7 @@ import { getDocumentInTransactionWithUid } from "~/server/utils/firestoreUtils";
 
 import { Site, SiteCustomisation, UpdateSiteCustomisationBodyParams } from "~/types/server";
 
-import defaultCustomisation from "~/constants/sampleCommentCode";
+import defaultCustomisation from "~/templates/default.html";
 
 /**
  * The id associated with the customisation document.

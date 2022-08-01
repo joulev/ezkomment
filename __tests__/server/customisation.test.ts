@@ -5,7 +5,7 @@ import { SITES_COLLECTION } from "~/server/firebase/firestoreCollections";
 
 import { SiteCustomisation, UpdateSiteCustomisationBodyParams } from "~/types/server";
 
-import html from "~/constants/sampleCommentCode";
+jest.mock("~/templates/default.html", () => "default template html");
 
 describe("Test customisation utils", () => {
     const uid = TestUtils.randomUUID();
@@ -22,7 +22,7 @@ describe("Test customisation utils", () => {
 
     it("Should return default customisation when the feature is not used", async () => {
         const defaultCustomisation: SiteCustomisation = {
-            customisation: html,
+            customisation: "default template html",
         };
         await expect(CustomisationUtils.getSiteCustomisation(siteId)).resolves.toMatchObject(
             defaultCustomisation
