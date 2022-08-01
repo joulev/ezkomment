@@ -28,9 +28,16 @@ const Hero: FC = () => {
             No complicated backend configuration. Add a comment section anywhere &ndash; even if you
             use plain HTML, we got you covered.
           </div>
-          <div>
+          <div className="flex flex-row gap-6 justify-center md:justify-start">
             <Button href="/auth" className="inline-block lg:text-xl px-9 py-3">
               Get started
+            </Button>
+            <Button
+              href="https://demo.ezkomment.joulev.dev"
+              className="inline-block lg:text-xl px-9 py-3"
+              variant="tertiary"
+            >
+              View demo
             </Button>
           </div>
         </div>

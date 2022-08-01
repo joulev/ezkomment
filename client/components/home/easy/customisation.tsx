@@ -109,11 +109,11 @@ const EasyCustomisation: FC = () => {
           <>
             Worried the comment section might not fit your design? Fret not.{" "}
             <span className="text-neutral-900 dark:text-neutral-100">
-              Bring your CSS over and make the comment section completely yours.
+              Bring your HTML template over and make the comment section completely yours.
             </span>
           </>
         }
-        button={{ href: "https://google.com", children: "Check it out" }}
+        button={{ href: "https://demo.ezkomment.joulev.dev", children: "See the demo" }}
         illustration={{
           className: "flex flex-col gap-6",
           parts: [<CodeWindow key="1" />, <BrowserWindow key="2" />],

@@ -33,7 +33,9 @@ You can then use this number to dynamically update the `<iframe>` height accordi
 </script>
 ```
 
-You can [view a demo](https://ezkomment.joulev.dev/sample/index.html) and [its source code](https://github.com/joulev/ezkomment/blob/prod/public/sample/index.html) to see more.
+You can [see an example](https://ezkomment.joulev.dev/sample/index.html) and [its source code](https://github.com/joulev/ezkomment/blob/prod/public/sample/index.html) to see more.
+
+React users can also see [the official ezkomment demo](https://demo.ezkomment.joulev.dev).
 
 ## Dark mode
 

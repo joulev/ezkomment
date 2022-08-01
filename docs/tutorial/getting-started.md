@@ -122,18 +122,8 @@ where `EzkFrameHeight` is the height of the `<iframe>` document. You can make us
 </script>
 ```
 
-Now you can visit your page and see your comment section there. It should look something like this:
+Now you can visit your page and see your comment section there. It should look something like this ([deployment](https://ezkomment.joulev.dev/sample/index.html), [source code](https://github.com/joulev/ezkomment/blob/prod/public/sample/index.html)):
 
 ![Screenshot of sample demo page](/images/docs/tutorial/getting-started/sample-embed.png)
 
 Congratulations &ndash; your comment section is now live, and if you deploy your website now, everyone can come in and post a comment!
-
-By the way, the above screenshot is from [the official ezkomment demo page](https://ezkomment.joulev.dev/sample/index.html). Do check it out, along with [the source code (plain HTML)](https://github.com/joulev/ezkomment/blob/prod/public/sample/index.html) to learn more if you would like.
-
-## Moving forward
-
-Now that you have launched your first comment section, we recommend reading the following sections to know what to do next.
-
-- [Section 1](#)
-- [Section 2](#)
-- [Section 3](#)

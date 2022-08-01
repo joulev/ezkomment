@@ -28,5 +28,5 @@ $ yarn start    # start the app (after yarn build) in production mode
 
 - [Production deployment](https://ezkomment.joulev.dev)
 - [Development deployment](https://ezkdev.joulev.dev)
-- [Demo](https://ezkomment.joulev.dev/sample/index.html)
+- [Demo](https://demo.ezkomment.joulev.dev)
 - [ezkomment is a NUS Orbital 2022 project](https://ezkomment.joulev.dev/orbital)
