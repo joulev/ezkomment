@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css" />
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=supreme@1&display=swap" rel="stylesheet" />
+    <style>
+      @import "https://unpkg.com/tailwindcss@3.1.4/src/css/preflight.css";
+      :root {
+        --body-color: #334155;
+        --border-color: #dddddd;
+        --muted-color: #64748b;
+        --bg-color: #e2e8f0;
+      }
+      html,
+      body {
+        font-family: "Supreme", sans-serif;
+        color: var(--body-color);
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        font-size: 0.9rem;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        margin-top: 2rem;
+        gap: 1rem;
+      }
+      main .comment {
+        background: var(--bg-color);
+        padding: 1rem;
+      }
+      .comment__metadata {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 1rem;
+      }
+      .comment__author {
+        font-weight: 600;
+      }
+      .comment__date {
+        color: var(--muted-color);
+        font-style: italic;
+      }
+      .comment__date::before {
+        content: "•";
+        margin: 0 1rem;
+      }
+      .comment__content :is(p, ul, ol) {
+        margin-bottom: 1rem;
+      }
+      .comment__content :is(p, ul, ol):last-child {
+        margin-bottom: 0;
+      }
+      .comment__content ul {
+        list-style-type: disc;
+        list-style-position: inside;
+        margin-left: 1rem;
+      }
+      .comment__content ol {
+        list-style-type: decimal;
+        list-style-position: inside;
+        margin-left: 1rem;
+      }
+      .comment__content a {
+        font-weight: 500;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .editor-toolbar,
+      .CodeMirror {
+        border-color: var(--border-color);
+        border-radius: 0px !important;
+      }
+      .form__other {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+      }
+      .form__author {
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        background-color: white;
+        flex: 1;
+      }
+      .form__author:focus {
+        outline: none;
+      }
+      button {
+        padding: 0.5rem 2rem;
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--body-color);
+        color: var(--body-color);
+      }
+      button:hover {
+        background-color: var(--body-color);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <form data-ezk="form" novalidate>
+      <div>
+        <textarea
+          data-ezk="form-content"
+          class="form__content"
+          placeholder="Your comment..."
+          name="content"
+          required
+          id="content"
+        ></textarea>
+      </div>
+      <div class="form__other">
+        <input
+          data-ezk="form-author"
+          class="form__author"
+          placeholder="Display name"
+          name="author"
+        />
+        <button type="submit">Post</button>
+      </div>
+    </form>
+    <main data-ezk="comments">
+      <div class="comment">
+        <div class="comment__metadata">
+          <div data-ezk="comment-author" class="comment__author"></div>
+          <div data-ezk="comment-date" class="comment__date"></div>
+        </div>
+        <div data-ezk="comment-content" class="comment__content"></div>
+      </div>
+    </main>
+    <script>
+      new EasyMDE({
+        element: document.getElementById("content"),
+        status: false,
+        spellChecker: false,
+        minHeight: "72px",
+      });
+    </script>
+  </body>
+</html>

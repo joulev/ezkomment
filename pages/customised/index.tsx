@@ -17,7 +17,7 @@ const Page: NextPage = () => (
 export const getStaticProps: GetStaticProps = () => ({
   props: {
     bgClass: "bg-slate-100",
-    template: { url: "#" },
+    template: { url: "https://github.com/joulev/ezkomment/blob/demo/templates/customised.html" },
     darkMode: false,
     sourceURL: "https://github.com/joulev/ezkomment/blob/demo/pages/customised/index.tsx",
     title: "Customised template",
