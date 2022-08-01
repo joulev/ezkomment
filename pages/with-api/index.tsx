@@ -8,7 +8,7 @@ import remarkHtml from "remark-html";
 import useSWR from "swr";
 
 import Article from "~/components/article";
-import { Author } from "~/components/variations/default";
+import Author from "~/components/author";
 
 const URL = "https://ezkdev.joulev.dev/api/v1/comments/eIgBj1QQhG8VHT1V3joQ/VyQ2XqoUz4U5Gew4w2kv";
 

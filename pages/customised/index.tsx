@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { NextPage } from "next";
 
 import Article from "~/components/article";
+import Author from "~/components/author";
 import Comment from "~/components/comment";
-import { Author } from "~/components/variations/default";
 
 const Page: NextPage = () => (
   <div className="bg-slate-100 min-h-screen">
