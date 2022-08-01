@@ -1,6 +1,5 @@
 import { Options } from "easymde";
 import { formatDistanceToNowStrict } from "date-fns";
-import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { FC, FormEventHandler, useCallback, useMemo, useState } from "react";
 import { remark } from "remark";
@@ -9,6 +8,8 @@ import useSWR from "swr";
 
 import Article from "~/components/article";
 import Author from "~/components/author";
+
+import { GetStaticProps, NextPage } from "~/types";
 
 const URL = "https://ezkdev.joulev.dev/api/v1/comments/eIgBj1QQhG8VHT1V3joQ/VyQ2XqoUz4U5Gew4w2kv";
 
@@ -93,14 +94,20 @@ const Comments: FC = () => {
 };
 
 const Page: NextPage = () => (
-  <div className="bg-neutral-100 min-h-screen">
-    <div className="py-24 px-8">
-      <div className="w-full max-w-prose mx-auto prose dark:prose-invert prose-neutral text-base">
-        <Article authorElement={Author} />
-        <Comments />
-      </div>
-    </div>
+  <div className="prose dark:prose-invert prose-neutral text-base">
+    <Article authorElement={Author} />
+    <Comments />
   </div>
 );
+
+export const getStaticProps: GetStaticProps = () => ({
+  props: {
+    bgClass: "bg-neutral-100",
+    template: "not used",
+    darkMode: false,
+    sourceURL: "https://github.com/joulev/ezkomment/blob/demo/pages/with-api/index.tsx",
+    title: "With REST API",
+  },
+});
 
 export default Page;
