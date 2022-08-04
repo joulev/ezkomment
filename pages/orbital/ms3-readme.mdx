@@ -172,7 +172,7 @@ If a user _really_ wants to hack the system and have different styling for each 
 
 Users are completely free to customise the app by the whole code of the HTML sent to clients, even from the `<!DOCTYPE html>` tag. In that, users can decide how and where to put stylesheets in, how to add custom JavaScript libraries, everything.
 
-In essence, the user is allowed to modify a HTML file, in its entirety, from the usual opening `<!DOCTYPE html>` to the closing `</html>` tag. Of course, the user is also allowed to add any scripts and styles he wants, just like how we typically developed the web from the HTML-CSS-JS days.
+In essence, the user is allowed to modify a HTML file, called _templates_, in its entirety, from the usual opening `<!DOCTYPE html>` to the closing `</html>` tag. Of course, the user is also allowed to add any scripts and styles he wants, just like how we typically developed the web from the HTML-CSS-JS days.
 
 However, the users need to add the `data-ezk` attribute to a number of elements. This attribute is used to identify each part of the comment section, so that the app can populate it with the appropriate information, or handle form submission correctly. Interested readers can read more about it in [Milestone 2 README](/orbital/ms2-readme#customise-everything) (it has been removed from this README version) or in the [public documentation](/docs/customisation/introduction).
 
@@ -204,6 +204,16 @@ The embed URL has an optional query parameter `dark`. If it is used with the val
   ...
 </html>
 ```
+
+#### Demo
+
+You can view the demo of this feature and [the public API](#application-programming-interface) in [https://demo.ezkomment.joulev.dev](https://demo.ezkomment.joulev.dev). These are a few screenshots for ease of reference.
+
+![Default template, at light mode](/images/orbital/demo/default/light.png)
+
+![Default template, at dark mode](/images/orbital/demo/default/dark.png)
+
+![Customised template, with different design patterns and a Markdown editor](/images/orbital/demo/customised.png)
 
 ### Application Programming Interface
 
@@ -259,6 +269,44 @@ if (res.ok) showSuccessNotice();
 ```
 
 Error is returned for requests with invalid body.
+
+![A demo of the public API is available at [https://demo.ezkomment.joulev.dev](https://demo.ezkomment.joulev.dev)](/images/orbital/demo/with-api.png)
+
+## Screenshots of the application
+
+We encourage you to [make your own ezkomment sites and pages to experience the app yourself](/auth) instead of viewing these screenshots, which is taken on a macOS laptop at light mode, which may have difference in viewport size and display properties compared to your actual computer.
+
+All screenshots have the computer version and mobile version (responsive) rendered side-by-side. In some screenshots, the page is scaled down to 90% to make the computer version screen viewport sizes better match real computer viewport sizes.
+
+![Landing page](/images/orbital/screenshots/home.png)
+
+![Documentation page](/images/orbital/screenshots/docs.png)
+
+![Authentication page](/images/orbital/screenshots/auth.png)
+
+![User dashboard with all sites listed](/images/orbital/screenshots/app/dashboard.png)
+
+![Create a new site](/images/orbital/screenshots/app/new.png)
+
+![User account settings page](/images/orbital/screenshots/app/account.png)
+
+![Site dashboard with statistics and all comments listed](/images/orbital/screenshots/app/site/siteId/index.png)
+
+![Site template customisation page (note that mobile is not supported in this page)](/images/orbital/screenshots/app/site/siteId/customise.png)
+
+![Site template customisation page, full screen](/images/orbital/screenshots/variants/customise-fullscreen.png)
+
+![Site settings page](/images/orbital/screenshots/app/site/siteId/settings.png)
+
+![Page dashboard with all comments](/images/orbital/screenshots/app/site/siteId/pageId/index.png)
+
+![Page settings page](/images/orbital/screenshots/app/site/siteId/pageId/settings.png)
+
+![Modal component](/images/orbital/screenshots/components/modal.png)
+
+![Notifications sidebar](/images/orbital/screenshots/components/notifications.png)
+
+![Documentation search functionality](/images/orbital/screenshots/variants/docs-search.png)
 
 ## Application Design and Implementation
 
@@ -335,6 +383,14 @@ We only support authentication with third-party OAuth providers (currently GitHu
 
 - `/embed/:siteId/:pageId`: The endpoint to generate HTML for embeded comment sections
 
+#### Application Structure Diagram
+
+The following diagram can be used to see how everything in this application integrates together.
+
+![Application structure](/images/orbital/others/diagram.png)
+
+It is a very big file and most likely is too big to be readable without zooming in. You can view [the image file in full (3940 &times; 4137)](https://ezkomment.joulev.dev/images/orbital/others/diagram.png), [the PDF file (2.81 MB)](https://ezkomment.joulev.dev/images/orbital/others/diagram.pdf) or [the Figma prototype from which the image is exported](http://tinyurl.com/ezkomment-diagram).
+
 ### User Interface Design
 
 The overall design is heavily inspired by Vercel. [@joulev](https://github.com/joulev) is very impressed by the UI design of the Vercel website, and decided to implement that himself. Of course, dark mode is fully supported.
@@ -398,6 +454,8 @@ In pull request [#66](https://github.com/joulev/ezkomment/pull/66), we have adde
 - easily add SEO tags to new pages, as well as new page types.
 
 Although we have not enabled the site to be crawled for search engines as of now, the tags are now effective when sharing the pages over social media.
+
+![Display of ezkomment on social media (and Google search too!)](/images/orbital/others/seo.png)
 
 ### Lighthouse Audit
 
