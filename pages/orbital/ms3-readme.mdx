@@ -541,6 +541,8 @@ CI pipelines are done by [GitHub Actions](https://github.com/features/actions), 
 
 #### Testing
 
+##### Automated Testing
+
 Testing is done by [Jest](https://jestjs.io) whenever possible, due to its simplicity, ease of use, high speed and good developer experience. Test results are then uploaded to [Codecov](https://about.codecov.io). The tests involve unit tests on all non-trivial components, hooks and modules, as well as integration tests that test how all of them interact with each other.
 
 For example, to test dark mode and everything related to it, we write tests to test the application under various browser conditions (`window.matchMedia()`) and integration with the browser's local storage for theme persistence.
@@ -594,7 +596,53 @@ PASS __tests__/server/users.test.ts
 
 As of 22 July 2022, the code coverage stands at 96%, which we think is acceptable.
 
-In Milestone 2 feedback, some people also suggested user acceptance testing. Unfortunately, we do not really have an existing user base to test the "beta" version yet &ndash; so this is not trivial to solve. I think the feedbacks we receive each milestone are the closest we can get to user acceptance testing, within the scope of Orbital. Therefore, if you are reading this, please test the application as aggressively as you can, and if you find any bugs, please report them to us. That would be very appreciated.
+##### User Testing
+
+We have asked some of our friends to use the application and give us their feedbacks. We also act as our own customisers by using the app to make comments for [the official demo](https://demo.ezkomment.joulev.dev).
+
+Thankfully, the majority of the feedback has been positive, and all testers were able to use all features of the application normally. However, there are minor bugs and user experience issues that have been reported. Thanks to these reports, we have been able to find many edge cases in our system and improve it accordingly. Here is the details:
+
+- On account deletion, the user account is successfully deleted, however after redirecting there is an "unknown error" message showing up (fixed in v1.0.0-rc.1.1).
+
+- User state is not updated automatically after new auth provider is linked or unlinked, leading to the user interface out of sync with the source of truth (fixed in v1.0.0-rc.1.1).
+
+- In some cases, auth provider of a user can be overridden unexpectedly (fixed in v1.0.0-rc.1.1).
+
+- Links in the comment section (default template) and the page dashboard is rendered as simple text instead of highlighted as actual links (fixed in v1.0.0-rc.1.1).
+
+- (External) links in the comment section should have the `target=_blank` attribute to align more with the overall design system we use (fixed in v1.0.0-rc.1.1).
+
+- Some search bars and filter input fields were forgotten and are not implemented (fixed in v1.0.0-rc.1.1).
+
+- When writing the customised template, the page may become unresponsive if a lot of JavaScript libraries are added to the template (fixed in v1.0.0-rc.1.3).
+
+- The customise page has weird scrolling behaviour in full screen mode (fixed in v1.0.0-rc.1.3).
+
+- The customise page should have an auto-save mechanism to avoid data loss on accidental tab/window close or page refresh, which may be very frustrating for users (fixed in v1.0.0-rc.1.3).
+
+- The `POST` method of the REST API fails access control checks (fixed in v1.0.0-rc.1.3).
+
+- Many links in the app was pointing to `https://google.com` as placeholder, but now they should be updated with useful URL (fixed in v1.0.0-rc.1.3).
+
+Despite the small number of human testers we had, their feedbacks helped us improve the application a lot more than we expected. It also boosts our confidence in the app, as even after being tested aggressively, the main functionalities still work well, which means the app is in good shape.
+
+#### Project Management
+
+We did **not** follow agile development process _strictly_, despite the fact that both of us are quite familiar with it ([@joulev](https://github.com/joulev) even works in a separate project which uses this development strategy with tri-weekly sprints, concurrently with Orbital):
+
+- It does not make sense for us to have two-person meetings. With direct messaging being the main mean of communication between the two, technically we are in a meeting 24 hours per day. We can communicate at any time of the day, without having to worry about timetable issues, and important details are always stored in the chat history. Especially as we stayed 300km away from each other during the summer, in-person meetings were not possible. Therefore, we decided to scrape all planned meetings and have all communication happen publicly on GitHub and privately on direct messaging instead.
+
+  You can see this only applies to two-person meetings. For projects with more than three people, of course meetings would be preferrable to direct messaging, which is suitable to more casual settings.
+
+- With meetings removed, pure agile's standup meetings do not apply. However, since we only use one remote repository (different branches on the same repository instead of different forks of a main repository), everything we do is already visible to us (and everyone) &ndash; I am always updated with all of my teammate's latest activities in terms of `git` commits, and always know the current project progress. Therefore, standup meetings also turn out to be unnecessary.
+
+Other than the difference mentioned above, we more or less follow the same agile development process.
+
+To manage this project, we also make use of [the new GitHub project](https://docs.github.com/en/issues/planning-and-tracking-with-projects). Issues and pull requests are assigned a "status" of either "To do", "In progress" and "Done" (we consider further classifications to be unnecessary, for example "Staging" is already handled by a `main` branch against the production `prod` branch). Most issues and pull requests are also assigned to at least one of the two developers, to make it clear that who is in charge of what.
+
+![GitHub project board as of 5 August 2022](/images/orbital/others/github-project.png)
+
+Moreover, issues and pull requests are also given labels to help us categorise them.
 
 ## Timeline
 
