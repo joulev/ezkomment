@@ -602,29 +602,31 @@ As of 22 July 2022, the code coverage stands at 96%, which we think is acceptabl
 
 We have asked some of our friends to use the application and give us their feedbacks. We also act as our own customisers by using the app to make comments for [the official demo](https://demo.ezkomment.joulev.dev).
 
-Thankfully, the majority of the feedback has been positive, and all testers were able to use all features of the application normally. However, there are minor bugs and user experience issues that have been reported. Thanks to these reports, we have been able to find many edge cases in our system and improve it accordingly. Here is the details:
+Thankfully, the majority of the feedback has been positive, and all testers were able to use all features of the application normally. However, there are minor bugs and user experience issues that have been reported. Thanks to these reports, we have been able to find many edge cases in our system and improve it accordingly. Here are the details:
 
-- On account deletion, the user account is successfully deleted, however after redirecting there is an "unknown error" message showing up (fixed in v1.0.0-rc.1.1).
+1. On account deletion, the user account is successfully deleted, however after redirecting there is an "unknown error" message showing up (fixed in v1.0.0-rc.1.1).
 
-- User state is not updated automatically after new auth provider is linked or unlinked, leading to the user interface out of sync with the source of truth (fixed in v1.0.0-rc.1.1).
+2. User state is not updated automatically after new auth provider is linked or unlinked, leading to the user interface out of sync with the source of truth (fixed in v1.0.0-rc.1.1).
 
-- In some cases, auth provider of a user can be overridden unexpectedly (fixed in v1.0.0-rc.1.1).
+3. In some cases, auth provider of a user can be overridden unexpectedly (fixed in v1.0.0-rc.1.1).
 
-- Links in the comment section (default template) and the page dashboard is rendered as simple text instead of highlighted as actual links (fixed in v1.0.0-rc.1.1).
+4. Links in the comment section (default template) and the page dashboard is rendered as simple text instead of highlighted as actual links (fixed in v1.0.0-rc.1.1).
 
-- (External) links in the comment section should have the `target=_blank` attribute to align more with the overall design system we use (fixed in v1.0.0-rc.1.1).
+5. (External) links in the comment section should have the `target=_blank` attribute to align more with the overall design system we use (fixed in v1.0.0-rc.1.1).
 
-- Some search bars and filter input fields were forgotten and are not implemented (fixed in v1.0.0-rc.1.1).
+6. Some search bars and filter input fields were forgotten and are not implemented (fixed in v1.0.0-rc.1.1).
 
-- When writing the customised template, the page may become unresponsive if a lot of JavaScript libraries are added to the template (fixed in v1.0.0-rc.1.3).
+7. When writing the customised template, the page may become unresponsive if a lot of JavaScript libraries are added to the template (fixed in v1.0.0-rc.1.3).
 
-- The customise page has weird scrolling behaviour in full screen mode (fixed in v1.0.0-rc.1.3).
+8. The customise page has weird scrolling behaviour in full screen mode (fixed in v1.0.0-rc.1.3).
 
-- The customise page should have an auto-save mechanism to avoid data loss on accidental tab/window close or page refresh, which may be very frustrating for users (fixed in v1.0.0-rc.1.3).
+9. The customise page should have an auto-save mechanism to avoid data loss on accidental tab/window close or page refresh, which may be very frustrating for users (fixed in v1.0.0-rc.1.3).
 
-- The `POST` method of the REST API fails access control checks (fixed in v1.0.0-rc.1.3).
+10. The `POST` method of the REST API fails access control checks (fixed in v1.0.0-rc.1.3).
 
-- Many links in the app was pointing to `https://google.com` as placeholder, but now they should be updated with useful URL (fixed in v1.0.0-rc.1.3).
+11. Many links in the app was pointing to `https://google.com` as placeholder, but now they should be updated with useful URL (fixed in v1.0.0-rc.1.3).
+
+![My friend reporting the bug number 2 in the list above (private information is hidden)](/images/orbital/others/user-feedback.png)
 
 Despite the small number of human testers we had, their feedbacks helped us improve the application a lot more than we expected. It also boosts our confidence in the app, as even after being tested aggressively, the main functionalities still work well, which means the app is in good shape.
 
