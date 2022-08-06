@@ -1,7 +1,7 @@
 import { UserRecord } from "firebase-admin/auth";
 import { User as FirebaseUser } from "firebase/auth";
 
-import { Site } from "./site.type";
+import { ExportSite, Site } from "./site.type";
 
 type PickedUserRecordProps =
     | "uid"
@@ -9,17 +9,13 @@ type PickedUserRecordProps =
     | "displayName"
     | "photoURL"
     | "metadata"
-    | "providerData"
-    | "tokensValidAfterTime"
-    | "toJSON";
+    | "providerData";
 
 /**
  * The user, used in this app. As we will not use traditional password to authenticate users, some
  * properties is redudant.
- *
- * I am thinking of renaming this into `User`
  */
-export type ServerUser = Pick<UserRecord, PickedUserRecordProps>;
+export type User = Pick<UserRecord, PickedUserRecordProps>;
 
 export type UpdateUserBodyParams = {
     displayName: string;
@@ -50,3 +46,5 @@ export type WelcomeMessageNotification = {
 };
 
 export type Notification = NewCommentNotification | WelcomeMessageNotification;
+
+export type ExportUser = User & { sites: ExportSite[] };
