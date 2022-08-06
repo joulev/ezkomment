@@ -5,6 +5,7 @@ import {
     COMMENTS_COLLECTION,
     PAGES_COLLECTION,
     SITES_COLLECTION,
+    USERS_COLLECTION,
 } from "~/server/firebase/firestoreCollections";
 import CustomApiError from "~/server/utils/errors/customApiError";
 import { getDocumentInTransaction } from "~/server/utils/firestoreUtils";
@@ -13,7 +14,9 @@ import {
     ApprovedStatus,
     Comment,
     CreateCommentBodyParams,
+    NewCommentNotification,
     Page,
+    Site,
     UpdateCommentBodyParams,
 } from "~/types/server";
 
@@ -53,25 +56,47 @@ import {
  * @param data The data of the comment
  */
 export async function createComment(data: CreateCommentBodyParams) {
-    const { pageId } = data;
+    const { pageId, author } = data;
     const commentRef = COMMENTS_COLLECTION.doc();
     const commentId = commentRef.id;
     const pageRef = PAGES_COLLECTION.doc(pageId);
     return await firestoreAdmin.runTransaction(async t => {
         const pageData = await getDocumentInTransaction<Page>(t, pageRef);
         const siteRef = SITES_COLLECTION.doc(pageData.siteId);
+        const curTimestamp = Timestamp.now().toMillis();
         const newComment: Comment = {
             id: commentId,
-            date: Timestamp.now().toMillis(),
+            date: curTimestamp,
             status: pageData.autoApprove ? "Approved" : ("Pending" as ApprovedStatus),
             siteId: pageData.siteId, // I will save a reference to the site for easier update
             ...data,
         };
+        // update notification
+        const notificationRef = USERS_COLLECTION.doc(pageData.uid)
+            .collection("notification")
+            .doc(pageId);
+        const notificationSnapshot = await notificationRef.get();
+        if (!notificationSnapshot.exists) {
+            const { name: siteName } = await getDocumentInTransaction<Site>(t, siteRef);
+            const notification: NewCommentNotification = {
+                type: "NewComment",
+                href: `/app/site/${siteName}/${pageId}`,
+                siteName,
+                pageTitle: pageData.title,
+                authors: [author],
+                timestamp: curTimestamp,
+            };
+            t.create(notificationRef, notification);
+        } else {
+            t.update(notificationRef, {
+                author: FieldValue.arrayUnion(author),
+                timestamp: curTimestamp,
+            });
+        }
         // update information about total number of comment.
         const incrementByOne = FieldValue.increment(1);
         const updateCommentCount: any = { totalCommentCount: incrementByOne };
         if (!pageData.autoApprove) updateCommentCount.pendingCommentCount = incrementByOne;
-
         // update
         t.update(siteRef, updateCommentCount);
         t.update(pageRef, updateCommentCount);
