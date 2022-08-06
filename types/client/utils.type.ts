@@ -54,16 +54,6 @@ export type Author = {
     github?: string;
 };
 
-export type ProjectLog = {
-    total: number;
-    logs: {
-        time: string;
-        content: string;
-        hours: string;
-        remarks: string;
-    }[];
-};
-
 export type FetchOptions = {
     url: string;
     options?: RequestInit;
