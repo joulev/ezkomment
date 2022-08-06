@@ -1,49 +1,69 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
+import useAuth from "~/client/hooks/auth";
+
 import A from "~/client/components/anchor";
+import BlankIllustration from "~/client/components/blankIllustration";
 
-type AppNotification =
-  | {
-      type: "newComment";
-      href?: string;
-      siteName: string;
-      pageName: string;
-      authors: string[];
-      timestamp: number;
-      haveRead: boolean;
-    }
-  | {
-      type: "other";
-      href?: string;
-      heading: string;
-      content: string;
-      timestamp: number;
-      haveRead: boolean;
-    };
-
-const notifications: AppNotification[] = [
-  {
-    type: "newComment",
-    href: "/app/site/blog/somepageId",
-    siteName: "blog",
-    pageName: "Hello world",
-    authors: ["John Doe", "Anonymous", "Donald"],
-    timestamp: new Date("2022-07-08").valueOf(),
-    haveRead: false,
-  },
-  {
-    type: "other",
-    href: "/docs/tutorial/getting-started",
-    heading: "Welcome to ezkomment!",
-    content: "Welcome to ezkomment! Read our Getting started guide to familiarise yourself.",
-    timestamp: new Date("2022-07-06").valueOf(),
-    haveRead: true,
-  },
-];
+const NotificationList: FC = () => {
+  const { notifications } = useAuth();
+  if (!notifications) return <>Fetching notifications&hellip;</>;
+  if (notifications.length === 0)
+    return (
+      <div className="flex flex-col gap-6 my-12 items-center">
+        <div className="w-48">
+          <BlankIllustration />
+        </div>
+        <div className="text-xl text-center">No new notifications</div>
+      </div>
+    );
+  return (
+    <>
+      <p>
+        {notifications.length} unread &mdash; <A>Mark all as read</A>
+      </p>
+      <div className="flex flex-col gap-6">
+        {notifications.map((notif, index) => (
+          <A
+            notStyled
+            key={index}
+            className="bg-card rounded border transition p-6 border-card hover:border-muted"
+            href={notif.href}
+          >
+            <h3 className="font-semibold mb-3">
+              {notif.type === "WelcomeMessage" ? "Welcome to ezkomment!" : "New comments"}
+            </h3>
+            <p className="text-sm mb-3">
+              {notif.type === "WelcomeMessage" && (
+                <>Welcome to ezkomment! Read our Getting started guide to familiarise yourself.</>
+              )}
+              {notif.type === "NewComment" && notif.authors.length > 1 && (
+                <>
+                  <strong>{notif.authors[0]}</strong> and {notif.authors.length - 1} other
+                  {notif.authors.length === 2 || "s"} commented in page{" "}
+                  <strong>{notif.pageTitle}</strong> in site <strong>{notif.siteName}</strong>.
+                </>
+              )}
+              {notif.type === "NewComment" && notif.authors.length === 1 && (
+                <>
+                  <strong>{notif.authors[0]}</strong> commented in page{" "}
+                  <strong>{notif.pageTitle}</strong> in site <strong>{notif.siteName}</strong>.
+                </>
+              )}
+            </p>
+            <p className="text-sm text-muted mb-0">
+              {formatDistanceToNowStrict(new Date(notif.timestamp))} ago
+            </p>
+          </A>
+        ))}
+      </div>
+    </>
+  );
+};
 
 const Notifications: FC<{ show: boolean; onClose: () => void }> = ({ show, onClose }) => (
   <div
@@ -62,50 +82,7 @@ const Notifications: FC<{ show: boolean; onClose: () => void }> = ({ show, onClo
       onClick={e => e.stopPropagation()}
     >
       <h2>Notifications</h2>
-      <p className="text-red-500">
-        Hi everyone, the notifications are not working yet, so you cannot clear these notifications
-        or get new ones. Track the development{" "}
-        <A href="https://github.com/joulev/ezkomment/issues/212">here</A>.
-      </p>
-      <p>
-        {notifications.filter(n => !n.haveRead).length} unread &mdash; <A>Mark all as read</A>
-      </p>
-      <div className="flex flex-col gap-6">
-        {notifications.map((notif, index) => (
-          <A
-            notStyled
-            key={index}
-            className={clsx(
-              "bg-card rounded border transition p-6",
-              notif.haveRead ? "border-card hover:border-muted" : "border-indigo-500"
-            )}
-            href={notif.href}
-          >
-            <h3 className="font-semibold mb-3">
-              {notif.type === "other" ? notif.heading : "New comments"}
-            </h3>
-            <p className={clsx("text-sm mb-3", notif.haveRead && "text-muted")}>
-              {notif.type === "other" && <>{notif.content}</>}
-              {notif.type === "newComment" && notif.authors.length > 1 && (
-                <>
-                  <strong>{notif.authors[0]}</strong> and {notif.authors.length - 1} other
-                  {notif.authors.length === 2 || "s"} commented in page{" "}
-                  <strong>{notif.pageName}</strong> in site <strong>{notif.siteName}</strong>.
-                </>
-              )}
-              {notif.type === "newComment" && notif.authors.length === 1 && (
-                <>
-                  <strong>{notif.authors[0]}</strong> commented in page{" "}
-                  <strong>{notif.pageName}</strong> in site <strong>{notif.siteName}</strong>.
-                </>
-              )}
-            </p>
-            <p className="text-sm text-muted mb-0">
-              {formatDistanceToNowStrict(new Date(notif.timestamp))} ago
-            </p>
-          </A>
-        ))}
-      </div>
+      <NotificationList />
       <button
         className="fixed top-6 right-6 text-muted hover:text-neutral-700 dark:hover:text-neutral-300 transition"
         onClick={onClose}
