@@ -9,11 +9,7 @@ export async function deleteNotificationWithUid(uid: string, notificationId: str
     const notificationRef = USERS_COLLECTION.doc(uid)
         .collection("notification")
         .doc(notificationId);
-    await firestoreAdmin
-        .runTransaction(async t => {
-            t.delete(notificationRef, { exists: true });
-        })
-        .catch(handleFirestoreError);
+    await notificationRef.delete({ exists: true }).catch(handleFirestoreError);
 }
 
 export async function deleteUserNotifications(uid: string) {

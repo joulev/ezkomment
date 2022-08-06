@@ -33,6 +33,7 @@ export type ClientUser = FirebaseUser & { sites: Site[] };
 export type NotificationTypes = "NewComment" | "WelcomeMessage";
 
 export type NewCommentNotification = {
+    id: string;
     type: "NewComment";
     href: string;
     siteName: string;
@@ -42,6 +43,7 @@ export type NewCommentNotification = {
 };
 
 export type WelcomeMessageNotification = {
+    id: string;
     type: "WelcomeMessage";
     href: string;
     timestamp: number;
