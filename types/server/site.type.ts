@@ -1,4 +1,4 @@
-import { Page } from "./page.type";
+import { ExportPage, Page } from "./page.type";
 
 export type Site = {
     /**
@@ -65,3 +65,5 @@ export type UpdateSiteCustomisationBodyParams = {
 export type ClientSite = Site & {
     pages: Page[];
 };
+
+export type ExportSite = Site & { pages: ExportPage } & SiteCustomisation;

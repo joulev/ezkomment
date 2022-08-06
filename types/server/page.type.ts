@@ -1,4 +1,4 @@
-import { Comment } from "./comment.type";
+import { Comment, ExportComment } from "./comment.type";
 
 export type Page = {
     readonly id: string;
@@ -29,3 +29,5 @@ export type CreatePageBodyParams = {
 };
 
 export type ClientPage = Page & { comments: Comment[] };
+
+export type ExportPage = Page & { comments: ExportComment[] };
