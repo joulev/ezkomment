@@ -9,7 +9,7 @@ import firebaseApp from "~/client/lib/firebase/app";
 import { endProgress, startProgress } from "~/client/lib/nprogress";
 
 import { AppAuth } from "~/types/client/auth.type";
-import { ClientUser } from "~/types/server";
+import { ClientUser, Notification } from "~/types/server";
 
 const auth = getAuth(firebaseApp);
 
@@ -18,9 +18,12 @@ export function useAuthInit(): AppAuth {
         auth.currentUser ? `/api/users/${auth.currentUser.uid}` : null,
         internalSWRGenerator<ClientUser | undefined>()
     );
+    const { data: notifications, mutate: mutateNotifications } = useSWR(
+        auth.currentUser ? `/api/users/${auth.currentUser.uid}/notifications` : null,
+        internalSWRGenerator<Notification[] | undefined>()
+    );
     const [loading, setLoading] = useState(true);
     const router = useRouter();
-
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
             await mutate();
@@ -43,7 +46,7 @@ export function useAuthInit(): AppAuth {
         else endProgress();
     }, [loading]);
 
-    return { user, mutate, loading, setLoading };
+    return { user, mutate, notifications, mutateNotifications, loading, setLoading };
 }
 
 export default function useAuth() {
