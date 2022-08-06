@@ -391,6 +391,8 @@ The following diagram can be used to see how everything in this application inte
 
 It is a very big file and most likely is too big to be readable without zooming in. You can view [the image file in full (3940 &times; 4137)](https://ezkomment.joulev.dev/images/orbital/others/diagram.png), [the PDF file (2.81 MB)](https://ezkomment.joulev.dev/images/orbital/others/diagram.pdf) or [the Figma prototype from which the image is exported](http://tinyurl.com/ezkomment-diagram).
 
+It consists of four main sections: the front-end, the back-end, integration with Firebase and error logging with Axiom. Below there are some more details about the two main sections, the front-end and the back-end.
+
 ##### Front-end
 
 In the front-end, other than the obvious page components and other utilities components (labelled yellow below) required for each page, we make use of several React contexts (labelled green below) for state management. These contexts handles data fetching, hence making it no longer necessary to fetch data on every route change, or rerender everything when the user navigates to a different page. That improves not only performance but user experience as well.
@@ -409,9 +411,45 @@ The purple arrows in the middle indicates how these routes and utilities interac
 
 #### Activity Diagram of How the Comment Section Works
 
-![How the comment section is rendered](/images/orbital/others/activity-diagram-get.png)
+##### Rendering the Comment Section
 
-![What happens when a new comment is posted](/images/orbital/others/activity-diagram-post.png)
+The ezkomment user is given a URL that looks like this
+
+```
+https://ezkomment.joulev.dev/embed/:siteId/:pageId
+```
+
+When he embeds it to his webpage, this is what happens when the webpage is loaded:
+
+- The browser sends a request to `/embed/:siteId/:pageId` (for conciseness we will be removing the domain here)
+
+- Under the hood, ezkomment proxies this URL to `/api/embed/:siteId/:pageId`, since it is impossible to not use React anywhere other than `/api` in Next.js.
+
+- The app then checks the `siteId` and the `pageId`; if it is not available or invalid, an error will be returned. Technically we only need the `pageId` to get all the data we need, however we validate the `siteId` too for security reasons &ndash; the URL is more randomised, that is all.
+
+- If everything is valid and ready to go, the site template is fetched from the database.
+
+- We then add a JavaScript snippet to the template to handle client-side data fetching, [see more](#customise-everything)
+
+- Everything is then sent back to the browser, which will render the HTML.
+
+- The JavaScript snippet will then fetch data again by calling internal REST endpoints. The comments are pulled from the database, and the approved ones will be compiled and sent back to the browser for it to be rendered.
+
+![How the comment section is rendered, in a nutshell](/images/orbital/others/activity-diagram-get.png)
+
+##### When a New Comment Arrives
+
+- A new comment is posted on the form. Yay!
+
+- The form then submits the comment to another internal REST endpoint.
+
+- On the server, the auto-approve configuration of the page is checked. If auto-approve is enabled, the comment is automatically approved, otherwise it has a "pending" state.
+
+- The set of all approved comments is then sent back as response for the browser to rerender the comment section (with updated data).
+
+- When the notification (in progress) is completed, the ezkomment user will be notified of a new comment.
+
+![What happens when a new comment is posted, in a nutshell](/images/orbital/others/activity-diagram-post.png)
 
 ### User Interface Design
 
