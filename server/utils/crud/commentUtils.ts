@@ -90,7 +90,7 @@ export async function createComment(data: CreateCommentBodyParams) {
             t.create(notificationRef, notification);
         } else {
             t.update(notificationRef, {
-                author: FieldValue.arrayUnion(author),
+                authors: FieldValue.arrayUnion(author),
                 timestamp: curTimestamp,
             });
         }

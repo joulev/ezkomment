@@ -55,12 +55,12 @@ describe("Test notification utils", () => {
         });
         notifications = await NotificationUtils.listUserNotifications(uid);
         expect(notifications).toHaveLength(1);
-        expect(notifications[0]).toMatchObject({
-            id: pageId,
-            authors: ["Seiran"],
-            siteName: mainSite.name,
-            pageTitle: mainPage.title,
+        await CommentUtils.createComment({
+            pageId,
+            author: "Kaguya Houraisan",
+            text: "Flight of the Bamboo Cutter ~ Lunatic Princess",
         });
+        expect(notifications).toHaveLength(2);
     });
 
     it("Should delete all notification correctly", async () => {
