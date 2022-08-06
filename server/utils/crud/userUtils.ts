@@ -71,9 +71,3 @@ export async function initializeUser(uid: string) {
         t.create(userRef.collection("notification").doc("WELCOME_MESSAGE"), welcomeMessage);
     });
 }
-
-export async function listUserNotifications(uid: string) {
-    const notificationSnapshots = await USERS_COLLECTION.doc(uid).collection("notification").get();
-    const data = notificationSnapshots.docs.map(doc => doc.data()) as Notification[];
-    return data.sort((c1, c2) => c2.timestamp - c1.timestamp);
-}

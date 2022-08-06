@@ -37,7 +37,7 @@ export type NewCommentNotification = {
     href: string;
     siteName: string;
     pageTitle: string;
-    authors: string[];
+    authors: (string | null)[];
     timestamp: number;
 };
 
