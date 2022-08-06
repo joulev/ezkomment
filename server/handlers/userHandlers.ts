@@ -50,12 +50,6 @@ export async function listUserSites(req: ApiRequest, res: ApiResponse) {
 // EXTRA //
 ///////////
 
-export async function verifyUserEmail(req: ApiRequest, res: ApiResponse) {
-    const { uid } = extractFirstQueryValue(req);
-    await UserUtils.updateUserById(uid, { emailVerified: true });
-    res.status(200).json({ message: "Verified user's email" });
-}
-
 export async function initializeUser(req: ApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     await UserUtils.initializeUserById(uid);
