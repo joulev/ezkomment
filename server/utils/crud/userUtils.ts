@@ -60,6 +60,7 @@ export async function deleteUserSites(uid: string) {
 export async function initializeUserById(uid: string) {
     const WELCOME_MESSAGE_ID = "WELCOME_MESSAGE";
     const userRef = USERS_COLLECTION.doc(uid);
+    await authAdmin.updateUser(uid, { emailVerified: true }).catch(handleUserError);
     await firestoreAdmin.runTransaction(async t => {
         // I should add some simple data to the user record. Just to mark the user as "created"
         // If this function is called on the same user again, it should fail
