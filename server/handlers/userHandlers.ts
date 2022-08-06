@@ -2,9 +2,9 @@ import { UpdateRequest } from "firebase-admin/auth";
 
 import * as UserUtils from "~/server/utils/crud/userUtils";
 import { deleteUserPhoto } from "~/server/utils/crud/imageUtils";
+import { deleteUserNotifications } from "~/server/utils/crud/notificationUtils";
 import { extractFirstQueryValue } from "~/server/utils/nextHandlerUtils";
 
-import { ClientUser, Notification } from "~/types/server";
 import { ApiRequest, ApiResponse } from "~/types/server/nextApi.type";
 
 export async function getUser(req: ApiRequest, res: ApiResponse) {
@@ -30,6 +30,7 @@ export async function deleteUser(req: ApiRequest, res: ApiResponse) {
     // If the user exists, then
     await Promise.all([
         deleteUserPhoto(uid), // delete photo
+        deleteUserNotifications(uid),
         UserUtils.deleteUserSites(uid), // delete ALL sites
     ]);
     res.status(200).json({ message: "Deleted user" });
@@ -43,16 +44,6 @@ export async function listUserSites(req: ApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
     const data = await UserUtils.listUserSites(uid);
     res.status(200).json({ message: "Got user's sites", data });
-}
-
-///////////////////
-// NOTIFICATIONS //
-///////////////////
-
-export async function listUserNotifications(req: ApiRequest, res: ApiResponse<Notification[]>) {
-    const { uid } = extractFirstQueryValue(req);
-    const data = await UserUtils.listUserNotifications(uid);
-    res.status(200).json({ message: "Got user's notifications", data });
 }
 
 ///////////

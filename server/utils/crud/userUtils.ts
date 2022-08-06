@@ -53,9 +53,9 @@ export async function deleteUserSites(uid: string) {
     ]);
 }
 
-//////////////////
-// NOTIFICATION //
-//////////////////
+///////////
+// EXTRA //
+///////////
 
 export async function initializeUser(uid: string) {
     const userRef = USERS_COLLECTION.doc(uid);
@@ -63,11 +63,12 @@ export async function initializeUser(uid: string) {
         // I should add some simple data to the user record. Just to mark the user as "created"
         // If this function is called on the same user again, it should fail
         // First, we need to generate a notification for this user
-        const welcomeMessage: WelcomeMessageNotification = {
+        const notification: WelcomeMessageNotification = {
+            id: "WELCOME_MESSAGE",
             type: "WelcomeMessage",
             href: "/docs/getting-started",
             timestamp: Timestamp.now().toMillis(),
         };
-        t.create(userRef.collection("notification").doc("WELCOME_MESSAGE"), welcomeMessage);
+        t.create(userRef.collection("notification").doc("WELCOME_MESSAGE"), notification);
     });
 }

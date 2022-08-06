@@ -79,6 +79,7 @@ export async function createComment(data: CreateCommentBodyParams) {
         if (!notificationSnapshot.exists) {
             const { name: siteName } = await getDocumentInTransaction<Site>(t, siteRef);
             const notification: NewCommentNotification = {
+                id: pageId,
                 type: "NewComment",
                 href: `/app/site/${siteName}/${pageId}`,
                 siteName,
