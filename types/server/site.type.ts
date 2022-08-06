@@ -66,4 +66,4 @@ export type ClientSite = Site & {
     pages: Page[];
 };
 
-export type ExportSite = Site & { pages: ExportPage } & SiteCustomisation;
+export type ExportSite = Site & { pages: ExportPage[] } & Partial<SiteCustomisation>;
