@@ -1,17 +1,22 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
-import { FC, useEffect } from "react";
+import { FC, MouseEventHandler } from "react";
 
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 import useAuth from "~/client/hooks/auth";
+import { useSetToast } from "~/client/hooks/toast";
+import { UNKNOWN_ERROR } from "~/client/lib/errors";
+import { internalFetcher } from "~/client/lib/fetcher";
 
 import A from "~/client/components/anchor";
 import BlankIllustration from "~/client/components/blankIllustration";
 
 const NotificationList: FC = () => {
-  const { notifications } = useAuth();
-  if (!notifications) return <>Fetching notifications&hellip;</>;
+  const { user, setLoading, notifications, mutateNotifications } = useAuth();
+  const setToast = useSetToast();
+
+  if (!user || !notifications) return <>Fetching notifications&hellip;</>;
   if (notifications.length === 0)
     return (
       <div className="flex flex-col gap-6 my-12 items-center">
@@ -21,10 +26,33 @@ const NotificationList: FC = () => {
         <div className="text-xl text-center">No new notifications</div>
       </div>
     );
+
+  const handleDismissAll: MouseEventHandler<HTMLButtonElement> = async event => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success } = await internalFetcher({
+        url: `/api/users/${user.uid}/notifications`,
+        method: "DELETE",
+      });
+      if (!success) throw UNKNOWN_ERROR;
+      mutateNotifications([]);
+    } catch (err) {
+      setToast({
+        type: "error",
+        message: "Dismiss notifications failed. Please report this to us.",
+      });
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <p>
-        {notifications.length} unread &mdash; <A>Mark all as read</A>
+        {notifications.length} unread &mdash;{" "}
+        <button className="a" onClick={handleDismissAll}>
+          Mark all as read
+        </button>
       </p>
       <div className="flex flex-col gap-6">
         {notifications.map((notif, index) => (
