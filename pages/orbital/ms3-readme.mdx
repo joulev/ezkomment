@@ -278,29 +278,65 @@ We encourage you to [make your own ezkomment sites and pages to experience the a
 
 All screenshots have the computer version and mobile version (responsive) rendered side-by-side. In some screenshots, the page is scaled down to 90% to make the computer version screen viewport sizes better match real computer viewport sizes.
 
-![Landing page](/images/orbital/screenshots/home.png)
+### Pages
 
-![Documentation page](/images/orbital/screenshots/docs.png)
+- The landing page is the first page that is shown when the app is loaded. It is based on [Stripe's landing page](https://stripe.com), with a screenshot of how the application looks like. Extra-bold fonts are used to identify the main sections of the page. Users can then click on "Get started" buttons, drawn in primray colours, to access the main application.
 
-![Authentication page](/images/orbital/screenshots/auth.png)
+  Some animation is handled by Framer Motion, the incredible animation library that every single React developer should know about. It is simply perfect.
 
-![User dashboard with all sites listed](/images/orbital/screenshots/app/dashboard.png)
+  ![Landing page](/images/orbital/screenshots/home.png)
 
-![Create a new site](/images/orbital/screenshots/app/new.png)
+- The documentation page has a sidebar acting as the navigation pane for all documentations. Users can also search for specific words inside the documentation with a search bar provided.
 
-![User account settings page](/images/orbital/screenshots/app/account.png)
+  ![Documentation page](/images/orbital/screenshots/docs.png)
 
-![Site dashboard with statistics and all comments listed](/images/orbital/screenshots/app/site/siteId/index.png)
+- The authentication page is used for, well, authentication. Since it is pretty boring (only some buttons to continue with supported authentication providers), we added a triangular pattern background to it to make it look somewhat more interesting (at least for me, the front-end developer). Credit to [@qrohlf](https://twitter.com/qrohlf) for [`trianglify`](http://qrohlf.com/trianglify), the amazing library used behind the scenes for this background.
 
-![Site template customisation page (note that mobile is not supported in this page)](/images/orbital/screenshots/app/site/siteId/customise.png)
+  ![Authentication page](/images/orbital/screenshots/auth.png)
 
-![Site template customisation page, full screen](/images/orbital/screenshots/variants/customise-fullscreen.png)
+- In the user dashboard, we follow how Vercel design their dashboard. With the aim of having as much white space as possible, the dashboard only contains the essential information about each site a user has, and some simple navigation assistants such as filtering and searching.
 
-![Site settings page](/images/orbital/screenshots/app/site/siteId/settings.png)
+  ![User dashboard with all sites listed](/images/orbital/screenshots/app/dashboard.png)
 
-![Page dashboard with all comments](/images/orbital/screenshots/app/site/siteId/pageId/index.png)
+- In the "create a new site" page, there is really not much to render except for the form. However, since this might be confusing to first time users, we also take care to add some descriptive text.
 
-![Page settings page](/images/orbital/screenshots/app/site/siteId/pageId/settings.png)
+  ![Create a new site](/images/orbital/screenshots/app/new.png)
+
+- The user account settings page is similar: we only show what we needs to show, with sufficient help text.
+
+  ![User account settings page](/images/orbital/screenshots/app/account.png)
+
+- Site dashboards are provided with basic site information and the list of all pages under that site, as expected. However, we consider it to be still a bit too boring, so we added a graph too, for the user to see how the site is performing in the last month. The graph is rendered "by hand" using SVG without any external libraries, and I have to admit it is much more work than you might imagine.
+
+  ![Site dashboard with statistics and all comments listed](/images/orbital/screenshots/app/site/siteId/index.png)
+
+- Site template customisation page is probably the most complex page throughout the app, even beating the landing page. It features a Monaco editor, the same editor that the well-loved Visual Studio Code uses, so that users can familiarise with it fast. Other than that, we also wrote our own side-by-side-resizable preview page, and our own editor theme, to make it consistent with the app design.
+
+  Note that mobile is not supported here. This is the only page throughout the whole app where responsive design is not supported, and that is an intentional decision. We think that no one codes on mobile anyway, Monaco also has poor support on mobile and tap screens, so we decided to keep it simple.
+
+  Since the preview has to be rerendered on every change, if the user uses a lot of JavaScript in the template, the rerendering will be slow and it may make the page unresponsive. We had to use modern React v18 features, such as concurrency, to reorder the importance of rendering jobs, so as to make the page more responsive and improve the user experience. Given that React v18 was only released a few months ago, we wonder how we would even make this page if we were in Orbital 2021 instead. Sometimes the stars simply align together.
+
+  ![Site template customisation page (note that mobile is not supported in this page)](/images/orbital/screenshots/app/site/siteId/customise.png)
+
+  Full screen is also supported. No one (including us) wants the scrollbars to get in the way, so many people will find this full screen feature helpful.
+
+  ![Site template customisation page, full screen](/images/orbital/screenshots/variants/customise-fullscreen.png)
+
+- Site settings page is similar to user settings: there is not much to write about.
+
+  ![Site settings page](/images/orbital/screenshots/app/site/siteId/settings.png)
+
+- The page dashboard has a slightly different width compared to other pages we see above. Since on this page there may be very few information, we decided to increase the horizontal margin by a lot, so as to create more white space, leading to better readability.
+
+  ![Page dashboard with all comments](/images/orbital/screenshots/app/site/siteId/pageId/index.png)
+
+- The page settings page is similar to all other settings page in the application.
+
+  ![Page settings page](/images/orbital/screenshots/app/site/siteId/pageId/settings.png)
+
+### Some Notable Components
+
+These components also follow standard design practice and the design system used throughout the application.
 
 ![Modal component](/images/orbital/screenshots/components/modal.png)
 
