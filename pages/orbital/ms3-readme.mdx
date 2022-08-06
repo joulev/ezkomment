@@ -391,6 +391,28 @@ The following diagram can be used to see how everything in this application inte
 
 It is a very big file and most likely is too big to be readable without zooming in. You can view [the image file in full (3940 &times; 4137)](https://ezkomment.joulev.dev/images/orbital/others/diagram.png), [the PDF file (2.81 MB)](https://ezkomment.joulev.dev/images/orbital/others/diagram.pdf) or [the Figma prototype from which the image is exported](http://tinyurl.com/ezkomment-diagram).
 
+##### Front-end
+
+In the front-end, other than the obvious page components and other utilities components (labelled yellow below) required for each page, we make use of several React contexts (labelled green below) for state management. These contexts will handle data fetching, hence making it no longer necessary to fetch data on every route change, or rerender everything when the user navigates to a different page. That improves not only performance but user experience as well.
+
+We also make use of the React error boundary to handle errors. It will help us log all client-side errors that we forget to catch or do not know about.
+
+![Front-end application structure](/images/orbital/others/diagram-fe.png)
+
+##### Back-end
+
+In the back-end, we separate the "business logic" to individual utility functions (on the right below), grouped by their scope. API routes (on the left) simply call these functions instead of maintain any logic, which makes it easier to maintain and organise the whole application.
+
+The purple arrows in the middle indicates how these routes and utilities interact together.
+
+![Back-end application structure](/images/orbital/others/diagram-be.png)
+
+#### Activity Diagram of How the Comment Section Works
+
+![How the comment section is rendered](/images/orbital/others/activity-diagram-get.png)
+
+![What happens when a new comment is posted](/images/orbital/others/activity-diagram-post.png)
+
 ### User Interface Design
 
 The overall design is heavily inspired by Vercel. [@joulev](https://github.com/joulev) is very impressed by the UI design of the Vercel website, and decided to implement that himself. Of course, dark mode is fully supported.
