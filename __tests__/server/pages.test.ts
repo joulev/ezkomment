@@ -3,6 +3,7 @@ import * as PageUtils from "~/server/utils/crud/pageUtils";
 import * as SiteUtils from "~/server/utils/crud/siteUtils";
 import * as UserUtils from "~/server/utils/crud/userUtils";
 import * as TestUtils from "~/server/utils/testUtils";
+import { deleteUserNotifications } from "~/server/utils/crud/notificationUtils";
 
 const { nonExistingPageId, nonExistingSiteId, nonExistingUid } = testOnly.nonExistingIds;
 
@@ -204,6 +205,6 @@ describe("Test page utils", () => {
     });
 
     afterAll(async () => {
-        await UserUtils.deleteUserSites(uid);
+        await Promise.all([UserUtils.deleteUserSites(uid), deleteUserNotifications(uid)]);
     });
 });

@@ -1,5 +1,6 @@
 import * as UserUtils from "~/server/utils/crud/userUtils";
 import * as TestUtils from "~/server/utils/testUtils";
+import { listUserNotifications } from "~/server/utils/crud/notificationUtils";
 
 const { nonExistingUid } = testOnly.nonExistingIds;
 
@@ -39,5 +40,12 @@ describe("Test user utils", () => {
     it("Should be able to delete user", async () => {
         await expect(UserUtils.deleteUserById(uid)).resolves.not.toThrow();
         await expect(UserUtils.getUserById(uid)).rejects.toMatchObject({ code: 404 });
+    });
+
+    it("Should be able to initialize a new user", async () => {
+        await expect(UserUtils.initializeUserById(uid)).resolves.not.toThrow();
+        const notifications = await listUserNotifications(uid);
+        expect(notifications).toHaveLength(1);
+        expect(notifications[0]).toMatchObject({ id: "WELCOME_MESSAGE" });
     });
 });

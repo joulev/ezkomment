@@ -4,7 +4,7 @@ import { Timestamp } from "firebase-admin/firestore";
 import { authAdmin, firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
 
-import { Notification, Site, WelcomeMessageNotification } from "~/types/server";
+import { Site, WelcomeMessageNotification } from "~/types/server";
 
 import { handleUserError } from "../errors/handleAuthError";
 import { deleteRefArray } from "../firestoreUtils";
@@ -57,18 +57,19 @@ export async function deleteUserSites(uid: string) {
 // EXTRA //
 ///////////
 
-export async function initializeUser(uid: string) {
+export async function initializeUserById(uid: string) {
+    const WELCOME_MESSAGE_ID = "WELCOME_MESSAGE";
     const userRef = USERS_COLLECTION.doc(uid);
     await firestoreAdmin.runTransaction(async t => {
         // I should add some simple data to the user record. Just to mark the user as "created"
         // If this function is called on the same user again, it should fail
         // First, we need to generate a notification for this user
         const notification: WelcomeMessageNotification = {
-            id: "WELCOME_MESSAGE",
+            id: WELCOME_MESSAGE_ID,
             type: "WelcomeMessage",
             href: "/docs/getting-started",
             timestamp: Timestamp.now().toMillis(),
         };
-        t.create(userRef.collection("notification").doc("WELCOME_MESSAGE"), notification);
+        t.create(userRef.collection("notification").doc(WELCOME_MESSAGE_ID), notification);
     });
 }
