@@ -24,10 +24,7 @@ export const githubProvider = new GithubAuthProvider();
 export const googleProvider = new GoogleAuthProvider();
 
 export async function initialiseUser(uid: string) {
-    const res = await internalFetcher({
-        url: `/api/users/${uid}/verify-email`,
-        method: "PUT",
-    });
+    const res = await internalFetcher({ url: `/api/users/${uid}/initialize`, method: "PUT" });
     if (process.env.NODE_ENV === "development")
         console.log("Requested email verification successfully. Response = ", res);
 }
