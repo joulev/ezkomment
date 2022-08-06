@@ -68,7 +68,7 @@ export async function initializeUserById(uid: string) {
         const notification: WelcomeMessageNotification = {
             id: WELCOME_MESSAGE_ID,
             type: "WelcomeMessage",
-            href: "/docs/getting-started",
+            href: "/docs/tutorial/getting-started",
             timestamp: Timestamp.now().toMillis(),
         };
         t.create(userRef.collection("notification").doc(WELCOME_MESSAGE_ID), notification);
