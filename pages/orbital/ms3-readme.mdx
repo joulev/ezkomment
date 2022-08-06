@@ -530,6 +530,43 @@ Even so, we still organise the repository in such a way that clearly differentia
 └── types                 # TypeScript typings
 ```
 
+#### Design Principles
+
+We make use of several standard design principles in the codebase, to make it easier to maintain and improve upon. These are the most notable and most actively enforced:
+
+##### Functional Programming
+
+React has been diverted from an OOP-based approach to more a functional approach for a few years now, so functional programming was a natural choice for the front-end when its development began. Hence, most of the front-end is written in functional programming. Back-end also follows suit, and currently except in a number of cases where it is not possible to _not_ use OOP (such as React error boundary or custom JavaScript error classes), most of the whole codebase follows functional programming.
+
+##### Immutability
+
+In functional programming, the immutability of variables is a key principle. In fact, even before React functional component was a thing, React still enforced immutability of states. Therefore, the decision of making everything immutable is almost a forced choice.
+
+However, having used it, we found out that it is a very good idea. Since all variables and states are immutable, it is easy to assess the value of any variables at the entirety of its lifetime, making debugging a lot easier. Especially when JavaScript gets object by reference, so when immutability is not enforced, it is easy to make mistakes like this:
+
+```js
+let a = { b: 1 };
+let c = a;
+c.b = 2;
+console.log(a.b); // 2 (not 1)
+```
+
+That said, it is not easy to make everything purely immutable, especially for very obscure functions having very specific requirements, such as the function to search for a query inside every documentation page. In such cases (and in such cases _only_), for now we are writing it in an imperative way, but we will refactor it to be more declarative and functional if we find a way to do so.
+
+##### Single Responsibility
+
+Although this principle is more generally applicable to OOP, we still make use of it in the codebase, by ensuring all utilities, whether they are functions, classes, components, etc., have one and only one responsibility. They should do exactly what it is supposed to do, and not do more. It helps make maintaining the codebase a lot easier, since when something goes wrong, based on the bug report we can generally pinpoint exactly what utility is buggy and find the bug accordingly. Moreover, it is a lot easier and more straightforward to unit test the codebase, since single responsibility utilities are often pure or near-pure functions that do not require too much mocking to test.
+
+##### Don't Repeat Yourself (DRY)
+
+In any types of programming, duplicating code is a bad idea, and this application is no exception. Whenever something looks like it will be used more than once, it is a requirement that it is moved to a separate utility module.
+
+One notable example is the `<A>` React component, used to replace the `<a>` HTML tag. It is a simple component: if the URL is external it adds extra attributes to the `<a>` tag to open the link in a new tab, otherwise it uses Next.js' router to handle the link. Something simple like that _can_ be written directly in the pages without having to extract to a separate component. However, since it will be used in a lot of places, we decided to extract it regardless to an utility component where all the logic related to it is maintained.
+
+##### One Single Source of Truth
+
+In the front-end, we make use of several contexts to hold the data related to the user, site and page. Whenever we need any data, we query to these contexts instead of making new calls to the database. By that, we ensure that the data throughout the front-end is always consistent, since whenever something is needed there is only one place to look for it &ndash; there is only one single source of truth.
+
 #### Contributions and Feature Branching
 
 The repository is developed mainly on two branches, `main` and `prod`.
