@@ -140,8 +140,9 @@ const TopNav: FC<CurrentPage> = props => {
           icon={() => (
             <span
               className={clsx(
-                "relative after:absolute after:-top-0.5 after:-right-0.5",
-                "after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
+                auth.notifications &&
+                  auth.notifications.length > 0 &&
+                  "relative after:absolute after:-top-0.5 after:-right-0.5 after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
               )}
             >
               <NotificationsOutlinedIcon />
