@@ -12,7 +12,7 @@ import { internalFetcher } from "~/client/lib/fetcher";
 import A from "~/client/components/anchor";
 import BlankIllustration from "~/client/components/blankIllustration";
 
-const NotificationList: FC = () => {
+const NotificationList: FC<{ onClose: () => void }> = ({ onClose }) => {
   const { user, setLoading, notifications, mutateNotifications } = useAuth();
   const setToast = useSetToast();
 
@@ -46,6 +46,15 @@ const NotificationList: FC = () => {
     setLoading(false);
   };
 
+  const handleDismissById = async (id: string) => {
+    onClose();
+    await internalFetcher({
+      url: `/api/users/${user.uid}/notifications/${id}`,
+      method: "DELETE",
+    });
+    await mutateNotifications(notifications.filter(n => n.id !== id));
+  };
+
   return (
     <>
       <p>
@@ -60,6 +69,7 @@ const NotificationList: FC = () => {
             notStyled
             key={index}
             className="bg-card rounded border transition p-6 border-card hover:border-muted"
+            onClick={() => handleDismissById(notif.id)}
             href={notif.href}
           >
             <h3 className="font-semibold mb-3">
@@ -110,7 +120,7 @@ const Notifications: FC<{ show: boolean; onClose: () => void }> = ({ show, onClo
       onClick={e => e.stopPropagation()}
     >
       <h2>Notifications</h2>
-      <NotificationList />
+      <NotificationList onClose={onClose} />
       <button
         className="fixed top-6 right-6 text-muted hover:text-neutral-700 dark:hover:text-neutral-300 transition"
         onClick={onClose}
