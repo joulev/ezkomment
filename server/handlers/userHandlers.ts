@@ -58,6 +58,6 @@ export async function verifyUserEmail(req: ApiRequest, res: ApiResponse) {
 
 export async function initializeUser(req: ApiRequest, res: ApiResponse) {
     const { uid } = extractFirstQueryValue(req);
-    await UserUtils.initializeUser(uid);
+    await UserUtils.initializeUserById(uid);
     res.status(200).json({ message: "Initialized user" });
 }
