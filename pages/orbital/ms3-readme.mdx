@@ -393,9 +393,9 @@ It is a very big file and most likely is too big to be readable without zooming 
 
 ##### Front-end
 
-In the front-end, other than the obvious page components and other utilities components (labelled yellow below) required for each page, we make use of several React contexts (labelled green below) for state management. These contexts will handle data fetching, hence making it no longer necessary to fetch data on every route change, or rerender everything when the user navigates to a different page. That improves not only performance but user experience as well.
+In the front-end, other than the obvious page components and other utilities components (labelled yellow below) required for each page, we make use of several React contexts (labelled green below) for state management. These contexts handles data fetching, hence making it no longer necessary to fetch data on every route change, or rerender everything when the user navigates to a different page. That improves not only performance but user experience as well.
 
-We also make use of the React error boundary to handle errors. It will help us log all client-side errors that we forget to catch or do not know about.
+We also make use of the React error boundary to handle errors. It helps us log all client-side errors that we forget to catch or do not know about.
 
 ![Front-end application structure](/images/orbital/others/diagram-fe.png)
 
@@ -559,9 +559,9 @@ Although this principle is more generally applicable to OOP, we still make use o
 
 ##### Don't Repeat Yourself (DRY)
 
-In any types of programming, duplicating code is a bad idea, and this application is no exception. Whenever something looks like it will be used more than once, it is a requirement that it is moved to a separate utility module.
+In any types of programming, duplicating code is a bad idea, and this application is no exception. Whenever something looks like it is used more than once, it is a requirement that it is moved to a separate utility module.
 
-One notable example is the `<A>` React component, used to replace the `<a>` HTML tag. It is a simple component: if the URL is external it adds extra attributes to the `<a>` tag to open the link in a new tab, otherwise it uses Next.js' router to handle the link. Something simple like that _can_ be written directly in the pages without having to extract to a separate component. However, since it will be used in a lot of places, we decided to extract it regardless to an utility component where all the logic related to it is maintained.
+One notable example is the `<A>` React component, used to replace the `<a>` HTML tag. It is a simple component: if the URL is external it adds extra attributes to the `<a>` tag to open the link in a new tab, otherwise it uses Next.js' router to handle the link. Something simple like that _can_ be written directly in the pages without having to extract to a separate component. However, since it is used in a lot of places, we decided to extract it regardless to an utility component where all the logic related to it is maintained.
 
 ##### One Single Source of Truth
 
