@@ -37,15 +37,16 @@ describe("Test user utils", () => {
         expect(photoURL).toEqual("https://www.zerochan.net/1361758#full");
     });
 
-    it("Should be able to delete user", async () => {
-        await expect(UserUtils.deleteUserById(uid)).resolves.not.toThrow();
-        await expect(UserUtils.getUserById(uid)).rejects.toMatchObject({ code: 404 });
-    });
-
     it("Should be able to initialize a new user", async () => {
         await expect(UserUtils.initializeUserById(uid)).resolves.not.toThrow();
         const notifications = await listUserNotifications(uid);
         expect(notifications).toHaveLength(1);
         expect(notifications[0]).toMatchObject({ id: "WELCOME_MESSAGE" });
     });
+
+    it("Should be able to delete user", async () => {
+        await expect(UserUtils.deleteUserById(uid)).resolves.not.toThrow();
+        await expect(UserUtils.getUserById(uid)).rejects.toMatchObject({ code: 404 });
+    });
+    
 });
