@@ -13,6 +13,7 @@ import BlankIllustration from "~/client/components/blankIllustration";
 import Button from "~/client/components/buttons";
 import Input from "~/client/components/forms/input";
 import Select from "~/client/components/forms/select";
+import SiteIcon from "~/client/components/siteIcon";
 import AppLayout from "~/client/layouts/app";
 
 import { Breakpoint, NextPageWithLayout } from "~/types/client/utils.type";
@@ -73,14 +74,7 @@ const SiteCard: FC<{ site?: Site }> = ({ site }) => (
       <>
         <div className="flex flex-row gap-6 items-center mb-6">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={site.iconURL ?? "/images/logo.svg"}
-              alt=""
-              width={48}
-              height={48}
-              loading="lazy"
-            />
+            <SiteIcon site={site} alt={site.name} width={48} height={48} className="rounded" />
           </div>
           <div>
             <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
@@ -99,7 +93,7 @@ const SiteCard: FC<{ site?: Site }> = ({ site }) => (
       <>
         <div className="flex flex-row gap-6 mb-6">
           <div>
-            <div className="w-12 h-12 rounded-full pulse" />
+            <div className="w-12 h-12 rounded pulse" />
           </div>
           <div>
             <div className="h-5 w-36 pulse mb-3" />

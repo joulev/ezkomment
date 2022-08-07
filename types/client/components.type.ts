@@ -1,5 +1,7 @@
 import { ComponentProps, MouseEventHandler, ReactNode } from "react";
 
+import { Site } from "~/types/server";
+
 import { CurrentPage } from "./page.type";
 import { Author, BannerVariant, ButtonVariant, IconAndLabel, IconType, Toast } from "./utils.type";
 
@@ -134,4 +136,9 @@ export type HomeWindowProps = {
 export type ToastProps = {
     toast: Toast;
     onClose: () => void;
+};
+
+export type SiteIconProps = ComponentProps<"img"> & {
+    site: Site;
+    src?: never;
 };

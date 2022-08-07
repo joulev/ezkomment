@@ -29,6 +29,7 @@ import Input from "~/client/components/forms/input";
 import { InputDetachedLabel } from "~/client/components/forms/input";
 import Modal from "~/client/components/modal";
 import SiteGraph from "~/client/components/siteGraph";
+import SiteIcon from "~/client/components/siteIcon";
 import RightAligned from "~/client/components/utils/rightAligned";
 
 import { Page, SiteStatistics } from "~/types/server";
@@ -38,7 +39,7 @@ const Loading: FC = () => (
   <>
     <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
       <div className="flex flex-row gap-6 items-center">
-        <div className="rounded-full w-16 h-16 pulse" />
+        <div className="rounded w-16 h-16 pulse" />
         <div>
           <div className="mb-2.5 h-8 w-36 pulse" />
           <div className="h-4 w-48 pulse" />
@@ -186,14 +187,7 @@ const Content: FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start gap-y-6 mb-6">
         <div className="flex flex-row gap-6 items-center">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={site.iconURL ?? "/images/logo.svg"}
-              alt=""
-              width={64}
-              height={64}
-              loading="lazy"
-            />
+            <SiteIcon site={site} alt={site.name} width={64} height={64} className="rounded" />
           </div>
           <div>
             <div className="mb-1.5 text-3xl">{site.name}</div>
