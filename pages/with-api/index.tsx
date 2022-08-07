@@ -76,7 +76,7 @@ const Comments: FC = () => {
             <input
               type="text"
               placeholder="Your name"
-              className="flex-1 bg-white border border-[#ddd] focus:outline-none px-4 py-2"
+              className="flex-1 bg-white border border-[#ddd] focus:outline-none px-4 py-2 rounded-none min-w-0"
               value={author}
               onChange={event => setAuthor(event.target.value)}
             />
