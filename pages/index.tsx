@@ -8,22 +8,14 @@ const Home: NextPage = () => (
     <Head>
       <title>Demo | ezkomment</title>
     </Head>
-    <div className="py-18 px-12 w-full max-w-2xl grid sm:grid-cols-2 gap-6">
+    <div className="py-16 px-8 w-full max-w-2xl grid sm:grid-cols-2 gap-4">
       <div className="col-span-full">
         <Logo />
       </div>
-      <Button className="px-0 py-8" href="/default/light">
-        Default template (light)
-      </Button>
-      <Button className="px-0 py-8" href="/default/dark">
-        Default template (dark)
-      </Button>
-      <Button className="px-0 py-8" href="/customised">
-        Customised template
-      </Button>
-      <Button className="px-0 py-8" href="/with-api">
-        With REST API
-      </Button>
+      <Button href="/default/light">Default template (light)</Button>
+      <Button href="/default/dark">Default template (dark)</Button>
+      <Button href="/customised">Customised template</Button>
+      <Button href="/with-api">With REST API</Button>
     </div>
   </div>
 );

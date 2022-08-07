@@ -14,7 +14,7 @@ const Logo: FC = () => (
         "after:uppercase after:text-sm after:px-1.5 after:py-0.5"
       )}
     >
-      <Image src={logo} alt="ezkomment" className="h-9 w-fit" />
+      <Image src={logo} alt="ezkomment" className="h-8 w-fit" />
     </a>
   </Link>
 );

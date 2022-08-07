@@ -53,14 +53,14 @@ const Comments: FC = () => {
   return (
     <section>
       <h2>Comments</h2>
-      <div className="flex flex-col gap-6 not-prose">
+      <div className="flex flex-col gap-4 not-prose">
         {!data && <>Fetching comments&hellip;</>}
         {data && data.length === 0 && <>No comments yet. Be the first to join the conversation.</>}
         {data &&
           data.length !== 0 &&
           data.map(({ text, author, date }, index) => (
             <div key={index} className="border border-['#ddd'] bg-white p-6">
-              <div className="flex flex-row items-baseline gap-6 mb-3">
+              <div className="flex flex-row items-baseline gap-8 mb-2">
                 <strong className="text-lg">{author}</strong>
                 <time className="text-sm text-neutral-500">
                   {formatDistanceToNowStrict(new Date(date), { addSuffix: true })}
@@ -70,9 +70,9 @@ const Comments: FC = () => {
             </div>
           ))}
         <hr className="border-['#ddd']" />
-        <form className="flex flex-col gap-6" onSubmit={submit}>
+        <form className="flex flex-col gap-4" onSubmit={submit}>
           <SimpleMDE value={text} onChange={onChange} options={options} />
-          <div className="flex flex-row gap-6">
+          <div className="flex flex-row gap-4">
             <input
               type="text"
               placeholder="Your name"
@@ -82,7 +82,7 @@ const Comments: FC = () => {
             />
             <button
               type="submit"
-              className="px-6 py-2 border text-indigo-500 border-indigo-500 hover:bg-indigo-500 hover:text-white transition"
+              className="px-8 py-2 border text-indigo-500 border-indigo-500 hover:bg-indigo-500 hover:text-white transition"
             >
               Submit
             </button>
