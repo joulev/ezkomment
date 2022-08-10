@@ -12,6 +12,7 @@ import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSetToast } from "~/client/hooks/toast";
 import { NOT_AUTHENTICATED } from "~/client/lib/errors";
+import { internalFetcher } from "~/client/lib/fetcher";
 import {
   deleteAccount,
   githubProvider,
@@ -186,6 +187,47 @@ const LinkAccountSection: FC = () => {
   );
 };
 
+const ExportDataSection: FC = () => {
+  const auth = useAuth();
+  const setToast = useSetToast();
+
+  const handler = async (event: MouseEvent) => {
+    event.preventDefault();
+    if (!auth.user) return;
+    auth.setLoading(true);
+    try {
+      const { success, body } = await internalFetcher({
+        url: `/api/users/${auth.user.uid}/export`,
+      });
+      if (!success) throw new Error("exporting failed");
+      const link = document.createElement("a");
+      link.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(body))}`;
+      link.setAttribute("download", `ezkomment-user-${new Date().toISOString()}.json`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err: any) {
+      setToast({ type: "error", message: "Exporting data failed, please try again later." });
+    }
+    auth.setLoading(false);
+  };
+
+  return (
+    <section>
+      <h2>Export all data</h2>
+      <p>
+        You can request all of your data to be exported to a CSV file. This includes your comments,
+        your replies to comments, and your posts, here.
+      </p>
+      <RightAligned>
+        <Button icon={DnsOutlinedIcon} onClick={handler}>
+          Request data
+        </Button>
+      </RightAligned>
+    </section>
+  );
+};
+
 const DeleteAccountSection: FC = () => {
   const auth = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -278,19 +320,7 @@ const Account: NextPageWithLayout = () => {
       <div>
         <LinkAccountSection />
         <hr />
-        <section>
-          <h2>Export all data</h2>
-          <p>
-            You can request all of your data to be exported to a CSV file. This includes your
-            comments, your replies to comments, and your posts, here.
-          </p>
-          <p>You can only perform this action once a day.</p>
-          <RightAligned>
-            <Button icon={DnsOutlinedIcon} disabled>
-              Request data
-            </Button>
-          </RightAligned>
-        </section>
+        <ExportDataSection />
         <hr />
         <DeleteAccountSection />
       </div>
