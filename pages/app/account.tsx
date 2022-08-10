@@ -11,6 +11,7 @@ import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSetToast } from "~/client/hooks/toast";
+import downloadJSON from "~/client/lib/downloadJSON";
 import { NOT_AUTHENTICATED } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 import {
@@ -200,12 +201,7 @@ const ExportDataSection: FC = () => {
         url: `/api/users/${auth.user.uid}/export`,
       });
       if (!success) throw new Error("exporting failed");
-      const link = document.createElement("a");
-      link.href = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(body))}`;
-      link.setAttribute("download", `ezkomment-user-${new Date().toISOString()}.json`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadJSON(body, `ezkomment-user-${new Date().toISOString()}.json`);
     } catch (err: any) {
       setToast({ type: "error", message: "Exporting data failed, please try again later." });
     }
