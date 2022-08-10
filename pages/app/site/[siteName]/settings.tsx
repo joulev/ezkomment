@@ -223,7 +223,8 @@ const ExportSiteData: FC<{ site: ClientSite }> = ({ site }) => {
     try {
       const { success, body } = await internalFetcher({ url: `/api/sites/${site.id}/export` });
       if (!success) throw new Error("exporting failed");
-      downloadJSON(body, `ezkomment-site-${site.name}-${new Date().toISOString()}.json`);
+      const data = (body as ApiResponseBody).data;
+      downloadJSON(data, `ezkomment-site-${site.name}-${new Date().toISOString()}.json`);
     } catch (err: any) {
       setToast({ type: "error", message: "Exporting data failed, please try again later." });
     }

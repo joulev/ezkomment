@@ -38,6 +38,7 @@ import AppLayout from "~/client/layouts/app";
 import { Provider } from "~/types/client/auth.type";
 import { NextPageWithLayout } from "~/types/client/utils.type";
 import { ClientUser } from "~/types/server";
+import { ApiResponseBody } from "~/types/server/nextApi.type";
 
 const ProfileSection: FC = () => {
   const auth = useAuth();
@@ -201,7 +202,8 @@ const ExportDataSection: FC = () => {
         url: `/api/users/${auth.user.uid}/export`,
       });
       if (!success) throw new Error("exporting failed");
-      downloadJSON(body, `ezkomment-user-${new Date().toISOString()}.json`);
+      const data = (body as ApiResponseBody).data;
+      downloadJSON(data, `ezkomment-user-${new Date().toISOString()}.json`);
     } catch (err: any) {
       setToast({ type: "error", message: "Exporting data failed, please try again later." });
     }
