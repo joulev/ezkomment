@@ -13,9 +13,9 @@ export async function exportPage(req: AuthenticatedApiRequest, res: ApiResponse<
 
 export async function exportSite(req: AuthenticatedApiRequest, res: ApiResponse<ExportSite>) {
     const { uid } = req.user;
-    const { pageId } = extractFirstQueryValue(req);
-    const data = await ExportUtils.exportSiteWithUid(uid, pageId);
-    res.status(200).json({ message: "Exported page", data });
+    const { siteId } = extractFirstQueryValue(req);
+    const data = await ExportUtils.exportSiteWithUid(uid, siteId);
+    res.status(200).json({ message: "Exported site", data });
 }
 
 export async function exportUser(req: ApiRequest, res: ApiResponse<ExportUser>) {
