@@ -211,10 +211,7 @@ const ExportDataSection: FC = () => {
   return (
     <section>
       <h2>Export all data</h2>
-      <p>
-        You can request all of your data to be exported to a CSV file. This includes your comments,
-        your replies to comments, and your posts, here.
-      </p>
+      <p>You can request all of your data to be exported to a JSON file.</p>
       <RightAligned>
         <Button icon={DnsOutlinedIcon} onClick={handler}>
           Request data

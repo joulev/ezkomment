@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { FC, FormEventHandler, useState } from "react";
+import { FC, FormEventHandler, MouseEvent, useState } from "react";
 
 import DangerousOutlinedIcon from "@mui/icons-material/DangerousOutlined";
 import DnsOutlinedIcon from "@mui/icons-material/DnsOutlined";
@@ -12,6 +12,7 @@ import { SITE } from "~/misc/validate";
 import useAuth from "~/client/hooks/auth";
 import { useSite } from "~/client/hooks/site";
 import { useSetToast } from "~/client/hooks/toast";
+import downloadJSON from "~/client/lib/downloadJSON";
 import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/client/lib/errors";
 import { internalFetcher } from "~/client/lib/fetcher";
 
@@ -211,6 +212,37 @@ const UpdateSite: FC<{ site: ClientSite }> = ({ site }) => (
   </section>
 );
 
+const ExportSiteData: FC<{ site: ClientSite }> = ({ site }) => {
+  const auth = useAuth();
+  const setToast = useSetToast();
+
+  const handler = async (event: MouseEvent) => {
+    event.preventDefault();
+    if (!auth.user) return;
+    auth.setLoading(true);
+    try {
+      const { success, body } = await internalFetcher({ url: `/api/sites/${site.id}/export` });
+      if (!success) throw new Error("exporting failed");
+      downloadJSON(body, `ezkomment-site-${site.name}-${new Date().toISOString()}.json`);
+    } catch (err: any) {
+      setToast({ type: "error", message: "Exporting data failed, please try again later." });
+    }
+    auth.setLoading(false);
+  };
+
+  return (
+    <section>
+      <h2>Export all data</h2>
+      <p>You can request all data related to this site to be exported as JSON.</p>
+      <RightAligned>
+        <Button icon={DnsOutlinedIcon} onClick={handler}>
+          Request data
+        </Button>
+      </RightAligned>
+    </section>
+  );
+};
+
 const DeleteSite: FC<{ site: ClientSite }> = ({ site }) => {
   const router = useRouter();
   const auth = useAuth();
@@ -304,18 +336,7 @@ const Content: FC = () => {
           </p>
         </section>
         <hr />
-        <section>
-          <h2>Export all data</h2>
-          <p>
-            You can request all data related to this site to be exported. You can only perform this
-            action once a day.
-          </p>
-          <RightAligned>
-            <Button icon={DnsOutlinedIcon} disabled>
-              Request data
-            </Button>
-          </RightAligned>
-        </section>
+        <ExportSiteData site={site} />
         <hr />
         <DeleteSite site={site} />
       </div>
