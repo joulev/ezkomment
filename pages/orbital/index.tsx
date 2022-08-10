@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FC, ReactNode } from "react";
 
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
 
@@ -103,14 +104,14 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Lift-off poster"
               description="First design of the poster, submitted during the lift-off stage."
-              href="https://ezkomment.joulev.dev/images/orbital/liftoff-poster.png"
+              href="/images/orbital/liftoff-poster.png"
               icon={ImageOutlinedIcon}
               date="11 May 2022"
             />
             <SectionLink
               title="Lift-off video"
               description="The video submitted during the lift-off stage."
-              href="https://drive.google.com/file/d/1wkvvl-EeYFRbqdmqBBfFu5B-NO_vVxFK/view"
+              href="/orbital/liftoff-video"
               icon={OndemandVideoOutlinedIcon}
               date="11 May 2022"
             />
@@ -129,14 +130,14 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Milestone 1 poster"
               description="Second version of the poster, submitted for Milestone 1."
-              href="https://ezkomment.joulev.dev/images/orbital/ms1-poster.png"
+              href="/images/orbital/ms1-poster.png"
               icon={ImageOutlinedIcon}
               date="26 May 2022"
             />
             <SectionLink
               title="Milestone 1 video"
               description="Second version of the project video, submitted for Milestone 1."
-              href="https://drive.google.com/file/d/1TE0dBZ3PkU9FSMSvTEMnb3dLs9U4CUyl/view"
+              href="/orbital/ms1-video"
               icon={OndemandVideoOutlinedIcon}
               date="27 May 2022"
             />
@@ -155,14 +156,14 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Milestone 2 poster"
               description="Third version of the poster, submitted for Milestone 2."
-              href="https://ezkomment.joulev.dev/images/orbital/ms2-poster.png"
+              href="/images/orbital/ms2-poster.png"
               icon={ImageOutlinedIcon}
               date="24 June 2022"
             />
             <SectionLink
               title="Milestone 2 video"
               description="Third version of the project video, submitted for Milestone 2."
-              href="https://drive.google.com/file/d/1gyDeqEbk3Mu6ZZqLgoa06pH4UgrewekD/view"
+              href="/orbital/ms2-video"
               icon={OndemandVideoOutlinedIcon}
               date="27 June 2022"
             />
@@ -181,16 +182,42 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
             <SectionLink
               title="Milestone 3 poster"
               description="Fourth version of the poster, submitted for Milestone 3."
-              href="https://ezkomment.joulev.dev/images/orbital/ms3-poster.png"
+              href="/images/orbital/ms3-poster.png"
               icon={ImageOutlinedIcon}
               date="24 July 2022"
             />
             <SectionLink
               title="Milestone 3 video"
               description="Fourth version of the project video, submitted for Milestone 3."
-              href="https://drive.google.com/file/d/1yAn4dCjKpKoHwNMfsfeS3Mu3pzJZYzgZ/view"
+              href="/orbital/ms3-video"
               icon={OndemandVideoOutlinedIcon}
               date="25 July 2022"
+            />
+          </div>
+        </section>
+        <section>
+          <h2 className="text-center">Splashdown</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SectionLink
+              title="Splashdown poster"
+              description="Final version of the poster"
+              href="/images/orbital/splashdown-poster.png"
+              icon={ImageOutlinedIcon}
+              date="not released"
+            />
+            <SectionLink
+              title="Splashdown video"
+              description="Final version of the project video"
+              href="/orbital/splashdown-video"
+              icon={OndemandVideoOutlinedIcon}
+              date="not released"
+            />
+            <SectionLink
+              title="Splashdown source code"
+              description="Source code of the application as of Splashdown"
+              href="/orbital/splashdown-source"
+              icon={CodeOutlinedIcon}
+              date="not released"
             />
           </div>
         </section>
