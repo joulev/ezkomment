@@ -49,6 +49,6 @@ describe("Test export utils", () => {
     });
 
     afterAll(async () => {
-        Promise.all([UserUtils.deleteUserById(uid), UserUtils.deleteUserSites(uid)]);
+        await Promise.all([UserUtils.deleteUserById(uid), UserUtils.deleteUserSites(uid)]);
     });
 });
