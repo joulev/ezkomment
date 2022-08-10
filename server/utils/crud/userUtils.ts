@@ -4,15 +4,17 @@ import { Timestamp } from "firebase-admin/firestore";
 import { authAdmin, firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/firestoreCollections";
 
-import { Site, WelcomeMessageNotification } from "~/types/server";
+import { Site, User, WelcomeMessageNotification } from "~/types/server";
 
 import { handleUserError } from "../errors/handleAuthError";
 import { deleteRefArray } from "../firestoreUtils";
 import { deleteSitePages } from "./siteUtils";
 
-export async function getUserById(uid: string) {
-    const user = await authAdmin.getUser(uid).catch(handleUserError);
-    return user;
+export async function getUserById(uid: string): Promise<User> {
+    const { email, displayName, photoURL, metadata, providerData } = await authAdmin
+        .getUser(uid)
+        .catch(handleUserError);
+    return { uid, email, displayName, photoURL, metadata, providerData };
 }
 
 export async function updateUserById(uid: string, data: UpdateRequest) {
