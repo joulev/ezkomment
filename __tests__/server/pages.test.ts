@@ -122,7 +122,7 @@ describe("Test page utils", () => {
     it("Should correctly increment pageCount when a page is created", async () => {
         await PageUtils.createPageWithUid(uid, {
             siteId,
-            url: `${mainSite.domain}/Scarlet_Serenade`,
+            url: `https://${mainSite.domain}/Scarlet_Serenade`,
             title: "Scarlet Serenade",
             autoApprove: true,
         });

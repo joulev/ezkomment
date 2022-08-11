@@ -78,7 +78,7 @@ export function createTestSite({
     id,
     uid,
     name = `Site ${id}`,
-    domain = `https://example${id}.com`,
+    domain = `example${id}.com`,
     iconURL = null,
     pageCount = 0,
     totalCommentCount = 0,
