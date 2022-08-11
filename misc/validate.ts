@@ -41,6 +41,12 @@ export const SITE = {
 export const PAGE = {
     titleIsValid: (title: string) => title.length > 0,
     urlIsValid: (url: string) => isURL(url, { require_protocol: true }),
+    urlMatchDomain: (url: string, domain: string | undefined) => {
+        if (!domain || !isURL(url, { require_protocol: true })) return false;
+        if (domain === "*") return true;
+        const { hostname } = new URL(url);
+        return hostname === domain || hostname.endsWith(`.${domain}`);
+    },
     // server-only
     siteIdIsValid: idIsValid,
 };

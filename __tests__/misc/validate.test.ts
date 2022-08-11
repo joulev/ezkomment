@@ -59,6 +59,17 @@ describe("Test page validation", () => {
         expect(PAGE.urlIsValid("httttttps://example.com/icon")).toBe(false);
         expect(PAGE.urlIsValid("https://example.com/icon")).toBe(true);
     });
+    it("Check urlMatchDomain", () => {
+        expect(PAGE.urlMatchDomain("https://example.com/icon", "example.com")).toBe(true);
+        expect(PAGE.urlMatchDomain("https://example.com", "example.com")).toBe(true);
+        expect(PAGE.urlMatchDomain("https://example.com", "example.co")).toBe(false);
+        expect(PAGE.urlMatchDomain("https://subdomain.eg.com", "eg.com")).toBe(true);
+        expect(PAGE.urlMatchDomain("https://subdomain.eg.com", "subdomain.eg.com")).toBe(true);
+        expect(PAGE.urlMatchDomain("https://ubdomain.eg.com", "subdomain.eg.com")).toBe(false);
+        expect(PAGE.urlMatchDomain("https://more.subdomain.eg.com", "subdomain.eg.com")).toBe(true);
+        expect(PAGE.urlMatchDomain("https://anything.can.pass.com", "*")).toBe(true);
+        expect(PAGE.urlMatchDomain("https://anything.can.not.pass.com", undefined)).toBe(false);
+    });
     it("Check siteIdIsValid", () => {
         expect(PAGE.siteIdIsValid("")).toBe(false);
         expect(PAGE.siteIdIsValid("a")).toBe(true);

@@ -67,7 +67,7 @@ const UpdateSiteInfo: FC = () => {
     event.preventDefault();
     if (
       !PAGE.titleIsValid(title) ||
-      !PAGE.urlIsValid(url) ||
+      !PAGE.urlMatchDomain(url, site.domain) ||
       (title === page.title && url === page.url)
     )
       return;
@@ -109,14 +109,19 @@ const UpdateSiteInfo: FC = () => {
           value={url}
           onUpdate={setUrl}
           required
-          isInvalid={!PAGE.urlIsValid(url)}
+          isInvalid={!PAGE.urlMatchDomain(url, site.domain)}
         />
+        {url !== "" && !PAGE.urlMatchDomain(url, site.domain) && (
+          <p className="text-red-500 text-sm -mt-3">
+            Your URL does not match the site domain ({site.domain}).
+          </p>
+        )}
         <RightAligned>
           <Button
             icon={SaveOutlinedIcon}
             disabled={
               !PAGE.titleIsValid(title) ||
-              !PAGE.urlIsValid(url) ||
+              !PAGE.urlMatchDomain(url, site.domain) ||
               (title === page.title && url === page.url)
             }
           >

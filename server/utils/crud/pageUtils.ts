@@ -1,5 +1,7 @@
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
 
+import { PAGE } from "~/misc/validate";
+
 import { firestoreAdmin } from "~/server/firebase/firebaseAdmin";
 import {
     COMMENTS_COLLECTION,
@@ -72,7 +74,7 @@ export async function createPageWithUid(uid: string, data: CreatePageBodyParams)
     return await firestoreAdmin.runTransaction(async t => {
         const siteRef = SITES_COLLECTION.doc(siteId);
         const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
-        if (!url.includes(siteData.domain) && siteData.domain !== "*") {
+        if (PAGE.urlMatchDomain(url, siteData.domain)) {
             throw new CustomApiError("Site domain and page url do not match", 409);
         }
         // Increment the pageCount of the site by 1

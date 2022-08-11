@@ -113,7 +113,7 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
-    if (!PAGE.titleIsValid(title) || !PAGE.urlIsValid(url)) return;
+    if (!site || !PAGE.titleIsValid(title) || !PAGE.urlMatchDomain(url, site.domain)) return;
     setLoading(true);
     try {
       await createNewPage(title, url);
@@ -123,6 +123,8 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
     }
     setLoading(false);
   };
+
+  if (!site) return null;
 
   return (
     <Modal isVisible={show} onOutsideClick={onClose}>
@@ -149,14 +151,22 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
             required
             value={url}
             onUpdate={setUrl}
-            isInvalid={!(title === "" && url === "") && !PAGE.urlIsValid(url)}
-            placeholder="https://example.com/page"
+            isInvalid={!(title === "" && url === "") && !PAGE.urlMatchDomain(url, site.domain)}
+            placeholder={`https://${site.domain}/page`}
           />
+          {url !== "" && !PAGE.urlMatchDomain(url, site.domain) && (
+            <p className="text-red-500 text-sm -mt-3">
+              Your URL does not match the site domain ({site.domain}).
+            </p>
+          )}
           <RightAligned className="gap-6">
             <Button variant="tertiary" onClick={onClose} type="button">
               Cancel
             </Button>
-            <Button type="submit" disabled={!PAGE.titleIsValid(title) || !PAGE.urlIsValid(url)}>
+            <Button
+              type="submit"
+              disabled={!PAGE.titleIsValid(title) || !PAGE.urlMatchDomain(url, site.domain)}
+            >
               Create
             </Button>
           </RightAligned>
