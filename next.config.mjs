@@ -49,12 +49,13 @@ const nextConfig = {
     },
     {
       source: "/orbital/splashdown-video",
-      destination: "https://example.com",
+      destination: "https://drive.google.com/file/d/1nN_ATlpWglU4tJx755Scoyp5OmZRWPOu/view",
+      // hard subtitle: https://drive.google.com/file/d/1MtPL8QXRHxvF2OrYWMEhxprVz_3kYl95/view
       permanent: false,
     },
     {
       source: "/orbital/splashdown-source",
-      destination: "https://example.com",
+      destination: "https://github.com/joulev/ezkomment/archive/refs/tags/v1.0.0.zip",
       permanent: false,
     },
   ],

@@ -203,21 +203,21 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
               description="Final version of the poster"
               href="/images/orbital/splashdown-poster.png"
               icon={ImageOutlinedIcon}
-              date="not released"
+              date="12 August 2022"
             />
             <SectionLink
               title="Splashdown video"
               description="Final version of the project video"
               href="/orbital/splashdown-video"
               icon={OndemandVideoOutlinedIcon}
-              date="not released"
+              date="12 August 2022"
             />
             <SectionLink
               title="Splashdown source code"
               description="Source code of the application as of Splashdown"
               href="/orbital/splashdown-source"
               icon={CodeOutlinedIcon}
-              date="not released"
+              date="12 August 2022"
             />
           </div>
         </section>
