@@ -152,7 +152,7 @@ const AddPageModal: FC<{ show: boolean; onClose: () => void }> = ({ show, onClos
             value={url}
             onUpdate={setUrl}
             isInvalid={!(title === "" && url === "") && !PAGE.urlMatchDomain(url, site.domain)}
-            placeholder={`https://${site.domain}/page`}
+            placeholder={site.domain !== "*" ? `https://${site.domain}/page` : undefined}
           />
           {url !== "" && !PAGE.urlMatchDomain(url, site.domain) && (
             <p className="text-red-500 text-sm -mt-3">
