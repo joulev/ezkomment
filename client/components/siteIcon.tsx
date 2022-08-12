@@ -8,12 +8,12 @@ function useSiteIconURL(site: Site) {
   const { src } = useImage({
     srcList: [
       site.iconURL || "",
-      `https://${site.domain}/apple-touch-icon.png`,
-      `https://${site.domain}/images/apple-touch-icon.png`,
-      `https://${site.domain}/img/apple-touch-icon.png`,
-      `http://${site.domain}/apple-touch-icon.png`,
-      `http://${site.domain}/images/apple-touch-icon.png`,
-      `http://${site.domain}/img/apple-touch-icon.png`,
+      site.domain === "*" ? "" : `https://${site.domain}/apple-touch-icon.png`,
+      site.domain === "*" ? "" : `https://${site.domain}/images/apple-touch-icon.png`,
+      site.domain === "*" ? "" : `https://${site.domain}/img/apple-touch-icon.png`,
+      site.domain === "*" ? "" : `http://${site.domain}/apple-touch-icon.png`,
+      site.domain === "*" ? "" : `http://${site.domain}/images/apple-touch-icon.png`,
+      site.domain === "*" ? "" : `http://${site.domain}/img/apple-touch-icon.png`,
       "/images/logo.svg",
     ],
   });
