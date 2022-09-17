@@ -18,7 +18,8 @@ const handler = ncRouter().get(checkSitePageExists, async (req, res) => {
     const domain = await getSiteDomain(siteId);
     const { customisation } = await getSiteCustomisation(siteId);
     const generatedHTML = generateCommentHTML(customisation, config, dark === "1");
-    if (domain !== "*") res.setHeader("Content-Security-Policy", `frame-ancestors ${domain}`);
+    if (domain !== "*")
+        res.setHeader("Content-Security-Policy", `frame-ancestors http://localhost:* ${domain}`);
     res.status(200).send(generatedHTML);
 });
 

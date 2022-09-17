@@ -22,6 +22,8 @@ so feel free to bookmark this link.
 
 Typically you would not want random people to take your comment section embed URL to embed to their websites. The site domain is for that: only webpages under the domain/subdomain you provide are allowed to embed the comment sections. Then the comment section is "protected" by [`frame-ancestors`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors).
 
-Do note that this protection [may not work for very old browsers](https://caniuse.com/?search=frame-ancestors) (but we do not support browsers that old anyway), and regardless of this configuration the embed URL is always public (i.e. people can always open it as a normal webpage).
+Do note that this protection [may not work for very old browsers](https://caniuse.com/?search=frame-ancestors) (but ezkomment does not support browsers that old anyway).
 
-However, if you want to disable this restriction, simply set the site domain to `*` ("catch-all"), in that case while everyone can embed your comment section to their websites, you can add ezkomment pages for any domains under the ezkomment site.
+The protection is also disabled for `localhost`, so everyone can simply copy the `iframe` source and see it locally in their machine. This is intentional, since otherwise _you_ would also be locked out of the comment section locally. The embed URL is always public anyway (i.e. people can always open it as a normal webpage), so we consider protecting against `localhost` is too restrictive.
+
+However, if you want to disable all restrictions, simply set the site domain to `*` ("catch-all"), in that case while everyone can embed your comment section to their websites, you can add ezkomment pages for any domains under the ezkomment site.
