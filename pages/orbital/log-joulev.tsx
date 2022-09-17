@@ -83,7 +83,7 @@ const TableRemarks: FC<{ remarks: string }> = ({ remarks }) => {
   return <>{new ReplaceableReact(remarks).replaceAll()}</>;
 };
 
-const ProjectLogJoulev: NextPageWithLayout = () => (
+const ProjectLogJoulev: NextPageWithLayout<Props> = () => (
   <div className="flex flex-col gap-18">
     <div className="max-w-prose mx-auto">
       <Banner variant="warning" className="lg:hidden mb-6">

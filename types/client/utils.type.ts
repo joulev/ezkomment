@@ -7,11 +7,7 @@ import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material/SvgIcon/SvgIcon";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-    getLayout?: (
-        page: ReactElement,
-        pageProps: AppPropsWithLayout["pageProps"],
-        router: NextRouter
-    ) => ReactNode;
+    getLayout?: (page: ReactElement, pageProps: P, router: NextRouter) => ReactNode;
 };
 export type AppPropsWithLayout<P = {}> = AppProps<P> & {
     Component: NextPageWithLayout;
