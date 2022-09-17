@@ -8,7 +8,11 @@ import {
     USERS_COLLECTION,
 } from "~/server/firebase/firestoreCollections";
 import { handleFirestoreError } from "~/server/utils/errors/handleFirestoreError";
-import { deleteRefArray, getDocumentInTransactionWithUid } from "~/server/utils/firestoreUtils";
+import {
+    deleteRefArray,
+    getDocumentInTransaction,
+    getDocumentInTransactionWithUid,
+} from "~/server/utils/firestoreUtils";
 
 import {
     ClientSite,
@@ -51,6 +55,21 @@ export async function getClientSiteWithUid(uid: string, siteId: string) {
         const pages = docs.map(doc => doc.data()) as Page[];
         const clientSiteData: ClientSite = { ...siteData, pages };
         return clientSiteData;
+    });
+}
+
+/**
+ * Get the domain of a site with the given id, without authentication. This is used to determine if
+ * frame-ancestors should be set in the response header.
+ *
+ * @param siteId The site's id
+ * @returns The domain of the site
+ */
+export async function getSiteDomain(siteId: string) {
+    const siteRef = SITES_COLLECTION.doc(siteId);
+    return await firestoreAdmin.runTransaction(async t => {
+        const siteData = await getDocumentInTransaction<Site>(t, siteRef);
+        return siteData.domain;
     });
 }
 
