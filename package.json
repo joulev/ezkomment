@@ -27,7 +27,7 @@
     "@mdx-js/react": "^2.1.2",
     "@monaco-editor/react": "^4.4.5",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.9.3",
+    "@mui/material": "^5.10.5",
     "@victorioberra/trianglify-browser": "^4.1.1",
     "capture-website": "^2.4.0",
     "clsx": "^1.2.1",
