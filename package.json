@@ -37,7 +37,7 @@
     "escape-string-regexp": "^5.0.0",
     "firebase": "^9.10.0",
     "firebase-admin": "^11.0.1",
-    "framer-motion": "^7.3.5",
+    "framer-motion": "^7.3.6",
     "js-confetti": "^0.10.2",
     "jsdom": "^20.0.0",
     "json5": "^2.2.1",
