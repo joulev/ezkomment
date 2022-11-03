@@ -13,12 +13,6 @@ export type AppPropsWithLayout<P = {}> = AppProps<P> & {
     Component: NextPageWithLayout;
 };
 
-export type Mode = "light" | "dark" | "system";
-export type ModeContextType = {
-    mode: Mode;
-    setMode: Dispatch<SetStateAction<Mode>>;
-};
-
 export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "unknown";
 export type BreakpointContextType = Breakpoint;
 

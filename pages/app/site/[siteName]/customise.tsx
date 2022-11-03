@@ -23,7 +23,6 @@ import { darkTheme, lightTheme, modifiedHTML, options } from "~/config/monaco";
 import useAuth from "~/client/hooks/auth";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import { useSite } from "~/client/hooks/site";
-import useTheme from "~/client/hooks/theme";
 import { useSetToast } from "~/client/hooks/toast";
 import { internalFetcher, internalSWRGenerator } from "~/client/lib/fetcher";
 import generatePreviewHTML from "~/client/lib/generatePreviewHTML";
@@ -167,7 +166,13 @@ type EditorProps = {
   onChange: (value: string | undefined) => void;
 };
 const Editor: FC<EditorProps> = ({ value, onChange }) => {
-  const currentTheme = useTheme();
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    const match = window.matchMedia("(prefers-color-scheme: dark)");
+    setDark(match.matches);
+    const listener = (event: MediaQueryListEvent) => setDark(event.matches);
+    match.addEventListener("change", listener);
+  }, []);
   function editorWillMount(monaco: Monaco) {
     monaco.editor.defineTheme("ezk-light", lightTheme);
     monaco.editor.defineTheme("ezk-dark", darkTheme);
@@ -178,7 +183,7 @@ const Editor: FC<EditorProps> = ({ value, onChange }) => {
     <MonacoEditor
       language="ezk-html"
       value={value}
-      theme={currentTheme === "light" ? "ezk-light" : "ezk-dark"}
+      theme={dark ? "ezk-dark" : "ezk-light"}
       onChange={val => startTransition(() => onChange(val))}
       options={options}
       beforeMount={editorWillMount}

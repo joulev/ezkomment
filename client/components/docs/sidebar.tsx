@@ -11,7 +11,6 @@ import version from "~/client/lib/version";
 
 import A from "~/client/components/anchor";
 import Input from "~/client/components/forms/input";
-import ModeSwitcher from "~/client/components/modeSwitcher";
 
 import { NavData } from "~/types/client/docs.type";
 
@@ -118,7 +117,6 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
           <A className="text-sm" href={version.href}>
             {version.version}
           </A>
-          <ModeSwitcher />
         </footer>
       </div>
     </aside>
