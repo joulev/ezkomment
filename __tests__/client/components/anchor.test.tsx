@@ -26,7 +26,7 @@ describe("Anchor component", () => {
     expect(document.getElementById("fake")).not.toHaveAttribute("href");
 
     expect(screen.queryByText("anchor")).toBeInTheDocument();
-    expect(document.getElementById("anchor")).toHaveAttribute("href", "#");
+    expect(document.getElementById("anchor")).toHaveAttribute("href", "/#");
     expect(document.getElementById("anchor")).not.toHaveAttribute("target");
 
     expect(screen.queryByText("internal")).toBeInTheDocument();

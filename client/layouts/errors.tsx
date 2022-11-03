@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Component, ErrorInfo, FC, ReactNode } from "react";
 
 import A from "~/client/components/anchor";

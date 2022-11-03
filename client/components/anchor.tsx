@@ -24,51 +24,27 @@ import { HyperlinkProps } from "~/types/client/components.type";
  */
 const A = forwardRef<HTMLAnchorElement, HyperlinkProps>(
   ({ href, notStyled, className, children, ...rest }, ref) => {
-    if (!href) {
-      return (
-        <a className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
-          {children}
-        </a>
-      );
-    }
+    const cls = clsx(notStyled || "a", className);
+    const props = { className: cls, ...rest, ref };
+
+    if (!href) return <a {...props}>{children}</a>;
     if (href === "/docs") {
       return (
         <Link
           href={{ pathname: "/docs/[...slug]", query: { slug: ["tutorial", "getting-started"] } }}
+          {...props}
         >
-          <a className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
-            {children}
-          </a>
-        </Link>
-      );
-    }
-    if (href[0] === "/") {
-      return (
-        <Link href={href}>
-          <a className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
-            {children}
-          </a>
-        </Link>
-      );
-    }
-    if (href[0] === "#") {
-      return (
-        <a href={href} className={clsx(notStyled || "a", className)} ref={ref} {...rest}>
           {children}
-        </a>
+        </Link>
       );
     }
+
+    const isExternal = href?.startsWith("http");
+    const extProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={clsx(notStyled || "a", className)}
-        ref={ref}
-        {...rest}
-      >
+      <Link href={href} {...extProps} {...props}>
         {children}
-      </a>
+      </Link>
     );
   }
 );

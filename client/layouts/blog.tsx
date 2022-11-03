@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { format } from "date-fns";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { FC, useEffect, useState } from "react";
 
 import A from "~/client/components/anchor";

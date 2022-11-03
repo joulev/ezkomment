@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { MouseEvent, useEffect, useRef } from "react";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
