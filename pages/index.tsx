@@ -10,9 +10,7 @@ import Seo from "~/client/components/seo";
 
 import { SeoProps } from "~/types/client/components.type";
 
-type Props = {
-  seo: SeoProps;
-};
+type Props = { seo: SeoProps };
 
 const Home: NextPage<Props> = ({ seo }) => (
   <>
