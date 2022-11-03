@@ -8,15 +8,6 @@ import setupMediaViewport from "~/client/lib/tests/setupMediaViewport";
 
 import Nav from "~/client/components/navbar";
 
-jest.mock(
-  "next/image",
-  () =>
-    function Image({ src, alt }: { src: string; alt: string }) {
-      // eslint-disable-next-line @next/next/no-img-element
-      return <img src={src} alt={alt} />;
-    }
-);
-
 describe("Test home navbar display on different positions", () => {
   it("Should not be displayed if and only if scrollTop is too small", () => {
     expect(() => render(<Nav />)).not.toThrow();
