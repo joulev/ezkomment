@@ -138,14 +138,14 @@ const ProjectLogJoulev: NextPageWithLayout<Props> = () => (
   </div>
 );
 
-export const getStaticProps: GetStaticProps<Props> = async () => ({
+export const getStaticProps: GetStaticProps<Props> = () => ({
   props: {
     lastUpdated: new Date("2022-08-01").toISOString(),
     seo: {
       title: "Project Log for Vu Van Dung | ezkomment",
       description: "Project Log for Vu Van Dung during the 2022 NUS Orbital Program",
       url: "https://ezkomment.joulev.dev/orbital/log-joulev",
-      image: await getOgImage({ title: "Project Log for Vu Van Dung", label: "orbital" }),
+      image: getOgImage({ title: "Project Log for Vu Van Dung", label: "orbital" }),
     },
   },
 });

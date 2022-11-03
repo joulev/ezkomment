@@ -244,8 +244,8 @@ const OrbitalHome: NextPage<Props> = ({ seo }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  const image = await getOgImage({ title: "ezkomment @ NUS Orbital", label: "orbital" });
+export const getStaticProps: GetStaticProps<Props> = () => {
+  const image = getOgImage({ title: "ezkomment @ NUS Orbital", label: "orbital" });
   return {
     props: {
       seo: {

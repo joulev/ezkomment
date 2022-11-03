@@ -76,7 +76,7 @@ const ProjectLogVietAnh: NextPageWithLayout<Props> = ({ data }) => (
 );
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const image = await getOgImage({ title: "Project Log for Nguyen Viet Anh", label: "orbital" });
+  const image = getOgImage({ title: "Project Log for Nguyen Viet Anh", label: "orbital" });
   return {
     props: {
       lastUpdated: new Date("2022-07-25").toISOString(),
