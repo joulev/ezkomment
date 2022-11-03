@@ -55,7 +55,7 @@ const getStaticPaths: GetStaticPaths<URLParams> = () => ({
 
 const getStaticProps: GetStaticProps<PageProps, URLParams> = async ({ params }) => {
   const { content, title, ...rest } = await getFileData(params?.slug ?? []); // [] case never happens, but TS complains
-  const image = await getOgImage({ title, label: "docs" });
+  const image = getOgImage({ title, label: "docs" });
   return {
     props: {
       content: String(

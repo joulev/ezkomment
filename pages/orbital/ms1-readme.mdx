@@ -4,8 +4,8 @@ import BlogLayout from "~/client/layouts/blog";
 
 import authors from "~/constants/authors";
 
-export async function getStaticProps() {
-  const image = await getOgImage({ title: "Orbital 2022 Milestone 1 README", label: "orbital" });
+export function getStaticProps() {
+  const image = getOgImage({ title: "Orbital 2022 Milestone 1 README", label: "orbital" });
   return { props: { image } };
 }
 
@@ -339,7 +339,7 @@ The `GET` method can be used to fetch all, or part of all comments for a particu
 
 ```js
 const res = await fetch("url");
-const comments = res.ok ? (await res.json()) : [];
+const comments = res.ok ? await res.json() : [];
 console.log(comments);
 ```
 
@@ -373,7 +373,7 @@ const email = document.getElementById("form_email").value;
 const content = document.getElementById("form_content").value;
 const res = await fetch("url", {
   method: "POST",
-  body: JSON.stringify({ name, email, content })
+  body: JSON.stringify({ name, email, content }),
 });
 if (res.ok) showSuccessNotice();
 ```

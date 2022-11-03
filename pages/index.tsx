@@ -24,13 +24,13 @@ const Home: NextPage<Props> = ({ seo }) => (
   </>
 );
 
-export const getStaticProps: GetStaticProps<Props> = async () => ({
+export const getStaticProps: GetStaticProps<Props> = () => ({
   props: {
     seo: {
       title: "ezkomment: Commenting made easy",
       description:
         "No complicated backend configuration. Add a comment section anywhere – even if you use plain HTML, we got you covered.",
-      image: await getOgImage({}),
+      image: getOgImage({}),
       url: "https://ezkomment.joulev.dev",
     },
   },
