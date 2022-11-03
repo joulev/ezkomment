@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, MouseEventHandler, ReactNode, useContext, useEffect, useState } from "react";
 
@@ -77,7 +77,7 @@ const BreadCrumbSlash: FC = () => (
 const TopNavBreadcrumb: FC<CurrentPage> = ({ type, siteName, pageId }) => (
   <div className="flex flex-row gap-3 items-center">
     <A href="/app/dashboard" notStyled className="w-9 h-9 relative">
-      <Image src={logo} alt="ezkomment" layout="fill" />
+      <Image src={logo} alt="ezkomment" />
     </A>
     <BreadCrumbSlash />
     <A
@@ -163,9 +163,7 @@ const TopNav: FC<CurrentPage> = props => {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={auth.user.photoURL} alt="avatar" className="w-9 h-9" />
           )}
-          {auth.user && !auth.user.photoURL && (
-            <Image src={defaultAvatar} alt="avatar" layout="fill" />
-          )}
+          {auth.user && !auth.user.photoURL && <Image src={defaultAvatar} alt="avatar" />}
         </A>
       </nav>
       <div

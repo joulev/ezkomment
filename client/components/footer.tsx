@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { FC, useState } from "react";
 
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -62,7 +62,7 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
       >
         <div className="min-w-[50%] sm:max-w-[66%] flex flex-col">
           <A href="/" notStyled className="block logo-width mb-3">
-            <Image src={logoText} alt="ezkomment" layout="responsive" />
+            <Image src={logoText} alt="ezkomment" />
           </A>
           <div className="flex flex-row flex-wrap gap-x-6 mb-6">
             <FooterNavLink href="/" title="Homepage" />

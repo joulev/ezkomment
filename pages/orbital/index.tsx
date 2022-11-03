@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { GetStaticProps, NextPage } from "next";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { FC, ReactNode } from "react";
 
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
