@@ -14,7 +14,6 @@ import useAuth from "~/client/hooks/auth";
 import { signOut } from "~/client/lib/firebase/auth";
 
 import A from "~/client/components/anchor";
-import ModeSwitcher from "~/client/components/modeSwitcher";
 import { NotificationShowSetter } from "~/client/layouts/app";
 
 import { CurrentPage } from "~/types/client/page.type";
@@ -210,7 +209,6 @@ const TopNav: FC<CurrentPage> = props => {
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between items-center mx-1 mt-6">
             <Image src={logo} alt="ezkomment" />
-            <ModeSwitcher />
           </div>
         </nav>
       </div>

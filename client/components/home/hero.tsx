@@ -1,16 +1,13 @@
 import Image from "next/image";
 import { FC } from "react";
 
-import useTheme from "~/client/hooks/theme";
-
 import Button from "~/client/components/buttons";
 
-import darkScreen from "~/public/images/home/app-dark.png";
-import lightScreen from "~/public/images/home/app-light.png";
+import dark from "~/public/images/home/app-dark.png";
+import light from "~/public/images/home/app-light.png";
 import logoText from "~/public/images/logo-text.svg";
 
 const Hero: FC = () => {
-  const mode = useTheme();
   return (
     <section className="overflow-x-hidden my-36 md:my-24 lg:my-18">
       <div className="container grid grid-cols-1 md:grid-cols-12 gap-6 xl:gap-12 items-center">
@@ -43,10 +40,8 @@ const Hero: FC = () => {
         </div>
         <div className="hidden md:block md:col-span-5 relative h-[calc(1590px/3.9)] lg:h-[calc(1590px/2.5)]">
           <div className="absolute left-0 inset-y-0 w-[calc(2120px/4)] lg:w-[calc(2120px/2.6)]">
-            <Image
-              src={mode === "dark" ? darkScreen : lightScreen}
-              alt="Site dashboard screenshot"
-            />
+            <Image src={light} alt="Site dashboard screenshot" className="block dark:hidden" />
+            <Image src={dark} alt="Site dashboard screenshot" className="hidden dark:block" />
           </div>
         </div>
       </div>

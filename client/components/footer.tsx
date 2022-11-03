@@ -11,7 +11,6 @@ import version from "~/client/lib/version";
 import A from "~/client/components/anchor";
 import Button from "~/client/components/buttons";
 import Modal from "~/client/components/modal";
-import ModeSwitcher from "~/client/components/modeSwitcher";
 import RightAligned from "~/client/components/utils/rightAligned";
 
 import { FooterProps } from "~/types/client/components.type";
@@ -87,7 +86,6 @@ const Footer: FC<FooterProps> = ({ className, containerClasses = "container" }) 
             <SocialIconLink href="https://t.me/joulev3" icon={TelegramIcon} />
             <SocialIconLink href="mailto:joulev.vvd@yahoo.com" icon={EmailOutlinedIcon} />
           </div>
-          <ModeSwitcher />
         </div>
       </div>
       <Modal isVisible={showPrivacyModal} onOutsideClick={() => setShowPrivacyModal(false)}>

@@ -4,10 +4,8 @@ import { NextWebVitalsMetric } from "next/app";
 import { useRouter } from "next/router";
 
 import BreakpointContext from "~/client/context/breakpoint";
-import ModeContext from "~/client/context/mode";
 import SetToastContext from "~/client/context/toast";
 import { useBreakpointInit } from "~/client/hooks/breakpoint";
-import { useModeInit } from "~/client/hooks/theme";
 import { useToastInit } from "~/client/hooks/toast";
 
 import A from "~/client/components/anchor";
@@ -21,44 +19,41 @@ import { AppPropsWithLayout } from "~/types/client/utils.type";
 import "~/client/styles/globals.css";
 
 export default function NextApp({ Component, pageProps }: AppPropsWithLayout) {
-  const { mode, setMode } = useModeInit();
   const breakpoint = useBreakpointInit();
   const { toast, setToast } = useToastInit();
   const router = useRouter();
   const getLayout = Component.getLayout ?? (page => page);
   return (
     <ErrorBoundary>
-      <ModeContext.Provider value={{ mode, setMode }}>
-        <BreakpointContext.Provider value={breakpoint}>
-          <SetToastContext.Provider value={setToast}>
-            <MDXProvider
-              components={{
-                a: ({ ref, ...rest }) => <A {...rest} />,
-                h1: props => <PostHeading {...props} level={1} />,
-                h2: props => <PostHeading {...props} level={2} />,
-                h3: props => <PostHeading {...props} level={3} />,
-                h4: props => <PostHeading {...props} level={4} />,
-                h5: props => <PostHeading {...props} level={5} />,
-                h6: props => <PostHeading {...props} level={6} />,
-                img: ({ src, alt }) => <BlogImage src={src ?? ""} caption={alt ?? "no caption"} />,
-              }}
+      <BreakpointContext.Provider value={breakpoint}>
+        <SetToastContext.Provider value={setToast}>
+          <MDXProvider
+            components={{
+              a: ({ ref, ...rest }) => <A {...rest} />,
+              h1: props => <PostHeading {...props} level={1} />,
+              h2: props => <PostHeading {...props} level={2} />,
+              h3: props => <PostHeading {...props} level={3} />,
+              h4: props => <PostHeading {...props} level={4} />,
+              h5: props => <PostHeading {...props} level={5} />,
+              h6: props => <PostHeading {...props} level={6} />,
+              img: ({ src, alt }) => <BlogImage src={src ?? ""} caption={alt ?? "no caption"} />,
+            }}
+          >
+            <div
+              id="wrapper"
+              className={clsx(
+                "relative min-h-[100vh]",
+                !router.asPath.startsWith("/docs") &&
+                  !router.asPath.startsWith("/auth") &&
+                  "pb-[250px] sm:pb-[165px]"
+              )}
             >
-              <div
-                id="wrapper"
-                className={clsx(
-                  "relative min-h-[100vh]",
-                  !router.asPath.startsWith("/docs") &&
-                    !router.asPath.startsWith("/auth") &&
-                    "pb-[250px] sm:pb-[165px]"
-                )}
-              >
-                {getLayout(<Component {...pageProps} />, pageProps, router)}
-              </div>
-              <Toast toast={toast} onClose={() => setToast(null)} />
-            </MDXProvider>
-          </SetToastContext.Provider>
-        </BreakpointContext.Provider>
-      </ModeContext.Provider>
+              {getLayout(<Component {...pageProps} />, pageProps, router)}
+            </div>
+            <Toast toast={toast} onClose={() => setToast(null)} />
+          </MDXProvider>
+        </SetToastContext.Provider>
+      </BreakpointContext.Provider>
     </ErrorBoundary>
   );
 }
