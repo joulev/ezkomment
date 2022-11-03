@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { FC } from "react";
 
 import useTheme from "~/client/hooks/theme";
@@ -17,7 +17,7 @@ const Hero: FC = () => {
         <div className="md:col-span-7 text-center md:text-left flex flex-col gap-9 lg:gap-12">
           <div>
             <div className="w-[calc(397px/80*36)] h-9 lg:w-[calc(397px/80*48)] lg:h-12 inline-block">
-              <Image src={logoText} alt="logo" layout="responsive" />
+              <Image src={logoText} alt="logo" />
             </div>
           </div>
           <h1 className="font-black text-5xl lg:text-6xl xl:text-7xl !leading-[0.85] my-0">

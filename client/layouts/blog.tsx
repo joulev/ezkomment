@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { format } from "date-fns";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
 import A from "~/client/components/anchor";
@@ -16,11 +16,12 @@ import logo from "~/public/images/logo-text.svg";
 
 const AuthorCard: FC<Author> = ({ name, github }) => (
   <div className="flex flex-row gap-3 items-center">
-    <div className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 relative overflow-hidden">
+    <div className="rounded-full border border-indigo-500 dark:border-indigo-400 relative overflow-hidden">
       <Image
         src={github ? `https://avatars.githubusercontent.com/${github}` : defaultAvatar}
         alt="avatar"
-        layout="fill"
+        width={36}
+        height={36}
       />
     </div>
     <div className="flex flex-col gap-2">

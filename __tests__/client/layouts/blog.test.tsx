@@ -10,7 +10,7 @@ import BlogLayout from "~/client/layouts/blog";
 import { Author } from "~/types/client/utils.type";
 
 jest.mock(
-  "next/legacy/image",
+  "next/image",
   () =>
     function Image({ src, alt }: { src: string; alt: string }) {
       // eslint-disable-next-line @next/next/no-img-element

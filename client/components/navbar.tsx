@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
@@ -39,7 +39,7 @@ const PublicNavbar: FC = () => {
         )}
       >
         <A className="logo-width" href="/">
-          <Image src={logoText} alt="logo" layout="responsive" />
+          <Image src={logoText} alt="logo" />
         </A>
         <Button
           variant={breakpoint === "xs" ? "tertiary" : "primary"}

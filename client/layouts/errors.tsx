@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { Component, ErrorInfo, FC, ReactNode } from "react";
 
 import A from "~/client/components/anchor";
@@ -23,7 +23,7 @@ export const ErrorLayout: FC<{ code?: number }> = ({ code }) => {
       <main className="h-screen grid place-items-center">
         <div className="flex flex-col items-center gap-6 max-w-md">
           <A href="/">
-            <Image src={logo} alt="ezkomment" width={72} height={72} />
+            <Image src={logo} alt="ezkomment" className="w-18 h-18" />
           </A>
           <h1 className="my-0">{code ? code : "Error"}</h1>
           <div className="text-center">

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 
@@ -88,7 +88,7 @@ const DocsSidebar: FC<{ navData: NavData }> = ({ navData }) => {
               "after:px-1.5 after:py-0.5 after:rounded"
             )}
           >
-            <Image src={logoText} alt="ezkomment" layout="responsive" />
+            <Image src={logoText} alt="ezkomment" />
           </A>
           <button
             className={clsx(
