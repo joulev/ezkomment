@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { FC } from "react";
 
 import useTheme from "~/client/hooks/theme";

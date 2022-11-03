@@ -9,7 +9,7 @@ import setupMediaViewport from "~/client/lib/tests/setupMediaViewport";
 import Nav from "~/client/components/navbar";
 
 jest.mock(
-  "next/image",
+  "next/legacy/image",
   () =>
     function Image({ src, alt }: { src: string; alt: string }) {
       // eslint-disable-next-line @next/next/no-img-element
