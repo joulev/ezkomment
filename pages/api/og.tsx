@@ -5,7 +5,8 @@ import { NextRequest } from "next/server";
 export const config = { runtime: "experimental-edge" };
 
 function fetchFont() {
-  const getURL = (w: 300 | 600 | 800) => `https://test.joulev.dev/fonts/inter-v12-latin-${w}.woff`;
+  const getURL = (w: 300 | 600 | 800) =>
+    `https://ezkomment.joulev.dev/fonts/inter-v12-latin-${w}.woff`;
   const getFont = (w: 300 | 600 | 800) => fetch(getURL(w)).then(res => res.arrayBuffer());
   return Promise.all([getFont(300), getFont(600), getFont(800)]);
 }
