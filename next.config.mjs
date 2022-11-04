@@ -8,9 +8,7 @@ import remarkToc from "remark-toc";
 const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ["mdx", "tsx", "ts"],
-  images: {
-    domains: ["avatars.githubusercontent.com"],
-  },
+  images: { remotePatterns: [{ protocol: "https", hostname: "avatars.githubusercontent.com" }] },
   redirects: async () => [
     {
       source: "/docs",
