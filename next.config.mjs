@@ -9,6 +9,7 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ["mdx", "tsx", "ts"],
   images: { remotePatterns: [{ protocol: "https", hostname: "avatars.githubusercontent.com" }] },
+  experimental: { appDir: true },
   redirects: async () => [
     {
       source: "/docs",
