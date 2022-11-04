@@ -14,7 +14,7 @@ export default function OpenSource() {
         All steps are documented and everything is available publicly.
       </div>
       <div className="flex flex-col items-start sm:flex-row gap-x-12 gap-y-6">
-        <ButtonLink className="from-blue-500 to-violet-500" href="/orbital">
+        <ButtonLink className="from-blue-500 to-violet-500" href="/new/orbital">
           Read more
         </ButtonLink>
         <ButtonLink

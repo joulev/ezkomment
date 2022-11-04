@@ -24,7 +24,7 @@ export default function EasyConfiguration() {
           And no, you don&apos;t have to worry about backend, infrastructure&hellip; ever.
         </>
       }
-      button={{ href: "/auth", children: "Create your first" }}
+      button={{ href: "/new/auth", children: "Create your first" }}
       illustration={{
         className: "flex flex-col gap-12",
         parts: [
