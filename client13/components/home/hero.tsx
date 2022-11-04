@@ -23,7 +23,7 @@ export default function Hero() {
             use plain HTML, we got you covered.
           </div>
           <div className="flex flex-row gap-6 justify-center md:justify-start">
-            <Button href="/auth" className="inline-block lg:text-xl px-9 py-3">
+            <Button href="/new/auth" className="inline-block lg:text-xl px-9 py-3">
               Get started
             </Button>
             <Button

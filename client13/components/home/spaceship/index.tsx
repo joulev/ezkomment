@@ -57,8 +57,8 @@ export default function FinalSections() {
             Get started, for completely&nbsp;free!
           </h2>
           <div className="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 lg:grid-rows-2 lg:grid-cols-1 gap-3 md:gap-6 lg:text-xl">
-            <Button href="/auth">Get started</Button>
-            <Button href="/docs" variant="tertiary" className="lg:px-12">
+            <Button href="/new/auth">Get started</Button>
+            <Button href="/new/docs" variant="tertiary" className="lg:px-12">
               Documentation
             </Button>
           </div>

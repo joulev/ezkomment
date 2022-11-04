@@ -29,10 +29,13 @@ const A = forwardRef<HTMLAnchorElement, HyperlinkProps>(
     const props = { className: cls, ...rest, ref };
 
     if (!href) return <a {...props}>{children}</a>;
-    if (href === "/docs") {
+    if (href === "/new/docs") {
       return (
         <Link
-          href={{ pathname: "/docs/[...slug]", query: { slug: ["tutorial", "getting-started"] } }}
+          href={{
+            pathname: "/new/docs/[...slug]",
+            query: { slug: ["tutorial", "getting-started"] },
+          }}
           {...props}
         >
           {children}
