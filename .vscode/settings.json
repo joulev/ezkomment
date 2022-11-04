@@ -3,10 +3,8 @@
   "editor.wordWrapColumn": 100,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[mdx][markdown]": {
-    "editor.wordWrap": "wordWrapColumn"
-  },
-  "[latex]": {
-    "editor.formatOnSave": false
-  }
+  "[mdx][markdown]": { "editor.wordWrap": "wordWrapColumn" },
+  "[latex]": { "editor.formatOnSave": false },
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

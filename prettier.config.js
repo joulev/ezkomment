@@ -30,23 +30,4 @@ module.exports = {
       },
     },
   ],
-  importOrder: [
-    "^@mui/(.*)$",
-    "^~/config/(.*)$",
-    "^~/misc/(.*)$",
-    // Server import order
-    "^~/server/(.*)$",
-    // Client import order
-    "^~/client/(lib|context|hooks)/(.*)$",
-    "^~/client/(layouts|components)/(.*)$",
-    "^~/types/(.*)$",
-    "^~/client/styles/(.*)$",
-    "^~/(public|constants|templates)/(.*)$",
-    "^~/sample/(.*)$",
-    // Relative import
-    "^[./]",
-  ],
-  importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
-  importOrderGroupNamespaceSpecifiers: true,
 };
