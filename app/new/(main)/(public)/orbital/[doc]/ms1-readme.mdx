@@ -1,33 +1,3 @@
-import getOgImage from "~/client/lib/getOgImage";
-
-import BlogLayout from "~/client/layouts/blog";
-
-import authors from "~/constants/authors";
-
-export function getStaticProps() {
-  const image = getOgImage({ title: "Orbital 2022 Milestone 1 README", label: "orbital" });
-  return { props: { image } };
-}
-
-export default function ({ image, children }) {
-  return (
-    <BlogLayout
-      title="Orbital 2022 Milestone 1 README"
-      authors={[authors.joulev, authors.vietanh]}
-      timestamp={new Date("2022-05-27")}
-      seo={{
-        title: "Orbital 2022 Milestone 1 README | ezkomment",
-        description:
-          "The first version of the README, describing all information we have about the project.",
-        image,
-        url: "https://ezkomment.joulev.dev/orbital/ms1-readme",
-      }}
-    >
-      {children}
-    </BlogLayout>
-  );
-}
-
 > You can also [view this document as PDF](ms1-readme.pdf).
 
 ## Table of Contents
