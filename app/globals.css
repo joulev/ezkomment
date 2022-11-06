@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./prism-theme.css";
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+@layer components {
+    * {
+        @apply min-w-0;
+    }
+    ::selection {
+        @apply bg-indigo-500 text-white [text-shadow:none];
+    }
+    .a,
+    .post a {
+        @apply text-primary hover:text-indigo-700 dark:hover:text-indigo-300
+            hover:underline transition underline-offset-4 cursor-pointer;
+    }
+    h1 {
+        @apply text-4xl font-light mt-9 mb-6;
+    }
+    h2 {
+        @apply text-2xl font-semibold mt-9 mb-6;
+    }
+    hr {
+        @apply my-9 border-card;
+    }
+    p {
+        @apply mb-6;
+    }
+    /* Make div bounding consistent, not even sure if this is a good idea */
+    div :where(h1, h2, h3, h4, h5, h6, p):first-child {
+        @apply mt-0;
+    }
+    hr + :where(h1, h2, h3, h4, h5, h6, p) {
+        @apply mt-0;
+    }
+    strong {
+        @apply font-bold;
+    }
+    form:invalid button:not([type="button"]):not([type="reset"]),
+    button:disabled {
+        @apply cursor-not-allowed text-muted bg-neutral-300 dark:bg-neutral-700 border-card
+            hover:text-muted hover:bg-neutral-300 dark:hover:bg-neutral-700 hover:border-card
+            focus:text-muted focus:bg-neutral-300 dark:focus:bg-neutral-700 focus:border-card;
+    }
+    .text-muted {
+        @apply text-neutral-400 dark:text-neutral-500;
+    }
+    .text-primary {
+        @apply text-indigo-500 dark:text-indigo-400;
+    }
+    .bg-card {
+        @apply bg-white dark:bg-black;
+    }
+    .fill-card {
+        @apply fill-white dark:fill-black;
+    }
+    .border-card {
+        @apply border-neutral-300 dark:border-neutral-700;
+    }
+    .stroke-card {
+        @apply stroke-neutral-300 dark:stroke-neutral-700;
+    }
+    .border-muted {
+        @apply border-neutral-500; /* intended for hover, focus states of border */
+    }
+    .divide-card {
+        @apply divide-neutral-300 dark:divide-neutral-700;
+    }
+    .divide-muted {
+        @apply divide-neutral-500;
+    }
+    .pulse {
+        @apply bg-neutral-300 dark:bg-neutral-700 rounded animate-pulse;
+    }
+    .logo-width {
+        @apply w-[calc(397px/80*36)];
+    }
+    .text-gradient {
+        @apply bg-gradient-to-br bg-clip-text text-transparent;
+    }
+    .text-gradient svg {
+        @apply fill-transparent [stroke:var(--tw-gradient-to)];
+    }
+    /* Change mode: Remove all transition */
+    .changing-mode * {
+        @apply !transition-none;
+    }
+    /* NProgress */
+    #nprogress {
+        @apply pointer-events-none;
+    }
+    #nprogress .bar {
+        @apply bg-indigo-500 fixed z-[60] top-0 left-0 w-full h-[3px];
+    }
+    #nprogress .peg {
+        @apply block absolute right-0 w-24 h-full opacity-1;
+        box-shadow: 0 0 10px theme("colors.indigo.500"), 0 0 5px theme("colors.indigo.500");
+        -webkit-transform: rotate(3deg) translate(0px, -4px);
+        -ms-transform: rotate(3deg) translate(0px, -4px);
+        transform: rotate(3deg) translate(0px, -4px);
+    }
+    /* Trianglify */
+    .trianglify path {
+        @apply fill-neutral-100 dark:fill-neutral-900 stroke-neutral-200 dark:stroke-neutral-800;
+    }
+    /* Docs */
+    .post p:last-child {
+        @apply mb-0;
+    }
+    .post h1 {
+        @apply mb-12;
+    }
+    .post.blog h2 {
+        @apply text-3xl font-semibold mt-12 mb-9 scroll-mt-27 md:scroll-mt-12;
+    }
+    .post h2,
+    .post.blog h3 {
+        @apply text-2xl font-semibold mt-12 mb-9 scroll-mt-27 md:scroll-mt-12;
+    }
+    .post h3,
+    .post.blog h4 {
+        @apply text-xl font-semibold mt-12 mb-9 scroll-mt-27 md:scroll-mt-12;
+    }
+    .post h4,
+    .post.blog h5 {
+        @apply text-lg font-light mt-9 mb-6 scroll-mt-24 md:scroll-mt-9;
+    }
+    .post.blog :where(h2, h3, h4, h5) {
+        @apply scroll-mt-27;
+    }
+    .post :not(pre) > code {
+        @apply leading-5 px-1 py-0.5 bg-neutral-300 dark:bg-neutral-700 rounded break-all;
+        font-size: 0.875em; /* NOT rem */
+    }
+    .post pre {
+        @apply font-mono text-sm border p-3 rounded mb-6 border-card bg-card overflow-x-auto
+            no-scrollbar; /* not sure if this is a good design decision */
+    }
+    .post ul {
+        @apply list-disc ml-9;
+    }
+    .post ol {
+        @apply list-decimal ml-9;
+    }
+    .post :where(ul, ol) li {
+        @apply mb-6;
+    }
+    .post :where(ul, ol) li p {
+        @apply mb-6;
+    }
+    .post blockquote {
+        @apply mb-6 italic ml-6 relative text-neutral-700 dark:text-neutral-300
+            before:absolute before:-left-6 before:inset-y-0 before:w-1 before:bg-neutral-500 before:rounded;
+    }
+    /* Code */
+    .ignored,
+    .ignored * {
+        @apply !text-neutral-300 dark:!text-neutral-700;
+    }
+}

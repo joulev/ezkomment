@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { HomeSectionProps } from "~/types/client/components.type";
 import ButtonLink from "./buttonLink";
-import Illustration from "./illustration";
+import Illustration from "./illustration.client";
 
 export default function HomeSection({
   colourClass,

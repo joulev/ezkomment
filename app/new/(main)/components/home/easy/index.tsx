@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import EasyConfiguration from "./configuration";
-import EasyCustomisation from "./customisation";
-import EasyIntegration from "./integration";
-import EasyModeration from "./moderation";
+import EasyConfiguration from "./configuration.client";
+import EasyCustomisation from "./customisation.client";
+import EasyIntegration from "./integration.client";
+import EasyModeration from "./moderation.client";
 
 export default function EasySections() {
   return (

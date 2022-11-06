@@ -3,11 +3,9 @@ import Image from "next/image";
 import { FileText, Code, Image as ImageIcon, Video } from "lucide-react";
 import A from "~/client13/components/anchor";
 import Button from "~/client13/components/buttons";
-import Footer from "~/client13/components/footer";
-import PublicNavbar from "~/client13/components/navbar";
 import { IconType } from "~/types/client/utils.type";
-import logoDark from "~/public/images/orbital/logo-orbital-dark.svg";
-import logoLight from "~/public/images/orbital/logo-orbital-light.svg";
+import logoDark from "./logo-orbital-dark.svg";
+import logoLight from "./logo-orbital-light.svg";
 
 type SectionLinkProps = {
   icon: IconType;
@@ -38,13 +36,12 @@ function SectionLink({ icon: Icon, title, href, description, date }: SectionLink
   );
 }
 
-export default function OrbitalHome() {
+export default function OrbitalPage() {
   return (
     <>
-      <PublicNavbar />
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto container text-center">
-          <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/">
+          <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/new">
             <Image className="block dark:hidden" src={logoLight} alt="logo with orbital" />
             <Image className="hidden dark:block" src={logoDark} alt="logo with orbital" />
           </A>
@@ -222,7 +219,6 @@ export default function OrbitalHome() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }
