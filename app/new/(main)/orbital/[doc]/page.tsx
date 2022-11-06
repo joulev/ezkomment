@@ -29,7 +29,7 @@ async function getContent(doc: Doc) {
   return content;
 }
 
-export default async function Page({ params }: { params: Params }) {
+export default async function OrbitalDocumentPage({ params }: { params: Params }) {
   const { doc } = params;
   const content = await getContent(doc);
   return (
