@@ -1,33 +1,3 @@
-import getOgImage from "~/client/lib/getOgImage";
-
-import BlogLayout from "~/client/layouts/blog";
-
-import authors from "~/constants/authors";
-
-export function getStaticProps() {
-  const image = getOgImage({ title: "Orbital 2022 Milestone 2 README", label: "orbital" });
-  return { props: { image } };
-}
-
-export default function ({ image, children }) {
-  return (
-    <BlogLayout
-      title="Orbital 2022 Milestone 2 README"
-      authors={[authors.joulev, authors.vietanh]}
-      timestamp={new Date("2022-06-25")}
-      seo={{
-        title: "Orbital 2022 Milestone 2 README | ezkomment",
-        description:
-          "The second version of the README, describing all information we have about the project.",
-        image,
-        url: "https://ezkomment.joulev.dev/orbital/ms2-readme",
-      }}
-    >
-      {children}
-    </BlogLayout>
-  );
-}
-
 > The Milestone 2 README is written on top of [Milestone 1 README](/orbital/ms1-readme). Probably you do not want to read the whole thing again, so look out for headings with an "updated" label: they are modified after Milestone 1.
 
 > You can also [view this document as PDF](ms2-readme.pdf).

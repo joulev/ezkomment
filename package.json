@@ -23,7 +23,7 @@
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "@mdx-js/loader": "2.1.5",
+    "@mdx-js/mdx": "2.1.5",
     "@mdx-js/react": "2.1.5",
     "@monaco-editor/react": "4.4.6",
     "@mui/icons-material": "5.10.9",
@@ -103,5 +103,12 @@
     "tailwindcss": "3.2.2",
     "typescript": "4.8.4",
     "uglify-js": "3.17.4"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "periscopic@3.0.4": "patches/periscopic@3.0.4.patch",
+      "estree-walker@3.0.1": "patches/estree-walker@3.0.1.patch",
+      "is-reference@3.0.0": "patches/is-reference@3.0.0.patch"
+    }
   }
 }

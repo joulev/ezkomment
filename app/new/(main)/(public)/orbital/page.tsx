@@ -77,7 +77,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="Proposal"
               description="The first description of the application, sent along with the Orbital application form."
-              href="/orbital/proposal"
+              href="/new/orbital/proposal"
               icon={FileText}
               date="14 March 2022"
             />
@@ -103,7 +103,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="README"
               description="The README, describing all information we have about the project."
-              href="/orbital/ms1-readme"
+              href="/new/orbital/ms1-readme"
               icon={FileText}
               date="27 May 2022"
             />
@@ -129,7 +129,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="README"
               description="The README, describing all information we have about the project."
-              href="/orbital/ms2-readme"
+              href="/new/orbital/ms2-readme"
               icon={FileText}
               date="25 June 2022"
             />
@@ -155,7 +155,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="README"
               description="The README, describing all information we have about the project."
-              href="/orbital/ms3-readme"
+              href="/new/orbital/ms3-readme"
               icon={FileText}
               date="25 July 2022"
             />
