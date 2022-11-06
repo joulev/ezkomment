@@ -22,6 +22,15 @@ export type BlogLayoutProps = {
     container?: boolean;
 };
 
+export type NewBlogLayoutProps = {
+    title: string;
+    authors: Author[];
+    timestamp: Date;
+    children: ReactNode;
+    /** Whether the post content should be full-width (`.container`) or limited-width (`.max-w-prose`) */
+    container?: boolean;
+};
+
 export type BlogImageProps = {
     src: string;
     caption: string;

@@ -206,13 +206,13 @@ export default function OrbitalPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <SectionLink
               title={<>Vu Van Dung&apos;s Project&nbsp;Log</>}
-              href="/orbital/log-joulev"
+              href="/new/orbital/log-joulev"
               icon={FileText}
               date="01 August 2022"
             />
             <SectionLink
               title={<>Nguyen Viet Anh&apos;s Project&nbsp;Log</>}
-              href="/orbital/log-vietanh"
+              href="/new/orbital/log-vietanh"
               icon={FileText}
               date="25 July 2022"
             />
