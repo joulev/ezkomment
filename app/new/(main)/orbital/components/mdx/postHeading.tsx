@@ -1,9 +1,12 @@
 import { Hash } from "lucide-react";
-import A from "~/client13/components/anchor";
+import A from "~/client13/components/anchor.client";
 
-import { PostHeadingProps } from "~/types/client/components.type";
+export type Props = React.PropsWithChildren<{
+  level: number;
+  id?: string;
+}>;
 
-export default function PostHeading({ level, id, children }: PostHeadingProps & { level: number }) {
+export default function PostHeading({ level, id, children }: Props) {
   const HeadingTag: keyof JSX.IntrinsicElements = `h${level as 1 | 2 | 3 | 4 | 5 | 6}`;
   return (
     <HeadingTag id={id} className="flex flex-row items-baseline gap-1.5 group -ml-6">

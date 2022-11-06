@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Fragment } from "react";
 import reactStringReplace from "react-string-replace";
-import A from "~/client13/components/anchor";
+import A from "~/client13/components/anchor.client";
 import Banner from "~/client13/components/banner";
 import BlogLayout from "../components/blog";
 import authors from "~/constants/authors";

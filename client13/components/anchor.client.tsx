@@ -3,7 +3,10 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { forwardRef } from "react";
-import { HyperlinkProps } from "~/types/client/components.type";
+
+export type Props = React.ComponentProps<"a"> & {
+  notStyled?: boolean;
+};
 
 /**
  * A wrapper for `next/link` to handle all anchors inside the app, including in-page links (#),
@@ -23,7 +26,7 @@ import { HyperlinkProps } from "~/types/client/components.type";
  *                          given the class `a` defined in `globals.css`.
  * @param props.className   Other classes that the anchor may have.
  */
-const A = forwardRef<HTMLAnchorElement, HyperlinkProps>(
+const A = forwardRef<HTMLAnchorElement, Props>(
   ({ href, notStyled, className, children, ...rest }, ref) => {
     const cls = clsx(notStyled || "a", className);
     const props = { className: cls, ...rest, ref };

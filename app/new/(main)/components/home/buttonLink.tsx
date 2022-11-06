@@ -1,9 +1,10 @@
 import clsx from "clsx";
-import A from "~/client13/components/anchor";
-import { HomeButtonLinkProps } from "~/types/client/components.type";
+import A from "~/client13/components/anchor.client";
 import styles from "./buttonLink.module.css";
 
-export default function ButtonLink({ href, className, children }: HomeButtonLinkProps) {
+export type Props = React.PropsWithChildren<{ href: string; className: string }>;
+
+export default function ButtonLink({ href, className, children }: Props) {
   return (
     <A
       notStyled

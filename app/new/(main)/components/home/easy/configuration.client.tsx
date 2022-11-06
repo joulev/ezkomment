@@ -4,8 +4,8 @@
 import clsx from "clsx";
 import { Plus } from "lucide-react";
 import Image from "next/image";
-import Button from "~/client13/components/buttons";
-import CopiableCode from "~/client13/components/copiableCode";
+import Button from "~/client13/components/buttons.client";
+import CopiableCode from "~/client13/components/copiableCode.client";
 import HomeSection from "../section";
 import cursorSvg from "./cursor-pointer.svg";
 

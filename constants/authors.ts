@@ -1,4 +1,7 @@
-import { Author } from "~/types/client/utils.type";
+export type Author = {
+    name: string;
+    github?: string;
+};
 
 const authors: { [key: string]: Author } = {
     joulev: {

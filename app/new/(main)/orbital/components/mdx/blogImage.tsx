@@ -1,8 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import clsx from "clsx";
-import { BlogImageProps } from "~/types/client/components.type";
 
-export default function BlogImage({ src, caption }: BlogImageProps) {
+export type Props = {
+  src: string;
+  caption: string;
+};
+
+export default function BlogImage({ src, caption }: Props) {
   return (
     <span className="flex flex-col items-center gap-3 py-3 mb-3">
       <span className="relative rounded overflow-hidden border border-card">

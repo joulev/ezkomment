@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import Button from "~/client13/components/buttons";
+import Button from "~/client13/components/buttons.client";
 import BeyondTheBoundary from "./beyond";
 import OpenSource from "./open";
 import styles from "./spaceship.module.css";

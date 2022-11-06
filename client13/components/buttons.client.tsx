@@ -1,11 +1,16 @@
 "use client";
 
 import clsx from "clsx";
+import { Icon } from "lucide-react";
 import { forwardRef } from "react";
-import A from "~/client13/components/anchor";
-import IconLabel from "~/client13/components/utils/iconAndLabel";
-import { ButtonProps } from "~/types/client/components.type";
-import { ButtonVariant } from "~/types/client/utils.type";
+import A from "~/client13/components/anchor.client";
+import IconLabel from "~/client13/components/utils/iconAndLabel.client";
+
+type ButtonVariant = "primary" | "danger" | "tertiary";
+export type Props = (React.ComponentProps<"a"> & React.ComponentProps<"button">) & {
+  variant?: ButtonVariant;
+  icon?: Icon;
+};
 
 const baseClasses = "cursor-pointer rounded transition border whitespace-nowrap";
 const variantClasses: Record<ButtonVariant, string> = {
@@ -35,7 +40,7 @@ const variantClasses: Record<ButtonVariant, string> = {
  * @param props.className Additional classes to be added to the component (if any)
  * @param props.children A React node used as the content of the button
  */
-const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLAnchorElement | HTMLButtonElement, Props>(
   ({ variant = "primary", href, icon, className, children, ...props }, ref) => {
     const classes = clsx(
       baseClasses,

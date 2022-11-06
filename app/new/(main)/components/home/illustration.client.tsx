@@ -4,14 +4,13 @@ import clsx from "clsx";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { HomeIllustrationProps } from "~/types/client/components.type";
 
-export default function Illustration({
-  firstOrLast,
-  parts,
-  className,
-  ...rest
-}: HomeIllustrationProps) {
+export type Props = React.ComponentProps<"div"> & {
+  firstOrLast?: "first" | "last";
+  parts: React.ReactNode[];
+};
+
+export default function Illustration({ firstOrLast, parts, className, ...rest }: Props) {
   const animation = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.5 });
   useEffect(() => {

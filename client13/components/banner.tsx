@@ -1,6 +1,9 @@
 import clsx from "clsx";
-import { BannerProps } from "~/types/client/components.type";
-import { BannerVariant } from "~/types/client/utils.type";
+
+type BannerVariant = "warning" | "error" | "info";
+export type Props = React.ComponentProps<"div"> & {
+  variant: "warning" | "error" | "info";
+};
 
 /**
  * A banner (for warnings, etc.)
@@ -9,7 +12,7 @@ import { BannerVariant } from "~/types/client/utils.type";
  * @param props.className Additional classes to be added to the component (if any)
  * @param props.children A React node used as the content of the component
  */
-export default function Banner({ variant, className, children, ...rest }: BannerProps) {
+export default function Banner({ variant, className, children, ...rest }: Props) {
   const commonClasses = "px-6 py-3 rounded border bg-opacity-20 text-left [hyphens:auto]";
   const variantClasses: Record<BannerVariant, string> = {
     warning: "border-amber-500 bg-amber-500",

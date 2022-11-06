@@ -1,7 +1,15 @@
 import clsx from "clsx";
-import { HomeSectionProps } from "~/types/client/components.type";
-import ButtonLink from "./buttonLink";
-import Illustration from "./illustration.client";
+import ButtonLink, { Props as ButtonLinkProps } from "./buttonLink";
+import Illustration, { Props as IllustrationProps } from "./illustration.client";
+
+export type Props = {
+  colourClass: string;
+  title: string;
+  desc: React.ReactNode;
+  button: Omit<ButtonLinkProps, "className">;
+  firstOrLast?: IllustrationProps["firstOrLast"];
+  illustration: IllustrationProps;
+};
 
 export default function HomeSection({
   colourClass,
@@ -10,7 +18,7 @@ export default function HomeSection({
   button,
   firstOrLast,
   illustration,
-}: HomeSectionProps) {
+}: Props) {
   return (
     <section className="container mt-24 mb-36 md:mt-36 md:mb-48 grid md:grid-cols-2 gap-x-18 gap-y-12">
       <div className="flex flex-col gap-9">

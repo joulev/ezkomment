@@ -1,14 +1,13 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { FileText, Code, Image as ImageIcon, Video } from "lucide-react";
-import A from "~/client13/components/anchor";
-import Button from "~/client13/components/buttons";
-import { IconType } from "~/types/client/utils.type";
+import { FileText, Code, Image as ImageIcon, Video, Icon } from "lucide-react";
+import A from "~/client13/components/anchor.client";
+import Button from "~/client13/components/buttons.client";
 import logoDark from "./logo-orbital-dark.svg";
 import logoLight from "./logo-orbital-light.svg";
 
 type SectionLinkProps = {
-  icon: IconType;
+  icon: Icon;
   title: React.ReactNode;
   href: string;
   description?: string;
