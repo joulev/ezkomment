@@ -1,6 +1,4 @@
-import rehypeSlug from "rehype-slug";
-import remarkPrism from "remark-prism";
-import remarkToc from "remark-toc";
+// @ts-check
 
 /**
  * @type {import("next").NextConfig}
@@ -64,22 +62,8 @@ const nextConfig = {
       destination: "/api/embed/:slug*",
     },
   ],
-  webpack: (config, options) => {
-    config.module.rules.push({
-      test: /\.mdx?$/,
-      use: [
-        options.defaultLoaders.babel,
-        {
-          loader: "@mdx-js/loader",
-          /** @type {import("@mdx-js/loader").Options} */
-          options: {
-            rehypePlugins: [rehypeSlug],
-            remarkPlugins: [remarkPrism, remarkToc],
-            providerImportSource: "@mdx-js/react",
-          },
-        },
-      ],
-    });
+  webpack: config => {
+    config.module.rules.push({ test: /\.mdx?$/, type: "asset/source" });
     config.module.rules.push({ test: /\.html$/, type: "asset/source" });
     return config;
   },
