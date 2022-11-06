@@ -16,10 +16,10 @@
 ## Development
 
 ```sh
-$ yarn install  # install dependencies
-$ yarn dev      # start a development server at localhost:3000
-$ yarn build    # build the app in production mode
-$ yarn start    # start the app (after yarn build) in production mode
+$ pnpm install  # install dependencies
+$ pnpm dev      # start a development server at localhost:3000
+$ pnpm build    # build the app in production mode
+$ pnpm start    # start the app (after pnpm build) in production mode
 ```
 
 [See the development guide](CONTRIBUTING.md).

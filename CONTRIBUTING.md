@@ -14,7 +14,7 @@ This application is developed mainly on two branches.
 
 ### Large commits, refactoring, complicated implementation
 
-For relatively large commits or sets of commits (around &ge;50 lines added and/or &ge;50 lines deleted in total, excluding generated files such as `yarn.lock`), they should be made on a separate branch, preferably with a name indicative of the goal/purpose of that (set of) commits (e.g. `google-auth-integration`).
+For relatively large commits or sets of commits (around &ge;50 lines added and/or &ge;50 lines deleted in total, excluding generated files such as `pnpm-lock.yaml`), they should be made on a separate branch, preferably with a name indicative of the goal/purpose of that (set of) commits (e.g. `google-auth-integration`).
 
 Afterwards, pull requests should be opened for them to be merged into `main`. They should only be merged if they have been approved by the developer in charge of that field: @joulev for front-end matters and @VietAnh1010 for back-end matters.
 
