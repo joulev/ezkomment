@@ -46,7 +46,7 @@ export default function BlogLayout({ title, authors, timestamp, container, child
     <>
       <header className="bg-card border-b border-card py-24">
         <div className="container">
-          <A className="block logo-width" href="/new">
+          <A className="block logo-width" href="/">
             <Image src={logo} alt="logo" />
           </A>
           <h1 className="text-5xl md:text-6xl font-extralight mb-12 mt-9">{title}</h1>

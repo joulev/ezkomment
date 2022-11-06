@@ -183,7 +183,7 @@ export default function EasyModeration() {
           </span>
         </>
       }
-      button={{ href: "/new/docs/moderation/introduction", children: "See how it works" }}
+      button={{ href: "//docs/moderation/introduction", children: "See how it works" }}
       illustration={{ className: "flex flex-col gap-12", parts: [<Illustration key="1" />] }}
     />
   );

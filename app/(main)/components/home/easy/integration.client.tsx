@@ -114,7 +114,7 @@ export default function EasyIntegration() {
             </span>
           </>
         }
-        button={{ href: "/new/auth", children: "Embed now" }}
+        button={{ href: "//auth", children: "Embed now" }}
         illustration={{
           className: "flex flex-col gap-6",
           parts: [<CodeWindow key="1" />, <BrowserWindow key="2" />],

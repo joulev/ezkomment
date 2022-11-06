@@ -278,7 +278,7 @@ All screenshots have the computer version and mobile version (responsive) render
 
 - In the "create a new site" page, there is really not much to render except for the form. However, since this might be confusing to first time users, we also take care to add some descriptive text.
 
-  ![Create a new site](/images/orbital/screenshots/app/new.png)
+  ![Create a new site](/images/orbital/screenshots/app/.png)
 
 - The user account settings page is similar: we only show what we needs to show, with sufficient help text.
 
@@ -363,7 +363,7 @@ We only support authentication with third-party OAuth providers (currently GitHu
 - [`/app`](/app): The main application pages
 
   - `/app/dashboard`: The dashboard, listing all sites
-  - `/app/new`: Adding a new site
+  - `/app/`: Adding a new site
   - `/app/account`: Account settings
   - `/app/site/:siteName`: The dashboard for site with name `siteName`
   - `/app/site/:siteName/customise`: The page to customise all comment sections for the site
