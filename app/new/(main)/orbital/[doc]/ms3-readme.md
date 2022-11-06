@@ -1,3 +1,11 @@
+---
+title: Orbital 2022 Milestone 3 README
+timestamp: "2022-07-25"
+seoTitle: Orbital 2022 Milestone 3 README | ezkomment
+seoDescription: The third version of the README, describing all information we have about the project.
+seoUrl: https://ezkomment.joulev.dev/orbital/ms3-readme
+---
+
 > You can also [view this document as PDF](ms3-readme.pdf).
 
 ## Table of Contents

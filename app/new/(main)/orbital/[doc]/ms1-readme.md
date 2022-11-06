@@ -1,3 +1,11 @@
+---
+title: Orbital 2022 Milestone 1 README
+timestamp: "2022-05-27"
+seoTitle: Orbital 2022 Milestone 1 README | ezkomment
+seoDescription: The first version of the README, describing all information we have about the project.
+seoUrl: https://ezkomment.joulev.dev/orbital/ms1-readme
+---
+
 > You can also [view this document as PDF](ms1-readme.pdf).
 
 ## Table of Contents

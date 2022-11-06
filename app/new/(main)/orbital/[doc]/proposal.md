@@ -1,3 +1,11 @@
+---
+title: Orbital 2022 Proposal
+timestamp: "2022-03-14"
+seoTitle: Orbital 2022 Proposal | ezkomment
+seoDescription: The first description of the application, sent along with the Orbital application form.
+seoUrl: https://ezkomment.joulev.dev/orbital/proposal
+---
+
 > You can also [view this document as PDF](proposal.pdf).
 
 ## Table of Contents
