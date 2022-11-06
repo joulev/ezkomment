@@ -40,7 +40,7 @@ export default function OrbitalPage() {
     <>
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto container text-center">
-          <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/new">
+          <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/">
             <Image className="block dark:hidden" src={logoLight} alt="logo with orbital" />
             <Image className="hidden dark:block" src={logoDark} alt="logo with orbital" />
           </A>
@@ -76,7 +76,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="Proposal"
               description="The first description of the application, sent along with the Orbital application form."
-              href="/new/orbital/proposal"
+              href="/orbital/proposal"
               icon={FileText}
               date="14 March 2022"
             />
@@ -102,7 +102,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="README"
               description="The README, describing all information we have about the project."
-              href="/new/orbital/ms1-readme"
+              href="/orbital/ms1-readme"
               icon={FileText}
               date="27 May 2022"
             />
@@ -128,7 +128,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="README"
               description="The README, describing all information we have about the project."
-              href="/new/orbital/ms2-readme"
+              href="/orbital/ms2-readme"
               icon={FileText}
               date="25 June 2022"
             />
@@ -154,7 +154,7 @@ export default function OrbitalPage() {
             <SectionLink
               title="README"
               description="The README, describing all information we have about the project."
-              href="/new/orbital/ms3-readme"
+              href="/orbital/ms3-readme"
               icon={FileText}
               date="25 July 2022"
             />
@@ -205,13 +205,13 @@ export default function OrbitalPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <SectionLink
               title={<>Vu Van Dung&apos;s Project&nbsp;Log</>}
-              href="/new/orbital/log-joulev"
+              href="/orbital/log-joulev"
               icon={FileText}
               date="01 August 2022"
             />
             <SectionLink
               title={<>Nguyen Viet Anh&apos;s Project&nbsp;Log</>}
-              href="/new/orbital/log-vietanh"
+              href="/orbital/log-vietanh"
               icon={FileText}
               date="25 July 2022"
             />

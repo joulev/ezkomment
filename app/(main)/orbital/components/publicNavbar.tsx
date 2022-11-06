@@ -35,7 +35,7 @@ export default function PublicNavbar() {
           "container flex flex-row justify-between items-center transition-all overflow-hidden"
         )}
       >
-        <A className="logo-width" href="/new">
+        <A className="logo-width" href="/">
           <Image src={logoText} alt="logo" />
         </A>
         <Button

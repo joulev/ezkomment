@@ -14,7 +14,7 @@ export default function BeyondTheBoundary() {
         </span>
       </div>
       <div>
-        <ButtonLink className="from-green-500 to-cyan-500" href="/new/docs/rest-api/introduction">
+        <ButtonLink className="from-green-500 to-cyan-500" href="/docs/rest-api/introduction">
           Read the API specs
         </ButtonLink>
       </div>

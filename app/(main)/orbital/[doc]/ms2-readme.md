@@ -492,7 +492,7 @@ We will only support authentication with third-party OAuth providers (currently 
 - [`/app`](/app): The main application pages
 
   - `/app/dashboard`: The dashboard, listing all sites
-  - `/app/new`: Adding a new site
+  - `/app/`: Adding a new site
   - `/app/account`: Account settings
   - `/app/site/:siteName`: The dashboard for site with name `siteName`
   - `/app/site/:siteName/customise`: The page to customise all comment sections for the site

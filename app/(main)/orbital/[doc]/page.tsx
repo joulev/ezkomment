@@ -37,7 +37,7 @@ export default async function OrbitalDocumentPage({ params: { doc } }: { params:
   );
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return docs.map(doc => ({ doc }));
 }
 
