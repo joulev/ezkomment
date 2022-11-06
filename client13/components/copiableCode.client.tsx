@@ -3,8 +3,12 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
-import { CopiableCodeProps } from "~/types/client/components.type";
-import IconLabel from "./utils/iconAndLabel";
+import IconLabel from "./utils/iconAndLabel.client";
+
+export type Props = {
+  content: string;
+  className?: string;
+};
 
 /**
  * Create a input-like pre element that can be copied to the clipboard
@@ -17,7 +21,7 @@ import IconLabel from "./utils/iconAndLabel";
  * @param props.content The content to be copied to the clipboard
  * @param props.className The className (if any) to be applied to *the whole* component
  */
-export default function CopiableCode({ content, className }: CopiableCodeProps) {
+export default function CopiableCode({ content, className }: Props) {
   const [copied, setCopied] = useState(false);
   return (
     <div

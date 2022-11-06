@@ -1,11 +1,13 @@
 "use client";
 
 import { MDXProvider as _Provider } from "@mdx-js/react";
-import A from "~/client13/components/anchor";
+import A from "~/client13/components/anchor.client";
 import PostHeading from "./postHeading";
 import BlogImage from "./blogImage";
 
-export default function MDXProvider({ children }: React.PropsWithChildren) {
+export type Props = React.PropsWithChildren;
+
+export default function MDXProvider({ children }: Props) {
   return (
     <_Provider
       components={{

@@ -1,10 +1,9 @@
 import clsx from "clsx";
 import { format } from "date-fns";
 import Image from "next/image";
-import A from "~/client13/components/anchor";
+import { Author } from "~/constants/authors";
+import A from "~/client13/components/anchor.client";
 import ReadingTime from "./readingTime.client";
-import { NewBlogLayoutProps } from "~/types/client/components.type";
-import { Author } from "~/types/client/utils.type";
 import logo from "~/client13/assets/logo-text.svg";
 import defaultAvatar from "./default-photo.svg";
 
@@ -34,13 +33,15 @@ function AuthorCard({ name, github }: Author) {
   );
 }
 
-export default function BlogLayout({
-  title,
-  authors,
-  timestamp,
-  container,
-  children,
-}: NewBlogLayoutProps) {
+export type Props = React.PropsWithChildren<{
+  title: string;
+  authors: Author[];
+  timestamp: Date;
+  /** Whether the post content should be full-width (`.container`) or limited-width (`.max-w-prose`) */
+  container?: boolean;
+}>;
+
+export default function BlogLayout({ title, authors, timestamp, container, children }: Props) {
   return (
     <>
       <header className="bg-card border-b border-card py-24">

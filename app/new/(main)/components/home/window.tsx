@@ -1,6 +1,6 @@
-import { HomeWindowProps } from "~/types/client/components.type";
+export type Props = React.PropsWithChildren<{ title?: React.ReactNode }>;
 
-export default function Window({ title, children }: HomeWindowProps) {
+export default function Window({ title, children }: Props) {
   return (
     <div className="relative bg-neutral-100 dark:bg-neutral-900 flex flex-col rounded border divide-y border-card divide-card">
       <div className="relative">

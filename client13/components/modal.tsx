@@ -1,5 +1,9 @@
 import clsx from "clsx";
-import { ModalProps } from "~/types/client/components.type";
+
+export type Props = React.ComponentProps<"div"> & {
+  isVisible?: boolean;
+  onOutsideClick?: React.MouseEventHandler<HTMLDivElement>;
+};
 
 /**
  * A modal. Well, what else can I say?
@@ -10,7 +14,7 @@ import { ModalProps } from "~/types/client/components.type";
  * @param params.children The content of the modal. Can be quite literally anything. Recommended
  * that this children have a `max-width` CSS property.
  */
-export default function Modal({ isVisible, onOutsideClick, children, ...rest }: ModalProps) {
+export default function Modal({ isVisible, onOutsideClick, children, ...rest }: Props) {
   return (
     <div
       className={clsx(

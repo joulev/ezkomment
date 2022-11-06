@@ -1,6 +1,22 @@
-import { SeoProps } from "~/types/client/components.type";
+export type Props = {
+  title: string;
+  description?: string;
+  url: string;
+  og: {
+    title?: string;
+    label?: "docs" | "posts" | "orbital";
+  };
+};
 
-export default function Seo({ title, description, image, url }: SeoProps) {
+function getOgImage({ title, label }: Props["og"]) {
+  const url = new URL("https://ezkomment.joulev.dev/api/og");
+  if (title) url.searchParams.append("title", title);
+  if (label) url.searchParams.append("label", label);
+  return url.href;
+}
+
+export default function Seo({ title, description, url, og }: Props) {
+  const image = getOgImage(og);
   return (
     <>
       <title>{title}</title>

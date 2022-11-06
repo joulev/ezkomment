@@ -5,8 +5,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { LogIn } from "lucide-react";
 import useBreakpoint from "~/client/hooks/breakpoint";
-import A from "~/client13/components/anchor";
-import Button from "~/client13/components/buttons";
+import A from "~/client13/components/anchor.client";
+import Button from "~/client13/components/buttons.client";
 import logoText from "~/client13/assets/logo-text.svg";
 
 const scrollThreshold = 300;

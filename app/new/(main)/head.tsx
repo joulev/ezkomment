@@ -1,13 +1,10 @@
-import getOgImage from "~/client/lib/getOgImage";
-import Seo from "~/client13/components/seo";
+import Seo, { Props } from "~/client13/components/seo";
 
-import { SeoProps } from "~/types/client/components.type";
-
-const seo: SeoProps = {
+const seo: Props = {
   title: "ezkomment: Commenting made easy",
   description:
     "No complicated backend configuration. Add a comment section anywhere – even if you use plain HTML, we got you covered.",
-  image: getOgImage({}),
+  og: {},
   url: "https://ezkomment.joulev.dev",
 };
 

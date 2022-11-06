@@ -1,13 +1,12 @@
 import clsx from "clsx";
 import Image from "next/image";
-import { Github, Send as Telegram, Mail, LucideProps } from "lucide-react";
+import { Github, Send as Telegram, Mail, Icon } from "lucide-react";
 import version from "~/client/lib/version";
-import A from "~/client13/components/anchor";
-import { FooterProps } from "~/types/client/components.type";
+import A from "~/client13/components/anchor.client";
 import logoText from "~/client13/assets/logo-text.svg";
 import PrivacyModal from "./privacyModal.client";
 
-function SocialIconLink({ href, icon: Icon }: { href: string; icon: React.FC<LucideProps> }) {
+function SocialIconLink({ href, icon: Icon }: { href: string; icon: Icon }) {
   return (
     <A
       href={href}
@@ -31,7 +30,12 @@ function FooterNavLink({ href, title }: { href: string; title: string }) {
   );
 }
 
-export default function Footer({ className, containerClasses = "container" }: FooterProps) {
+export type Props = {
+  className?: string;
+  containerClasses?: string;
+};
+
+export default function Footer({ className, containerClasses = "container" }: Props) {
   return (
     <footer
       className={clsx("bg-card border-t border-card py-6 absolute bottom-0 inset-x-0", className)}

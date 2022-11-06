@@ -10,7 +10,10 @@ export default function LayoutClient({ children }: React.PropsWithChildren) {
       id="wrapper"
       className={clsx(
         "relative min-h-[100vh]",
-        !pathname.startsWith("/docs") && !pathname.startsWith("/auth") && "pb-[250px] sm:pb-[165px]"
+        pathname &&
+          !pathname.startsWith("/docs") &&
+          !pathname.startsWith("/auth") &&
+          "pb-[250px] sm:pb-[165px]"
       )}
     >
       {children}
