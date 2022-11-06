@@ -11,6 +11,6 @@ const seo: SeoProps = {
   url: "https://ezkomment.joulev.dev",
 };
 
-export default function Head() {
+export default function IndexHead() {
   return <Seo {...seo} />;
 }

@@ -1,4 +1,4 @@
-import "~/client/styles/globals.css";
+import "./globals.css";
 
 import LayoutClient from "./layout.client";
 

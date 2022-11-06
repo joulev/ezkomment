@@ -3,11 +3,11 @@
 
 import clsx from "clsx";
 import { Plus } from "lucide-react";
+import Image from "next/image";
 import Button from "~/client13/components/buttons";
 import CopiableCode from "~/client13/components/copiableCode";
 import HomeSection from "../section";
-import cursorSvg from "~/public/images/home/cursor-pointer.svg";
-import Image from "next/image";
+import cursorSvg from "./cursor-pointer.svg";
 
 export default function EasyConfiguration() {
   return (

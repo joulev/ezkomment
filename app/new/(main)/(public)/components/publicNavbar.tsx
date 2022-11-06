@@ -7,7 +7,7 @@ import { LogIn } from "lucide-react";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import A from "~/client13/components/anchor";
 import Button from "~/client13/components/buttons";
-import logoText from "~/public/images/logo-text.svg";
+import logoText from "~/client13/assets/logo-text.svg";
 
 const scrollThreshold = 300;
 
@@ -35,7 +35,7 @@ export default function PublicNavbar() {
           "container flex flex-row justify-between items-center transition-all overflow-hidden"
         )}
       >
-        <A className="logo-width" href="/">
+        <A className="logo-width" href="/new">
           <Image src={logoText} alt="logo" />
         </A>
         <Button

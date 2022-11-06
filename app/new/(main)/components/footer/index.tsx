@@ -4,8 +4,8 @@ import { Github, Send as Telegram, Mail, LucideProps } from "lucide-react";
 import version from "~/client/lib/version";
 import A from "~/client13/components/anchor";
 import { FooterProps } from "~/types/client/components.type";
-import logoText from "~/public/images/logo-text.svg";
-import PrivacyModal from "./privacyModal";
+import logoText from "~/client13/assets/logo-text.svg";
+import PrivacyModal from "./privacyModal.client";
 
 function SocialIconLink({ href, icon: Icon }: { href: string; icon: React.FC<LucideProps> }) {
   return (

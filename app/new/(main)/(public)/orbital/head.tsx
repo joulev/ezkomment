@@ -11,6 +11,6 @@ const seo: SeoProps = {
   url: "https://ezkomment.joulev.dev/orbital",
 };
 
-export default function Head() {
+export default function OrbitalHead() {
   return <Seo {...seo} />;
 }

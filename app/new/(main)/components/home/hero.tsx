@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Button from "~/client13/components/buttons";
-import dark from "~/public/images/home/app-dark.png";
-import light from "~/public/images/home/app-light.png";
-import logoText from "~/public/images/logo-text.svg";
+import logoText from "~/client13/assets/logo-text.svg";
+import dark from "./app-dark.png";
+import light from "./app-light.png";
 
 export default function Hero() {
   return (
