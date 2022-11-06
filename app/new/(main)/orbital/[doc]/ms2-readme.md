@@ -1,3 +1,11 @@
+---
+title: Orbital 2022 Milestone 2 README
+timestamp: "2022-06-25"
+seoTitle: Orbital 2022 Milestone 2 README | ezkomment
+seoDescription: The second version of the README, describing all information we have about the project.
+seoUrl: https://ezkomment.joulev.dev/orbital/ms2-readme
+---
+
 > The Milestone 2 README is written on top of [Milestone 1 README](/orbital/ms1-readme). Probably you do not want to read the whole thing again, so look out for headings with an "updated" label: they are modified after Milestone 1.
 
 > You can also [view this document as PDF](ms2-readme.pdf).
