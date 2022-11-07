@@ -39,6 +39,17 @@ export function getTitle(path: string[]) {
     return data.pages[path[1]];
 }
 
+export function getPrevAndNext(path: string[]) {
+    const fullPath = path.join("/");
+    const index = filePaths.findIndex(p => p.join("/") === fullPath);
+    const prev = filePaths[index - 1];
+    const next = filePaths[index + 1];
+    return {
+        prev: prev ? { path: prev, title: getTitle(prev) } : undefined,
+        next: next ? { path: next, title: getTitle(next) } : undefined,
+    };
+}
+
 export async function getLastModified(fileName: string[]): Promise<string> {
     const filePath = `docs/${fileName.join("/")}.md`;
     const url = new URL("https://api.github.com/repos/joulev/ezkomment/commits");

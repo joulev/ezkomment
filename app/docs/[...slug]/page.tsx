@@ -3,7 +3,7 @@ import rehypeSlug from "rehype-slug";
 import { serialize } from "next-mdx-remote/serialize";
 import Mdx from "~/client13/components/mdx/mdx.client";
 import DocsBottomBar from "../components/bottombar.client";
-import { filePaths, getLastModified, pathExists } from "../documentation";
+import { filePaths, getLastModified, getPrevAndNext, pathExists } from "../documentation";
 
 export type Params = { slug: string[] };
 
@@ -19,6 +19,7 @@ export default async function DocsPage({ params: { slug } }: { params: Params })
   if (!pathExists(slug)) notFound();
   const source = await serialise(slug);
   const lastModified = await getLastModified(slug);
+  const { prev, next } = getPrevAndNext(slug);
   return (
     <main className="ml-0 mt-18 lg:ml-96 lg:mt-0">
       <div className="container lg:max-w-prose py-12">
@@ -26,7 +27,7 @@ export default async function DocsPage({ params: { slug } }: { params: Params })
           <Mdx source={source} />
         </article>
         <hr />
-        <DocsBottomBar lastModified={lastModified} path={slug} />
+        <DocsBottomBar path={slug} {...{ prev, next, lastModified }} />
       </div>
     </main>
   );
