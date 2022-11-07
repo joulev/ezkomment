@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import rehypeSlug from "rehype-slug";
 import { serialize } from "next-mdx-remote/serialize";
 import Mdx from "~/client13/components/mdx/mdx.client";
-import DocsBottomBar from "../components/bottombar.client";
+import DocsBottomBar from "../components/bottombar";
 import { filePaths, getLastModified, getPrevAndNext, pathExists } from "../documentation";
 
 export type Params = { slug: string[] };
