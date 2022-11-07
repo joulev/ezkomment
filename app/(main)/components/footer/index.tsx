@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import Image from "next/image";
 import { Github, Send as Telegram, Mail, Icon } from "lucide-react";
 import version from "~/client/lib/version";
 import A from "~/client13/components/anchor.client";
-import logoText from "~/client13/assets/logo-text.svg";
+import LogoText from "~/client13/components/logo/logoText";
 import PrivacyModal from "./privacyModal.client";
 
 function SocialIconLink({ href, icon: Icon }: { href: string; icon: Icon }) {
@@ -47,9 +46,11 @@ export default function Footer({ className, containerClasses = "container" }: Pr
         )}
       >
         <div className="min-w-[50%] sm:max-w-[66%] flex flex-col">
-          <A href="/" notStyled className="block logo-width mb-3">
-            <Image src={logoText} alt="ezkomment" />
-          </A>
+          <div className="mb-3">
+            <A href="/" notStyled className="mb-3">
+              <LogoText />
+            </A>
+          </div>
           <div className="flex flex-row flex-wrap gap-x-6 mb-6">
             <FooterNavLink href="/" title="Homepage" />
             <FooterNavLink href="/app/dashboard" title="Dashboard" />

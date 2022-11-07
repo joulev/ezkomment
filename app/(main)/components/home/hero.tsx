@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Button from "~/client13/components/buttons.client";
-import logoText from "~/client13/assets/logo-text.svg";
+import LogoText from "~/client13/components/logo/logoText";
 import dark from "./app-dark.png";
 import light from "./app-light.png";
 
@@ -10,9 +10,7 @@ export default function Hero() {
       <div className="container grid grid-cols-1 md:grid-cols-12 gap-6 xl:gap-12 items-center">
         <div className="md:col-span-7 text-center md:text-left flex flex-col gap-9 lg:gap-12">
           <div>
-            <div className="w-[calc(397px/80*36)] h-9 lg:w-[calc(397px/80*48)] lg:h-12 inline-block">
-              <Image src={logoText} alt="logo" />
-            </div>
+            <LogoText expandAtLg />
           </div>
           <h1 className="font-black text-5xl lg:text-6xl xl:text-7xl !leading-[0.85] my-0">
             Commenting made&nbsp;
