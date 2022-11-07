@@ -1,13 +1,12 @@
 "use client";
 
 import clsx from "clsx";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { LogIn } from "lucide-react";
 import useBreakpoint from "~/client/hooks/breakpoint";
 import A from "~/client13/components/anchor.client";
 import Button from "~/client13/components/buttons.client";
-import logoText from "~/client13/assets/logo-text.svg";
+import LogoText from "~/client13/components/logo/logoText";
 
 const scrollThreshold = 300;
 
@@ -35,8 +34,8 @@ export default function PublicNavbar() {
           "container flex flex-row justify-between items-center transition-all overflow-hidden"
         )}
       >
-        <A className="logo-width" href="/">
-          <Image src={logoText} alt="logo" />
+        <A href="/">
+          <LogoText />
         </A>
         <Button
           variant={breakpoint === "xs" ? "tertiary" : "primary"}

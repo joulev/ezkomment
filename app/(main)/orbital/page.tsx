@@ -1,10 +1,19 @@
 import clsx from "clsx";
-import Image from "next/image";
 import { FileText, Code, Image as ImageIcon, Video, Icon } from "lucide-react";
 import A from "~/client13/components/anchor.client";
 import Button from "~/client13/components/buttons.client";
-import logoDark from "./logo-orbital-dark.svg";
-import logoLight from "./logo-orbital-light.svg";
+import LogoText from "~/client13/components/logo/logoText";
+
+function LogoOrbital() {
+  return (
+    <div className="mx-auto inline-block">
+      <A href="/" notStyled className="flex flex-row items-center gap-4.5">
+        <LogoText className="pr-4.5 border-r border-muted" />
+        <span className="text-2xl font-extralight">Orbital 2022</span>
+      </A>
+    </div>
+  );
+}
 
 type SectionLinkProps = {
   icon: Icon;
@@ -40,10 +49,7 @@ export default function OrbitalPage() {
     <>
       <header className="bg-card border-b border-card px-6 sm:px-10 py-24">
         <div className="mx-auto container text-center">
-          <A className="mx-auto block w-[calc(801px/80*36)] max-w-full" href="/">
-            <Image className="block dark:hidden" src={logoLight} alt="logo with orbital" />
-            <Image className="hidden dark:block" src={logoDark} alt="logo with orbital" />
-          </A>
+          <LogoOrbital />
           <h1>
             <span className="text-indigo-500 font-bold">ezkomment</span> is an NUS Orbital&nbsp;2022
             project.

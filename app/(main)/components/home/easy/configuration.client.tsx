@@ -3,11 +3,10 @@
 
 import clsx from "clsx";
 import { Plus } from "lucide-react";
-import Image from "next/image";
 import Button from "~/client13/components/buttons.client";
 import CopiableCode from "~/client13/components/copiableCode.client";
+import Cursor from "./cursor";
 import HomeSection from "../section";
-import cursorSvg from "./cursor-pointer.svg";
 
 export default function EasyConfiguration() {
   return (
@@ -31,13 +30,13 @@ export default function EasyConfiguration() {
           <div key="1">
             <div className="w-fit mx-auto relative">
               <Button icon={Plus}>Create a new site</Button>
-              <Image src={cursorSvg} alt="" className="absolute left-2/3 top-2/3" />
+              <Cursor className="absolute left-2/3 top-2/3" />
             </div>
           </div>,
           <div key="1">
             <div className="w-fit mx-auto relative">
               <Button icon={Plus}>Create a new page</Button>
-              <Image src={cursorSvg} alt="" className="absolute left-2/3 top-2/3" />
+              <Cursor className="absolute left-2/3 top-2/3" />
             </div>
           </div>,
           <div
