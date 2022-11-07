@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import SidebarLink from "./sidebarlink.client";
-import { NavData } from "~/types/client/docs.type";
+import { NavData } from "../documentation";
 
 export type Props = { navData: NavData };
 

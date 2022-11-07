@@ -2,8 +2,8 @@ import rehypeSlug from "rehype-slug";
 import remarkToc from "remark-toc";
 import { notFound } from "next/navigation";
 import { serialize } from "next-mdx-remote/serialize";
+import Mdx from "~/client13/components/mdx/mdx.client";
 import BlogLayout from "../components/blog";
-import Mdx from "./components/mdx.client";
 import authors from "~/constants/authors";
 
 const docs = ["proposal", "ms1-readme", "ms2-readme", "ms3-readme"];

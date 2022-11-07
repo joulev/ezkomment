@@ -9,11 +9,11 @@ const nextConfig = {
   images: { remotePatterns: [{ protocol: "https", hostname: "avatars.githubusercontent.com" }] },
   experimental: { appDir: true },
   redirects: async () => [
-    // {
-    //   source: "/docs",
-    //   destination: "/docs/tutorial/getting-started",
-    //   permanent: true,
-    // },
+    {
+      source: "/docs",
+      destination: "/docs/tutorial/getting-started",
+      permanent: true,
+    },
     {
       source: "/docs/getting-started",
       destination: "/docs/tutorial/getting-started",
