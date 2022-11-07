@@ -1,5 +1,3 @@
-"use client";
-
 import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { ArrowLeft, ArrowRight } from "lucide-react";
