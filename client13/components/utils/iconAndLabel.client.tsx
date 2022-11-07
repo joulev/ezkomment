@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { Icon } from "lucide-react";
 
-type IconAndLabel =
+export type IconAndLabel =
   | { label: React.ReactNode; icon?: Icon }
   | { icon: Icon; label?: React.ReactNode };
 export type Props = IconAndLabel & {
