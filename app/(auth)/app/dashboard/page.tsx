@@ -1,6 +1,6 @@
 "use client";
 
-import useAuth from "~/client/hooks/auth";
+import useAuth from "~/client13/hooks/auth";
 
 export default function AppDashboardPage() {
   const auth = useAuth();
