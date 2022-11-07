@@ -32,19 +32,6 @@ const A = forwardRef<HTMLAnchorElement, Props>(
     const props = { className: cls, ...rest, ref };
 
     if (!href) return <a {...props}>{children}</a>;
-    if (href === "/docs") {
-      return (
-        <Link
-          href={{
-            pathname: "/docs/[...slug]",
-            query: { slug: ["tutorial", "getting-started"] },
-          }}
-          {...props}
-        >
-          {children}
-        </Link>
-      );
-    }
 
     const isExternal = href?.startsWith("http");
     const extProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};

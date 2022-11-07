@@ -8,9 +8,9 @@ import version from "~/client/lib/version";
 import A from "~/client13/components/anchor.client";
 import Input from "~/client13/components/forms/input";
 import LogoText from "~/client13/components/logo/logoText";
-import { NavData } from "~/types/client/docs.type";
 import DocsNav from "./navbar";
 import DocsSearchResults from "./searchResults.client";
+import { NavData } from "../documentation";
 
 function useScreenHeight() {
   const [screenHeight, setScreenHeight] = useState(0);
