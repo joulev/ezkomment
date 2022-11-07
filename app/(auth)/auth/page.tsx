@@ -33,7 +33,7 @@ function useTrianglify() {
   return svgEl;
 }
 
-export default function Auth() {
+export default function AuthPage() {
   const auth = useAuth();
   const setToast = useSetToast();
   const svgRef = useTrianglify();
