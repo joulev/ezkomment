@@ -1,26 +1,43 @@
 "use client";
 
+import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
-import { Check, X } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import A from "~/client13/components/anchor.client";
-import Button from "~/client13/components/buttons.client";
 
-export type Props = { lastModified: string; path: string[] };
+type Card = { title: string; path: string[] } | undefined;
+export type Props = {
+  lastModified: string;
+  path: string[];
+  prev?: Card;
+  next?: Card;
+};
 
-export default function DocsBottomBar({ lastModified, path }: Props) {
+function PrevNextCard({ card, isLeft }: { card: Card; isLeft?: boolean }) {
+  const commonClasses =
+    "flex-1 shrink-0 min-w-fit flex gap-1.5 items-center justify-start hover:text-primary transition";
+  if (!card) return <div />;
+  return (
+    <A
+      href={`/docs/${card.path.join("/")}`}
+      notStyled
+      className={clsx(commonClasses, isLeft ? "flex-row" : "flex-row-reverse")}
+    >
+      {isLeft ? <ArrowLeft /> : <ArrowRight />}
+      <div>{card.title}</div>
+    </A>
+  );
+}
+
+export default function DocsBottomBar({ lastModified, path, prev, next }: Props) {
   return (
     <>
-      <div className="text-center">Was this page helpful?</div>
-      <div className="flex flex-row justify-center gap-6 mt-3">
-        <Button variant="tertiary" icon={Check}>
-          Yes
-        </Button>
-        <Button variant="tertiary" icon={X}>
-          No
-        </Button>
+      <div className="flex flex-row justify-between flex-wrap gap-x-6 gap-y-3 font-medium">
+        <PrevNextCard card={prev} isLeft />
+        <PrevNextCard card={next} />
       </div>
       <hr />
-      <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:items-baseline gap-y-3 text-sm">
+      <div className="flex flex-row justify-between flex-wrap gap-x-6 gap-y-3 text-sm">
         <div className="text-muted">
           Last modified:{" "}
           <time title={lastModified}>
