@@ -1,16 +1,5 @@
 lockfileVersion: 5.4
 
-patchedDependencies:
-  periscopic@3.0.4:
-    hash: k4o6akh5pwtdo4khmc7fyke7p4
-    path: patches/periscopic@3.0.4.patch
-  estree-walker@3.0.1:
-    hash: mbcd5gxbtxxmqh2k2dnlxyllni
-    path: patches/estree-walker@3.0.1.patch
-  is-reference@3.0.0:
-    hash: psfdadvjlw6lstz6rjhbva54hm
-    path: patches/is-reference@3.0.0.patch
-
 specifiers:
   '@emotion/react': 11.10.5
   '@emotion/styled': 11.10.5
@@ -1684,10 +1673,10 @@ packages:
       estree-util-build-jsx: 2.2.0
       estree-util-is-identifier-name: 2.0.1
       estree-util-to-js: 1.1.0
-      estree-walker: 3.0.1_mbcd5gxbtxxmqh2k2dnlxyllni
+      estree-walker: 3.0.1
       hast-util-to-estree: 2.1.0
       markdown-extensions: 1.1.1
-      periscopic: 3.0.4_k4o6akh5pwtdo4khmc7fyke7p4
+      periscopic: 3.0.4
       remark-mdx: 2.1.5
       remark-parse: 10.0.1
       remark-rehype: 10.1.0
@@ -4980,7 +4969,7 @@ packages:
     dependencies:
       '@types/estree-jsx': 1.0.0
       estree-util-is-identifier-name: 2.0.1
-      estree-walker: 3.0.1_mbcd5gxbtxxmqh2k2dnlxyllni
+      estree-walker: 3.0.1
     dev: false
 
   /estree-util-is-identifier-name/2.0.1:
@@ -5002,10 +4991,9 @@ packages:
       '@types/unist': 2.0.6
     dev: false
 
-  /estree-walker/3.0.1_mbcd5gxbtxxmqh2k2dnlxyllni:
+  /estree-walker/3.0.1:
     resolution: {integrity: sha512-woY0RUD87WzMBUiZLx8NsYr23N5BKsOMZHhu2hoNRVh6NXGfoiT1KOL8G3UHlJAnEDGmfa5ubNA/AacfG+Kb0g==}
     dev: false
-    patched: true
 
   /esutils/2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -6612,12 +6600,11 @@ packages:
   /is-potential-custom-element-name/1.0.1:
     resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==}
 
-  /is-reference/3.0.0_psfdadvjlw6lstz6rjhbva54hm:
+  /is-reference/3.0.0:
     resolution: {integrity: sha512-Eo1W3wUoHWoCoVM4GVl/a+K0IgiqE5aIo4kJABFyMum1ZORlPkC+UC357sSQUL5w5QCE5kCC9upl75b7+7CY/Q==}
     dependencies:
       '@types/estree': 1.0.0
     dev: false
-    patched: true
 
   /is-regex/1.1.4:
     resolution: {integrity: sha512-kvRdxDsxZjhzUX07ZnLydzS1TU/TJlTUHHY4YLL87e37oUA49DfkLqgy+VjFocowy29cKvcSiu+kIv728jTTVg==}
@@ -9190,13 +9177,12 @@ packages:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
     dev: true
 
-  /periscopic/3.0.4_k4o6akh5pwtdo4khmc7fyke7p4:
+  /periscopic/3.0.4:
     resolution: {integrity: sha512-SFx68DxCv0Iyo6APZuw/AKewkkThGwssmU0QWtTlvov3VAtPX+QJ4CadwSaz8nrT5jPIuxdvJWB4PnD2KNDxQg==}
     dependencies:
-      estree-walker: 3.0.1_mbcd5gxbtxxmqh2k2dnlxyllni
-      is-reference: 3.0.0_psfdadvjlw6lstz6rjhbva54hm
+      estree-walker: 3.0.1
+      is-reference: 3.0.0
     dev: false
-    patched: true
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
