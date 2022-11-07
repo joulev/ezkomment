@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import useAuth from "~/client/hooks/auth";
-import { useSetToast } from "~/client/hooks/toast";
+import useAuth from "~/client13/hooks/auth";
+import { useSetToast } from "~/client13/hooks/toast";
 import { githubProvider, googleProvider, signIn } from "~/client/lib/firebase/auth";
 import A from "~/client13/components/anchor.client";
 import Button from "~/client13/components/buttons.client";
