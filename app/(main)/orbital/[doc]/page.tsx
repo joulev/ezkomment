@@ -1,16 +1,16 @@
 import rehypeSlug from "rehype-slug";
 import remarkToc from "remark-toc";
+import { notFound } from "next/navigation";
 import { serialize } from "next-mdx-remote/serialize";
 import BlogLayout from "../components/blog";
 import Mdx from "./components/mdx.client";
 import authors from "~/constants/authors";
 
-const docs = ["proposal", "ms1-readme", "ms2-readme", "ms3-readme"] as const;
+const docs = ["proposal", "ms1-readme", "ms2-readme", "ms3-readme"];
 
-type Doc = typeof docs[number];
-export type Params = { doc: Doc };
+export type Params = { doc?: string };
 
-async function serialise(doc: Doc) {
+async function serialise(doc: string) {
   const rawContent = (await import(`./${doc}.md`).then(m => m.default)) as string;
   const source = await serialize(rawContent, {
     parseFrontmatter: true,
@@ -24,6 +24,7 @@ async function serialise(doc: Doc) {
 }
 
 export default async function OrbitalDocumentPage({ params: { doc } }: { params: Params }) {
+  if (!doc || !docs.includes(doc)) notFound();
   const source = await serialise(doc);
   const { title, timestamp } = source.frontmatter!;
   return (
@@ -40,5 +41,3 @@ export default async function OrbitalDocumentPage({ params: { doc } }: { params:
 export async function generateStaticParams() {
   return docs.map(doc => ({ doc }));
 }
-
-export const dynamicParams = false;
