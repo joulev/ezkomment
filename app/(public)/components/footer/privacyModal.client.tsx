@@ -3,7 +3,7 @@
 import { useState } from "react";
 import A from "~/app/components/anchor.client";
 import Button from "~/app/components/buttons.client";
-import Modal from "~/app/components/modal";
+import Modal from "~/app/components/modal.client";
 import RightAligned from "~/app/components/utils/rightAligned";
 
 export default function PrivacyModal() {

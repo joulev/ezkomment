@@ -3,7 +3,7 @@
 import SetToastContext from "~/app/context/toast";
 import { useToastInit } from "~/app/hooks/toast";
 import AuthProvider from "./components/provider.client";
-import Toast from "./components/toast";
+import Toast from "./components/toast.client";
 
 export default function AuthLayoutClient({ children }: React.PropsWithChildren) {
   const { toast, setToast } = useToastInit();

@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 
 export type Props = React.ComponentProps<"div"> & {
