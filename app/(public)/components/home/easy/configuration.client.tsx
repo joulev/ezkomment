@@ -3,8 +3,8 @@
 
 import clsx from "clsx";
 import { Plus } from "lucide-react";
-import Button from "~/client13/components/buttons.client";
-import CopiableCode from "~/client13/components/copiableCode.client";
+import Button from "~/app/components/buttons.client";
+import CopiableCode from "~/app/components/copiableCode.client";
 import Cursor from "./cursor";
 import HomeSection from "../section";
 

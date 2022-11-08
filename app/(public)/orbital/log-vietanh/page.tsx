@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { Fragment } from "react";
 import md2html from "~/misc/markdown";
-import A from "~/client13/components/anchor.client";
-import Banner from "~/client13/components/banner";
+import A from "~/app/components/anchor.client";
+import Banner from "~/app/components/banner";
 import BlogLayout from "../components/blog";
 import authors from "~/constants/authors";
 import rawData from "./log.json";

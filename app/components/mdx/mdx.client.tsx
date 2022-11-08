@@ -1,7 +1,7 @@
 "use client";
 
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import A from "~/client13/components/anchor.client";
+import A from "~/app/components/anchor.client";
 import PostHeading from "./postHeading";
 import BlogImage from "./blogImage";
 

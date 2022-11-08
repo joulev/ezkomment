@@ -1,8 +1,9 @@
+import "client-only";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
-import AuthContext, { AppAuth } from "~/client13/context/auth";
+import AuthContext, { AppAuth } from "~/app/context/auth";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 import firebaseApp from "~/client/lib/firebase/app";
 import { endProgress, startProgress } from "~/client/lib/nprogress";

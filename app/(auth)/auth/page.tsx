@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import useAuth from "~/client13/hooks/auth";
-import { useSetToast } from "~/client13/hooks/toast";
+import useAuth from "~/app/hooks/auth";
+import { useSetToast } from "~/app/hooks/toast";
 import { githubProvider, googleProvider, signIn } from "~/client/lib/firebase/auth";
-import A from "~/client13/components/anchor.client";
-import Button from "~/client13/components/buttons.client";
-import AuthError from "~/client13/components/authError";
-import Logo from "~/client13/components/logo/logo";
+import A from "~/app/components/anchor.client";
+import Button from "~/app/components/buttons.client";
+import AuthError from "~/app/components/authError";
+import Logo from "~/app/components/logo/logo";
 import { Provider } from "~/types/client/auth.type";
 
 function useTrianglify() {

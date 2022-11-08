@@ -1,6 +1,7 @@
+import "client-only";
 import { useContext } from "react";
 import useSWR from "swr";
-import PageContext from "~/client13/context/page";
+import PageContext from "~/app/context/pageContext";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 import { ClientPage } from "~/types/server";
 

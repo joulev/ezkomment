@@ -1,3 +1,4 @@
+import "server-only";
 import { readFileSync } from "fs";
 import { parse as JSON5Parse } from "json5";
 import { join } from "path";

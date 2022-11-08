@@ -5,7 +5,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { Check, X, Trash, CheckCheck } from "lucide-react";
-import IconLabel from "~/client13/components/utils/iconAndLabel.client";
+import IconLabel from "~/app/components/utils/iconAndLabel.client";
 import HomeSection from "../section";
 
 function useAnimateIllustration() {

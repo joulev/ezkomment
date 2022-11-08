@@ -1,4 +1,4 @@
-import Seo, { Props } from "~/client13/components/seo";
+import Seo, { Props } from "~/app/components/seo";
 import { Params } from "./page";
 import { getTitle, pathExists } from "../documentation";
 

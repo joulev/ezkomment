@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import A from "~/client13/components/anchor.client";
+import A from "~/app/components/anchor.client";
 
 type Card = { title: string; path: string[] } | undefined;
 export type Props = {

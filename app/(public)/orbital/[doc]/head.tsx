@@ -1,4 +1,4 @@
-import Seo, { Props } from "~/client13/components/seo";
+import Seo, { Props } from "~/app/components/seo";
 import { Params } from "./page";
 // for some reasons next-mdx-remote doesn't work in head.tsx so I have to use one extra dependency
 import matter from "gray-matter";

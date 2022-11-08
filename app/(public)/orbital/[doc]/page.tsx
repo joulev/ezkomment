@@ -2,7 +2,7 @@ import rehypeSlug from "rehype-slug";
 import remarkToc from "remark-toc";
 import { notFound } from "next/navigation";
 import { serialize } from "next-mdx-remote/serialize";
-import Mdx from "~/client13/components/mdx/mdx.client";
+import Mdx from "~/app/components/mdx/mdx.client";
 import BlogLayout from "../components/blog";
 import authors from "~/constants/authors";
 

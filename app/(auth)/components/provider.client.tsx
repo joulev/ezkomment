@@ -1,7 +1,7 @@
 "use client";
 
-import AuthContext from "~/client13/context/auth";
-import { useAuthInit } from "~/client13/hooks/auth";
+import AuthContext from "~/app/context/auth";
+import { useAuthInit } from "~/app/hooks/auth";
 
 export default function AuthProvider({ children }: React.PropsWithChildren) {
   const providedAuth = useAuthInit();

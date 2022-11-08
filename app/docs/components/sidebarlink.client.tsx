@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import A from "~/client13/components/anchor.client";
+import A from "~/app/components/anchor.client";
 
 export type Props = React.PropsWithChildren<{ href: string }>;
 

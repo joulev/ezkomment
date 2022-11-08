@@ -3,8 +3,8 @@
 import clsx from "clsx";
 import { Icon } from "lucide-react";
 import { forwardRef } from "react";
-import A from "~/client13/components/anchor.client";
-import IconLabel from "~/client13/components/utils/iconAndLabel.client";
+import A from "~/app/components/anchor.client";
+import IconLabel from "~/app/components/utils/iconAndLabel.client";
 
 type ButtonVariant = "primary" | "danger" | "tertiary";
 export type Props = (React.ComponentProps<"a"> & React.ComponentProps<"button">) & {

@@ -1,6 +1,7 @@
+import "client-only";
 import { useContext } from "react";
 import useSWR from "swr";
-import SiteContext from "~/client13/context/site";
+import SiteContext from "~/app/context/site";
 import { internalSWRGenerator } from "~/client/lib/fetcher";
 import { ClientSite } from "~/types/server";
 

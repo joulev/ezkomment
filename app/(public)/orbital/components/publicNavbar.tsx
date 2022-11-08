@@ -3,10 +3,10 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { LogIn } from "lucide-react";
-import useBreakpoint from "~/client13/hooks/breakpoint";
-import A from "~/client13/components/anchor.client";
-import Button from "~/client13/components/buttons.client";
-import LogoText from "~/client13/components/logo/logoText";
+import useBreakpoint from "~/app/hooks/breakpoint";
+import A from "~/app/components/anchor.client";
+import Button from "~/app/components/buttons.client";
+import LogoText from "~/app/components/logo/logoText";
 
 const scrollThreshold = 300;
 

@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import Image from "next/image";
 import { Author } from "~/constants/authors";
-import A from "~/client13/components/anchor.client";
-import LogoText from "~/client13/components/logo/logoText";
+import A from "~/app/components/anchor.client";
+import LogoText from "~/app/components/logo/logoText";
 import ReadingTime from "./readingTime.client";
 
 /**
