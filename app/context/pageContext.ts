@@ -1,3 +1,6 @@
+"use client";
+// have to use this weird filename because page.ts is taken by Next.js already
+
 import { createContext } from "react";
 import { KeyedMutator } from "swr";
 import { ClientPage } from "~/types/server";

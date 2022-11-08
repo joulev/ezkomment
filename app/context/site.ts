@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext } from "react";
 import { KeyedMutator } from "swr";
 import { ClientSite } from "~/types/server";

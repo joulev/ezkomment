@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import A from "~/client13/components/anchor.client";
-import Button from "~/client13/components/buttons.client";
-import Modal from "~/client13/components/modal";
-import RightAligned from "~/client13/components/utils/rightAligned";
+import A from "~/app/components/anchor.client";
+import Button from "~/app/components/buttons.client";
+import Modal from "~/app/components/modal";
+import RightAligned from "~/app/components/utils/rightAligned";
 
 export default function PrivacyModal() {
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);

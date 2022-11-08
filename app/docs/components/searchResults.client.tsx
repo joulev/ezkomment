@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import A from "~/client13/components/anchor.client";
-import BlankIllustration from "~/client13/components/blankIllustration";
+import A from "~/app/components/anchor.client";
+import BlankIllustration from "~/app/components/blankIllustration";
 
 type DocsSearchData = {
   source: string;

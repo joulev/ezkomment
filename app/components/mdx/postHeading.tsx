@@ -1,5 +1,5 @@
 import { Hash } from "lucide-react";
-import A from "~/client13/components/anchor.client";
+import A from "~/app/components/anchor.client";
 
 export type Props = React.PropsWithChildren<{
   level: number;

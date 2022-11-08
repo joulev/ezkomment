@@ -1,4 +1,4 @@
-import A from "~/client13/components/anchor.client";
+import A from "~/app/components/anchor.client";
 
 export default function AuthError({ err }: { err: NodeJS.ErrnoException }) {
   if (process.env.NODE_ENV === "development") console.log(err);

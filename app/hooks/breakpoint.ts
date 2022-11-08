@@ -1,6 +1,7 @@
+import "client-only";
 import { useContext, useEffect, useState } from "react";
 import theme from "~/config/tailwindTheme";
-import BreakpointContext, { Breakpoint } from "~/client13/context/breakpoint";
+import BreakpointContext, { Breakpoint } from "~/app/context/breakpoint";
 
 /**
  * Get the current browser breakpoint.

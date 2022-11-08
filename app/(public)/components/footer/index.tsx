@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { Github, Send as Telegram, Mail, Icon } from "lucide-react";
 import version from "~/client/lib/version";
-import A from "~/client13/components/anchor.client";
-import LogoText from "~/client13/components/logo/logoText";
+import A from "~/app/components/anchor.client";
+import LogoText from "~/app/components/logo/logoText";
 import PrivacyModal from "./privacyModal.client";
 
 function SocialIconLink({ href, icon: Icon }: { href: string; icon: Icon }) {

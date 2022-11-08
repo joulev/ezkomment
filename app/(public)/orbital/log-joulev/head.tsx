@@ -1,4 +1,4 @@
-import Seo, { Props } from "~/client13/components/seo";
+import Seo, { Props } from "~/app/components/seo";
 
 const seo: Props = {
   title: "Project Log for Vu Van Dung | ezkomment",
