@@ -2,8 +2,7 @@
 
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import BreakpointContext from "~/app/context/breakpoint";
-import { useBreakpointInit } from "~/app/hooks/breakpoint";
+import { BreakpointContext, useBreakpointInit } from "~/app/breakpoint";
 
 export default function LayoutClient({ children }: React.PropsWithChildren) {
   const pathname = usePathname();

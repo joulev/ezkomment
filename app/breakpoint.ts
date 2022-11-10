@@ -1,7 +1,10 @@
 import "client-only";
-import { useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import theme from "~/config/tailwindTheme";
-import BreakpointContext, { Breakpoint } from "~/app/context/breakpoint";
+
+export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "unknown";
+
+export const BreakpointContext = createContext<Breakpoint>("unknown");
 
 /**
  * Get the current browser breakpoint.
@@ -19,7 +22,7 @@ const getBreakpoint = (): Breakpoint =>
 /**
  * Initialise the breakpoint global state in `_app.ts`.
  */
-function useBreakpointInit() {
+export function useBreakpointInit() {
     const [breakpoint, setBreakpoint] = useState<Breakpoint>("unknown");
     const handleResize = () => setBreakpoint(getBreakpoint());
     useEffect(() => {
@@ -35,6 +38,4 @@ function useBreakpointInit() {
  *
  * @returns The current screen breakpoint (same as Tailwind breakpoints)
  */
-const useBreakpoint = () => useContext(BreakpointContext);
-
-export { useBreakpoint as default, useBreakpointInit };
+export const useBreakpoint = () => useContext(BreakpointContext);

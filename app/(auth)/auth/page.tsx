@@ -1,10 +1,26 @@
 "use client";
-import { parseCookies } from "nookies";
+
+import { useAuth, signIn, signOut, googleProvider } from "~/app/(auth)/auth";
 
 export default function AuthPage() {
-  function onClick() {
-    const cookies = parseCookies();
-    alert(JSON.stringify(cookies));
+  const auth = useAuth();
+  if (auth.user) {
+    return (
+      <div>
+        <div>Hi {auth.user.email}!</div>
+        <button onClick={() => signOut(auth)}>Sign out</button>
+      </div>
+    );
   }
-  return <button onClick={onClick}>Hello world</button>;
+  return (
+    <div>
+      <button
+        onClick={() => {
+          signIn(auth, googleProvider);
+        }}
+      >
+        Sign in with Google
+      </button>
+    </div>
+  );
 }

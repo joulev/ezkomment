@@ -6,6 +6,7 @@ specifiers:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0
   '@testing-library/user-event': 14.4.3
+  '@types/cookie': ^0.5.1
   '@types/merge-ranges': 1.0.0
   '@types/node': 18.11.9
   '@types/nprogress': 0.2.0
@@ -17,6 +18,7 @@ specifiers:
   autoprefixer: 10.4.13
   client-only: 0.0.1
   clsx: 1.2.1
+  cookie: ^0.5.0
   date-fns: 2.29.3
   eslint: 8.27.0
   eslint-config-next: canary
@@ -64,9 +66,11 @@ specifiers:
   validator: 13.7.0
 
 dependencies:
+  '@types/cookie': 0.5.1
   '@vercel/og': 0.0.20
   client-only: 0.0.1
   clsx: 1.2.1
+  cookie: 0.5.0
   date-fns: 2.29.3
   firebase: 9.13.0
   firebase-admin: 11.2.0
@@ -1955,6 +1959,10 @@ packages:
       '@types/node': 18.11.9
     dev: false
 
+  /@types/cookie/0.5.1:
+    resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
+    dev: false
+
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -3397,7 +3405,6 @@ packages:
   /cookie/0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
     engines: {node: '>= 0.6'}
-    dev: true
 
   /core-js-pure/3.26.0:
     resolution: {integrity: sha512-LiN6fylpVBVwT8twhhluD9TzXmZQQsr2I2eIKtWNbZI1XMfBT7CV18itaN6RA7EtQd/SDdRx/wzvAShX2HvhQA==}
