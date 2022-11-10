@@ -6,6 +6,7 @@ specifiers:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0
   '@testing-library/user-event': 14.4.3
+  '@types/merge-ranges': 1.0.0
   '@types/node': 18.11.9
   '@types/nprogress': 0.2.0
   '@types/prettier': 2.7.1
@@ -28,7 +29,8 @@ specifiers:
   jest-environment-jsdom: 29.2.2
   jest-environment-node: 29.2.2
   json5: 2.2.1
-  lucide-react: ^0.98.0
+  lucide-react: 0.98.0
+  merge-ranges: 1.0.2
   next: canary
   next-connect: next
   next-mdx-remote: 4.1.0
@@ -71,6 +73,7 @@ dependencies:
   gray-matter: 4.0.3
   json5: 2.2.1
   lucide-react: 0.98.0_react@18.2.0
+  merge-ranges: 1.0.2
   next: 13.0.3-canary.3_biqbaboplfbrettd7655fr4n2y
   next-connect: 1.0.0-next.3
   next-mdx-remote: 4.1.0_biqbaboplfbrettd7655fr4n2y
@@ -102,6 +105,7 @@ devDependencies:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 14.4.3
+  '@types/merge-ranges': 1.0.0
   '@types/node': 18.11.9
   '@types/nprogress': 0.2.0
   '@types/prettier': 2.7.1
@@ -1528,7 +1532,7 @@ packages:
       '@motionone/easing': 10.14.0
       '@motionone/types': 10.14.0
       '@motionone/utils': 10.14.0
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/dom/10.13.1:
@@ -1539,14 +1543,14 @@ packages:
       '@motionone/types': 10.14.0
       '@motionone/utils': 10.14.0
       hey-listen: 1.0.8
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/easing/10.14.0:
     resolution: {integrity: sha512-2vUBdH9uWTlRbuErhcsMmt1jvMTTqvGmn9fHq8FleFDXBlHFs5jZzHJT9iw+4kR1h6a4SZQuCf72b9ji92qNYA==}
     dependencies:
       '@motionone/utils': 10.14.0
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/generators/10.14.0:
@@ -1554,7 +1558,7 @@ packages:
     dependencies:
       '@motionone/types': 10.14.0
       '@motionone/utils': 10.14.0
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/types/10.14.0:
@@ -1566,7 +1570,7 @@ packages:
     dependencies:
       '@motionone/types': 10.14.0
       hey-listen: 1.0.8
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@next/env/13.0.3-canary.3:
@@ -2087,6 +2091,10 @@ packages:
   /@types/mdx/2.0.3:
     resolution: {integrity: sha512-IgHxcT3RC8LzFLhKwP3gbMPeaK7BM9eBH46OdapPA7yvuIUJ8H6zHZV53J8hGZcTSnt95jANt+rTBNUUc22ACQ==}
     dev: false
+
+  /@types/merge-ranges/1.0.0:
+    resolution: {integrity: sha512-aukzbXRqqskWw4QYNwtYyAlMKk+6NovYNrCanZk2tNyCvgrbjolr+wRY5TVNxmMr0AdZX1QVkc+gsFYJC7l0AA==}
+    dev: true
 
   /@types/mime/3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
@@ -7547,6 +7555,10 @@ packages:
   /merge-descriptors/1.0.1:
     resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
     dev: true
+
+  /merge-ranges/1.0.2:
+    resolution: {integrity: sha512-0THbaWkER1BADCnnyJ3eYiRe2hQc0Bi4cuLj62khV0V+x+oa6D2NicQLF9r/9t0N+sirzyKos8DxLpmGfYjcCQ==}
+    dev: false
 
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}

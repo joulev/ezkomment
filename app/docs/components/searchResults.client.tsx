@@ -3,16 +3,7 @@
 import { useEffect, useState } from "react";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blankIllustration";
-
-type DocsSearchData = {
-  source: string;
-  title: string;
-  matchCount: number;
-  preview: {
-    text: string;
-    highlight: boolean;
-  }[];
-}[];
+import { Data } from "~/pages/api/docs/search";
 
 function Loading() {
   return (
@@ -46,7 +37,7 @@ export type Props = { loading: boolean; query: string };
 
 export default function DocsSearchResults({ loading, query }: Props) {
   const [fetching, setFetching] = useState(false);
-  const [results, setResults] = useState<DocsSearchData>([]);
+  const [results, setResults] = useState<Data>([]);
   useEffect(() => {
     if (!query) return setResults([]);
     (async () => {
@@ -54,7 +45,7 @@ export default function DocsSearchResults({ loading, query }: Props) {
       const res = await fetch(`/api/docs/search?query=${encodeURIComponent(query)}`);
       const data = await res.json();
       if (data.error) setResults([]);
-      else setResults(data.data);
+      else setResults(data);
       setFetching(false);
     })();
   }, [query]);
