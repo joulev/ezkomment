@@ -26,28 +26,15 @@ export type Props = React.ComponentProps<"a"> & {
  *                          given the class `a` defined in `globals.css`.
  * @param props.className   Other classes that the anchor may have.
  */
-const A = forwardRef<HTMLAnchorElement, Props>(
-  ({ href, notStyled, className, children, ...rest }, ref) => {
-    const cls = clsx(notStyled || "a", className);
-    const props = { className: cls, ...rest, ref };
+const A = forwardRef<HTMLAnchorElement, Props>(({ href, notStyled, className, ...rest }, ref) => {
+  const cls = clsx(notStyled || "a", className);
+  const props = { href, className: cls, ...rest, ref };
 
-    if (!href) return <a {...props}>{children}</a>;
-    if (href.startsWith("#"))
-      return (
-        <a href={href} {...props}>
-          {children}
-        </a>
-      );
+  if (!href || href.startsWith("#")) return <a {...props} />;
+  if (href.startsWith("http")) return <a target="_blank" rel="noopener noreferrer" {...props} />;
 
-    const isExternal = href.startsWith("http");
-    const extProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
-    return (
-      <Link href={href} {...extProps} {...props}>
-        {children}
-      </Link>
-    );
-  }
-);
+  return <Link {...props} href={href} />;
+});
 A.displayName = "Anchor";
 
 export default A;
