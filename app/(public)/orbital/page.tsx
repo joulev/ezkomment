@@ -8,8 +8,8 @@ function LogoOrbital() {
   return (
     <div className="mx-auto inline-block">
       <A href="/" notStyled className="flex flex-row items-center gap-4.5">
-        <LogoText className="pr-4.5 border-r border-muted" />
-        <span className="text-2xl font-extralight">Orbital 2022</span>
+        <LogoText className="sm:pr-4.5 sm:border-r sm:border-muted" />
+        <span className="hidden sm:block text-2xl font-extralight">Orbital 2022</span>
       </A>
     </div>
   );
