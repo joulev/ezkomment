@@ -1,9 +1,10 @@
-import { createHandler, createRouter } from "~/server/next-connect";
+import { NextRequest } from "next/server";
 
-const router = createRouter<{ url: string }>();
+export const config = {
+    runtime: "experimental-edge",
+};
 
-router.post(async (req, res) => {
-    const { domain } = req.body;
+async function getUrl(domain: string) {
     const tryURLs = [
         `https://${domain}/apple-touch-icon.png`,
         `https://${domain}/images/apple-touch-icon.png`,
@@ -14,10 +15,19 @@ router.post(async (req, res) => {
     ];
     for (const url of tryURLs) {
         const tryRes = await fetch(url);
-        if (tryRes.status === 200) return res.status(200).json({ url });
+        if (tryRes.status === 200) return url;
     }
-    res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate");
-    res.status(200).json({ url: "/images/logo.svg" });
-});
+    return "/images/logo.svg";
+}
 
-export default createHandler(router);
+export default async function handler(req: NextRequest) {
+    const { domain } = await req.json();
+    const url = await getUrl(domain);
+    return new Response(JSON.stringify({ url }), {
+        status: 200,
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "public, s-maxage=86400, stale-while-revalidate",
+        },
+    });
+}
