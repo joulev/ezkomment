@@ -4,6 +4,6 @@ import AuthPageClient from "./page.client";
 
 export default async function AuthPage() {
   const user = await getUser();
-  if (user) redirect("/app/dashboard");
+  if (user) return redirect("/app/dashboard");
   return <AuthPageClient />;
 }
