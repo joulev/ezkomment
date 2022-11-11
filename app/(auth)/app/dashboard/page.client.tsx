@@ -1,4 +1,5 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import { signOut } from "~/app/(auth)/auth";
 import { ClientUser } from "~/types/server";

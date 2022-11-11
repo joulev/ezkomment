@@ -1,4 +1,6 @@
+"use client";
 import "client-only";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import theme from "~/config/tailwind-theme";
 
