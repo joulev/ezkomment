@@ -1,9 +1,11 @@
+import "server-only";
 import { cookies } from "next/headers";
+import { cache } from "react";
 import { getUserById, listUserSites } from "~/server/crud/user";
 import { getUidFromSessionCookie } from "~/server/utils/auth";
 import { ClientUser } from "~/types/server";
 
-export async function getUser(): Promise<ClientUser | undefined> {
+export const getUser = cache(async (): Promise<ClientUser | undefined> => {
     try {
         const sessionCookie = cookies().get("session");
         const uid = await getUidFromSessionCookie(sessionCookie?.value);
@@ -13,4 +15,4 @@ export async function getUser(): Promise<ClientUser | undefined> {
     } catch (e) {
         return undefined;
     }
-}
+});
