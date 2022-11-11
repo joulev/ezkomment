@@ -1,17 +1,18 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, Search, SortDesc } from "lucide-react";
+import { internalPost } from "~/app/(auth)/internal-fetch";
 import { useUser } from "~/app/(auth)/app/user";
-import Navbar from "~/app/(auth)/app/components/navbar/index.client";
 import { Breakpoint, useBreakpoint } from "~/app/breakpoint";
+import Navbar from "~/app/(auth)/app/components/navbar/index.client";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
 import Button from "~/app/components/buttons.client";
 import Input from "~/app/components/forms/input";
 import Select from "~/app/components/forms/select";
-import Logo from "~/app/components/logo/logo";
 import { Site } from "~/types/server";
 
 function EmptyState({ bySearch }: { bySearch?: boolean }) {
@@ -43,6 +44,24 @@ function Stats({ value, label }: { value: number; label: string }) {
   );
 }
 
+function SiteIcon({ site }: { site: Site }) {
+  const [url, setUrl] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (site.iconURL) setUrl(site.iconURL);
+    else {
+      (async () => {
+        const { success, body } = await internalPost<{ url: string }>("/api/sites/icon-url", {
+          domain: site.domain,
+        });
+        if (success) setUrl((body as { url: string }).url);
+        else setUrl("/images/logo.svg");
+      })();
+    }
+  }, [site.iconURL, site.domain]);
+  if (!url) return <div className="w-12 h-12 rounded pulse" />;
+  return <img src={url} alt="" className="w-12 h-12 rounded" />;
+}
+
 function SiteCard({ site }: { site: Site }) {
   return (
     <A
@@ -51,7 +70,7 @@ function SiteCard({ site }: { site: Site }) {
       href={`/app/site/${site.name}`}
     >
       <div className="flex flex-row gap-6 items-center mb-6">
-        <Logo size={48} />
+        <SiteIcon site={site} />
         <div>
           <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
           <div className="text-sm text-muted truncate">
