@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { githubProvider, googleProvider, signIn, Provider } from "~/app/(auth)/auth";
 import { useSetToast } from "~/app/(auth)/toast";
+import { useLoadingState } from "~/app/loading-state";
 import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";
 import Button from "~/app/components/buttons.client";
@@ -36,13 +37,20 @@ export default function AuthPageClient() {
   const setToast = useSetToast();
   const svgRef = useTrianglify();
   const router = useRouter();
+  const { loading, setLoading } = useLoadingState();
+
+  useEffect(() => {
+    setLoading(false);
+  }, [setLoading]);
 
   const handler = (provider: Provider) => async (event: React.MouseEvent) => {
     event.preventDefault();
+    setLoading(true);
     try {
       await signIn(router.refresh, provider);
     } catch (err: any) {
       setToast({ type: "error", message: <AuthError err={err} /> });
+      setLoading(false);
     }
   };
 
@@ -56,8 +64,12 @@ export default function AuthPageClient() {
           </A>
           <h1 className="text-3xl mt-6 mb-12">Continue to ezkomment</h1>
           <div className="flex flex-col gap-6">
-            <Button onClick={handler(githubProvider)}>Continue with GitHub</Button>
-            <Button onClick={handler(googleProvider)}>Continue with Google</Button>
+            <Button onClick={handler(githubProvider)} disabled={loading}>
+              Continue with GitHub
+            </Button>
+            <Button onClick={handler(googleProvider)} disabled={loading}>
+              Continue with Google
+            </Button>
           </div>
         </div>
       </div>
