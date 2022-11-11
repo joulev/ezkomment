@@ -11,7 +11,7 @@ import BlankIllustration from "~/app/components/blank-illustration";
 import Button from "~/app/components/buttons.client";
 import Input from "~/app/components/forms/input";
 import Select from "~/app/components/forms/select";
-import SiteIcon from "./components/site-icon.client";
+import Logo from "~/app/components/logo/logo";
 import { Site } from "~/types/server";
 
 function EmptyState({ bySearch }: { bySearch?: boolean }) {
@@ -51,9 +51,7 @@ function SiteCard({ site }: { site: Site }) {
       href={`/app/site/${site.name}`}
     >
       <div className="flex flex-row gap-6 items-center mb-6">
-        <div className="w-12 h-12">
-          <SiteIcon site={site} alt={site.name} width={48} height={48} className="rounded" />
-        </div>
+        <Logo size={48} />
         <div>
           <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
           <div className="text-sm text-muted truncate">
@@ -154,8 +152,8 @@ export default function AppDashboardPage() {
           <EmptyState bySearch />
         ) : (
           <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sites.map((site, i) => (
-              <SiteCard site={site} key={i} />
+            {sites.map(site => (
+              <SiteCard site={site} key={site.id} />
             ))}
             {showEmptyCard(breakpoint, sites.length) && <EmptyCard />}
           </main>
