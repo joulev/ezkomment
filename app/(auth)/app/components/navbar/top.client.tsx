@@ -6,8 +6,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { X, Home, LogOut, Menu, Bell, Settings, Icon } from "lucide-react";
 import { useUser } from "~/app/(auth)/app/user";
+import { useLoadingState } from "~/app/loading-state";
+import { useSetToast } from "~/app/(auth)/toast";
 import { signOut } from "~/app/(auth)/auth";
 import A from "~/app/components/anchor.client";
+import AuthError from "~/app/components/auth-error";
 import { NotificationShowSetter } from "~/app/(auth)/app/notification";
 import { CurrentPage } from "~/old/types/client/page.type";
 import defaultAvatar from "~/public/images/default-photo.svg";
@@ -121,9 +124,19 @@ export default function TopNav(props: CurrentPage) {
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
   const setShowNotif = useContext(NotificationShowSetter);
   useEffect(() => setExpanded(false), [pathname]);
-  const handleLogout: React.MouseEventHandler<HTMLButtonElement> = () => signOut(router.refresh);
+  const handleLogout: React.MouseEventHandler<HTMLButtonElement> = async () => {
+    setLoading(true);
+    try {
+      await signOut(router.refresh);
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+      setLoading(false);
+    }
+  };
   const handleNotif: React.MouseEventHandler<HTMLButtonElement> = () => setShowNotif(true);
 
   return (
