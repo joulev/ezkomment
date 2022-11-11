@@ -19,7 +19,7 @@ const firebaseApp = initializeApp({
 const auth = getAuth(firebaseApp);
 export const githubProvider = new GithubAuthProvider();
 export const googleProvider = new GoogleAuthProvider();
-type Provider = GithubAuthProvider | GoogleAuthProvider;
+export type Provider = GithubAuthProvider | GoogleAuthProvider;
 
 export async function signIn(refresh: () => void, provider: Provider) {
     await setPersistence(auth, inMemoryPersistence);
