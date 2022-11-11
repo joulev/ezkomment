@@ -12,7 +12,7 @@ import {
 } from "firebase/auth";
 import useSWR, { KeyedMutator } from "swr";
 import { internalPost, internalSWRGenerator } from "./internal-fetch";
-import { ClientUser } from "~/old/types/server";
+import { ClientUser } from "~/types/server";
 
 const firebaseApp = initializeApp({
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
