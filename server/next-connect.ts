@@ -10,6 +10,10 @@ export type ApiMiddleware<T = any> = (
     res: ApiResponse<T>,
     next: () => Promise<unknown> | unknown
 ) => unknown | Promise<unknown>;
+export type ApiHandler<T = any> = (
+    req: ApiRequest,
+    res: ApiResponse<T>
+) => unknown | Promise<unknown>;
 
 export const createRouter = <T>() => _createRouter<ApiRequest, ApiResponse<T>>();
 

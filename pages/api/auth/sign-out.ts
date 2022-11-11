@@ -11,7 +11,7 @@ router.post(async (req, res) => {
         await authAdmin.revokeRefreshTokens(claims.sub);
     } catch (err) {} // even if the cookie is invalid, we still want to sign out
     setCookie({ res }, "session", "", { maxAge: 0, path: "/" });
-    res.status(200).json({ status: "success" });
+    res.status(200).json({});
 });
 
 export default createHandler(router);

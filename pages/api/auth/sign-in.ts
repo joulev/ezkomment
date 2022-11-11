@@ -17,7 +17,7 @@ router.post(checkCSRF, async (req, res) => {
         path: "/",
     } as const;
     setCookie({ res }, "session", sessionCookie, options);
-    res.status(200).json({ status: "success" });
+    res.status(200).json({});
 });
 
 export default createHandler(router);

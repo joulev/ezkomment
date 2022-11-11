@@ -9,20 +9,3 @@ export function handleUserError(err: unknown): never {
     }
     throw err;
 }
-
-export function handleVerifyError(err: unknown): never {
-    if (err instanceof Error && !(err instanceof CustomApiError)) {
-        const code = (err as any).errorInfo?.code ?? "";
-        // auth/argument-error is not even mentioned in the documentation
-        if (
-            code === "auth/user-disabled" ||
-            code === "auth/id-token-revoked" ||
-            code === "auth/id-token-expired" ||
-            code === "auth/session-cookie-expired" ||
-            code === "auth/session-cookie-revoked" ||
-            code === "auth/argument-error"
-        )
-            throw new CustomApiError(err, 403);
-    }
-    throw err;
-}
