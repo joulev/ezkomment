@@ -43,50 +43,29 @@ function Stats({ value, label }: { value: number; label: string }) {
   );
 }
 
-function SiteCard({ site }: { site?: Site }) {
+function SiteCard({ site }: { site: Site }) {
   return (
     <A
       notStyled
-      className={clsx(
-        "p-6 transition bg-card rounded border border-card",
-        site && "cursor-pointer hover:border-muted"
-      )}
-      href={site ? `/app/site/${site.name}` : undefined}
+      className="p-6 transition bg-card rounded border border-card cursor-pointer hover:border-muted"
+      href={`/app/site/${site.name}`}
     >
-      {site ? (
-        <>
-          <div className="flex flex-row gap-6 items-center mb-6">
-            <div className="w-12 h-12">
-              <SiteIcon site={site} alt={site.name} width={48} height={48} className="rounded" />
-            </div>
-            <div>
-              <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
-              <div className="text-sm text-muted truncate">
-                {site.domain === "*" ? "All domains" : site.domain}
-              </div>
-            </div>
+      <div className="flex flex-row gap-6 items-center mb-6">
+        <div className="w-12 h-12">
+          <SiteIcon site={site} alt={site.name} width={48} height={48} className="rounded" />
+        </div>
+        <div>
+          <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
+          <div className="text-sm text-muted truncate">
+            {site.domain === "*" ? "All domains" : site.domain}
           </div>
-          <div className="grid grid-cols-3 gap-3">
-            <Stats label="pages" value={site.pageCount} />
-            <Stats label="comments" value={site.totalCommentCount} />
-            <Stats label="pending" value={site.pendingCommentCount} />
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="flex flex-row gap-6 mb-6">
-            <div>
-              <div className="w-12 h-12 rounded pulse" />
-            </div>
-            <div>
-              <div className="h-5 w-36 pulse mb-3" />
-              <div className="h-4 w-32 pulse" />
-            </div>
-          </div>
-          <div className="h-7 pulse mb-3" />
-          <div className="h-4 pulse" />
-        </>
-      )}
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-3">
+        <Stats label="pages" value={site.pageCount} />
+        <Stats label="comments" value={site.totalCommentCount} />
+        <Stats label="pending" value={site.pendingCommentCount} />
+      </div>
     </A>
   );
 }
