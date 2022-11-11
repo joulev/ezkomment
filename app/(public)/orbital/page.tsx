@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { FileText, Code, Image as ImageIcon, Video, Icon } from "lucide-react";
 import A from "~/app/components/anchor.client";
 import Button from "~/app/components/buttons.client";
-import LogoText from "~/app/components/logo/logoText";
+import LogoText from "~/app/components/logo/logo-text";
 
 function LogoOrbital() {
   return (

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import ButtonLink, { Props as ButtonLinkProps } from "./buttonLink";
+import ButtonLink, { Props as ButtonLinkProps } from "./button-link";
 import Illustration, { Props as IllustrationProps } from "./illustration.client";
 
 export type Props = {

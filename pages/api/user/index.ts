@@ -1,8 +1,8 @@
 import { ApiResponse, createHandler, createRouter } from "~/server/next-connect";
 import { authAdmin } from "~/server/firebase/app";
 import authenticate from "~/server/middlewares/authenticate";
-import CustomApiError from "~/server/errors/customApiError";
-import { handleUserError } from "~/server/errors/handleAuthError";
+import CustomApiError from "~/server/errors/custom-api-error";
+import { handleUserError } from "~/server/errors/auth-error";
 
 const router = createRouter();
 

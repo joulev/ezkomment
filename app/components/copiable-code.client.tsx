@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
-import IconLabel from "./utils/iconAndLabel.client";
+import IconLabel from "./utils/icon-label.client";
 
 export type Props = {
   content: string;

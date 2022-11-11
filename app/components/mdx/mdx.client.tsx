@@ -2,8 +2,8 @@
 
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import A from "~/app/components/anchor.client";
-import PostHeading from "./postHeading";
-import BlogImage from "./blogImage";
+import PostHeading from "./post-heading";
+import BlogImage from "./blog-image";
 
 export type Props = {
   source: MDXRemoteSerializeResult;

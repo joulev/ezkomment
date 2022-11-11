@@ -10,9 +10,9 @@ import {
     signInWithPopup,
     signOut as _signOut,
 } from "firebase/auth";
-import { ClientUser } from "~/old/types/server";
 import useSWR, { KeyedMutator } from "swr";
-import { internalPost, internalSWRGenerator } from "./internalFetch";
+import { internalPost, internalSWRGenerator } from "./internal-fetch";
+import { ClientUser } from "~/old/types/server";
 
 const firebaseApp = initializeApp({
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -58,12 +58,12 @@ export async function signIn({ mutateUser }: AppAuth, provider: Provider) {
     await setPersistence(auth, inMemoryPersistence);
     const credentials = await signInWithPopup(auth, provider);
     const idToken = await credentials.user.getIdToken();
-    await internalPost("/api/auth/signin", { idToken });
+    await internalPost("/api/auth/sign-in", { idToken });
     await _signOut(auth);
     await mutateUser();
 }
 
 export async function signOut({ mutateUser }: AppAuth) {
-    await internalPost("/api/auth/signout", {});
+    await internalPost("/api/auth/sign-out", {});
     await mutateUser();
 }

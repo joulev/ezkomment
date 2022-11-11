@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRouter as _createRouter } from "next-connect";
-import CustomApiError from "~/server/errors/customApiError";
+import CustomApiError from "~/server/errors/custom-api-error";
 
 export type ApiError = { error: string };
 export type ApiRequest = NextApiRequest & { uid?: string };

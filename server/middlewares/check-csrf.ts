@@ -1,5 +1,5 @@
 import { ApiMiddleware } from "~/server/next-connect";
-import CustomApiError from "~/server/errors/customApiError";
+import CustomApiError from "~/server/errors/custom-api-error";
 
 const checkCSRF: ApiMiddleware = (req, _, next) => {
     if (req.method === "GET" || req.method === "HEAD") return next();

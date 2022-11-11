@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import A from "~/app/components/anchor.client";
-import BlankIllustration from "~/app/components/blankIllustration";
+import BlankIllustration from "~/app/components/blank-illustration";
 import { Data } from "~/pages/api/docs/search";
 
 function Loading() {

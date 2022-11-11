@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { format } from "date-fns";
 import Image from "next/image";
-import { Author } from "~/constants/authors";
+import { Author } from "~/client/lib/authors";
 import A from "~/app/components/anchor.client";
-import LogoText from "~/app/components/logo/logoText";
-import ReadingTime from "./readingTime.client";
+import LogoText from "~/app/components/logo/logo-text";
+import ReadingTime from "./reading-time.client";
 
 /**
  * @author Treer <gitlab.com/Treer>

@@ -1,6 +1,6 @@
 import { ApiMiddleware } from "~/server/next-connect";
 import { authAdmin } from "~/server/firebase/app";
-import { handleVerifyError } from "~/server/errors/handleAuthError";
+import { handleVerifyError } from "~/server/errors/auth-error";
 
 const authenticate: ApiMiddleware = async (req, _, next) => {
     const sessionCookie = req.cookies.session || "";

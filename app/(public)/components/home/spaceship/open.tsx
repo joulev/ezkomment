@@ -1,4 +1,4 @@
-import ButtonLink from "../buttonLink";
+import ButtonLink from "../button-link";
 
 export default function OpenSource() {
   return (

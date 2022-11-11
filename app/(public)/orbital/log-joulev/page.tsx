@@ -4,7 +4,7 @@ import reactStringReplace from "react-string-replace";
 import A from "~/app/components/anchor.client";
 import Banner from "~/app/components/banner";
 import BlogLayout from "../components/blog";
-import authors from "~/constants/authors";
+import authors from "~/client/lib/authors";
 import data from "./log.json";
 
 // The following "parsers" are specific for joulev's project log only. For other logs, write different parsers.
