@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AlertTriangle, HardDrive, User, Save } from "lucide-react";
 import { useUser } from "~/app/(auth)/app/user";
-import Navbar from "~/app/(auth)/app/components/navbar/index.client";
 import Banner from "~/app/components/banner";
 import Button from "~/app/components/buttons.client";
 import CopiableCode from "~/app/components/copiable-code.client";
@@ -195,33 +194,28 @@ function DeleteAccountSection() {
 export default function AppAccountPage() {
   const user = useUser();
   return (
-    <>
-      <Navbar type="overview" activeTab="account" />
-      <main className="container py-9">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
-          <div>
-            <ProfileSection />
-            <hr />
-            <section>
-              <h2>User ID</h2>
-              <p>Your user ID is</p>
-              <CopiableCode content={user.uid} className="mb-6" />
-              <p>
-                Please use this ID to identify yourself if you need to contact us for support for
-                issues related to your profile.
-              </p>
-            </section>
-            <hr className="md:hidden" />
-          </div>
-          <div>
-            <LinkAccountSection />
-            <hr />
-            <ExportDataSection />
-            <hr />
-            <DeleteAccountSection />
-          </div>
-        </div>
-      </main>
-    </>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
+      <div>
+        <ProfileSection />
+        <hr />
+        <section>
+          <h2>User ID</h2>
+          <p>Your user ID is</p>
+          <CopiableCode content={user.uid} className="mb-6" />
+          <p>
+            Please use this ID to identify yourself if you need to contact us for support for issues
+            related to your profile.
+          </p>
+        </section>
+        <hr className="md:hidden" />
+      </div>
+      <div>
+        <LinkAccountSection />
+        <hr />
+        <ExportDataSection />
+        <hr />
+        <DeleteAccountSection />
+      </div>
+    </div>
   );
 }
