@@ -7,7 +7,6 @@ import { Plus, Search, SortDesc } from "lucide-react";
 import { internalPost } from "~/app/(auth)/internal-fetch";
 import { useUser } from "~/app/(auth)/app/user";
 import { Breakpoint, useBreakpoint } from "~/app/breakpoint";
-import Navbar from "~/app/(auth)/app/components/navbar/index.client";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
 import Button from "~/app/components/buttons.client";
@@ -141,43 +140,40 @@ export default function AppDashboardPage() {
   const sites = sortSites(searchSites(user.sites, search), sort);
   return (
     <>
-      <Navbar type="overview" activeTab="dashboard" />
-      <main className="container py-9">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Input label="Search" icon={Search} type="text" value={search} onUpdate={setSearch} />
-          <div className="flex flex-row gap-x-6">
-            <Select
-              icon={SortDesc}
-              label={["xs", "md", "unknown"].includes(breakpoint) ? undefined : "Sort by"}
-              value={sort}
-              className="flex-grow"
-              onUpdate={setSort as any}
-            >
-              <option value="pages">Pages</option>
-              <option value="comments">Comments</option>
-              <option value="pending">Pending</option>
-              <option value="updated">Last updated</option>
-            </Select>
-            <Button
-              className="w-1/3 min-w-fit flex flex-row items-center justify-center gap-1"
-              href="/app/new"
-              icon={Plus}
-            >
-              Add new site
-            </Button>
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Input label="Search" icon={Search} type="text" value={search} onUpdate={setSearch} />
+        <div className="flex flex-row gap-x-6">
+          <Select
+            icon={SortDesc}
+            label={["xs", "md", "unknown"].includes(breakpoint) ? undefined : "Sort by"}
+            value={sort}
+            className="flex-grow"
+            onUpdate={setSort as any}
+          >
+            <option value="pages">Pages</option>
+            <option value="comments">Comments</option>
+            <option value="pending">Pending</option>
+            <option value="updated">Last updated</option>
+          </Select>
+          <Button
+            className="w-1/3 min-w-fit flex flex-row items-center justify-center gap-1"
+            href="/app/new"
+            icon={Plus}
+          >
+            Add new site
+          </Button>
         </div>
-        {sites.length === 0 ? (
-          <EmptyState bySearch />
-        ) : (
-          <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sites.map(site => (
-              <SiteCard site={site} key={site.id} />
-            ))}
-            {showEmptyCard(breakpoint, sites.length) && <EmptyCard />}
-          </main>
-        )}
-      </main>
+      </div>
+      {sites.length === 0 ? (
+        <EmptyState bySearch />
+      ) : (
+        <main className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sites.map(site => (
+            <SiteCard site={site} key={site.id} />
+          ))}
+          {showEmptyCard(breakpoint, sites.length) && <EmptyCard />}
+        </main>
+      )}
     </>
   );
 }
