@@ -3,8 +3,8 @@ import { SITES_COLLECTION } from "~/server/firebase/collections";
 import { Site, User } from "~/types/server";
 
 export async function getUserById(uid: string): Promise<User> {
-    const { email, displayName, photoURL, metadata, providerData } = await authAdmin.getUser(uid);
-    return { uid, email, displayName, photoURL, metadata, providerData };
+    const { email, displayName, photoURL } = await authAdmin.getUser(uid);
+    return { uid, email, displayName, photoURL };
 }
 
 // export async function updateUserById(uid: string, data: UpdateRequest) {
