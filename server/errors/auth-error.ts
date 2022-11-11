@@ -1,4 +1,4 @@
-import CustomApiError from "./customApiError";
+import CustomApiError from "./custom-api-error";
 
 export function handleUserError(err: unknown): never {
     if (err instanceof Error && !(err instanceof CustomApiError)) {

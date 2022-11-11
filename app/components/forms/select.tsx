@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import IconLabel, { IconAndLabel } from "~/app/components/utils/iconAndLabel.client";
+import IconLabel, { IconAndLabel } from "~/app/components/utils/icon-label.client";
 
 export type Props = (React.ComponentProps<"select"> & IconAndLabel) & {
   onUpdate?: (value: string) => void;

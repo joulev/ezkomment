@@ -1,6 +1,6 @@
 import "client-only";
 import { createContext, useContext, useEffect, useState } from "react";
-import theme from "~/config/tailwindTheme";
+import theme from "~/config/tailwind-theme";
 
 export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "unknown";
 

@@ -1,7 +1,7 @@
 import { setCookie } from "nookies";
 import { createHandler, createRouter } from "~/server/next-connect";
 import { authAdmin } from "~/server/firebase/app";
-import checkCSRF from "~/server/middlewares/checkCSRF";
+import checkCSRF from "~/server/middlewares/check-csrf";
 
 const router = createRouter();
 

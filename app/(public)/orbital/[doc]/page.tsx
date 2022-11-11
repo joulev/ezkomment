@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { serialize } from "next-mdx-remote/serialize";
 import Mdx from "~/app/components/mdx/mdx.client";
 import BlogLayout from "../components/blog";
-import authors from "~/constants/authors";
+import authors from "~/client/lib/authors";
 
 const docs = ["proposal", "ms1-readme", "ms2-readme", "ms3-readme"];
 

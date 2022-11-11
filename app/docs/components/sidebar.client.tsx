@@ -7,9 +7,9 @@ import { X, Menu, Search } from "lucide-react";
 import version from "~/client/lib/version";
 import A from "~/app/components/anchor.client";
 import Input from "~/app/components/forms/input";
-import LogoText from "~/app/components/logo/logoText";
+import LogoText from "~/app/components/logo/logo-text";
 import DocsNav from "./navbar";
-import DocsSearchResults from "./searchResults.client";
+import DocsSearchResults from "./search-results.client";
 import { NavData } from "../documentation";
 
 function useScreenHeight() {

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import A from "~/app/components/anchor.client";
-import styles from "./buttonLink.module.css";
+import styles from "./button-link.module.css";
 
 export type Props = React.PropsWithChildren<{ href: string; className: string }>;
 

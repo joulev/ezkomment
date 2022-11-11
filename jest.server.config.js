@@ -7,7 +7,7 @@ const customJestConfig = {
   testRegex: "/__tests__/server/.*\\.test\\.[jt]sx?$",
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: { "^~/(.*)$": "<rootDir>/$1" },
-  testEnvironment: "<rootDir>/config/jest/serverEnv",
+  testEnvironment: "<rootDir>/config/jest/server-env",
   coveragePathIgnorePatterns: ["/node_modules/", "<rootDir>/server/firebase"],
 };
 

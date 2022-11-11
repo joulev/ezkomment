@@ -6,7 +6,7 @@ import strip from "strip-markdown";
 
 const mdProcessor = remark().use(strip);
 
-/** @type {import("../../types/client/docs.type").NavData} */
+/** @type {import("../../app/docs/documentation").NavData} */
 const navData = JSON5.parse(readFileSync(process.cwd() + "/docs/nav.json5", "utf8"));
 
 /** @param {string} md */

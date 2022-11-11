@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Button from "~/app/components/buttons.client";
-import LogoText from "~/app/components/logo/logoText";
+import LogoText from "~/app/components/logo/logo-text";
 import dark from "./app-dark.png";
 import light from "./app-light.png";
 

@@ -6,7 +6,7 @@ import { LogIn } from "lucide-react";
 import { useBreakpoint } from "~/app/breakpoint";
 import A from "~/app/components/anchor.client";
 import Button from "~/app/components/buttons.client";
-import LogoText from "~/app/components/logo/logoText";
+import LogoText from "~/app/components/logo/logo-text";
 
 const scrollThreshold = 300;
 

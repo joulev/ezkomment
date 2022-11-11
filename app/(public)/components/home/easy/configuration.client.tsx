@@ -4,7 +4,7 @@
 import clsx from "clsx";
 import { Plus } from "lucide-react";
 import Button from "~/app/components/buttons.client";
-import CopiableCode from "~/app/components/copiableCode.client";
+import CopiableCode from "~/app/components/copiable-code.client";
 import Cursor from "./cursor";
 import HomeSection from "../section";
 

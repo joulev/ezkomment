@@ -4,7 +4,7 @@ import md2html from "~/misc/markdown";
 import A from "~/app/components/anchor.client";
 import Banner from "~/app/components/banner";
 import BlogLayout from "../components/blog";
-import authors from "~/constants/authors";
+import authors from "~/client/lib/authors";
 import rawData from "./log.json";
 
 function compileData() {
