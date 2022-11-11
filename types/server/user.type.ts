@@ -2,13 +2,7 @@ import { UserRecord } from "firebase-admin/auth";
 
 import { ExportSite, Site } from "./site.type";
 
-type PickedUserRecordProps =
-    | "uid"
-    | "email"
-    | "displayName"
-    | "photoURL"
-    | "metadata"
-    | "providerData";
+type PickedUserRecordProps = "uid" | "email" | "displayName" | "photoURL";
 
 /**
  * The user, used in this app. As we will not use traditional password to authenticate users, some
