@@ -5,18 +5,11 @@ import { useLoadingState } from "~/app/loading-state";
 import Notifications from "./components/notification.client";
 import { NotificationShowSetter } from "./notification";
 import { UserContext } from "./user";
-import { ClientUser, Notification } from "~/types/server";
+import { ClientUser } from "~/types/server";
 
-type Props = {
-  user: ClientUser;
-  notifications: Notification[];
-};
+type Props = { user: ClientUser };
 
-export default function AppLayoutClient({
-  user,
-  notifications,
-  children,
-}: React.PropsWithChildren<Props>) {
+export default function AppLayoutClient({ user, children }: React.PropsWithChildren<Props>) {
   const [showNotif, setShowNotif] = useState(false);
   const { setLoading } = useLoadingState();
   useEffect(() => {
@@ -24,13 +17,9 @@ export default function AppLayoutClient({
   }, [setLoading]);
   return (
     <NotificationShowSetter.Provider value={setShowNotif}>
-      <UserContext.Provider value={{ ...user, notifications }}>
+      <UserContext.Provider value={user}>
         {children}
-        <Notifications
-          show={showNotif}
-          onClose={() => setShowNotif(false)}
-          notifications={notifications}
-        />
+        <Notifications show={showNotif} onClose={() => setShowNotif(false)} />
       </UserContext.Provider>
     </NotificationShowSetter.Provider>
   );

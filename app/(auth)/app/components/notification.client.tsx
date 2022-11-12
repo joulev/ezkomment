@@ -6,7 +6,6 @@ import { X } from "lucide-react";
 import { useUser } from "~/app/(auth)/app/user";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
-import { Notification } from "~/types/server";
 
 function NotificationList() {
   const { notifications } = useUser();
@@ -68,7 +67,6 @@ function NotificationList() {
 export type Props = {
   show: boolean;
   onClose: () => void;
-  notifications: Notification[];
 };
 
 export default function Notifications({ show, onClose }: Props) {

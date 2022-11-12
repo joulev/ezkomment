@@ -14,7 +14,7 @@ export type UpdateUserBodyParams = {
     displayName: string;
 };
 
-export type ClientUser = User & { sites: Site[] };
+export type ClientUser = User & { sites: Site[]; notifications: Notification[] };
 
 /**
  * If only we have proper ADT
