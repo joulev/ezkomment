@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AlertTriangle, HardDrive, User, Save, Trash } from "lucide-react";
-import { useUser } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/user";
 import { useBreakpoint } from "~/app/breakpoint";
 import Banner from "~/app/components/banner";
 import Button from "~/app/components/buttons.client";
@@ -15,7 +15,7 @@ import GoogleLogo from "~/app/(auth)/components/google-logo";
 import RightAligned from "~/app/components/utils/right-aligned";
 
 function ProfileSection() {
-  const user = useUser();
+  const { user } = useAuth();
   const [displayName, setDisplayName] = useState(user.displayName ?? "");
   const [image, setImage] = useState<File | null>(null);
 
@@ -65,7 +65,9 @@ function ProfileSection() {
 }
 
 function LinkAccountSection() {
-  const { providerData } = useUser();
+  const {
+    user: { providerData },
+  } = useAuth();
   const breakpoint = useBreakpoint();
 
   return (
@@ -166,7 +168,7 @@ function DeleteAccountSection() {
 }
 
 export default function AppAccountPage() {
-  const user = useUser();
+  const { user } = useAuth();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
       <div>

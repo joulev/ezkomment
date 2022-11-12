@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { X, Home, LogOut, Menu, Bell, Settings, Icon } from "lucide-react";
-import { useUser } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/user";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { signOut } from "~/app/(auth)/auth";
@@ -121,7 +121,7 @@ function TopNavMobileBreadcrumb({ type, siteName, pageId }: CurrentPage) {
 }
 
 export default function TopNav(props: CurrentPage) {
-  const user = useUser();
+  const { user } = useAuth();
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
   const pathname = usePathname();

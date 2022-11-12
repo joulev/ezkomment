@@ -2,13 +2,14 @@
 
 import { useEffect } from "react";
 import { useLoadingState } from "~/app/loading-state";
-import { UserContext } from "./user";
+import { AuthContext, useAuthInit } from "./user";
 import { ClientUser } from "~/types/server";
 
-type Props = { user: ClientUser };
+type Props = { rscUser: ClientUser };
 
-export default function AppLayoutClient({ user, children }: React.PropsWithChildren<Props>) {
+export default function AppLayoutClient({ rscUser, children }: React.PropsWithChildren<Props>) {
+  const { user, mutate } = useAuthInit(rscUser);
   const { setLoading } = useLoadingState();
   useEffect(() => setLoading(false), [setLoading]);
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return <AuthContext.Provider value={{ user, mutate }}>{children}</AuthContext.Provider>;
 }
