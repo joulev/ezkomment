@@ -1,10 +1,8 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Plus, Search, SortDesc } from "lucide-react";
-import { internalPost } from "~/app/(auth)/internal-fetch";
 import { useAuth } from "~/app/(auth)/app/user";
 import { Breakpoint, useBreakpoint } from "~/app/breakpoint";
 import A from "~/app/components/anchor.client";
@@ -12,8 +10,8 @@ import BlankIllustration from "~/app/components/blank-illustration";
 import Button from "~/app/components/buttons.client";
 import Input from "~/app/components/forms/input";
 import Select from "~/app/components/forms/select";
+import SiteIcon from "~/app/(auth)/app/components/site-icon.client";
 import { Site } from "~/types/server";
-import Logo from "~/app/components/logo/logo";
 
 function EmptyState({ bySearch }: { bySearch?: boolean }) {
   return (
@@ -44,26 +42,6 @@ function Stats({ value, label }: { value: number; label: string }) {
   );
 }
 
-function SiteIcon({ site }: { site: Site }) {
-  const [url, setUrl] = useState<string | undefined>(undefined);
-  useEffect(() => {
-    if (site.iconURL) setUrl(site.iconURL);
-    if (site.domain === "*") setUrl("none");
-    else {
-      (async () => {
-        const { success, body } = await internalPost<{ url: string }>("/api/sites/icon-url", {
-          domain: site.domain,
-        });
-        if (success) setUrl((body as { url: string }).url);
-        else setUrl("none");
-      })();
-    }
-  }, [site.iconURL, site.domain]);
-  if (!url) return <div className="w-12 h-12 shrink-0 rounded pulse" />;
-  if (url === "none") return <Logo size={48} />;
-  return <img src={url} alt="" className="w-12 h-12 shrink-0 rounded" />;
-}
-
 function SiteCard({ site }: { site: Site }) {
   return (
     <A
@@ -72,7 +50,7 @@ function SiteCard({ site }: { site: Site }) {
       href={`/app/site/${site.name}`}
     >
       <div className="flex flex-row gap-6 items-center mb-6">
-        <SiteIcon site={site} />
+        <SiteIcon iconURL={site.iconURL} domain={site.domain} />
         <div>
           <div className="text-xl font-semibold truncate mb-1">{site.name}</div>
           <div className="text-sm text-muted truncate">
