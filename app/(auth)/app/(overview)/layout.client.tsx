@@ -1,7 +1,7 @@
 "use client";
 
 import { useSelectedLayoutSegment } from "next/navigation";
-import Navbar from "~/app/(auth)/app/components/navbar/index.client";
+import Navbar from "~/app/(auth)/app/components/navbar.client";
 
 export default function AppOverviewLayoutClient({ children }: React.PropsWithChildren) {
   const segment = useSelectedLayoutSegment() as "dashboard" | "new" | "account" | null;

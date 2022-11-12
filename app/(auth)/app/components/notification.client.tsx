@@ -6,7 +6,7 @@ import { internalDelete } from "~/app/(auth)/internal-fetch";
 import { UNKNOWN_ERROR } from "~/app/(auth)/errors";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
-import { useNotifications } from "~/app/(auth)/app/notification";
+import useNotifications from "~/app/(auth)/app/notification";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
 import TimeAgo from "~/app/components/time-ago.client";
