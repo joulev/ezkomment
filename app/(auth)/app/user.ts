@@ -10,6 +10,7 @@ export const UserContext = createContext<ContextType>({
     uid: "",
     sites: [],
     notifications: [],
+    providerData: [],
 });
 
 export const useUser = () => useContext(UserContext);
