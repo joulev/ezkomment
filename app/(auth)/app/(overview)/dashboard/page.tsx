@@ -13,6 +13,7 @@ import Button from "~/app/components/buttons.client";
 import Input from "~/app/components/forms/input";
 import Select from "~/app/components/forms/select";
 import { Site } from "~/types/server";
+import Logo from "~/app/components/logo/logo";
 
 function EmptyState({ bySearch }: { bySearch?: boolean }) {
   return (
@@ -53,11 +54,12 @@ function SiteIcon({ site }: { site: Site }) {
           domain: site.domain,
         });
         if (success) setUrl((body as { url: string }).url);
-        else setUrl("/images/logo.svg");
+        else setUrl("none");
       })();
     }
   }, [site.iconURL, site.domain]);
   if (!url) return <div className="w-12 h-12 shrink-0 rounded pulse" />;
+  if (url === "none") return <Logo size={48} />;
   return <img src={url} alt="" className="w-12 h-12 shrink-0 rounded" />;
 }
 
