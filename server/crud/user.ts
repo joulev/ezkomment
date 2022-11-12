@@ -3,6 +3,7 @@ import { Timestamp } from "firebase-admin/firestore";
 import { authAdmin, firestoreAdmin } from "~/server/firebase/app";
 import { USERS_COLLECTION, SITES_COLLECTION } from "~/server/firebase/collections";
 import { deleteRefArray } from "~/server/utils/firestore";
+import { deletePages } from "./site";
 import { Site, User, ClientUser, WelcomeMessageNotification } from "~/types/server";
 
 async function getUser(uid: string): Promise<User> {
@@ -45,10 +46,10 @@ export async function update(uid: string, data: UpdateRequest) {
 async function deleteUser(uid: string) {
     await authAdmin.deleteUser(uid);
 }
-async function deleteUserSites(uid: string) {
+async function deleteSites(uid: string) {
     const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
     const siteDocs = siteSnapshots.docs;
-    // const siteIds = siteDocs.map(doc => doc.id);
+    const siteIds = siteDocs.map(doc => doc.id);
     const siteRefs = siteDocs.map(doc => doc.ref);
     const siteNameRefs = siteDocs.map(doc => {
         const { name } = doc.data() as Site;
@@ -57,11 +58,11 @@ async function deleteUserSites(uid: string) {
     await Promise.all([
         deleteRefArray(siteNameRefs), // Delete all site name refs
         ...siteRefs.map(ref => firestoreAdmin.recursiveDelete(ref)),
-        // ...siteIds.map(id => deleteSitePages(id)), // And all pages of these sites
+        ...siteIds.map(id => deletePages(id)), // And all pages of these sites
     ]);
 }
 export async function remove(uid: string) {
     // `delete` is a reserved keyword...
+    await deleteSites(uid);
     await deleteUser(uid);
-    await deleteUserSites(uid);
 }
