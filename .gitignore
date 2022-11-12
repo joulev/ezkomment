@@ -41,9 +41,6 @@ yarn-error.log*
 # jest coverage
 coverage
 
-# generated og:image
-public/images/og
-
 # Firebase service account. We are not actually using the file but it's good to keep it locally so
 # we can look up other firebase-admin fields when needed
 service-account.json

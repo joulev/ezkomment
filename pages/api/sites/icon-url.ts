@@ -17,14 +17,14 @@ async function getUrl(domain: string) {
         const tryRes = await fetch(url);
         if (tryRes.status === 200) return url;
     }
-    return "/images/logo.svg";
+    return "none";
 }
 
 export default async function handler(req: NextRequest) {
     const { domain } = await req.json();
     const url = await getUrl(domain);
     return new Response(JSON.stringify({ url }), {
-        status: 200,
+        status: url === "none" ? 404 : 200,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "public, s-maxage=86400, stale-while-revalidate",
