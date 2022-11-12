@@ -48,6 +48,7 @@ function SiteIcon({ site }: { site: Site }) {
   const [url, setUrl] = useState<string | undefined>(undefined);
   useEffect(() => {
     if (site.iconURL) setUrl(site.iconURL);
+    if (site.domain === "*") setUrl("none");
     else {
       (async () => {
         const { success, body } = await internalPost<{ url: string }>("/api/sites/icon-url", {

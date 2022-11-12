@@ -1,7 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import { formatDistanceToNowStrict } from "date-fns";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { internalDelete } from "~/app/(auth)/internal-fetch";
@@ -11,6 +10,7 @@ import { useUser } from "~/app/(auth)/app/user";
 import { useSetToast } from "~/app/(auth)/toast";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
+import TimeAgo from "~/app/components/time-ago.client";
 
 function NotificationList({ onClose }: { onClose: () => void }) {
   const router = useRouter();
@@ -90,7 +90,7 @@ function NotificationList({ onClose }: { onClose: () => void }) {
               )}
             </p>
             <p className="text-sm text-muted mb-0">
-              {formatDistanceToNowStrict(new Date(notif.timestamp))} ago
+              <TimeAgo date={notif.timestamp} />
             </p>
           </A>
         ))}
