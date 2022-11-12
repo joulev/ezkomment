@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { AlertTriangle, HardDrive, User, Save, Trash } from "lucide-react";
-import { useAuth } from "~/app/(auth)/app/user";
+import { internalPut } from "~/app/(auth)/internal-fetch";
 import { useBreakpoint } from "~/app/breakpoint";
+import { useLoadingState } from "~/app/loading-state";
+import { useSetToast } from "~/app/(auth)/toast";
+import { useAuth } from "~/app/(auth)/app/user";
+import AuthError from "~/app/components/auth-error";
 import Banner from "~/app/components/banner";
 import Button from "~/app/components/buttons.client";
 import CopiableCode from "~/app/components/copiable-code.client";
@@ -15,9 +19,25 @@ import GoogleLogo from "~/app/(auth)/components/google-logo";
 import RightAligned from "~/app/components/utils/right-aligned";
 
 function ProfileSection() {
-  const { user } = useAuth();
+  const { user, mutate } = useAuth();
+  const setToast = useSetToast();
+  const { setLoading } = useLoadingState();
   const [displayName, setDisplayName] = useState(user.displayName ?? "");
   const [image, setImage] = useState<File | null>(null);
+
+  const handleDisplayNameSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!displayName) return;
+    setLoading(true);
+    try {
+      await internalPut("/api/user", { displayName });
+      mutate({ ...user, displayName });
+      setToast({ type: "success", message: "Display name updated successfully." });
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
 
   return (
     <section>
@@ -31,7 +51,7 @@ function ProfileSection() {
           You currently do not have a display name. It is recommended to have one.
         </Banner>
       )}
-      <form className="flex flex-col gap-6 mb-12" onSubmit={e => e.preventDefault()}>
+      <form className="flex flex-col gap-6 mb-12" onSubmit={handleDisplayNameSubmit}>
         <InputDetachedLabel
           label="Display name"
           placeholder="Your name"
