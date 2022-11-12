@@ -4,30 +4,8 @@ import Image from "next/image";
 import { Author } from "~/client/lib/authors";
 import A from "~/app/components/anchor.client";
 import LogoText from "~/app/components/logo/logo-text";
+import DefaultPhoto from "~/app/components/default-photo";
 import ReadingTime from "./reading-time.client";
-
-/**
- * @author Treer <gitlab.com/Treer>
- * @see {@link https://freesvg.org/users-profile-icon}
- * @note Slightly modified by Vu Van Dung to change the colour to match site colour theme
- */
-function DefaultPhoto() {
-  return (
-    <svg version="1.1" width={36} height={36} viewBox="0 0 600 600">
-      <defs>
-        <clipPath id="circular-border">
-          <circle cx="300" cy="300" r="280" />
-        </clipPath>
-        <clipPath id="avoid-antialiasing-bugs">
-          <rect width="100%" height="498" />
-        </clipPath>
-      </defs>
-      <circle cx="300" cy="300" r="280" fill="#64748B" clipPath="url(#avoid-antialiasing-bugs)" />
-      <circle cx="300" cy="230" r="115" fill="#E2E8F0" />
-      <circle cx="300" cy="550" r="205" fill="#E2E8F0" clipPath="url(#circular-border)" />
-    </svg>
-  );
-}
 
 function AuthorCard({ name, github }: Author) {
   return (
