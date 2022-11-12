@@ -10,3 +10,8 @@ export const post: ApiHandler = async (req, res) => {
     await user.initialise(req.uid!);
     res.json({});
 };
+
+export const update: ApiHandler = async (req, res) => {
+    await user.update(req.uid!, req.body);
+    res.json({});
+};
