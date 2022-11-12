@@ -5,8 +5,9 @@ import { Site, User, Notification, ClientUser } from "~/types/server";
 /* GET */
 
 async function getUser(uid: string): Promise<User> {
-    const { email, displayName, photoURL } = await authAdmin.getUser(uid);
-    return { uid, email, displayName, photoURL };
+    const { email, displayName, photoURL, providerData: rawData } = await authAdmin.getUser(uid);
+    const providerData = rawData.map(({ ...obj }) => obj); // convert to plain object
+    return { uid, email, displayName, photoURL, providerData };
 }
 async function listUserSites(uid: string): Promise<Site[]> {
     const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
