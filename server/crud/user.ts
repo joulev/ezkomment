@@ -1,10 +1,27 @@
 import { authAdmin } from "~/server/firebase/app";
-import { SITES_COLLECTION } from "~/server/firebase/collections";
-import { Site, User } from "~/types/server";
+import { SITES_COLLECTION, USERS_COLLECTION } from "~/server/firebase/collections";
+import { Site, User, Notification, ClientUser } from "~/types/server";
 
-export async function getUserById(uid: string): Promise<User> {
+/* GET */
+
+async function getUser(uid: string): Promise<User> {
     const { email, displayName, photoURL } = await authAdmin.getUser(uid);
     return { uid, email, displayName, photoURL };
+}
+async function listUserSites(uid: string): Promise<Site[]> {
+    const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
+    return siteSnapshots.docs.map(doc => doc.data()) as Site[];
+}
+async function listUserNotifications(uid: string): Promise<Notification[]> {
+    const notificationSnapshots = await USERS_COLLECTION.doc(uid).collection("notification").get();
+    const data = notificationSnapshots.docs.map(doc => doc.data()) as Notification[];
+    return data.sort((c1, c2) => c2.timestamp - c1.timestamp);
+}
+export async function get(uid: string): Promise<ClientUser> {
+    const user = await getUser(uid);
+    const sites = await listUserSites(uid);
+    const notifications = await listUserNotifications(uid);
+    return { ...user, sites, notifications };
 }
 
 // export async function updateUserById(uid: string, data: UpdateRequest) {
@@ -14,11 +31,6 @@ export async function getUserById(uid: string): Promise<User> {
 // export async function deleteUserById(uid: string) {
 //     await authAdmin.deleteUser(uid);
 // }
-
-export async function listUserSites(uid: string) {
-    const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
-    return siteSnapshots.docs.map(doc => doc.data()) as Site[];
-}
 
 // export async function listUserSiteNames(uid: string) {
 //     const siteSnapshots = await USERS_COLLECTION.doc(uid).collection("sites").get();

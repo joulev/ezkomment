@@ -153,7 +153,7 @@ export default function TopNav(props: CurrentPage) {
                   "relative after:absolute after:-top-0.5 after:-right-0.5 after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
               )}
             >
-              <Bell />
+              <Bell className="inline-block" />
             </span>
           )}
           title="Notifications"
@@ -161,9 +161,7 @@ export default function TopNav(props: CurrentPage) {
         <TopNavButton onClick={handleLogout} icon={LogOut} title="Sign out" />
         <A
           href="/app/account"
-          className={clsx(
-            "rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
-          )}
+          className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
           title="View account settings"
         >
           {user.photoURL ? (
@@ -193,7 +191,7 @@ export default function TopNav(props: CurrentPage) {
                   "after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
                 )}
               >
-                <Bell />
+                <Bell className="inline-block" />
               </span>
             )}
           />
