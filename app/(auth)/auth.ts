@@ -1,6 +1,7 @@
 import "client-only";
 import { initializeApp } from "firebase/app";
 import {
+    getAdditionalUserInfo,
     getAuth,
     GithubAuthProvider,
     GoogleAuthProvider,
@@ -9,6 +10,7 @@ import {
     signInWithPopup,
     signOut as _signOut,
 } from "firebase/auth";
+import { DID_YOU_JUST_HACK_THE_SYSTEM } from "./errors";
 import { internalPost } from "./internal-fetch";
 
 const firebaseApp = initializeApp({
@@ -25,7 +27,10 @@ export async function signIn(refresh: () => void, provider: Provider) {
     await setPersistence(auth, inMemoryPersistence);
     const credentials = await signInWithPopup(auth, provider);
     const idToken = await credentials.user.getIdToken();
+    const additionalInfo = getAdditionalUserInfo(credentials);
+    if (!additionalInfo) throw DID_YOU_JUST_HACK_THE_SYSTEM;
     await internalPost("/api/auth/sign-in", { idToken });
+    await internalPost("/api/user", {});
     await _signOut(auth);
     refresh();
 }
