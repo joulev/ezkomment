@@ -19,6 +19,7 @@ import {
     Page,
     Site,
     UpdateSiteBodyParams,
+    SiteStatistics,
 } from "~/types/server";
 
 /**
@@ -64,6 +65,45 @@ export async function getComments(siteId: string) {
     const commentSnapshots = await COMMENTS_COLLECTION.where("siteId", "==", siteId).get();
     const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
     return data.sort((c1, c2) => c2.date - c1.date);
+}
+
+export async function getStatistics(uid: string, siteId: string) {
+    const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
+    const toUTCMidnight = (timestamp: number) => timestamp - (timestamp % MILLIS_PER_DAY);
+
+    const siteRef = SITES_COLLECTION.doc(siteId);
+    return await firestoreAdmin.runTransaction(async t => {
+        await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
+        const siteComments = await getComments(siteId);
+        const curTimestamp = toUTCMidnight(Timestamp.now().toMillis());
+        const totalComment: number[] = Array.from({ length: 30 }, _ => 0);
+        const newComment: number[] = Array.from({ length: 30 }, _ => 0);
+        const finalIndex = siteComments.length - 1;
+
+        let oldCount = 0; // previous value of curCount
+        let curCount: number; // how many comments have we traversed through
+        let daysAgo = 29;
+
+        for (let i = finalIndex; i >= 0; i--) {
+            const { date } = siteComments[i];
+            const commentDaysAgo = ((curTimestamp - toUTCMidnight(date)) / MILLIS_PER_DAY) | 0;
+            if (commentDaysAgo < daysAgo) {
+                curCount = finalIndex - i;
+                newComment[daysAgo] = curCount - oldCount;
+                while (daysAgo > commentDaysAgo) {
+                    totalComment[daysAgo] = curCount;
+                    daysAgo--;
+                }
+                oldCount = curCount;
+            }
+        }
+        curCount = siteComments.length;
+        newComment[daysAgo] = curCount - oldCount;
+        for (; daysAgo >= 0; daysAgo--) totalComment[daysAgo] = curCount;
+
+        const statistics: SiteStatistics = { totalComment, newComment };
+        return statistics;
+    });
 }
 
 /**
