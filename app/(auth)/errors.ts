@@ -14,6 +14,12 @@ const NOT_AUTHENTICATED = new Error(
 NOT_AUTHENTICATED.code = "ezkomment/client";
 export { NOT_AUTHENTICATED };
 
+const REAUTHENTICATION_FAILED = new Error(
+    "Reauthentication failed. Please try again."
+) as NodeJS.ErrnoException;
+REAUTHENTICATION_FAILED.code = "ezkomment/client";
+export { REAUTHENTICATION_FAILED };
+
 const UNABLE_TO_UPDATE_NAME = new Error(
     "Unable to update display name. Please try again later."
 ) as NodeJS.ErrnoException;

@@ -25,3 +25,8 @@ export async function uploadPhoto(req: ApiRequestWithFormData, res: ApiResponse)
     await util.upload(uid, req.file);
     res.json({});
 }
+
+export const remove: ApiHandler = async (req, res) => {
+    await user.remove(req.uid!);
+    res.json({});
+};
