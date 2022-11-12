@@ -3,12 +3,20 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { internalDelete } from "~/app/(auth)/internal-fetch";
+import { UNKNOWN_ERROR } from "~/app/(auth)/errors";
+import { useLoadingState } from "~/app/loading-state";
 import { useUser } from "~/app/(auth)/app/user";
+import { useSetToast } from "~/app/(auth)/toast";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
 
-function NotificationList() {
+function NotificationList({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
   const { notifications } = useUser();
+  const setToast = useSetToast();
+  const { setLoading } = useLoadingState();
 
   if (notifications.length === 0)
     return (
@@ -20,10 +28,35 @@ function NotificationList() {
       </div>
     );
 
+  const handleDismissAll: React.MouseEventHandler<HTMLButtonElement> = async event => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success } = await internalDelete("/api/user/notifications");
+      if (!success) throw UNKNOWN_ERROR;
+      router.refresh();
+    } catch (err) {
+      setToast({
+        type: "error",
+        message: "Dismiss notifications failed. Please report this to us.",
+      });
+    }
+    setLoading(false);
+  };
+
+  const handleDismissById = async (id: string) => {
+    onClose();
+    await internalDelete(`/api/user/notifications/${id}`);
+    router.refresh();
+  };
+
   return (
     <>
       <p>
-        {notifications.length} unread &mdash; <button className="a">Mark all as read</button>
+        {notifications.length} unread &mdash;{" "}
+        <button className="a" onClick={handleDismissAll}>
+          Mark all as read
+        </button>
       </p>
       <div className="flex flex-col gap-6">
         {notifications.map((notif, index) => (
@@ -31,7 +64,8 @@ function NotificationList() {
             notStyled
             key={index}
             className="bg-card rounded border transition p-6 border-card hover:border-muted"
-            href={notif.href}
+            onClick={() => handleDismissById(notif.id)}
+            // href={notif.href} TODO
           >
             <h3 className="font-semibold mb-3">
               {notif.type === "WelcomeMessage" ? "Welcome to ezkomment!" : "New comments"}
@@ -42,14 +76,15 @@ function NotificationList() {
               )}
               {notif.type === "NewComment" && notif.authors.length > 1 && (
                 <>
-                  <strong>{notif.authors[0]}</strong> and {notif.authors.length - 1} other
+                  <strong>{notif.authors[0] || "Anonymous"}</strong> and {notif.authors.length - 1}{" "}
+                  other
                   {notif.authors.length === 2 || "s"} commented in page{" "}
                   <strong>{notif.pageTitle}</strong> in site <strong>{notif.siteName}</strong>.
                 </>
               )}
               {notif.type === "NewComment" && notif.authors.length === 1 && (
                 <>
-                  <strong>{notif.authors[0]}</strong> commented in page{" "}
+                  <strong>{notif.authors[0] || "Anonymous"}</strong> commented in page{" "}
                   <strong>{notif.pageTitle}</strong> in site <strong>{notif.siteName}</strong>.
                 </>
               )}
@@ -87,7 +122,7 @@ export default function Notifications({ show, onClose }: Props) {
         onClick={e => e.stopPropagation()}
       >
         <h2>Notifications</h2>
-        <NotificationList />
+        <NotificationList onClose={onClose} />
         <button
           className="fixed top-6 right-6 text-muted hover:text-neutral-700 dark:hover:text-neutral-300 transition"
           onClick={onClose}

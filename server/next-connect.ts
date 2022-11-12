@@ -5,19 +5,19 @@ import CustomApiError from "~/server/errors/custom-api-error";
 export type ApiError = { error: string };
 export type ApiRequest = NextApiRequest & { uid?: string };
 export type ApiResponse<T> = NextApiResponse<T | ApiError>;
-export type ApiMiddleware<T = any> = (
+export type ApiMiddleware<T = {}> = (
     req: ApiRequest,
     res: ApiResponse<T>,
     next: () => Promise<unknown> | unknown
 ) => unknown | Promise<unknown>;
-export type ApiHandler<T = any> = (
+export type ApiHandler<T = {}> = (
     req: ApiRequest,
     res: ApiResponse<T>
 ) => unknown | Promise<unknown>;
 
-export const createRouter = <T>() => _createRouter<ApiRequest, ApiResponse<T>>();
+export const createRouter = <T = {}>() => _createRouter<ApiRequest, ApiResponse<T>>();
 
-type Router<T = any> = ReturnType<typeof createRouter<T>>;
+type Router<T = {}> = ReturnType<typeof createRouter<T>>;
 
 export const createHandler = <T>(router: Router<T>) =>
     router
@@ -34,3 +34,23 @@ export const createHandler = <T>(router: Router<T>) =>
                 res.status(404).end({ error: "Not Found" });
             },
         });
+
+/**
+ * A helper function to extract values out of `req.query`.
+ *
+ * @param req The request
+ * @returns A mapping of keys and values
+ */
+export function extractFirstQueryValue(req: ApiRequest) {
+    const handler = {
+        get: (target: ApiRequest["query"], prop: string): string => {
+            const value: string | string[] | undefined = target[prop];
+            if (value === undefined) throw new Error("Failure! You look up an undefined property?");
+            return Array.isArray(value) ? value[0] : value;
+        },
+    };
+    /**
+     * Cast to `Record<string, string>` as `get` only return string
+     */
+    return new Proxy(req.query, handler) as Record<string, string>;
+}
