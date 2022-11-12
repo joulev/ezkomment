@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { forwardRef, useRef, useState } from "react";
 import A from "~/app/components/anchor.client";
-import { CurrentPage, NavbarItems, PageType } from "~/old/types/client/page.type";
+import { NavbarProps, NavbarItems, PageType } from "./navbar.type";
 
 type Item = {
   href: string;
@@ -65,7 +65,7 @@ const MainNavButton = forwardRef<HTMLAnchorElement, MainNavButtonProps>(
 );
 MainNavButton.displayName = "MainNavButton";
 
-export default function MainNav({ type, activeTab, siteName, pageId }: CurrentPage) {
+export default function MainNav({ type, activeTab, siteName, pageId }: NavbarProps) {
   const [hoverActive, setHoverActive] = useState(0);
   const [mouseInside, setMouseInside] = useState(false);
   const [allowTransition, setAllowTransition] = useState(false);
