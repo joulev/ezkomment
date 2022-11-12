@@ -2,22 +2,21 @@
 
 import clsx from "clsx";
 import { X } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { internalDelete } from "~/app/(auth)/internal-fetch";
 import { UNKNOWN_ERROR } from "~/app/(auth)/errors";
 import { useLoadingState } from "~/app/loading-state";
-import { useUser } from "~/app/(auth)/app/user";
 import { useSetToast } from "~/app/(auth)/toast";
+import { useNotifications } from "~/app/(auth)/app/notification";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
 import TimeAgo from "~/app/components/time-ago.client";
 
 function NotificationList({ onClose }: { onClose: () => void }) {
-  const router = useRouter();
-  const { notifications } = useUser();
+  const { notifications, mutate } = useNotifications();
   const setToast = useSetToast();
   const { setLoading } = useLoadingState();
 
+  if (!notifications) return <>Fetching notifications&hellip;</>;
   if (notifications.length === 0)
     return (
       <div className="flex flex-col gap-6 my-12 items-center">
@@ -34,7 +33,7 @@ function NotificationList({ onClose }: { onClose: () => void }) {
     try {
       const { success } = await internalDelete("/api/user/notifications");
       if (!success) throw UNKNOWN_ERROR;
-      router.refresh();
+      mutate([]);
     } catch (err) {
       setToast({
         type: "error",
@@ -47,7 +46,7 @@ function NotificationList({ onClose }: { onClose: () => void }) {
   const handleDismissById = async (id: string) => {
     onClose();
     await internalDelete(`/api/user/notifications/${id}`);
-    router.refresh();
+    await mutate(notifications.filter(n => n.id !== id));
   };
 
   return (
