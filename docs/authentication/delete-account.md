@@ -6,7 +6,7 @@ Since we do not store any permanent information in our database, all deletion ac
 
 ## Unhappy or frustrated?
 
-If you feel that the service can be improved, you are more than welcome to contact us publicly [on GitHub](https://github.com/joulev/ezkomment/discussions) or privately via [email](mailto:joulev.vvd@yahoo.com) or [Telegram](https://t.me/joulev3). We take all user feedbacks seriously and we will always try to make improvements to the product if it is possible and reasonable.
+If you feel that the service can be improved, you are more than welcome to contact us publicly [on GitHub](https://github.com/joulev/ezkomment/discussions) or privately via [email](mailto:me@joulev.dev) or [Telegram](https://t.me/joulev3). We take all user feedbacks seriously and we will always try to make improvements to the product if it is possible and reasonable.
 
 ## Steps to delete account
 

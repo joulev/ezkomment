@@ -70,7 +70,7 @@ export default function Footer({ className, containerClasses = "container" }: Pr
           <div className="flex flex-row gap-3">
             <SocialIconLink href="https://github.com/joulev/ezkomment" icon={Github} />
             <SocialIconLink href="https://t.me/joulev3" icon={Telegram} />
-            <SocialIconLink href="mailto:joulev.vvd@yahoo.com" icon={Mail} />
+            <SocialIconLink href="mailto:me@joulev.dev" icon={Mail} />
           </div>
         </div>
       </div>
