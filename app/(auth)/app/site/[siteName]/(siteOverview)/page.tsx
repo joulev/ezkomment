@@ -2,7 +2,9 @@
 
 import clsx from "clsx";
 import { useState } from "react";
+import useSWR from "swr";
 import { Plus, Code, Tag, Globe, Search, Settings } from "lucide-react";
+import { internalSWRGenerator } from "~/app/(auth)/internal-fetch";
 import { PAGE } from "~/misc/validate";
 import { useBreakpoint } from "~/app/breakpoint";
 import { useSite } from "~/app/(auth)/app/site/[siteName]/site";
@@ -94,11 +96,10 @@ export default function AppSiteOverviewPage() {
   const breakpoint = useBreakpoint();
   const [showNewPageModal, setShowNewPageModal] = useState(false);
   const [search, setSearch] = useState("");
-  // const { data: statistics } = useSWR(
-  //   site ? `/api/sites/${site.id}/statistic` : null,
-  //   internalSWRGenerator<SiteStatistics>()
-  // );
-  const statistics = undefined as SiteStatistics | undefined; // TODO
+  const { data: statistics } = useSWR(
+    site ? `/api/sites/${site.id}/statistics` : null,
+    internalSWRGenerator<SiteStatistics>()
+  );
   const pages = searchPages(site.pages, search);
   return (
     <>
