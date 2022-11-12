@@ -51,6 +51,10 @@ export function internalPut<T = any>(url: string, body: any, options?: RequestIn
     return internalFetch<T>({ url, method: "PUT", options: { ...options, body: json } });
 }
 
+export function internalPutNotJson<T = any>(url: string, body: any, options?: RequestInit) {
+    return internalFetch<T>({ url, method: "PUT", options: { ...options, body } }, false);
+}
+
 export function internalDelete<T = any>(url: string, options?: RequestInit) {
     return internalFetch<T>({ url, method: "DELETE", options });
 }

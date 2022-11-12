@@ -1,10 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createRouter as _createRouter } from "next-connect";
 import CustomApiError from "~/server/errors/custom-api-error";
+import { FormDataFile } from "~/types/server";
 
 export type ApiError = { error: string };
 export type ApiRequest = NextApiRequest & { uid?: string };
-export type ApiResponse<T> = NextApiResponse<T | ApiError>;
+export type ApiRequestWithFormData = ApiRequest & { file?: FormDataFile };
+export type ApiResponse<T = {}> = NextApiResponse<T | ApiError>;
 export type ApiMiddleware<T = {}> = (
     req: ApiRequest,
     res: ApiResponse<T>,
