@@ -30,7 +30,7 @@ export async function signIn(refresh: () => void, provider: Provider) {
     const additionalInfo = getAdditionalUserInfo(credentials);
     if (!additionalInfo) throw DID_YOU_JUST_HACK_THE_SYSTEM;
     await internalPost("/api/auth/sign-in", { idToken });
-    await internalPost("/api/user", {});
+    if (additionalInfo.isNewUser) await internalPost("/api/user", {});
     await _signOut(auth);
     refresh();
 }
