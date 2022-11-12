@@ -39,3 +39,10 @@ export async function signOut(refresh: () => void) {
     await internalPost("/api/auth/sign-out", {});
     refresh();
 }
+
+export async function reauthenticate(provider: Provider) {
+    await setPersistence(auth, inMemoryPersistence);
+    const { user } = await signInWithPopup(auth, provider);
+    await _signOut(auth);
+    return user.uid;
+}

@@ -1,8 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertTriangle, HardDrive, User, Save } from "lucide-react";
-import { internalPut, internalPutNotJson } from "~/app/(auth)/internal-fetch";
+import { githubProvider, googleProvider, reauthenticate } from "~/app/(auth)/auth";
+import { internalDelete, internalPut, internalPutNotJson } from "~/app/(auth)/internal-fetch";
+import { REAUTHENTICATION_FAILED } from "~/app/(auth)/errors";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { useAuth } from "~/app/(auth)/app/user";
@@ -110,7 +113,39 @@ function ExportDataSection() {
 }
 
 function DeleteAccountSection() {
+  const router = useRouter();
+  const { user } = useAuth();
+  const { setLoading } = useLoadingState();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const setToast = useSetToast();
+
+  const handleReauthenticate = async (event: React.MouseEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const uid = await reauthenticate(
+        user.providerData[0].providerId === "github.com" ? githubProvider : googleProvider
+      );
+      if (uid !== user.uid) throw REAUTHENTICATION_FAILED;
+      setShowDeleteModal(true);
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
+
+  const handleDelete = async (event: React.MouseEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      await internalDelete("/api/user");
+      router.refresh();
+    } catch (err: any) {
+      setShowDeleteModal(false);
+      setToast({ type: "error", message: <AuthError err={err} /> });
+      setLoading(false);
+    }
+  };
 
   return (
     <section>
@@ -121,14 +156,11 @@ function DeleteAccountSection() {
       </p>
       <p>
         Since this is a sensitive action, you will be asked to re-authenticate with{" "}
-        <strong>
-          {/* user.providerData[0].providerId === "github.com" ? "GitHub" : "Google" */}
-          unknown
-        </strong>
-        . Continue by clicking the button below.
+        <strong>{user.providerData[0].providerId === "github.com" ? "GitHub" : "Google"}</strong>.
+        Continue by clicking the button below.
       </p>
       <RightAligned>
-        <Button variant="danger" icon={AlertTriangle}>
+        <Button variant="danger" icon={AlertTriangle} onClick={handleReauthenticate}>
           Continue
         </Button>
       </RightAligned>
@@ -143,7 +175,9 @@ function DeleteAccountSection() {
             <Button variant="tertiary" onClick={() => setShowDeleteModal(false)}>
               Cancel
             </Button>
-            <Button variant="danger">Delete</Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
           </RightAligned>
         </div>
       </Modal>
