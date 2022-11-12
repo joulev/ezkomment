@@ -8,12 +8,13 @@ import { useUser } from "~/app/(auth)/app/user";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { signOut } from "~/app/(auth)/auth";
-import { useNotifications } from "~/app/(auth)/app/notification";
+import useNotifications from "~/app/(auth)/app/notification";
 import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";
 import Logo from "~/app/components/logo/logo";
 import LogoText from "~/app/components/logo/logo-text";
 import DefaultPhoto from "~/app/components/default-photo";
+import Notifications from "./notification.client";
 import { CurrentPage } from "~/old/types/client/page.type";
 
 type LinkOrButtonProps =
@@ -121,12 +122,14 @@ function TopNavMobileBreadcrumb({ type, siteName, pageId }: CurrentPage) {
 
 export default function TopNav(props: CurrentPage) {
   const user = useUser();
-  const { notifications, setShow } = useNotifications();
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { setLoading } = useLoadingState();
   const setToast = useSetToast();
+  const [showNotif, setShowNotif] = useState(false);
+  const { notifications } = useNotifications();
+
   useEffect(() => setExpanded(false), [pathname]);
 
   const bellDotClass = clsx(
@@ -144,46 +147,14 @@ export default function TopNav(props: CurrentPage) {
       setLoading(false);
     }
   };
-  const handleNotif: React.MouseEventHandler<HTMLButtonElement> = () => setShow(true);
+  const handleNotif: React.MouseEventHandler<HTMLButtonElement> = () => setShowNotif(true);
 
   return (
-    <div className="container px-5 sm:px-6">
-      <nav className="hidden sm:flex flex-row gap-6 pt-3 sm:pt-6 items-center justify-between">
-        <TopNavBreadcrumb {...props} />
-        <div className="flex-grow" />
-        <TopNavButton
-          onClick={handleNotif}
-          icon={() => (
-            <span className={bellDotClass}>
-              <Bell className="inline-block" />
-            </span>
-          )}
-          title="Notifications"
-        />
-        <TopNavButton onClick={handleLogout} icon={LogOut} title="Sign out" />
-        <A
-          href="/app/account"
-          className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
-          title="View account settings"
-        >
-          {user.photoURL ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={user.photoURL} alt="avatar" className="w-9 h-9" />
-          ) : (
-            <DefaultPhoto size={34} /> // don't ask me why it's 34px, Firefox told me so
-          )}
-        </A>
-      </nav>
-      <div
-        className={clsx(
-          "sm:hidden overflow-hidden",
-          // 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4
-          expanded ? "fixed inset-0 bg-card z-10 px-5" : "max-h-14"
-        )}
-      >
-        <nav className="flex flex-row py-3 items-center justify-between">
-          <TopNavButton icon={expanded ? X : Menu} onClick={() => setExpanded(!expanded)} />
-          <TopNavMobileBreadcrumb {...props} />
+    <>
+      <div className="container px-5 sm:px-6">
+        <nav className="hidden sm:flex flex-row gap-6 pt-3 sm:pt-6 items-center justify-between">
+          <TopNavBreadcrumb {...props} />
+          <div className="flex-grow" />
           <TopNavButton
             onClick={handleNotif}
             icon={() => (
@@ -191,28 +162,63 @@ export default function TopNav(props: CurrentPage) {
                 <Bell className="inline-block" />
               </span>
             )}
+            title="Notifications"
           />
+          <TopNavButton onClick={handleLogout} icon={LogOut} title="Sign out" />
+          <A
+            href="/app/account"
+            className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
+            title="View account settings"
+          >
+            {user.photoURL ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={user.photoURL} alt="avatar" className="w-9 h-9" />
+            ) : (
+              <DefaultPhoto size={34} /> // don't ask me why it's 34px, Firefox told me so
+            )}
+          </A>
         </nav>
-        <nav
+        <div
           className={clsx(
-            "flex flex-col transition-all",
-            expanded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+            "sm:hidden overflow-hidden",
+            // 24 + 2*4 (button padding) + 2*12 (topnav padding) = 56 = 14 * 4
+            expanded ? "fixed inset-0 bg-card z-10 px-5" : "max-h-14"
           )}
         >
-          <TopNavExpandedItem icon={Home} href="/app/dashboard">
-            Dashboard
-          </TopNavExpandedItem>
-          <TopNavExpandedItem icon={Settings} href="/app/account">
-            Account settings
-          </TopNavExpandedItem>
-          <TopNavExpandedItem icon={LogOut} onClick={handleLogout}>
-            Log out
-          </TopNavExpandedItem>
-          <div className="flex flex-row justify-between items-center mx-1 mt-6">
-            <LogoText />
-          </div>
-        </nav>
+          <nav className="flex flex-row py-3 items-center justify-between">
+            <TopNavButton icon={expanded ? X : Menu} onClick={() => setExpanded(!expanded)} />
+            <TopNavMobileBreadcrumb {...props} />
+            <TopNavButton
+              onClick={handleNotif}
+              icon={() => (
+                <span className={bellDotClass}>
+                  <Bell className="inline-block" />
+                </span>
+              )}
+            />
+          </nav>
+          <nav
+            className={clsx(
+              "flex flex-col transition-all",
+              expanded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+            )}
+          >
+            <TopNavExpandedItem icon={Home} href="/app/dashboard">
+              Dashboard
+            </TopNavExpandedItem>
+            <TopNavExpandedItem icon={Settings} href="/app/account">
+              Account settings
+            </TopNavExpandedItem>
+            <TopNavExpandedItem icon={LogOut} onClick={handleLogout}>
+              Log out
+            </TopNavExpandedItem>
+            <div className="flex flex-row justify-between items-center mx-1 mt-6">
+              <LogoText />
+            </div>
+          </nav>
+        </div>
       </div>
-    </div>
+      <Notifications show={showNotif} onClose={() => setShowNotif(false)} />
+    </>
   );
 }
