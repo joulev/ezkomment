@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AlertTriangle, HardDrive, User, Save, Trash } from "lucide-react";
-import { internalPut } from "~/app/(auth)/internal-fetch";
+import { internalPut, internalPutNotJson } from "~/app/(auth)/internal-fetch";
 import { useBreakpoint } from "~/app/breakpoint";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
@@ -39,6 +39,23 @@ function ProfileSection() {
     setLoading(false);
   };
 
+  const handlePhotoSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!image) return;
+    setLoading(true);
+    try {
+      const form = new FormData();
+      form.append("photo", image);
+      await internalPutNotJson("/api/user/photo", form);
+      mutate({ ...user, photoURL: URL.createObjectURL(image) });
+      setToast({ type: "success", message: "Photo updated successfully." });
+      setImage(null);
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
+
   return (
     <section>
       <h2>Profile</h2>
@@ -67,7 +84,7 @@ function ProfileSection() {
           </Button>
         </RightAligned>
       </form>
-      <form className="flex flex-col gap-6" onSubmit={e => e.preventDefault()}>
+      <form className="flex flex-col gap-6" onSubmit={handlePhotoSubmit}>
         <IconUpload
           label="Profile photo"
           helpText="The photo that identifies you on this application."

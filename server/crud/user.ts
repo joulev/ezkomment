@@ -1,13 +1,8 @@
+import { UpdateRequest } from "firebase-admin/auth";
 import { Timestamp } from "firebase-admin/firestore";
 import { authAdmin, firestoreAdmin } from "~/server/firebase/app";
 import { USERS_COLLECTION, SITES_COLLECTION } from "~/server/firebase/collections";
-import {
-    Site,
-    User,
-    ClientUser,
-    WelcomeMessageNotification,
-    UpdateUserBodyParams,
-} from "~/types/server";
+import { Site, User, ClientUser, WelcomeMessageNotification } from "~/types/server";
 
 async function getUser(uid: string): Promise<User> {
     const { email, displayName, photoURL, providerData: rawData } = await authAdmin.getUser(uid);
@@ -42,7 +37,7 @@ export async function initialise(uid: string) {
     });
 }
 
-export async function update(uid: string, data: UpdateUserBodyParams) {
+export async function update(uid: string, data: UpdateRequest) {
     await authAdmin.updateUser(uid, data);
 }
 
