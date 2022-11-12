@@ -36,5 +36,5 @@ export type WelcomeMessageNotification = {
 };
 export type Notification = NewCommentNotification | WelcomeMessageNotification;
 
-export type ClientUser = User & { sites: Site[]; notifications: Notification[] };
+export type ClientUser = User & { sites: Site[] };
 export type ExportUser = User & { sites: ExportSite[] };

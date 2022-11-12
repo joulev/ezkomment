@@ -2,13 +2,13 @@
 
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { X, Home, LogOut, Menu, Bell, Settings, Icon } from "lucide-react";
 import { useUser } from "~/app/(auth)/app/user";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { signOut } from "~/app/(auth)/auth";
-import { NotificationShowSetter } from "~/app/(auth)/app/notification";
+import { useNotifications } from "~/app/(auth)/app/notification";
 import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";
 import Logo from "~/app/components/logo/logo";
@@ -121,13 +121,20 @@ function TopNavMobileBreadcrumb({ type, siteName, pageId }: CurrentPage) {
 
 export default function TopNav(props: CurrentPage) {
   const user = useUser();
+  const { notifications, setShow } = useNotifications();
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { setLoading } = useLoadingState();
   const setToast = useSetToast();
-  const setShowNotif = useContext(NotificationShowSetter);
   useEffect(() => setExpanded(false), [pathname]);
+
+  const bellDotClass = clsx(
+    notifications &&
+      notifications.length > 0 &&
+      "relative after:absolute after:-top-0.5 after:-right-0.5 after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
+  );
+
   const handleLogout: React.MouseEventHandler<HTMLButtonElement> = async () => {
     setLoading(true);
     try {
@@ -137,7 +144,7 @@ export default function TopNav(props: CurrentPage) {
       setLoading(false);
     }
   };
-  const handleNotif: React.MouseEventHandler<HTMLButtonElement> = () => setShowNotif(true);
+  const handleNotif: React.MouseEventHandler<HTMLButtonElement> = () => setShow(true);
 
   return (
     <div className="container px-5 sm:px-6">
@@ -147,12 +154,7 @@ export default function TopNav(props: CurrentPage) {
         <TopNavButton
           onClick={handleNotif}
           icon={() => (
-            <span
-              className={clsx(
-                user.notifications.length > 0 &&
-                  "relative after:absolute after:-top-0.5 after:-right-0.5 after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
-              )}
-            >
+            <span className={bellDotClass}>
               <Bell className="inline-block" />
             </span>
           )}
@@ -185,12 +187,7 @@ export default function TopNav(props: CurrentPage) {
           <TopNavButton
             onClick={handleNotif}
             icon={() => (
-              <span
-                className={clsx(
-                  "relative after:absolute after:-top-0.5 after:-right-0.5",
-                  "after:bg-indigo-500 after:rounded-full after:w-3 after:h-3"
-                )}
-              >
+              <span className={bellDotClass}>
                 <Bell className="inline-block" />
               </span>
             )}
