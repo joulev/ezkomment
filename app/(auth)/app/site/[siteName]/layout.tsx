@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import asyncComponent from "~/app/hack";
 import { getUser } from "~/server/rsc/user";
 import { getSite } from "~/server/rsc/site";
-import AppLoading from "../../layout-loading";
+import Loading from "~/app/(auth)/app/components/loading";
 import AppSiteLayoutClient from "./layout.client";
 
 type Params = {
@@ -25,7 +25,7 @@ export default function AppSiteLayout({
   children,
 }: React.PropsWithChildren<{ params: Params }>) {
   return (
-    <Suspense fallback={<AppLoading />}>
+    <Suspense fallback={<Loading />}>
       <_AppSiteLayout siteName={params.siteName}>{children}</_AppSiteLayout>
     </Suspense>
   );
