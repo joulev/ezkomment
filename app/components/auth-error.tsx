@@ -37,9 +37,8 @@ export default function AuthError({ err }: { err: NodeJS.ErrnoException }) {
     default:
       return (
         <>
-          An unknown error occurred. Please{" "}
-          <A href="mailto:joulev.vvd@yahoo.com">report it to us</A> with the following error code:{" "}
-          <code>{err.code}</code> and try again later.
+          An unknown error occurred. Please <A href="mailto:me@joulev.dev">report it to us</A> with
+          the following error code: <code>{err.code}</code> and try again later.
         </>
       );
   }
