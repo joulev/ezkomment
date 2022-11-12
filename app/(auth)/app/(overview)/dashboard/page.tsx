@@ -57,8 +57,8 @@ function SiteIcon({ site }: { site: Site }) {
       })();
     }
   }, [site.iconURL, site.domain]);
-  if (!url) return <div className="w-12 h-12 rounded pulse" />;
-  return <img src={url} alt="" className="w-12 h-12 rounded" />;
+  if (!url) return <div className="w-12 h-12 shrink-0 rounded pulse" />;
+  return <img src={url} alt="" className="w-12 h-12 shrink-0 rounded" />;
 }
 
 function SiteCard({ site }: { site: Site }) {

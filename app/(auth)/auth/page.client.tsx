@@ -9,6 +9,8 @@ import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";
 import Button from "~/app/components/buttons.client";
 import Logo from "~/app/components/logo/logo";
+import GitHubLogo from "~/app/(auth)/components/github-logo";
+import GoogleLogo from "~/app/(auth)/components/google-logo";
 
 function useTrianglify() {
   const svgEl = useRef<SVGSVGElement>(null);
@@ -64,10 +66,18 @@ export default function AuthPageClient() {
           </A>
           <h1 className="text-3xl mt-6 mb-12">Continue to ezkomment</h1>
           <div className="flex flex-col gap-6">
-            <Button onClick={handler(githubProvider)} disabled={loading}>
+            <Button
+              icon={() => <GitHubLogo />}
+              onClick={handler(githubProvider)}
+              disabled={loading}
+            >
               Continue with GitHub
             </Button>
-            <Button onClick={handler(googleProvider)} disabled={loading}>
+            <Button
+              icon={() => <GoogleLogo />}
+              onClick={handler(googleProvider)}
+              disabled={loading}
+            >
               Continue with Google
             </Button>
           </div>
