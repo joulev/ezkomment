@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import A from "~/app/components/anchor.client";
+import TimeAgo from "~/app/components/time-ago.client";
 
 type Card = { title: string; path: string[] } | undefined;
 export type Props = {
@@ -38,11 +38,7 @@ export default function DocsBottomBar({ lastModified, path, prev, next }: Props)
       <div className="flex flex-row justify-between flex-wrap gap-x-6 gap-y-3 text-sm">
         <div className="text-muted">
           Last modified:{" "}
-          <time title={lastModified}>
-            {lastModified === "unknown"
-              ? "unknown"
-              : formatDistanceToNowStrict(parseISO(lastModified), { addSuffix: true })}
-          </time>
+          {lastModified === "unknown" ? <>unknown</> : <TimeAgo date={lastModified} />}
         </div>
         <A href={`https://github.com/joulev/ezkomment/blob/main/docs/${path.join("/")}.md`}>
           Edit this page on GitHub
