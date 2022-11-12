@@ -20,14 +20,14 @@ export default function Modal({ isVisible, onOutsideClick, children, ...rest }: 
   return (
     <div
       className={clsx(
-        "fixed inset-0 z-50 grid place-items-center bg-card bg-opacity-90 dark:bg-opacity-90 transition",
+        "fixed inset-0 z-50 grid place-items-center bg-card bg-opacity-90 dark:bg-opacity-90 transition duration-300",
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
       onClick={onOutsideClick}
     >
       <div
         className={clsx(
-          "bg-card border rounded border-card transition",
+          "bg-card border rounded border-card transition duration-300",
           isVisible ? "translate-y-0" : "-translate-y-6"
         )}
         {...rest}

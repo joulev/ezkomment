@@ -199,7 +199,7 @@ export default function TopNav(props: CurrentPage) {
           </nav>
           <nav
             className={clsx(
-              "flex flex-col transition-all",
+              "flex flex-col transition-all duration-300",
               expanded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
             )}
           >
