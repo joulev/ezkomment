@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Plus, Search, SortDesc } from "lucide-react";
 import { internalPost } from "~/app/(auth)/internal-fetch";
-import { useUser } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/user";
 import { Breakpoint, useBreakpoint } from "~/app/breakpoint";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
@@ -135,7 +135,7 @@ function sortSites(sites: Site[], sort: "pages" | "comments" | "pending" | "upda
 }
 
 export default function AppDashboardPage() {
-  const user = useUser();
+  const { user } = useAuth();
   const breakpoint = useBreakpoint();
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<"pages" | "comments" | "pending" | "updated">("pages");

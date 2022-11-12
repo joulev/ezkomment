@@ -7,7 +7,7 @@ export default async function AppLayout({ children }: React.PropsWithChildren) {
   const user = await getUser();
   if (!user) redirect("/auth");
   return (
-    <AuthLayoutClient user={user}>
+    <AuthLayoutClient rscUser={user}>
       {children}
       <Footer />
     </AuthLayoutClient>
