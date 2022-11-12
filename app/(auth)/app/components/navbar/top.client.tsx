@@ -1,7 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { X, Home, LogOut, Menu, Bell, Settings, Icon } from "lucide-react";
@@ -9,12 +8,13 @@ import { useUser } from "~/app/(auth)/app/user";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { signOut } from "~/app/(auth)/auth";
+import { NotificationShowSetter } from "~/app/(auth)/app/notification";
 import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";
-import { NotificationShowSetter } from "~/app/(auth)/app/notification";
+import Logo from "~/app/components/logo/logo";
+import LogoText from "~/app/components/logo/logo-text";
+import DefaultPhoto from "~/app/components/default-photo";
 import { CurrentPage } from "~/old/types/client/page.type";
-import defaultAvatar from "~/public/images/default-photo.svg";
-import logo from "~/public/images/logo.svg";
 
 type LinkOrButtonProps =
   | { href: string; onClick?: never }
@@ -72,8 +72,8 @@ function BreadCrumbSlash() {
 function TopNavBreadcrumb({ type, siteName, pageId }: CurrentPage) {
   return (
     <div className="flex flex-row gap-3 items-center">
-      <A href="/app/dashboard" notStyled className="w-9 h-9 relative">
-        <Image src={logo} alt="ezkomment" />
+      <A href="/app/dashboard" notStyled>
+        <Logo size={36} />
       </A>
       <BreadCrumbSlash />
       <A
@@ -168,7 +168,7 @@ export default function TopNav(props: CurrentPage) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={user.photoURL} alt="avatar" className="w-9 h-9" />
           ) : (
-            <Image src={defaultAvatar} alt="avatar" />
+            <DefaultPhoto size={34} /> // don't ask me why it's 34px, Firefox told me so
           )}
         </A>
       </nav>
@@ -212,7 +212,7 @@ export default function TopNav(props: CurrentPage) {
             Log out
           </TopNavExpandedItem>
           <div className="flex flex-row justify-between items-center mx-1 mt-6">
-            <Image src={logo} alt="ezkomment" />
+            <LogoText />
           </div>
         </nav>
       </div>
