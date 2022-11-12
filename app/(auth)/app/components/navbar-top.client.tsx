@@ -15,7 +15,7 @@ import Logo from "~/app/components/logo/logo";
 import LogoText from "~/app/components/logo/logo-text";
 import DefaultPhoto from "~/app/components/default-photo";
 import Notifications from "./notification.client";
-import { CurrentPage } from "~/old/types/client/page.type";
+import { NavbarProps } from "./navbar.type";
 
 type LinkOrButtonProps =
   | { href: string; onClick?: never }
@@ -70,7 +70,7 @@ function BreadCrumbSlash() {
   );
 }
 
-function TopNavBreadcrumb({ type, siteName, pageId }: CurrentPage) {
+function TopNavBreadcrumb({ type, siteName, pageId }: NavbarProps) {
   return (
     <div className="flex flex-row gap-3 items-center">
       <A href="/app/dashboard" notStyled>
@@ -98,7 +98,7 @@ function TopNavBreadcrumb({ type, siteName, pageId }: CurrentPage) {
   );
 }
 
-function TopNavMobileBreadcrumb({ type, siteName, pageId }: CurrentPage) {
+function TopNavMobileBreadcrumb({ type, siteName, pageId }: NavbarProps) {
   return (
     <div className="flex flex-row gap-3 items-center">
       <A
@@ -120,7 +120,7 @@ function TopNavMobileBreadcrumb({ type, siteName, pageId }: CurrentPage) {
   );
 }
 
-export default function TopNav(props: CurrentPage) {
+export default function TopNav(props: NavbarProps) {
   const { user } = useAuth();
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
