@@ -170,12 +170,10 @@ export default function TopNav(props: NavbarProps) {
             className="rounded-full border border-indigo-500 dark:border-indigo-400 h-9 w-9 shrink-0 relative overflow-hidden"
             title="View account settings"
           >
-            {user.photoURL ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={user.photoURL} alt="avatar" className="w-9 h-9" />
-            ) : (
-              <DefaultPhoto size={34} /> // don't ask me why it's 34px, Firefox told me so
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {user.photoURL && <img src={user.photoURL} alt="avatar" className="w-9 h-9" />}
+            {props.type === "others" && <div className="w-9 h-9 pulse" />}
+            {props.activeTab && !user.photoURL && <DefaultPhoto size={34} />}
           </A>
         </nav>
         <div
