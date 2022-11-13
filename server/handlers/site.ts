@@ -23,7 +23,7 @@ export const getTemplate: ApiHandler<SiteTemplate> = async (req, res) => {
     res.json(await site.getTemplate(req.uid!, siteId));
 };
 
-export const post: ApiHandler = async (req, res) => {
+export const create: ApiHandler = async (req, res) => {
     await site.create(req.uid!, req.body);
     res.json({});
 };
