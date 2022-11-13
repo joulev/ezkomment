@@ -26,7 +26,7 @@ async function getPrivateKey(): Promise<CryptoKey> {
         secret,
         { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
         true,
-        ["sign", "verify"]
+        ["sign"]
     );
     return key;
 }
