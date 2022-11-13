@@ -82,6 +82,7 @@ export default async function handler(req: NextRequest) {
             headers: { ...htmlHdr, ...securityHdr },
         });
     } catch (e) {
+        console.log(e);
         return new Response("Something's wrong has happened", { status: 500 });
     }
 }
