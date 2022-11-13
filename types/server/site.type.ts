@@ -50,7 +50,13 @@ export type CreateSiteBodyParams = {
 };
 
 export type SiteStatistics = {
+    /**
+     * `totalComment[i]` is the total number of comments until `i` days ago
+     */
     totalComment: number[];
+    /**
+     * `newComment[i]` is the number of new comments `i` days ago
+     */
     newComment: number[];
 };
 

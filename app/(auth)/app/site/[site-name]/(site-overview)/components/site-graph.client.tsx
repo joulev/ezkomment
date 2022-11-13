@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
+import { SiteStatistics } from "~/types/server";
 
 function DateText({ daysAgo }: { daysAgo: number }) {
   if (daysAgo === 0) return <>Today</>;
@@ -9,10 +10,7 @@ function DateText({ daysAgo }: { daysAgo: number }) {
   return <>{daysAgo} days ago</>;
 }
 
-export type Props = {
-  totalComment: number[];
-  newComment: number[];
-};
+export type Props = SiteStatistics;
 
 /**
  * A graph for the total number of comments and the number of new comments over the last 30 days,
