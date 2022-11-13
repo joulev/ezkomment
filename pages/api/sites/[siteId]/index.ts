@@ -1,6 +1,6 @@
 import { get, update, remove } from "~/server/handlers/site";
 import authenticate from "~/server/middlewares/authenticate";
-import { update as sanitiseUpdate } from "~/server/middlewares/sanitisers/sites";
+import { update as sanitiseUpdate } from "~/server/middlewares/sanitisers/site";
 import { createHandler, createRouter } from "~/server/next-connect";
 
 const router = createRouter();
