@@ -56,3 +56,12 @@ export function extractFirstQueryValue(req: ApiRequest) {
      */
     return new Proxy(req.query, handler) as Record<string, string>;
 }
+
+export function removeUndefinedProperties(obj: Record<string, any>) {
+    const props = Object.entries(obj);
+    const toBeRemoved = props.filter(([_, v]) => v === undefined).map(([k, _]) => k);
+    if (toBeRemoved.length === props.length)
+        throw new CustomApiError("Request must not have a empty body");
+    toBeRemoved.forEach(k => delete obj[k]);
+    return obj;
+}

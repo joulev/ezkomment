@@ -1,15 +1,49 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Plus, Tag, Link } from "lucide-react";
 import { SITE } from "~/misc/validate";
+import { internalPost } from "~/app/(auth)/internal-fetch";
+import * as E from "~/app/(auth)/errors";
+import { useLoadingState } from "~/app/loading-state";
+import { useAuth } from "~/app/(auth)/app/user";
+import { useSetToast } from "~/app/(auth)/toast";
 import A from "~/app/components/anchor.client";
+import AuthError from "~/app/components/auth-error";
 import Button from "~/app/components/buttons.client";
 import InputDetachedLabel from "~/app/components/forms/input-detached-label";
 
 export default function AppNewPage() {
+  const router = useRouter();
+  const { user, mutate } = useAuth();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
   const [name, setName] = useState("");
   const [domain, setDomain] = useState("");
+
+  const createNewSite = async (name: string, domain: string) => {
+    setLoading(true);
+    if (user.sites.find(s => s.name === name)) throw E.SITE_ALREADY_EXISTS;
+    const { success, status } = await internalPost("/api/sites", { name, domain, iconURL: null });
+    if (status === 409) throw E.SITE_ALREADY_EXISTS;
+    if (!success) throw E.UNABLE_TO_CREATE_SITE;
+    await mutate();
+    setLoading(false);
+    router.push(`/app/site/${name}`);
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!SITE.nameIsValid(name) || !SITE.domainIsValid(domain)) return;
+    try {
+      await createNewSite(name, domain);
+      setToast({ type: "success", message: "Site created successfully!" });
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mx-auto md:max-w-lg">
@@ -20,7 +54,7 @@ export default function AppNewPage() {
           Should I create a new site or page?
         </A>
       </p>
-      <form className="flex flex-col gap-6" onSubmit={e => e.preventDefault()}>
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <InputDetachedLabel
           label="Site name"
           type="text"

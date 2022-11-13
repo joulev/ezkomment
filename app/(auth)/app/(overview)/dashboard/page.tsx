@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Plus, Search, SortDesc } from "lucide-react";
 import { useAuth } from "~/app/(auth)/app/user";
@@ -113,10 +114,13 @@ function sortSites(sites: Site[], sort: "pages" | "comments" | "pending" | "upda
 }
 
 export default function AppDashboardPage() {
+  const searchParams = useSearchParams();
   const { user } = useAuth();
   const breakpoint = useBreakpoint();
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<"pages" | "comments" | "pending" | "updated">("pages");
+  const loading = searchParams.get("loading");
+  if (loading !== null) return null;
   if (user.sites.length === 0) return <EmptyState />;
   const sites = sortSites(searchSites(user.sites, search), sort);
   return (
