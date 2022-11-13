@@ -120,9 +120,9 @@ export async function getTemplate(uid: string | null, siteId: string): Promise<S
     return await firestoreAdmin.runTransaction(async t => {
         if (uid) await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
         const templateSnapshot = await t.get(siteRef.collection("customisation").doc(TEMPLATE_ID));
-        return templateSnapshot.exists
-            ? (templateSnapshot.data() as SiteTemplate)
-            : { template: defaultTemplate };
+        if (!templateSnapshot.exists) return { template: defaultTemplate };
+        const { customisation: template } = templateSnapshot.data() as { customisation: string };
+        return { template };
     });
 }
 
