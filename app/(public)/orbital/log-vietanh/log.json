@@ -159,7 +159,7 @@
     "Date": "10/06",
     "Content": "Write API specification and validators",
     "Hrs": 3,
-    "Remark": ["Wrote API specifications", "Started implementing validators to sanitize requests"]
+    "Remark": ["Wrote API specifications", "Started implementing validators to sanitise requests"]
   },
   {
     "Date": "11/06",
@@ -231,12 +231,12 @@
   },
   {
     "Date": "21/06",
-    "Content": "Add statistic for sites",
+    "Content": "Add statistics for sites",
     "Hrs": 9,
     "Remark": [
       "Added page count for sites",
       "Added comment count for both sites and pages",
-      "Added new test cases for sites and pages statistic",
+      "Added new test cases for sites and pages statistics",
       "Added Firebase Emulator for unit testing",
       "Added test cases for newly implemented features"
     ]
@@ -272,10 +272,10 @@
   },
   {
     "Date": "26/06",
-    "Content": "Optimize GET endpoints",
+    "Content": "Optimise GET endpoints",
     "Hrs": 3,
     "Remark": [
-      "Optimized GET endpoints, as I realized only 1 transaction is required",
+      "Optimised GET endpoints, as I realised only 1 transaction is required",
       "Looking back, I should have broken down my commits into smaller ones. I did too much in one commit",
       "Question: Some of my commits are not shown on GitHub?"
     ]
@@ -291,7 +291,7 @@
     "Content": "Improved unit tests with Firebase Emulator",
     "Hrs": 1,
     "Remark": [
-      "Used demo project id to initialize Firebase Admin for testing",
+      "Used demo project id to initialise Firebase Admin for testing",
       "Got rid of redudant `env.test.local` on local machine and GitHub secrets"
     ]
   },
@@ -330,7 +330,7 @@
   },
   {
     "Date": "20/07",
-    "Content": "Implement endpoint to get site statistic during the last 30 days",
+    "Content": "Implement endpoint to get site statistics during the last 30 days",
     "Hrs": 5,
     "Remark": [
       "This features is much more difficult to implement",
@@ -340,7 +340,7 @@
   },
   {
     "Date": "21/07",
-    "Content": "Continue with site statistic",
+    "Content": "Continue with site statistics",
     "Hrs": 3,
     "Remark": [
       "The final implementation is not very efficient - but it works with O(n) complexity",
@@ -358,7 +358,7 @@
   },
   {
     "Date": "23/07",
-    "Content": "Minor optimization for getting site statistic",
+    "Content": "Minor optimisation for getting site statistics",
     "Hrs": 1,
     "Remark": ["Should be at least 2 times faster"]
   },
