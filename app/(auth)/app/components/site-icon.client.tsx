@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { internalPost } from "~/app/(auth)/internal-fetch";
 import Logo from "~/app/components/logo/logo";
 
@@ -12,17 +12,18 @@ export type Props = {
 
 export default function SiteIcon({ iconURL, domain, size = 48 }: Props) {
   const [url, setUrl] = useState<string | undefined>(undefined);
-  useEffect(() => {
-    if (iconURL) setUrl(iconURL);
-    if (domain === "*") setUrl("none");
-    else {
-      (async () => {
-        const { success, body } = await internalPost("/api/sites/icon-url", { domain });
-        if (success) setUrl((body as { url: string }).url);
-        else setUrl("none");
-      })();
-    }
+  const getUrl = useCallback(async () => {
+    if (iconURL) return iconURL;
+    if (domain === "*") return undefined;
+    const { success, body } = await internalPost("/api/sites/icon-url", { domain });
+    if (success) return (body as { url: string }).url;
+    return undefined;
   }, [iconURL, domain]);
+
+  useEffect(() => {
+    (async () => setUrl((await getUrl()) ?? "none"))();
+  }, [getUrl]);
+
   if (!url) return <div className="shrink-0 rounded pulse" style={{ width: size, height: size }} />;
   if (url === "none") return <Logo size={size} />;
   return (

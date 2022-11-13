@@ -1,10 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertTriangle, HardDrive, Tag, Globe, Save } from "lucide-react";
 import { SITE } from "~/misc/validate";
+import { internalDelete, internalPut, internalPutNotJson } from "~/app/(auth)/internal-fetch";
+import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/app/(auth)/errors";
+import { useLoadingState } from "~/app/loading-state";
+import { useSetToast } from "~/app/(auth)/toast";
+import { useAuth } from "~/app/(auth)/app/user";
 import { useSite } from "~/app/(auth)/app/site/[siteName]/site";
 import A from "~/app/components/anchor.client";
+import AuthError from "~/app/components/auth-error";
 import Button from "~/app/components/buttons.client";
 import CopiableCode from "~/app/components/copiable-code.client";
 import IconUpload from "~/app/components/forms/icon-upload.client";
@@ -14,10 +21,29 @@ import Modal from "~/app/components/modal.client";
 import RightAligned from "~/app/components/utils/right-aligned";
 
 function UpdateSiteName() {
-  const { site } = useSite();
+  const { mutate: mutateAuth } = useAuth();
+  const { site, mutate: mutateSite } = useSite();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
+  const router = useRouter();
   const [name, setName] = useState(site.name);
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success } = await internalPut(`/api/sites/${site.id}`, { name });
+      if (!success) throw UNABLE_TO_UPDATE_SITE;
+      await mutateAuth();
+      mutateSite({ ...site, name });
+      router.push(`/app/site/${name}/settings`);
+      setToast({ type: "success", message: "Site name updated successfully." });
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
   return (
-    <form className="flex flex-col gap-6" onSubmit={e => e.preventDefault()}>
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <InputDetachedLabel
         label="Site name"
         icon={Tag}
@@ -38,10 +64,27 @@ function UpdateSiteName() {
 }
 
 function UpdateSiteDomain() {
-  const { site } = useSite();
+  const { mutate: mutateAuth } = useAuth();
+  const { site, mutate: mutateSite } = useSite();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
   const [domain, setDomain] = useState(site.domain);
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success } = await internalPut(`/api/sites/${site.id}`, { domain });
+      if (!success) throw UNABLE_TO_UPDATE_SITE;
+      await mutateAuth();
+      mutateSite({ ...site, domain });
+      setToast({ type: "success", message: "Domain updated successfully." });
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
   return (
-    <form className="flex flex-col gap-6" onSubmit={e => e.preventDefault()}>
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <InputDetachedLabel
         label="Site domain"
         icon={Globe}
@@ -62,9 +105,32 @@ function UpdateSiteDomain() {
 }
 
 function UploadSiteIcon() {
+  const { mutate: mutateAuth } = useAuth();
+  const { site, mutate: mutateSite } = useSite();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
   const [icon, setIcon] = useState<File | null>(null);
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!icon) return;
+    setLoading(true);
+    try {
+      const form = new FormData();
+      form.append("icon", icon);
+      const { success, body } = await internalPutNotJson(`/api/sites/${site.id}/icon`, form);
+      if (!success) throw UNABLE_TO_UPDATE_SITE;
+      const iconURL = (body.data as Record<string, string> | undefined)?.iconURL ?? "";
+      await mutateAuth();
+      mutateSite({ ...site, iconURL });
+      setToast({ type: "success", message: "Site icon updated successfully." });
+      setIcon(null);
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
   return (
-    <form className="flex flex-col gap-6" onSubmit={e => e.preventDefault()}>
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <IconUpload
         label="Site icon"
         helpText="This icon helps you identify this site over other sites you also have."
@@ -93,10 +159,29 @@ function ExportSiteData() {
 }
 
 function DeleteSite() {
+  const { mutate: mutateAuth } = useAuth();
   const { site } = useSite();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
+  const router = useRouter();
+  const validPrompt = `delete ${site.name}`;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [promptText, setPromptText] = useState("");
-  const validPrompt = `delete ${site.name}`;
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!promptText || promptText !== validPrompt) return;
+    setLoading(true);
+    try {
+      const { success } = await internalDelete(`/api/sites/${site.id}`);
+      if (!success) throw UNABLE_TO_DELETE_SITE;
+      router.push("/app/dashboard?loading=1");
+      await mutateAuth();
+      setToast({ type: "success", message: "Site deleted successfully." });
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
   return (
     <section>
       <h2>Delete site</h2>
@@ -120,7 +205,7 @@ function DeleteSite() {
           <p>
             To continue, type <strong>{validPrompt}</strong> to the text box below.
           </p>
-          <form className="flex flex-col gap-6" onSubmit={e => e.preventDefault()}>
+          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <Input
               icon={Tag}
               type="text"
