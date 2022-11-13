@@ -50,7 +50,7 @@ export async function get(uid: string, siteId: string): Promise<ClientSite> {
  * @param siteId The site's id
  * @returns The domain of the site
  */
-export async function getDomain(siteId: string) {
+export async function getDomain(siteId: string): Promise<string> {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
         const siteData = await getDocumentInTransaction<Site>(t, siteRef);
@@ -64,48 +64,42 @@ export async function getDomain(siteId: string) {
  * @param siteId The site'id
  * @returns An array of comments, sorted by lastest first.
  */
-export async function getComments(siteId: string) {
+export async function getComments(siteId: string): Promise<Comment[]> {
     const commentSnapshots = await COMMENTS_COLLECTION.where("siteId", "==", siteId).get();
     const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
     return data.sort((c1, c2) => c2.date - c1.date);
 }
 
-export async function getStatistics(uid: string, siteId: string) {
+function shiftTimestampToUTCMidnight(msSinceEpoch: number) {
+    const date = new Date(msSinceEpoch);
+    date.setUTCHours(0, 0, 0, 0);
+    return Timestamp.fromDate(date);
+}
+export async function getStatistics(uid: string, siteId: string): Promise<SiteStatistics> {
     const MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
-    const toUTCMidnight = (timestamp: number) => timestamp - (timestamp % MILLIS_PER_DAY);
 
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
         await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
         const siteComments = await getComments(siteId);
-        const curTimestamp = toUTCMidnight(Timestamp.now().toMillis());
-        const totalComment: number[] = Array.from({ length: 30 }, _ => 0);
+        const curTimestamp = shiftTimestampToUTCMidnight(Timestamp.now().toMillis());
+
         const newComment: number[] = Array.from({ length: 30 }, _ => 0);
-        const finalIndex = siteComments.length - 1;
+        const totalComment: number[] = Array.from({ length: 30 }, _ => 0);
 
-        let oldCount = 0; // previous value of curCount
-        let curCount: number; // how many comments have we traversed through
-        let daysAgo = 29;
-
-        for (let i = finalIndex; i >= 0; i--) {
-            const { date } = siteComments[i];
-            const commentDaysAgo = ((curTimestamp - toUTCMidnight(date)) / MILLIS_PER_DAY) | 0;
-            if (commentDaysAgo < daysAgo) {
-                curCount = finalIndex - i;
-                newComment[daysAgo] = curCount - oldCount;
-                while (daysAgo > commentDaysAgo) {
-                    totalComment[daysAgo] = curCount;
-                    daysAgo--;
-                }
-                oldCount = curCount;
-            }
+        for (const comment of siteComments) {
+            const commentTimestamp = shiftTimestampToUTCMidnight(comment.date);
+            const daysSinceComment = Math.floor(
+                (curTimestamp.toMillis() - commentTimestamp.toMillis()) / MILLIS_PER_DAY
+            );
+            if (daysSinceComment >= 30) break; // siteComments are sorted by latest first
+            newComment[daysSinceComment]++;
         }
-        curCount = siteComments.length;
-        newComment[daysAgo] = curCount - oldCount;
-        for (; daysAgo >= 0; daysAgo--) totalComment[daysAgo] = curCount;
 
-        const statistics: SiteStatistics = { totalComment, newComment };
-        return statistics;
+        totalComment[29] = newComment[29];
+        for (let i = 28; i >= 0; i--) totalComment[i] = totalComment[i + 1] + newComment[i];
+
+        return { totalComment, newComment };
     });
 }
 
