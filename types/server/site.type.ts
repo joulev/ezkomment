@@ -54,16 +54,16 @@ export type SiteStatistics = {
     newComment: number[];
 };
 
-export type SiteCustomisation = {
-    customisation: string;
+export type SiteTemplate = {
+    template: string;
 };
 
-export type UpdateSiteCustomisationBodyParams = {
-    customisation: string;
+export type UpdateSiteTemplateBodyParams = {
+    template: string;
 };
 
 export type ClientSite = Site & {
     pages: Page[];
 };
 
-export type ExportSite = Site & { pages: ExportPage[] } & Partial<SiteCustomisation>;
+export type ExportSite = Site & { pages: ExportPage[] } & Partial<SiteTemplate>;

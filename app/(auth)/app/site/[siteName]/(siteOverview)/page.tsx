@@ -97,7 +97,7 @@ export default function AppSiteOverviewPage() {
   const [showNewPageModal, setShowNewPageModal] = useState(false);
   const [search, setSearch] = useState("");
   const { data: statistics } = useSWR(
-    site ? `/api/sites/${site.id}/statistics` : null,
+    `/api/sites/${site.id}/statistics`,
     internalSWRGenerator<SiteStatistics>()
   );
   const pages = searchPages(site.pages, search);
