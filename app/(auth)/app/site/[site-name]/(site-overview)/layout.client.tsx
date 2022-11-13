@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { useSelectedLayoutSegment } from "next/navigation";
 import Navbar from "~/app/(auth)/app/components/navbar.client";
-import { useSite } from "~/app/(auth)/app/site/[siteName]/site";
+import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
 
 export default function AppSiteOverviewLayoutClient({ children }: React.PropsWithChildren) {
   const { site } = useSite();

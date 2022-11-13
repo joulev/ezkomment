@@ -15,7 +15,7 @@ import { internalPut, internalSWRGenerator } from "~/app/(auth)/internal-fetch";
 import { darkTheme, lightTheme, modifiedHTML, options } from "~/config/monaco";
 import { useBreakpoint } from "~/app/breakpoint";
 import { useLoadingState } from "~/app/loading-state";
-import { useSite } from "~/app/(auth)/app/site/[siteName]/site";
+import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
 import { useSetToast } from "~/app/(auth)/toast";
 import generatePreviewHTML, { PreviewComment } from "./generate-preview-HTML";
 import BlankIllustration from "~/app/components/blank-illustration";
