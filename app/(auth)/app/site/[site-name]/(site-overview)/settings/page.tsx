@@ -9,7 +9,7 @@ import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/app/(auth)/error
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { useAuth } from "~/app/(auth)/app/user";
-import { useSite } from "~/app/(auth)/app/site/[siteName]/site";
+import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
 import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";
 import Button from "~/app/components/buttons.client";

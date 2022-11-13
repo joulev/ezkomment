@@ -6,12 +6,8 @@ import { getSite } from "~/server/rsc/site";
 import Loading from "~/app/(auth)/app/components/loading";
 import AppSiteLayoutClient from "./layout.client";
 
-type Params = {
-  siteName: string;
-};
-
 const _AppSiteLayout = asyncComponent(
-  async ({ siteName, children }: React.PropsWithChildren<Params>) => {
+  async ({ siteName, children }: React.PropsWithChildren<{ siteName: string }>) => {
     const user = (await getUser())!;
     const siteId = user.sites.find(site => site.name === siteName)?.id;
     const site = await getSite(siteId);
@@ -23,10 +19,11 @@ const _AppSiteLayout = asyncComponent(
 export default function AppSiteLayout({
   params,
   children,
-}: React.PropsWithChildren<{ params: Params }>) {
+}: React.PropsWithChildren<{ params: { "site-name": string } }>) {
+  // kebab-case for file names at all cost
   return (
     <Suspense fallback={<Loading />}>
-      <_AppSiteLayout siteName={params.siteName}>{children}</_AppSiteLayout>
+      <_AppSiteLayout siteName={params["site-name"]}>{children}</_AppSiteLayout>
     </Suspense>
   );
 }

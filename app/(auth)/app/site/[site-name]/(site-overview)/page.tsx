@@ -7,7 +7,7 @@ import { Plus, Code, Tag, Globe, Search, Settings } from "lucide-react";
 import { internalSWRGenerator } from "~/app/(auth)/internal-fetch";
 import { PAGE } from "~/misc/validate";
 import { useBreakpoint } from "~/app/breakpoint";
-import { useSite } from "~/app/(auth)/app/site/[siteName]/site";
+import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
 import A from "~/app/components/anchor.client";
 import BlankIllustration from "~/app/components/blank-illustration";
 import Button from "~/app/components/buttons.client";
