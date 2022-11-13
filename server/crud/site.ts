@@ -12,6 +12,7 @@ import {
     getDocumentInTransaction,
     getDocumentInTransactionWithUid,
 } from "~/server/utils/firestore";
+import defaultTemplate from "~/templates/default.html";
 import {
     ClientSite,
     Comment,
@@ -20,6 +21,8 @@ import {
     Site,
     UpdateSiteBodyParams,
     SiteStatistics,
+    SiteTemplate,
+    UpdateSiteTemplateBodyParams,
 } from "~/types/server";
 
 /**
@@ -106,6 +109,23 @@ export async function getStatistics(uid: string, siteId: string) {
     });
 }
 
+// for backward compatibility: my friend @VietAnh1010 refused to give it a more sensible name
+const TEMPLATE_ID = "CUSTOMISATION";
+
+/**
+ * @param uid null if auth is not required, otherwise the user's uid
+ */
+export async function getTemplate(uid: string | null, siteId: string): Promise<SiteTemplate> {
+    const siteRef = SITES_COLLECTION.doc(siteId);
+    return await firestoreAdmin.runTransaction(async t => {
+        if (uid) await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
+        const templateSnapshot = await t.get(siteRef.collection("customisation").doc(TEMPLATE_ID));
+        return templateSnapshot.exists
+            ? (templateSnapshot.data() as SiteTemplate)
+            : { template: defaultTemplate };
+    });
+}
+
 /**
  * Creates a site.
  *
@@ -155,6 +175,19 @@ export async function update(uid: string, siteId: string, data: UpdateSiteBodyPa
             t.create(userSitesCollection.doc(newName), { id: siteId });
         }
         t.update(siteRef, { ...data, lastUpdated: Timestamp.now().toMillis() });
+    });
+}
+
+export async function updateTemplate(
+    uid: string,
+    siteId: string,
+    data: UpdateSiteTemplateBodyParams
+) {
+    const siteRef = SITES_COLLECTION.doc(siteId);
+    return await firestoreAdmin.runTransaction(async t => {
+        await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
+        // Completely replace the template. If the document does not exists, it will be created.
+        t.set(siteRef.collection("customisation").doc(TEMPLATE_ID), data);
     });
 }
 
