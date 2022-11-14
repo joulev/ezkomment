@@ -37,13 +37,13 @@ export type Site = {
 /**
  * Basic properties required when update a site.
  */
-export type UpdateSiteBodyParams = {
+export type UpdateSiteBody = {
     name?: string;
     iconURL?: string | null;
     domain?: string;
 };
 
-export type CreateSiteBodyParams = {
+export type CreateSiteBody = {
     name: string;
     domain: string;
     iconURL: string | null;
@@ -64,7 +64,7 @@ export type SiteTemplate = {
     template: string;
 };
 
-export type UpdateSiteTemplateBodyParams = {
+export type UpdateSiteTemplateBody = {
     template: string;
 };
 

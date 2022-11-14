@@ -15,13 +15,13 @@ export type Page = {
     readonly siteId: string; // foreign key
 };
 
-export type UpdatePageBodyParams = {
+export type UpdatePageBody = {
     url?: string;
     title?: string;
     autoApprove?: boolean;
 };
 
-export type CreatePageBodyParams = {
+export type CreatePageBody = {
     url: string;
     title: string;
     autoApprove: boolean; // default true

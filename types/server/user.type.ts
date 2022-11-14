@@ -13,7 +13,7 @@ type ProviderData = {
     providerId: string;
 };
 export type User = Pick<UserRecord, PickedUserRecordProps> & { providerData: ProviderData[] };
-export type UpdateUserBodyParams = { displayName?: string };
+export type UpdateUserBody = { displayName?: string };
 
 /**
  * If only we have proper ADT

@@ -17,13 +17,13 @@ import defaultTemplate from "~/templates/default.html";
 import {
     ClientSite,
     Comment,
-    CreateSiteBodyParams,
+    CreateSiteBody,
     Page,
     Site,
-    UpdateSiteBodyParams,
+    UpdateSiteBody,
     SiteStatistics,
     SiteTemplate,
-    UpdateSiteTemplateBodyParams,
+    UpdateSiteTemplateBody,
     ExportSite,
 } from "~/types/server";
 
@@ -137,7 +137,7 @@ export async function getTemplate(uid: string | null, siteId: string): Promise<S
  * @param data The data of the site to be created
  * @returns The id of the created site.
  */
-export async function create(uid: string, data: CreateSiteBodyParams) {
+export async function create(uid: string, data: CreateSiteBody) {
     const { name } = data;
     const siteRef = SITES_COLLECTION.doc();
     const siteId = siteRef.id;
@@ -166,7 +166,7 @@ export async function create(uid: string, data: CreateSiteBodyParams) {
  * @param uid The id of the owner of the site
  * @param siteId The site's id
  */
-export async function update(uid: string, siteId: string, data: UpdateSiteBodyParams) {
+export async function update(uid: string, siteId: string, data: UpdateSiteBody) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     const newName = data.name;
     await firestoreAdmin.runTransaction(async t => {
@@ -182,11 +182,7 @@ export async function update(uid: string, siteId: string, data: UpdateSiteBodyPa
     });
 }
 
-export async function updateTemplate(
-    uid: string,
-    siteId: string,
-    data: UpdateSiteTemplateBodyParams
-) {
+export async function updateTemplate(uid: string, siteId: string, data: UpdateSiteTemplateBody) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     return await firestoreAdmin.runTransaction(async t => {
         await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);

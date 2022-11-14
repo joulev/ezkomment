@@ -12,11 +12,11 @@ import { deleteQuery, getDocumentInTransactionWithUid } from "~/server/utils/fir
 import {
     ClientPage,
     Comment,
-    CreatePageBodyParams,
+    CreatePageBody,
     Page,
     Site,
-    UpdateCommentBodyParams,
-    UpdatePageBodyParams,
+    UpdateCommentBody,
+    UpdatePageBody,
 } from "~/types/server";
 
 export async function get(uid: string, pageId: string, raw = false): Promise<ClientPage> {
@@ -51,7 +51,7 @@ export async function getApprovedCommentsRaw(pageId: string): Promise<Comment[]>
  * @param uid The id of the owner of the page
  * @param data The data of the page
  */
-export async function create(uid: string, data: CreatePageBodyParams) {
+export async function create(uid: string, data: CreatePageBody) {
     const { siteId, url } = data;
     const pageRef = PAGES_COLLECTION.doc();
     const pageId = pageRef.id;
@@ -83,7 +83,7 @@ export async function create(uid: string, data: CreatePageBodyParams) {
  * @param pageId The id of the page
  * @param data The data to update the page
  */
-export async function update(uid: string, pageId: string, data: UpdatePageBodyParams) {
+export async function update(uid: string, pageId: string, data: UpdatePageBody) {
     /**
      * Approve all pending comments of a page when auto approve is turned on
      *
@@ -96,7 +96,7 @@ export async function update(uid: string, pageId: string, data: UpdatePageBodyPa
             );
             const commentDocs = commentSnapshots.docs;
             const commentRefs = commentDocs.map(doc => doc.ref);
-            const updateData: UpdateCommentBodyParams = { status: "Approved" };
+            const updateData: UpdateCommentBody = { status: "Approved" };
             commentRefs.forEach(ref => t.update(ref, updateData));
         });
     }

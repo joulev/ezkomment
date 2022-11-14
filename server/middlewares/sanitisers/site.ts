@@ -1,15 +1,10 @@
 import { SITE } from "~/misc/validate";
 import { ApiMiddleware, removeUndefinedProperties } from "~/server/next-connect";
 import CustomApiError from "~/server/errors/custom-api-error";
-import {
-    CreateSiteBodyParams,
-    RawBody,
-    UpdateSiteBodyParams,
-    UpdateSiteTemplateBodyParams,
-} from "~/types/server";
+import { CreateSiteBody, RawBody, UpdateSiteBody, UpdateSiteTemplateBody } from "~/types/server";
 
 export const create: ApiMiddleware = (req, _, next) => {
-    const { name, domain, iconURL }: RawBody<CreateSiteBodyParams> = req.body;
+    const { name, domain, iconURL }: RawBody<CreateSiteBody> = req.body;
     if (typeof name !== "string" || !SITE.nameIsValid(name))
         throw new CustomApiError("'name' must be a valid URL slug");
     if (typeof domain !== "string" || !SITE.domainIsValid(domain))
@@ -21,7 +16,7 @@ export const create: ApiMiddleware = (req, _, next) => {
 };
 
 export const update: ApiMiddleware = (req, _, next) => {
-    const { name, iconURL, domain }: RawBody<UpdateSiteBodyParams> = req.body;
+    const { name, iconURL, domain }: RawBody<UpdateSiteBody> = req.body;
     if (name !== undefined && (typeof name !== "string" || !SITE.nameIsValid(name)))
         throw new CustomApiError("'name' must be a non-empty string");
     if (domain !== undefined && (typeof domain !== "string" || !SITE.domainIsValid(domain)))
@@ -37,7 +32,7 @@ export const update: ApiMiddleware = (req, _, next) => {
 };
 
 export const updateTemplate: ApiMiddleware = (req, _, next) => {
-    const { template }: RawBody<UpdateSiteTemplateBodyParams> = req.body;
+    const { template }: RawBody<UpdateSiteTemplateBody> = req.body;
     if (typeof template !== "string")
         throw new CustomApiError("'template' must be a non-empty string");
     req.body = { template };
