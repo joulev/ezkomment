@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Github, Send as Telegram, Mail, Icon } from "lucide-react";
-import version from "~/client/lib/version";
+import version from "~/app/version";
 import A from "~/app/components/anchor.client";
 import LogoText from "~/app/components/logo/logo-text";
 import PrivacyModal from "./privacy-modal.client";

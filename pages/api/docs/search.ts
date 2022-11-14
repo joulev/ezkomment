@@ -1,6 +1,6 @@
 import docs from "~/docs/cache.json";
-import docsSearch from "~/client/lib/docs-search";
 import { createHandler, createRouter } from "~/server/next-connect";
+import docsSearch from "~/server/utils/docs-search";
 
 export type Data = {
     source: string;
