@@ -1,5 +1,6 @@
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
 import { PAGE } from "~/misc/validate";
+import md2html from "~/misc/markdown";
 import { firestoreAdmin } from "~/server/firebase/app";
 import {
     COMMENTS_COLLECTION,
@@ -23,26 +24,15 @@ export async function get(uid: string, pageId: string): Promise<ClientPage> {
     return await firestoreAdmin.runTransaction(async t => {
         const pageData = await getDocumentInTransactionWithUid<Page>(t, pageRef, uid);
         const { docs } = await t.get(COMMENTS_COLLECTION.where("pageId", "==", pageId));
-        const comments = docs
+        const rawComments = docs
             .map(doc => doc.data())
             .sort((c1, c2) => c2.date - c1.date) as Comment[];
+        const comments = await Promise.all(
+            rawComments.map(async ({ text, ...rest }) => ({ text: await md2html(text), ...rest }))
+        );
         const clientPageData: ClientPage = { ...pageData, comments };
         return clientPageData;
     });
-}
-
-/**
- * Lists all approved comments of a page.
- *
- * @param pageId The id of the page
- * @returns An array of comments, sorted with lastest first.
- */
-export async function getApprovedComments(pageId: string) {
-    const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId)
-        .where("status", "==", "Approved")
-        .get();
-    const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
-    return data.sort((c1, c2) => c2.date - c1.date);
 }
 
 /**
