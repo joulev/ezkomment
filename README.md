@@ -12,6 +12,10 @@
 <br>
 <br>
 
+## NUS Orbital 2022
+
+If you came here looking for the source code submitted in NUS Orbital 2022, see [v1.0.0](https://github.com/joulev/ezkomment/releases/tag/v1.0.0). Since then the app has been effectively rewritten, so this repository's main branch is no longer considered part of Orbital 2022.
+
 ## Development
 
 ```sh
