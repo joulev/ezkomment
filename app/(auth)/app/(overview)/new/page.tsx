@@ -7,7 +7,7 @@ import { SITE } from "~/misc/validate";
 import { internalPost } from "~/app/(auth)/internal-fetch";
 import * as E from "~/app/(auth)/errors";
 import { useLoadingState } from "~/app/loading-state";
-import { useAuth } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/auth";
 import { useSetToast } from "~/app/(auth)/toast";
 import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";

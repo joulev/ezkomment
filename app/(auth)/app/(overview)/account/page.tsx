@@ -8,7 +8,7 @@ import { internalDelete, internalPut, internalPutNotJson } from "~/app/(auth)/in
 import { REAUTHENTICATION_FAILED } from "~/app/(auth)/errors";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
-import { useAuth } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/auth";
 import AuthError from "~/app/components/auth-error";
 import Banner from "~/app/components/banner";
 import Button from "~/app/components/buttons.client";

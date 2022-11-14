@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { Plus, Search, SortDesc } from "lucide-react";
-import { useAuth } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/auth";
 import useLoadingParams from "~/app/(auth)/app/handle-loading";
 import { Breakpoint, useBreakpoint } from "~/app/breakpoint";
 import A from "~/app/components/anchor.client";

@@ -12,7 +12,7 @@ import { useBreakpoint } from "~/app/breakpoint";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import useLoadingParams from "~/app/(auth)/app/handle-loading";
-import { useAuth } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/auth";
 import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
 import A from "~/app/components/anchor.client";
 import AuthError from "~/app/components/auth-error";
