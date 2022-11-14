@@ -4,6 +4,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import A from "~/app/components/anchor.client";
 import PostHeading from "./post-heading";
 import BlogImage from "./blog-image";
+import CodeBlock from "./code-block";
 
 export type Props = {
   source: MDXRemoteSerializeResult;
@@ -22,6 +23,7 @@ export default function Mdx({ source }: Props) {
         h5: props => <PostHeading {...props} level={5} />,
         h6: props => <PostHeading {...props} level={6} />,
         img: ({ src, alt }) => <BlogImage src={src ?? ""} caption={alt ?? "no caption"} />,
+        code: ({ children, className }) => <CodeBlock className={className}>{children}</CodeBlock>,
       }}
     />
   );

@@ -13,6 +13,7 @@ specifiers:
   '@types/node': 18.11.9
   '@types/nprogress': 0.2.0
   '@types/prettier': 2.7.1
+  '@types/prismjs': 1.26.0
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.8
   '@types/validator': 13.7.10
@@ -48,6 +49,7 @@ specifiers:
   nprogress: 0.2.0
   postcss: 8.4.19
   prettier: 2.7.1
+  prismjs: 1.29.0
   react: 18.2.0
   react-dom: 18.2.0
   react-full-screen: 1.1.1
@@ -97,6 +99,7 @@ dependencies:
   next-mdx-remote: 4.2.0_biqbaboplfbrettd7655fr4n2y
   nookies: 2.5.2
   nprogress: 0.2.0
+  prismjs: 1.29.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-full-screen: 1.1.1_react@18.2.0
@@ -131,6 +134,7 @@ devDependencies:
   '@types/node': 18.11.9
   '@types/nprogress': 0.2.0
   '@types/prettier': 2.7.1
+  '@types/prismjs': 1.26.0
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.8
   '@types/validator': 13.7.10
@@ -2167,6 +2171,10 @@ packages:
 
   /@types/prettier/2.7.1:
     resolution: {integrity: sha512-ri0UmynRRvZiiUJdiz38MmIblKK+oH30MztdBVR95dv/Ubw6neWSb8u1XpRb72L4qsZOhz+L+z9JD40SJmfWow==}
+    dev: true
+
+  /@types/prismjs/1.26.0:
+    resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
     dev: true
 
   /@types/prop-types/15.7.5:
@@ -8904,6 +8912,11 @@ packages:
       ansi-styles: 5.2.0
       react-is: 18.2.0
     dev: true
+
+  /prismjs/1.29.0:
+    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
+    engines: {node: '>=6'}
+    dev: false
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
