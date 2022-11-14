@@ -7,7 +7,6 @@
   <img alt="Orbital level" src="https://img.shields.io/badge/level-artemis-blue?style=flat-square&logo=starship">
   <img alt="Prod status" src="https://img.shields.io/github/checks-status/joulev/ezkomment/prod?label=prod&logo=vercel&style=flat-square">
   <img alt="Dev status" src="https://img.shields.io/github/checks-status/joulev/ezkomment/main?label=main&logo=vercel&style=flat-square">
-  <img alt="Codecov" src="https://img.shields.io/codecov/c/gh/joulev/ezkomment?logo=codecov&style=flat-square">
 </div>
 
 <br>

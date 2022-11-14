@@ -10,15 +10,7 @@
     "prebuild": "pnpm build-ezk-package && pnpm cache-docs",
     "build": "pnpm prebuild && next build",
     "start": "next start",
-    "lint": "next lint",
-    "emulate:dev": "__EMULATE__=true firebase emulators:exec 'pnpm dev' --project demo-proj --ui",
-    "test:client": "jest --watch --coverage --config=jest.client.config.js",
-    "test:client:ci": "jest --ci --coverage --config=jest.client.config.js",
-    "emulate": "firebase emulators:start --project demo-proj",
-    "test:server": "jest --watch --coverage --config=jest.server.config.js",
-    "test:server:ci": "jest --ci --coverage --config=jest.server.config.js",
-    "emulate:test:server": "firebase emulators:exec 'pnpm test:server' --project demo-proj",
-    "emulate:test:server:ci": "firebase emulators:exec 'pnpm test:server:ci' --project demo-proj"
+    "lint": "next lint"
   },
   "dependencies": {
     "@monaco-editor/react": "4.4.6",
@@ -70,9 +62,6 @@
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/forms": "0.5.3",
-    "@testing-library/jest-dom": "5.16.5",
-    "@testing-library/react": "13.4.0",
-    "@testing-library/user-event": "14.4.3",
     "@types/cors": "2.8.12",
     "@types/merge-ranges": "1.0.0",
     "@types/multer": "1.4.7",
@@ -86,11 +75,6 @@
     "autoprefixer": "10.4.13",
     "eslint": "8.27.0",
     "eslint-config-next": "canary",
-    "firebase-tools": "11.16.0",
-    "jest": "29.3.1",
-    "jest-environment-jsdom": "29.3.1",
-    "jest-environment-node": "29.3.1",
-    "next-router-mock": "0.8.0",
     "postcss": "8.4.19",
     "prettier": "2.7.1",
     "tailwindcss": "3.2.4",
