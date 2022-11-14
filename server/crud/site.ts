@@ -150,14 +150,16 @@ export async function create(uid: string, data: CreateSiteBody) {
         pendingCommentCount: 0,
         lastUpdated: Timestamp.now().toMillis(),
     };
-    return await firestoreAdmin.runTransaction(async t => {
-        /**
-         * Ensure uniqueness.
-         */
-        t.create(USERS_COLLECTION.doc(uid).collection("sites").doc(name), { id: siteId });
-        t.create(siteRef, newSite);
-        return newSite;
-    });
+    return await firestoreAdmin
+        .runTransaction(async t => {
+            /**
+             * Ensure uniqueness.
+             */
+            t.create(USERS_COLLECTION.doc(uid).collection("sites").doc(name), { id: siteId });
+            t.create(siteRef, newSite);
+            return newSite;
+        })
+        .catch(handleFirestoreError);
 }
 
 /**
@@ -169,17 +171,19 @@ export async function create(uid: string, data: CreateSiteBody) {
 export async function update(uid: string, siteId: string, data: UpdateSiteBody) {
     const siteRef = SITES_COLLECTION.doc(siteId);
     const newName = data.name;
-    await firestoreAdmin.runTransaction(async t => {
-        // Look up the site's name
-        const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
-        if (newName !== undefined) {
-            const oldName = siteData.name;
-            const userSitesCollection = USERS_COLLECTION.doc(uid).collection("sites");
-            t.delete(userSitesCollection.doc(oldName));
-            t.create(userSitesCollection.doc(newName), { id: siteId });
-        }
-        t.update(siteRef, { ...data, lastUpdated: Timestamp.now().toMillis() });
-    });
+    await firestoreAdmin
+        .runTransaction(async t => {
+            // Look up the site's name
+            const siteData = await getDocumentInTransactionWithUid<Site>(t, siteRef, uid);
+            if (newName !== undefined) {
+                const oldName = siteData.name;
+                const userSitesCollection = USERS_COLLECTION.doc(uid).collection("sites");
+                t.delete(userSitesCollection.doc(oldName));
+                t.create(userSitesCollection.doc(newName), { id: siteId });
+            }
+            t.update(siteRef, { ...data, lastUpdated: Timestamp.now().toMillis() });
+        })
+        .catch(handleFirestoreError);
 }
 
 export async function updateTemplate(uid: string, siteId: string, data: UpdateSiteTemplateBody) {

@@ -1,5 +1,6 @@
 import { firestoreAdmin } from "~/server/firebase/app";
 import { USERS_COLLECTION } from "~/server/firebase/collections";
+import { handleFirestoreError } from "~/server/errors/firestore-error";
 import { Notification } from "~/types/server";
 
 export async function get(uid: string): Promise<Notification[]> {
@@ -10,7 +11,7 @@ export async function get(uid: string): Promise<Notification[]> {
 
 export async function deleteById(uid: string, id: string) {
     const notificationRef = USERS_COLLECTION.doc(uid).collection("notification").doc(id);
-    await notificationRef.delete({ exists: true });
+    await notificationRef.delete({ exists: true }).catch(handleFirestoreError);
 }
 
 export async function deleteAll(uid: string) {

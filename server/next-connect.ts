@@ -25,17 +25,55 @@ export const createHandler = <T>(router: Router<T>) =>
     router
         .all((_, res) => res.status(405).json({ error: "Method Not Allowed" }))
         .handler({
-            onError: (err, _, res) => {
+            onError: async (err, _, res) => {
                 if (err instanceof CustomApiError) {
                     const { code, message } = err;
                     return res.status(code).json({ error: message });
                 }
+                const jsonErr = {
+                    error: String(err),
+                    stackTrace: (err as any)?.stack ?? "",
+                };
+                if (process.env.NODE_ENV === "development") {
+                    console.log("Some uncaught error happened?");
+                    /**
+                     * I need to log errors to console in developemt to see their formats to
+                     * deal with as many errors as possible.
+                     */
+                    console.dir(err, { depth: null });
+                    return res.status(500).json(jsonErr);
+                }
+                const sendErr = await logError(jsonErr);
+                res.status(500).json({
+                    error: `The error has${sendErr.ok ? " " : " not "}been logged.`,
+                });
                 res.status(500).json({ error: "Internal Server Error" });
             },
             onNoMatch: (_, res) => {
                 res.status(404).end({ error: "Not Found" });
             },
         });
+
+/**
+ * A helper function to log uncaught errors.
+ *
+ * @param err The error occured
+ */
+export async function logError(err: unknown) {
+    const sendErr = await fetch("https://cloud.axiom.co/api/v1/datasets/errors/ingest", {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${process.env.AXIOM_ERROR_API_TOKEN}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify([err]),
+    });
+    if (!sendErr.ok) {
+        console.log("Cannot send error log");
+        console.log(await sendErr.json());
+    }
+    return sendErr;
+}
 
 /**
  * A helper function to extract values out of `req.query`.
