@@ -1,10 +1,14 @@
 import * as user from "~/server/crud/user";
 import { UploadPhoto } from "~/server/crud/images";
 import { ApiHandler, ApiRequestWithFormData, ApiResponse } from "~/server/next-connect";
-import { ClientUser } from "~/types/server";
+import { ClientUser, ExportUser } from "~/types/server";
 
 export const get: ApiHandler<ClientUser> = async (req, res) => {
     res.json(await user.get(req.uid!));
+};
+
+export const getExport: ApiHandler<ExportUser> = async (req, res) => {
+    res.json(await user.getExport(req.uid!));
 };
 
 export const create: ApiHandler = async (req, res) => {
