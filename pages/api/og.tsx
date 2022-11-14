@@ -69,7 +69,7 @@ export default async function handler(req: NextRequest) {
         style={{
           fontFamily: "Inter",
           fontSize: title && title.length > 32 ? 72 : 80,
-          backgroundImage: "linear-gradient(to right, #818cf8, #4f46e5)", // TODO: to bottom right instead, vercel/satori#278
+          backgroundImage: "linear-gradient(177.7deg, #818cf8, #4f46e5)", // TODO: to bottom right instead, vercel/satori#278
         }}
       >
         <div tw="flex flex-row items-center mb-12">
