@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "cache-docs": "node client/scripts/cache-docs.mjs",
-    "dev-ezk-package": "mkdir -p public/v1/js && cp client/packages/ezkomment.js public/v1/js",
-    "build-ezk-package": "mkdir -p public/v1/js && uglifyjs --compress --mangle --output public/v1/js/ezkomment.min.js -- client/packages/ezkomment.js",
+    "dev-ezk-package": "mkdir -p public/js && cp client/packages/ezkomment.js public/js",
+    "build-ezk-package": "mkdir -p public/js && uglifyjs --compress --mangle --output public/js/ezkomment.min.js -- client/packages/ezkomment.js",
     "dev": "pnpm dev-ezk-package && pnpm cache-docs && next dev",
     "prebuild": "pnpm build-ezk-package && pnpm cache-docs",
     "build": "pnpm prebuild && next build",

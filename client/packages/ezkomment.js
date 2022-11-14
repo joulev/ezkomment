@@ -1,7 +1,29 @@
 /* eslint-disable import/no-anonymous-default-export */
-// @ts-check
-// @ts-ignore
 import { format } from "https://unpkg.com/timeago.js?module";
+import rehypeExternalLinks from "https://cdn.skypack.dev/rehype-external-links@1?min";
+import rehypeRaw from "https://cdn.skypack.dev/rehype-raw@6?min";
+import rehypeSanitize from "https://cdn.skypack.dev/rehype-sanitize@5?min";
+import rehypeStringify from "https://cdn.skypack.dev/rehype-stringify@9?min";
+import remarkGfm from "https://cdn.skypack.dev/remark-gfm@3?min";
+import remarkParse from "https://cdn.skypack.dev/remark-parse@10?min";
+import remarkRehype from "https://cdn.skypack.dev/remark-rehype@10?min";
+import { unified } from "https://cdn.skypack.dev/unified@10?min";
+
+/**
+ * @param {string} md Markdown code
+ * @returns HTML code
+ */
+async function md2html(md) {
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
+        .use(rehypeExternalLinks, { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] })
+        .use(rehypeSanitize)
+        .use(rehypeStringify);
+    return String(await processor.process(md));
+}
 
 /** @param {{ pageId: string, getURL: string, postURL: string }} props */
 export default function ({ pageId, getURL, postURL }) {
@@ -63,7 +85,8 @@ export default function ({ pageId, getURL, postURL }) {
             const dateEl = commentDocument.querySelector("[data-ezk='comment-date']");
             if (authorEl) authorEl.textContent = author && author.length > 0 ? author : "Anonymous";
             if (contentEl)
-                contentEl.innerHTML = text && text.length > 0 ? text : "(no comment body)"; // already rendered safely on server side
+                contentEl.innerHTML =
+                    text && text.length > 0 ? await md2html(text) : "(no comment body)"; // already rendered safely on server side
             if (dateEl) dateEl.textContent = format(date);
             commentsDiv.innerHTML += commentDocument.body.innerHTML;
         }
