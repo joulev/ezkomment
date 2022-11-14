@@ -174,7 +174,7 @@ function DeleteSite() {
     try {
       const { success } = await internalDelete(`/api/sites/${site.id}`);
       if (!success) throw UNABLE_TO_DELETE_SITE;
-      router.push("/app/dashboard?loading=1");
+      router.push("/app/dashboard?loading");
       await mutateAuth();
       setToast({ type: "success", message: "Site deleted successfully." });
     } catch (err: any) {

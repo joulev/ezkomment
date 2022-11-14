@@ -1,14 +1,21 @@
 "use client";
 
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
 import { Plus, Code, Tag, Globe, Search, Settings } from "lucide-react";
-import { internalSWRGenerator } from "~/app/(auth)/internal-fetch";
 import { PAGE } from "~/misc/validate";
+import { internalPost, internalSWRGenerator } from "~/app/(auth)/internal-fetch";
+import { PAGE_WRONG_SITE_DOMAIN, UNABLE_TO_CREATE_PAGE } from "~/app/(auth)/errors";
 import { useBreakpoint } from "~/app/breakpoint";
+import { useLoadingState } from "~/app/loading-state";
+import { useSetToast } from "~/app/(auth)/toast";
+import useLoadingParams from "~/app/(auth)/app/handle-loading";
+import { useAuth } from "~/app/(auth)/app/user";
 import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
 import A from "~/app/components/anchor.client";
+import AuthError from "~/app/components/auth-error";
 import BlankIllustration from "~/app/components/blank-illustration";
 import Button from "~/app/components/buttons.client";
 import Input from "~/app/components/forms/input";
@@ -32,9 +39,41 @@ function Stats({ value, label, small }: { value: number; label: string; small?: 
 }
 
 function AddPageModal({ show, onClose }: { show: boolean; onClose: () => void }) {
-  const { site } = useSite();
+  const router = useRouter();
+  const { mutate: mutateUser } = useAuth();
+  const { site, mutate: mutateSite } = useSite();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+
+  const createNewPage = async (title: string, url: string) => {
+    const { success, status, body } = await internalPost("/api/pages", {
+      siteId: site.id,
+      title,
+      url,
+      autoApprove: true,
+    });
+    if (status === 409) throw PAGE_WRONG_SITE_DOMAIN;
+    if (!success) throw UNABLE_TO_CREATE_PAGE;
+    const { id } = body as { id: string };
+    await mutateUser(); // we need to get new info about page count too
+    await mutateSite();
+    router.push(`/app/site/${site.name}/${id}?confetti`);
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault();
+    if (!PAGE.titleIsValid(title) || !PAGE.urlMatchDomain(url, site.domain)) return;
+    setLoading(true);
+    try {
+      await createNewPage(title, url);
+      setToast({ type: "success", message: "Page created successfully!" });
+    } catch (err: any) {
+      setToast({ type: "error", message: <AuthError err={err} /> });
+    }
+    setLoading(false);
+  };
 
   return (
     <Modal isVisible={show} onOutsideClick={onClose}>
@@ -44,7 +83,7 @@ function AddPageModal({ show, onClose }: { show: boolean; onClose: () => void })
           Please fill in these information. They won&apos;t be used for us to identify the pages,
           however correct information would help you identify your pages from this site dashboard.
         </p>
-        <form className="flex flex-col gap-6" onSubmit={e => e.preventDefault()}>
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <InputDetachedLabel
             label="Page title"
             icon={Tag}
@@ -100,6 +139,10 @@ export default function AppSiteOverviewPage() {
     `/api/sites/${site.id}/statistics`,
     internalSWRGenerator<SiteStatistics>()
   );
+
+  const loading = useLoadingParams(site);
+  if (loading) return null;
+
   const pages = searchPages(site.pages, search);
   return (
     <>

@@ -12,6 +12,7 @@ import {
     getDocumentInTransaction,
     getDocumentInTransactionWithUid,
 } from "~/server/utils/firestore";
+import { deleteComments } from "./page";
 import defaultTemplate from "~/templates/default.html";
 import {
     ClientSite,
@@ -64,12 +65,11 @@ export async function getDomain(siteId: string): Promise<string> {
  * @param siteId The site'id
  * @returns An array of comments, sorted by lastest first.
  */
-export async function getComments(siteId: string): Promise<Comment[]> {
+async function getComments(siteId: string): Promise<Comment[]> {
     const commentSnapshots = await COMMENTS_COLLECTION.where("siteId", "==", siteId).get();
     const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
     return data.sort((c1, c2) => c2.date - c1.date);
 }
-
 function shiftTimestampToUTCMidnight(msSinceEpoch: number) {
     const date = new Date(msSinceEpoch);
     date.setUTCHours(0, 0, 0, 0);
@@ -213,7 +213,7 @@ export async function deletePages(siteId: string, update: boolean = false) {
     const pageIds = pageDocs.map(doc => doc.id);
     const promises: Promise<unknown>[] = [
         deleteRefArray(pageRefs), // DELETE all pages
-        // ...pageIds.map(id => deletePageComments(id)), // And their comments
+        ...pageIds.map(id => deleteComments(id)), // And their comments
     ];
     if (update) {
         // The update could fail here, if the site does not exist
