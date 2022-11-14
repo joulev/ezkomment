@@ -30,7 +30,7 @@ export const SiteContext = createContext<ContextType>({
 
 export function useSiteInit(fallback: ClientSite) {
     const { data, mutate } = useSWR(
-        `/api/site/${fallback.name}`,
+        `/api/sites/${fallback.id}`,
         internalSWRGenerator<ClientSite>(),
         { fallbackData: fallback }
     );
