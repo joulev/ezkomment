@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useLoadingState } from "~/app/loading-state";
-import { AuthContext, useAuthInit } from "./user";
+import { AuthContext, useAuthInit } from "./auth";
 import { ClientUser } from "~/types/server";
 
 type Props = { rscUser: ClientUser };

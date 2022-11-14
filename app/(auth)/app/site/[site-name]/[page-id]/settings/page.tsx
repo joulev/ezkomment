@@ -6,7 +6,7 @@ import { useState } from "react";
 import { AlertTriangle, Tag, Globe, Save } from "lucide-react";
 import { PAGE } from "~/misc/validate";
 import { internalDelete, internalPut } from "~/app/(auth)/internal-fetch";
-import { useAuth } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/auth";
 import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
 import { usePage } from "../page-context";
 import { useLoadingState } from "~/app/loading-state";

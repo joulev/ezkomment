@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { X, Home, LogOut, Menu, Bell, Settings, Icon } from "lucide-react";
-import { useAuth } from "~/app/(auth)/app/user";
+import { useAuth } from "~/app/(auth)/app/auth";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { signOut } from "~/app/(auth)/auth";
