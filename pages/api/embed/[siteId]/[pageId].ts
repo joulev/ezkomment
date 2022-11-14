@@ -14,7 +14,7 @@ async function getTemplate(siteId: string, token: string): Promise<string> {
     const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
     if (res.status === 200)
         return await res.json().then(data => data.fields.customisation.stringValue);
-    return await import("~/templates/default.html").then(m => m.default);
+    return await import("~/misc/templates/default.html").then(m => m.default);
 }
 
 async function getDomain(siteId: string, token: string): Promise<string> {

@@ -55,10 +55,10 @@ public/v1/js
 public/js
 
 # LaTeX
-/others/latex/*
-!others/latex/README.md
-!others/latex/main.tex
-!others/latex/ezkomment.tex
+/misc/latex/*
+!misc/latex/README.md
+!misc/latex/main.tex
+!misc/latex/ezkomment.tex
 
 # Documentation JSON
 /docs/cache.json
