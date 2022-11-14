@@ -7,9 +7,10 @@ export const get: ApiHandler<ClientPage> = async (req, res) => {
     res.json(await page.get(req.uid!, pageId));
 };
 
-export const getApprovedCommentsRaw: ApiHandler<Comment[]> = async (req, res) => {
+/** Used in v1/comments/:siteId/:pageId, hence needs to wrap it inside { data } */
+export const getApprovedCommentsRaw: ApiHandler<{ data: Comment[] }> = async (req, res) => {
     const { pageId } = extractFirstQueryValue(req);
-    res.json(await page.getApprovedCommentsRaw(pageId));
+    res.json({ data: await page.getApprovedCommentsRaw(pageId) });
 };
 
 export const create: ApiHandler<{ id: string }> = async (req, res) => {
