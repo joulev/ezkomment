@@ -45,8 +45,10 @@ export default function ({ pageId, getURL, postURL }) {
     }
 
     async function validate() {
-        /** @type {{ data: { author: string, text: string, date: number }[] }} */
-        const { data: comments } = await fetch(getURL).then(res => res.json());
+        const res = await fetch(getURL);
+        if (!res.ok) throw new Error("ezkomment error: failed to fetch comments");
+        /** @type {{ author: string, text: string, date: number }[]} */
+        const comments = await res.json();
         const commentsDiv = document.querySelector("[data-ezk=comments]");
         if (!commentsDiv) throw new Error("ezkomment error: no 'data-ezk=comments' element found");
         if (COMMENTDIVCONTENT === "") COMMENTDIVCONTENT = commentsDiv.innerHTML;
