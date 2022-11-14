@@ -164,7 +164,7 @@ Other than some requirements mentioned above, you are free to use any valid HTML
 
 ### Dark mode
 
-When customising your template, you may want to add styling for dark modes too. That is possible: if you embed the page with `?dark=1` ([see more](/docs/comments/embed#dark-mode)), the `<html>` element will be given the class `dark`, so you can style like so (this is taken from the default template)
+When customising your template, you may want to add styling for dark modes too. That is possible: if you embed the page with `?dark` ([see more](/docs/comments/embed#dark-mode)), the `<html>` element will be given the class `dark`, so you can style like so (this is taken from the default template)
 
 ```css
 :root {

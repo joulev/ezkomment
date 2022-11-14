@@ -42,6 +42,6 @@ React users can also see [the official ezkomment demo](https://demo.ezkomment.jo
 ezkomment comment sections support dark mode variants. To use dark mode, you simply have to use `dark` URL param:
 
 ```
-https://ezkomment.joulev.dev/embed/⟨siteId⟩/⟨pageId⟩?dark=1
-                                                    ^^^^^^^
+https://ezkomment.joulev.dev/embed/⟨siteId⟩/⟨pageId⟩?dark
+                                                    ^^^^^
 ```
