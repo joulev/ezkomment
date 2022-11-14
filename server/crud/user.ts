@@ -4,10 +4,16 @@ import { authAdmin, firestoreAdmin } from "~/server/firebase/app";
 import { USERS_COLLECTION, SITES_COLLECTION } from "~/server/firebase/collections";
 import { deleteRefArray } from "~/server/utils/firestore";
 import { getExport as getExportSite, deletePages } from "./site";
+import { handleUserError } from "~/server/errors/auth-error";
 import { Site, User, ClientUser, WelcomeMessageNotification, ExportUser } from "~/types/server";
 
 async function getUser(uid: string): Promise<User> {
-    const { email, displayName, photoURL, providerData: rawData } = await authAdmin.getUser(uid);
+    const {
+        email,
+        displayName,
+        photoURL,
+        providerData: rawData,
+    } = await authAdmin.getUser(uid).catch(handleUserError);
     const providerData = rawData.map(({ ...obj }) => obj); // convert to plain object
     return { uid, email, displayName, photoURL, providerData };
 }
@@ -30,7 +36,7 @@ export async function getExport(uid: string): Promise<ExportUser> {
 export async function initialise(uid: string) {
     const WELCOME_MESSAGE_ID = "WELCOME_MESSAGE";
     const userRef = USERS_COLLECTION.doc(uid);
-    await authAdmin.updateUser(uid, { emailVerified: true });
+    await authAdmin.updateUser(uid, { emailVerified: true }).catch(handleUserError);
     await firestoreAdmin.runTransaction(async t => {
         // I should add some simple data to the user record. Just to mark the user as "created"
         // If this function is called on the same user again, it should fail
@@ -46,11 +52,11 @@ export async function initialise(uid: string) {
 }
 
 export async function update(uid: string, data: UpdateRequest) {
-    await authAdmin.updateUser(uid, data);
+    await authAdmin.updateUser(uid, data).catch(handleUserError);
 }
 
 async function deleteUser(uid: string) {
-    await authAdmin.deleteUser(uid);
+    await authAdmin.deleteUser(uid).catch(handleUserError);
 }
 async function deleteSites(uid: string) {
     const siteSnapshots = await SITES_COLLECTION.where("uid", "==", uid).get();
