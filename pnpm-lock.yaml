@@ -7,6 +7,7 @@ specifiers:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0
   '@testing-library/user-event': 14.4.3
+  '@types/cors': 2.8.12
   '@types/merge-ranges': 1.0.0
   '@types/multer': 1.4.7
   '@types/node': 18.11.9
@@ -20,6 +21,7 @@ specifiers:
   autoprefixer: 10.4.13
   client-only: 0.0.1
   clsx: 1.2.1
+  cors: 2.8.5
   date-fns: 2.29.3
   eslint: 8.27.0
   eslint-config-next: canary
@@ -77,6 +79,7 @@ dependencies:
   '@victorioberra/trianglify-browser': 4.1.1
   client-only: 0.0.1
   clsx: 1.2.1
+  cors: 2.8.5
   date-fns: 2.29.3
   firebase: 9.14.0
   firebase-admin: 11.2.1
@@ -122,6 +125,7 @@ devDependencies:
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 14.4.3
+  '@types/cors': 2.8.12
   '@types/merge-ranges': 1.0.0
   '@types/multer': 1.4.7
   '@types/node': 18.11.9
@@ -1992,6 +1996,10 @@ packages:
     dependencies:
       '@types/node': 18.11.9
 
+  /@types/cors/2.8.12:
+    resolution: {integrity: sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==}
+    dev: true
+
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -3486,7 +3494,6 @@ packages:
     dependencies:
       object-assign: 4.1.1
       vary: 1.1.2
-    dev: true
 
   /crc-32/1.2.2:
     resolution: {integrity: sha512-ROmzCKrTnOwybPcJApAA6WBWij23HVfGVNKqqrZpuyZOHqK2CwHSvpGuyt/UNNvaIjEd8X5IFGp4Mh+Ie1IHJQ==}
@@ -10763,7 +10770,6 @@ packages:
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
-    dev: true
 
   /verror/1.10.0:
     resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}

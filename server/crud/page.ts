@@ -35,6 +35,14 @@ export async function get(uid: string, pageId: string): Promise<ClientPage> {
     });
 }
 
+export async function getApprovedCommentsRaw(pageId: string): Promise<Comment[]> {
+    const commentSnapshots = await COMMENTS_COLLECTION.where("pageId", "==", pageId)
+        .where("status", "==", "Approved")
+        .get();
+    const data = commentSnapshots.docs.map(doc => doc.data()) as Comment[];
+    return data.sort((c1, c2) => c2.date - c1.date);
+}
+
 /**
  * Creates a new page.
  *
