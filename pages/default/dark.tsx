@@ -9,7 +9,7 @@ const Page: NextPage = () => (
     <Article authorElement={Author} />
     <section>
       <h2>Comments</h2>
-      <Comment ezkUrl="https://ezkomment.joulev.dev/embed/EtWkLUcKPYrz5k5ynb16/c6QU9zVBBPfL3H41zP8V?dark=1" />
+      <Comment ezkUrl="https://ezkdev.joulev.dev/embed/EtWkLUcKPYrz5k5ynb16/c6QU9zVBBPfL3H41zP8V?dark=1" />
     </section>
   </div>
 );
