@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { format } from "date-fns";
 import Image from "next/image";
-import { Author } from "~/client/lib/authors";
+import { Author } from "../authors";
 import A from "~/app/components/anchor.client";
 import LogoText from "~/app/components/logo/logo-text";
 import DefaultPhoto from "~/app/components/default-photo";
