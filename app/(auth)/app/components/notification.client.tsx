@@ -64,7 +64,7 @@ function NotificationList({ onClose }: { onClose: () => void }) {
             key={index}
             className="bg-card rounded border transition p-6 border-card hover:border-muted"
             onClick={() => handleDismissById(notif.id)}
-            // href={notif.href} TODO
+            href={notif.href}
           >
             <h3 className="font-semibold mb-3">
               {notif.type === "WelcomeMessage" ? "Welcome to ezkomment!" : "New comments"}
