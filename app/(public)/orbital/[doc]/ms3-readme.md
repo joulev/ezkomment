@@ -162,7 +162,7 @@ Then, each time the comment section is rendered, the server simply takes the HTM
 
 - Send a message to the `<iframe>` parent about the document height, so that the `<iframe>` can be rendered correctly ([more information](/docs/comments/embed#frame-height)).
 
-Interested readers can read [the JavaScript file](https://github.com/joulev/ezkomment/blob/main/client/packages/ezkomment.js) to see in more details.
+Interested readers can read [the JavaScript file](https://github.com/joulev/ezkomment/blob/main/packages/ezkomment.js) to see in more details.
 The file is minified and compressed, also due to the nature of it being an ECMAScript module, naming clash with other custom JavaScript is not a problem.
 
 With this, we believe the user already has very good control of how the whole thing looks and works. In fact, he can add custom scripts to render a customised Markdown editor, he can even add scripts to mine cryptocurrency in his users' browsers etc (not that we support it).
