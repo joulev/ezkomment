@@ -3,7 +3,7 @@
  */
 module.exports = {
   content: ["**/*.tsx"],
-  theme: require("./config/tailwind-theme"),
+  theme: require("./misc/config/tailwind-theme"),
   corePlugins: { aspectRatio: false },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/aspect-ratio")],
 };

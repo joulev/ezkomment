@@ -13,7 +13,7 @@ import {
     getDocumentInTransactionWithUid,
 } from "~/server/utils/firestore";
 import { get as getPage, deleteComments } from "./page";
-import defaultTemplate from "~/templates/default.html";
+import defaultTemplate from "~/misc/templates/default.html";
 import {
     ClientSite,
     Comment,

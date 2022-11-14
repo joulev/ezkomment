@@ -12,7 +12,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import useSWR from "swr";
 import { Palette, Sun, Moon, Check, Maximize, Minimize, User, Clock } from "lucide-react";
 import { internalPut, internalSWRGenerator } from "~/app/(auth)/internal-fetch";
-import { darkTheme, lightTheme, modifiedHTML, options } from "~/config/monaco";
+import { darkTheme, lightTheme, modifiedHTML, options } from "~/misc/config/monaco";
 import { useBreakpoint } from "~/app/breakpoint";
 import { useLoadingState } from "~/app/loading-state";
 import { useSite } from "~/app/(auth)/app/site/[site-name]/site";
