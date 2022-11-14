@@ -33,7 +33,7 @@ function generateCommentHTML(rawHtml: string, config: EmbedConfig, dark?: boolea
     let html = rawHtml;
 
     const scriptContent = `
-        import ezkomment from "/v1/js/${
+        import ezkomment from "/js/${
             process.env.NODE_ENV === "production" ? "ezkomment.min.js" : "ezkomment.js"
         }";
         ezkomment(${JSON.stringify(config)});

@@ -52,6 +52,7 @@ firebase-debug.log
 
 # Browser library compilation
 public/v1/js
+public/js
 
 # LaTeX
 /others/latex/*
