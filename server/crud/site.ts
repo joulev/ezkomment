@@ -12,7 +12,7 @@ import {
     getDocumentInTransaction,
     getDocumentInTransactionWithUid,
 } from "~/server/utils/firestore";
-import { deleteComments } from "./page";
+import { get as getPage, deleteComments } from "./page";
 import defaultTemplate from "~/templates/default.html";
 import {
     ClientSite,
@@ -24,6 +24,7 @@ import {
     SiteStatistics,
     SiteTemplate,
     UpdateSiteTemplateBodyParams,
+    ExportSite,
 } from "~/types/server";
 
 /**
@@ -42,6 +43,15 @@ export async function get(uid: string, siteId: string): Promise<ClientSite> {
         const clientSiteData: ClientSite = { ...siteData, pages };
         return clientSiteData;
     });
+}
+
+export async function getExport(uid: string, siteId: string): Promise<ExportSite> {
+    const { pages: rawPages, ...rest } = await get(uid, siteId);
+    const [{ template }, ...pages] = await Promise.all([
+        getTemplate(null, siteId),
+        ...rawPages.map(page => getPage(uid, page.id, true)),
+    ]);
+    return { ...rest, pages, template };
 }
 
 /**

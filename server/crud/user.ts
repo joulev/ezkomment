@@ -3,8 +3,8 @@ import { Timestamp } from "firebase-admin/firestore";
 import { authAdmin, firestoreAdmin } from "~/server/firebase/app";
 import { USERS_COLLECTION, SITES_COLLECTION } from "~/server/firebase/collections";
 import { deleteRefArray } from "~/server/utils/firestore";
-import { deletePages } from "./site";
-import { Site, User, ClientUser, WelcomeMessageNotification } from "~/types/server";
+import { getExport as getExportSite, deletePages } from "./site";
+import { Site, User, ClientUser, WelcomeMessageNotification, ExportUser } from "~/types/server";
 
 async function getUser(uid: string): Promise<User> {
     const { email, displayName, photoURL, providerData: rawData } = await authAdmin.getUser(uid);
@@ -18,6 +18,12 @@ async function listUserSites(uid: string): Promise<Site[]> {
 export async function get(uid: string): Promise<ClientUser> {
     const user = await getUser(uid);
     const sites = await listUserSites(uid);
+    return { ...user, sites };
+}
+
+export async function getExport(uid: string): Promise<ExportUser> {
+    const { sites: rawSites, ...user } = await get(uid);
+    const sites = await Promise.all(rawSites.map(site => getExportSite(uid, site.id)));
     return { ...user, sites };
 }
 

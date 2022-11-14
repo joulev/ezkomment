@@ -19,7 +19,7 @@ import {
     UpdatePageBodyParams,
 } from "~/types/server";
 
-export async function get(uid: string, pageId: string): Promise<ClientPage> {
+export async function get(uid: string, pageId: string, raw = false): Promise<ClientPage> {
     const pageRef = PAGES_COLLECTION.doc(pageId);
     return await firestoreAdmin.runTransaction(async t => {
         const pageData = await getDocumentInTransactionWithUid<Page>(t, pageRef, uid);
@@ -27,11 +27,13 @@ export async function get(uid: string, pageId: string): Promise<ClientPage> {
         const rawComments = docs
             .map(doc => doc.data())
             .sort((c1, c2) => c2.date - c1.date) as Comment[];
+
+        if (raw) return { ...pageData, comments: rawComments };
+
         const comments = await Promise.all(
             rawComments.map(async ({ text, ...rest }) => ({ text: await md2html(text), ...rest }))
         );
-        const clientPageData: ClientPage = { ...pageData, comments };
-        return clientPageData;
+        return { ...pageData, comments };
     });
 }
 

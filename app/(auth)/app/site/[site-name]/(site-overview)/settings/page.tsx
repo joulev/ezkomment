@@ -4,8 +4,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertTriangle, HardDrive, Tag, Globe, Save } from "lucide-react";
 import { SITE } from "~/misc/validate";
-import { internalDelete, internalPut, internalPutNotJson } from "~/app/(auth)/internal-fetch";
+import {
+  internalDelete,
+  internalGet,
+  internalPut,
+  internalPutNotJson,
+} from "~/app/(auth)/internal-fetch";
 import { UNABLE_TO_DELETE_SITE, UNABLE_TO_UPDATE_SITE } from "~/app/(auth)/errors";
+import downloadJSON from "~/app/download-json";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
 import { useAuth } from "~/app/(auth)/app/auth";
@@ -147,12 +153,31 @@ function UploadSiteIcon() {
 }
 
 function ExportSiteData() {
+  const { site } = useSite();
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
+
+  const handler = async (event: React.MouseEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success, body } = await internalGet(`/api/sites/${site.id}/export`);
+      if (!success) throw new Error("exporting failed");
+      downloadJSON(body, "ezkomment-site");
+    } catch (err: any) {
+      setToast({ type: "error", message: "Exporting data failed, please try again later." });
+    }
+    setLoading(false);
+  };
+
   return (
     <section>
       <h2>Export all data</h2>
       <p>You can request all data related to this site to be exported as JSON.</p>
       <RightAligned>
-        <Button icon={HardDrive}>Request data</Button>
+        <Button icon={HardDrive} onClick={handler}>
+          Request data
+        </Button>
       </RightAligned>
     </section>
   );

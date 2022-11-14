@@ -4,7 +4,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertTriangle, HardDrive, User, Save } from "lucide-react";
 import { githubProvider, googleProvider, reauthenticate } from "~/app/(auth)/auth";
-import { internalDelete, internalPut, internalPutNotJson } from "~/app/(auth)/internal-fetch";
+import {
+  internalDelete,
+  internalGet,
+  internalPut,
+  internalPutNotJson,
+} from "~/app/(auth)/internal-fetch";
+import downloadJSON from "~/app/download-json";
 import { REAUTHENTICATION_FAILED } from "~/app/(auth)/errors";
 import { useLoadingState } from "~/app/loading-state";
 import { useSetToast } from "~/app/(auth)/toast";
@@ -101,12 +107,30 @@ function ProfileSection() {
 }
 
 function ExportDataSection() {
+  const { setLoading } = useLoadingState();
+  const setToast = useSetToast();
+
+  const handler = async (event: React.MouseEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const { success, body } = await internalGet("/api/user/export");
+      if (!success) throw new Error("exporting failed");
+      downloadJSON(body, "ezkomment-user");
+    } catch (err: any) {
+      setToast({ type: "error", message: "Exporting data failed, please try again later." });
+    }
+    setLoading(false);
+  };
+
   return (
     <section>
       <h2>Export all data</h2>
       <p>You can request all of your data to be exported to a JSON file.</p>
       <RightAligned>
-        <Button icon={HardDrive}>Request data</Button>
+        <Button icon={HardDrive} onClick={handler}>
+          Request data
+        </Button>
       </RightAligned>
     </section>
   );

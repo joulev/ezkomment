@@ -6,7 +6,7 @@ import {
     extractFirstQueryValue,
 } from "~/server/next-connect";
 import { UploadSiteIcon } from "~/server/crud/images";
-import { ClientSite, SiteStatistics, SiteTemplate } from "~/types/server";
+import { ClientSite, ExportSite, SiteStatistics, SiteTemplate } from "~/types/server";
 
 export const get: ApiHandler<ClientSite> = async (req, res) => {
     const { siteId } = extractFirstQueryValue(req);
@@ -21,6 +21,11 @@ export const getStatistics: ApiHandler<SiteStatistics> = async (req, res) => {
 export const getTemplate: ApiHandler<SiteTemplate> = async (req, res) => {
     const { siteId } = extractFirstQueryValue(req);
     res.json(await site.getTemplate(req.uid!, siteId));
+};
+
+export const getExport: ApiHandler<ExportSite> = async (req, res) => {
+    const { siteId } = extractFirstQueryValue(req);
+    res.json(await site.getExport(req.uid!, siteId));
 };
 
 export const create: ApiHandler = async (req, res) => {
