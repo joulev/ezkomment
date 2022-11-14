@@ -11,11 +11,11 @@ import { getDocumentInTransaction } from "~/server/utils/firestore";
 import {
     ApprovedStatus,
     Comment,
-    CreateCommentBodyParams,
+    CreateCommentBody,
     NewCommentNotification,
     Page,
     Site,
-    UpdateCommentBodyParams,
+    UpdateCommentBody,
 } from "~/types/server";
 
 /**
@@ -23,7 +23,7 @@ import {
  *
  * @param data The data of the comment
  */
-export async function create(data: CreateCommentBodyParams) {
+export async function create(data: CreateCommentBody) {
     const { pageId, author } = data;
     const commentRef = COMMENTS_COLLECTION.doc();
     const commentId = commentRef.id;
@@ -80,7 +80,7 @@ export async function create(data: CreateCommentBodyParams) {
  * @param commentId The comment's id
  * @param data The new data
  */
-export async function update(commentId: string, data: UpdateCommentBodyParams) {
+export async function update(commentId: string, data: UpdateCommentBody) {
     const commentRef = COMMENTS_COLLECTION.doc(commentId);
     await firestoreAdmin.runTransaction(async t => {
         const commentData = await getDocumentInTransaction<Comment>(t, commentRef);

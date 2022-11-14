@@ -22,7 +22,7 @@ export type ApprovedStatus = "Approved" | "Pending";
 /**
  * Only allow to update comment's status
  */
-export type UpdateCommentBodyParams = {
+export type UpdateCommentBody = {
     status: ApprovedStatus;
 };
 
@@ -30,7 +30,7 @@ export type UpdateCommentBodyParams = {
  * Currently, updating comments' text or author is not supported.
  * We will get the comment status by querying the page containing the comment
  */
-export type CreateCommentBodyParams = {
+export type CreateCommentBody = {
     pageId: string;
     author: string | null;
     text: string;

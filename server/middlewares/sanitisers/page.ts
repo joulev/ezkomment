@@ -1,10 +1,10 @@
 import { PAGE } from "~/misc/validate";
 import { removeUndefinedProperties, ApiMiddleware } from "~/server/next-connect";
 import CustomApiError from "~/server/errors/custom-api-error";
-import { CreatePageBodyParams, RawBody, UpdatePageBodyParams } from "~/types/server";
+import { CreatePageBody, RawBody, UpdatePageBody } from "~/types/server";
 
 export const create: ApiMiddleware = (req, _, next) => {
-    const { title, url, autoApprove, siteId }: RawBody<CreatePageBodyParams> = req.body;
+    const { title, url, autoApprove, siteId }: RawBody<CreatePageBody> = req.body;
     if (typeof title !== "string" || !PAGE.titleIsValid(title))
         throw new CustomApiError("'title' must be a non-empty string");
     if (typeof url !== "string" || !PAGE.urlIsValid(url))
@@ -21,7 +21,7 @@ export const create: ApiMiddleware = (req, _, next) => {
 };
 
 export const update: ApiMiddleware = (req, _, next) => {
-    const { title, url, autoApprove }: RawBody<UpdatePageBodyParams> = req.body;
+    const { title, url, autoApprove }: RawBody<UpdatePageBody> = req.body;
     if (title !== undefined && (typeof title !== "string" || !PAGE.titleIsValid(title)))
         throw new CustomApiError("'title' must be a non-empty string");
     if (url !== undefined && (typeof url !== "string" || !PAGE.urlIsValid(url)))
