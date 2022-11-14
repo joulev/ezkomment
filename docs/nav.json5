@@ -10,7 +10,6 @@
         pages: {
             "authentication-flow": "Authentication flow",
             "update-information": "Update information",
-            "link-and-unlink-providers": "Link and unlink providers",
             "export-user-data": "Export user data",
             "delete-account": "Delete account",
         },

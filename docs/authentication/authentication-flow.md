@@ -39,5 +39,3 @@ Internally, ezkomment identifies users by their unique user ID (`uid`), which is
 Therefore, ezkomment neither store nor make use of any information (including public information) from your GitHub or Google account permanently.
 
 On account creation, your public display name and profile picture from your GitHub/Google account will be used as the initial values for the respective fields in your ezkomment profile. However, you can always [update it](/docs/authentication/update-information) at any time, after which these initial values will be deleted permanently.
-
-If you already have [linked a different provider](/docs/authentication/link-and-unlink-providers) to your account, you can always unlink the current provider (GitHub or Google) from your account. After that, all information about the unlinked provider will be permanently deleted and the unlinked account will be completely disassociated with your ezkomment account.
