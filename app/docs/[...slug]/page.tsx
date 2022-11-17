@@ -33,6 +33,6 @@ export default async function DocsPage({ params: { slug } }: { params: Params })
   );
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return filePaths.map(slug => ({ slug }));
 }
