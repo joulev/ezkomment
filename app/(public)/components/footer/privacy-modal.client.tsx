@@ -25,12 +25,12 @@ export default function PrivacyModal() {
         <div className="p-6 max-w-2xl text-sm sm:text-base text-neutral-900 dark:text-neutral-200">
           <h2>Privacy</h2>
           <p>
-            We do <strong>not</strong> use cookies in any way in this app and in the embeded comment
-            sections.
+            If you sign in to the app, we will use some cookies to handle the authentication process.
+            They are essential cookies and cannot be turned off. They do not track you in any way.
           </p>
           <p>
-            We make use of a <A href="https://firebase.google.com">Firebase</A> project with Google
-            Analytics turned off. We also never store any of your data permanently: on
+            We also make use of a <A href="https://firebase.google.com">Firebase</A> project with
+            Google Analytics turned off. We also never store any of your data permanently: on
             page/site/account deletion, all data associated to it will be forever deleted. However,
             Firebase may collect some metadata behind the scenes, which we cannot control and we do
             not make use of.
