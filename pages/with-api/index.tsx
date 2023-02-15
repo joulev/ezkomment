@@ -61,7 +61,7 @@ const Comments: FC = () => {
           data.map(({ text, author, date }, index) => (
             <div key={index} className="border border-['#ddd'] bg-white p-6">
               <div className="flex flex-row items-baseline gap-8 mb-2">
-                <strong className="text-lg">{author}</strong>
+                <strong className="text-lg">{author || "Anonymous"}</strong>
                 <time className="text-sm text-neutral-500">
                   {formatDistanceToNowStrict(new Date(date), { addSuffix: true })}
                 </time>
