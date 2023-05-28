@@ -27,11 +27,12 @@ export default async function OrbitalDocumentPage({ params: { doc } }: { params:
   if (!doc || !docs.includes(doc)) notFound();
   const source = await serialise(doc);
   const { title, timestamp } = source.frontmatter!;
+  // TODO: fix any
   return (
     <BlogLayout
-      title={title}
+      title={title as any}
       authors={[authors.joulev, authors.vietanh]}
-      timestamp={new Date(timestamp)}
+      timestamp={new Date(timestamp as any)}
     >
       <Mdx source={source} />
     </BlogLayout>

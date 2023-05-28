@@ -183,7 +183,8 @@ function useConfetti() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const hasConfetti = searchParams.get("confetti") !== null;
+  // TODO
+  const hasConfetti = searchParams!.get("confetti") !== null;
   const confettiRef = useRef<JSConfetti>();
   useEffect(() => {
     confettiRef.current = new JSConfetti();
